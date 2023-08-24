@@ -7,7 +7,4 @@ public class Employe: ApplicationUser
     
     public decimal Salaire { get; set; }
     
-    
-    
-    
 }
