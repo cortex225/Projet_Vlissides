@@ -13,7 +13,7 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Acceuille()
+    public IActionResult Acceuil()
     {
         return View(new AcceuilViewModel());
     }
