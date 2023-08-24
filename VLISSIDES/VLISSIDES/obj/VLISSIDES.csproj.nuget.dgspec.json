@@ -1,27 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Source\\Repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj": {}
+    "/Users/jlgouaho/Projects/Projet_Vlissides/VLISSIDES/VLISSIDES/VLISSIDES.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Source\\Repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj": {
+    "/Users/jlgouaho/Projects/Projet_Vlissides/VLISSIDES/VLISSIDES/VLISSIDES.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Source\\Repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
+        "projectUniqueName": "/Users/jlgouaho/Projects/Projet_Vlissides/VLISSIDES/VLISSIDES/VLISSIDES.csproj",
         "projectName": "VLISSIDES",
-        "projectPath": "C:\\Users\\admin\\Source\\Repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Source\\Repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\obj\\",
+        "projectPath": "/Users/jlgouaho/Projects/Projet_Vlissides/VLISSIDES/VLISSIDES/VLISSIDES.csproj",
+        "packagesPath": "/Users/jlgouaho/.nuget/packages/",
+        "outputPath": "/Users/jlgouaho/Projects/Projet_Vlissides/VLISSIDES/VLISSIDES/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/jlgouaho/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/library-packs": {},
+          "/usr/local/share/dotnet/sdk/7.0.306/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -61,8 +61,14 @@
               "version": "[6.0.18, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.18, )"
+              "version": "[6.0.21, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.16, )"
             }
           },
           "imports": [
@@ -76,6 +82,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.osx-arm64",
+              "version": "[6.0.20, 6.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -84,7 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
         }
       }
     }

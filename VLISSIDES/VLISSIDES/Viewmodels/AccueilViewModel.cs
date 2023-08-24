@@ -1,6 +1,6 @@
 ﻿namespace VLISSIDES.Viewmodels
 {
-    public class AcceuilViewModel
+    public class AccueilViewModel
     {
     }
 }
