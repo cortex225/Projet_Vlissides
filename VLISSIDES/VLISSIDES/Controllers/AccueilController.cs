@@ -4,11 +4,11 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.Controllers;
 
-public class HomeController : Controller
+public class AccueilController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<AccueilController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public AccueilController(ILogger<AccueilController> logger)
     {
         _logger = logger;
     }
