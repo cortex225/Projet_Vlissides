@@ -8,7 +8,79 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="527acea3-78bb-4020-a520-859ab5773d13" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/AccessDenied.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/AccessDenied.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ConfirmEmail.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ConfirmEmail.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ConfirmEmailChange.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ConfirmEmailChange.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ExternalLogin.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ExternalLogin.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ForgotPassword.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ForgotPassword.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ForgotPasswordConfirmation.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ForgotPasswordConfirmation.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Lockout.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Lockout.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Login.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Login.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/LoginWith2fa.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/LoginWith2fa.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/LoginWithRecoveryCode.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/LoginWithRecoveryCode.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Logout.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Logout.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/ChangePassword.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/ChangePassword.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/DeletePersonalData.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/DeletePersonalData.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/Disable2fa.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/Disable2fa.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/DownloadPersonalData.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/DownloadPersonalData.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/Email.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/Email.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/EnableAuthenticator.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/EnableAuthenticator.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/ExternalLogins.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/ExternalLogins.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/GenerateRecoveryCodes.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/GenerateRecoveryCodes.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/Index.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/ManageNavPages.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/PersonalData.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/PersonalData.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/ResetAuthenticator.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/ResetAuthenticator.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/SetPassword.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/SetPassword.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/ShowRecoveryCodes.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/ShowRecoveryCodes.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/TwoFactorAuthentication.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/TwoFactorAuthentication.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/_Layout.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Register.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/Register.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/RegisterConfirmation.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/RegisterConfirmation.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ResendEmailConfirmation.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ResendEmailConfirmation.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ResetPassword.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ResetPassword.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ResetPasswordConfirmation.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/ResetPasswordConfirmation.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/_StatusMessage.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Areas/Identity/Pages/Account/_ViewImports.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Data/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Data/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Data/Migrations/00000000000000_CreateIdentitySchema.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Data/Migrations/00000000000000_CreateIdentitySchema.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Data/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Shared/_LoginPartial.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/_LoginPartial.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +93,7 @@
         <option value="DETO JEAN-LUC GOUAHO &lt;1900751@cegepgranby.qc.ca&gt;" />
       </list>
     </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -47,30 +120,31 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Models/Langue",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache&quot;,
-      &quot;/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache&quot;,
-      &quot;/Users/jlgouaho/.local/share/Symbols/src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache",
+      "/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache",
+      "/Users/jlgouaho/.local/share/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="VLISSIDES" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" />
@@ -102,7 +176,7 @@
       <workItem from="1692888747934" duration="345000" />
       <workItem from="1692889199373" duration="578000" />
       <workItem from="1692889815158" duration="321000" />
-      <workItem from="1692890390079" duration="6278000" />
+      <workItem from="1692890390079" duration="11781000" />
     </task>
     <task id="LOCAL-00001" summary="Added README.md,&#10;et ajout du projet">
       <option name="closed" value="true" />
