@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using VLISSIDES.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using VLISSIDES.Viewmodels;
 
 namespace VLISSIDES.Controllers;
 
@@ -13,9 +13,9 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public IActionResult Acceuille()
     {
-        return View();
+        return View(new AcceuilViewModel());
     }
 
     public IActionResult Privacy()
