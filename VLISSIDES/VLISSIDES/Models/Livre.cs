@@ -33,6 +33,10 @@ public class Livre
     
     public List<Categorie>  Categories { get; set; }
     
+    public string TypeId { get; set; }
+    
+    public List<Type> Types { get; set; }
+    
     
     
 }
