@@ -1,6 +1,6 @@
 ﻿namespace VLISSIDES.Viewmodels.Compte
 {
-    public class SupprimerCompteViewModel
+    public class CompteProfileViewModel
     {
     }
 }

@@ -1,4 +1,4 @@
-namespace VLISSIDES.Viewmodels.Home;
+namespace VLISSIDES.Viewmodels;
 
 public class ErrorViewModel
 {

@@ -1,10 +1,13 @@
-﻿namespace VLISSIDES.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+using VLISSIDES.Viewmodels.Compte;
+
+namespace VLISSIDES.Controllers
 {
     public class ComptesController : Controller
     {
         public IActionResult Profile()
         {
-            return View(new ProfileViewModel());
+            return View(new CompteProfileViewModel());
         }
         public IActionResult Ajouter()
         {
