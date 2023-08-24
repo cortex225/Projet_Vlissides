@@ -41,6 +41,8 @@ public class Livre
     
     public List<Commentaire>  Commentaires { get; set; }
     
+    public string IdLangue { get; set; }
     
+    public List<Langue> Langues { get; set; }
     
 }
