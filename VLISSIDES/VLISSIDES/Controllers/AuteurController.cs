@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using VLISSIDES.Viewmodels;
+﻿using VLISSIDES.Viewmodels;
 
 namespace VLISSIDES.Controllers
 {

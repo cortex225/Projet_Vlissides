@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SEqCS5Ih8KPM/iE7WXqUIjhBsjiM0N2LussympjhiOGFLQcKzANp8xuv9haIIwsn9vOm1ElPz02lufHMTroQNg==",
+  "dgSpecHash": "sNz3bgJS+E5w3sArL/igPNYWlxHJZtT9WC+Z3D9A98ZT3StZAKwAirdqGBzCe0ENDsrbUoIwFjQWdsT3MwJfEw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\admin\\Source\\Repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
+  "projectFilePath": "C:\\Users\\admin\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
@@ -235,7 +235,11 @@
     "C:\\Users\\admin\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
-    "C:\\Users\\admin\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
+    "C:\\Users\\admin\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.21\\microsoft.windowsdesktop.app.ref.6.0.21.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.21\\microsoft.netcore.app.ref.6.0.21.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.21\\microsoft.aspnetcore.app.ref.6.0.21.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.21\\microsoft.netcore.app.host.win-x64.6.0.21.nupkg.sha512"
   ],
   "logs": []
 }
