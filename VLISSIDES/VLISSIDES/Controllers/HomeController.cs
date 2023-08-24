@@ -13,9 +13,9 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Acceuil()
+    public IActionResult Index()
     {
-        return View(new AcceuilViewModel());
+        return View(new IndexViewModel());
     }
 
     public IActionResult Privacy()
