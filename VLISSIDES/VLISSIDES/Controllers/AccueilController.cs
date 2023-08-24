@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using VLISSIDES.Viewmodels;
+using VLISSIDES.Viewmodels.Home;
 
 namespace VLISSIDES.Controllers;
 
@@ -15,7 +15,11 @@ public class AccueilController : Controller
 
     public IActionResult Index()
     {
+<<<<<<< HEAD:VLISSIDES/VLISSIDES/Controllers/AccueilController.cs
         return View();
+=======
+        return View(new IndexHomeViewModel());
+>>>>>>> d1890f2edabbc786ad1625f00c8076abfccef5e5:VLISSIDES/VLISSIDES/Controllers/HomeController.cs
     }
 
     public IActionResult Privacy()

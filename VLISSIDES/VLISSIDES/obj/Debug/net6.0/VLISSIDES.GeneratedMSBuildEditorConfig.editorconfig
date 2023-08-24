@@ -9,6 +9,7 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = VLISSIDES
 build_property.RootNamespace = VLISSIDES
+<<<<<<< HEAD
 build_property.ProjectDir = /Users/jlgouaho/Projects/Projet_Vlissides/VLISSIDES/VLISSIDES/
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
@@ -71,3 +72,99 @@ build_metadata.AdditionalFiles.CssScope =
 [/Users/jlgouaho/Projects/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ac34ci7wcx
+=======
+build_property.ProjectDir = C:\Users\admin\source\repos\Projet_Vlissides\VLISSIDES\VLISSIDES\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\admin\source\repos\Projet_Vlissides\VLISSIDES\VLISSIDES
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Auteur/Ajouter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0ZXVyXEFqb3V0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Auteur/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0ZXVyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Auteur/Retirer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0ZXVyXFJldGlyZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Comptes/Creer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHRlc1xDcmVlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Comptes/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHRlc1xQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Comptes/Supprimer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHRlc1xTdXBwcmltZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Livre/Ajouter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGl2cmVcQWpvdXRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Livre/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGl2cmVcRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Livre/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGl2cmVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Livre/Retirer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGl2cmVcUmV0aXJlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/MaisonEdition/Ajouter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFpc29uRWRpdGlvblxBam91dGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/MaisonEdition/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFpc29uRWRpdGlvblxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/MaisonEdition/Retirer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFpc29uRWRpdGlvblxSZXRpcmVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-1xbi9z7fcj
+>>>>>>> d1890f2edabbc786ad1625f00c8076abfccef5e5

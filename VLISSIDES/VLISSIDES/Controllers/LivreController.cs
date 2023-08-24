@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VLISSIDES.Viewmodels;
+using VLISSIDES.Viewmodels.Livre;
 
 namespace VLISSIDES.Controllers
 {
