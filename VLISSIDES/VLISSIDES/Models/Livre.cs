@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace VLISSIDES.Models;
 
@@ -27,6 +28,10 @@ public class Livre
     public DateTime DatePublication { get; set; }
     
     public string ISBN { get; set; }
+    
+    public string CategorieId { get; set; }
+    
+    public List<Categorie>  Categories { get; set; }
     
     
     
