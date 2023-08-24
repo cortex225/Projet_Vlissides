@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using VLISSIDES.Viewmodels.Compte;
-
-namespace VLISSIDES.Controllers
+﻿namespace VLISSIDES.Controllers
 {
     public class ComptesController : Controller
     {

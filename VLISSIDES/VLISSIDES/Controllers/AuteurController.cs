@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using VLISSIDES.Viewmodels.Auteur;
-
-namespace VLISSIDES.Controllers
+﻿namespace VLISSIDES.Controllers
 {
     public class AuteurController : Controller
     {
