@@ -1,4 +1,4 @@
-﻿namespace VLISSIDES.Viewmodels
+﻿namespace VLISSIDES.Viewmodels.Auteur
 {
     public class RetirerAuteurViewModel
     {

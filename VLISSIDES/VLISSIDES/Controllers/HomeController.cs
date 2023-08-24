@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using VLISSIDES.Viewmodels;
+using VLISSIDES.Viewmodels.Home;
 
 namespace VLISSIDES.Controllers;
 

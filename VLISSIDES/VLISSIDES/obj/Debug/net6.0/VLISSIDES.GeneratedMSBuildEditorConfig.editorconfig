@@ -32,8 +32,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0ZXVyXFJldGlyZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Comptes/Creer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHRlc1xDcmVlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Comptes/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHRlc1xQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Comptes/Supprimer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcHRlc1xTdXBwcmltZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/admin/source/repos/Projet_Vlissides/VLISSIDES/VLISSIDES/Views/Home/Acceuille.cshtml]
