@@ -21,4 +21,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     
     public DbSet<Reservation> Reservations { get; set; }
     
+    public DbSet<Evenement> Evenements { get; set; }
+    
+    public DbSet<Commentaire> Commentaires { get; set; }
+    
+    public DbSet<Livre> Livres { get; set; }
+    
+    public DbSet<Categorie> Categories { get; set; }
+    
+    public DbSet<LivreCommande> LivreCommandes { get; set; }
+    
+    public DbSet<StatutCommande> StatutCommandes { get; set; }
+    
+    
 }
