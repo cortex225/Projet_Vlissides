@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "MHTiLXiwnHDr4s2xKiWJf4pyL1At1JUzAA6nDscwE+bStmQ94BtZl8Y30BvZ5OcmxgidaDWN3eghRHGncjS7VQ==",
+  "dgSpecHash": "VoK1grYvfTIz7TDrQ6UwaeXfonJgET/ZBfDAitwSGoe3FIsQtgJO5Ay410LxwUvPNaT2fjnqSa1yyKygOW0+ZQ==",
   "success": true,
   "projectFilePath": "/Users/jlgouaho/Projects/Projet_Vlissides/VLISSIDES/VLISSIDES/VLISSIDES.csproj",
   "expectedPackageFiles": [
@@ -235,7 +235,10 @@
     "/Users/jlgouaho/.nuget/packages/system.threading.timer/4.3.0/system.threading.timer.4.3.0.nupkg.sha512",
     "/Users/jlgouaho/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512",
     "/Users/jlgouaho/.nuget/packages/system.xml.readerwriter/4.3.0/system.xml.readerwriter.4.3.0.nupkg.sha512",
-    "/Users/jlgouaho/.nuget/packages/system.xml.xdocument/4.3.0/system.xml.xdocument.4.3.0.nupkg.sha512"
+    "/Users/jlgouaho/.nuget/packages/system.xml.xdocument/4.3.0/system.xml.xdocument.4.3.0.nupkg.sha512",
+    "/Users/jlgouaho/.nuget/packages/microsoft.netcore.app.ref/6.0.20/microsoft.netcore.app.ref.6.0.20.nupkg.sha512",
+    "/Users/jlgouaho/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.20/microsoft.aspnetcore.app.ref.6.0.20.nupkg.sha512",
+    "/Users/jlgouaho/.nuget/packages/microsoft.netcore.app.host.osx-arm64/6.0.20/microsoft.netcore.app.host.osx-arm64.6.0.20.nupkg.sha512"
   ],
   "logs": []
 }
