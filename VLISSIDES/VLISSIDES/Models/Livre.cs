@@ -37,6 +37,10 @@ public class Livre
     
     public List<Type> Types { get; set; }
     
+    public string IdCommentaire { get; set; }
+    
+    public List<Commentaire>  Commentaires { get; set; }
+    
     
     
 }
