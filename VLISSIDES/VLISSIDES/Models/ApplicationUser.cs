@@ -8,4 +8,8 @@ public class ApplicationUser: IdentityUser
     
     public string Prenom { get; set; }
     
+    public string IdAdresse { get; set; }
+    
+    public Adresse Adresse { get; set; }
+    
 }
