@@ -1,6 +1,6 @@
 ﻿namespace VLISSIDES.Viewmodels.Home
 {
-    public class IndexViewModel
+    public class IndexHomeViewModel
     {
     }
 }
