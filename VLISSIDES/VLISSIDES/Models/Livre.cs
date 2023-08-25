@@ -36,9 +36,11 @@ public class Livre
 
     public string IdCommentaire { get; set; }
 
-    public List<Commentaire> Commentaires { get; set; }
+    public ICollection<Commentaire> Commentaires { get; set; }
 
     public string IdLangue { get; set; }
 
-    public List<Langue> Langues { get; set; }
+    public ICollection<Langue> Langues { get; set; }
+    
+    public ICollection<Favori> Favoris { get; set; }
 }
