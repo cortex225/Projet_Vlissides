@@ -9,9 +9,9 @@
         <h1 id="Titre">La fourmi ailée</h1>
     </div>
 
-    <div id="banderoleEvents">
+    <div class="banderole" id="banderoleEvents">
         <h3>Évènements: </h3>
-        <div id="listeEvents">
+        <div id="listeEvents" class="listeBanderole">
             <div class="card event" style="width: 18rem;">
                 <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
@@ -38,6 +38,36 @@
             </div>
         </div>
     </div>
+
+    <div class="banderole" id="banderoleLivresVedette">
+        <h3>Livres en vedette: </h3>
+        <div id="listeLivresVedette" class="listeBanderole">
+            <div class="card livreV" style="width: 18rem;">
+                <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card livreV" style="width: 18rem;">
+                <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card livreV" style="width: 18rem;">
+                <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <style> 
@@ -54,9 +84,14 @@
 
         color: white;
     }
-    #listeEvents{
+
+    .listeBanderole {
         display: flex;
         justify-content: space-around;
+    }
+
+    .banderole{
+        margin-top: 2rem;
     }
     .event{
         
