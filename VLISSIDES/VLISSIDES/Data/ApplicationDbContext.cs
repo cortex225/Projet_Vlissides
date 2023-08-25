@@ -49,4 +49,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<LivreCommande>().ToTable("LivreCommande");
         builder.Entity<StatutCommande>().ToTable("StatutCommande");
     }
+    
+    
 }
