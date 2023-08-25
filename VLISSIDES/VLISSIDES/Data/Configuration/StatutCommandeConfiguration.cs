@@ -6,7 +6,6 @@ namespace VLISSIDES.Data;
 
 public class StatutCommandeConfiguration : IEntityTypeConfiguration<StatutCommande>
 {
-    
     public void Configure(EntityTypeBuilder<StatutCommande> builder)
     {
         builder.ToTable("StatutCommande");
@@ -41,5 +40,4 @@ public class StatutCommandeConfiguration : IEntityTypeConfiguration<StatutComman
             }
         );
     }
-    
 }
