@@ -32,6 +32,21 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<LivreCommande> LivreCommandes { get; set; }
     
     public DbSet<StatutCommande> StatutCommandes { get; set; }
-    
-    
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        
+        base.OnModelCreating(builder);
+        builder.Entity<Adresse>().ToTable("Adresses");
+        builder.Entity<Commande>().ToTable("Commandes");
+        builder.Entity<Employe>().ToTable("Employes");
+        builder.Entity<Membre>().ToTable("Membres");
+        builder.Entity<Reservation>().ToTable("Reservations");
+        builder.Entity<Evenement>().ToTable("Evenements");
+        builder.Entity<Commentaire>().ToTable("Commentaires");
+        builder.Entity<Livre>().ToTable("LivreS");
+        builder.Entity<Categorie>().ToTable("Categorie");
+        builder.Entity<LivreCommande>().ToTable("LivreCommande");
+        builder.Entity<StatutCommande>().ToTable("StatutCommande");
+    }
 }
