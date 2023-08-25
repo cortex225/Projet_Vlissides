@@ -1,9 +1,100 @@
 ﻿@{
     ViewData["Title"] = "Accueil Page";
 }
-Model AccueilIndexViewModel
+@model AccueilIndexViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<body>
+    <div id="photoPageAccueilDiv" >
+        <h1 id="Titre">La fourmi ailée</h1>
+    </div>
+
+    <div class="banderole" id="banderoleEvents">
+        <h3>Évènements: </h3>
+        <div id="listeEvents" class="listeBanderole">
+            <div class="card event" style="width: 18rem;">
+                <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card event" style="width: 18rem;">
+                <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card event" style="width: 18rem;">
+                <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="banderole" id="banderoleLivresVedette">
+        <h3>Livres en vedette: </h3>
+        <div id="listeLivresVedette" class="listeBanderole">
+            <div class="card livreV" style="width: 18rem;">
+                <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card livreV" style="width: 18rem;">
+                <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card livreV" style="width: 18rem;">
+                <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<style> 
+    #photoPageAccueilDiv{
+        display: block;
+        width: 100%;
+        height: 100%px;
+        background-image: url("images/ImagesTest/livres.jpg");
+        background-size: 100%, 100%, 100%, 100%;
+        background-repeat: no-repeat;
+        text-align: center;
+    }
+
+    #Titre{
+        color: white;
+        padding-top: 25%;
+        padding-bottom: 25%;
+    }
+
+    .listeBanderole {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .banderole{
+        margin-top: 20px;
+    }
+    .event{
+        
+    }
+</style>

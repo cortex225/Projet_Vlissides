@@ -13,7 +13,9 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">VLISSIDES</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
+                <img src="~/images/logo_rond__bordure_2px.png" alt="logo" style="width: 80px; height: 56px;" />
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -27,10 +29,31 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Privacy">Privacy</a>
                     </li>
                 </ul>
+
+                <div id="divRecherche" class="navbar-nav flex-grow-1">
+                    <div class="input-group mb-3">
+
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Titre</a></li>
+                            <li><a class="dropdown-item" href="#">Auteur</a></li>
+                            <li><a class="dropdown-item" href="#">Catégorie</a></li>
+                        </ul>
+                        <input type="text" class="form-control" placeholder="Rechercher un livre..." 
+                            aria-label="Rechercher un livre" aria-describedby="basic-addon2">
+                            <button type="button" class="btn btn-secondary" id="basic-addon2">Rechercher</button>
+                            <button type="button" class="btn btn-secondary">Recherche <br /> avancée</button>
+                    </div>
+                </div>
                 <partial name="_LoginPartial"/>
             </div>
         </div>
     </nav>
+    <style>
+        #divRecherche{
+            padding-top: 12px;
+        }
+    </style>
 </header>
 <div class="container">
     <main role="main" class="pb-3">
