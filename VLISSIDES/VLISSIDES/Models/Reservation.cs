@@ -1,5 +1,3 @@
-using System;
-
 namespace VLISSIDES.Models;
 
 public class Reservation
@@ -13,5 +11,4 @@ public class Reservation
     public string IdEvenement { get; set; }
 
     public Evenement Evenement { get; set; }
-
 }

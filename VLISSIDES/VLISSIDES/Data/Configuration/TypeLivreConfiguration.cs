@@ -4,26 +4,23 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.Data;
 
-public class TypeLivreConfiguration : IEntityTypeConfiguration<Type>
+public class TypeLivreConfiguration : IEntityTypeConfiguration<TypeLivre>
 {
-    public void Configure(EntityTypeBuilder<Type> builder)
+    public void Configure(EntityTypeBuilder<TypeLivre> builder)
     {
-        builder.ToTable("Types");
+        ((EntityTypeBuilder)builder).ToTable("TypeLivres");
         builder.HasKey(sc => sc.Id);
-        builder.Property(sc => sc.Id).ValueGeneratedOnAdd();
         builder.HasData(
-            new Models.Type()
+            new TypeLivre
             {
                 Id = "1",
-                Nom = "Neuf",
+                Nom = "Neuf"
             },
-            new Models.Type()
+            new TypeLivre
             {
                 Id = "2",
-                Nom = "Numérique",
+                Nom = "Numérique"
             }
-            
-    );
-}
-
+        );
+    }
 }
