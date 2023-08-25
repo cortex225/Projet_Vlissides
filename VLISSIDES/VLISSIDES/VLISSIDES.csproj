@@ -62,6 +62,7 @@
 
     <ItemGroup>
       <Folder Include="Areas\Identity\" />
+      <Folder Include="wwwroot\img\Images_Livre\" />
     </ItemGroup>
 
 </Project>
