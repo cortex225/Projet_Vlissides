@@ -5,8 +5,38 @@
 
 <body>
     <div id="photoPageAccueilDiv">
-        <img src="images/Images/livres.jpg" alt="Livres" id="imgLivres"/>
+        <img src="images/ImagesTest/livres.jpg" alt="Livres" id="imgLivres"/>
         <h1 id="Titre">La fourmi ailée</h1>
+    </div>
+
+    <div id="banderoleEvents">
+        <h3>Évènements: </h3>
+        <div id="listeEvents">
+            <div class="card event" style="width: 18rem;">
+                <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card event" style="width: 18rem;">
+                <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card event" style="width: 18rem;">
+                <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
@@ -23,5 +53,12 @@
         transform: translate(-50%, -50%);
 
         color: white;
+    }
+    #listeEvents{
+        display: flex;
+        justify-content: space-around;
+    }
+    .event{
+        
     }
 </style>
