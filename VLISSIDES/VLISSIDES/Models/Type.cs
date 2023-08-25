@@ -9,5 +9,4 @@ public class Type
     
     public string Nom { get; set; }
     
-    public List<Livre> Livres { get; set; }
 }
