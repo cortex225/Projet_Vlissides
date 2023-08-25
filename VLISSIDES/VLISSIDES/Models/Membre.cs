@@ -13,4 +13,7 @@ public class Membre : ApplicationUser
     public string IdReservation { get; set; }
 
     public List<Reservation> Reservations { get; set; }
+
+    public ICollection<Favori> Favoris { get; set; }
+
 }
