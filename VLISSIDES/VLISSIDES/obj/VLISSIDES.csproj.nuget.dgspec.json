@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj": {}
+    "C:\\Users\\Etienne\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj": {
+    "C:\\Users\\Etienne\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
+        "projectUniqueName": "C:\\Users\\Etienne\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
         "projectName": "VLISSIDES",
-        "projectPath": "C:\\Users\\admin\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\obj\\",
+        "projectPath": "C:\\Users\\Etienne\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
+        "packagesPath": "C:\\Users\\Etienne\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Etienne\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Etienne\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

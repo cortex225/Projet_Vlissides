@@ -1,9 +1,27 @@
 ﻿@{
     ViewData["Title"] = "Accueil Page";
 }
-Model AccueilIndexViewModel
+@model AccueilIndexViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<body>
+    <div id="photoPageAccueilDiv">
+        <img src="images/Images/livres.jpg" alt="Livres" id="imgLivres"/>
+        <h1 id="Titre">La fourmi ailée</h1>
+    </div>
+</body>
+
+<style> 
+    #imgLivres{
+        width: 100%;
+        height: auto;
+        filter: brightness(50%);
+    }
+    #Titre{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        color: white;
+    }
+</style>
