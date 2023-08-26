@@ -12,5 +12,5 @@ public class Evenement
 
     public DateTime DateFin { get; set; }
 
-    public ICollection<Reservation> Reservations { get; set; }
+    public ICollection<Reservation>? Reservations { get; set; }
 }

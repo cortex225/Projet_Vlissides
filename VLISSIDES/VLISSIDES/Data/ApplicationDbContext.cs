@@ -24,7 +24,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Evenement> Evenements { get; set; }
 
-    public DbSet<Commentaire> Commentaires { get; set; }
+    public DbSet<Evaluation> Evaluations { get; set; }
 
     public DbSet<Livre> Livres { get; set; }
 
@@ -36,7 +36,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     
     public DbSet<TypeLivre> TypeLivres { get; set; }
     
-    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public DbSet<Favori> Favoris { get; set; }
+    
+    public DbSet<Langue> Langues { get; set; }
+    
+    public DbSet<MaisonEdition> MaisonEditions { get; set; }
+    
     
     
 
@@ -56,17 +61,77 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         
         //Ajout des catégories des livres à la bd
         builder.ApplyConfiguration(new CategorieLivreConfiguration());
+
+        //Ajout des langues des livres à la bd
+        builder.ApplyConfiguration(new LangueConfiguration());
         
         //Roles de l'application
-        var roleEmploye = new IdentityRole { Name = "Employe", NormalizedName = "Employe".ToUpper() };
-        var roleMembre = new IdentityRole { Name = "Membre", NormalizedName = "Membre".ToUpper() };
-        var roleAdmin = new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper() };
+        var roleEmploye = new IdentityRole { Id = "0", Name = "Employe", NormalizedName = "Employe".ToUpper() };
+        var roleMembre = new IdentityRole { Id = "1", Name = "Membre", NormalizedName = "Membre".ToUpper() };
+        var roleAdmin = new IdentityRole { Id = "2", Name = "Admin", NormalizedName = "Admin".ToUpper() };
+        builder.Entity<IdentityRole>().HasData(roleEmploye, roleMembre, roleAdmin);
+
+
+
+        // Configuration pour l'adresse principale
+        builder.Entity<Membre>()
+            .HasOne(m => m.AdressePrincipale)
+            .WithOne(a => a.Membre)
+            .HasForeignKey<Adresse>(a => a.MembreId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Configuration pour les adresses de livraison
+        builder.Entity<Membre>()
+            .HasMany(m => m.AdressesLivraison)
+            .WithOne(a => a.MembreLivraison)
+            .HasForeignKey(a => a.MembreLivraisonId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        // Configuration de la relation entre Livre et Auteur
+        builder.Entity<Livre>()
+            .HasOne(l => l.Auteur)
+            .WithMany(a => a.Livres)
+            .HasForeignKey(l => l.AuteurId);
+        
+        // Configuration de la relation entre les favoris les membres et les livres
+        builder.Entity<Favori>()
+            .HasKey(f => new { f.MembreId, f.LivreId });
+        //Un membre peut avoir plusieurs favoris
+        builder.Entity<Favori>()
+            .HasOne(f => f.Membre)
+            .WithMany(m => m.Favoris)
+            .HasForeignKey(f => f.MembreId);
+        //Un livre peut etre mit en favoris par plusieurs membres
+        builder.Entity<Favori>()
+            .HasOne(f => f.Livre)
+            .WithMany(l => l.Favoris)
+            .HasForeignKey(f => f.LivreId);
+        
+        // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
+        builder.Entity<LivreCommande>()
+            .HasKey(lc => new { lc.LivreId, lc.CommandeId });
+        
+        //Un livre peut être dans plusieurs commandes
+        builder.Entity<LivreCommande>()
+            .HasOne(lc => lc.Livre)
+            .WithMany(l => l.LivreCommandes)
+            .HasForeignKey(lc => lc.LivreId);
+        
+        //Une commande peut avoir plusieurs livres
+        builder.Entity<LivreCommande>()
+            .HasOne(lc => lc.Commande)
+            .WithMany(c => c.LivreCommandes)
+            .HasForeignKey(lc => lc.CommandeId);
+
 
 
         //Création des différent comptes
         //var password = new PasswordHasher<ApplicationUser>();
         var UserAdmin = new ApplicationUser
         {
+            Id = "0",
+            Nom = "ADMIN",
+            Prenom = "Admin",
             Email = "admin@admin.com",
             UserName = "admin@admin.com",
             NormalizedEmail = "admin@admin.com".ToUpper(),
@@ -80,6 +145,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         var UserEmploye = new Employe
         {
             Id = "1",
+            Nom = "EMPLOYE",
+            Prenom = "Employe",
+            NoEmploye = "007",
             Email = "employe@employe.com",
             UserName = "employe@employe.com",
             NormalizedEmail = "employe@employe.com".ToUpper(),
@@ -94,11 +162,18 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         var UserMembre = new Membre
         {
             Id = "2",
+            Nom = "MEMBRE",
+            Prenom = "Membre",
+            NoMembre = "123456",
             Email = "membre@membre.com",
             UserName = "membre@membre.com",
             NormalizedEmail = "membre@membre.com".ToUpper(),
             NormalizedUserName = "membre@membre.com".ToUpper(),
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            AdresseLivraisonId = "",
+            AdressePrincipaleId = "",
+            DateAdhesion = DateTime.Now,
+            
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserEmploye.PasswordHash =

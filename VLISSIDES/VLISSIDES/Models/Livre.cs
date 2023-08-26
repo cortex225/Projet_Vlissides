@@ -5,11 +5,7 @@ public class Livre
     public string Id { get; set; }
 
     public string Titre { get; set; }
-
-    public string Auteur { get; set; }
-
-    public string Editeur { get; set; }
-
+    
     public string AnneeEdition { get; set; }
 
     public string Resume { get; set; }
@@ -27,20 +23,31 @@ public class Livre
     public string ISBN { get; set; }
 
     public string CategorieId { get; set; }
+    
+    public string AuteurId { get; set; }
+    
+    public Auteur Auteur { get; set; }
+    
+    public string MaisonEditionId { get; set; }
+    
+    public MaisonEdition MaisonEdition { get; set; }
 
-    public List<Categorie> Categories { get; set; }
+    public ICollection<Categorie> Categories { get; set; }
 
-    public string TypeId { get; set; }
+    public string TypeLivreId { get; set; }
 
-    public List<TypeLivre> Types { get; set; }
+    public ICollection<TypeLivre> TypesLivre { get; set; }
 
-    public string IdCommentaire { get; set; }
+    public string EvaluationId { get; set; }
 
-    public ICollection<Commentaire> Commentaires { get; set; }
+    public ICollection<Evaluation>? Evaluations { get; set; }
 
-    public string IdLangue { get; set; }
+    public string LangueId { get; set; }
 
     public ICollection<Langue> Langues { get; set; }
     
     public ICollection<Favori> Favoris { get; set; }
+
+    public ICollection<LivreCommande> LivreCommandes { get; set; }
+
 }
