@@ -2,11 +2,11 @@ namespace VLISSIDES.Models;
 
 public class LivreCommande
 {
-    public string IdLivre { get; set; }
+    public string LivreId { get; set; }
 
     public Livre Livre { get; set; }
 
-    public string IdCommande { get; set; }
+    public string CommandeId { get; set; }
 
     public Commande Commande { get; set; }
 

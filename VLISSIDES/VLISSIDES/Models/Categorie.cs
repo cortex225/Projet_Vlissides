@@ -8,5 +8,5 @@ public class Categorie
 
     public string Description { get; set; }
 
-    public List<Livre> Livres { get; set; }
+    public ICollection<Livre> Livres { get; set; }
 }

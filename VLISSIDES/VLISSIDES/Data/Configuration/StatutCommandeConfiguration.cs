@@ -11,32 +11,32 @@ public class StatutCommandeConfiguration : IEntityTypeConfiguration<StatutComman
         builder.ToTable("StatutCommande");
         builder.HasKey(sc => sc.Id);
         builder.Property(sc => sc.Id).ValueGeneratedOnAdd();
-        builder.Property(sc => sc.Description).IsRequired().HasMaxLength(50);
+        builder.Property(sc => sc.Nom).IsRequired().HasMaxLength(50);
         builder.HasData(
             new StatutCommande
             {
                 Id = "1",
-                Description = "En attente"
+                Nom = "En attente"
             },
             new StatutCommande
             {
                 Id = "2",
-                Description = "En cours de traitement"
+                Nom = "En cours de traitement"
             },
             new StatutCommande
             {
                 Id = "3",
-                Description = "En cours de livraison"
+                Nom = "En cours de livraison"
             },
             new StatutCommande
             {
                 Id = "4",
-                Description = "Livrée"
+                Nom = "Livrée"
             },
             new StatutCommande
             {
                 Id = "5",
-                Description = "Annulée"
+                Nom = "Annulée"
             }
         );
     }
