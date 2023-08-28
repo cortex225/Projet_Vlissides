@@ -4,17 +4,6 @@
 @model AccueilIndexViewModel
 
 <body>
-    <head>
-        <!-- Font Awesome -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-              rel="stylesheet" />
-        <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-              rel="stylesheet" />
-        <!-- MDB -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css"
-              rel="stylesheet" />
-    </head>
     <div id="photoPageAccueilDiv" >
         <h1 id="Titre">La fourmi ailée</h1>
     </div>
@@ -22,88 +11,90 @@
     <div class="banderole" id="banderoleEvents">
         <h3>Évènements: </h3>
         <div id="listeEvents" class="listeBanderole">
-            <div class="card event" style="width: 18rem;">
-                <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <ul class="list-unstyled list-inline mb-0">
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"> </i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item">
-                            <i class="fas fa-star-half-alt text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item">
-                            <p class="text-muted">4.5 (413)</p>
-                        </li>
-                    </ul>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card event" style="width: 18rem;">
-                <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <ul class="list-unstyled list-inline mb-0">
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"> </i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item">
-                            <i class="fas fa-star-half-alt text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item">
-                            <p class="text-muted">4.5 (413)</p>
-                        </li>
-                    </ul>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card event" style="width: 18rem;">
-                <img src="~/images/ImagesTest/eventsTest.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <ul class="list-unstyled list-inline mb-0">
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"> </i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item me-0">
-                            <i class="fas fa-star text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item">
-                            <i class="fas fa-star-half-alt text-warning fa-xs"></i>
-                        </li>
-                        <li class="list-inline-item">
-                            <p class="text-muted">4.5 (413)</p>
-                        </li>
-                    </ul>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+            <div class="row">
+                <div class="col-md-12 d-inline-flex">
+                    <div class="featured-carousel owl-carousel">
+                        <div class="item">
+                            <div class="card event" style="width: 18rem">
+                                <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                     class="card-img-top"
+                                     alt="..." />
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title 1</h5>
+                                    <partial name="_Etoiles.cshtml" />
+                                    <p class="card-text">
+                                        Some quick example text to build on the card title and
+                                        make up the bulk of the card's content.
+                                    </p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="card event" style="width: 18rem">
+                                <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                     class="card-img-top"
+                                     alt="..." />
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title 2</h5>
+                                    <partial name="_Etoiles.cshtml" />
+                                    <p class="card-text">
+                                        Some quick example text to build on the card title and
+                                        make up the bulk of the card's content.
+                                    </p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="card event" style="width: 18rem">
+                                <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                     class="card-img-top"
+                                     alt="..." />
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title 3</h5>
+                                    <partial name="_Etoiles.cshtml" />
+                                    <p class="card-text">
+                                        Some quick example text to build on the card title and
+                                        make up the bulk of the card's content.
+                                    </p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="card event" style="width: 18rem">
+                                <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                     class="card-img-top"
+                                     alt="..." />
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title 4</h5>
+                                    <partial name="_Etoiles.cshtml" />
+                                    <p class="card-text">
+                                        Some quick example text to build on the card title and
+                                        make up the bulk of the card's content.
+                                    </p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="card event" style="width: 18rem">
+                                <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                     class="card-img-top"
+                                     alt="..." />
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title 5</h5>
+                                    <partial name="_Etoiles.cshtml" />
+                                    <p class="card-text">
+                                        Some quick example text to build on the card title and
+                                        make up the bulk of the card's content.
+                                    </p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,41 +102,94 @@
 
     <div class="banderole" id="banderoleLivresVedette">
         <h3>Livres en vedette: </h3>
-        <div id="listeLivresVedette" class="listeBanderole">
-            <div class="card livreV" style="width: 18rem;">
-                <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card livreV" style="width: 18rem;">
-                <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card livreV" style="width: 18rem;">
-                <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div id="listeLivresVedette" class="listeBanderole feature-carousel">
+            <div class="col-md-12 d-inline-flex">
+                <div class="featured-carousel owl-carousel">
+                    <div class="item">
+                        <div class="card event" style="width: 18rem">
+                            <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                 class="card-img-top"
+                                 alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">Card title 3</h5>
+                                <partial name="_Etoiles.cshtml" />
+                                <p class="card-text">
+                                    Some quick example text to build on the card title and
+                                    make up the bulk of the card's content.
+                                </p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="card event" style="width: 18rem">
+                            <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                 class="card-img-top"
+                                 alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">Card title 3</h5>
+                                <partial name="_Etoiles.cshtml" />
+                                <p class="card-text">
+                                    Some quick example text to build on the card title and
+                                    make up the bulk of the card's content.
+                                </p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="card event" style="width: 18rem">
+                            <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                 class="card-img-top"
+                                 alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">Card title 3</h5>
+                                <partial name="_Etoiles.cshtml" />
+                                <p class="card-text">
+                                    Some quick example text to build on the card title and
+                                    make up the bulk of the card's content.
+                                </p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="card event" style="width: 18rem">
+                            <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                 class="card-img-top"
+                                 alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">Card title 3</h5>
+                                <partial name="_Etoiles.cshtml" />
+                                <p class="card-text">
+                                    Some quick example text to build on the card title and
+                                    make up the bulk of the card's content.
+                                </p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="card event" style="width: 18rem">
+                            <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg"
+                                 class="card-img-top"
+                                 alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">Card title 3</h5>
+                                <partial name="_Etoiles.cshtml" />
+                                <p class="card-text">
+                                    Some quick example text to build on the card title and
+                                    make up the bulk of the card's content.
+                                </p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
-
-    <!-- MDB -->
-<script
-  type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
->
-</script>
 
 <style> 
     #photoPageAccueilDiv{
@@ -176,3 +220,4 @@
         
     }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
