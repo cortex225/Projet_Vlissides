@@ -11500,11 +11500,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Etienne\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
+      "projectUniqueName": "C:\\Users\\Etienne\\Documents\\GitHub\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
       "projectName": "VLISSIDES",
-      "projectPath": "C:\\Users\\Etienne\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
+      "projectPath": "C:\\Users\\Etienne\\Documents\\GitHub\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\VLISSIDES.csproj",
       "packagesPath": "C:\\Users\\Etienne\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Etienne\\source\\repos\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\obj\\",
+      "outputPath": "C:\\Users\\Etienne\\Documents\\GitHub\\Projet_Vlissides\\VLISSIDES\\VLISSIDES\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Etienne\\AppData\\Roaming\\NuGet\\NuGet.Config",
