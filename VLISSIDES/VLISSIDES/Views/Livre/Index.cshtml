@@ -1,0 +1,120 @@
+@model IEnumerable<VLISSIDES.Models.Livre>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnneeEdition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Resume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NbExemplaires)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NbPages)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DatePublication)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ISBN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategorieId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Auteur)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaisonEdition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeLivreId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EvaluationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LangueId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnneeEdition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Resume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NbExemplaires)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NbPages)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatePublication)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ISBN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategorieId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Auteur.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaisonEdition.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeLivreId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EvaluationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LangueId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,8 +1,300 @@
-﻿@{
-    ViewData["Title"] = "Accueil Page";
-}
+﻿@{ ViewData["Title"] = "Accueil Page"; }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="photoPageAccueilDiv" class="col-md-12 mb-6 img-fluid justify-content-center text-center d-flex flex-row ">
+    <h1 id="Titre">La fourmi ailée</h1>
 </div>
+
+<div class="container banderole" id="banderoleEvents">
+    <h3>Évènements: </h3>
+    <div id="listeEvents" class="listeBanderole ">
+        <div class="col-md-12">
+            <div class="featured-carousel owl-carousel d-flex flex-row justify-content-around">
+                <div class="item">
+                    <div class="card event" style="width: 18rem">
+                        <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg" class="card-img-top" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title">Card title 1</h5>
+                            <ul class="list-unstyled list-inline mb-0">
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fas fa-star-half-alt text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted">4.5 (413)</p>
+                                </li>
+                            </ul>
+                            <p class="card-text">
+                                Some quick example text to build on the card title and
+
+                                make up the bulk of the card's content.
+
+                            </p>
+                             <hr class="my-4" />
+                                    <p class="lead"><strong>Tonight's availability</strong></p>
+                                    <ul class="list-unstyled list-inline d-flex justify-content-between">
+                                      <li class="list-inline-item me-0">
+                                        <div class="chip me-0">Romance</div>
+                                      </li>
+                                      <li class="list-inline-item me-0">
+                                        <div class="chip bg-secondary text-white me-0">Action</div>
+                                      </li>
+                                      <li class="list-inline-item me-0">
+                                        <div class="chip me-0">Drame</div>
+                                      </li>
+                                   
+                                    </ul>
+                             <a href="#" class="btn btn-primary">Ajouter à la carte 
+                                 <span class="material-symbols-outlined">
+                                     shopping_cart
+                                 </span>
+                                 </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card event" style="width: 18rem">
+                        <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg" class="card-img-top" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title">Card title 2</h5>
+                            <ul class="list-unstyled list-inline mb-0">
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fas fa-star-half-alt text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted">4.5 (413)</p>
+                                </li>
+                            </ul>
+                            <p class="card-text">
+                                Some quick example text to build on the card title and
+
+                                make up the bulk of the card's content.
+
+                            </p> <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card event" style="width: 18rem">
+                        <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg" class="card-img-top" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title">Card title 3</h5>
+                            <ul class="list-unstyled list-inline mb-0">
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fas fa-star-half-alt text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted">4.5 (413)</p>
+                                </li>
+                            </ul>
+                            <p class="card-text">
+                                Some quick example text to build on the card title and
+
+                                make up the bulk of the card's content.
+
+                            </p> <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card event" style="width: 18rem">
+                        <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg" class="card-img-top" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title">Card title 4</h5>
+                            <ul class="list-unstyled list-inline mb-0">
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fas fa-star-half-alt text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted">4.5 (413)</p>
+                                </li>
+                            </ul>
+                            <p class="card-text">
+                                Some quick example text to build on the card title and
+
+                                make up the bulk of the card's content.
+
+                            </p> <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card event" style="width: 18rem">
+                        <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg" class="card-img-top" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title">Card title 5</h5>
+                            <ul class="list-unstyled list-inline mb-0">
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item me-0">
+                                    <i class="fas fa-star text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fas fa-star-half-alt text-warning fa-xs"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted">4.5 (413)</p>
+                                </li>
+                            </ul>
+                            <p class="card-text">
+                                Some quick example text to build on the card title and
+
+                                make up the bulk of the card's content.
+
+                            </p> <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container banderole" id="banderoleLivresVedette">
+    <h3>Livres en vedette: </h3>
+    <div id="listeLivresVedette" class="listeBanderole feature-carousel">
+        <div class="item">
+            <div class="card event" style="width: 18rem">
+                <img src="https://thumbs.dreamstime.com/z/num%C3%A9ro-cinq-sous-forme-de-biblioth%C3%A8que-avec-livre-et-textes-police-alphabet-conceptuel-l-%C3%A9ducation-apprentissage-conceptuelle-254166006.jpg" class="card-img-top" alt="..."/>
+                <div class="card-body">
+                    <h5 class="card-title">Card title 3</h5>
+                    <ul class="list-unstyled list-inline mb-0">
+                        <li class="list-inline-item me-0">
+                            <i class="fas fa-star text-warning fa-xs"></i>
+                        </li>
+                        <li class="list-inline-item me-0">
+                            <i class="fas fa-star text-warning fa-xs"></i>
+                        </li>
+                        <li class="list-inline-item me-0">
+                            <i class="fas fa-star text-warning fa-xs"></i>
+                        </li>
+                        <li class="list-inline-item me-0">
+                            <i class="fas fa-star text-warning fa-xs"></i>
+                        </li>
+                        <li class="list-inline-item">
+                            <i class="fas fa-star-half-alt text-warning fa-xs"></i>
+                        </li>
+                        <li class="list-inline-item">
+                            <p class="text-muted">4.5 (413)</p>
+                        </li>
+                    </ul>
+                    <p class="card-text">
+                        Some quick example text to build on the card title and
+
+                        make up the bulk of the card's content.
+
+                    </p> <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+     
+       
+        <div class="card livreV" style="width: 18rem;">
+            <img src="~/images/ImagesTest/livreTest.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    #photoPageAccueilDiv{
+
+         background: url('https://images.pexels.com/photos/261821/pexels-photo-261821.jpeg?auto=compress&cs=tinysrgb') no-repeat center center fixed;
+              -webkit-background-size: cover;
+              -moz-background-size: cover;
+              -o-background-size: cover;
+              background-size: cover;
+              width: 100vw !important;
+              overflow: hidden;
+              height: 70vh;
+
+            }
+
+    
+ 
+    #Titre{
+
+        color: white;
+
+        padding-top: 25%;
+
+        padding-bottom: 25%;
+
+    }
+
+
+    .listeBanderole {
+
+        display: flex;
+
+        justify-content: space-around;
+
+    }
+
+
+    .banderole{
+
+        margin-top: 20px;
+
+    }
+
+    .event{
+
+
+    }</style>
