@@ -8,11 +8,48 @@
     <div id="photoPageAccueilDiv" >
         <h1 id="Titre">La fourmi ailée</h1>
     </div>
+
+    <h3>Évènements: </h3>
     <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml"/>
+                    <partial name="_CarteEvenement.cshtml"/>
+                    <partial name="_CarteEvenement.cshtml" />
+                    <partial name="_CarteEvenement.cshtml" />
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="cards-wrapper">
+                    <partial name="_CarteEvenement.cshtml" />
+                    <partial name="_CarteEvenement.cshtml" />
+                    <partial name="_CarteEvenement.cshtml" />
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="cards-wrapper">
+                    <partial name="_CarteEvenement.cshtml" />
+                    <partial name="_CarteEvenement.cshtml" />
+                    <partial name="_CarteEvenement.cshtml" />
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <h3>Livres en vedette: </h3>
+    <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="cards-wrapper">
+                    <partial name="_CarteLivre.cshtml" />
                     <partial name="_CarteLivre.cshtml" />
                     <partial name="_CarteLivre.cshtml" />
                 </div>
@@ -40,7 +77,41 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
-    </div> 
+    </div>
+    <h3>Recommandations pour vous: </h3>
+    <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="cards-wrapper">
+                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" />
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="cards-wrapper">
+                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" />
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="cards-wrapper">
+                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" />
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 </body>
 
 <style> 
