@@ -16,6 +16,8 @@ public class Livre
 
     public int NbPages { get; set; }
 
+    public double Prix { get; set; }
+
     public DateTime DatePublication { get; set; }
 
     public string ISBN { get; set; }
