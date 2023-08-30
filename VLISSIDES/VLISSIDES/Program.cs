@@ -6,10 +6,15 @@ using VLISSIDES.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//Connection JL
 var connectionStringJL = builder.Configuration.GetConnectionString("JLConnection");
+
+//Connection par Defaut
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionStringJL));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
