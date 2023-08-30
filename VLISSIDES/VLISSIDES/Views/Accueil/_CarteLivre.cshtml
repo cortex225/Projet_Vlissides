@@ -10,7 +10,7 @@
              class="card-img-top"
              alt="..." />
         <div class="card-body">
-            <h5 class="card-title">Card title @randomNumber</h5>
+            <h4 class="card-title">Card title @randomNumber</h4>
             <partial name="_Etoiles.cshtml" />
             <p class="card-text">
                 Some quick example text to build on the card title and
@@ -18,7 +18,19 @@
 
                 Testestestest
             </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+
+            <hr />
+            <h5>Catégories reliées: </h5>
+            <a href="#" class="btn btn-secondary btnCategorie">Action</a>
+            <a href="#" class="btn btn-secondary btnCategorie">Science-fiction</a>
         </div>
     </div>
 </div>
+
+<style>
+    .btnCategorie{
+        margin: 4px;
+        font-size: 10px;
+        padding: 6px;
+    }
+</style>
