@@ -1,4 +1,7 @@
-﻿@{
+﻿@using VLISSIDES.ViewModels.Accueil;
+@model _EventCardVM;
+
+@{
     //Juste pour pouvoir différencier les cartes
     Random random = new Random();
     int randomNumber = random.Next(1, 100000);
@@ -6,16 +9,13 @@
 
 <div class="item">
     <div class="card event" style="width: 18rem">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqofGVlqQONkX26S2FYN9IVjBDBlHqs8TvZg&usqp=CAU"
+        <img src="@Model.monEvenement.Image"
              class="card-img-top"
              alt="..." />
         <div class="card-body">
-            <h5 class="card-title">Card title @randomNumber</h5>
+            <h5 class="card-title">@Model.monEvenement.Nom @randomNumber</h5>
             <p class="card-text">
-                Some quick example text to build on the card title and
-                make up the bulk of the card's content.
-
-                Testestestest
+                @Model.monEvenement.Description
             </p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
