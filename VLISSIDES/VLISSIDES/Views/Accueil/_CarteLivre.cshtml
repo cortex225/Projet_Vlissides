@@ -4,23 +4,25 @@
     int randomNumber = random.Next(1, 100000);
 }
 
-<div class="item">
-    <div class="card event" style="width: 18rem">
-        <img src="https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg"
-             class="card-img-top"
-             alt="..." />
+<div class="item livre">
+    <div class="card" style="width: 14rem">
+        <div class="imgDiv">
+            <img src="https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg"
+                 class="card-img-top imgLivre"
+                 alt="..." />
+        </div>
         <div class="card-body">
-            <h4 class="card-title">Card title @randomNumber</h4>
+            <h6 class="card-title">Card title @randomNumber</h6>
             <partial name="_Etoiles.cshtml" />
-            <p class="card-text">
+            <!--p class="card-text">
                 Some quick example text to build on the card title and
                 make up the bulk of the card's content.
 
                 Testestestest
-            </p>
+            </p-->
 
             <hr />
-            <h5>Catégories reliées: </h5>
+            <h6>Catégories reliées: </h6>
             <a href="#" class="btn btn-secondary btnCategorie">Action</a>
             <a href="#" class="btn btn-secondary btnCategorie">Science-fiction</a>
         </div>
@@ -32,5 +34,20 @@
         margin: 4px;
         font-size: 10px;
         padding: 6px;
+    }
+
+    .imgLivre{
+        width: 60%;
+        height: 60%;
+    }
+
+    .imgDiv{
+        display: flex;
+        justify-content: center;
+    }
+
+    .livre{
+        margin-right: -20px;
+        margin-left: -20px;
     }
 </style>
