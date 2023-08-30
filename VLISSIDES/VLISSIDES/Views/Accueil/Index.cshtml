@@ -154,7 +154,19 @@
     </div>
 
     <div class="livresGrille container">
-        <h3 class="titreSections titreCategories">Catégories en vedette:</h3>
+        
+        <div class="titreBoutonsDeGrille">
+            <h3 class="titreSections titreCategories">Catégories en vedette:</h3>
+
+            <div class="btn-group" role="group" aria-label="Basic example" style="margin-bottom: 24px">
+                <button type="button" class="btn btn-secondary">Action</button>
+                <button type="button" class="btn btn-secondary">Cuisine</button>
+                <button type="button" class="btn btn-secondary">Bandes dessinées</button>
+                <button type="button" class="btn btn-secondary">Biographies</button>
+                <button type="button" class="btn btn-secondary">Jeunesse</button>
+            </div>
+        </div>
+
 
 
         <div class="livresGrillesListeLivres">
@@ -202,13 +214,16 @@
         margin-top: 24px;
     }
 
-    .titreCategories{
-        align-self: center;
-    }
-
     .livresGrillesListeLivres{
         display: flex;
         flex-wrap: wrap;
+    }
+
+    .titreBoutonsDeGrille{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .cards-wrapper {
