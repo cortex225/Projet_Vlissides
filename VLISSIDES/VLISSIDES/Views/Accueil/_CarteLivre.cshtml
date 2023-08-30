@@ -20,6 +20,10 @@
             
             <h6>@Model.monLivre.Prix $</h6>
 
+            @foreach (var auteur in Model.monLivre.Auteur){
+                <p>@auteur.Nom, @auteur.Prenom</p>
+            }
+
             <hr />
             <h6>Catégories reliées: </h6>
             <a href="#" class="btn btn-secondary btnCategorie">Action</a>
