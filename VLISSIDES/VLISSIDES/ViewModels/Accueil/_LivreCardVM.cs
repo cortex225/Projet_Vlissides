@@ -1,7 +1,9 @@
-﻿namespace VLISSIDES.ViewModels.Accueil
+﻿using VLISSIDES.Models;
+
+namespace VLISSIDES.ViewModels.Accueil
 {
     public class _LivreCardVM
     {
-        public string Titre { get; set; } = "Lorem ipsum";
+        public Livre monLivre { get; set; } = new Livre();
     }
 }
