@@ -49,8 +49,23 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Privacy">Privacy</a>
                     </li>
                 </ul>
-                <partial name="_LoginPartial"/>
             </div>
+            <div id="divRecherche" class="navbar-nav flex-grow-1">
+                <div class="input-group mb-3">
+
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item active" href="#titre">Titre</a></li>
+                        <li><a class="dropdown-item" href="#auteur">Auteur</a></li>
+                        <li><a class="dropdown-item" href="#categorie">Catégorie</a></li>
+                    </ul>
+                    <input type="text" class="form-control" placeholder="Rechercher un livre..."
+                            aria-label="Rechercher un livre" aria-describedby="basic-addon2" style="height: 100%;">
+                    <button type="button" class="btn btn-secondary" id="basic-addon2">Rechercher</button>
+                    <button type="button" class="btn btn-secondary">Recherche <br /> avancée</button>
+                </div>
+            </div>
+            <partial name="_LoginPartial" />
         </div>
     </nav>
 </header>
