@@ -2,13 +2,24 @@
 @using VLISSIDES.ViewModels.Accueil;
 @{
     ViewData["Title"] = "Accueil Page";
+
+    Auteur monAuteur = new Auteur
+    {
+        Nom = "Archambault",
+        Prenom = "Etienne"
+    };
+    List<Auteur> listAuteur = new List<Auteur>();
+
+    listAuteur.Add(monAuteur);
+
     _LivreCardVM _VMLivre = new _LivreCardVM 
     { 
         monLivre = new Livre
         {
             Titre = "Mon beau titre",
             Couverture = "https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg",
-            Prix = 29.99
+            Prix = 29.99,
+            Auteur = listAuteur
         }
     };
 
@@ -18,141 +29,144 @@
         {
             Nom = "Mon évènement",
             Description = "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                    Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqofGVlqQONkX26S2FYN9IVjBDBlHqs8TvZg&usqp=CAU"
+            Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqofGVlqQONkX26S2FYN9IVjBDBlHqs8TvZg&usqp=CAU"
         }
     };
 }
 
-<div id="photoPageAccueilDiv" class="col-md-12 mb-6 img-fluid justify-content-center text-center d-flex flex-row ">
-    <h1 id="Titre">La fourmi ailée</h1>
-</div>
-
-<div class="container">
-    <h3>Évenements: </h3>
-    <div id="carouselEvenements" class="carousel slide">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+    <div id="photoPageAccueilDiv" class="col-md-12 mb-6 img-fluid justify-content-center text-center d-flex flex-row ">
+        <h1 id="Titre">La fourmi ailée</h1>
     </div>
 
-    <h3>Livres en vedette: </h3>
-    <div id="carouselLivresVedette" class="carousel slide">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+    <div class="container">
+        <h3 class="titreSections">Évenements: </h3>
+        <div id="carouselEvenements" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
+                        <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                        <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                        <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                        <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                        <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                        <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                    </div>
                 </div>
             </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselLivresVedette" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselLivresVedette" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
 
-    <h3>Recommendations pour vous: </h3>
-    <div id="carouselRecommendations" class="carousel slide">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+        <hr />
+
+        <h3 class="titreSections">Livres en vedette: </h3>
+        <div id="carouselLivresVedette" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    </div>
                 </div>
             </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselLivresVedette" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselLivresVedette" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</div>
 
+        <h3 class="titreSections">Recommendations pour vous: </h3>
+        <div id="carouselRecommendations" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                        <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    #nullable disable
+        #nullable restore
 
 <style>
     #photoPageAccueilDiv{
         background: url('https://images.pexels.com/photos/261821/pexels-photo-261821.jpeg?auto=compress&cs=tinysrgb') no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
         width: 100vw !important;
         overflow: hidden;
         height: 70vh;
     }
- 
+
     #Titre{
         color: white;
         padding-top: 15%;
@@ -168,8 +182,8 @@
         margin-top: 20px;
     }
 
-    .event{
-
+    .titreSections{
+        margin-top: 24px;
     }
 
     .cards-wrapper {
@@ -204,3 +218,5 @@
         transform: translateY(-50%);
     }
 </style>
+    #nullable disable
+        #nullable restore
