@@ -2,11 +2,23 @@
 @using VLISSIDES.ViewModels.Accueil;
 @{
     ViewData["Title"] = "Accueil Page";
-    _LivreCardVM _VMLivre = new _LivreCardVM { monLivre = new Livre
-            {
-                Titre = "Mon beau titre",
-                Couverture = "https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg"
-            }
+    _LivreCardVM _VMLivre = new _LivreCardVM 
+    { 
+        monLivre = new Livre
+        {
+            Titre = "Mon beau titre",
+            Couverture = "https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg"
+        }
+    };
+
+    _EventCardVM _VMEvent = new _EventCardVM
+    {
+        monEvenement = new Evenement
+        {
+            Nom = "Mon évènement",
+            Description = "Some quick example text to build on the card title and make up the bulk of the card's content.",
+                    Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqofGVlqQONkX26S2FYN9IVjBDBlHqs8TvZg&usqp=CAU"
+        }
     };
 }
 
@@ -20,23 +32,23 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml"/>
-                    <partial name="_CarteEvenement.cshtml" />
-                    <partial name="_CarteEvenement.cshtml" />
+                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
+                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml" />
-                    <partial name="_CarteEvenement.cshtml" />
-                    <partial name="_CarteEvenement.cshtml" />
+                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml" />
-                    <partial name="_CarteEvenement.cshtml" />
-                    <partial name="_CarteEvenement.cshtml" />
+                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
+                    <partial name="_CarteEvenement.cshtml" model="_VMEvent" />
                 </div>
             </div>
         </div>
