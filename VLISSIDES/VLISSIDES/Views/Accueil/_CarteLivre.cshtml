@@ -1,4 +1,7 @@
-﻿@{
+﻿@using VLISSIDES.ViewModels.Accueil;
+@model _LivreCardVM;
+
+@{
     //Juste pour pouvoir différencier les cartes
     Random random = new Random();
     int randomNumber = random.Next(1, 100000);
@@ -7,12 +10,12 @@
 <div class="item livre">
     <div class="card" style="width: 14rem">
         <div class="imgDiv">
-            <img src="https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg"
+            <img src="@Model.monLivre.Couverture"
                  class="card-img-top imgLivre"
                  alt="..." />
         </div>
         <div class="card-body">
-            <h6 class="card-title">Card title @randomNumber</h6>
+            <h6 class="card-title">@Model.monLivre.Titre @randomNumber</h6>
             <partial name="_Etoiles.cshtml" />
             <!--p class="card-text">
                 Some quick example text to build on the card title and

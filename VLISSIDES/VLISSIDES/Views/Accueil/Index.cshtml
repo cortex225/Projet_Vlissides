@@ -1,4 +1,14 @@
-﻿@{ ViewData["Title"] = "Accueil Page"; }
+﻿@using VLISSIDES.Models;
+@using VLISSIDES.ViewModels.Accueil;
+@{
+    ViewData["Title"] = "Accueil Page";
+    _LivreCardVM _VMLivre = new _LivreCardVM { monLivre = new Livre
+            {
+                Titre = "Mon beau titre",
+                Couverture = "https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg"
+            }
+    };
+}
 
 <div id="photoPageAccueilDiv" class="col-md-12 mb-6 img-fluid justify-content-center text-center d-flex flex-row ">
     <h1 id="Titre">La fourmi ailée</h1>
@@ -10,7 +20,7 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml" />
+                    <partial name="_CarteEvenement.cshtml"/>
                     <partial name="_CarteEvenement.cshtml" />
                     <partial name="_CarteEvenement.cshtml" />
                 </div>
@@ -45,26 +55,26 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
                 </div>
             </div>
         </div>
@@ -83,26 +93,26 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
-                    <partial name="_CarteLivre.cshtml" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
+                    <partial name="_CarteLivre.cshtml" model="_VMLivre" />
                 </div>
             </div>
         </div>
