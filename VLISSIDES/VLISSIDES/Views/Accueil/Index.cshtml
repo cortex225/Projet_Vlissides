@@ -152,8 +152,24 @@
             </button>
         </div>
     </div>
-    #nullable disable
-        #nullable restore
+
+    <div class="livresGrille container">
+        <h3 class="titreSections titreCategories">Catégories en vedette:</h3>
+
+
+        <div class="livresGrillesListeLivres">
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+            <partial name="_CarteLivrePetit.cshtml" model="_VMLivre" />
+        </div>
+    </div>
 
 <style>
     #photoPageAccueilDiv{
@@ -184,6 +200,15 @@
 
     .titreSections{
         margin-top: 24px;
+    }
+
+    .titreCategories{
+        align-self: center;
+    }
+
+    .livresGrillesListeLivres{
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .cards-wrapper {
@@ -218,5 +243,3 @@
         transform: translateY(-50%);
     }
 </style>
-    #nullable disable
-        #nullable restore
