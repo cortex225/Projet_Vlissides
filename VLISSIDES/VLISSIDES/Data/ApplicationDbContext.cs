@@ -86,12 +86,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithOne(a => a.MembreLivraison)
             .HasForeignKey(a => a.MembreLivraisonId)
             .OnDelete(DeleteBehavior.Restrict);
-        
-        // Configuration de la relation entre Livre et Auteur
-        builder.Entity<Livre>()
-            .HasOne(l => l.Auteur)
-            .WithMany(a => a.Livres)
-            .HasForeignKey(l => l.AuteurId);
+    
         
         // Configuration de la relation entre les favoris les membres et les livres
         builder.Entity<Favori>()

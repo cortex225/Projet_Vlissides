@@ -8,10 +8,6 @@ public class Commande
 
     public decimal PrixTotal { get; set; }
     
-    public string EmployeId { get; set; }
-
-    public Employe Employe { get; set; }
-    
     public string MembreId { get; set; }
     
     public Membre Membre { get; set; }
