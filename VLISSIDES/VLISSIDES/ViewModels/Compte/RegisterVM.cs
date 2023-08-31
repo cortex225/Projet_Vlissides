@@ -45,7 +45,6 @@ public class RegisterVM
     public bool Conditions { get; set; }
 
     public string? ReturnUrl { get; set; }
-    public string? CompanyName { get; set; }
 
 
 }
