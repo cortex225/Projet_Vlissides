@@ -125,7 +125,7 @@ public class CompteController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterVM vm, string returnUrl = null)
+    public async Task<IActionResult> Register(RegisterVM vm, string? returnUrl = null)
     {
         // Vérifie si l'état du modèle est valide.
         if (ModelState.IsValid)
@@ -164,7 +164,9 @@ public class CompteController : Controller
                 NormalizedUserName = vm.UserName.ToUpper(),
                 Nom = vm.FirstName,
                 Prenom = vm.LastName,
-                PhoneNumber = vm.Phone
+                PhoneNumber = vm.Phone,
+                DateAdhesion = DateTime.Now,
+                
             };
             role = RoleName.MEMBRE;
 
@@ -200,7 +202,7 @@ public class CompteController : Controller
         return RedirectToAction("Login", "Compte");
     }
 
-    [Authorize(Roles = "admin,client,employe")]
+    [Authorize(Roles = RoleName.ADMIN + "," + RoleName.MEMBRE)]
     public async Task<ActionResult> RecuperationMDP(string id)
     {
         var user = new ApplicationUser();
