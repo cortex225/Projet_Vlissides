@@ -125,7 +125,7 @@ public class CompteController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterVM vm, string returnUrl = null)
+    public async Task<IActionResult> Register(RegisterVM vm, string? returnUrl = null)
     {
         // Vérifie si l'état du modèle est valide.
         if (ModelState.IsValid)

@@ -1,0 +1,12 @@
+﻿:root {
+    /*couleur de la palette*/
+    --c1: red; /*couleur pale*/
+    --c2:; /*couleur pale moyenne*/
+    --c3:; /*couleur moyenne*/
+    --c4:; /*couleur foncé moyenne*/
+    --c5:; /*couleur foncé*/
+}
+
+body {
+    background-color: var(--c1);
+}

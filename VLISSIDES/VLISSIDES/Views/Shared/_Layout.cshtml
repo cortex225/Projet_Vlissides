@@ -30,6 +30,8 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
   href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css"
   rel="stylesheet"
 />
+
+    <link rel="stylesheet" id="theme" />
 </head>
 <body>
 <header>
@@ -71,6 +73,16 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
         </div>
     </nav>
 </header>
+
+<script>
+    function ChangerTheme(id) {
+        document.getElementById("theme").setAttribute("href", "./css/theme_" + id + ".css");
+    }
+</script>
+<ul class="navbar-nav" style="position:absolute;">
+        <li onclick="ChangerTheme(1)"><img width="100px" height="100px" src="img/image_rond.png" /></li>
+</ul>
+
 <div class="col-md-12 mb-12">
     <main role="main" class="pb-3">
         @RenderBody()
