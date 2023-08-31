@@ -368,7 +368,7 @@ public class CompteController : Controller
             return LocalRedirect(returnurl);
         }
 
-        //If the sign in fails, show the external login confirmation page
+        //Si l'utilisateur n'a pas de compte, montrez-lui la page ExternalLoginConfirmation
         ViewData["ReturnUrl"] = returnurl;
         ViewData["ProviderDisplayName"] = info.ProviderDisplayName;
         var email = info.Principal.FindFirstValue(ClaimTypes.Email);
