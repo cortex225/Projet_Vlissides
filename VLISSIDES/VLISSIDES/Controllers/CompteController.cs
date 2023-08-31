@@ -169,10 +169,6 @@ public class CompteController : Controller
             role = RoleName.MEMBRE;
 
 
-            // Vérifiez si le client Stripe existe déjà pour cet e-mail
-            var existingMembre = await _userManager.FindByEmailAsync(vm.Email);
-
-
             var result = await _userManager.CreateAsync(user, vm.Password);
 
             // Si l'utilisateur est créé avec succès, connectez-vous.

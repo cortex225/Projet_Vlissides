@@ -17,8 +17,13 @@ var connectionStringJL = builder.Configuration.GetConnectionString("JLConnection
 //Connection par Defaut
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+if(OperatingSystem.IsMacOS())
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(connectionStringJL));
+}
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionStringJL));
+    options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
