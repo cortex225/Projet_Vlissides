@@ -70,23 +70,26 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         var roleMembre = new IdentityRole { Id = "1", Name = "Membre", NormalizedName = "Membre".ToUpper() };
         var roleAdmin = new IdentityRole { Id = "2", Name = "Admin", NormalizedName = "Admin".ToUpper() };
         builder.Entity<IdentityRole>().HasData(roleEmploye, roleMembre, roleAdmin);
-
-
-
-        // Configuration pour l'adresse principale
-        builder.Entity<Membre>()
-            .HasOne(m => m.AdressePrincipale)
-            .WithOne(a => a.Membre)
-            .HasForeignKey<Adresse>(a => a.MembreId)
+        
+        // Configuration pour l' adresse principale car un utilisateur peut avoir une adresse principale
+        builder.Entity<ApplicationUser>()
+            .HasOne(a => a.AdressePrincipale)
+            .WithOne(a => a.UtilisateurPrincipal)
+            .HasForeignKey<Adresse>(a => a.UtilisateurPrincipalId)
             .OnDelete(DeleteBehavior.Restrict);
+     
 
-        // Configuration pour les adresses de livraison
-        builder.Entity<Membre>()
-            .HasMany(m => m.AdressesLivraison)
-            .WithOne(a => a.MembreLivraison)
-            .HasForeignKey(a => a.MembreLivraisonId)
+        // Configuration pour les adresses de livraison car un utilisateur peut avoir plusieurs adresses de livraison
+        builder.Entity<ApplicationUser>()
+            .HasMany(a => a.AdressesLivraison)
+            .WithOne(a => a.UtilisateurLivraison)
+            .HasForeignKey(a => a.UtilisateurLivraisonId)
             .OnDelete(DeleteBehavior.Restrict);
-    
+        
+
+       
+        
+
         
         // Configuration de la relation entre les favoris les membres et les livres
         builder.Entity<Favori>()
@@ -147,7 +150,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             UserName = "employe@employe.com",
             NormalizedEmail = "employe@employe.com".ToUpper(),
             NormalizedUserName = "employe@employe.com".ToUpper(),
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            AdressePrincipaleId = ""
+            
+            
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserEmploye.PasswordHash =
@@ -165,9 +171,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             NormalizedEmail = "membre@membre.com".ToUpper(),
             NormalizedUserName = "membre@membre.com".ToUpper(),
             EmailConfirmed = true,
-            AdresseLivraisonId = "",
-            AdressePrincipaleId = "",
             DateAdhesion = DateTime.Now,
+            AdressePrincipaleId = ""
             
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");

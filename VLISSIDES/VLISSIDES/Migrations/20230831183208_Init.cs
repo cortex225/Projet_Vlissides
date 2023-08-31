@@ -24,6 +24,34 @@ namespace VLISSIDES.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prenom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AdressePrincipaleId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Auteur",
                 columns: table => new
                 {
@@ -58,6 +86,7 @@ namespace VLISSIDES.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateDebut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateFin = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -147,45 +176,24 @@ namespace VLISSIDES.Migrations
                     Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CodePostal = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Pays = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MembreId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    MembreLivraisonId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UtilisateurPrincipalId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UtilisateurLivraisonId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Adresses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Prenom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdresseId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Adresses_AdresseId",
-                        column: x => x.AdresseId,
-                        principalTable: "Adresses",
-                        principalColumn: "Id");
+                        name: "FK_Adresses_AspNetUsers_UtilisateurLivraisonId",
+                        column: x => x.UtilisateurLivraisonId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Adresses_AspNetUsers_UtilisateurPrincipalId",
+                        column: x => x.UtilisateurPrincipalId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -278,8 +286,7 @@ namespace VLISSIDES.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NoEmploye = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Salaire = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    NoEmploye = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -299,9 +306,7 @@ namespace VLISSIDES.Migrations
                     NoMembre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateAdhesion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CommandeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReservationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AdressePrincipaleId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdresseLivraisonId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ReservationId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -320,7 +325,6 @@ namespace VLISSIDES.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateCommande = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PrixTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    EmployeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MembreId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AdresseId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     StatutCommandeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -332,12 +336,6 @@ namespace VLISSIDES.Migrations
                         name: "FK_Commandes_Adresses_AdresseId",
                         column: x => x.AdresseId,
                         principalTable: "Adresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Commandes_Employes_EmployeId",
-                        column: x => x.EmployeId,
-                        principalTable: "Employes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -386,17 +384,17 @@ namespace VLISSIDES.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Titre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AnneeEdition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Resume = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Couverture = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NbExemplaires = table.Column<int>(type: "int", nullable: false),
+                    DateAjout = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NbPages = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prix = table.Column<double>(type: "float", nullable: false),
                     DatePublication = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategorieId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AuteurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MaisonEditionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AuteurId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaisonEditionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TypeLivreId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EvaluationId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LangueId = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -406,12 +404,6 @@ namespace VLISSIDES.Migrations
                 {
                     table.PrimaryKey("PK_Livres", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Livres_Auteur_AuteurId",
-                        column: x => x.AuteurId,
-                        principalTable: "Auteur",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Livres_Commandes_CommandeId",
                         column: x => x.CommandeId,
                         principalTable: "Commandes",
@@ -420,6 +412,29 @@ namespace VLISSIDES.Migrations
                         name: "FK_Livres_MaisonEditions_MaisonEditionId",
                         column: x => x.MaisonEditionId,
                         principalTable: "MaisonEditions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AuteurLivre",
+                columns: table => new
+                {
+                    AuteurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LivresId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuteurLivre", x => new { x.AuteurId, x.LivresId });
+                    table.ForeignKey(
+                        name: "FK_AuteurLivre_Auteur_AuteurId",
+                        column: x => x.AuteurId,
+                        principalTable: "Auteur",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AuteurLivre_Livres_LivresId",
+                        column: x => x.LivresId,
+                        principalTable: "Livres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -453,7 +468,7 @@ namespace VLISSIDES.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Commentaire = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Commentaire = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Note = table.Column<int>(type: "int", nullable: false),
                     DateEvaluation = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MembreId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -578,19 +593,19 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0", "1b4f3dd9-64c2-447a-a0df-cee40569171c", "Employe", "EMPLOYE" },
-                    { "1", "a3433ba9-9917-495b-a843-e4b28e2ba333", "Membre", "MEMBRE" },
-                    { "2", "3b27c1d0-9c11-4fc2-b50f-ea4ea5e99e31", "Admin", "ADMIN" }
+                    { "0", "5a76dfec-25b5-4a4a-84eb-2a3246c5a673", "Employe", "EMPLOYE" },
+                    { "1", "c6456878-d47d-4535-8572-5a0890ef2bd3", "Membre", "MEMBRE" },
+                    { "2", "39c92b12-fae2-457a-8edb-c76ef0fd30df", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AdresseId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "0", 0, null, "2b818077-23a1-4383-9a35-9c35c698c77a", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "642bb2d3-1ecd-4409-9033-7c1208361193", false, "admin@admin.com" },
-                    { "1", 0, null, "e59ef3ec-d68d-46cb-b3c4-0254383b2b88", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "1df1d194-2551-4ce5-9d19-4727f814bd3d", false, "employe@employe.com" },
-                    { "2", 0, null, "eb617a5f-5265-471b-8aee-f5f8b4b1144a", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", null, null, false, "Membre", "cdbe94fb-df5d-43c7-9e39-1da9cce112d7", false, "membre@membre.com" }
+                    { "0", 0, null, "d525c988-3917-4c92-9443-b290807eba5e", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "8fd3d71e-cab2-4683-9a67-ed8eadef5796", false, "admin@admin.com" },
+                    { "1", 0, "", "ffc44b67-755d-44e0-a1a3-8ad9a96702ae", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "c1fbc4bb-a7d7-4bb1-8ace-a9a4c6f6d369", false, "employe@employe.com" },
+                    { "2", 0, "", "14a6857b-2e2e-44d4-8604-053a1759d08e", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", null, null, false, "Membre", "ab27bb01-ab31-4092-beb5-0061045e61f5", false, "membre@membre.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -665,25 +680,25 @@ namespace VLISSIDES.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employes",
-                columns: new[] { "Id", "NoEmploye", "Salaire" },
-                values: new object[] { "1", "007", 0m });
+                columns: new[] { "Id", "NoEmploye" },
+                values: new object[] { "1", "007" });
 
             migrationBuilder.InsertData(
                 table: "Membres",
-                columns: new[] { "Id", "AdresseLivraisonId", "AdressePrincipaleId", "CommandeId", "DateAdhesion", "NoMembre", "ReservationId" },
-                values: new object[] { "2", "", "", null, new DateTime(2023, 8, 26, 13, 1, 30, 467, DateTimeKind.Local).AddTicks(9640), "123456", null });
+                columns: new[] { "Id", "CommandeId", "DateAdhesion", "NoMembre", "ReservationId" },
+                values: new object[] { "2", null, new DateTime(2023, 8, 31, 14, 32, 8, 53, DateTimeKind.Local).AddTicks(4300), "123456", null });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Adresses_MembreId",
+                name: "IX_Adresses_UtilisateurLivraisonId",
                 table: "Adresses",
-                column: "MembreId",
+                column: "UtilisateurLivraisonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Adresses_UtilisateurPrincipalId",
+                table: "Adresses",
+                column: "UtilisateurPrincipalId",
                 unique: true,
-                filter: "[MembreId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adresses_MembreLivraisonId",
-                table: "Adresses",
-                column: "MembreLivraisonId");
+                filter: "[UtilisateurPrincipalId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -718,16 +733,16 @@ namespace VLISSIDES.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_AdresseId",
-                table: "AspNetUsers",
-                column: "AdresseId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuteurLivre_LivresId",
+                table: "AuteurLivre",
+                column: "LivresId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategorieLivre_LivresId",
@@ -738,11 +753,6 @@ namespace VLISSIDES.Migrations
                 name: "IX_Commandes_AdresseId",
                 table: "Commandes",
                 column: "AdresseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Commandes_EmployeId",
-                table: "Commandes",
-                column: "EmployeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Commandes_MembreId",
@@ -780,11 +790,6 @@ namespace VLISSIDES.Migrations
                 column: "CommandeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Livres_AuteurId",
-                table: "Livres",
-                column: "AuteurId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Livres_CommandeId",
                 table: "Livres",
                 column: "CommandeId");
@@ -808,34 +813,10 @@ namespace VLISSIDES.Migrations
                 name: "IX_Reservations_MembreId",
                 table: "Reservations",
                 column: "MembreId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Adresses_Membres_MembreId",
-                table: "Adresses",
-                column: "MembreId",
-                principalTable: "Membres",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Adresses_Membres_MembreLivraisonId",
-                table: "Adresses",
-                column: "MembreLivraisonId",
-                principalTable: "Membres",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Adresses_Membres_MembreId",
-                table: "Adresses");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Adresses_Membres_MembreLivraisonId",
-                table: "Adresses");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -852,7 +833,13 @@ namespace VLISSIDES.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "AuteurLivre");
+
+            migrationBuilder.DropTable(
                 name: "CategorieLivre");
+
+            migrationBuilder.DropTable(
+                name: "Employes");
 
             migrationBuilder.DropTable(
                 name: "Evaluations");
@@ -876,6 +863,9 @@ namespace VLISSIDES.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Auteur");
+
+            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
@@ -891,28 +881,22 @@ namespace VLISSIDES.Migrations
                 name: "Evenements");
 
             migrationBuilder.DropTable(
-                name: "Auteur");
-
-            migrationBuilder.DropTable(
                 name: "Commandes");
 
             migrationBuilder.DropTable(
                 name: "MaisonEditions");
 
             migrationBuilder.DropTable(
-                name: "Employes");
-
-            migrationBuilder.DropTable(
-                name: "StatutCommande");
+                name: "Adresses");
 
             migrationBuilder.DropTable(
                 name: "Membres");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "StatutCommande");
 
             migrationBuilder.DropTable(
-                name: "Adresses");
+                name: "AspNetUsers");
         }
     }
 }
