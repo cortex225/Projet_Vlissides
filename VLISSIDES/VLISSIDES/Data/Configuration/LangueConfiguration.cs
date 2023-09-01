@@ -25,7 +25,6 @@ public class LangueConfiguration : IEntityTypeConfiguration<Langue>
                 Nom = "Anglais",
                 Code = "en"
             }
-
         );
-}
+    }
 }

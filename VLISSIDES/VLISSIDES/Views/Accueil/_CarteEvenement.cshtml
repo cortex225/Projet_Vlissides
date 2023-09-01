@@ -1,17 +1,16 @@
-﻿@using VLISSIDES.ViewModels.Accueil;
-@model _EventCardVM;
+﻿@model VLISSIDES.ViewModels.Accueil._EventCardVM;
 
 @{
     //Juste pour pouvoir différencier les cartes
-    Random random = new Random();
-    int randomNumber = random.Next(1, 100000);
+    var random = new Random();
+    var randomNumber = random.Next(1, 100000);
 }
 
 <div class="item">
     <div class="card event" style="width: 18rem">
         <img src="@Model.monEvenement.Image"
              class="card-img-top"
-             alt="..." />
+             alt="..."/>
         <div class="card-body">
             <h5 class="card-title">@Model.monEvenement.Nom @randomNumber</h5>
             <p class="card-text">

@@ -48,5 +48,4 @@ public class SendGridEmail : ISendGridEmail
             : $"Failure Email to {toEmail}");
         Console.WriteLine(response.IsSuccessStatusCode ? "Email queued successfully!" : "Something went wrong!");
     }
-
 }
