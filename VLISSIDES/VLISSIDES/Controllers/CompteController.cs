@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -154,7 +153,7 @@ public class CompteController : Controller
             ApplicationUser user;
             string role;
 
-            user = new Membre()
+            user = new Membre
             {
                 NoMembre = "M" + DateTime.Now.ToString("MM/dd/yyyy") + (_context.Membres.Count() + 1),
                 UserName = vm.UserName,
@@ -166,7 +165,7 @@ public class CompteController : Controller
                 Nom = vm.FirstName,
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
-                DateAdhesion = DateTime.Now,
+                DateAdhesion = DateTime.Now
             };
             role = RoleName.MEMBRE;
 

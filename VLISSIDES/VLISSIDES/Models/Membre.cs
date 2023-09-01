@@ -15,5 +15,4 @@ public class Membre : ApplicationUser
     public ICollection<Reservation>? Reservations { get; set; }
 
     public ICollection<Favori>? Favoris { get; set; }
-
 }
