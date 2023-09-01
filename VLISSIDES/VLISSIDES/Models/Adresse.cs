@@ -24,5 +24,4 @@ public class Adresse
     // Propriété de navigation pour l'utilisateur de livraison
     public string? UtilisateurLivraisonId { get; set; }
     public ApplicationUser? UtilisateurLivraison { get; set; }
-    
 }

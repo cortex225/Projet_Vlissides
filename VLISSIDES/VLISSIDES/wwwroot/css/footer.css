@@ -137,13 +137,14 @@
 .footer-section .border-top.copyright {
     font-size: 14px !important;
     color: #3b5d50;
-    height: 5px!important;
+    height: 5px !important;
 }
 
 .map-responsive {
     width: 100%;
 }
-#planeBTN{
+
+#planeBTN {
     padding: 10px 20px;
     font-size: 16px;
     font-weight: 500;
