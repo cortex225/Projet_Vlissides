@@ -4,10 +4,10 @@ public class Evaluation
 {
     public string Id { get; set; }
 
-    public string Commentaire { get; set; }
-    
+    public string? Commentaire { get; set; }
+
     public int Note { get; set; }
-    
+
     public DateTime DateEvaluation { get; set; }
 
     public string MembreId { get; set; }

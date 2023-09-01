@@ -15,12 +15,13 @@ public class Adresse
     public string CodePostal { get; set; }
 
     public string Pays { get; set; }
-    
-    public string? MembreId { get; set; }
-    
-    public Membre? Membre { get; set; }
 
-    // Pour les adresses de livraison
-    public string? MembreLivraisonId { get; set; }
-    public  Membre MembreLivraison { get; set; }
+
+    // Propriété de navigation pour l'utilisateur principal
+    public string? UtilisateurPrincipalId { get; set; }
+    public ApplicationUser? UtilisateurPrincipal { get; set; }
+
+    // Propriété de navigation pour l'utilisateur de livraison
+    public string? UtilisateurLivraisonId { get; set; }
+    public ApplicationUser? UtilisateurLivraison { get; set; }
 }

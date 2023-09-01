@@ -8,6 +8,8 @@ public class Evenement
 
     public string Description { get; set; }
 
+    public string Image { get; set; }
+
     public DateTime DateDebut { get; set; }
 
     public DateTime DateFin { get; set; }

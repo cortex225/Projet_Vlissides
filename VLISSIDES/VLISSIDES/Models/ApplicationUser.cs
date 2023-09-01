@@ -8,7 +8,10 @@ public class ApplicationUser : IdentityUser
 
     public string Prenom { get; set; }
 
-    public string? AdresseId { get; set; }
+    // Un utilisateur peut avoir une adresse principale
+    public string? AdressePrincipaleId { get; set; }
+    public Adresse? AdressePrincipale { get; set; }
 
-    public Adresse? Adresse { get; set; }
+    // Un utilisateur peut avoir plusieurs adresses de livraison
+    public ICollection<Adresse>? AdressesLivraison { get; set; }
 }

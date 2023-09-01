@@ -1,0 +1,107 @@
+@model RegisterVM
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <partial name="PartialViews/_HeadPartial"/>
+    <link href="~/assets/css/Register.css" rel="stylesheet"/>
+
+</head>
+
+<body class="">
+
+<main class="main-content  mt-0">
+    <section>
+        <div class="page-header min-vh-100">
+            <div class="container-fluid">
+                <div class="row g-0">
+                    <div class="col-lg-6 d-none d-lg-block">
+                        <div class="bg-image p-5 my-lg-3">
+                            <!-- Contenu de l'image ici -->
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <div class="d-flex flex-column justify-content-center h-100 py-2">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 col-md-10 col-sm-12">
+                                    <div class="card shadow border-0">
+                                        <div class="card-body">
+                                            <div class="row d-flex justify-content-between align-items-center mb-2">
+                                                <div class="mb-0">
+                                                    <a asp-controller="Accueil" asp-action="Index">
+                                                        <i class="fa-solid fa-house fa-xl"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex justify-content-center">
+                                                    <img class="logo" src="~/img/Logo/Logo(NoBackground).png" style="width: 12em;margin-top: -4em" alt="Logo ">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 text-center">
+                                                <h4>S'inscrire</h4>
+                                                <p class="mb-0">Saisissez les informations ci-dessous</p>
+                                            </div>
+                                            @Html.AntiForgeryToken()
+                                            <div asp-validation-summary="All" class="text-danger"></div>
+                                            <form asp-controller="Compte" asp-action="Register" asp-ajax="true" method="post" role="form">
+                                                <partial name="PartialViews/_RegisterForm"/>
+                                            </form>
+                                        </div>
+                                        <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                                            <p class="mb-2 text-sm mx-auto">
+                                                Vous avez déjà un compte ?
+                                                <a asp-controller="Compte" asp-action="Login"
+                                                   class="text-primary text-gradient font-weight-bold">
+                                                    Se connecter
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</main>
+<style>
+    .bg-image {
+        width: 100%;
+        height: 95vh;
+        background: url('../img/bg_Register.jpeg')no-repeat center center/cover;
+         border-radius: 15px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  margin-left: 1em;
+    }
+
+    .logo {
+      width: 360px;
+        height: auto;
+    }
+
+    .card {
+        border-radius: auto;
+    }
+</style>
+
+
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+    //Ici on gère l'affichage du champ companyName en fonction de la sélection de l'utilisateur
+  </script>
+
+</body>
+
+</html>

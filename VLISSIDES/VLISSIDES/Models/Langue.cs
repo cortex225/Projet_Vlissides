@@ -8,5 +8,5 @@ public class Langue
 
     public string Code { get; set; }
 
-    public ICollection<Livre> Livres { get; set; }
+    public ICollection<Livre>? Livres { get; set; }
 }

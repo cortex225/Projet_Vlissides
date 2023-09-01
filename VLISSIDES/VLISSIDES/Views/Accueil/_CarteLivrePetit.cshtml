@@ -1,0 +1,55 @@
+﻿@model VLISSIDES.ViewModels.Accueil._LivreCardVM;
+
+@{
+    //Juste pour pouvoir différencier les cartes
+    var random = new Random();
+    var randomNumber = random.Next(1, 100000);
+}
+
+<div class="item livrePetit livre">
+    <div class="card cardLivre" style="width: 12rem">
+        <div class="imgDiv">
+            <img src="@Model.monLivre.Couverture"
+                 class="card-img-top imgLivrePetit"
+                 alt="..."/>
+        </div>
+        <div class="card-body">
+            <h6 class="card-title">@Model.monLivre.Titre @randomNumber</h6>
+            <partial name="_Etoiles.cshtml"/>
+
+            <h6>@Model.monLivre.Prix $</h6>
+
+            @foreach (var auteur in Model.monLivre.Auteur)
+            {
+                <p>@auteur.Nom, @auteur.Prenom</p>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .btnCategorie{
+        margin: 4px;
+        font-size: 10px;
+        padding: 6px;
+    }
+
+    .imgLivrePetit{
+        width: 35%;
+        height: 35%;
+    }
+
+    .imgDiv{
+        display: flex;
+        justify-content: center;
+    }
+
+    .livrePetit{
+        margin-bottom: 24px;
+        margin-top: 16px;
+    }
+
+    .cardLivre:hover {
+        background-color: #DCE4EC;
+    }
+</style>
