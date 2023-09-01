@@ -38,6 +38,17 @@
 </div>
 
 <div class="container">
+    <h4 class="titreSections">Services offerts: </h4>
+    <div id="listeDesServices">
+        <partial name="_ServiceOffert.cshtml" />
+        <hr />
+        <partial name="_ServiceOffert.cshtml" />
+        <hr />
+        <partial name="_ServiceOffert.cshtml" />
+    </div>
+</div>
+
+<div class="container">
     <h3 class="titreSections">Évenements: </h3>
     <div id="carouselEvenements" class="carousel slide">
         <a href="#" class="voirPlus">Voir plus ->: </a>
@@ -188,10 +199,10 @@
 <style>
     #photoPageAccueilDiv{
         background: url('https://images.pexels.com/photos/261821/pexels-photo-261821.jpeg?auto=compress&cs=tinysrgb') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
         width: 100vw !important;
         overflow: hidden;
         height: 90vh;
