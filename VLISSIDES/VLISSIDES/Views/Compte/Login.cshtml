@@ -1,5 +1,4 @@
-@using Microsoft.AspNetCore.Identity
-@model VLISSIDES.ViewModels.Compte.LoginVM
+@model LoginVM
 @inject SignInManager<ApplicationUser> signInManager
 @{
     var schemes = await signInManager.GetExternalAuthenticationSchemesAsync();
@@ -38,7 +37,7 @@
                                         <div class="card-body">
                                             <div class="row justify-content-start mb-1">
                                                 <a asp-controller="Accueil" asp-action="Index">
-                                                    <i class="fa-solid fa-house fa-xl" ></i>
+                                                    <i class="fa-solid fa-house fa-xl"></i>
                                                 </a>
                                             </div>
                                             <div class="row justify-content-center mb-4">

@@ -4,7 +4,6 @@ namespace VLISSIDES.ViewModels.Compte;
 
 public class LoginVM
 {
-
     [Display(Name = "Nom d'utilisateur")] public string? UserName { get; set; }
 
     [Required(ErrorMessage = "Veuillez entrer votre nom d'utilisateur ou votre adresse e-mail.")]

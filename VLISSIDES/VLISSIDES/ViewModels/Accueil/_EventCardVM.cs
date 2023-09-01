@@ -1,9 +1,8 @@
 ﻿using VLISSIDES.Models;
 
-namespace VLISSIDES.ViewModels.Accueil
+namespace VLISSIDES.ViewModels.Accueil;
+
+public class _EventCardVM
 {
-    public class _EventCardVM
-    {
-        public Evenement monEvenement = new Evenement();
-    }
+    public Evenement monEvenement = new();
 }

@@ -17,11 +17,9 @@ var connectionStringJL = builder.Configuration.GetConnectionString("JLConnection
 //Connection par Defaut
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-if(OperatingSystem.IsMacOS())
-{
+if (OperatingSystem.IsMacOS())
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(connectionStringJL));
-}
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -42,7 +40,6 @@ builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSe
 //Permet de ne pas utiliser la configuration de base mais plutot de configurer les option de recupération de AuthMessageSenderOptions
 builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-
 
 
 var app = builder.Build();

@@ -8,35 +8,32 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="css/footer.css"/>
     <link rel="stylesheet" href="~/VLISSIDES.styles.css" asp-append-version="true"/>
-    
-<link href="
+
+    <link href="
 https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
 " rel="stylesheet">
-<!-- Font Awesome -->
+    <!-- Font Awesome -->
     <link
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        rel="stylesheet"
-    />
+        rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<!-- Google Fonts -->
+    <!-- Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        rel="stylesheet"
-    />
-    
-<!-- MDB -->
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css"
-  rel="stylesheet"
-/>
+        rel="stylesheet"/>
+
+    <!-- MDB -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css"
+        rel="stylesheet"/>
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
-                <img src="img/image_rond.png" alt="logo" style="width: 80px; height: 56px;" />
+                <img src="img/image_rond.png" alt="logo" style="width: 80px; height: 56px;"/>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -57,17 +54,23 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
 
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item active" href="#titre">Titre</a></li>
-                        <li><a class="dropdown-item" href="#auteur">Auteur</a></li>
-                        <li><a class="dropdown-item" href="#categorie">Catégorie</a></li>
+                        <li>
+                            <a class="dropdown-item active" href="#titre">Titre</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#auteur">Auteur</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#categorie">Catégorie</a>
+                        </li>
                     </ul>
                     <input type="text" class="form-control" placeholder="Rechercher un livre..."
-                            aria-label="Rechercher un livre" aria-describedby="basic-addon2" style="height: 100%;">
+                           aria-label="Rechercher un livre" aria-describedby="basic-addon2" style="height: 100%;">
                     <button type="button" class="btn btn-secondary" id="basic-addon2">Rechercher</button>
-                    <button type="button" class="btn btn-secondary">Recherche <br /> avancée</button>
+                    <button type="button" class="btn btn-secondary">Recherche <br/> avancée</button>
                 </div>
             </div>
-            <partial name="_LoginPartial" />
+            <partial name="_LoginPartial"/>
         </div>
     </nav>
 </header>
@@ -77,21 +80,20 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
     </main>
 </div>
 
-		<footer class="footer-section">
-    
-            <partial name="PartialViews/Footer/_HeadFooterPartial"/>
+<footer class="footer-section">
+
+    <partial name="PartialViews/Footer/_HeadFooterPartial"/>
 
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="~/js/owl.carousel.min.js" ></script>
+<script src="~/js/owl.carousel.min.js"></script>
 
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <!-- MDB -->
 <script
-  type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
-></script>
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>

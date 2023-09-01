@@ -1,10 +1,9 @@
-﻿@using VLISSIDES.ViewModels.Accueil;
-@model _LivreCardVM;
+﻿@model VLISSIDES.ViewModels.Accueil._LivreCardVM;
 
 @{
     //Juste pour pouvoir différencier les cartes
-    Random random = new Random();
-    int randomNumber = random.Next(1, 100000);
+    var random = new Random();
+    var randomNumber = random.Next(1, 100000);
 }
 
 <div class="item livrePetit livre">
@@ -12,15 +11,16 @@
         <div class="imgDiv">
             <img src="@Model.monLivre.Couverture"
                  class="card-img-top imgLivrePetit"
-                 alt="..." />
+                 alt="..."/>
         </div>
         <div class="card-body">
             <h6 class="card-title">@Model.monLivre.Titre @randomNumber</h6>
-            <partial name="_Etoiles.cshtml" />
-            
+            <partial name="_Etoiles.cshtml"/>
+
             <h6>@Model.monLivre.Prix $</h6>
 
-            @foreach (var auteur in Model.monLivre.Auteur){
+            @foreach (var auteur in Model.monLivre.Auteur)
+            {
                 <p>@auteur.Nom, @auteur.Prenom</p>
             }
         </div>

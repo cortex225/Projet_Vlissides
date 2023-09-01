@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VLISSIDES.ViewModels.Compte;
 
@@ -45,6 +44,4 @@ public class RegisterVM
     public bool Conditions { get; set; }
 
     public string? ReturnUrl { get; set; }
-
-
 }

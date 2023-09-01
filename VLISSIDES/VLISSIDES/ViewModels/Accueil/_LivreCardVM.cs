@@ -1,9 +1,8 @@
 ﻿using VLISSIDES.Models;
 
-namespace VLISSIDES.ViewModels.Accueil
+namespace VLISSIDES.ViewModels.Accueil;
+
+public class _LivreCardVM
 {
-    public class _LivreCardVM
-    {
-        public Livre monLivre { get; set; } = new Livre();
-    }
+    public Livre monLivre { get; set; } = new();
 }
