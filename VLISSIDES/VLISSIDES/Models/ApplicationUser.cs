@@ -13,5 +13,6 @@ public class ApplicationUser : IdentityUser
     public Adresse? AdressePrincipale { get; set; }
 
     // Un utilisateur peut avoir plusieurs adresses de livraison
+    public string? AdresseLivraisonId { get; set; }
     public ICollection<Adresse>? AdressesLivraison { get; set; }
 }

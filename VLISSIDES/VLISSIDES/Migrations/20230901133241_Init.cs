@@ -31,6 +31,7 @@ namespace VLISSIDES.Migrations
                     Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Prenom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdressePrincipaleId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdresseLivraisonId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -593,19 +594,19 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0", "5a76dfec-25b5-4a4a-84eb-2a3246c5a673", "Employe", "EMPLOYE" },
-                    { "1", "c6456878-d47d-4535-8572-5a0890ef2bd3", "Membre", "MEMBRE" },
-                    { "2", "39c92b12-fae2-457a-8edb-c76ef0fd30df", "Admin", "ADMIN" }
+                    { "0", "c56a9b28-a528-4b2c-9b47-9f1e7d8945d6", "Employe", "EMPLOYE" },
+                    { "1", "955dc9c6-6992-4e7b-82b2-bc9f1062ecbd", "Membre", "MEMBRE" },
+                    { "2", "6738b73f-496b-42eb-a8a9-efb1ef2d959b", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "AdresseLivraisonId", "AdressePrincipaleId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "0", 0, null, "d525c988-3917-4c92-9443-b290807eba5e", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "8fd3d71e-cab2-4683-9a67-ed8eadef5796", false, "admin@admin.com" },
-                    { "1", 0, "", "ffc44b67-755d-44e0-a1a3-8ad9a96702ae", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "c1fbc4bb-a7d7-4bb1-8ace-a9a4c6f6d369", false, "employe@employe.com" },
-                    { "2", 0, "", "14a6857b-2e2e-44d4-8604-053a1759d08e", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", null, null, false, "Membre", "ab27bb01-ab31-4092-beb5-0061045e61f5", false, "membre@membre.com" }
+                    { "0", 0, null, null, "5cfbffb0-aa14-44cb-ae87-83f32fa6ae92", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "f0859f7b-77ac-45af-bea7-f05d5fc3c254", false, "admin@admin.com" },
+                    { "1", 0, null, "", "160f58c1-39cc-4b4b-ad9a-18fec33b2d2f", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "78dfdf2b-512a-4dc9-829e-b23415784679", false, "employe@employe.com" },
+                    { "2", 0, null, "", "8c75bfad-0a5c-4a9d-bc9d-2c4d53136cf5", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", null, null, false, "Membre", "6bcf3a84-2deb-4180-aa17-f56c66a33d2d", false, "membre@membre.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -686,7 +687,7 @@ namespace VLISSIDES.Migrations
             migrationBuilder.InsertData(
                 table: "Membres",
                 columns: new[] { "Id", "CommandeId", "DateAdhesion", "NoMembre", "ReservationId" },
-                values: new object[] { "2", null, new DateTime(2023, 8, 31, 14, 32, 8, 53, DateTimeKind.Local).AddTicks(4300), "123456", null });
+                values: new object[] { "2", null, new DateTime(2023, 9, 1, 9, 32, 41, 711, DateTimeKind.Local).AddTicks(280), "123456", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_UtilisateurLivraisonId",
