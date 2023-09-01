@@ -44,6 +44,8 @@ builder.Services.AddControllers()
 
 var app = builder.Build();
 
+app.UseSession();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -59,6 +61,8 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
+app.UseCors();
 app.UseRouting();
 
 app.UseAuthentication();

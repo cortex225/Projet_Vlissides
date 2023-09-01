@@ -8,19 +8,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dae4e7be-6b53-438d-bfe4-f6e637752ed3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Migrations/20230831183208_Init.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Migrations/20230901133241_Init.Designer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Migrations/20230831183208_Init.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Migrations/20230901133241_Init.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Models/ApplicationUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Models/ApplicationUser.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VLISSIDES/Views/Compte/ResetPassword.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Controllers/CompteController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Controllers/CompteController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Services/SendGridEmail.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Services/SendGridEmail.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Compte/ForgotPassword.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Compte/ForgotPassword.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2UnUZ9XQFipfXfXIsYf8DbG1oMJ" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -32,26 +34,26 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache",
-      "/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache",
-      "/Users/jlgouaho/.local/share/Symbols/src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache&quot;,
+      &quot;/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache&quot;,
+      &quot;/Users/jlgouaho/.local/share/Symbols/src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Run" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" />
@@ -77,7 +79,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1693574892127</updated>
-      <workItem from="1693574893260" duration="358000" />
+      <workItem from="1693574893260" duration="4421000" />
+      <workItem from="1693580660455" duration="469000" />
     </task>
     <servers />
   </component>
@@ -87,5 +90,24 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/VLISSIDES/Controllers/CompteController.cs</url>
+          <line>234</line>
+          <properties documentPath="$PROJECT_DIR$/VLISSIDES/Controllers/CompteController.cs" initialLine="234" containingFunctionPresentation="Method 'ForgotPassword'">
+            <startOffsets>
+              <option value="8036" />
+            </startOffsets>
+            <endOffsets>
+              <option value="8037" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
