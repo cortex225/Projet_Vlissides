@@ -50,13 +50,17 @@ public class GestionLivresController : Controller
     }
 
     // GET: Livre/Create
-    public IActionResult Create()
+    public IActionResult Ajouter()
     {
         ViewData["AuteurId"] = new SelectList(_context.Set<Auteur>(), "Id", "Id");
         ViewData["MaisonEditionId"] = new SelectList(_context.MaisonEditions, "Id", "Id");
         return View();
     }
+    //[HttpPost]
+    //public IActionResult Create()
+    //{
 
+    //}
     // GET: Livre/Delete/5
     public async Task<IActionResult> Delete(string id)
     {
