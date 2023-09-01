@@ -6,17 +6,17 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.Controllers;
 
-public class LivreController : Controller
+public class GestionLivresController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public LivreController(ApplicationDbContext context)
+    public GestionLivresController(ApplicationDbContext context)
     {
         _context = context;
     }
 
     // GET: Livre
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Inventaire()
     {
         var applicationDbContext = _context.Livres.Include(l => l.Auteur).Include(l => l.MaisonEdition);
         return View(await applicationDbContext.ToListAsync());
