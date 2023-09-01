@@ -156,6 +156,7 @@ public class CompteController : Controller
 
             user = new Membre()
             {
+                NoMembre = "M" + DateTime.Now.ToString("MM/dd/yyyy") + (_context.Membres.Count() + 1),
                 UserName = vm.UserName,
                 Email = vm.Email,
                 EmailConfirmed = true,
@@ -166,7 +167,6 @@ public class CompteController : Controller
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
                 DateAdhesion = DateTime.Now,
-                
             };
             role = RoleName.MEMBRE;
 
