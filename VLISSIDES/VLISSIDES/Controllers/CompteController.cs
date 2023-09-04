@@ -1,9 +1,9 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -37,7 +37,7 @@ public class CompteController : Controller
         _logger = logger;
         _context = context;
         _userStore = userStore;
-        // _sendGridEmail = sendGridEmail;
+        _sendGridEmail = sendGridEmail;
     }
 
 
@@ -175,12 +175,38 @@ public class CompteController : Controller
             // Si l'utilisateur est créé avec succès, connectez-vous.
             if (result.Succeeded)
             {
+                //Générer l'email de confirmatuion et l'envoyer
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackUrl = Url.Action(
+                   "ConfirmEmail", "Account",
+                   new { userId = user.Id, code = code },
+                   protocol: Request.Scheme);
+
+                // Récupérer l'URL complète du logo à partir de l'application
+                var logoUrl = Url.Content("https://myinstahr.ca/assets/img/instaLogo.png");
+
+                await _sendGridEmail.SendEmailAsync(user.Email,
+                   "\"La Fourmie Aillée- Demande de confirmer ton incription",
+            "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>" +
+            "<img src='" + logoUrl +
+            "' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>\n" +
+            "<h2 style='color: #444;'>Cher utilisateur,</h2>\n" +
+            "<p>Nous avons reçu une demande d'inscription. Pour continuer ce processus, veuillez cliquer sur le bouton ci-dessous.</p>\n" +
+            "<p style='text-align: center; margin: 20px 0;'><a href='" + callbackUrl +
+            "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 3px;'>Confirmer l'inscription</a></p>\n" +
+            "<p>Si vous n'avez pas demandé cette inscription, veuillez ignorer ce message ou contacter notre support client pour plus d'assistance.</p>\n" +
+            "<p style='color: #666; border-top: 1px solid #ddd; padding-top: 10px;'>Cordialement<br></p>" +
+            "</div>");
                 // Ajouter le rôle à l'utilisateur
                 await _userManager.AddToRoleAsync(user, role);
 
                 await _signInManager.SignInAsync(user, false);
 
-                return LocalRedirect(returnUrl);
+                // Stocker le code de réinitialisation dans la session
+                //HttpContext.Session.SetString("inscriptionCode", code);
+
+                return Ok(
+                    "Votre requête a été soumise avec succès, veuillez vérifier votre boîte de réception pour confirmer votre incsription.");
             }
 
             // Sinon, affichez les erreurs.
