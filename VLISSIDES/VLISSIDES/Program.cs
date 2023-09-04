@@ -1,6 +1,6 @@
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using VLISSIDES.Data;
 using VLISSIDES.Helpers;
 using VLISSIDES.Interfaces;
@@ -67,6 +67,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     "default",
