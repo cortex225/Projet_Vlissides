@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using VLISSIDES.Data;
-using VLISSIDES.Helpers;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
 using VLISSIDES.Services;
@@ -35,7 +34,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //Implementation du service SendGridEmail par l'interface ISendGridEmail
 builder.Services.AddTransient<ISendGridEmail, SendGridEmail>();
 //Permet de ne pas utiliser la configuration de base mais plutot de configurer les option de recupération de AuthMessageSenderOptions
-builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSection("SendGrid"));
+builder.Services.Configure<VLISSIDES.Helpers.AuthMessageSenderOptions>(builder.Configuration.GetSection("SendGrid"));
 
 //Permet de ne pas utiliser la configuration de base mais plutot de configurer les option de recupération de AuthMessageSenderOptions
 builder.Services.AddControllers()
