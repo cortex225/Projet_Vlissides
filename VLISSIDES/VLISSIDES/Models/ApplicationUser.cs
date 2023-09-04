@@ -4,9 +4,9 @@ namespace VLISSIDES.Models;
 
 public class ApplicationUser : IdentityUser
 {
-    public string Nom { get; set; }
+    public string Nom { get; set; } = default!;
 
-    public string Prenom { get; set; }
+    public string Prenom { get; set; } = default!;
 
     // Un utilisateur peut avoir une adresse principale
     public string? AdressePrincipaleId { get; set; }

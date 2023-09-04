@@ -2,11 +2,11 @@ namespace VLISSIDES.Models;
 
 public class Categorie
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = default!;
 
-    public string Nom { get; set; }
+    public string Nom { get; set; } = default!;
 
-    public string Description { get; set; }
+    public string Description { get; set; } = default!;
 
-    public ICollection<Livre> Livres { get; set; }
+    public ICollection<Livre> Livres { get; set; } = default!;
 }
