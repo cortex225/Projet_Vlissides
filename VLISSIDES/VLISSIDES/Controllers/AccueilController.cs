@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using VLISSIDES.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using VLISSIDES.ViewModels;
 
 namespace VLISSIDES.Controllers;
 
