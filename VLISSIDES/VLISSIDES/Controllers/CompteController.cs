@@ -203,7 +203,7 @@ public class CompteController : Controller
                 await _signInManager.SignInAsync(user, false);
 
                 // Stocker le code de réinitialisation dans la session
-                //HttpContext.Session.SetString("inscriptionCode", code);
+                HttpContext.Session.SetString("inscriptionCode", code);
 
                 return Ok(
                     "Votre requête a été soumise avec succès, veuillez vérifier votre boîte de réception pour confirmer votre incsription.");
