@@ -2,19 +2,19 @@ namespace VLISSIDES.Models;
 
 public class Evaluation
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = default!;
 
-    public string? Commentaire { get; set; }
+    public string? Commentaire { get; set; } = default!;
 
-    public int Note { get; set; }
+    public int Note { get; set; } = default!;
 
-    public DateTime DateEvaluation { get; set; }
+    public DateTime DateEvaluation { get; set; } = default!;
 
-    public string MembreId { get; set; }
+    public string MembreId { get; set; } = default!;
 
-    public Membre Membre { get; set; }
+    public Membre Membre { get; set; } = default!;
 
-    public string LivreId { get; set; }
+    public string LivreId { get; set; } = default!;
 
-    public Livre Livre { get; set; }
+    public Livre Livre { get; set; } = default!;
 }
