@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using VLISSIDES.Helpers;
 using VLISSIDES.Interfaces;
 
 namespace VLISSIDES.Services;
@@ -19,8 +20,8 @@ public class SendGridEmail : ISendGridEmail
 
     public async Task SendEmailAsync(string toEmail, string subject, string message)
     {
-        if (string.IsNullOrEmpty(Options.SendGridKey)) throw new Exception("Null SendGridKey");
-        await Execute(Options.SendGridKey, subject, message, toEmail);
+        if (string.IsNullOrEmpty(Options.ApiKey)) throw new Exception("Null SendGridKey");
+        await Execute(Options.ApiKey, subject, message, toEmail);
     }
 
     private async Task Execute(string apiKey, string subject, string message, string toEmail)
