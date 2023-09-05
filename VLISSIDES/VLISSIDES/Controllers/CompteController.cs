@@ -219,6 +219,20 @@ public class CompteController : Controller
         return View(vm);
     }
 
+    [HttpGet]
+    public IActionResult ConfirmEmail(string code = null)
+    {
+        var confirmationCode = HttpContext.Session.GetString("confirmationCode");
+        if (confirmationCode == null || confirmationCode != code)
+            // Si le code est invalide, afficher la vue d'erreur
+            return View("Error");
+
+        // Si le code est valide, stocker la valeur de resetCode dans ViewBag pour la récupérer dans le post
+        ViewBag.confirmationCode = confirmationCode;
+
+        // Afficher la vue de réinitialisation de mot de passe
+        return View();
+    }
 
     [HttpPost]
     public async Task<IActionResult> Logout()
