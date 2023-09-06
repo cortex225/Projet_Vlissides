@@ -17,6 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Commande> Commandes { get; set; }
 
     public DbSet<Employe> Employes { get; set; }
+    
+    public DbSet<Auteur> Auteurs { get; set; }
 
     public DbSet<Membre> Membres { get; set; }
 
