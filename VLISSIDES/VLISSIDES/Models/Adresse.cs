@@ -2,19 +2,19 @@ namespace VLISSIDES.Models;
 
 public class Adresse
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = default!;
 
-    public string NoCivique { get; set; }
+    public string NoCivique { get; set; } = default!;
 
-    public string Rue { get; set; }
+    public string Rue { get; set; } = default!;
 
-    public string Ville { get; set; }
+    public string Ville { get; set; } = default!;
 
-    public string Province { get; set; }
+    public string Province { get; set; } = default!;
 
-    public string CodePostal { get; set; }
+    public string CodePostal { get; set; } = default!;
 
-    public string Pays { get; set; }
+    public string Pays { get; set; } = default!;
 
 
     // Propriété de navigation pour l'utilisateur principal

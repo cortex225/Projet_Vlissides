@@ -2,13 +2,13 @@ namespace VLISSIDES.Models;
 
 public class LivreCommande
 {
-    public string LivreId { get; set; }
+    public string LivreId { get; set; } = default!;
 
-    public Livre Livre { get; set; }
+    public Livre Livre { get; set; } = default!;
 
-    public string CommandeId { get; set; }
+    public string CommandeId { get; set; } = default!;
 
-    public Commande Commande { get; set; }
+    public Commande Commande { get; set; } = default!;
 
-    public int Quantite { get; set; }
+    public int Quantite { get; set; } = default!;
 }
