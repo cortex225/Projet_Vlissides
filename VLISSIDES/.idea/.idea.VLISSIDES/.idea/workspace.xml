@@ -8,12 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dae4e7be-6b53-438d-bfe4-f6e637752ed3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/VLISSIDES/Views/Compte/ResetPassword.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Controllers/CompteController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Controllers/CompteController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Services/SendGridEmail.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Services/SendGridEmail.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Compte/ForgotPassword.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Compte/ForgotPassword.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +75,8 @@
       <option name="presentableId" value="Default" />
       <updated>1693574892127</updated>
       <workItem from="1693574893260" duration="4421000" />
-      <workItem from="1693580660455" duration="469000" />
+      <workItem from="1693580660455" duration="2414000" />
+      <workItem from="1693667410384" duration="2065000" />
     </task>
     <servers />
   </component>
