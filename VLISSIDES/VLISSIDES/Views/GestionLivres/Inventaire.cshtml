@@ -33,12 +33,24 @@
 
     <div class="container-fluid m-1">
 
-        <div class="row">
+        @* Les recherches *@
+        <form>
+            @* Research bar *@
+            <div class="row mb-3">
+                <div class="col-2 ml-4 text-center">
+                    <button type="button" class="container-fluid btn btn-primary">Rechercher</button>
+                </div>
 
-            @* Advanced research *@
-            <div class="col-2">
+                <div class="col-10">
+                    <input type="text" class="form-control" placeholder="Recherche général" aria-label="recherche" aria-describedby="basic-addon2">
+                </div>
+            </div>
 
-                <form>
+            <div class="row">
+                @* Advanced research *@
+                <div class="col-2 bg-secondary">
+
+                
                     @* Recherche précise *@
                     <div class="my-2">
                         <h3>Spécification</h3>
@@ -98,103 +110,95 @@
                             </div>
                         </div>
                     </div>
-                    
-                </form>
+                </div>
+        </form>
 
+        @* Result *@
+        <div class="col-10">
+
+
+            @* Add button *@
+            <div class="my-4">
+                <button type="button" class="btn btn-primary">Ajouter livre</button>
             </div>
 
-            @* Research bar and result *@
-            <div class="col-10">
+            @* Research results (Temporary results) *@
 
-                @* Research bar *@
-                <div class="input-group mb-3 ">
-
-                    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <span class="input-group-text" id="basic-addon2">Rechercher</span>
-                    </div>
-                </div>
-
-                @* Add button *@
-                <div class="my-4">
-                    <button type="button" class="btn btn-primary">Ajouter livre</button>
-                </div>
-
-                @* Research results (Temporary results) *@
-
-                <div class="container-fluid d-flex flex-wrap row">
-                    <div class="mb-3 mx-3">
-                        <div class="row px-2">
-                            <div class="col-2">
-                                Image
-                            </div>
-                            <div class="col-2">
-                                Titre
-                            </div>
-                            <div class="col-2">
-                                Auteur
-                            </div>
-                            <div class="col-2">
-                                Maison d'édition
-                            </div>
-                            <div class="col-2">
-                                Quantité
-                            </div>
+            <div class="container-fluid d-flex flex-wrap row">
+                <div class="mb-3 mx-3">
+                    <div class="row px-2">
+                        <div class="col-1 text-center">
+                            Image
                         </div>
-                    </div>
-                    <div class="card mb-3 mx-3">
-                        <div class="card-body row px-2">
-                            <div class="col-2">
-                                <img src="..." alt="..." class="img-thumbnail">
-                            </div>
-                            <div class="col-2">
-                                Titre 1
-                            </div>
-                            <div class="col-2">
-                                Auteur 1
-                            </div>
-                            <div class="col-2">
-                                Maison d'édition 1
-                            </div>
-                            <div class="col-2">
-                                <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
-                            </div>
-                            <div class="col-2">
-                                @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-                                <button type="button" class="container-fluid btn btn-success">Sauvegarder</button>
-                                <button type="button" class="container-fluid btn btn-danger P-2"> X </button>
-                            </div>
+                        <div class="col-2 text-center">
+                            Titre
                         </div>
-                    </div>
-
-                    <div class="card mb-3 mx-3">
-                        <div class="card-body row px-2">
-                            <div class="col-2">
-                                <img src="..." alt="..." class="img-thumbnail">
-                            </div>
-                            <div class="col-2">
-                                Titre 1
-                            </div>
-                            <div class="col-2">
-                                Auteur 1
-                            </div>
-                            <div class="col-2">
-                                Maison d'édition 1
-                            </div>
-                            <div class="col-2">
-                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
-                            </div>
-                            <div class="col-2">
-                                @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-                                <button type="button" class="container-fluid btn btn-success">Sauvegarder</button>
-                                <button type="button" class="container-fluid btn btn-danger P-2 data-toggle="> X </button>
-                            </div>
+                        <div class="col-2 text-center">
+                            Auteur
+                        </div>
+                        <div class="col-2 text-center">
+                            Maison d'édition
+                        </div>
+                        <div class="col-2 text-center">
+                            Quantité
                         </div>
                     </div>
                 </div>
-                    
+                <div class="card mb-2 mx-3">
+                    <div class="card-body row px-2">
+                        <div class="col-1 text-center">
+                            <img src="..." alt="..." class="img-thumbnail">
+                        </div>
+                        <div class="col-2 text-center">
+                            Titre 1
+                        </div>
+                        <div class="col-2 text-center">
+                            Auteur 1
+                        </div>
+                        <div class="col-2 text-center">
+                            Maison d'édition 1
+                        </div>
+                        <div class="col-2 text-center">
+                            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
+                        </div>
+                        <div class="col-3 text-center d-flex flex-row justify-content-around">
+                            @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+                            <button type="button" class="btn btn-success">Sauvegarder</button>
+                            <button type="button" class="btn btn-danger p-2">
+                                <span class="fa-solid fa-trash fa-2x"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-2 mx-3">
+                    <div class="card-body row px-2">
+                        <div class="col-1 text-center">
+                            <img src="..." alt="..." class="img-thumbnail">
+                        </div>
+                        <div class="col-2 text-center">
+                            Titre 1
+                        </div>
+                        <div class="col-2 text-center">
+                            Auteur 1
+                        </div>
+                        <div class="col-2 text-center">
+                            Maison d'édition 1
+                        </div>
+                        <div class="col-2 text-center">
+                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+                        </div>
+                        <div class="col-3 text-center d-flex flex-row justify-content-around">
+                            @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+                            <button type="button" class="btn btn-success">Sauvegarder</button>
+                            <button type="button" class="btn btn-danger p-2">
+                                <i class="fa-solid fa-trash fa-2x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-
+                    
         </div>
 
     </div>
