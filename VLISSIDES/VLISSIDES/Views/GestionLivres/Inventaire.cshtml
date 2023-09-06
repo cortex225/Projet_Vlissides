@@ -1,28 +1,7 @@
-﻿@using VLISSIDES.ViewModels.Accueil @* change to viewmodels.GestionLivres *@
+﻿
+@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
 @{
-
     ViewData["Title"] = "Inventaire";
-
-    // Temporary
-    var monAuteur = new Auteur
-            {
-                Nom = "Archambault",
-                Prenom = "Etienne"
-            };
-    var listAuteur = new List<Auteur>();
-
-    listAuteur.Add(monAuteur);
-
-    var _VMLivre = new _LivreCardVM
-            {
-                monLivre = new Livre
-                {
-                    Titre = "Mon beau titre",
-                    Couverture = "https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg",
-                    Prix = 29.99,
-                    Auteur = listAuteur
-                }
-            };
 }
 
 <div class="d-block p-4 p-4">
@@ -113,7 +92,7 @@
                 </div>
         </form>
 
-        @* Result *@
+        @* Body *@
         <div class="col-10">
 
 
@@ -124,6 +103,7 @@
 
             @* Research results (Temporary results) *@
 
+            @* Table *@
             <div class="container-fluid d-flex flex-wrap row">
                 <div class="mb-3 mx-3">
                     <div class="row px-2">
@@ -144,59 +124,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-2 mx-3">
-                    <div class="card-body row px-2">
-                        <div class="col-1 text-center">
-                            <img src="..." alt="..." class="img-thumbnail">
-                        </div>
-                        <div class="col-2 text-center">
-                            Titre 1
-                        </div>
-                        <div class="col-2 text-center">
-                            Auteur 1
-                        </div>
-                        <div class="col-2 text-center">
-                            Maison d'édition 1
-                        </div>
-                        <div class="col-2 text-center">
-                            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
-                        </div>
-                        <div class="col-3 text-center d-flex flex-row justify-content-around">
-                            @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-                            <button type="button" class="btn btn-success">Sauvegarder</button>
-                            <button type="button" class="btn btn-danger p-2">
-                                <span class="fa-solid fa-trash fa-2x"></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="card mb-2 mx-3">
-                    <div class="card-body row px-2">
-                        <div class="col-1 text-center">
-                            <img src="..." alt="..." class="img-thumbnail">
-                        </div>
-                        <div class="col-2 text-center">
-                            Titre 1
-                        </div>
-                        <div class="col-2 text-center">
-                            Auteur 1
-                        </div>
-                        <div class="col-2 text-center">
-                            Maison d'édition 1
-                        </div>
-                        <div class="col-2 text-center">
-                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
-                        </div>
-                        <div class="col-3 text-center d-flex flex-row justify-content-around">
-                            @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-                            <button type="button" class="btn btn-success">Sauvegarder</button>
-                            <button type="button" class="btn btn-danger p-2">
-                                <i class="fa-solid fa-trash fa-2x"></i>
-                            </button>
+                @* Results *@
+                @foreach (var item in Model) {
+                    <div class="card mb-2 mx-3">
+                        <div class="card-body row px-2">
+                            <div class="col-1 text-center">
+                                <img src="..." alt="..." class="img-thumbnail">
+                            </div>
+                            <div class="col-2 text-center">
+                                Titre 1
+                            </div>
+                            <div class="col-2 text-center">
+                                Auteur 1
+                            </div>
+                            <div class="col-2 text-center">
+                                Maison d'édition 1
+                            </div>
+                            <div class="col-2 text-center">
+                                <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
+                            </div>
+                            <div class="col-3 text-center d-flex flex-row justify-content-around">
+                                @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+                                <button type="button" class="btn btn-success">Sauvegarder</button>
+                                <button type="button" class="btn btn-danger p-2">
+                                    <span class="fa-solid fa-trash fa-2x"></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+
             </div>
                     
         </div>
