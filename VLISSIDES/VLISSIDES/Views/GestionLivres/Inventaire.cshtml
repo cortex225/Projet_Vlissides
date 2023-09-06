@@ -17,7 +17,7 @@
             @* Research bar *@
             <div class="row mb-3">
                 <div class="col-2 ml-4 text-center">
-                    <button type="button" class="container-fluid btn btn-primary">Rechercher</button>
+                    <button type="submit" class="container-fluid btn btn-primary">Rechercher</button>
                 </div>
 
                 <div class="col-10">
@@ -98,7 +98,7 @@
 
             @* Add button *@
             <div class="my-4">
-                <button type="button" class="btn btn-primary">Ajouter livre</button>
+                <button type="button" class="btn btn-primary" asp-action="Ajouter">Ajouter livre</button>
             </div>
 
             @* Research results (Temporary results) *@
@@ -147,7 +147,7 @@
                             <div class="col-3 text-center d-flex flex-row justify-content-around">
                                 @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
                                 <button type="button" class="btn btn-success">Sauvegarder</button>
-                                <button type="button" class="btn btn-danger p-2">
+                                <button type="button" class="btn btn-danger p-2" asp-action="Delete">
                                     <span class="fa-solid fa-trash fa-2x"></span>
                                 </button>
                             </div>
