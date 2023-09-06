@@ -290,7 +290,7 @@ public class CompteController : Controller
             HttpContext.Request.Scheme); //Ici je passe le code de réinitialisation en paramètre de l'URL
 
         // Récupérer l'URL complète du logo à partir de l'application
-        var logoUrl = Url.Content("https://myinstahr.ca/assets/img/instaLogo.png");
+        var logoUrl = Url.Content("https://localhost:7089/img/Logo/Logo(NoBackground).png");
 
         await _sendGridEmail.SendEmailAsync(
             model.Email,

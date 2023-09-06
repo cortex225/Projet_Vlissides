@@ -29,7 +29,7 @@ public class SendGridEmail : ISendGridEmail
         var client = new SendGridClient(apiKey);
         var msg = new SendGridMessage
         {
-            From = new EmailAddress("info@fourmieaillée.ca", "La Fourmie Aillée"),
+            From = new EmailAddress("1900751@cegepgranby.qc.ca", "La Fourmie Aillée"),
             Subject = subject,
             PlainTextContent = message,
             HtmlContent = message
