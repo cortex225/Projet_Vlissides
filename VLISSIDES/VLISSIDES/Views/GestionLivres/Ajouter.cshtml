@@ -7,10 +7,11 @@
 @model GestionLivresAjouterVM
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Ajouter">
-            @* <div>
-                <input type="file" accept="image/png, image/jpeg"/>
-            </div> *@
+        <form asp-action="Ajouter" enctype="multipart/form-data">
+            <div class="custom-file">
+                <input asp-for="CoverPhoto" type="file" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" asp-for="CoverPhoto"></label>
+            </div>
             <div class="form-group">
                 <label asp-for="Titre" class="control-label"></label>
                 <input asp-for="Titre" class="form-control" />
@@ -22,6 +23,14 @@
                 <span asp-validation-for="ISBN" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="AuteurId" class="control-label"></label>
+                <select asp-for="AuteurId" asp-items="Model.SelectListAuteurs" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaisonEditionId" class="control-label"></label>
+                <select asp-for="MaisonEditionId" asp-items="Model.SelectMaisonEditions" class="form-control"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="Prix" class="control-label"></label>
                 <input asp-for="Prix" class="form-control" />
                 <span asp-validation-for="Prix" class="text-danger"></span>
@@ -31,15 +40,36 @@
                 <input asp-for="NbPages" class="form-control" />
                 <span asp-validation-for="NbPages" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Resume" class="control-label"></label>
                 <input asp-for="Resume" class="form-control" />
                 <span asp-validation-for="Resume" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <a asp-action="">Retourner</a>
+                <label asp-for="CategorieId" class="control-label"></label>
+                <select asp-for="CategorieId" asp-items="Model.SelectListCategories" class="form-control">
+
+                </select>
+                <span asp-validation-for="CategorieId" class="text-danger"></span>
+            </div>
+            <fieldset>
+                <legend>Type de livre</legend>
+                @foreach(var item in Model.CheckboxTypes)
+                {
+                   <div>
+                       
+                     @* <label>@item.Nom</label>
+                    <input type="checkbox" value="@item.Id"/> *@
+                   </div> 
+                }
+                
+            </fieldset>
+            <div class="form-group">
+                <a asp-action="Inventaire">Retourner</a>
                 <input type="submit" value="Ajouter" class="btn btn-primary" />
             </div>
+            
         </form>
     </div>
 </div>
