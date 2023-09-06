@@ -178,7 +178,7 @@ public class CompteController : Controller
                 //Générer l'email de confirmatuion et l'envoyer
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callbackUrl = Url.Action(
-                   "ConfirmEmail", "Account",
+                   "ConfirmEmail", "Compte",
                    new { userId = user.Id, code = code },
                    protocol: Request.Scheme);
 
