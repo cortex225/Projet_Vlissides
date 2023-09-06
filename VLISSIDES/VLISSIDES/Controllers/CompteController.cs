@@ -71,7 +71,11 @@ public class CompteController : Controller
                 ModelState.AddModelError(string.Empty, "Tentative de connexion non valide.");
                 return View(vm);
             }
-
+            if (!user.EmailConfirmed)
+            {
+                ModelState.AddModelError(string.Empty, "L'email est encore a être confirmer.");
+                return View(vm);
+            }
             var result = await _signInManager.PasswordSignInAsync(user.UserName, vm.Password, vm.RememberMe, false);
 
             if (result.Succeeded)
@@ -165,13 +169,12 @@ public class CompteController : Controller
                 Nom = vm.FirstName,
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
-                DateAdhesion = DateTime.Now
+                DateAdhesion = DateTime.Now,
             };
+            user.EmailConfirmed = false;
             role = RoleName.MEMBRE;
 
-
             var result = await _userManager.CreateAsync(user, vm.Password);
-
             // Si l'utilisateur est créé avec succès, connectez-vous.
             if (result.Succeeded)
             {
@@ -200,11 +203,9 @@ public class CompteController : Controller
                 // Ajouter le rôle à l'utilisateur
                 await _userManager.AddToRoleAsync(user, role);
 
-                await _signInManager.SignInAsync(user, false);
-
                 // Stocker le code de réinitialisation dans la session
                 HttpContext.Session.SetString("inscriptionCode", code);
-
+                HttpContext.Session.SetString("userId", user.Id);
                 return Ok(
                     "Votre requête a été soumise avec succès, veuillez vérifier votre boîte de réception pour confirmer votre incsription.");
             }
@@ -220,17 +221,13 @@ public class CompteController : Controller
     }
 
     [HttpGet]
-    public IActionResult ConfirmEmail(string code = null)
+    public IActionResult ConfirmEmail(string userid, string code)
     {
-        var confirmationCode = HttpContext.Session.GetString("confirmationCode");
-        if (confirmationCode == null || confirmationCode != code)
-            // Si le code est invalide, afficher la vue d'erreur
-            return View("Error");
-
-        // Si le code est valide, stocker la valeur de resetCode dans ViewBag pour la récupérer dans le post
-        ViewBag.confirmationCode = confirmationCode;
-
-        // Afficher la vue de réinitialisation de mot de passe
+        var user = _context.Users.First(user => user.Id == userid);
+        if (user == null) return BadRequest();
+        if (_userManager.ConfirmEmailAsync(user, code).IsFaulted) return BadRequest();
+        user.EmailConfirmed = true;
+        _signInManager.SignInAsync(user, false);
         return View();
     }
 
