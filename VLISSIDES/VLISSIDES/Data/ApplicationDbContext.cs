@@ -19,7 +19,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Employe> Employes { get; set; }
     
     public DbSet<Auteur> Auteurs { get; set; }
-
     public DbSet<Membre> Membres { get; set; }
 
     public DbSet<Reservation> Reservations { get; set; }
@@ -27,7 +26,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Evenement> Evenements { get; set; }
 
     public DbSet<Evaluation> Evaluations { get; set; }
-
     public DbSet<Livre> Livres { get; set; }
 
     public DbSet<Categorie> Categories { get; set; }
@@ -41,7 +39,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Favori> Favoris { get; set; }
 
     public DbSet<Langue> Langues { get; set; }
-
     public DbSet<MaisonEdition> MaisonEditions { get; set; }
 
 
