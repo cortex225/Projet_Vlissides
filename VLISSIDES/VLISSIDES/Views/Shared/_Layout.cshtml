@@ -30,7 +30,7 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0" id="navTop">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
                 <img src="img/image_rond.png" alt="logo" style="width: 80px; height: 56px;"/>
@@ -39,6 +39,25 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <div id="divRecherche" class="navbar-nav flex-grow-1" style="margin-top: 12px;">
+                <div class="input-group mb-3">
+                    <select class="form-selectbtn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="myDropdown">
+                        <option value="option1 active">Titre</option>
+                        <option value="option2">Auteur</option>
+                        <option value="option3">Catégorie</option>
+                    </select>
+
+
+                    <input type="text" class="form-control" placeholder="Rechercher un livre..."
+                           aria-label="Rechercher un livre" aria-describedby="basic-addon2" style="height: 100%; width: 10px;">
+                    <button type="button" class="btn btn-secondary" id="basic-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+            <partial name="_LoginPartial"/>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0" id="navBottom">
+        <div class="container-fluid">
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
@@ -47,30 +66,45 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Privacy">Privacy</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Catégories</a>
+                    </li>
                 </ul>
             </div>
-            <div id="divRecherche" class="navbar-nav flex-grow-1">
-                <div class="input-group mb-3">
 
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item active" href="#titre">Titre</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#auteur">Auteur</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#categorie">Catégorie</a>
-                        </li>
-                    </ul>
-                    <input type="text" class="form-control" placeholder="Rechercher un livre..."
-                           aria-label="Rechercher un livre" aria-describedby="basic-addon2" style="height: 100%;">
-                    <button type="button" class="btn btn-secondary" id="basic-addon2">Rechercher</button>
-                    <button type="button" class="btn btn-secondary">Recherche <br/> avancée</button>
-                </div>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 3</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 4</a>
+                    </li>
+                </ul>
             </div>
-            <partial name="_LoginPartial"/>
+
+            <div>
+                <ul class="navbar-nav flex-grow-1">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
+                            <i class="fa-solid fa-circle-user"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
+                            Consulter le panier 
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 </header>
@@ -85,6 +119,14 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
     <partial name="PartialViews/Footer/_HeadFooterPartial"/>
 
 </footer>
+
+<style>
+    #navBottom{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+</style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="~/js/owl.carousel.min.js"></script>

@@ -38,6 +38,58 @@
 </div>
 
 <div class="container">
+    <h5>Notre mission:</h5>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Cras in suscipit diam. Vivamus a lectus tincidunt, luctus risus eu, placerat mauris. 
+        In tempus tempor ullamcorper. Donec nec eleifend orci. 
+        Donec ut tellus sed nibh consectetur fermentum. 
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Vestibulum augue libero, iaculis ac erat eget, auctor aliquam erat. 
+        Phasellus mollis suscipit sem, non auctor est. 
+        Curabitur condimentum nunc id lorem tincidunt, in efficitur lectus euismod. 
+        Integer semper suscipit sem, at ultrices enim porttitor non.
+    </p>
+</div>
+<hr />
+<div class="container">
+    <h4 class="titreSections">Services offerts: </h4>
+    <div id="carouselServices" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="cards-wrapper">
+                    <partial name="_ServiceOffert.cshtml" />
+                    <partial name="_ServiceOffert.cshtml" />
+                    <partial name="_ServiceOffert.cshtml" />
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="cards-wrapper">
+                    <partial name="_ServiceOffert.cshtml" />
+                    <partial name="_ServiceOffert.cshtml" />
+                    <partial name="_ServiceOffert.cshtml" />
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="cards-wrapper">
+                    <partial name="_ServiceOffert.cshtml" />
+                    <partial name="_ServiceOffert.cshtml" />
+                    <partial name="_ServiceOffert.cshtml" />
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselServices" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselServices" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <hr />
+
     <h3 class="titreSections">Évenements: </h3>
     <div id="carouselEvenements" class="carousel slide">
         <a href="#" class="voirPlus">Voir plus ->: </a>
@@ -188,13 +240,15 @@
 <style>
     #photoPageAccueilDiv{
         background: url('https://images.pexels.com/photos/261821/pexels-photo-261821.jpeg?auto=compress&cs=tinysrgb') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
         width: 100vw !important;
         overflow: hidden;
         height: 90vh;
+        display: flex;
+        color: white;
     }
 
     #Titre{
