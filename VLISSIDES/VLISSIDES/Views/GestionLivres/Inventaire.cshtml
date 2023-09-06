@@ -108,76 +108,78 @@
                     </div>
                 </div>
 
+                @* Add button *@
+                <div>
+                    <button type="button" class="btn btn-primary">Ajouter livre</button>
+                </div>
+
                 @* Research results (Temporary results) *@
-                <div class="d-flex flex-wrap">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+
+                <div class="container-fluid d-flex flex-wrap row">
+                    <div class="mb-3 mx-3">
+                        <div class="row px-2">
+                            <div class="col-2">
+                                Image
+                            </div>
+                            <div class="col-2">
+                                Titre
+                            </div>
+                            <div class="col-2">
+                                Auteur
+                            </div>
+                            <div class="col-2">
+                                Maison d'édition
+                            </div>
+                            <div class="col-2">
+                                Quantité
+                            </div>
                         </div>
                     </div>
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div class="card mb-3 mx-3">
+                        <div class="card-body row px-2">
+                            <div class="col-2">
+                                
+                            </div>
+                            <div class="col-2">
+                                Titre 1
+                            </div>
+                            <div class="col-2">
+                                Auteur 1
+                            </div>
+                            <div class="col-2">
+                                Maison d'édition 1
+                            </div>
+                            <div class="col-2">
+                                <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
+                            </div>
+                            <div class="col-2">
+                                @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+                                <button type="button" class="container-fluid btn btn-success">Sauvegarder</button>
+                                <button type="button" class="container-fluid btn btn-danger P-2"> X </button>
+                            </div>
                         </div>
                     </div>
 
-
-
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="..." alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div class="card mb-3 mx-3">
+                        <div class="card-body row px-2">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-2">
+                                Titre 1
+                            </div>
+                            <div class="col-2">
+                                Auteur 1
+                            </div>
+                            <div class="col-2">
+                                Maison d'édition 1
+                            </div>
+                            <div class="col-2">
+                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+                            </div>
                         </div>
                     </div>
                 </div>
+                    
             </div>
 
         </div>
