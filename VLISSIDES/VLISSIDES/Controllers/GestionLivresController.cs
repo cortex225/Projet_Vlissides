@@ -74,12 +74,17 @@ public class GestionLivresController : Controller
             string wwwRootPath = _webHostEnvironment.WebRootPath;
             string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
             string extension = Path.GetExtension(vm.CoverPhoto.FileName);
-            vm.CoverImageUrl = fileName = fileName + DateTime.Now.ToString("yyyymmssfff") + extension;
-            string path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+            vm.CoverImageUrl = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+            using (var fileStream = new FileStream(vm.CoverImageUrl, FileMode.Create))
             {
                 await vm.CoverPhoto.CopyToAsync(fileStream);
             }
+        }
+        else
+        {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            vm.CoverImageUrl = wwwRootPath + "/img/CouvertureLivre/livredefault.png";
         }
 
 
