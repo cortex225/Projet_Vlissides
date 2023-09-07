@@ -169,6 +169,23 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         UserEmploye.PasswordHash =
             "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
         builder.Entity<Membre>().HasData(UserMembre);
+        
+        var DefaultAuteur = new Auteur
+        {
+            Id = "0",
+            Nom = "Tony",
+            Prenom = "Stack",
+            Biographie = "Tony Stack est un auteur de livre de programmation",
+            Photo = ""
+        }; 
+        builder.Entity<Auteur>().HasData(DefaultAuteur);
+        
+        var DefaultMaisonEdition = new MaisonEdition
+        {
+            Id = "0",
+            Nom = "Maison d'édition par défaut",
+        };
+        builder.Entity<MaisonEdition>().HasData(DefaultMaisonEdition);
 
         //Connecte les rôles aux users pré-créés
 
