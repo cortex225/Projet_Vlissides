@@ -1,8 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using FizzWare.NBuilder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.Logging;
 using Seeder;
 using VLISSIDES.Models;
 
@@ -52,8 +49,7 @@ var livres = Builder<Livre>.CreateListOfSize(2999)
     .With(c => c.Auteur = new List<Auteur> { Pick<Auteur>.RandomItemFrom(auteurs) })
     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
     .With(c => c.TypesLivre = new List<TypeLivre> { Pick<TypeLivre>.RandomItemFrom(typeLivres) })
-    .With(c => c.Evaluations = new List<Evaluation> { Pick<Evaluation>.RandomItemFrom(evaluations) } )
-    .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) } )
+    .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) })
     .Build();
 context.Livres.AddRange(livres); context.SaveChanges();
 
