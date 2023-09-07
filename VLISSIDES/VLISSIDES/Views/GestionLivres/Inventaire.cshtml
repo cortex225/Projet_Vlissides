@@ -1,0 +1,164 @@
+﻿@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
+@{
+    ViewData["Title"] = "Inventaire";
+}
+
+<div class="d-block p-4 p-4">
+
+    <div class="mb-4">
+        <h1>Inventaire</h1>
+    </div>
+
+    <div class="container-fluid m-1">
+
+        @* Les recherches *@
+        <form>
+            @* Research bar *@
+            <div class="row mb-3">
+                <div class="col-2 ml-4 text-center">
+                    <button type="submit" class="container-fluid btn btn-primary">Rechercher</button>
+                </div>
+
+                <div class="col-10">
+                    <input type="text" class="form-control" placeholder="Recherche général" aria-label="recherche" aria-describedby="basic-addon2">
+                </div>
+            </div>
+
+            @* Advanced research *@
+            <div class="col-2 bg-secondary">
+
+
+                @* Recherche précise *@
+                <div class="my-2">
+                    <h3>Spécification</h3>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Titre</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Auteur</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Maison d'édition</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                    </div>
+                </div>
+
+                @* Catégorie *@
+                <div class="my-4">
+                    <h3>Catégorie</h3>
+                    <div class="form-check border border-dark">
+                        @* Ici il va y avoir une boucle for pour générer automatiquement les checkbox selon la liste des catégories *@
+                        <div class="form-check">
+
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Fantaisie
+                            </label>
+
+                        </div>
+
+                        <div class="form-check">
+
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Sci-Fi
+                            </label>
+
+                        </div>
+
+                        <div class="form-check">
+
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Aventure
+                            </label>
+
+                        </div>
+
+                        <div class="form-check">
+
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Horreur
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        @* Body *@
+        <div class="col-10">
+
+
+            @* Add button *@
+            <div class="my-4">
+                <button type="button" class="btn btn-primary" asp-action="Ajouter">Ajouter livre</button>
+            </div>
+
+            @* Research results (Temporary results) *@
+
+            @* Table *@
+            <div class="container-fluid d-flex flex-wrap row">
+                <div class="mb-3 mx-3">
+                    <div class="row px-2">
+                        <div class="col-1 text-center">
+                            Image
+                        </div>
+                        <div class="col-2 text-center">
+                            Titre
+                        </div>
+                        <div class="col-2 text-center">
+                            Auteur
+                        </div>
+                        <div class="col-2 text-center">
+                            Maison d'édition
+                        </div>
+                        <div class="col-2 text-center">
+                            Quantité
+                        </div>
+                    </div>
+                </div>
+
+                @* Results *@
+                @foreach (var item in Model)
+                {
+                    <div class="card mb-2 mx-3">
+                        <div class="card-body row px-2">
+                            <div class="col-1 text-center">
+                                <img src="..." alt="..." class="img-thumbnail">
+                            </div>
+                            <div class="col-2 text-center">
+                                Titre 1
+                            </div>
+                            <div class="col-2 text-center">
+                                Auteur 1
+                            </div>
+                            <div class="col-2 text-center">
+                                Maison d'édition 1
+                            </div>
+                            <div class="col-2 text-center">
+                                <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
+                            </div>
+                            <div class="col-3 text-center d-flex flex-row justify-content-around">
+                                @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+                                <button type="button" class="btn btn-success">Sauvegarder</button>
+                                <button type="button" class="btn btn-danger p-2" asp-action="Delete">
+                                    <span class="fa-solid fa-trash fa-2x"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

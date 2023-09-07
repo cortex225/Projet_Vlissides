@@ -1,50 +1,121 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - VLISSIDES</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/VLISSIDES.styles.css" asp-append-version="true"/>
+    <partial name="PartialViews/_HeadPartial"/>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0" id="navTop">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VLISSIDES</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
+                <img src="img/image_rond.png" alt="logo" style="width: 80px; height: 56px;"/>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <div id="divRecherche" class="navbar-nav flex-grow-1" style="margin-top: 12px;">
+                <div class="input-group mb-3">
+                    <select class="form-selectbtn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="myDropdown">
+                        <option value="option1 active">Titre</option>
+                        <option value="option2">Auteur</option>
+                        <option value="option3">Catégorie</option>
+                    </select>
+
+
+                    <input type="text" class="form-control" placeholder="Rechercher un livre..."
+                           aria-label="Rechercher un livre" aria-describedby="basic-addon2" style="height: 100%; width: 10px;">
+                    <button type="button" class="btn btn-secondary" id="basic-addon2">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </div>
+            <partial name="_LoginPartial"/>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0" id="navBottom">
+        <div class="container-fluid">
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Privacy">Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Catégories</a>
                     </li>
                 </ul>
-                <partial name="_LoginPartial"/>
+            </div>
+
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 3</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 4</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <ul class="navbar-nav flex-grow-1">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
+                            <i class="fa-solid fa-circle-user"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
+                            Consulter le panier
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 </header>
-<div class="container">
+<div class="col-md-12 mb-12">
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2023 - VLISSIDES - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </div>
+<footer class="footer-section">
+
+    <partial name="PartialViews/Footer/_HeadFooterPartial"/>
+
 </footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<style>
+    #navBottom{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- MDB -->
+<script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
 @await RenderSectionAsync("Scripts", false)
 </body>
 </html>
