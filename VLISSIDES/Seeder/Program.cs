@@ -11,7 +11,6 @@ using var context = DbContextFactory.CreateDbContext();
 
 var categories = context.Categories.ToList();
 var typeLivres = context.TypeLivres.ToList();
-var evaluations = context.Evaluations.ToList();
 var langues = context.Langues.ToList();
 
 var generator = new RandomGenerator();
@@ -52,7 +51,6 @@ var livres = Builder<Livre>.CreateListOfSize(2999)
     .With(c => c.Auteur = new List<Auteur> { Pick<Auteur>.RandomItemFrom(auteurs) })
     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
     .With(c => c.TypesLivre = new List<TypeLivre> { Pick<TypeLivre>.RandomItemFrom(typeLivres) })
-    .With(c => c.Evaluations = new List<Evaluation> { Pick<Evaluation>.RandomItemFrom(evaluations) } )
     .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) } )
     .Build();
 context.Livres.AddRange(livres); context.SaveChanges();
