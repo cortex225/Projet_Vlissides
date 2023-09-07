@@ -94,12 +94,12 @@ public class GestionLivresController : Controller
             List<TypeLivre> listeType = null;
             if (vm.Neuf)
             {
-                var neuf = _context.TypeLivres.Find(1);
+                var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
                 listeType.Add(neuf);
             }
             if (vm.Numerique)
             {
-                var numerique = _context.TypeLivres.Find(2);
+                var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
                 listeType.Add(numerique);
             }
 
