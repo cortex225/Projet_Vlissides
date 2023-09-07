@@ -80,23 +80,23 @@ public class GestionLivresController : Controller
             string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
             string extension = Path.GetExtension(vm.CoverPhoto.FileName);
             fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
-            vm.CoverImageUrl = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
-            using (var fileStream = new FileStream(vm.CoverImageUrl, FileMode.Create))
+            vm.CoverImageUrl = "/img/CouvertureLivre/" + fileName;
+            var path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
             {
                 await vm.CoverPhoto.CopyToAsync(fileStream);
             }
         }
         else
         {
-            string wwwRootPath = _webHostEnvironment.WebRootPath;
-            vm.CoverImageUrl = wwwRootPath + "/img/CouvertureLivre/livredefault.png";
+            vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
         }
 
 
         if (ModelState.IsValid)
         {
             //Types de livres
-            List<TypeLivre> listeType = null;
+            List<TypeLivre> listeType = new List<TypeLivre>();
             if (vm.Neuf)
             {
                 var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
@@ -110,6 +110,7 @@ public class GestionLivresController : Controller
 
             var livre = new Livre()
             {
+                Id = "Id" + (_context.Livres.Count() + 1).ToString(),
                 Titre = vm.Titre,
                 Resume = vm.Resume,
                 NbExemplaires = vm.NbExemplaires,
@@ -127,8 +128,10 @@ public class GestionLivresController : Controller
             };
 
             _context.Livres.Add(livre);
+            Console.Write("1");
             _context.SaveChanges();
-            return View();
+            Console.Write("2");
+            return View("Inventaire");
 
         }
         return BadRequest();
