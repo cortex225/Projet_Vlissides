@@ -1,5 +1,4 @@
-﻿
-@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
+﻿@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
 @{
     ViewData["Title"] = "Inventaire";
 }
@@ -28,7 +27,7 @@
             @* Advanced research *@
             <div class="col-2 bg-secondary">
 
-                
+
                 @* Recherche précise *@
                 <div class="my-2">
                     <h3>Spécification</h3>
@@ -90,7 +89,7 @@
                 </div>
             </div>
         </form>
-        
+
 
         @* Body *@
         <div class="col-10">
@@ -126,7 +125,8 @@
                 </div>
 
                 @* Results *@
-                @foreach (var item in Model) {
+                @foreach (var item in Model)
+                {
                     <div class="card mb-2 mx-3">
                         <div class="card-body row px-2">
                             <div class="col-1 text-center">
@@ -156,12 +156,9 @@
                 }
 
             </div>
-                    
+
         </div>
 
     </div>
 
 </div>
-
-
-
