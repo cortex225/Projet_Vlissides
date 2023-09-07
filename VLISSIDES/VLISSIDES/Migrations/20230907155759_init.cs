@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VLISSIDES.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,7 @@ namespace VLISSIDES.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Auteur",
+                name: "Auteurs",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -64,7 +64,7 @@ namespace VLISSIDES.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Auteur", x => x.Id);
+                    table.PrimaryKey("PK_Auteurs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -396,8 +396,8 @@ namespace VLISSIDES.Migrations
                     CategorieId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AuteurId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MaisonEditionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    TypeLivreId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EvaluationId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TypeLivreId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EvaluationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LangueId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CommandeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -427,9 +427,9 @@ namespace VLISSIDES.Migrations
                 {
                     table.PrimaryKey("PK_AuteurLivre", x => new { x.AuteurId, x.LivresId });
                     table.ForeignKey(
-                        name: "FK_AuteurLivre_Auteur_AuteurId",
+                        name: "FK_AuteurLivre_Auteurs_AuteurId",
                         column: x => x.AuteurId,
-                        principalTable: "Auteur",
+                        principalTable: "Auteurs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -594,9 +594,9 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0", "c56a9b28-a528-4b2c-9b47-9f1e7d8945d6", "Employe", "EMPLOYE" },
-                    { "1", "955dc9c6-6992-4e7b-82b2-bc9f1062ecbd", "Membre", "MEMBRE" },
-                    { "2", "6738b73f-496b-42eb-a8a9-efb1ef2d959b", "Admin", "ADMIN" }
+                    { "0", "f70030a4-6a76-4382-bdf2-3f93b3232697", "Employe", "EMPLOYE" },
+                    { "1", "3663c62c-6b9b-4d54-9467-d16b6856ac46", "Membre", "MEMBRE" },
+                    { "2", "346f9e27-ce74-4a6a-83f8-e9329dcdd853", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -604,10 +604,15 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AdresseLivraisonId", "AdressePrincipaleId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "0", 0, null, null, "5cfbffb0-aa14-44cb-ae87-83f32fa6ae92", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "f0859f7b-77ac-45af-bea7-f05d5fc3c254", false, "admin@admin.com" },
-                    { "1", 0, null, "", "160f58c1-39cc-4b4b-ad9a-18fec33b2d2f", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "78dfdf2b-512a-4dc9-829e-b23415784679", false, "employe@employe.com" },
-                    { "2", 0, null, "", "8c75bfad-0a5c-4a9d-bc9d-2c4d53136cf5", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", null, null, false, "Membre", "6bcf3a84-2deb-4180-aa17-f56c66a33d2d", false, "membre@membre.com" }
+                    { "0", 0, null, null, "f7cec619-0721-4720-906a-181ab4517cca", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "4cdf3593-638e-4eb1-951a-b45df6b82009", false, "admin@admin.com" },
+                    { "1", 0, null, "", "0dcc1c44-36f5-43d3-ac09-b3295ef243a2", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "9ece445b-6476-4e65-b629-1cfa2f3df49f", false, "employe@employe.com" },
+                    { "2", 0, null, "", "6f99db09-851c-4c9a-8501-697387493991", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", null, null, false, "Membre", "18f915b7-d80c-4b3e-8d54-e847b1415314", false, "membre@membre.com" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Auteurs",
+                columns: new[] { "Id", "Biographie", "Nom", "Photo", "Prenom" },
+                values: new object[] { "0", "Tony Stack est un auteur de livre de programmation", "Tony", "", "Stack" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -649,6 +654,11 @@ namespace VLISSIDES.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "MaisonEditions",
+                columns: new[] { "Id", "Nom" },
+                values: new object[] { "0", "Maison d'édition par défaut" });
+
+            migrationBuilder.InsertData(
                 table: "StatutCommande",
                 columns: new[] { "Id", "Nom" },
                 values: new object[,]
@@ -687,7 +697,7 @@ namespace VLISSIDES.Migrations
             migrationBuilder.InsertData(
                 table: "Membres",
                 columns: new[] { "Id", "CommandeId", "DateAdhesion", "NoMembre", "ReservationId" },
-                values: new object[] { "2", null, new DateTime(2023, 9, 1, 9, 32, 41, 711, DateTimeKind.Local).AddTicks(280), "123456", null });
+                values: new object[] { "2", null, new DateTime(2023, 9, 7, 11, 57, 58, 813, DateTimeKind.Local).AddTicks(6471), "123456", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_UtilisateurLivraisonId",
@@ -864,7 +874,7 @@ namespace VLISSIDES.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Auteur");
+                name: "Auteurs");
 
             migrationBuilder.DropTable(
                 name: "Categories");
