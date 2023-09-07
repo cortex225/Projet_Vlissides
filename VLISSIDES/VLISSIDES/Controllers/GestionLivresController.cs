@@ -45,7 +45,7 @@ public class GestionLivresController : Controller
     public IActionResult Ajouter()
     {
         AjouterVM vm = new AjouterVM { };
-
+        //Populer les listes déroulantes
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
             Text = x.Prenom + " " + x.Nom,
@@ -56,9 +56,11 @@ public class GestionLivresController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        //ViewData["AuteurId"] = new SelectList(_context.Set<Auteur>(), "Id", "Id");
-        //ViewData["MaisonEditionId"] = new SelectList(_context.MaisonEditions, "Id", "Id");
-
+        vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
         return View(vm);
     }
     [HttpPost]
@@ -67,15 +69,19 @@ public class GestionLivresController : Controller
     {
 
         //Sauvegarder l'image dans root
-        string wwwRootPath = _webHostEnvironment.WebRootPath;
-        string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
-        string extension = Path.GetExtension(vm.CoverPhoto.FileName);
-        vm.CoverImageUrl = fileName = fileName + DateTime.Now.ToString("yyyymmssfff") + extension;
-        string path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
-        using (var fileStream = new FileStream(path, FileMode.Create))
+        if (vm.CoverPhoto != null)
         {
-            await vm.CoverPhoto.CopyToAsync(fileStream);
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+            string extension = Path.GetExtension(vm.CoverPhoto.FileName);
+            vm.CoverImageUrl = fileName = fileName + DateTime.Now.ToString("yyyymmssfff") + extension;
+            string path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await vm.CoverPhoto.CopyToAsync(fileStream);
+            }
         }
+
 
         if (ModelState.IsValid)
         {
