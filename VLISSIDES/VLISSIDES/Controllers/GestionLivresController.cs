@@ -3,23 +3,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionLivres;
 
 namespace VLISSIDES.Controllers;
 
-public class LivreController : Controller
+public class GestionLivresController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public LivreController(ApplicationDbContext context)
+    public GestionLivresController(ApplicationDbContext context)
     {
         _context = context;
     }
 
     // GET: Livre
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Inventaire()
     {
-        var applicationDbContext = _context.Livres.Include(l => l.Auteur).Include(l => l.MaisonEdition);
-        return View(await applicationDbContext.ToListAsync());
+        var livres = await _context.Livres.Include(l => l.Auteur).Include(l => l.MaisonEdition).Select(l => new GestionLivresAfficherVM()
+        {
+            Image = l.Couverture,
+            Titre = l.Titre,
+            //ListAuteur = _context.,
+            //ListEditeur = _context.MaisonEditions
+            //.Select(m => new SelectListItem
+            //{
+
+            //}),
+            Quantite = l.NbExemplaires
+        }).ToListAsync();
+        return View(livres);
     }
 
     // GET: Livre/Details/5
@@ -76,4 +88,7 @@ public class LivreController : Controller
     {
         return (_context.Livres?.Any(e => e.Id == id)).GetValueOrDefault();
     }
+
+
+
 }
