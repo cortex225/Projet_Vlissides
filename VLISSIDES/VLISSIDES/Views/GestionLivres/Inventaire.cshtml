@@ -12,11 +12,11 @@
     <div class="container-fluid m-1">
 
         @* Les recherches *@
-        <form class="row">
+        <form>
             @* Research bar *@
             <div class="row mb-3">
                 <div class="col-2 ml-4 text-center">
-                    <button type="submit" class="container-fluid btn btn-primary" disabled>Recherche non fonctionnelle</button>
+                    <button type="submit" class="container-fluid btn btn-primary">Rechercher</button>
                 </div>
 
                 <div class="col-10">
@@ -24,159 +24,142 @@
                 </div>
             </div>
 
-            @* Advanced research *@
-            <div class="col-2 bg-secondary">
+            <div class="row">
 
+                <div class="col-2 bg-secondary">
 
-                @* Recherche précise *@
-                <div class="my-2">
-                    <h3>Spécification</h3>
-                    <div class="form-group">
-                        <label for="formGroupExampleInput">Titre</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+                    @* Recherche précise *@
+                    <div class="my-2">
+                        <h3>Spécification</h3>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Titre</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Auteur</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Maison d'édition</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="formGroupExampleInput2">Auteur</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label for="formGroupExampleInput2">Maison d'édition</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+
+                    @* Catégorie *@
+                    <div class="my-4">
+                        <h3>Catégorie</h3>
+                        <div class="form-check border border-dark">
+                            @* Ici il va y avoir une boucle for pour générer automatiquement les checkbox selon la liste des catégories *@
+                            <div class="form-check">
+
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Fantaisie
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Sci-Fi
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Aventure
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Horreur
+                                </label>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                @* Catégorie *@
-                <div class="my-4">
-                    <h3>Catégorie</h3>
-                    <div class="form-check border border-dark">
-                        @* Ici il va y avoir une boucle for pour générer automatiquement les checkbox selon la liste des catégories *@
-                        <div class="form-check">
-
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Fantaisie
-                            </label>
-
-                        </div>
-
-                        <div class="form-check">
-
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Sci-Fi
-                            </label>
-
-                        </div>
-
-                        <div class="form-check">
-
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Aventure
-                            </label>
-
-                        </div>
-
-                        <div class="form-check">
-
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Horreur
-                            </label>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @* Body *@
-            <div class="col-10">
+                @* Body *@
+                <div class="col-10">
 
 
-                @* Add button *@
-                <div class="m-4">
-                    @* <button type="button" class="btn btn-primary" asp-controller="GestionLivresController" asp-action="Ajouter">Ajouter livre</button> *@
-                    <a asp-action="Ajouter" class="btn btn-primary">Ajouter livre</a>
-                </div>
-
-
-                @* Table *@
-                <div class="container-fluid d-flex flex-wrap row">
-                    <div class="mb-3 mx-3">
-                        <div class="row px-2">
-                            <div class="col-1 text-center">
-                                Image
-                            </div>
-                            <div class="col-2 text-center">
-                                Titre
-                            </div>
-                            <div class="col-2 text-center">
-                                Auteur
-                            </div>
-                            <div class="col-2 text-center">
-                                Maison d'édition
-                            </div>
-                            <div class="col-2 text-center">
-                                Quantité
-                            </div>
-                        </div>
-
+                    @* Add button *@
+                    <div class="my-4">
+                        <button type="button" class="btn btn-primary" asp-action="Ajouter">Ajouter livre</button>
                     </div>
 
-                    @* Results *@
-                    @foreach (var item in Model)
-                    {
-                       
-                            <div class="card mb-2 mx-3 ">
-                                <div class="card-body row p-2 align-items-center">
+                    @* Research results (Temporary results) *@
+
+                    @* Table *@
+                    <div class="container-fluid d-flex flex-wrap row">
+                        <div class="mb-3 mx-3">
+                            <div class="row px-2">
+                                <div class="col-1 text-center">
+                                    Image
+                                </div>
+                                <div class="col-2 text-center">
+                                    Titre
+                                </div>
+                                <div class="col-2 text-center">
+                                    Auteur
+                                </div>
+                                <div class="col-2 text-center">
+                                    Maison d'édition
+                                </div>
+                                <div class="col-2 text-center">
+                                    Quantité
+                                </div>
+                            </div>
+                        </div>
+
+                        @* Results *@
+                        @foreach (var item in Model)
+                        {
+                            <div class="card mb-2 mx-3">
+                                <div class="card-body row px-2">
                                     <div class="col-1 text-center">
-                                        <img src="@item.Image" alt="..." class="img-thumbnail">
+                                        <img src="..." alt="..." class="img-thumbnail">
                                     </div>
                                     <div class="col-2 text-center">
-                                        @Html.DisplayFor(modelItem => item.Titre)
+                                        Titre 1
                                     </div>
                                     <div class="col-2 text-center">
-                                        @Html.DisplayFor(modelItem => item.Auteur)
+                                        Auteur 1
                                     </div>
                                     <div class="col-2 text-center">
-                                        @Html.DisplayFor(modelItem => item.Editeur)
+                                        Maison d'édition 1
                                     </div>
                                     <div class="col-2 text-center">
-                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
+                                        <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
                                     </div>
-                                    <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+                                    <div class="col-3 text-center d-flex flex-row justify-content-around">
                                         @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-
-                                        <button id="saveButton @item.Id" type="button" class="btn btn-success" onclient onclick="
-                                            saveQuantite('@item.Id', '@item.Quantite')
-                                            disableButton('@item.Id')"
-                                                disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Quantite">
-
-                                            Sauvegarder
-
-                                        </button>
-                                        <button type="button" class="btn btn-danger p-2" asp-action="Delete" asp-route-id="@item.Id">
+                                        <button type="button" class="btn btn-success">Sauvegarder</button>
+                                        <button type="button" class="btn btn-danger p-2" asp-action="Delete">
                                             <span class="fa-solid fa-trash fa-2x"></span>
                                         </button>
                                     </div>
                                 </div>
                             </div>
+                        }
 
-                    }
-
+                    </div>
                 </div>
 
             </div>
-
+            
         </form>
 
     </div>
 
 </div>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
-<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
-@section Scripts
-    {
-    
-}
