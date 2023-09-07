@@ -42,6 +42,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<MaisonEdition> MaisonEditions { get; set; }
 
+    public DbSet<Auteur> Auteurs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

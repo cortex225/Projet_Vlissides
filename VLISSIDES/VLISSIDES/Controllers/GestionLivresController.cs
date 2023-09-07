@@ -3,16 +3,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Livres;
 
 namespace VLISSIDES.Controllers;
 
 public class GestionLivresController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IConfiguration _config;
 
-    public GestionLivresController(ApplicationDbContext context)
+    public GestionLivresController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration config)
     {
         _context = context;
+        _webHostEnvironment = webHostEnvironment;
+        _config = config;
     }
 
     // GET: Livre
@@ -39,15 +44,86 @@ public class GestionLivresController : Controller
     // GET: Livre/Create
     public IActionResult Ajouter()
     {
-        ViewData["AuteurId"] = new SelectList(_context.Set<Auteur>(), "Id", "Id");
-        ViewData["MaisonEditionId"] = new SelectList(_context.MaisonEditions, "Id", "Id");
-        return View();
+        AjouterVM vm = new AjouterVM { };
+        //Populer les listes déroulantes
+        vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+        {
+            Text = x.Prenom + " " + x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        return View(vm);
     }
-    //[HttpPost]
-    //public IActionResult Create()
-    //{
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Ajouter(AjouterVM vm)
+    {
 
-    //}
+        //Sauvegarder l'image dans root
+        if (vm.CoverPhoto != null)
+        {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+            string extension = Path.GetExtension(vm.CoverPhoto.FileName);
+            vm.CoverImageUrl = fileName = fileName + DateTime.Now.ToString("yyyymmssfff") + extension;
+            string path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await vm.CoverPhoto.CopyToAsync(fileStream);
+            }
+        }
+
+
+        if (ModelState.IsValid)
+        {
+            //Types de livres
+            List<TypeLivre> listeType = null;
+            if (vm.Neuf)
+            {
+                var neuf = _context.TypeLivres.Find(1);
+                listeType.Add(neuf);
+            }
+            if (vm.Numerique)
+            {
+                var numerique = _context.TypeLivres.Find(2);
+                listeType.Add(numerique);
+            }
+
+            var livre = new Livre()
+            {
+                Titre = vm.Titre,
+                Resume = vm.Resume,
+                NbExemplaires = vm.NbExemplaires,
+                NbPages = vm.NbPages,
+                Prix = vm.Prix,
+                ISBN = vm.ISBN,
+                AuteurId = vm.AuteurId,
+                MaisonEditionId = vm.MaisonEditionId,
+                Couverture = vm.CoverImageUrl,
+                TypesLivre = listeType,
+                DatePublication = vm.DatePublication,
+                DateAjout = DateTime.Now,
+                CategorieId = vm.CategorieId
+            };
+
+            _context.Livres.Add(livre);
+            _context.SaveChanges();
+            return View();
+
+        }
+        return BadRequest();
+
+
+    }
     // GET: Livre/Delete/5
     public async Task<IActionResult> Delete(string id)
     {
