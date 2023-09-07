@@ -1,5 +1,7 @@
 html {
     font-size: 14px;
+    font-family: "Inter", sans-serif;
+
 }
 
 @media (min-width: 768px) {
@@ -8,11 +10,10 @@ html {
     }
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
 
 body {
     margin-bottom: 60px;
+    position: relative;
+    background-color: #fafafa !important;
 }
+
