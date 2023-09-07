@@ -23,8 +23,12 @@ public class GestionLivresController : Controller
         {
             Image = l.Couverture,
             Titre = l.Titre,
-            Auteur = "",
-            Editeur = "",
+            //ListAuteur = _context.,
+            //ListEditeur = _context.MaisonEditions
+            //.Select(m => new SelectListItem
+            //{
+
+            //}),
             Quantite = l.NbExemplaires
         }).ToListAsync();
         return View(livres);
@@ -84,4 +88,7 @@ public class GestionLivresController : Controller
     {
         return (_context.Livres?.Any(e => e.Id == id)).GetValueOrDefault();
     }
+
+
+
 }
