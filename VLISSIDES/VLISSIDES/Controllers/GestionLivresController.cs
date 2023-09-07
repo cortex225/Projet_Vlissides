@@ -61,6 +61,11 @@ public class GestionLivresController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
+        vm.SelectLangues = _context.Langues.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
         return View(vm);
     }
     [HttpPost]
@@ -117,7 +122,8 @@ public class GestionLivresController : Controller
                 TypesLivre = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
-                CategorieId = vm.CategorieId
+                CategorieId = vm.CategorieId,
+                LangueId = vm.LangueId
             };
 
             _context.Livres.Add(livre);
