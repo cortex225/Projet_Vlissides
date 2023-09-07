@@ -44,7 +44,7 @@ public class GestionLivresController : Controller
     // GET: Livre/Create
     public IActionResult Ajouter()
     {
-        GestionLivresAjouterVM vm = new GestionLivresAjouterVM { };
+        AjouterVM vm = new AjouterVM { };
 
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
@@ -56,25 +56,15 @@ public class GestionLivresController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        vm.CheckboxTypes = _context.TypeLivres.ToList();
         //ViewData["AuteurId"] = new SelectList(_context.Set<Auteur>(), "Id", "Id");
         //ViewData["MaisonEditionId"] = new SelectList(_context.MaisonEditions, "Id", "Id");
 
         return View(vm);
     }
     [HttpPost]
-    public async Task<IActionResult> Ajouter(GestionLivresAjouterVM vm)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
-        //var path = Path.Combine(_webHostEnvironment.WebRootPath, "img\\CouvertureLivre");
-        //path += Guid.NewGuid() + "_" + vm.Titre;
-        //vm.CoverImageUrl = path;
-
-        //var serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, path);
-        //using (FileStream stream = new FileStream(path, FileMode.Create))
-        //{
-        //    await vm.CoverPhoto.CopyToAsync(stream);
-        //    stream.Close();
-        //};
 
         //Sauvegarder l'image dans root
         string wwwRootPath = _webHostEnvironment.WebRootPath;
@@ -89,6 +79,18 @@ public class GestionLivresController : Controller
 
         if (ModelState.IsValid)
         {
+            //Types de livres
+            List<TypeLivre> listeType = null;
+            if (vm.Neuf)
+            {
+                var neuf = _context.TypeLivres.Find(1);
+                listeType.Add(neuf);
+            }
+            if (vm.Numerique)
+            {
+                var numerique = _context.TypeLivres.Find(2);
+                listeType.Add(numerique);
+            }
 
             var livre = new Livre()
             {
@@ -100,9 +102,13 @@ public class GestionLivresController : Controller
                 ISBN = vm.ISBN,
                 AuteurId = vm.AuteurId,
                 MaisonEditionId = vm.MaisonEditionId,
-                Couverture = vm.CoverImageUrl
-
+                Couverture = vm.CoverImageUrl,
+                TypesLivre = listeType,
+                DatePublication = vm.DatePublication,
+                DateAjout = DateTime.Now,
+                CategorieId = vm.CategorieId
             };
+
             _context.Livres.Add(livre);
             _context.SaveChanges();
             return View();
