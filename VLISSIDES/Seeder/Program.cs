@@ -16,6 +16,12 @@ var langues = context.Langues.ToList();
 
 var generator = new RandomGenerator();
 
+context.Auteurs.RemoveRange(context.Auteurs); context.SaveChanges();
+context.MaisonEditions.RemoveRange(context.MaisonEditions); context.SaveChanges();
+context.Livres.RemoveRange(context.Livres); context.SaveChanges();
+
+
+
 var auteurs = Builder<Auteur>.CreateListOfSize(99)
     .All()
     .With(c => c.Nom = Faker.Name.Last())
@@ -42,12 +48,12 @@ var livres = Builder<Livre>.CreateListOfSize(2999)
     .With(c => c.Prix = 1.99)
     .With(c => c.DatePublication = Faker.Identification.DateOfBirth())
     .With(c => c.ISBN = Faker.Identification.UsPassportNumber())
-    .With(c => c.Categories = (ICollection<Categorie>)Pick<Categorie>.RandomItemFrom(categories))
-    .With(c => c.Auteur = (ICollection<Auteur>)Pick<Auteur>.RandomItemFrom(auteurs))
+    .With(c => c.Categories = new List<Categorie> { Pick<Categorie>.RandomItemFrom(categories) })
+    .With(c => c.Auteur = new List<Auteur> { Pick<Auteur>.RandomItemFrom(auteurs) })
     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
-    .With(c => c.TypesLivre = (ICollection<TypeLivre>)Pick<TypeLivre>.RandomItemFrom(typeLivres))
-    .With(c => c.Evaluations = (ICollection<Evaluation>)Pick<Evaluation>.RandomItemFrom(evaluations))
-    .With(c => c.Langues = (ICollection<Langue>)Pick<Langue>.RandomItemFrom(langues))
+    .With(c => c.TypesLivre = new List<TypeLivre> { Pick<TypeLivre>.RandomItemFrom(typeLivres) })
+    .With(c => c.Evaluations = new List<Evaluation> { Pick<Evaluation>.RandomItemFrom(evaluations) } )
+    .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) } )
     .Build();
 context.Livres.AddRange(livres); context.SaveChanges();
 
