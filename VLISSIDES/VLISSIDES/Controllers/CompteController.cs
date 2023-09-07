@@ -1,9 +1,9 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -71,11 +71,13 @@ public class CompteController : Controller
                 ModelState.AddModelError(string.Empty, "Tentative de connexion non valide.");
                 return View(vm);
             }
+
             if (!user.EmailConfirmed)
             {
                 ModelState.AddModelError(string.Empty, "L'email est encore a être confirmer.");
                 return View(vm);
             }
+
             var result = await _signInManager.PasswordSignInAsync(user.UserName, vm.Password, vm.RememberMe, false);
 
             if (result.Succeeded)
@@ -169,7 +171,7 @@ public class CompteController : Controller
                 Nom = vm.FirstName,
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
-                DateAdhesion = DateTime.Now,
+                DateAdhesion = DateTime.Now
             };
             user.EmailConfirmed = false;
             role = RoleName.MEMBRE;
@@ -181,25 +183,25 @@ public class CompteController : Controller
                 //Générer l'email de confirmatuion et l'envoyer
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callbackUrl = Url.Action(
-                   "ConfirmEmail", "Compte",
-                   new { userId = user.Id, code = code },
-                   protocol: Request.Scheme);
+                    "ConfirmEmail", "Compte",
+                    new { userId = user.Id, code },
+                    Request.Scheme);
 
                 // Récupérer l'URL complète du logo à partir de l'application
                 var logoUrl = Url.Content("https://myinstahr.ca/assets/img/instaLogo.png");
 
                 await _sendGridEmail.SendEmailAsync(user.Email,
-                   "\"La Fourmie Aillée- Demande de confirmer ton incription",
-            "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>" +
-            "<img src='" + logoUrl +
-            "' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>\n" +
-            "<h2 style='color: #444;'>Cher utilisateur,</h2>\n" +
-            "<p>Nous avons reçu une demande d'inscription. Pour continuer ce processus, veuillez cliquer sur le bouton ci-dessous.</p>\n" +
-            "<p style='text-align: center; margin: 20px 0;'><a href='" + callbackUrl +
-            "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 3px;'>Confirmer l'inscription</a></p>\n" +
-            "<p>Si vous n'avez pas demandé cette inscription, veuillez ignorer ce message ou contacter notre support client pour plus d'assistance.</p>\n" +
-            "<p style='color: #666; border-top: 1px solid #ddd; padding-top: 10px;'>Cordialement<br></p>" +
-            "</div>");
+                    "\"La Fourmie Aillée- Demande de confirmer ton incription",
+                    "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>" +
+                    "<img src='" + logoUrl +
+                    "' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>\n" +
+                    "<h2 style='color: #444;'>Cher utilisateur,</h2>\n" +
+                    "<p>Nous avons reçu une demande d'inscription. Pour continuer ce processus, veuillez cliquer sur le bouton ci-dessous.</p>\n" +
+                    "<p style='text-align: center; margin: 20px 0;'><a href='" + callbackUrl +
+                    "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 3px;'>Confirmer l'inscription</a></p>\n" +
+                    "<p>Si vous n'avez pas demandé cette inscription, veuillez ignorer ce message ou contacter notre support client pour plus d'assistance.</p>\n" +
+                    "<p style='color: #666; border-top: 1px solid #ddd; padding-top: 10px;'>Cordialement<br></p>" +
+                    "</div>");
                 // Ajouter le rôle à l'utilisateur
                 await _userManager.AddToRoleAsync(user, role);
 

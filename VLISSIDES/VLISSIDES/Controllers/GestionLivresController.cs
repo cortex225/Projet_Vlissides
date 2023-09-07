@@ -19,18 +19,19 @@ public class GestionLivresController : Controller
     // GET: Livre
     public async Task<IActionResult> Inventaire()
     {
-        var livres = await _context.Livres.Include(l => l.Auteur).Include(l => l.MaisonEdition).Select(l => new GestionLivresAfficherVM()
-        {
-            Image = l.Couverture,
-            Titre = l.Titre,
-            //ListAuteur = _context.,
-            //ListEditeur = _context.MaisonEditions
-            //.Select(m => new SelectListItem
-            //{
+        var livres = await _context.Livres.Include(l => l.Auteur).Include(l => l.MaisonEdition).Select(l =>
+            new GestionLivresAfficherVM
+            {
+                Image = l.Couverture,
+                Titre = l.Titre,
+                //ListAuteur = _context.,
+                //ListEditeur = _context.MaisonEditions
+                //.Select(m => new SelectListItem
+                //{
 
-            //}),
-            Quantite = l.NbExemplaires
-        }).ToListAsync();
+                //}),
+                Quantite = l.NbExemplaires
+            }).ToListAsync();
         return View(livres);
     }
 
@@ -88,7 +89,4 @@ public class GestionLivresController : Controller
     {
         return (_context.Livres?.Any(e => e.Id == id)).GetValueOrDefault();
     }
-
-
-
 }

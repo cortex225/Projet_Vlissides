@@ -1,5 +1,4 @@
-﻿
-@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
+﻿@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
 @{
     ViewData["Title"] = "Inventaire";
 }
@@ -25,72 +24,72 @@
                 </div>
             </div>
 
-            <div class="row">
-                @* Advanced research *@
-                <div class="col-2 bg-secondary">
+            @* Advanced research *@
+            <div class="col-2 bg-secondary">
 
-                
-                    @* Recherche précise *@
-                    <div class="my-2">
-                        <h3>Spécification</h3>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Titre</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput2">Auteur</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput2">Maison d'édition</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
-                        </div>
+
+                @* Recherche précise *@
+                <div class="my-2">
+                    <h3>Spécification</h3>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Titre</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
                     </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Auteur</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Maison d'édition</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                    </div>
+                </div>
 
-                    @* Catégorie *@
-                    <div class="my-4">
-                        <h3>Catégorie</h3>
-                        <div class="form-check border border-dark">
-                            @* Ici il va y avoir une boucle for pour générer automatiquement les checkbox selon la liste des catégories *@
-                            <div class="form-check">
+                @* Catégorie *@
+                <div class="my-4">
+                    <h3>Catégorie</h3>
+                    <div class="form-check border border-dark">
+                        @* Ici il va y avoir une boucle for pour générer automatiquement les checkbox selon la liste des catégories *@
+                        <div class="form-check">
 
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Fantaisie
-                                </label>
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Fantaisie
+                            </label>
 
-                            </div>
+                        </div>
 
-                            <div class="form-check">
+                        <div class="form-check">
 
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Sci-Fi
-                                </label>
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Sci-Fi
+                            </label>
 
-                            </div>
+                        </div>
 
-                            <div class="form-check">
+                        <div class="form-check">
 
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Aventure
-                                </label>
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Aventure
+                            </label>
 
-                            </div>
+                        </div>
 
-                            <div class="form-check">
+                        <div class="form-check">
 
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Horreur
-                                </label>
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Horreur
+                            </label>
 
-                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </form>
+
 
         @* Body *@
         <div class="col-10">
@@ -126,7 +125,8 @@
                 </div>
 
                 @* Results *@
-                @foreach (var item in Model) {
+                @foreach (var item in Model)
+                {
                     <div class="card mb-2 mx-3">
                         <div class="card-body row px-2">
                             <div class="col-1 text-center">
@@ -156,12 +156,9 @@
                 }
 
             </div>
-                    
+
         </div>
 
     </div>
 
 </div>
-
-
-
