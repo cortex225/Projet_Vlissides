@@ -43,7 +43,7 @@ namespace VLISSIDES.ViewModels.Livres
         //public string EvaluationId { get; set; }
 
         //Langue
-        public List<Langue>? ListeLangue { get; set; }
+        public List<SelectListItem>? SelectLangues { get; set; }
         public string? LangueId { get; set; }
 
         //Image

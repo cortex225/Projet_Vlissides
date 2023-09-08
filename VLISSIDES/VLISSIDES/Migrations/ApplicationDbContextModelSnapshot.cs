@@ -112,21 +112,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "0cc339c6-0e30-4db3-84af-26795643ba91",
+                            ConcurrencyStamp = "c67845d3-8ee3-4674-a131-b8f8b62a0496",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "b8aa1097-251b-4a96-a09e-bc95b40dd4bb",
+                            ConcurrencyStamp = "52c06941-650c-4944-8605-f2a4a375f81f",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "36a20982-3a17-4a7b-adfc-076b90c0041d",
+                            ConcurrencyStamp = "ba9b522e-e73a-4d07-bb1b-693d1f4aaacd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -388,7 +388,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5717dd26-e40b-416e-8e38-f14253537a9c",
+                            ConcurrencyStamp = "14a49074-dd8d-4aab-991f-4892481b8287",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -398,7 +398,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "9adf9d3e-444d-4194-a54f-85010ee671d3",
+                            SecurityStamp = "fb529e7a-e6cf-41ca-8cca-687109816421",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -427,7 +427,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Auteur");
+                    b.ToTable("Auteurs");
 
                     b.HasData(
                         new
@@ -767,7 +767,6 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EvaluationId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
@@ -799,7 +798,6 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TypeLivreId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -964,7 +962,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "6e8e7708-3c77-468f-8d03-79274bc8ed98",
+                            ConcurrencyStamp = "90d38bb4-d6f9-4ae8-83aa-ae6b71894fc6",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -974,7 +972,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "af02afa4-63a8-4a07-9c8f-5ccc99808271",
+                            SecurityStamp = "ff9a9db9-218b-44c3-936a-494c93c817ea",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1006,7 +1004,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "6941b50d-162c-472f-a9f1-ebbc2fa73e42",
+                            ConcurrencyStamp = "68efeb05-6978-437e-bb38-130f34ae6823",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1015,10 +1013,10 @@ namespace VLISSIDES.Migrations
                             NormalizedUserName = "MEMBRE@MEMBRE.COM",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "4857af84-8c94-4938-aa7b-9ffac5755415",
+                            SecurityStamp = "6339cfbb-98c9-4659-ad7f-afa7beeab313",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 9, 7, 8, 53, 11, 321, DateTimeKind.Local).AddTicks(9460),
+                            DateAdhesion = new DateTime(2023, 9, 8, 10, 5, 8, 969, DateTimeKind.Local).AddTicks(1513),
                             NoMembre = "123456"
                         });
                 });

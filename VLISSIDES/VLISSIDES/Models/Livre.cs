@@ -34,11 +34,11 @@ public class Livre
 
     public ICollection<Categorie> Categories { get; set; } = default!;
 
-    public string TypeLivreId { get; set; } = default!;
+    public string? TypeLivreId { get; set; } = default!;
 
     public ICollection<TypeLivre> TypesLivre { get; set; } = default!;
 
-    public string EvaluationId { get; set; } = default!;
+    public string? EvaluationId { get; set; } = default!;
 
     public ICollection<Evaluation>? Evaluations { get; set; }
 
