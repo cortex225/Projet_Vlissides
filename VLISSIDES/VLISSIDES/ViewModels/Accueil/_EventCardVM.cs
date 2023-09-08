@@ -1,4 +1,6 @@
-﻿using VLISSIDES.Models;
+﻿//ViewModel pour _CarteEvenement.cshtml
+
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Accueil;
 
