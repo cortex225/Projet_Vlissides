@@ -28,12 +28,13 @@ public class GestionLivresController : Controller
         {
             Image = l.Couverture,
             Titre = l.Titre,
-            //ListAuteur = _context.,
-            //ListEditeur = _context.MaisonEditions
-            //.Select(m => new SelectListItem
-            //{
-
-            //}),
+            //ListAuteur = _context.Auteurs.Select(a => new SelectList{
+            //    if (!((List<Auteur>)l.Auteur).Any())
+            //        {
+            //            ((List<Auteur>)l.Auteur).ForEach(auteur => Auteurs += auteur.NomComplet + ", ");
+            //            Auteurs.Remove(Auteurs.Length - 2, 2);
+            //        }
+            //}).ToListAsync(),
             Quantite = l.NbExemplaires
         }).ToListAsync();
         return View(livres);
