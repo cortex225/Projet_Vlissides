@@ -1,4 +1,6 @@
-﻿using VLISSIDES.Models;
+﻿//ViewModel pour _CarteLivre.cshtml et CarteLivrePetit.cshtml
+
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Accueil;
 
