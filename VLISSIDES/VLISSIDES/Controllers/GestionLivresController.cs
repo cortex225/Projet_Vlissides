@@ -72,29 +72,26 @@ public class GestionLivresController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
-
-        //Sauvegarder l'image dans root
-        if (vm.CoverPhoto != null)
-        {
-            string wwwRootPath = _webHostEnvironment.WebRootPath;
-            string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
-            string extension = Path.GetExtension(vm.CoverPhoto.FileName);
-            fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
-            vm.CoverImageUrl = "/img/CouvertureLivre/" + fileName;
-            var path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
-            using (var fileStream = new FileStream(path, FileMode.Create))
-            {
-                await vm.CoverPhoto.CopyToAsync(fileStream);
-            }
-        }
-        else
-        {
-            vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
-        }
-
-
         if (ModelState.IsValid)
         {
+            //Sauvegarder l'image dans root
+            if (vm.CoverPhoto != null)
+            {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                string extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+                vm.CoverImageUrl = "/img/CouvertureLivre/" + fileName;
+                var path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await vm.CoverPhoto.CopyToAsync(fileStream);
+                }
+            }
+            else
+            {
+                vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
+            }
             //Types de livres
             List<TypeLivre> listeType = new List<TypeLivre>();
             if (vm.Neuf)
