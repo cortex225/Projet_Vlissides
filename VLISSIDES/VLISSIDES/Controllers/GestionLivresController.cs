@@ -26,16 +26,14 @@ public class GestionLivresController : Controller
     {
         var livres = await _context.Livres.Include(l => l.Auteur).Include(l => l.MaisonEdition).Select(l => new GestionLivresAfficherVM()
         {
-            Id = l.Id,
             Image = l.Couverture,
             Titre = l.Titre,
-            //ListAuteur = _context.Auteurs.Select(a => new SelectList{
-            //    if (!((List<Auteur>)l.Auteur).Any())
-            //        {
-            //            ((List<Auteur>)l.Auteur).ForEach(auteur => Auteurs += auteur.NomComplet + ", ");
-            //            Auteurs.Remove(Auteurs.Length - 2, 2);
-            //        }
-            //}).ToListAsync(),
+            //ListAuteur = _context.,
+            //ListEditeur = _context.MaisonEditions
+            //.Select(m => new SelectListItem
+            //{
+
+            //}),
             Quantite = l.NbExemplaires
         }).ToListAsync();
         return View(livres);
@@ -75,11 +73,6 @@ public class GestionLivresController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        vm.SelectLangues = _context.Langues.Select(x => new SelectListItem
-        {
-            Text = x.Nom,
-            Value = x.Id
-        }).ToList();
         return View(vm);
     }
     [HttpPost]
@@ -87,29 +80,30 @@ public class GestionLivresController : Controller
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
 
+        //Sauvegarder l'image dans root
+        if (vm.CoverPhoto != null)
+        {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+            string extension = Path.GetExtension(vm.CoverPhoto.FileName);
+            fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+            vm.CoverImageUrl = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+            using (var fileStream = new FileStream(vm.CoverImageUrl, FileMode.Create))
+            {
+                await vm.CoverPhoto.CopyToAsync(fileStream);
+            }
+        }
+        else
+        {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            vm.CoverImageUrl = wwwRootPath + "/img/CouvertureLivre/livredefault.png";
+        }
+
 
         if (ModelState.IsValid)
         {
-            //Sauvegarder l'image dans root
-            if (vm.CoverPhoto != null)
-            {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
-                string extension = Path.GetExtension(vm.CoverPhoto.FileName);
-                fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
-                vm.CoverImageUrl = "/img/CouvertureLivre/" + fileName;
-                var path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await vm.CoverPhoto.CopyToAsync(fileStream);
-                }
-            }
-            else
-            {
-                vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
-            }
             //Types de livres
-            List<TypeLivre> listeType = new List<TypeLivre>();
+            List<TypeLivre> listeType = null;
             if (vm.Neuf)
             {
                 var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
@@ -123,7 +117,6 @@ public class GestionLivresController : Controller
 
             var livre = new Livre()
             {
-                Id = "Id" + (_context.Livres.Count() + 1).ToString(),
                 Titre = vm.Titre,
                 Resume = vm.Resume,
                 NbExemplaires = vm.NbExemplaires,
@@ -136,20 +129,17 @@ public class GestionLivresController : Controller
                 TypesLivre = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
-                CategorieId = vm.CategorieId,
-                LangueId = vm.LangueId
+                CategorieId = vm.CategorieId
             };
 
             _context.Livres.Add(livre);
-            Console.Write("1");
             _context.SaveChanges();
-            Console.Write("2");
-
-            return RedirectToAction("Inventaire");
-
+            return View();
 
         }
         return BadRequest();
+
+
     }
     // GET: Livre/Delete/5
     public async Task<IActionResult> Delete(string id)
@@ -182,18 +172,5 @@ public class GestionLivresController : Controller
     private bool LivreExists(string id)
     {
         return (_context.Livres?.Any(e => e.Id == id)).GetValueOrDefault();
-    }
-
-    //Modifie le nombre du livre selectionné
-
-    [HttpPost]
-    public async Task<IActionResult> ModifierLivreQuantite(string id, int quantite)
-    {
-
-        var livre = await _context.Livres.FindAsync(id);
-        if (livre == null) return BadRequest();
-        livre.NbExemplaires = quantite;
-        await _context.SaveChangesAsync();
-        return Ok();
     }
 }
