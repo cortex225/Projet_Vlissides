@@ -12,7 +12,7 @@
     <div class="container-fluid m-1">
 
         @* Les recherches *@
-        <form>
+        <form class="row">
             @* Research bar *@
             <div class="row mb-3">
                 <div class="col-2 ml-4 text-center">
@@ -88,76 +88,76 @@
                     </div>
                 </div>
             </div>
-        </form>
+
+            @* Body *@
+            <div class="col-10">
 
 
-        @* Body *@
-        <div class="col-10">
-
-
-            @* Add button *@
-            <div class="my-4">
-                <button type="button" class="btn btn-primary" asp-action="Ajouter">Ajouter livre</button>
-            </div>
-
-            @* Research results (Temporary results) *@
-
-            @* Table *@
-            <div class="container-fluid d-flex flex-wrap row">
-                <div class="mb-3 mx-3">
-                    <div class="row px-2">
-                        <div class="col-1 text-center">
-                            Image
-                        </div>
-                        <div class="col-2 text-center">
-                            Titre
-                        </div>
-                        <div class="col-2 text-center">
-                            Auteur
-                        </div>
-                        <div class="col-2 text-center">
-                            Maison d'édition
-                        </div>
-                        <div class="col-2 text-center">
-                            Quantité
-                        </div>
-                    </div>
+                @* Add button *@
+                <div class="my-4">
+                    <button type="button" class="btn btn-primary" asp-action="Ajouter">Ajouter livre</button>
                 </div>
 
-                @* Results *@
-                @foreach (var item in Model)
-                {
-                    <div class="card mb-2 mx-3">
-                        <div class="card-body row px-2">
+                @* Research results (Temporary results) *@
+
+                @* Table *@
+                <div class="container-fluid d-flex flex-wrap row">
+                    <div class="mb-3 mx-3">
+                        <div class="row px-2">
                             <div class="col-1 text-center">
-                                <img src="..." alt="..." class="img-thumbnail">
+                                Image
                             </div>
                             <div class="col-2 text-center">
-                                Titre 1
+                                Titre
                             </div>
                             <div class="col-2 text-center">
-                                Auteur 1
+                                Auteur
                             </div>
                             <div class="col-2 text-center">
-                                Maison d'édition 1
+                                Maison d'édition
                             </div>
                             <div class="col-2 text-center">
-                                <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
-                            </div>
-                            <div class="col-3 text-center d-flex flex-row justify-content-around">
-                                @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-                                <button type="button" class="btn btn-success">Sauvegarder</button>
-                                <button type="button" class="btn btn-danger p-2" asp-action="Delete">
-                                    <span class="fa-solid fa-trash fa-2x"></span>
-                                </button>
+                                Quantité
                             </div>
                         </div>
                     </div>
-                }
+
+                    @* Results *@
+                    @foreach (var item in Model)
+                    {
+                        <div class="card mb-2 mx-3">
+                            <div class="card-body row px-2">
+                                <div class="col-1 text-center">
+                                    <img src="@item.Image" alt="..." class="img-thumbnail">
+                                </div>
+                                <div class="col-2 text-center">
+                                    @Html.DisplayFor(modelItem => item.Titre)
+                                </div>
+                                <div class="col-2 text-center">
+                                    @Html.DisplayFor(modelItem => item.Auteur)
+                                </div>
+                                <div class="col-2 text-center">
+                                    @Html.DisplayFor(modelItem => item.Editeur)
+                                </div>
+                                <div class="col-2 text-center">
+                                    <input type="number" class="form-control" id="formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)">
+                                </div>
+                                <div class="col-3 text-center d-flex flex-row justify-content-around">
+                                    @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+                                    <button type="button" class="btn btn-success">Sauvegarder</button>
+                                    <button type="button" class="btn btn-danger p-2" asp-action="Delete">
+                                        <span class="fa-solid fa-trash fa-2x"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
 
             </div>
 
-        </div>
+        </form>
 
     </div>
 
