@@ -19,11 +19,10 @@ public class DbContextFactory
         //Connection par Defaut
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-
+        
         var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-        if (OperatingSystem.IsMacOS())
-            builder.UseSqlServer(connectionStringJL);
+        
         builder.UseSqlServer(connectionString);
 
         return new ApplicationDbContext(builder.Options);

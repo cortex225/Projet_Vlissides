@@ -41,7 +41,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Langue> Langues { get; set; }
     public DbSet<MaisonEdition> MaisonEditions { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -168,7 +167,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         UserEmploye.PasswordHash =
             "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
         builder.Entity<Membre>().HasData(UserMembre);
-
+        
         var DefaultAuteur = new Auteur
         {
             Id = "0",
@@ -176,9 +175,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Prenom = "Stack",
             Biographie = "Tony Stack est un auteur de livre de programmation",
             Photo = ""
-        };
+        }; 
         builder.Entity<Auteur>().HasData(DefaultAuteur);
-
+        
         var DefaultMaisonEdition = new MaisonEdition
         {
             Id = "0",
