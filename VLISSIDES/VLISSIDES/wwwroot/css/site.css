@@ -22,7 +22,11 @@ html {
 body {
     margin-bottom: 60px;
     position: relative;
-    background-color: #fafafa !important;
+    background-color: #f8f4f1 !important;
+}
+
+header {
+    background-color: #f8f4f1 !important;
 }
 
 /*--Accueil/Index------------------------------------------------------------------------------------------------------------------------*/
