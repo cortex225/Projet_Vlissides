@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Accueil Page";
 }
+<link rel="stylesheet" href="css/Accueil.css">
 <!--
     Ceci est le div qui contient une image large avec le titre
 -->
@@ -285,7 +286,7 @@
         <div class="titreBoutonsDeGrille">
             <h3 class="titreSections titreCategories">Catégories en vedette:</h3>
 
-            <div class="btn-group" role="group" aria-label="Basic example" style="margin-bottom: 24px">
+            <div class="btn-group" role="group" aria-label="Basic example">
                 @foreach (var categorie in Model.Categories)
                 {
                     <button type="button" class="btn btn-secondary @categorie" onclic="ChangerCategorie(@categorie)">@categorie</button>
