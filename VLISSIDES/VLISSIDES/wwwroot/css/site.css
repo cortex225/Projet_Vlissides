@@ -22,11 +22,11 @@ html {
 body {
     margin-bottom: 60px;
     position: relative;
-<<<<<<< Updated upstream
-    background-color: #fafafa !important;
-=======
-    background-color: rgba(243, 249, 255, 0.6) !important;
->>>>>>> Stashed changes
+    background-color: #f8f4f1 !important;
+}
+
+header {
+    background-color: #f8f4f1 !important;
 }
 
 /*--Accueil/Index------------------------------------------------------------------------------------------------------------------------*/
