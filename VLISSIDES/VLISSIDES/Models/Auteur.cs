@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace VLISSIDES.Models;
 
 public class Auteur
@@ -7,6 +9,10 @@ public class Auteur
     public string Nom { get; set; } = default!;
 
     public string Prenom { get; set; } = default!;
+
+    [NotMapped]
+    public string NomComplet { get => Prenom + " " + Nom; }
+
 
     public string Biographie { get; set; } = default!;
 
