@@ -53,7 +53,7 @@ public class GestionLivresController : Controller
         return View(livre);
     }
 
-    // GET: Livre/Create
+    // GET: Livre/Ajouter
     public IActionResult Ajouter()
     {
         AjouterVM vm = new AjouterVM { };
@@ -148,6 +148,130 @@ public class GestionLivresController : Controller
 
         }
         return BadRequest();
+    }
+    public IActionResult Modifier(string id)
+    {
+        var livre = _context.Livres
+            .Include(l => l.Auteur)
+            .Include(l => l.TypesLivre)
+            .Include(l => l.Langues)
+            .Include(l => l.Categories)
+            .FirstOrDefault(x => x.Id == id);
+        if (livre == null)
+        {
+            return NotFound();
+        }
+        ModifierVM vm = new ModifierVM()
+        {
+            Id = livre.Id,
+            ISBN = livre.ISBN,
+            Auteurs = livre.Auteur,
+            DatePublication = livre.DatePublication,
+            NbExemplaires = livre.NbExemplaires,
+            NbPages = livre.NbPages,
+            Prix = livre.Prix,
+            Resume = livre.Resume,
+            Titre = livre.Titre,
+            CategorieId = livre.CategorieId,
+            LangueId = livre.LangueId,
+            AuteurId = livre.AuteurId,
+            CoverImageUrl = livre.Couverture
+
+
+        };
+        //Remplir les checkbox types 
+        if (livre.TypesLivre.Count == 0)
+        {
+            vm.Neuf = false;
+            vm.Numerique = false;
+        }
+        else
+        {
+            vm.Neuf = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "1")) ? true : false;
+            vm.Numerique = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "2")) ? true : false;
+        }
+        //Populer les selectList
+        vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+        {
+            Text = x.Prenom + " " + x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectLangues = _context.Langues.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        return View(vm);
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Modifier(ModifierVM vm)
+    {
+        if (ModelState.IsValid)
+        {
+            //Si nouvelle photo
+            if (vm.CoverPhoto != null)
+            {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                string extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+                vm.CoverImageUrl = "/img/CouvertureLivre/" + fileName;
+                var path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await vm.CoverPhoto.CopyToAsync(fileStream);
+                }
+            }
+            //Types de livres
+            List<TypeLivre> listeType = new List<TypeLivre>();
+            if (vm.Neuf)
+            {
+                var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
+                listeType.Add(neuf);
+            }
+            if (vm.Numerique)
+            {
+                var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
+                listeType.Add(numerique);
+            }
+
+            var livre = await _context.Livres
+            .Include(l => l.Auteur)
+            .Include(l => l.TypesLivre)
+            .Include(l => l.Langues)
+            .Include(l => l.Categories)
+            .FirstOrDefaultAsync(x => x.Id == vm.Id);
+
+            //Changement des données
+            livre.ISBN = vm.ISBN;
+            livre.Titre = vm.Titre;
+            livre.Resume = vm.Resume;
+            livre.NbExemplaires = vm.NbExemplaires;
+            livre.NbPages = vm.NbPages;
+            livre.AuteurId = vm.AuteurId;
+            livre.CategorieId = vm.CategorieId;
+            livre.LangueId = vm.LangueId;
+            livre.TypesLivre = listeType.ToList();
+            livre.Couverture = vm.CoverImageUrl;
+            livre.MaisonEditionId = vm.MaisonEditionId;
+            livre.Prix = vm.Prix;
+            livre.DatePublication = vm.DatePublication;
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Inventaire");
+        }
+        return View(vm);
     }
     // GET: Livre/Delete/5
     public async Task<IActionResult> Delete(string id)
