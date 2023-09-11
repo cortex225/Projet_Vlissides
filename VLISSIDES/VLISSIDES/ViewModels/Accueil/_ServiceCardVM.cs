@@ -1,10 +1,15 @@
-﻿namespace VLISSIDES.ViewModels.Accueil
+﻿using System.ComponentModel;
+
+namespace VLISSIDES.ViewModels.Accueil
 {
 
     public class _ServiceCardVM
     {
+        [DisplayName("Image")]
         public string Image { get; set; }
+        [DisplayName("Titre")]
         public string Titre { get; set; }
+        [DisplayName("Description")]
         public string Description { get; set; }
 
         public _ServiceCardVM(string image = "", string titre = "", string description = "")
