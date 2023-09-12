@@ -26,6 +26,7 @@ public class GestionLivresController : Controller
     {
         var livres = await _context.Livres.Include(l => l.Auteur).Include(l => l.MaisonEdition).Select(l => new GestionLivresAfficherVM()
         {
+            Id = l.Id,
             Image = l.Couverture,
             Titre = l.Titre,
             //ListAuteur = _context.Auteurs.Select(a => new SelectList{
@@ -36,7 +37,7 @@ public class GestionLivresController : Controller
             //        }
             //}).ToListAsync(),
             Quantite = l.NbExemplaires
-        }).ToListAsync();
+        }).Take(10).ToListAsync();
         return View(livres);
     }
 
@@ -181,5 +182,18 @@ public class GestionLivresController : Controller
     private bool LivreExists(string id)
     {
         return (_context.Livres?.Any(e => e.Id == id)).GetValueOrDefault();
+    }
+
+    //Modifie le nombre du livre selectionné
+
+    [HttpPost]
+    public async Task<IActionResult> ModifierLivreQuantite(string id, int quantite)
+    {
+
+        var livre = await _context.Livres.FindAsync(id);
+        if (livre == null) return BadRequest();
+        livre.NbExemplaires = quantite;
+        await _context.SaveChangesAsync();
+        return Ok();
     }
 }
