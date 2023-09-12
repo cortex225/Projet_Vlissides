@@ -37,7 +37,7 @@ public class GestionLivresController : Controller
             //        }
             //}).ToListAsync(),
             Quantite = l.NbExemplaires
-        }).Take(10).ToListAsync();
+        }).ToListAsync();
         return View(livres);
     }
 
