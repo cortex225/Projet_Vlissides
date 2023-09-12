@@ -126,32 +126,43 @@
                     @* Results *@
                     @foreach (var item in Model)
                     {
-                        <div class="card mb-2 mx-3 ">
-                            <div class="card-body row p-2 align-items-center">
-                                <div class="col-1 text-center">
-                                    <img src="@item.Image" alt="..." class="img-thumbnail">
-                                </div>
-                                <div class="col-2 text-center">
-                                    @Html.DisplayFor(modelItem => item.Titre)
-                                </div>
-                                <div class="col-2 text-center">
-                                    @Html.DisplayFor(modelItem => item.Auteur)
-                                </div>
-                                <div class="col-2 text-center">
-                                    @Html.DisplayFor(modelItem => item.Editeur)
-                                </div>
-                                <div class="col-2 text-center">
-                                    <input type="number" class="form-control" id="formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)">
-                                </div>
-                                <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
-                                    @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-                                    <button type="button" class="btn btn-success">Sauvegarder</button>
-                                    <button type="button" class="btn btn-danger p-2" asp-action="Delete">
-                                        <span class="fa-solid fa-trash fa-2x"></span>
-                                    </button>
+                        <form>
+                            <div class="card mb-2 mx-3 ">
+                                <div class="card-body row p-2 align-items-center">
+                                    <div class="col-1 text-center">
+                                        <img src="@item.Image" alt="..." class="img-thumbnail">
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Titre)
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Auteur)
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Editeur)
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <input id="@item.Id" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)">
+                                    </div>
+                                    <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+                                        @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+
+                                        <button type="button" class="btn btn-success" onclient onclick="
+                                            fetch(`ModifierLivreQuantite?id=@item.Id&quantite=${document.getElementById(`@item.Id`).value}`, {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Accept': 'application/json',
+                                                    'Content-Type': 'application/json'
+                                                }
+                                            }).catch(error => console.error('Échec du fetch pour modifier la quantité de livre', error));">Sauvegarder
+                                        </button>
+                                        <button type="button" class="btn btn-danger p-2" asp-action="Delete" asp-route-id="@item.Id">
+                                            <span class="fa-solid fa-trash fa-2x"></span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     }
 
                 </div>
@@ -165,7 +176,7 @@
 </div>
 
 @section Scripts
-{
+    {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
 }
