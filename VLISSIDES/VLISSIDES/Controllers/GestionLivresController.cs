@@ -95,8 +95,8 @@ public class GestionLivresController : Controller
                 string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
                 string extension = Path.GetExtension(vm.CoverPhoto.FileName);
                 fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
-                vm.CoverImageUrl = "/img/CouvertureLivre/" + fileName;
-                var path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+                vm.CoverImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await vm.CoverPhoto.CopyToAsync(fileStream);
@@ -104,7 +104,7 @@ public class GestionLivresController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "/2172811/img/CouvertureLivre/livredefault.png";
             }
             //Types de livres
             List<TypeLivre> listeType = new List<TypeLivre>();
@@ -226,8 +226,8 @@ public class GestionLivresController : Controller
                 string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
                 string extension = Path.GetExtension(vm.CoverPhoto.FileName);
                 fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
-                vm.CoverImageUrl = "/img/CouvertureLivre/" + fileName;
-                var path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+                vm.CoverImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await vm.CoverPhoto.CopyToAsync(fileStream);
