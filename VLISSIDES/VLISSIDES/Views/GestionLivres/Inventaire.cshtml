@@ -1,6 +1,7 @@
 ﻿@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
 @{
     ViewData["Title"] = "Inventaire";
+    ViewData["listItem"] = Model;
 }
 
 <div class="d-block p-4 p-4">
@@ -142,21 +143,22 @@
                                         @Html.DisplayFor(modelItem => item.Editeur)
                                     </div>
                                     <div class="col-2 text-center">
-                                        <input id="@item.Id" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)">
+                                        <input id="item @item.Id" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclick="enableButton('@item.Id')">
                                     </div>
                                     <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
-                                        @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-
-                                        <button type="button" class="btn btn-success" onclient onclick="
+                                        <button id="saveButton @item.Id" type="button" class="btn btn-success" disabled onclient onclick="
                                             fetch(`ModifierLivreQuantite?id=@item.Id&quantite=${document.getElementById(`@item.Id`).value}`, {
                                                 method: 'POST',
                                                 headers: {
                                                     'Accept': 'application/json',
                                                     'Content-Type': 'application/json'
                                                 }
-                                            }).catch(error => console.error('Échec du fetch pour modifier la quantité de livre', error));">Sauvegarder
+                                            }).catch(error => console.error('Échec du fetch pour modifier la quantité de livre', error));"
+                                            disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Quantite"
+                                        >Sauvegarder
+
                                         </button>
-                                        <button type="button" class="btn btn-danger p-2" asp-action="Delete" asp-route-id="@item.Id">
+                                        <button type="button" class="btn btn-danger p-2" asp-action="Delete" asp-route-id="@item.Id ">
                                             <span class="fa-solid fa-trash fa-2x"></span>
                                         </button>
                                     </div>
@@ -174,9 +176,12 @@
     </div>
 
 </div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
 
 @section Scripts
     {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
+    
+    
 }
