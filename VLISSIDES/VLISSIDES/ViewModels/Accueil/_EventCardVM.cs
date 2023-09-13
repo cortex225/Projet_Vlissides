@@ -1,8 +1,30 @@
-﻿using VLISSIDES.Models;
+﻿//ViewModel pour _CarteEvenement.cshtml
 
-namespace VLISSIDES.ViewModels.Accueil;
+using System.ComponentModel;
+using VLISSIDES.Models;
 
-public class _EventCardVM
+namespace VLISSIDES.ViewModels.Accueil
 {
-    public Evenement monEvenement = new();
+    public class _EventCardVM
+    {
+        [DisplayName("Image")]
+        public string Image { get; set; }
+        [DisplayName("Nom")]
+        public string Nom { get; set; }
+        [DisplayName("Description")]
+        public string Description { get; set; }
+
+        public _EventCardVM(string image = "", string nom = "", string description = "")
+        {
+            Image = image;
+            Nom = nom;
+            Description = description;
+        }
+        public _EventCardVM(Evenement evenement)
+        {
+            Image = evenement.Image;
+            Nom = evenement.Nom;
+            Description = evenement.Description;
+        }
+    }
 }

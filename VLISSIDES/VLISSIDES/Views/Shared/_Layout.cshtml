@@ -4,39 +4,48 @@
     <partial name="PartialViews/_HeadPartial"/>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0" id="navTop">
+<header >
+    @*
+        La navbar est divisée en deux navbar, une pour la partie du haut, une autre pour le bas.
+    *@
+    <!--Navbar du haut-->
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0 px-4" id="navTop">
         <div class="container-fluid">
+            <!-- Logo fourmi ailée. Ce logo permet de retourner à l'accueil -->
             <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
-                <img src="img/image_rond.png" alt="logo" style="width: 80px; height: 56px;"/>
+                <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" class="brand-logo"/>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div id="divRecherche" class="navbar-nav flex-grow-1" style="margin-top: 12px;">
-                <div class="input-group mb-3">
-                    <select class="form-selectbtn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="myDropdown">
-                        <option value="option1 active">Titre</option>
-                        <option value="option2">Auteur</option>
-                        <option value="option3">Catégorie</option>
-                    </select>
 
-
-                    <input type="text" class="form-control" placeholder="Rechercher un livre..."
-                           aria-label="Rechercher un livre" aria-describedby="basic-addon2" style="height: 100%; width: 10px;">
-                    <button type="button" class="btn btn-secondary" id="basic-addon2">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+            <!-- Barre de recherche -->
+            <div id="divRecherche" class="navbar-nav flex-grow-1 recherche-container">
+                <div class="input-group mb-3 recherche-group">
+                    <div class="category-dropdown dropdown">
+                        <span class="selected-category">Trier par :</span>
+                        <select class="form-select recherche-select" id="myDropdown">
+                            <option value="option1 active">Titre</option>
+                            <option value="option2">Auteur</option>
+                            <option value="option3">Catégorie</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control recherche-input" placeholder="Rechercher...">
+                    <button type="button" class="btn btn-secondary recherche-btn">
+                        <i class="fa-solid fa-magnifying-glass fa-sm"></i>
                     </button>
                 </div>
             </div>
+
+            <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
             <partial name="_LoginPartial"/>
         </div>
     </nav>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-0" id="navBottom">
+
+    <!--Navbar du bas-->
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-0 px-4" id="navBottom">
         <div class="container-fluid">
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <!-- Premier groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
+            <div class="navbar-collapse collapse d-sm-inline-flex">
                 <ul class="navbar-nav flex-grow-1">
+
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
                     </li>
@@ -52,7 +61,8 @@
                 </ul>
             </div>
 
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <!-- Deuxième groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
+            <div class="navbar-collapse collapse d-sm-inline-flex">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 1</a>
@@ -69,14 +79,20 @@
                 </ul>
             </div>
 
-            <div>
+            <!-- Icônes de profil et de panier -->
+            <div class="navbar-icons">
                 <ul class="navbar-nav flex-grow-1">
-
+                    <!--
+                    Gérer son profil
+                    -->
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
                             <i class="fa-solid fa-circle-user"></i>
                         </a>
                     </li>
+                    <!--
+                    Gérer panier
+                    -->
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
                             Consulter le panier
@@ -87,7 +103,11 @@
             </div>
         </div>
     </nav>
+
 </header>
+<!--
+Afficher le corps de la page
+-->
 <div class="col-md-12 mb-12">
     <main role="main" class="pb-3">
         @RenderBody()
@@ -107,6 +127,10 @@
         justify-content: space-between;
     }
 </style>
+
+<!--
+Une tonne de scripts divers
+-->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="~/js/owl.carousel.min.js"></script>

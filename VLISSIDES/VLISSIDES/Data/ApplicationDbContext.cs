@@ -167,7 +167,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserEmploye.PasswordHash =
             "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
-        builder.Entity<Membre>().HasData(UserMembre);
+
 
         var DefaultAuteur = new Auteur
         {

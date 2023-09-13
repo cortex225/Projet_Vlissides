@@ -1,6 +1,20 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@*
+    Cette vue partielle sert à afficher les liens pour se connecter.
+
+    Il y a un if qui détermine si l'utilisateur estr connecté
+
+    Si connecté:
+        Un message de bienvenue disant "Hello [NOM UTILISATEUR]"
+        Un lien pour se déconnecter
+
+    Si non connecté:
+        Un lien pour se connecter
+        Un lien pour s'inscrire
+*@
+
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
@@ -9,17 +23,26 @@
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Accueil", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                <button type="submit" class="nav-link btn btn-link text-dark">Se déconnecter</button>
             </form>
         </li>
     }
     else
     {
+
+        @* <li class="nav-item"> *@
+        @*     <a class="nav-link text-dark" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a> *@
+        @* </li> *@
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link rounded-pill btn bg-primary bg-gradient text-white px-4" type="button" asp-area="" asp-controller="Compte" asp-action="Login"><i class="fa-solid fa-circle-user px-2"></i>Mon compte </a>
+            </li>
+            
+        }
+        
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a>
+            <a class="nav-link rounded-pill btn bg-primary bg-gradient text-white px-4" type="button" asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a>
         </li>
     }
 </ul>

@@ -1,323 +1,319 @@
-﻿@using VLISSIDES.ViewModels.Accueil
+﻿@model VLISSIDES.ViewModels.Accueil.IndexAccueilVM
 @{
     ViewData["Title"] = "Accueil Page";
-
-    var monAuteur = new Auteur
-    {
-        Nom = "Archambault",
-        Prenom = "Etienne"
-    };
-    var listAuteur = new List<Auteur>();
-
-    listAuteur.Add(monAuteur);
-
-    var _VMLivre = new _LivreCardVM
-    {
-        monLivre = new Livre
-        {
-            Titre = "Mon beau titre",
-            Couverture = "https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg",
-            Prix = 29.99,
-            Auteur = listAuteur
-        }
-    };
-
-    var _VMEvent = new _EventCardVM
-    {
-        monEvenement = new Evenement
-        {
-            Nom = "Mon évènement",
-            Description = "Some quick example text to build on the card title and make up the bulk of the card's content.",
-            Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqofGVlqQONkX26S2FYN9IVjBDBlHqs8TvZg&usqp=CAU"
-        }
-    };
 }
-
+<link rel="stylesheet" href="css/Accueil.css">
+<!--
+    Ceci est le div qui contient une image large avec le titre
+-->
 <div id="photoPageAccueilDiv" class="col-md-12 mb-6 img-fluid justify-content-center text-center d-flex flex-row ">
     <h1 id="Titre">La fourmi ailée</h1>
 </div>
 
+<!--
+    Un div pour la mission de l'entreprise. Le lorem ipsum sera remplacé lorsqu'on aura la mission officielle.
+-->
 <div class="container">
     <h5>Notre mission:</h5>
     <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Cras in suscipit diam. Vivamus a lectus tincidunt, luctus risus eu, placerat mauris.
-        In tempus tempor ullamcorper. Donec nec eleifend orci.
-        Donec ut tellus sed nibh consectetur fermentum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Vestibulum augue libero, iaculis ac erat eget, auctor aliquam erat.
-        Phasellus mollis suscipit sem, non auctor est.
-        Curabitur condimentum nunc id lorem tincidunt, in efficitur lectus euismod.
-        Integer semper suscipit sem, at ultrices enim porttitor non.
+        Ouverte depuis plus d’une décennie à Stanstead, elle fait maintenant peau neuve à Granby sur la magnifique rue piétonnière ST-Joseph au centre-ville. La Fourmi ailée est spécialisée dans la vente de livres sur place et en ligne et offre une panoplie d’activités en lien avec la lecture : soirée poésie, atelier de création littéraire, lecture de contes, après-midi improvisation et combat d’écriture. Développer le plaisir de la lecture, stimuler la curiosité et la créativité, informer, conseiller et favoriser un échange.
+        <br />
+        <br />En espérant le tout conforme à votre demande.
+        <br />Merci!
+        <br />Frédérique
+        <br />
+        <br />Frédérique Nantes
+        <br />Copropriétaire de la librairie LA FOURMI AILÉE
+        <br />Stanstead et Granby
     </p>
 </div>
-<hr/>
+<hr />
+
 <div class="container">
-    <h4 class="titreSections">Services offerts: </h4>
-    <div id="carouselServices" class="carousel slide">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="cards-wrapper">
-                    <partial name="_ServiceOffert.cshtml"/>
-                    <partial name="_ServiceOffert.cshtml"/>
-                    <partial name="_ServiceOffert.cshtml"/>
+    <!--
+        Un carousel contenant les services offerts. Il n'y a que des donnés test.
+
+        Les slides sont par 3, et lorsqu'on clique sur les flèches pour transitionner, le carousel glisse par 3 au lieu de 1
+
+        Les cartes sont toutes des vues partielles.
+    -->
+    @if (Model.Services.Count > 1)
+    {
+        <h4 class="titreSections">Services offerts: </h4>
+        <div id="carouselServices" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper">
+                        <partial name="_ServiceOffert.cshtml" model="Model.Services[0]" />
+                        @if (Model.Services.Count > 2)
+                        {
+                            <partial name="_ServiceOffert.cshtml" model="Model.Services[1]" />
+                        }
+                        @if (Model.Services.Count > 3)
+                        {
+                            <partial name="_ServiceOffert.cshtml" model="Model.Services[2]" />
+                        }
+                    </div>
                 </div>
+                @for (var indexService = 1; indexService < (float)Model.Services.Count / 3; indexService++)
+                {
+                    <div class="carousel-item">
+                        <div class="cards-wrapper">
+                            @for (var indexService2 = 0; indexService2 < 3; indexService2++)
+                            {
+                                @if (Model.Services.Count > indexService * 3 + indexService2)
+                                {
+                                    <partial name="_ServiceOffert.cshtml" model="Model.Services[indexService*3+indexService2]" />
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        </div>
+                    </div>
+                }
             </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_ServiceOffert.cshtml"/>
-                    <partial name="_ServiceOffert.cshtml"/>
-                    <partial name="_ServiceOffert.cshtml"/>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_ServiceOffert.cshtml"/>
-                    <partial name="_ServiceOffert.cshtml"/>
-                    <partial name="_ServiceOffert.cshtml"/>
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselServices" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselServices" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselServices" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselServices" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
 
-    <hr/>
+        <hr />
 
-    <h3 class="titreSections">Évenements: </h3>
-    <div id="carouselEvenements" class="carousel slide">
-        <a href="#" class="voirPlus">Voir plus ->: </a>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
+    }
+    <!--
+        Un carousel contenant les évènements. Il n'y a que des donnés test.
+
+        Les slides sont par 3, et lorsqu'on clique sur les flèches pour transitionner, le carousel glisse par 3 au lieu de 1
+
+        Les cartes sont toutes des vues partielles.
+    -->
+    @if (Model.Evenements.Count > 1)
+    {
+        <h3 class="titreSections">Évenements: </h3>
+        <div id="carouselEvenements" class="carousel slide">
+            <a href="#" class="voirPlus">Voir plus ->: </a>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteEvenement.cshtml" model="Model.Evenements[0]" />
+                        @if (Model.Evenements.Count > 2)
+                        {
+                            <partial name="_CarteEvenement.cshtml" model="Model.Evenements[1]" />
+                        }
+                        @if (Model.Evenements.Count > 3)
+                        {
+                            <partial name="_CarteEvenement.cshtml" model="Model.Evenements[2]" />
+                        }
+                    </div>
                 </div>
+                @for (var indexEvenement = 1; indexEvenement < (float)Model.Evenements.Count / 3; indexEvenement++)
+                {
+                    <div class="carousel-item">
+                        <div class="cards-wrapper">
+                            @for (var indexEvenement2 = 0; indexEvenement2 < 3; indexEvenement2++)
+                            {
+                                @if (Model.Evenements.Count > indexEvenement * 3 + indexEvenement2)
+                                {
+                                    <partial name="_CarteEvenement.cshtml" model="Model.Evenements[indexEvenement*3+indexEvenement2]" />
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        </div>
+                    </div>
+                }
             </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
-                    <partial name="_CarteEvenement.cshtml" model="_VMEvent"/>
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
 
-    <hr/>
+        <hr />
+    }
+    <!--
+        Un carousel contenant les livres en vedette. Nous désirons y ajouter les livres populaires, ou les nouveautés dans ce carousel.
+        Pour le moment, nous avons des donnés test.
 
-    <h3 class="titreSections">Livres en vedette: </h3>
-    <div id="carouselLivresVedette" class="carousel slide">
-        <a href="#" class="voirPlus">Voir plus ->: </a>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
+        Les slides sont par 4, et lorsqu'on clique sur les flèches pour transitionner, le carousel glisse par 4 au lieu de 1
+
+        Les cartes sont toutes des vues partielles.
+    -->
+    @if (Model.Vedettes.Count > 1)
+    {
+        <h3 class="titreSections">Livres en vedette: </h3>
+        <div id="carouselLivresVedette" class="carousel slide">
+            <a href="#" class="voirPlus">Voir plus ->: </a>
+            <div class="carousel-inner">
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteLivre.cshtml" model="Model.Vedettes[0]" />
+                        @if (Model.Vedettes.Count > 2)
+                        {
+                            <partial name="_CarteLivre.cshtml" model="Model.Vedettes[1]" />
+                        }
+                        @if (Model.Vedettes.Count > 3)
+                        {
+                            <partial name="_CarteLivre.cshtml" model="Model.Vedettes[2]" />
+                        }
+                        @if (Model.Vedettes.Count > 4)
+                        {
+                            <partial name="_CarteLivre.cshtml" model="Model.Vedettes[3]" />
+                        }
+                    </div>
                 </div>
+                @for (var indexLivre = 1; indexLivre < (float)Model.Vedettes.Count / 4; indexLivre++)
+                {
+                    <div class="carousel-item active">
+                        <div class="cards-wrapper">
+                            @for (var indexLivre2 = 0; indexLivre2 < 4; indexLivre2++)
+                            {
+                                @if (Model.Vedettes.Count > indexLivre * 4 + indexLivre2)
+                                {
+                                    <partial name="_CarteLivre.cshtml" model="Model.Vedettes[indexLivre*4+indexLivre2]" />
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        </div>
+                    </div>
+                }
             </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselLivresVedette" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselLivresVedette" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselLivresVedette" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselLivresVedette" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+    }
+    <!--
+        Un carousel contenant les recommendations pour l'utilisateur. Nous désirons y ajouter un algorithme qui détermine quel livres l'utiisateur
+        serait interessé en se basant sur les livres qu'il a consulté ou acheté.
+        Pour le moment, nous avons des donnés test.
 
-    <h3 class="titreSections">Recommendations pour vous: </h3>
-    <div id="carouselRecommendations" class="carousel slide">
-        <a href="#" class="voirPlus">Voir plus ->: </a>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
+        Les slides sont par 4, et lorsqu'on clique sur les flèches pour transitionner, le carousel glisse par 4 au lieu de 1
+
+        Les cartes sont toutes des vues partielles.
+    -->
+    @if (Model.Recommendations.Count > 1)
+    {
+        <h3 class="titreSections">Recommendations pour vous: </h3>
+        <div id="carouselRecommendations" class="carousel slide">
+            <a href="#" class="voirPlus">Voir plus ->: </a>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper">
+                        <partial name="_CarteLivre.cshtml" model="Model.Recommendations[0]" />
+                        @if (Model.Recommendations.Count > 2)
+                        {
+                            <partial name="_CarteLivre.cshtml" model="Model.Recommendations[1]" />
+                        }
+                        @if (Model.Recommendations.Count > 3)
+                        {
+                            <partial name="_CarteLivre.cshtml" model="Model.Recommendations[2]" />
+                        }
+                        @if (Model.Recommendations.Count > 4)
+                        {
+                            <partial name="_CarteLivre.cshtml" model="Model.Recommendations[3]" />
+                        }
+                    </div>
                 </div>
+                @for (var indexLivre = 1; indexLivre < (float)Model.Recommendations.Count / 4; indexLivre++)
+                {
+                    <div class="carousel-item">
+                        <div class="cards-wrapper">
+                            @for (var indexLivre2 = 0; indexLivre2 < 4; indexLivre2++)
+                            {
+                                @if (Model.Recommendations.Count > indexLivre * 4 + indexLivre2)
+                                {
+                                    <partial name="_CarteLivre.cshtml" model="Model.Recommendations[indexLivre*4+indexLivre2]" />
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        </div>
+                    </div>
+                }
             </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="cards-wrapper">
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                    <partial name="_CarteLivre.cshtml" model="_VMLivre"/>
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+    }
 </div>
 
 <div class="livresGrille container">
 
-    <div class="titreBoutonsDeGrille">
-        <h3 class="titreSections titreCategories">Catégories en vedette:</h3>
+    <!--
+        Ce conteneur contient une liste de 10 livres fesant partie d'une catégorie en vedette.
 
-        <div class="btn-group" role="group" aria-label="Basic example" style="margin-bottom: 24px">
-            <button type="button" class="btn btn-secondary">Action</button>
-            <button type="button" class="btn btn-secondary">Cuisine</button>
-            <button type="button" class="btn btn-secondary">Bandes dessinées</button>
-            <button type="button" class="btn btn-secondary">Biographies</button>
-            <button type="button" class="btn btn-secondary">Jeunesse</button>
+        On a 5 catégories en vedette. Pour le moment ce ne sont que des donnés test.
+
+        Ces catégories sont représentés sous la forme d'un groupe de boutons.
+
+        (PAS ENCORE IMPLÉMENTÉ)
+        Lorsqu'on clique sur l'un des boutons, le programme change les livres selon la catégorie sélectionnée.
+
+        L'utilisateur aura aussi l'option de "Voir plus".
+    -->
+    @if (Model.Categories.Count > 1)
+    {
+        <div class="titreBoutonsDeGrille">
+            <h3 class="titreSections titreCategories">Catégories en vedette:</h3>
+
+            <div class="btn-group" role="group" aria-label="Basic example">
+                @foreach (var categorie in Model.Categories)
+                {
+                    <button type="button" class="btn btn-secondary @categorie" onclic="ChangerCategorie(@categorie)">@categorie</button>
+                }
+            </div>
         </div>
-    </div>
 
-
-    <a href="#" class="voirPlus">Voir plus ->: </a>
-    <div class="livresGrillesListeLivres">
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-        <partial name="_CarteLivrePetit.cshtml" model="_VMLivre"/>
-    </div>
+        <noscript><p>Cette section utilise JavaScript pour fonctionner.</p></noscript>
+        <a href="#" class="voirPlus">Voir plus ->: </a>
+        <div class="livresGrillesListeLivres">
+            @foreach (var livre in Model.LivreCategories)
+            {
+                <partial name="_CarteLivrePetit.cshtml" model="livre" />
+            }
+        </div>
+    }
 </div>
+<script>/*
+    if (@Model.Categories.Count > 1)
+        ChangerCategorie(@Model.Categories[0]);
 
-<style>
-    #photoPageAccueilDiv{
-        background: url('https://images.pexels.com/photos/261821/pexels-photo-261821.jpeg?auto=compress&cs=tinysrgb') no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        width: 100vw !important;
-        overflow: hidden;
-        height: 90vh;
-        display: flex;
-        color: white;
-    }
+    function ChangerCategorie(string categorieChoisie) {
+        for (var categorie in @Model.Categories)
+            for (var livre in document.getElementsByClassName(categorie))
+                livre.hidden = true;
+        for (var livre in document.getElementsByClassName(categorieChoisie))
+            livre.hidden = false;
 
-    #Titre{
-        color: white;
-        padding-top: 20%;
-        padding-bottom: 30%;
-    }
-
-    .voirPlus{
-        text-align: right;
-        width: 100%;
-        text-decoration: underline;
-        margin-left: 88%;
-    }
-
-    .listeBanderole {
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .banderole{
-        margin-top: 20px;
-    }
-
-    .titreSections{
-        margin-top: 24px;
-    }
-
-    .livresGrillesListeLivres{
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .titreBoutonsDeGrille{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .cards-wrapper {
-        display: flex;
-        justify-content: center;
-    }
-
-    .card img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-    .card {
-        margin: 0 2.0em;
-        box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-        border: none;
-        border-radius: 0;
-    }
-
-    .carousel-inner {
-        padding: 1em;
-    }
-
-    .carousel-control-prev,
-    .carousel-control-next {
-        background-color: #e1e1e1;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        top: 50%;
-        padding-bottom: 10px;
-        transform: translateY(-50%);
-    }
-</style>
+    }*/
+</script>

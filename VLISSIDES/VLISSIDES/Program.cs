@@ -44,6 +44,9 @@ builder.Services.AddControllers()
 
 var app = builder.Build();
 
+// Configure le HTTP request pipeline.
+app.UseSession();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

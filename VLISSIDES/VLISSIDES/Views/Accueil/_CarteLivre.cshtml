@@ -2,59 +2,31 @@
 
 @{
     //Juste pour pouvoir différencier les cartes
-    var random = new Random();
-    var randomNumber = random.Next(1, 100000);
 }
 
 <div class="item livre">
-    <div class="card cardLivre" style="width: 14.5rem">
+    <div class="card cardLivre">
         <div class="imgDiv">
-            <img src="@Model.monLivre.Couverture"
+            <img src="@Model.Couverture"
                  class="card-img-top imgLivre"
-                 alt="..."/>
+                 alt="Couverture du livre" />
         </div>
         <div class="card-body">
-            <h6 class="card-title">@Model.monLivre.Titre @randomNumber</h6>
-            <partial name="_Etoiles.cshtml"/>
+            <h6 class="card-title">@Model.Titre</h6>
+            <partial model="@Model.Score" name="_Etoiles.cshtml" />
 
-            <h6>@Model.monLivre.Prix $</h6>
+            <h6>@Model.Prix $</h6>
 
-            @foreach (var auteur in Model.monLivre.Auteur)
-            {
-                <p>@auteur.Nom, @auteur.Prenom</p>
-            }
+            <pre>@Model.Auteurs</pre>
 
-            <hr/>
+            <hr />
             <h6>Catégories reliées: </h6>
-            <a href="#" class="btn btn-secondary btnCategorie">Action</a>
-            <a href="#" class="btn btn-secondary btnCategorie">Science-fiction</a>
+            @{
+                foreach(var categorie in Model.Categories)
+                {
+                    <a href="#" class="btn btn-secondary btnCategorie">@categorie</a>
+                }
+            }
         </div>
     </div>
 </div>
-
-<style>
-    .btnCategorie{
-        margin: 4px;
-        font-size: 10px;
-        padding: 6px;
-    }
-
-    .imgLivre{
-        width: 45%;
-        height: 45%;
-    }
-
-    .imgDiv{
-        display: flex;
-        justify-content: center;
-    }
-
-    .livre{
-        margin-right: -20px;
-        margin-left: -20px;
-    }
-
-    .cardLivre:hover {
-        background-color: #DCE4EC;
-    }
-</style>

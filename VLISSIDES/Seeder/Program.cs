@@ -1,19 +1,32 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+
+/**
+ * Ce seeder sert à créer des donnés pour tester le programme. Ce seeder crée:
+ *      -Auteurs
+ *      -Maisons d'édtions
+ *      -Livres
+ * 
+ * Éventuellement, nous n'aurons plus besoin de ce seeder lorsqu'on aura les donnés
+ */
 using Faker;
 using FizzWare.NBuilder;
 using Seeder;
 using VLISSIDES.Models;
 
+//Signaler le debut du seeder
 Console.WriteLine("Début du seed!");
 using var context = DbContextFactory.CreateDbContext();
 
+//Listes pour choisir aléatoirement pour les livres
 var categories = context.Categories.ToList();
 var typeLivres = context.TypeLivres.ToList();
 var langues = context.Langues.ToList();
 
 var generator = new RandomGenerator();
 
+
+//Supprimer les donnés qui avait avant pour créer les nouvelles donnés
 context.Auteurs.RemoveRange(context.Auteurs);
 context.SaveChanges();
 context.MaisonEditions.RemoveRange(context.MaisonEditions);
@@ -21,7 +34,7 @@ context.SaveChanges();
 context.Livres.RemoveRange(context.Livres);
 context.SaveChanges();
 
-
+//Générer les auteurs
 var auteurs = Builder<Auteur>.CreateListOfSize(99)
     .All()
     .With(c => c.Nom = Name.Last())
@@ -32,6 +45,7 @@ var auteurs = Builder<Auteur>.CreateListOfSize(99)
 context.Auteurs.AddRange(auteurs);
 context.SaveChanges();
 
+//Générer les maisons d'édition
 var maisonsEditions = Builder<MaisonEdition>.CreateListOfSize(99)
     .All()
     .With(c => c.Nom = Company.Name())
@@ -39,6 +53,7 @@ var maisonsEditions = Builder<MaisonEdition>.CreateListOfSize(99)
 context.MaisonEditions.AddRange(maisonsEditions);
 context.SaveChanges();
 
+//Générer les livres
 var livres = Builder<Livre>.CreateListOfSize(2999)
     .All()
     .With(c => c.Titre = Company.Name())
@@ -59,4 +74,5 @@ var livres = Builder<Livre>.CreateListOfSize(2999)
 context.Livres.AddRange(livres);
 context.SaveChanges();
 
+//Signaler la fin du seeder
 Console.WriteLine("Fin du seed!");
