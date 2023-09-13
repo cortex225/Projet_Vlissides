@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels;
@@ -54,6 +54,10 @@ public class AccueilController : Controller
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories));
     }
 
+    public IActionResult Message(string titre, string message)
+    {
+        return View(new MessageVM(titre, message));
+    }
     public IActionResult Privacy()
     {
         return View();
