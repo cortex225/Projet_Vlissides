@@ -1,5 +1,5 @@
-﻿@using VLISSIDES.ViewModels.GestionLivres;
-@model List<GestionLivresAfficherVM>
+﻿@using VLISSIDES.ViewModels.Recherche;
+@model IndexRechercheVM;
 @{
     ViewData["Title"] = "Inventaire";
 }
@@ -7,7 +7,7 @@
 <div class="d-block p-4 p-4">
 
     <div class="mb-4">
-        <h1>Inventaire</h1>
+        <h1>Résultat de recherche pour "@Model.MotRecherche"</h1>
     </div>
 
     <div class="container-fluid m-1">
@@ -93,67 +93,12 @@
                 @* Body *@
                 <div class="col-10">
 
-
-                    @* Add button *@
-                    <div class="my-4">
-                        <button type="button" class="btn btn-primary" asp-action="Ajouter">Ajouter livre</button>
-                    </div>
-
-                    @* Research results (Temporary results) *@
-
-                    @* Table *@
-                    <div class="container-fluid d-flex flex-wrap row">
-                        <div class="mb-3 mx-3">
-                            <div class="row px-2">
-                                <div class="col-1 text-center">
-                                    Image
-                                </div>
-                                <div class="col-2 text-center">
-                                    Titre
-                                </div>
-                                <div class="col-2 text-center">
-                                    Auteur
-                                </div>
-                                <div class="col-2 text-center">
-                                    Maison d'édition
-                                </div>
-                                <div class="col-2 text-center">
-                                    Quantité
-                                </div>
-                            </div>
-                        </div>
-
-                        @* Results *@
-                            @foreach (var item in Model)
-                            {
-                                <div class="card mb-2 mx-3">
-                                    <div class="card-body row px-2">
-                                        <div class="col-1 text-center">
-                                            <img src="..." alt="..." class="img-thumbnail">
-                                        </div>
-                                        <div class="col-2 text-center">
-                                            Titre 1
-                                        </div>
-                                        <div class="col-2 text-center">
-                                            Auteur 1
-                                        </div>
-                                        <div class="col-2 text-center">
-                                            Maison d'édition 1
-                                        </div>
-                                        <div class="col-2 text-center">
-                                            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
-                                        </div>
-                                        <div class="col-3 text-center d-flex flex-row justify-content-around">
-                                            @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-                                            <button type="button" class="btn btn-success">Sauvegarder</button>
-                                            <button type="button" class="btn btn-danger p-2" asp-action="Delete">
-                                                <span class="fa-solid fa-trash fa-2x"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                    </div>
+                    @* Results *@
+                    <div class="results">
+                        @foreach(Livre livre in Model.ResultatRecherche){
+                            <partial name="_CarteLivreRecherche.cshtml" model="@livre"/>
+                        }
+                    <div>
                 </div>
 
             </div>
@@ -163,3 +108,5 @@
     </div>
 
 </div>
+
+<link rel="stylesheet" href="~/css/Recherche.css">

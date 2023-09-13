@@ -1,0 +1,37 @@
+﻿.results {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/*--Recherche/_CarteLivreRecherche------------------------------------------------------------------------------------------------------------------*/
+.btnCategorie {
+    margin: 4px;
+    font-size: 10px;
+    padding: 6px;
+}
+
+.imgLivre {
+    width: 20%;
+    height: 20%;
+}
+
+.imgDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.livre {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.cardLivre {
+    width: 12rem;
+}
+
+    .cardLivre:hover {
+        background-color: #DCE4EC;
+    }
