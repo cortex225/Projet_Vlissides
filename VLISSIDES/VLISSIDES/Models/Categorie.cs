@@ -6,12 +6,10 @@ public class Categorie
 {
     public string Id { get; set; } = default!;
 
-    [DisplayName("Nom")]
-    public string Nom { get; set; } = default!;
+    [DisplayName("Nom")] public string Nom { get; set; } = default!;
 
-    [DisplayName("Description")]
-    public string Description { get; set; } = default!;
+    [DisplayName("Description")] public string Description { get; set; } = default!;
 
-    [DisplayName("Livres reliées à cette catégorie")]
+    [DisplayName("Livres reliï¿½es ï¿½ cette catï¿½gorie")]
     public ICollection<Livre> Livres { get; set; } = default!;
 }

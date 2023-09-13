@@ -93,40 +93,39 @@
                 <div class="col-10">
 
 
-                @* Add button *@
-                <div class="m-4">
-                    @* <button type="button" class="btn btn-primary" asp-controller="GestionLivresController" asp-action="Ajouter">Ajouter livre</button> *@
-                    <a asp-action="Ajouter" class="btn btn-primary">Ajouter livre</a>
-                </div>
-
-
-                @* Table *@
-                <div class="container-fluid d-flex flex-wrap row">
-                    <div class="mb-3 mx-3">
-                        <div class="row px-2">
-                            <div class="col-1 text-center">
-                                Image
-                            </div>
-                            <div class="col-2 text-center">
-                                Titre
-                            </div>
-                            <div class="col-2 text-center">
-                                Auteur
-                            </div>
-                            <div class="col-2 text-center">
-                                Maison d'édition
-                            </div>
-                            <div class="col-2 text-center">
-                                Quantité
-                            </div>
-                        </div>
-
+                    @* Add button *@
+                    <div class="m-4">
+                        @* <button type="button" class="btn btn-primary" asp-controller="GestionLivresController" asp-action="Ajouter">Ajouter livre</button> *@
+                        <a asp-action="Ajouter" class="btn btn-primary">Ajouter livre</a>
                     </div>
 
-                    @* Results *@
-                    @foreach (var item in Model)
-                    {
-                       
+
+                    @* Table *@
+                    <div class="container-fluid d-flex flex-wrap row">
+                        <div class="mb-3 mx-3">
+                            <div class="row px-2">
+                                <div class="col-1 text-center">
+                                    Image
+                                </div>
+                                <div class="col-2 text-center">
+                                    Titre
+                                </div>
+                                <div class="col-2 text-center">
+                                    Auteur
+                                </div>
+                                <div class="col-2 text-center">
+                                    Maison d'édition
+                                </div>
+                                <div class="col-2 text-center">
+                                    Quantité
+                                </div>
+                            </div>
+
+                        </div>
+
+                        @* Results *@
+                        @foreach (var item in Model)
+                        {
                             <div class="card mb-2 mx-3 ">
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="col-1 text-center">
@@ -161,11 +160,11 @@
                                     </div>
                                 </div>
                             </div>
+                        }
 
-                    }
+                    </div>
 
                 </div>
-
             </div>
 
         </form>
@@ -176,7 +175,8 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
 <script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
+
 @section Scripts
-    {
-    
+{
+
 }
