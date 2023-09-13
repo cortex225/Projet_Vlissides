@@ -6,21 +6,17 @@ public class Reservation
 {
     public string Id { get; set; } = default!;
 
-    [DisplayName("Date réservation")]
-    public DateTime DateReservation { get; set; } = default!;
+    [DisplayName("Date rï¿½servation")] public DateTime DateReservation { get; set; } = default!;
 
-    [DisplayName("Description")]
-    public string Description { get; set; } = default!;
+    [DisplayName("Description")] public string Description { get; set; } = default!;
 
-    [DisplayName("Identifiant de l'évenement")]
+    [DisplayName("Identifiant de l'ï¿½venement")]
     public string EvenementId { get; set; } = default!;
 
-    [DisplayName("Évenement associé")]
-    public Evenement Evenement { get; set; } = default!;
+    [DisplayName("ï¿½venement associï¿½")] public Evenement Evenement { get; set; } = default!;
 
-    [DisplayName("Identifiant du membre réservateur")]
+    [DisplayName("Identifiant du membre rï¿½servateur")]
     public string MembreId { get; set; } = default!;
 
-    [DisplayName("Membre réservateur")]
-    public Membre Membre { get; set; } = default!;
+    [DisplayName("Membre rï¿½servateur")] public Membre Membre { get; set; } = default!;
 }
