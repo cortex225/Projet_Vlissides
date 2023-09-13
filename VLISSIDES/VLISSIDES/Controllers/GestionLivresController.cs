@@ -104,7 +104,7 @@ public class GestionLivresController : Controller
             }
             else
             {
-                vm.CoverImageUrl = $"{_config.GetValue<string>("ImageUrl")}livredefault.png";
+                vm.CoverImageUrl = "/2172811/img/CouvertureLivre/livredefault.png";
             }
             //Types de livres
             List<TypeLivre> listeType = new List<TypeLivre>();
