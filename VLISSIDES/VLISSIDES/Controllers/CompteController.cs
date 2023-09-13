@@ -188,7 +188,7 @@ public class CompteController : Controller
                     Request.Scheme);
 
                 // Récupérer l'URL complète du logo à partir de l'application
-                var logoUrl = Url.Content("https://myinstahr.ca/assets/img/instaLogo.png");
+                var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
 
                 await _sendGridEmail.SendEmailAsync(user.Email,
                     "\"La Fourmie Aillée- Demande de confirmer ton incription",
@@ -230,7 +230,7 @@ public class CompteController : Controller
         if (_userManager.ConfirmEmailAsync(user, code).IsFaulted) return BadRequest();
         user.EmailConfirmed = true;
         _signInManager.SignInAsync(user, false);
-        return View();
+        return RedirectToAction("Login", "Compte");
     }
 
     [HttpPost]
@@ -289,7 +289,7 @@ public class CompteController : Controller
             HttpContext.Request.Scheme); //Ici je passe le code de réinitialisation en paramètre de l'URL
 
         // Récupérer l'URL complète du logo à partir de l'application
-        var logoUrl = Url.Content("https://localhost:7089/img/Logo/Logo(NoBackground).png");
+        var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
 
         await _sendGridEmail.SendEmailAsync(
             model.Email,
