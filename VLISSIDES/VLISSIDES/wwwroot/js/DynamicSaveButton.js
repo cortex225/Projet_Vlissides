@@ -1,5 +1,10 @@
 function enableButton(itemId) {
-    button = document.getElementById("saveButton " + itemId)
+    button = document.getElementById("saveButton " + itemId);
     button.disabled = false;
-    console.log(button);
+}
+
+function disableButton(itemId) {
+    button = document.getElementById("saveButton " + itemId);
+    button.disabled = true;
+
 }
