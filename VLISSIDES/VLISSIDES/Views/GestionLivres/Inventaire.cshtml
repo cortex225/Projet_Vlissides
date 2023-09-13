@@ -123,10 +123,11 @@
 
                         </div>
 
-                        @* Results *@
-                        @foreach (var item in Model)
-                        {
-                            <div class="card mb-2 mx-3 ">
+                    @* Results *@
+                    @foreach (var item in Model)
+                    {
+                       
+                            <div id="@item.Id" class="card mb-2 mx-3 ">
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="col-1 text-center">
                                         <img src="@item.Image" alt="..." class="img-thumbnail">
@@ -146,7 +147,7 @@
                                     <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                                         @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
 
-                                        <button id="saveButton @item.Id" type="button" class="btn btn-success" onclient onclick="
+                                        <button id="saveButton @item.Id" type="button" class="btn btn-success" onclick="
                                             saveQuantite('@item.Id', '@item.Quantite')
                                             disableButton('@item.Id')"
                                                 disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Quantite">
@@ -154,7 +155,7 @@
                                             Sauvegarder
 
                                         </button>
-                                        <button type="button" class="btn btn-danger p-2" asp-action="Delete" asp-route-id="@item.Id">
+                                        <button type="button" class="btn btn-danger p-2" onclick="SupprimerLivre(`@item.Id`)">
                                             <span class="fa-solid fa-trash fa-2x"></span>
                                         </button>
                                     </div>
