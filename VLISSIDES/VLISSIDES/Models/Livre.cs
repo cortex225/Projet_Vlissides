@@ -9,7 +9,7 @@ public class Livre
     [DisplayName("Titre")]
     public string Titre { get; set; } = default!;
 
-    [DisplayName("Résumé")]
+    [DisplayName("RÃ©sumÃ©")]
     public string Resume { get; set; } = default!;
 
     [DisplayName("Page couverture")]
@@ -39,16 +39,16 @@ public class Livre
     [DisplayName("Auteur(s)")]
     public ICollection<Auteur> Auteur { get; set; } = default!;
 
-    [DisplayName("Identifiant de la maison d'édition")]
+    [DisplayName("Identifiant de la maison d'ï¿½dition")]
     public string? MaisonEditionId { get; set; }
 
-    [DisplayName("Maison d'édition")]
+    [DisplayName("Maison d'Ã©dition")]
     public MaisonEdition? MaisonEdition { get; set; }
 
-    [DisplayName("Identifiant de la catégorie")]
+    [DisplayName("Identifiant de la catï¿½gorie")]
     public string CategorieId { get; set; } = default!;
 
-    [DisplayName("Catégories associés")]
+    [DisplayName("Catï¿½gories associï¿½s")]
     public ICollection<Categorie> Categories { get; set; } = default!;
 
     [DisplayName("Identifiant du type de livre")]
@@ -57,10 +57,10 @@ public class Livre
     [DisplayName("Type(s) de livre")]
     public ICollection<TypeLivre> TypesLivre { get; set; } = default!;
 
-    [DisplayName("Identifiant de l'évaluation")]
+    [DisplayName("Identifiant de l'Ã©valuation")]
     public string? EvaluationId { get; set; } = default!;
 
-    [DisplayName("Évaluations")]
+    [DisplayName("ï¿½valuations")]
     public ICollection<Evaluation>? Evaluations { get; set; }
 
     [DisplayName("Identifiant de la langue")]
