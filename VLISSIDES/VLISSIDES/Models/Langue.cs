@@ -6,12 +6,10 @@ public class Langue
 {
     public string Id { get; set; } = default!;
 
-    [DisplayName("Nom")]
-    public string Nom { get; set; } = default!;
+    [DisplayName("Nom")] public string Nom { get; set; } = default!;
 
-    [DisplayName("Code")]
-    public string Code { get; set; } = default!;
+    [DisplayName("Code")] public string Code { get; set; } = default!;
 
-    [DisplayName("Livre écrits dans cette langue")]
+    [DisplayName("Livre ï¿½crits dans cette langue")]
     public ICollection<Livre>? Livres { get; set; }
 }

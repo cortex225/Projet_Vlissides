@@ -182,7 +182,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         var DefaultMaisonEdition = new MaisonEdition
         {
             Id = "0",
-            Nom = "Maison d'édition par défaut",
+            Nom = "Maison d'édition par défaut"
         };
         builder.Entity<MaisonEdition>().HasData(DefaultMaisonEdition);
 

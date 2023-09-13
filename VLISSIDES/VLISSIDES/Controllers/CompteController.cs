@@ -188,7 +188,8 @@ public class CompteController : Controller
                     Request.Scheme);
 
                 // Récupérer l'URL complète du logo à partir de l'application
-                var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
+                var logoUrl =
+                    Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
 
                 await _sendGridEmail.SendEmailAsync(user.Email,
                     "\"La Fourmie Aillée- Demande de confirmer ton incription",

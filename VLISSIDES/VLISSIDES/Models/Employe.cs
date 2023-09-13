@@ -4,6 +4,5 @@ namespace VLISSIDES.Models;
 
 public class Employe : ApplicationUser
 {
-    [DisplayName("Numéro d'employé")]
-    public string NoEmploye { get; set; } = default!;
+    [DisplayName("Numï¿½ro d'employï¿½")] public string NoEmploye { get; set; } = default!;
 }
