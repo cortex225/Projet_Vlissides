@@ -1,4 +1,4 @@
-﻿function saveQuantite(id="", quantite=0) {
+﻿function saveQuantite(id = "", quantite = 0) {
     fetch(`ModifierLivreQuantite?id=${id}&quantite=${document.getElementById(id + ' quantite').value}`, {
         method: 'POST',
         headers: {

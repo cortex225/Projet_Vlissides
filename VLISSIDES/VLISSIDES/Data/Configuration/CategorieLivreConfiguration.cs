@@ -49,7 +49,8 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
             {
                 Id = "6",
                 Nom = "Conte",
-                Description = "Voyagez dans des mondes lointains avec des histoires intemporelles, des fables et des légendes."
+                Description =
+                    "Voyagez dans des mondes lointains avec des histoires intemporelles, des fables et des légendes."
             },
             new Categorie
             {
@@ -76,7 +77,8 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
             {
                 Id = "10",
                 Nom = "Essai",
-                Description = "Engagez-vous dans des réflexions profondes et argumentatives sur des enjeux contemporains."
+                Description =
+                    "Engagez-vous dans des réflexions profondes et argumentatives sur des enjeux contemporains."
             },
             new Categorie
             {
@@ -102,7 +104,8 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
             {
                 Id = "14",
                 Nom = "Guide pratique",
-                Description = "Conseils et astuces pour naviguer dans la vie quotidienne, du bricolage à la gestion du temps."
+                Description =
+                    "Conseils et astuces pour naviguer dans la vie quotidienne, du bricolage à la gestion du temps."
             },
             new Categorie
             {
@@ -141,13 +144,15 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
             {
                 Id = "20",
                 Nom = "Maternité – Famille",
-                Description = "Des ressources pour les parents et ceux qui aspirent à le devenir, pour une vie familiale épanouie."
+                Description =
+                    "Des ressources pour les parents et ceux qui aspirent à le devenir, pour une vie familiale épanouie."
             },
             new Categorie
             {
                 Id = "21",
                 Nom = "Poésie – Théâtre – Essais",
-                Description = "Laissez-vous emporter par le rythme des vers, l'intensité du théâtre et la profondeur des essais."
+                Description =
+                    "Laissez-vous emporter par le rythme des vers, l'intensité du théâtre et la profondeur des essais."
             }, new Categorie
             {
                 Id = "22",
@@ -165,25 +170,29 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
             {
                 Id = "24",
                 Nom = "Roman de science-fiction et fantastique",
-                Description = "Voyagez dans des mondes parallèles, où l'imaginaire rencontre souvent la réflexion profonde."
+                Description =
+                    "Voyagez dans des mondes parallèles, où l'imaginaire rencontre souvent la réflexion profonde."
             },
             new Categorie
             {
                 Id = "25",
                 Nom = "Roman français et étranger ",
-                Description = "Des romans venus de France et d'ailleurs pour vous transporter dans de multiples univers narratifs."
+                Description =
+                    "Des romans venus de France et d'ailleurs pour vous transporter dans de multiples univers narratifs."
             },
             new Categorie
             {
                 Id = "26",
                 Nom = "Roman policier",
-                Description = "Plongez dans des enquêtes palpitantes, des énigmes à résoudre et des mystères à élucider."
+                Description =
+                    "Plongez dans des enquêtes palpitantes, des énigmes à résoudre et des mystères à élucider."
             },
             new Categorie
             {
                 Id = "27",
                 Nom = "Roman québécois",
-                Description = "Découvrez la richesse de la littérature québécoise, avec ses voix uniques et ses paysages envoûtants."
+                Description =
+                    "Découvrez la richesse de la littérature québécoise, avec ses voix uniques et ses paysages envoûtants."
             },
             new Categorie
             {
@@ -207,9 +216,9 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
             {
                 Id = "31",
                 Nom = "Sport - Loisirs",
-                Description = "Pour les passionnés de sport et les chercheurs d'activités, des histoires inspirantes aux guides pratiques."
+                Description =
+                    "Pour les passionnés de sport et les chercheurs d'activités, des histoires inspirantes aux guides pratiques."
             }
-            
         );
     }
 }

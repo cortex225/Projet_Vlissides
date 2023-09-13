@@ -29,8 +29,7 @@
     }
     else
     {
-
-        @* <li class="nav-item"> *@
+@* <li class="nav-item"> *@
         @*     <a class="nav-link text-dark" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a> *@
         @* </li> *@
         @if (SignInManager.IsSignedIn(User))
@@ -38,9 +37,8 @@
             <li class="nav-item">
                 <a class="nav-link rounded-pill btn bg-primary bg-gradient text-white px-4" type="button" asp-area="" asp-controller="Compte" asp-action="Login"><i class="fa-solid fa-circle-user px-2"></i>Mon compte </a>
             </li>
-            
         }
-        
+
         <li class="nav-item">
             <a class="nav-link rounded-pill btn bg-primary bg-gradient text-white px-4" type="button" asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a>
         </li>
