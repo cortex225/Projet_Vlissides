@@ -12,11 +12,11 @@
     <div class="container-fluid m-1">
 
         @* Les recherches *@
-        <form>
+        <form class="row">
             @* Research bar *@
             <div class="row mb-3">
                 <div class="col-2 ml-4 text-center">
-                    <button type="submit" class="container-fluid btn btn-primary">Rechercher</button>
+                    <button type="submit" class="container-fluid btn btn-primary" disabled>Recherche non fonctionnelle</button>
                 </div>
 
                 <div class="col-10">
@@ -93,73 +93,90 @@
                 <div class="col-10">
 
 
-                    @* Add button *@
-                    <div class="my-4">
-                        <button type="button" class="btn btn-primary" asp-action="Ajouter">Ajouter livre</button>
-                    </div>
+                @* Add button *@
+                <div class="m-4">
+                    @* <button type="button" class="btn btn-primary" asp-controller="GestionLivresController" asp-action="Ajouter">Ajouter livre</button> *@
+                    <a asp-action="Ajouter" class="btn btn-primary">Ajouter livre</a>
+                </div>
 
-                    @* Research results (Temporary results) *@
 
-                    @* Table *@
-                    <div class="container-fluid d-flex flex-wrap row">
-                        <div class="mb-3 mx-3">
-                            <div class="row px-2">
-                                <div class="col-1 text-center">
-                                    Image
-                                </div>
-                                <div class="col-2 text-center">
-                                    Titre
-                                </div>
-                                <div class="col-2 text-center">
-                                    Auteur
-                                </div>
-                                <div class="col-2 text-center">
-                                    Maison d'édition
-                                </div>
-                                <div class="col-2 text-center">
-                                    Quantité
-                                </div>
+                @* Table *@
+                <div class="container-fluid d-flex flex-wrap row">
+                    <div class="mb-3 mx-3">
+                        <div class="row px-2">
+                            <div class="col-1 text-center">
+                                Image
+                            </div>
+                            <div class="col-2 text-center">
+                                Titre
+                            </div>
+                            <div class="col-2 text-center">
+                                Auteur
+                            </div>
+                            <div class="col-2 text-center">
+                                Maison d'édition
+                            </div>
+                            <div class="col-2 text-center">
+                                Quantité
                             </div>
                         </div>
 
-                        @* Results *@
-                        @foreach (var item in Model)
-                        {
-                            <div class="card mb-2 mx-3">
-                                <div class="card-body row px-2">
+                    </div>
+
+                    @* Results *@
+                    @foreach (var item in Model)
+                    {
+                       
+                            <div id="@item.Id" class="card mb-2 mx-3 ">
+                                <div class="card-body row p-2 align-items-center">
                                     <div class="col-1 text-center">
                                         <img src="@item.Image" alt="..." class="img-thumbnail">
                                     </div>
                                     <div class="col-2 text-center">
-                                        Titre 1
+                                        @Html.DisplayFor(modelItem => item.Titre)
                                     </div>
                                     <div class="col-2 text-center">
-                                        Auteur 1
+                                        @Html.DisplayFor(modelItem => item.Auteur)
                                     </div>
                                     <div class="col-2 text-center">
-                                        Maison d'édition 1
+                                        @Html.DisplayFor(modelItem => item.Editeur)
                                     </div>
                                     <div class="col-2 text-center">
-                                        <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
+                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
                                     </div>
-                                    <div class="col-3 text-center d-flex flex-row justify-content-around">
+                                    <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                                         @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-                                        <button type="button" class="btn btn-success">Sauvegarder</button>
-                                        <button type="button" class="btn btn-danger p-2" asp-action="Delete">
+
+                                        <button id="saveButton @item.Id" type="button" class="btn btn-success" onclick="
+                                            saveQuantite('@item.Id', '@item.Quantite')
+                                            disableButton('@item.Id')"
+                                                disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Quantite">
+
+                                            Sauvegarder
+
+                                        </button>
+                                        <button type="button" class="btn btn-danger p-2" onclick="SupprimerLivre(`@item.Id`)">
                                             <span class="fa-solid fa-trash fa-2x"></span>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                        }
 
-                    </div>
+                    }
+
                 </div>
 
             </div>
-            
+
         </form>
 
     </div>
 
 </div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
+@section Scripts
+    {
+    
+}

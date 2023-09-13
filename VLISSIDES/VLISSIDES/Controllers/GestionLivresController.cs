@@ -274,6 +274,7 @@ public class GestionLivresController : Controller
         return View(vm);
     }
     // GET: Livre/Delete/5
+    [HttpDelete]
     public async Task<IActionResult> Delete(string id)
     {
         if (id == null || _context.Livres == null) return NotFound();
@@ -283,8 +284,10 @@ public class GestionLivresController : Controller
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
+        _context.Livres.Remove(livre);
+        _context.SaveChanges();
 
-        return View(livre);
+        return Ok();
     }
 
     // POST: Livre/Delete/5
