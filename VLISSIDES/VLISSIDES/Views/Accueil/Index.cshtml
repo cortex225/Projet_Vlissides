@@ -158,6 +158,57 @@ Un bouton pour cacher/montrer les services de l'entreprises'
 
         <hr/>
     }
+    <!--Carousel contenant les promotions-->
+    @if (Model.Promotions.Count > 1)
+    {
+        <h3 class="titreSections">Promotions: </h3>
+        <div id="carouselEvenements" class="carousel slide">
+            <a href="#" class="voirPlus">Voir plus ->: </a>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper">
+                        <partial name="_CartePromotion.cshtml" model="Model.Promotions[0]" />
+                        @if (Model.Promotions.Count > 2)
+                        {
+                            <partial name="_CartePromotion.cshtml" model="Model.Promotions[1]" />
+                        }
+                        @if (Model.Promotions.Count > 3)
+                        {
+                            <partial name="_CartePromotion.cshtml" model="Model.Promotions[2]" />
+                        }
+                    </div>
+                </div>
+                @for (var indexEvenement = 1; indexEvenement < (float)Model.Evenements.Count / 3; indexEvenement++)
+                {
+                    <div class="carousel-item">
+                        <div class="cards-wrapper">
+                            @for (var indexEvenement2 = 0; indexEvenement2 < 3; indexEvenement2++)
+                            {
+                                @if (Model.Evenements.Count > indexEvenement * 3 + indexEvenement2)
+                                {
+                                    <partial name="_CarteEvenement.cshtml" model="Model.Evenements[indexEvenement * 3 + indexEvenement2]" />
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <hr />
+    }
     <!--
     Un carousel contenant les livres en vedette. Nous désirons y ajouter les livres populaires, ou les nouveautés dans ce carousel.
     Pour le moment, nous avons des donnés test.
