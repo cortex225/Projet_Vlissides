@@ -22,34 +22,35 @@ public class AccueilController : Controller
     {
         List<_ServiceCardVM> services = new()
         {
-            new _ServiceCardVM("img/jean-luc.png", "Perfection", "♥"), new _ServiceCardVM(), new _ServiceCardVM(),
+            new _ServiceCardVM("img/book-icon.png", "Vente de livre", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."), new _ServiceCardVM(), new _ServiceCardVM(),
             new _ServiceCardVM(), new _ServiceCardVM()
         };
         List<_EventCardVM> evenements = new()
         {
-            new _EventCardVM("img/logo/Logo.png", "Existance", "♦"), new _EventCardVM(), new _EventCardVM(),
-            new _EventCardVM(), new _EventCardVM()
+            new _EventCardVM("img/logo/Logo.png", "Existance", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."),
+            new _EventCardVM("img/logo/Logo.png"), new _EventCardVM("img/logo/Logo.png"),
+            new _EventCardVM("img/logo/Logo.png"), new _EventCardVM("img/logo/Logo.png")
         };
         List<_LivreCardVM> vedettes = new()
         {
-            new _LivreCardVM("img/flat.png", "Titre", 6.66, new List<Auteur> { new() { Nom = "a", Prenom = "b" } },
-                new List<Categorie> { new() { Nom = "♣" } }),
-            new _LivreCardVM(), new _LivreCardVM(), new _LivreCardVM(), new _LivreCardVM()
+            new _LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", 6.66, new List<Auteur> { new() { Nom = "Vlissides", Prenom = "Team" } },
+                new List<Categorie> { new() { Nom = "Horreur" } }),
+            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
         };
         List<_LivreCardVM> recommandations = new()
         {
-            new _LivreCardVM("img/flat.png", "Ta vie", 0.69, new List<Auteur> { new() { Nom = "ka", Prenom = "a" } },
-                new List<Categorie> { new() { Nom = "♠" } }),
-            new _LivreCardVM(), new _LivreCardVM(), new _LivreCardVM(), new _LivreCardVM()
+            new _LivreCardVM("img/flat.png", "Le chaperon rouge", 0.69, new List<Auteur> { new() { Nom = "Grimms", Prenom = "Frères" } },
+                new List<Categorie> { new() { Nom = "Conte" } }),
+            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
         };
         List<string> categories = new() { "1", "2", "3", "4", "5" };
         List<_LivreCardVM> livreCategories = new()
         {
-            new _LivreCardVM("img/flat.png", "۞", 0.69, new List<Auteur> { new() { Nom = "123", Prenom = "654" } },
-                new List<Categorie> { new() { Nom = "2" } }),
-            new _LivreCardVM("img/flat.png", "۝", 0.69, new List<Auteur> { new() { Nom = "ڣ", Prenom = "ٻٸٷ" } },
-                new List<Categorie> { new() { Nom = "2" } }),
-            new _LivreCardVM(), new _LivreCardVM(), new _LivreCardVM()
+            new _LivreCardVM("img/flat.png", "Fahrenheit 451", 0.69, new List<Auteur> { new() { Nom = "Bradbury", Prenom = "Ray" } },
+                new List<Categorie> { new() { Nom = "Fiction Dystopie" } }),
+            new _LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", 40.99, new List<Auteur> { new() { Nom = "", Prenom = "Jean-Luc" } },
+                new List<Categorie> { new() { Nom = "Informatique" } }),
+            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
         };
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories));
     }
