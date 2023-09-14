@@ -16,5 +16,5 @@ public class Evenement
 
     [DisplayName("Date de fin")] public DateTime DateFin { get; set; } = default!;
 
-    [DisplayName("R�servations")] public ICollection<Reservation>? Reservations { get; set; }
+    [DisplayName("Réservations")] public ICollection<Reservation>? Reservations { get; set; }
 }
