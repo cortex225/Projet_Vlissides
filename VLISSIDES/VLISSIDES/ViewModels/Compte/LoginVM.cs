@@ -8,14 +8,14 @@ public class LoginVM
 
     [Required(ErrorMessage = "Veuillez entrer votre nom d'utilisateur ou votre adresse e-mail.")]
     
-    [Display(Name = "Nom d'utilisateur/E-mail")]
+    [Display(Name = "Nom d'utilisateur/E-mail*")]
     public string EmailOrUserName { get; set; } = default!;
 
     [Required]
     [DataType(DataType.Password)]
     [StringLength(100, ErrorMessage = "Le {0} doit contenir au moins {2} et au maximum {1} caractères.",
         MinimumLength = 6)]
-    [Display(Name = "Mot de passe")]
+    [Display(Name = "Mot de passe*")]
     public string Password { get; set; } = default!;
 
 
