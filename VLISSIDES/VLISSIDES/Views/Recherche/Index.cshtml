@@ -6,9 +6,15 @@
 <link rel="stylesheet" href="~/css/Recherche.css">
 <div class="d-block p-4 p-4">
 
-    <div class="mb-4">
-        <h1>Résultat de recherche pour "@Model.MotRecherche"</h1>
-    </div>
+    @if(Model.ResultatRecherche.Count <= 0){
+        <div class="mb-4">
+            <h1>Aucun résultat pour "@Model.MotRecherche"</h1>
+        </div>
+    }else{
+        <div class="mb-4">
+            <h1>Résultat de recherche pour "@Model.MotRecherche"</h1>
+        </div>
+    }
 
     <div class="container-fluid m-1">
 
