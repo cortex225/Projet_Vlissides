@@ -23,7 +23,7 @@
 .imgDiv {
     display: flex;
     justify-content: center;
-    height: 60%;
+    height: 36%;
     background-color: #E1E1E1;
 }
 
@@ -36,7 +36,7 @@
 /*La carte au complet, mais un div plus bas*/
 .cardLivre {
     width: 12rem;
-    height: 24rem;
+    height: 27rem;
 }
 
     .cardLivre:hover {

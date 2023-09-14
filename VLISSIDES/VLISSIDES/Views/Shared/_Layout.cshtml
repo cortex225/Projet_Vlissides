@@ -21,10 +21,10 @@
                 <div class="input-group mb-3 recherche-group">
                     <div class="category-dropdown dropdown">
                         <span class="selected-category">Trier par :</span>
-                        <select class="form-select recherche-select" id="myDropdown">
-                            <option value="option1 active">Titre</option>
-                            <option value="option2">Auteur</option>
-                            <option value="option3">Catégorie</option>
+                        <select class="form-select recherche-select" id="dropdownRechercheNavbar">
+                            <option value="titre active">Titre</option>
+                            <option value="auteur">Auteur</option>
+                            <option value="categorie">Catégorie</option>
                         </select>
                     </div>
                     <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher...">
@@ -136,16 +136,30 @@ Une tonne de scripts divers
     //Script pour la recherche
     var search = document.getElementById("barreRechercheNavbar");
     var loupe = document.getElementById("loupeRechercheNavbar");
+    var dropdown = document.getElementById("dropdownRechercheNavbar");
 
     loupe.addEventListener("click", Rechercher);
+
+    var selectedCategory = document.querySelector(".selected-category");
+
+    // Écoutez les changements de sélection dans le dropdown
+    dropdown.addEventListener("change", function () {
+        var selectedOption = dropdown.options[dropdown.selectedIndex];
+        selectedCategory.textContent = selectedOption.text;
+    });
 
     async function Rechercher(ev) {
         ev.preventDefault();
 
         var searchTerm = search.value; // Récupérer la valeur de la barre de recherche
+        var critere = dropdown.value; //Récupérer la valeur de la liste déroulante
 
         // Utiliser la valeur dans l'URL pour l'action Index
-        window.location.href = `/Recherche/Index?motCle=${searchTerm}`;
+        if (critere == null) {
+            window.location.href = `/Recherche/Index?motCle=${searchTerm}`;
+        }else{
+            window.location.href = `/Recherche/Index?motCle=${searchTerm}&critere=${critere}`;
+        }
     }
 </script>
 
