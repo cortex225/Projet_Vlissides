@@ -40,6 +40,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Langue> Langues { get; set; }
     public DbSet<MaisonEdition> MaisonEditions { get; set; }
+    
+    public DbSet<Promotions> Promotions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
