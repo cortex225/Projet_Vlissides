@@ -51,7 +51,9 @@ public class GestionLivresController : Controller
             .ToListAsync();
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
         return View(livres);
     }
@@ -74,7 +76,7 @@ public class GestionLivresController : Controller
     public IActionResult Ajouter()
     {
         var vm = new AjouterVM();
-        //Populer les listes d�roulantes
+        //Populer les listes déroulantes
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
             Text = x.Prenom + " " + x.Nom,
