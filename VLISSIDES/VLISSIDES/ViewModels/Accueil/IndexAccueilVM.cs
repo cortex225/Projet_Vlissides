@@ -6,7 +6,8 @@ public class IndexAccueilVM
 {
     public IndexAccueilVM(List<_ServiceCardVM> services = default!, List<_EventCardVM> evenement = default!,
         List<_LivreCardVM> vedettes = default!, List<_LivreCardVM> recommendations = default!,
-        List<string> categories = default!, List<_LivreCardVM> livreCatégories = default!)
+        List<string> categories = default!, List<_LivreCardVM> livreCatégories = default!,
+        List<_PromotionCardVM> promotions = default!)
     {
         Services = services;
         Evenements = evenement;
@@ -14,6 +15,7 @@ public class IndexAccueilVM
         Recommendations = recommendations;
         Categories = categories;
         LivreCategories = livreCatégories;
+        Promotions = promotions;
     }
 
     [DisplayName("Services offerts")] public List<_ServiceCardVM> Services { get; set; }
@@ -28,4 +30,5 @@ public class IndexAccueilVM
     [DisplayName("Catégories")] public List<string> Categories { get; set; }
 
     [DisplayName("Livres catégories")] public List<_LivreCardVM> LivreCategories { get; set; }
+    [DisplayName("Promotions")] public List<_PromotionCardVM> Promotions { get; set; }
 }
