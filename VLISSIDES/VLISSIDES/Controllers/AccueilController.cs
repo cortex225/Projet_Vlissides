@@ -54,7 +54,13 @@ public class AccueilController : Controller
                 new List<Categorie> { new() { Nom = "Informatique" } }),
             new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
         };
-        return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories));
+        List<_PromotionCardVM> promotionCards = new()
+        {
+            new _PromotionCardVM("Rabais de 10% sur les livres de programmation",10,DateTime.MinValue,DateTime.MaxValue),
+            new _PromotionCardVM("Rabais de 10% sur les livres de programmation",10,DateTime.MinValue,DateTime.MaxValue),
+            new _PromotionCardVM("Rabais de 10% sur les livres de programmation",10,DateTime.MinValue,DateTime.MaxValue)
+    };
+        return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories, promotionCards));
     }
 
     public IActionResult Message(string titre, string message)
