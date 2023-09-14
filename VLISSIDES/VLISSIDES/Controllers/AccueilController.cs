@@ -22,12 +22,13 @@ public class AccueilController : Controller
     {
         List<_ServiceCardVM> services = new()
         {
-            new _ServiceCardVM("img/book-icon.png", "Vente de livre", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."), new _ServiceCardVM(), new _ServiceCardVM(),
-            new _ServiceCardVM(), new _ServiceCardVM()
+            new _ServiceCardVM("img/book-icon.png", "Vente de livre", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."),
+            new _ServiceCardVM("img/event.png","Évènements","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."),
+            new _ServiceCardVM("img/book-icon.png","a","\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla.\"")
         };
         List<_EventCardVM> evenements = new()
         {
-            new _EventCardVM("img/logo/Logo.png", "Existance", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."),
+            new _EventCardVM("img/logo/Logo.png", "Soirée poésie", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."),
             new _EventCardVM("img/logo/Logo.png"), new _EventCardVM("img/logo/Logo.png"),
             new _EventCardVM("img/logo/Logo.png"), new _EventCardVM("img/logo/Logo.png"),new _EventCardVM("img/logo/Logo.png")
         };
