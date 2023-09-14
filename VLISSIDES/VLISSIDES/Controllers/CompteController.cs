@@ -7,6 +7,7 @@ using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Accueil;
 using VLISSIDES.ViewModels.Compte;
 
 namespace VLISSIDES.Controllers;
@@ -105,7 +106,9 @@ public class CompteController : Controller
             if (result.IsLockedOut)
             {
                 _logger.LogWarning("L'utilisateur est barré.");
-                return View("Lockout");
+                return RedirectToAction("Index", "Accueil", new MessageVM(
+                    "Bloqué!",
+                    "Le compte au quel vous essayé de vous connecter est bloqué."));
             }
 
             ModelState.AddModelError(string.Empty, "Tentative de connexion non valide.");
@@ -320,7 +323,9 @@ public class CompteController : Controller
         var resetCode = HttpContext.Session.GetString("resetCode");
         if (resetCode == null || resetCode != code)
             // Si le code est invalide, afficher la vue d'erreur
-            return View("Error");
+            return RedirectToAction("Index", "Accueil", new MessageVM(
+                "Bloqué!",
+                "Le code de réinitialisation de mot de passe est invalide."));
 
         // Si le code est valide, stocker la valeur de resetCode dans ViewBag pour la récupérer dans le post
         ViewBag.ResetCode = resetCode;
@@ -389,7 +394,9 @@ public class CompteController : Controller
         if (remoteError != null)
         {
             ModelState.AddModelError(string.Empty, "Error from external provider");
-            return View("Login");
+            return RedirectToAction("Index", "Accueil", new MessageVM(
+                "Échec de connection externe",
+                remoteError));
         }
 
         //Get the external login info
@@ -422,7 +429,11 @@ public class CompteController : Controller
         if (ModelState.IsValid)
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null) return View("Error");
+            if (info == null)
+            {
+                ModelState.AddModelError(string.Empty, "Tentative de connexion non valide.");
+                return View(vm);
+            }
             var user = new ApplicationUser { UserName = vm.Email, Email = vm.Email };
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
