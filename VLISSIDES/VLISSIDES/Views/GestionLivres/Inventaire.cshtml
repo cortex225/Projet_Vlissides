@@ -3,7 +3,18 @@
 @{
     ViewData["Title"] = "Inventaire";
 }
+@*********************@
+@* Modals *@
+@*********************@
 
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
 <div class="d-block p-4 p-4">
 
     <div class="mb-4">
@@ -155,9 +166,9 @@
                                             Sauvegarder
 
                                         </button>
-                                        <button  class="btn btn-primary p-2" asp-action="Modifier"  asp-route-id="@item.Id" data-toggle="tooltip" title="Modifier le livre">
+                                        <a  class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
                                             <span class="fa-solid fa-pen fa-2x"></span>
-                                        </button>
+                                        </a>
                                         <button type="button" class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="SupprimerLivre(`@item.Id`)">
                                             <span class="fa-solid fa-trash fa-2x"></span>
                                         </button>
@@ -178,11 +189,15 @@
     </div>
 
 </div>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+
+
 <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
 <script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
 
-@section Scripts
-{
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
 
 }
