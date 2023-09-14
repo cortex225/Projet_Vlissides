@@ -8,12 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd365774-666c-483c-b7e2-a3a3b85efb7d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/ViewModels/Compte/LoginVM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/ViewModels/Compte/LoginVM.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/ViewModels/Compte/RegisterVM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/ViewModels/Compte/RegisterVM.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Compte/Register.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Compte/Register.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/_RegisterForm.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/_RegisterForm.cshtml" afterDir="false" />
-    </list>
+    <list default="true" id="bd365774-666c-483c-b7e2-a3a3b85efb7d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,7 +76,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694693075398</updated>
       <workItem from="1694693076986" duration="362000" />
-      <workItem from="1694693956984" duration="14856000" />
+      <workItem from="1694693956984" duration="16075000" />
     </task>
     <servers />
   </component>
