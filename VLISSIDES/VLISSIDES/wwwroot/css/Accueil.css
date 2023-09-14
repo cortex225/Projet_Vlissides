@@ -133,6 +133,7 @@
 /*--Accueil/_CarteEvenement------------------------------------------------------------------------------------------------------------------*/
 .event {
     width: 18rem;
+    height:35rem;
 }
 
 .event:hover {
@@ -163,6 +164,7 @@
 
 .cardLivre {
     width: 14.5rem;
+    height: 27rem;
 }
 
 .cardLivre:hover {
