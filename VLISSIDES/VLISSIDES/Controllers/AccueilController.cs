@@ -29,13 +29,14 @@ public class AccueilController : Controller
         {
             new _EventCardVM("img/logo/Logo.png", "Existance", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."),
             new _EventCardVM("img/logo/Logo.png"), new _EventCardVM("img/logo/Logo.png"),
-            new _EventCardVM("img/logo/Logo.png"), new _EventCardVM("img/logo/Logo.png")
+            new _EventCardVM("img/logo/Logo.png"), new _EventCardVM("img/logo/Logo.png"),new _EventCardVM("img/logo/Logo.png")
         };
         List<_LivreCardVM> vedettes = new()
         {
             new _LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", 6.66, new List<Auteur> { new() { Nom = "Vlissides", Prenom = "Team" } },
                 new List<Categorie> { new() { Nom = "Horreur" } }),
-            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
+            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"),new _LivreCardVM("img/flat.png"),
+            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
         };
         List<_LivreCardVM> recommandations = new()
         {
