@@ -1,0 +1,32 @@
+﻿@model VLISSIDES.ViewModels.Accueil._LivreCardVM;
+
+@{
+    //Juste pour pouvoir différencier les cartes
+}
+
+<div class="item livre">
+    <div class="card cardLivre">
+        <div class="imgDiv">
+            <img src="@Model.Couverture"
+                 class="card-img-top imgLivre"
+                 alt="Couverture du livre"/>
+        </div>
+        <div class="card-body">
+            <h6 class="card-title">@Model.Titre</h6>
+            <partial model="@Model.Score" name="_Etoiles.cshtml"/>
+
+            <h6>@Model.Prix $</h6>
+
+            <pre>@Model.Auteurs</pre>
+
+            <hr/>
+            <h6>Catégories reliées: </h6>
+            @{
+                foreach (var categorie in Model.Categories)
+                {
+                    <a href="#" class="btn btn-secondary btnCategorie">@categorie</a>
+                }
+            }
+        </div>
+    </div>
+</div>

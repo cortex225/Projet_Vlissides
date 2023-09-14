@@ -1,0 +1,204 @@
+﻿@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
+
+@{
+    ViewData["Title"] = "Inventaire";
+}
+<link rel="stylesheet" href="css/Inventaire.css">
+@*********************@
+@* Modals *@
+@*********************@
+
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<div class="d-block p-4 p-4">
+
+    <div class="mb-4">
+        <h1>Inventaire</h1>
+    </div>
+
+    <div class="container-fluid m-1">
+
+        @* Les recherches *@
+        <form class="row">
+            @* Research bar *@
+            <div class="row mb-3">
+                <div class="col-2 ml-4 text-center">
+                    <button type="submit" class="container-fluid btn btn-primary" disabled>Recherche non fonctionnelle</button>
+                </div>
+
+                <div class="col-10">
+                    <input type="text" class="form-control" placeholder="Recherche général" aria-label="recherche" aria-describedby="basic-addon2">
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-2 bg-secondary">
+
+                    @* Recherche précise *@
+                    <div class="my-2">
+                        <h3>Spécification</h3>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Titre</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Auteur</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Maison d'édition</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                        </div>
+                    </div>
+
+                    @* Catégorie *@
+                    <div class="my-4">
+                        <h3>Catégorie</h3>
+                        <div class="form-check border border-dark">
+                            @* Ici il va y avoir une boucle for pour générer automatiquement les checkbox selon la liste des catégories *@
+                            <div class="form-check">
+
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Fantaisie
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Sci-Fi
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Aventure
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Horreur
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* Body *@
+                <div class="col-10">
+
+
+                    @* Add button *@
+                    <div class="m-4">
+                        @* <button type="button" class="btn btn-primary" asp-controller="GestionLivresController" asp-action="Ajouter">Ajouter livre</button> *@
+                        <a asp-action="Ajouter" class="btn btn-primary">Ajouter livre</a>
+                    </div>
+
+
+                    @* Table *@
+                    <div class="container-fluid d-flex flex-wrap row">
+                        <div class="mb-3 mx-3">
+                            <div class="row px-2">
+                                <div class="col-1 text-center">
+                                    Image
+                                </div>
+                                <div class="col-2 text-center">
+                                    Titre
+                                </div>
+                                <div class="col-2 text-center">
+                                    Auteur
+                                </div>
+                                <div class="col-2 text-center">
+                                    Maison d'édition
+                                </div>
+                                <div class="col-2 text-center">
+                                    Quantité
+                                </div>
+                            </div>
+
+                        </div>
+
+                        @* Results *@
+                        @foreach (var item in Model)
+                        {
+                            <div id="@item.Id" class="card mb-2 mx-3 ">
+                                <div class="card-body row p-2 align-items-center">
+                                    <div class="imgDiv col-1 text-center">
+                                        <img src="@item.Image" alt="..." class="imagesLivre">
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Titre)
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Auteur)
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Editeur)
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
+                                    </div>
+                                    <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+                                        @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+
+                                        <button id="saveButton @item.Id" type="button"data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success" onclick="
+                                            saveQuantite('@item.Id', '@item.Quantite')
+                                            disableButton('@item.Id')"
+                                                disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Quantite">
+
+                                            Sauvegarder
+
+                                        </button>
+                                        <a  class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                                            <span class="fa-solid fa-pen fa-2x"></span>
+                                        </a>
+                                        <button type="button" class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="SupprimerLivre(`@item.Id`)">
+                                            <span class="fa-solid fa-trash fa-2x"></span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <partial name="PartialViews/Utilities/_PaginationPartial"/>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+
+}

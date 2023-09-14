@@ -1,0 +1,22 @@
+/* Logo */
+.brand-logo {
+    width: 180px;
+    height: 110px;
+}
+
+
+/* Navbar du bas */
+#navBottom {
+    background-color: #f8f4f1 !important;
+    border: none;
+}
+
+/* Icônes de profil et de panier */
+.navbar-icons {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-icons .nav-item {
+    margin-left: 15px; /* Espacement entre les icônes */
+}

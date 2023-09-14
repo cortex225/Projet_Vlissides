@@ -1,0 +1,12 @@
+﻿@model VLISSIDES.ViewModels.Accueil._ServiceCardVM;
+@*
+    Vue partielle pour les services offerts
+*@
+<div class="cardServiceOffert">
+    <img class="imgService" src="@Model.Image" alt="image du service"/>
+    <h5>@Model.Titre</h5>
+    <p>
+        @Model.Description
+    </p>
+    <button type="button" class="btn btn-secondary">Voir plus</button>
+</div>

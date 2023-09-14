@@ -1,0 +1,16 @@
+﻿@model VLISSIDES.ViewModels.Accueil._EventCardVM;
+
+<div class="item">
+    <div class="card event">
+        <img src="@Model.Image"
+             class="card-img-top"
+             alt="Image de l'évènment"/>
+        <div class="card-body">
+            <h5 class="card-title">@Model.Nom</h5>
+            <p class="card-text">
+                @Model.Description
+            </p>
+            <a href="#" class="btn btn-primary">Voir plus</a>
+        </div>
+    </div>
+</div>
