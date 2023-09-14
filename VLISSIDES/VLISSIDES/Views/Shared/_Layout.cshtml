@@ -50,19 +50,17 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Privacy">Privacy</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Librairie</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Catégories</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Tableau de bord</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Inventaire</a>
-                    </li>
+
                 </ul>
             </div>
 
             <!-- Deuxième groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
-            <div class="navbar-collapse collapse d-sm-inline-flex">
+            @* <div class="navbar-collapse collapse d-sm-inline-flex">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 1</a>
@@ -77,7 +75,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 4</a>
                     </li>
                 </ul>
-            </div>
+            </div> *@
 
             <!-- Icônes de profil et de panier -->
             <div class="navbar-icons">
