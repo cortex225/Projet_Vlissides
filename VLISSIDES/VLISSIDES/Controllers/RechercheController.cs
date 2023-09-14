@@ -19,12 +19,13 @@ namespace VLISSIDES.Controllers
         }
 
         // GET: RechercheController
-        public ActionResult Index()
+        [Route("/Recherche/Index")]
+        public ActionResult Index(string motCle)
         {
             IndexRechercheVM vm = new IndexRechercheVM
             {
                 ResultatRecherche = _context.Livres.Take(99).ToList(),
-                MotRecherche = "Patate"
+                MotRecherche = motCle
             };
 
             return View(vm);
