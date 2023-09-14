@@ -6,32 +6,43 @@
     flex-wrap: wrap;
 }
 
+
 /*--Recherche/_CarteLivreRecherche------------------------------------------------------------------------------------------------------------------*/
-.btnCategorie {
+.btnCategorie {  
     margin: 4px;
     font-size: 10px;
     padding: 6px;
 }
 
-.imgLivre {
-    width: 20%;
-    height: 20%;
+.imgLivre {  
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .imgDiv {
     display: flex;
     justify-content: center;
+    height: 60%;
+    background-color: #E1E1E1;
 }
 
+/*La carte au complet*/
 .livre {
     margin-right: 20px;
     margin-left: 20px;
+    margin-top: 20px;
 }
-
+/*La carte au complet, mais un div plus bas*/
 .cardLivre {
     width: 12rem;
+    height: 24rem;
 }
 
     .cardLivre:hover {
         background-color: #DCE4EC;
+    }
+
+    .cardLivre:hover > .imgDiv {
+        background-color: #B1BECB;
     }

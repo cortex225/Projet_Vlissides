@@ -54,7 +54,7 @@ context.MaisonEditions.AddRange(maisonsEditions);
 context.SaveChanges();
 
 //Générer les livres
-var livres = Builder<Livre>.CreateListOfSize(2999)
+var livres = Builder<Livre>.CreateListOfSize(29)
     .All()
     .With(c => c.Titre = Company.Name())
     .With(c => c.Resume = Lorem.Paragraph())

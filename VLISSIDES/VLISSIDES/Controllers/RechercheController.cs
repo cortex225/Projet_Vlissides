@@ -22,9 +22,11 @@ namespace VLISSIDES.Controllers
         [Route("/Recherche/Index")]
         public ActionResult Index(string motCle)
         {
+
+
             IndexRechercheVM vm = new IndexRechercheVM
             {
-                ResultatRecherche = _context.Livres.Take(99).ToList(),
+                ResultatRecherche = _context.Livres.ToList(),
                 MotRecherche = motCle
             };
 

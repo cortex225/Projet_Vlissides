@@ -133,7 +133,6 @@ Une tonne de scripts divers
 -->
 
 <script type="text/javascript">
-    console.log("le javascripte compile");
     //Script pour la recherche
     var search = document.getElementById("barreRechercheNavbar");
     var loupe = document.getElementById("loupeRechercheNavbar");
@@ -148,33 +147,6 @@ Une tonne de scripts divers
         // Utiliser la valeur dans l'URL pour l'action Index
         window.location.href = `/Recherche/Index?motCle=${searchTerm}`;
     }
-
-    /*
-    loupe.addEventListener("click", Rechercher);
-    var searchTerm = document.getElementById("barreRechercheNavbar").value;
-
-    async function Rechercher(ev) {
-        searchTerm = document.getElementById("barreRechercheNavbar").value; // Récupérer la valeur du champ de recherche ici
-
-        if (!searchTerm) {
-            // Gérer le cas où le champ de recherche est vide
-            console.log("Le champ de recherche est vide.");
-            return;
-        }
-
-        console.log("Mot de recherche : " + searchTerm);
-        fetch(`/Recherche/Index?motCle=${searchTerm}`, {
-            method: 'GET'
-        }).then(function (response) {
-            console.log("Requête finie!");
-            if (!response.ok) {
-                throw new Error("Erreur HTTP, statut : " + response.status);
-            }
-            console.log('Recherche effectuée avec succès!');
-        }).catch(function (error) {
-            console.error('Erreur lors de la recherche :', error);
-        });
-    }*/
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
