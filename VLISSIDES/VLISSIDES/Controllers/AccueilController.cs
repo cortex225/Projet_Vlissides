@@ -33,7 +33,7 @@ public class AccueilController : Controller
         };
         List<_LivreCardVM> vedettes = new()
         {
-            new _LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", 6.66, new List<Auteur> { new() { Nom = "Vlissides", Prenom = "Team" } },
+            new _LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", 6.66, new List<Auteur> { new() { Nom = "Vlissides", Prenom = "Équipe" } },
                 new List<Categorie> { new() { Nom = "Horreur" } }),
             new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"),new _LivreCardVM("img/flat.png"),
             new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
@@ -44,14 +44,14 @@ public class AccueilController : Controller
                 new List<Categorie> { new() { Nom = "Conte" } }),
             new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
         };
-        List<string> categories = new() { "1", "2", "3", "4", "5" };
+        List<string> categories = new() { "Humour", "Essai", "Faune - Flore", "Art de vivre", "Informatique" };
         List<_LivreCardVM> livreCategories = new()
         {
             new _LivreCardVM("img/flat.png", "Fahrenheit 451", 0.69, new List<Auteur> { new() { Nom = "Bradbury", Prenom = "Ray" } },
                 new List<Categorie> { new() { Nom = "Fiction Dystopie" } }),
             new _LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", 40.99, new List<Auteur> { new() { Nom = "", Prenom = "Jean-Luc" } },
                 new List<Categorie> { new() { Nom = "Informatique" } }),
-            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
+            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png")
         };
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories));
     }
