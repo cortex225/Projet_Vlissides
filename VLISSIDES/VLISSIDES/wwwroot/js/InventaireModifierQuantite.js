@@ -8,6 +8,7 @@
     }).catch(error => console.error('Échec du fetch pour modifier la quantité de livre', error));
 
 }
+
 function SupprimerLivre(id = "") {
     fetch(`Delete?id=${id}`, {
         method: 'DELETE',
@@ -18,6 +19,15 @@ function SupprimerLivre(id = "") {
     }).catch(error => console.error('Échec du fetch pour supprimer le livre', error))
         .then(() => {
             document.getElementById(`${id}`).remove();
-    });
+        });
 
+
+}
+
+// ModalScript 
+function ShowModal($url) {
+    $.get($url, function (result) {
+        $('.modal-content').html(result);
+        $('.modal').modal('show');
+    });
 }

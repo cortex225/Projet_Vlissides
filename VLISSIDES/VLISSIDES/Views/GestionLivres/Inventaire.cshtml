@@ -1,8 +1,20 @@
 ﻿@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
+
 @{
     ViewData["Title"] = "Inventaire";
 }
+@*********************@
+@* Modals *@
+@*********************@
 
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
 <div class="d-block p-4 p-4">
 
     <div class="mb-4">
@@ -123,10 +135,9 @@
 
                         </div>
 
-                    @* Results *@
-                    @foreach (var item in Model)
-                    {
-                       
+                        @* Results *@
+                        @foreach (var item in Model)
+                        {
                             <div id="@item.Id" class="card mb-2 mx-3 ">
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="col-1 text-center">
@@ -147,7 +158,7 @@
                                     <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                                         @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
 
-                                        <button id="saveButton @item.Id" type="button" class="btn btn-success" onclick="
+                                        <button id="saveButton @item.Id" type="button"data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success" onclick="
                                             saveQuantite('@item.Id', '@item.Quantite')
                                             disableButton('@item.Id')"
                                                 disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Quantite">
@@ -155,14 +166,19 @@
                                             Sauvegarder
 
                                         </button>
-                                        <button type="button" class="btn btn-danger p-2" onclick="SupprimerLivre(`@item.Id`)">
+                                        <a  class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                                            <span class="fa-solid fa-pen fa-2x"></span>
+                                        </a>
+                                        <button type="button" class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="SupprimerLivre(`@item.Id`)">
                                             <span class="fa-solid fa-trash fa-2x"></span>
                                         </button>
+
                                     </div>
                                 </div>
                             </div>
                         }
 
+                        <partial name="PartialViews/Utilities/_PaginationPartial"/>
                     </div>
 
                 </div>
@@ -173,11 +189,15 @@
     </div>
 
 </div>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+
+
 <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
 <script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
 
-@section Scripts
-{
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
 
 }
