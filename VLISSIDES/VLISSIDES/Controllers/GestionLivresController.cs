@@ -1,11 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.GestionLivres;
-using VLISSIDES.ViewModels.Livres;
-
 namespace VLISSIDES.Controllers;
 
 public class GestionLivresController : Controller
@@ -23,7 +15,7 @@ public class GestionLivresController : Controller
     }
 
     // GET: Livre
-    public async Task<IActionResult> Inventaire( int page = 1)
+    public async Task<IActionResult> Inventaire(int page = 1)
     {
         int itemsPerPage = 10;
         var totalItems = await _context.Livres.CountAsync();
@@ -297,6 +289,7 @@ public class GestionLivresController : Controller
     }
 
     // GET: Livre/Delete/5
+    [HttpDelete]
     public async Task<IActionResult> Delete(string id)
     {
         if (id == null || _context.Livres == null) return NotFound();
@@ -306,8 +299,10 @@ public class GestionLivresController : Controller
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
+        _context.Livres.Remove(livre);
+        _context.SaveChanges();
 
-        return View(livre);
+        return Ok();
     }
 
     // POST: Livre/Delete/5
