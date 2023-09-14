@@ -7,9 +7,9 @@ public class LoginVM
     [Display(Name = "Nom d'utilisateur")] public string? UserName { get; set; }
 
     [Required(ErrorMessage = "Veuillez entrer votre nom d'utilisateur ou votre adresse e-mail.")]
+    
     [Display(Name = "Nom d'utilisateur/E-mail")]
     public string EmailOrUserName { get; set; } = default!;
-
 
     [Required]
     [DataType(DataType.Password)]
@@ -19,8 +19,7 @@ public class LoginVM
     public string Password { get; set; } = default!;
 
 
-    [Display(Name = "Mémoriser le mot de passe ?")]
-
+    [Display(Name = "Mémoriser le mot de passe?")]
     public bool RememberMe { get; set; }
 
     public string? ReturnUrl { get; set; }
