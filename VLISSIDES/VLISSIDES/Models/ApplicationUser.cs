@@ -7,7 +7,7 @@ public class ApplicationUser : IdentityUser
 {
     [DisplayName("Nom")] public string Nom { get; set; } = default!;
 
-    [DisplayName("Pr�nom")] public string Prenom { get; set; } = default!;
+    [DisplayName("Prénom")] public string Prenom { get; set; } = default!;
 
     // Un utilisateur peut avoir une adresse principale
     [DisplayName("Identifiant de l'adresse principale")]

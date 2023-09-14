@@ -14,7 +14,7 @@ public class Evaluation
 
     [DisplayName("Identifiant du membre")] public string MembreId { get; set; } = default!;
 
-    [DisplayName("Membre ayant �valu�")] public Membre Membre { get; set; } = default!;
+    [DisplayName("Membre ayant évalué")] public Membre Membre { get; set; } = default!;
 
     [DisplayName("Identifiant du livre")] public string LivreId { get; set; } = default!;
 

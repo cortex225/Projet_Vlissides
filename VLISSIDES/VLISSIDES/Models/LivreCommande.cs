@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace VLISSIDES.Models;
 
 public class LivreCommande
@@ -10,5 +12,6 @@ public class LivreCommande
 
     public Commande Commande { get; set; } = default!;
 
+    [DisplayName("Quantité")]
     public int Quantite { get; set; } = default!;
 }

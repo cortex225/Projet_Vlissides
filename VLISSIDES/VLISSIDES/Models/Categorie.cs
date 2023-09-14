@@ -10,6 +10,6 @@ public class Categorie
 
     [DisplayName("Description")] public string Description { get; set; } = default!;
 
-    [DisplayName("Livres reli�es � cette cat�gorie")]
+    [DisplayName("Livres reliées à cette catégorie")]
     public ICollection<Livre> Livres { get; set; } = default!;
 }
