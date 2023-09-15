@@ -426,17 +426,12 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Biographie")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
+                  
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Photo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                   
 
                     b.Property<string>("Prenom")
                         .IsRequired()
