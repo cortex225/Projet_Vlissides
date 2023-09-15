@@ -1,0 +1,53 @@
+﻿@model List<VLISSIDES.ViewModels.GestionAuteurs.AfficherVM>
+@{
+    ViewData["Title"] = "Auteurs";
+}
+
+<div class="d-block p-4 p-4">
+
+    <div class="mb-4">
+        <h1>Gestion des auteurs</h1>
+    </div>
+
+    <div class="mb-4">
+        <h3>Liste des auteurs</h3>
+        <div class="row">
+            <div class="col-6">
+                @foreach (var item in Model)
+                {
+                    <div id="@item.Id" class="card mb-2 mx-3 ">
+                        <div class="card-body row p-2 align-items-center">
+                            <div class="col-9 text-center">
+                                <input id="@item.Id auteur" type="text" asp-for="@item.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Nom)"> @* onclient onclick="enableButton('@item.Id')" *@
+                            </div>
+                            <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+                                @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+
+                                <button id="saveButton @item.Id" type="button" class="btn btn-success" @* onclick="
+                                    saveQuantite('@item.Id', '@item.Nom')
+                                    disableButton('@item.Id')"
+                                    disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Nom" *@>
+
+                                    Sauvegarder
+
+                                </button>
+                                <button type="button" class="btn btn-danger p-2" @* onclick="SupprimerLivre(`@item.Id`)" *@>
+                                    <span class="fa-solid fa-trash fa-2x"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-6">
+                Liste des livres de l'auteur sélectionné
+            </div>
+        </div>
+        
+    </div>
+
+
+
+</div>
+
+
