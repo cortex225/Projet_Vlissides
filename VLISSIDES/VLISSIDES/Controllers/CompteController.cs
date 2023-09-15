@@ -268,7 +268,9 @@ public class CompteController : Controller
     [HttpGet]
     public IActionResult ForgotPassword()
     {
-        return View();
+        ForgotPasswordVM vm = new ForgotPasswordVM();
+        vm.Email = "";
+        return View(vm);
     }
 
     //ForgotPassword: Cette méthode vérifie d'abord si le modèle est valide. Si le modèle est invalide, elle retourne la vue avec le modèle invalide. Sinon, elle trouve l'utilisateur correspondant à l'adresse e-mail fournie, génère un code de réinitialisation de mot de passe, envoie un e-mail contenant le code
