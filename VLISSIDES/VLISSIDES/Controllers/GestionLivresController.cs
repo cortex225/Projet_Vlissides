@@ -326,6 +326,19 @@ public class GestionLivresController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+    
+//Pour montrer la la partial view de confirmation de suppression
+    [HttpGet]
+    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    {
+        if (id == null) return NotFound();
+
+        var livre = await _context.Livres.FindAsync(id);
+        if (livre == null) return NotFound();
+
+        return PartialView("PartialViews/Modals/InventaireLivres/_DeleteInventairePartial", livre);
+    }
+
 
     private bool LivreExists(string id)
     {
