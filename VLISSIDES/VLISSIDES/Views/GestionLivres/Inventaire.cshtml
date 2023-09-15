@@ -118,7 +118,7 @@
                         <div class="mb-3 mx-3">
                             <div class="row px-2">
                                 <div class="col-1 text-center">
-                                    Image
+                                    Couverture
                                 </div>
                                 <div class="col-2 text-center">
                                     Titre
@@ -142,7 +142,7 @@
                             <div id="@item.Id" class="card mb-2 mx-3 ">
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="imgDiv col-1 text-center">
-                                        <img src="@item.Image" alt="..." class="imagesLivre">
+                                        <img src="@item.Image" alt="..." class="imagesLivre" height="50px">
                                     </div>
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Titre)
@@ -170,9 +170,10 @@
                                         <a  class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
                                             <span class="fa-solid fa-pen fa-2x"></span>
                                         </a>
-                                        <button type="button" class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="SupprimerLivre(`@item.Id`)">
+                                        <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
                                             <span class="fa-solid fa-trash fa-2x"></span>
-                                        </button>
+                                        </a>
+
 
                                     </div>
                                 </div>

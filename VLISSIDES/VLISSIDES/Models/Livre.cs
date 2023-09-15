@@ -58,8 +58,8 @@ public class Livre
     [DisplayName("Favoris")] public ICollection<Favori>? Favoris { get; set; }
 
     [DisplayName("Livres commande")] public ICollection<LivreCommande>? LivreCommandes { get; set; }
-    
-    public string PromotionId { get; set; } = default!;
-    
+
+    public string? PromotionId { get; set; } = default!;
+
     [DisplayName("Promotions")] public ICollection<Promotions>? Promotions { get; set; }
 }
