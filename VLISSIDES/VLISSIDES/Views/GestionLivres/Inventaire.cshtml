@@ -170,9 +170,10 @@
                                         <a  class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
                                             <span class="fa-solid fa-pen fa-2x"></span>
                                         </a>
-                                        <button type="button" class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="SupprimerLivre(`@item.Id`)">
+                                        <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
                                             <span class="fa-solid fa-trash fa-2x"></span>
-                                        </button>
+                                        </a>
+
 
                                     </div>
                                 </div>
