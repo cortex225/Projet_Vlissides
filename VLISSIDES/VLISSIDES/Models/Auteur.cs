@@ -15,9 +15,5 @@ public class Auteur
     [DisplayName("Nom complet")]
     public string NomComplet => Prenom + " " + Nom;
 
-    [DisplayName("Biographie")] public string Biographie { get; set; } = default!;
-
-    [DisplayName("Photo")] public string Photo { get; set; } = default!;
-
     [DisplayName("Livres �crits")] public ICollection<Livre> Livres { get; set; } = default!;
 }
