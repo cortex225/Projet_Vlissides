@@ -40,7 +40,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Langue> Langues { get; set; }
     public DbSet<MaisonEdition> MaisonEditions { get; set; }
-    
+
     public DbSet<Promotions> Promotions { get; set; }
 
 
@@ -167,9 +167,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             AdressePrincipaleId = ""
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
-        UserEmploye.PasswordHash =
+        UserMembre.PasswordHash =
             "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
-
+        builder.Entity<Membre>().HasData(UserMembre);
 
         var DefaultAuteur = new Auteur
         {
