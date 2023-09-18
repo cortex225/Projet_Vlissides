@@ -1,9 +1,10 @@
-﻿@model VLISSIDES.ViewModels.Accueil._EventCardVM;
+﻿@model VLISSIDES.ViewModels.Accueil.EventCardVM;
 
 <div class="item">
     <div class="card event">
         <img src="@Model.Image"
-             class="card-img-top"
+             class="card-fluid"
+             id="cardEvent"
              alt="Image de l'évènment"/>
         <div class="card-body">
             <h5 class="card-title">@Model.Nom</h5>

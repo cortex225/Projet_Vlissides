@@ -819,3 +819,4 @@ $RECYCLE.BIN/
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,rider,csharp,dotnetcore,macos,visualstudiocode,visualstudio,windows
+/VLISSIDES/VLISSIDES/wwwroot/img/CouvertureLivre

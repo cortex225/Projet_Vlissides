@@ -1,12 +1,13 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Accueil;
 using VLISSIDES.ViewModels.Compte;
 
 namespace VLISSIDES.Controllers;
@@ -105,7 +106,9 @@ public class CompteController : Controller
             if (result.IsLockedOut)
             {
                 _logger.LogWarning("L'utilisateur est barré.");
-                return View("Lockout");
+                return RedirectToAction("Index", "Accueil", new MessageVM(
+                    "Bloqué!",
+                    "Le compte au quel vous essayé de vous connecter est bloqué."));
             }
 
             ModelState.AddModelError(string.Empty, "Tentative de connexion non valide.");
@@ -188,7 +191,8 @@ public class CompteController : Controller
                     Request.Scheme);
 
                 // Récupérer l'URL complète du logo à partir de l'application
-                var logoUrl = Url.Content("https://myinstahr.ca/assets/img/instaLogo.png");
+                var logoUrl =
+                    Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
 
                 await _sendGridEmail.SendEmailAsync(user.Email,
                     "\"La Fourmie Aillée- Demande de confirmer ton incription",
@@ -230,7 +234,7 @@ public class CompteController : Controller
         if (_userManager.ConfirmEmailAsync(user, code).IsFaulted) return BadRequest();
         user.EmailConfirmed = true;
         _signInManager.SignInAsync(user, false);
-        return View();
+        return RedirectToAction("Login", "Compte");
     }
 
     [HttpPost]
@@ -289,7 +293,7 @@ public class CompteController : Controller
             HttpContext.Request.Scheme); //Ici je passe le code de réinitialisation en paramètre de l'URL
 
         // Récupérer l'URL complète du logo à partir de l'application
-        var logoUrl = Url.Content("https://localhost:7089/img/Logo/Logo(NoBackground).png");
+        var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
 
         await _sendGridEmail.SendEmailAsync(
             model.Email,
@@ -319,7 +323,9 @@ public class CompteController : Controller
         var resetCode = HttpContext.Session.GetString("resetCode");
         if (resetCode == null || resetCode != code)
             // Si le code est invalide, afficher la vue d'erreur
-            return View("Error");
+            return RedirectToAction("Index", "Accueil", new MessageVM(
+                "Bloqué!",
+                "Le code de réinitialisation de mot de passe est invalide."));
 
         // Si le code est valide, stocker la valeur de resetCode dans ViewBag pour la récupérer dans le post
         ViewBag.ResetCode = resetCode;
@@ -388,7 +394,9 @@ public class CompteController : Controller
         if (remoteError != null)
         {
             ModelState.AddModelError(string.Empty, "Error from external provider");
-            return View("Login");
+            return RedirectToAction("Index", "Accueil", new MessageVM(
+                "Échec de connection externe",
+                remoteError));
         }
 
         //Get the external login info
@@ -421,7 +429,11 @@ public class CompteController : Controller
         if (ModelState.IsValid)
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null) return View("Error");
+            if (info == null)
+            {
+                ModelState.AddModelError(string.Empty, "Tentative de connexion non valide.");
+                return View(vm);
+            }
             var user = new ApplicationUser { UserName = vm.Email, Email = vm.Email };
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)

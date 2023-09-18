@@ -1,9 +1,21 @@
-﻿@using VLISSIDES.ViewModels.GestionLivres;
-@model List<GestionLivresAfficherVM>
+﻿@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
+
 @{
     ViewData["Title"] = "Inventaire";
 }
+<link rel="stylesheet" href="css/Inventaire.css">
+@*********************@
+@* Modals *@
+@*********************@
 
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
 <div class="d-block p-4 p-4">
 
     <div class="mb-4">
@@ -13,11 +25,11 @@
     <div class="container-fluid m-1">
 
         @* Les recherches *@
-        <form>
+        <form class="row">
             @* Research bar *@
             <div class="row mb-3">
                 <div class="col-2 ml-4 text-center">
-                    <button type="submit" class="container-fluid btn btn-primary">Rechercher</button>
+                    <button type="submit" class="container-fluid btn btn-primary" disabled>Recherche non fonctionnelle</button>
                 </div>
 
                 <div class="col-10">
@@ -95,18 +107,18 @@
 
 
                     @* Add button *@
-                    <div class="my-4">
-                        <button type="button" class="btn btn-primary" asp-action="Ajouter">Ajouter livre</button>
+                    <div class="m-4">
+                        @* <button type="button" class="btn btn-primary" asp-controller="GestionLivresController" asp-action="Ajouter">Ajouter livre</button> *@
+                        <a asp-action="Ajouter" class="btn btn-primary">Ajouter livre</a>
                     </div>
 
-                    @* Research results (Temporary results) *@
 
                     @* Table *@
                     <div class="container-fluid d-flex flex-wrap row">
                         <div class="mb-3 mx-3">
                             <div class="row px-2">
                                 <div class="col-1 text-center">
-                                    Image
+                                    Couverture
                                 </div>
                                 <div class="col-2 text-center">
                                     Titre
@@ -121,45 +133,73 @@
                                     Quantité
                                 </div>
                             </div>
+
                         </div>
 
                         @* Results *@
-                            @foreach (var item in Model)
-                            {
-                                <div class="card mb-2 mx-3">
-                                    <div class="card-body row px-2">
-                                        <div class="col-1 text-center">
-                                            <img src="..." alt="..." class="img-thumbnail">
-                                        </div>
-                                        <div class="col-2 text-center">
-                                            Titre 1
-                                        </div>
-                                        <div class="col-2 text-center">
-                                            Auteur 1
-                                        </div>
-                                        <div class="col-2 text-center">
-                                            Maison d'édition 1
-                                        </div>
-                                        <div class="col-2 text-center">
-                                            <input type="number" class="form-control" id="formGroupExampleInput" placeholder="">
-                                        </div>
-                                        <div class="col-3 text-center d-flex flex-row justify-content-around">
-                                            @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
-                                            <button type="button" class="btn btn-success">Sauvegarder</button>
-                                            <button type="button" class="btn btn-danger p-2" asp-action="Delete">
-                                                <span class="fa-solid fa-trash fa-2x"></span>
-                                            </button>
-                                        </div>
+                        @foreach (var item in Model)
+                        {
+                            <div id="@item.Id" class="card mb-2 mx-3 ">
+                                <div class="card-body row p-2 align-items-center">
+                                    <div class="imgDiv col-1 text-center">
+                                        <img src="@item.Image" alt="..." class="imagesLivre" height="50px">
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Titre)
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Auteur)
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Editeur)
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
+                                    </div>
+                                    <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+                                        @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+
+                                        <button id="saveButton @item.Id" type="button"data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success" onclick="
+                                            saveQuantite('@item.Id', '@item.Quantite')
+                                            disableButton('@item.Id')"
+                                                disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Quantite">
+
+                                            Sauvegarder
+
+                                        </button>
+                                        <a  class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                                            <span class="fa-solid fa-pen fa-2x"></span>
+                                        </a>
+                                        <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
+                                            <span class="fa-solid fa-trash fa-2x"></span>
+                                        </a>
+
+
                                     </div>
                                 </div>
-                            }
-                    </div>
-                </div>
+                            </div>
+                        }
 
+                        <partial name="PartialViews/Utilities/_PaginationPartial"/>
+                    </div>
+
+                </div>
             </div>
-            
+
         </form>
 
     </div>
 
 </div>
+
+
+
+
+<script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+
+}

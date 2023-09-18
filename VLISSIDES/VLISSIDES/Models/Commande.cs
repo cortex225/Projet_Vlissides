@@ -6,20 +6,15 @@ public class Commande
 {
     public string Id { get; set; } = default!;
 
-    [DisplayName("Date de commande")]
-    public DateTime DateCommande { get; set; } = default!;
+    [DisplayName("Date de commande")] public DateTime DateCommande { get; set; } = default!;
 
-    [DisplayName("Prix total")]
-    public decimal PrixTotal { get; set; } = default!;
+    [DisplayName("Prix total")] public decimal PrixTotal { get; set; } = default!;
 
-    [DisplayName("Identifiant du membre")]
-    public string MembreId { get; set; } = default!;
+    [DisplayName("Identifiant du membre")] public string MembreId { get; set; } = default!;
 
-    [DisplayName("Membre ayant commandé")]
-    public Membre Membre { get; set; } = default!;
+    [DisplayName("Membre ayant commandï¿½")] public Membre Membre { get; set; } = default!;
 
-    [DisplayName("Livres commandés")]
-    public ICollection<Livre> Livres { get; set; } = default!;
+    [DisplayName("Livres commandï¿½s")] public ICollection<Livre> Livres { get; set; } = default!;
 
     [DisplayName("Identifiant de l'adresse")]
     public string AdresseId { get; set; } = default!;

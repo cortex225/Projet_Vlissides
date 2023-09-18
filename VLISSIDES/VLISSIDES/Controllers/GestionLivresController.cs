@@ -10,11 +10,12 @@ namespace VLISSIDES.Controllers;
 
 public class GestionLivresController : Controller
 {
+    private readonly IConfiguration _config;
     private readonly ApplicationDbContext _context;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IConfiguration _config;
 
-    public GestionLivresController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration config)
+    public GestionLivresController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
+        IConfiguration config)
     {
         _context = context;
         _webHostEnvironment = webHostEnvironment;
@@ -22,20 +23,38 @@ public class GestionLivresController : Controller
     }
 
     // GET: Livre
-    public async Task<IActionResult> Inventaire()
+    public async Task<IActionResult> Inventaire(int page = 1)
     {
-        var livres = await _context.Livres.Include(l => l.Auteur).Include(l => l.MaisonEdition).Select(l => new GestionLivresAfficherVM()
-        {
-            Image = l.Couverture,
-            Titre = l.Titre,
-            //ListAuteur = _context.,
-            //ListEditeur = _context.MaisonEditions
-            //.Select(m => new SelectListItem
-            //{
+        int itemsPerPage = 10;
+        var totalItems = await _context.Livres.CountAsync();
 
-            //}),
-            Quantite = l.NbExemplaires
-        }).ToListAsync();
+        var livres = await _context.Livres
+            .Include(l => l.Auteur)
+            .Include(l => l.MaisonEdition)
+            .OrderByDescending(l => l.DateAjout)
+            .Skip((page - 1) * itemsPerPage) // DÃ©pend de la page en cours
+            .Take(itemsPerPage)
+            .Select(l => new GestionLivresAfficherVM
+            {
+                Id = l.Id,
+                Image = l.Couverture,
+                Titre = l.Titre,
+                //ListAuteur = _context.Auteurs.Select(a => new SelectList{
+                //    if (!((List<Auteur>)l.Auteur).Any())
+                //        {
+                //            ((List<Auteur>)l.Auteur).ForEach(auteur => Auteurs += auteur.NomComplet + ", ");
+                //            Auteurs.Remove(Auteurs.Length - 2, 2);
+                //        }
+                //}).ToListAsync(),
+                Quantite = l.NbExemplaires
+            })
+            .ToListAsync();
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supÃ©rieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
         return View(livres);
     }
 
@@ -56,8 +75,8 @@ public class GestionLivresController : Controller
     // GET: C
     public IActionResult Ajouter()
     {
-        AjouterVM vm = new AjouterVM { };
-        //Populer les listes déroulantes
+        var vm = new AjouterVM();
+        //Populer les listes dÃ©roulantes
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
             Text = x.Prenom + " " + x.Nom,
@@ -80,23 +99,22 @@ public class GestionLivresController : Controller
         }).ToList();
         return View(vm);
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
-
-
         if (ModelState.IsValid)
         {
             //Sauvegarder l'image dans root
             if (vm.CoverPhoto != null)
             {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
-                string extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                var wwwRootPath = _webHostEnvironment.WebRootPath;
+                var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                var extension = Path.GetExtension(vm.CoverPhoto.FileName);
                 fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
-                vm.CoverImageUrl = "/img/CouvertureLivre/" + fileName;
-                var path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+                vm.CoverImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await vm.CoverPhoto.CopyToAsync(fileStream);
@@ -106,22 +124,24 @@ public class GestionLivresController : Controller
             {
                 vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
             }
+
             //Types de livres
-            List<TypeLivre> listeType = new List<TypeLivre>();
+            var listeType = new List<TypeLivre>();
             if (vm.Neuf)
             {
                 var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
                 listeType.Add(neuf);
             }
+
             if (vm.Numerique)
             {
                 var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
                 listeType.Add(numerique);
             }
 
-            var livre = new Livre()
+            var livre = new Livre
             {
-                Id = "Id" + (_context.Livres.Count() + 1).ToString(),
+                Id = "Id" + (_context.Livres.Count() + 1),
                 Titre = vm.Titre,
                 Resume = vm.Resume,
                 NbExemplaires = vm.NbExemplaires,
@@ -144,11 +164,11 @@ public class GestionLivresController : Controller
             Console.Write("2");
 
             return RedirectToAction("Inventaire");
-
-
         }
+
         return BadRequest();
     }
+
     public IActionResult Modifier(string id)
     {
         var livre = _context.Livres
@@ -157,11 +177,8 @@ public class GestionLivresController : Controller
             .Include(l => l.Langues)
             .Include(l => l.Categories)
             .FirstOrDefault(x => x.Id == id);
-        if (livre == null)
-        {
-            return NotFound();
-        }
-        ModifierVM vm = new ModifierVM()
+        if (livre == null) return NotFound();
+        var vm = new ModifierVM
         {
             Id = livre.Id,
             ISBN = livre.ISBN,
@@ -176,8 +193,6 @@ public class GestionLivresController : Controller
             LangueId = livre.LangueId,
             AuteurId = livre.AuteurId,
             CoverImageUrl = livre.Couverture
-
-
         };
         //Remplir les checkbox types 
         if (livre.TypesLivre.Count == 0)
@@ -188,8 +203,11 @@ public class GestionLivresController : Controller
         else
         {
             vm.Neuf = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "1")) ? true : false;
-            vm.Numerique = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "2")) ? true : false;
+            vm.Numerique = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "2"))
+                ? true
+                : false;
         }
+
         //Populer les selectList
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
@@ -211,8 +229,9 @@ public class GestionLivresController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return View(vm);
+        return PartialView("PartialViews/Modals/InventaireLivres/_EditPartial", vm);
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Modifier(ModifierVM vm)
@@ -222,24 +241,26 @@ public class GestionLivresController : Controller
             //Si nouvelle photo
             if (vm.CoverPhoto != null)
             {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
-                string extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                var wwwRootPath = _webHostEnvironment.WebRootPath;
+                var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                var extension = Path.GetExtension(vm.CoverPhoto.FileName);
                 fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
-                vm.CoverImageUrl = "/img/CouvertureLivre/" + fileName;
-                var path = Path.Combine(wwwRootPath + "/img/CouvertureLivre/", fileName);
+                vm.CoverImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await vm.CoverPhoto.CopyToAsync(fileStream);
                 }
             }
+
             //Types de livres
-            List<TypeLivre> listeType = new List<TypeLivre>();
+            var listeType = new List<TypeLivre>();
             if (vm.Neuf)
             {
                 var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
                 listeType.Add(neuf);
             }
+
             if (vm.Numerique)
             {
                 var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
@@ -247,13 +268,13 @@ public class GestionLivresController : Controller
             }
 
             var livre = await _context.Livres
-            .Include(l => l.Auteur)
-            .Include(l => l.TypesLivre)
-            .Include(l => l.Langues)
-            .Include(l => l.Categories)
-            .FirstOrDefaultAsync(x => x.Id == vm.Id);
+                .Include(l => l.Auteur)
+                .Include(l => l.TypesLivre)
+                .Include(l => l.Langues)
+                .Include(l => l.Categories)
+                .FirstOrDefaultAsync(x => x.Id == vm.Id);
 
-            //Changement des données
+            //Changement des donnï¿½es
             livre.ISBN = vm.ISBN;
             livre.Titre = vm.Titre;
             livre.Resume = vm.Resume;
@@ -271,9 +292,12 @@ public class GestionLivresController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction("Inventaire");
         }
+
         return View(vm);
     }
+
     // GET: Livre/Delete/5
+    [HttpDelete]
     public async Task<IActionResult> Delete(string id)
     {
         if (id == null || _context.Livres == null) return NotFound();
@@ -283,8 +307,10 @@ public class GestionLivresController : Controller
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
+        _context.Livres.Remove(livre);
+        _context.SaveChanges();
 
-        return View(livre);
+        return Ok();
     }
 
     // POST: Livre/Delete/5
@@ -300,9 +326,34 @@ public class GestionLivresController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+    
+//Pour montrer la la partial view de confirmation de suppression
+    [HttpGet]
+    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    {
+        if (id == null) return NotFound();
+
+        var livre = await _context.Livres.FindAsync(id);
+        if (livre == null) return NotFound();
+
+        return PartialView("PartialViews/Modals/InventaireLivres/_DeleteInventairePartial", livre);
+    }
+
 
     private bool LivreExists(string id)
     {
         return (_context.Livres?.Any(e => e.Id == id)).GetValueOrDefault();
+    }
+
+    //Modifie le nombre du livre selectionnï¿½
+
+    [HttpPost]
+    public async Task<IActionResult> ModifierLivreQuantite(string id, int quantite)
+    {
+        var livre = await _context.Livres.FindAsync(id);
+        if (livre == null) return BadRequest();
+        livre.NbExemplaires = quantite;
+        await _context.SaveChangesAsync();
+        return Ok();
     }
 }

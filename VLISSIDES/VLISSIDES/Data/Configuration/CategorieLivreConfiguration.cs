@@ -15,173 +15,209 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
             new Categorie
             {
                 Id = "1",
-                Nom = "Art musique et cinéma",
+                Nom = "Art",
                 Description =
-                    "L'art sous toutes ses facettes : peinture, sculpture, musique, street art... Vous trouverez ici des monographies, des catalogues d'exposition, des biographies d'artistes et une multitude de beaux livres. Les livres sont classés par date " +
-                    "de parution, les plus récents en tête. 1 914 livres sont proposés dans cette catégorie."
+                    "Une section dédiée à l'exploration des chefs-d'œuvre artistiques, des mouvements et des artistes qui ont marqué l'histoire."
             },
             new Categorie
             {
                 Id = "2",
-                Nom = "Bandes dessinées",
+                Nom = "Art de vivre",
                 Description =
-                    " Dans cette catégorie : Bandes dessinées, comics, romans graphiques et mangas. Choisissez une sous-catégorie (BD ou manga) pour affiner la sélection. " +
-                    "Les livres sont classés par date de parution, les plus récents en tête. "
+                    "Plongez dans un monde de bien-être, d'esthétique et d'équilibre pour enrichir votre quotidien."
             },
             new Categorie
             {
                 Id = "3",
-                Nom = "Cuisine",
+                Nom = "BD, Jeunesse, Humour",
                 Description =
-                    "Les livres de cuisine ont le vent en poupe, malgré la disponibilité de multiples recettes sur internet. Dans cette catégorie, vous trouverez des ouvrages généralistes ou thématiques, pour ceux qui doivent suivre un régime par exemple ou qui, simplement," +
-                    " font attention à leur alimentation. "
+                    "De colorées bandes dessinées aux histoires captivantes pour les plus jeunes, sans oublier une touche d'humour."
             },
             new Categorie
             {
                 Id = "4",
-                Nom = "Développement personnel",
-                Description = "Dans cette catégorie : tous les ouvrages qui peuvent " +
-                              "aider à mieux vivre. Les livres sont classés par date de parution, les plus récents en tête."
+                Nom = "Bandes dessinées",
+                Description = "Un vaste choix de narrations graphiques, des super-héros aux récits autobiographiques."
             },
             new Categorie
             {
                 Id = "5",
-                Nom = "Dictionnaires & langues",
-                Description =
-                    "Dans cette catégorie : tous les dictionnaires pour tous les niveaux et tous les âges, mais aussi les méthodes d'apprentissage des langues." +
-                    " Les livres sont classés par date de parution, les plus récents en tête."
+                Nom = "Biographie",
+                Description = "Découvrez les vies fascinantes des personnalités qui ont façonné le monde."
             },
             new Categorie
             {
                 Id = "6",
-                Nom = "Droit & économie",
-                Description = "Les livres sont classés par date de parution, les plus récents en tête."
+                Nom = "Conte",
+                Description =
+                    "Voyagez dans des mondes lointains avec des histoires intemporelles, des fables et des légendes."
             },
             new Categorie
             {
                 Id = "7",
-                Nom = "Essais et documents",
+                Nom = "Cuisine – Vin",
                 Description =
-                    "La production de livres ne se limite pas à la littérature. Vous trouverez dans cette catégories des essais " +
-                    "ou documents, politiques ou non. Les livres sont classés par date de parution, les plus récents en tête."
+                    "Des recettes alléchantes aux guides sommeliers, découvrez les saveurs du monde."
             },
             new Categorie
             {
                 Id = "8",
-                Nom = "Guides pratiques",
+                Nom = "Culture et Société",
                 Description =
-                    "Dans cette catégorie : tous les guides pratiques pour vous aider dans la vie quotidienne. Les livres sont classés par date de parution, les plus récents en tête."
+                    "Approfondissez votre compréhension des sociétés contemporaines et de leurs nuances culturelles."
             },
             new Categorie
             {
                 Id = "9",
-                Nom = "Histoire",
+                Nom = "Dictionnaire – Langues – Éducation",
                 Description =
-                    "L'histoire permet de comprendre le présent. Vous trouverez ici tout ce qui a trait à l'histoire, de l'antiquité à nos jours, en France comme dans le monde." +
-                    " Les livres sont classés par date de parution, les plus récents en tête. "
+                    "Des ressources pour les linguistes, les étudiants et les éternels apprenants."
             },
             new Categorie
             {
                 Id = "10",
-                Nom = "Humour",
-                Description = "Dans cette catégorie : tous les livres qui ont un contenu humoristique." +
-                              " Les livres sont classés par date de parution, les plus récents en tête."
+                Nom = "Essai",
+                Description =
+                    "Engagez-vous dans des réflexions profondes et argumentatives sur des enjeux contemporains."
             },
             new Categorie
             {
                 Id = "11",
-                Nom = "Informatique et internet",
+                Nom = "Faune – Flore",
                 Description =
-                    " Dans cette catégorie : tous les livres qui ont un contenu liés à internet et des nouvelles techniques de l'information." +
-                    " Les livres sont classés par date de parution, les plus récents en tête."
+                    "Explorez le monde naturel, de la canopée de la jungle aux profondeurs des océans."
             },
             new Categorie
             {
                 Id = "12",
-                Nom = "Jeunesse",
+                Nom = "Géographie – Voyage",
                 Description =
-                    "Dans cette catégorie : tous les livres pour la jeunesse, du premier âge à l'adolescence. Les publications pour la jeunesse sont abondantes." +
-                    " Et c'est tant mieux. Inciter les plus jeunes à lire devrait être une priorité. "
+                    "Évadez-vous avec des guides de voyage et des récits d'aventuriers des quatre coins du monde."
             },
             new Categorie
             {
                 Id = "13",
-                Nom = "Littérature",
-                Description = "Dans cette catégorie, toute la littérature, française ou étrangère." +
-                              " Des classiques aux auteurs contemporains, le choix est large."
+                Nom = "Gestion – Économie – droit",
+                Description = "Démystifiez le monde des affaires, la complexité économique et les arcanes du droit."
             },
             new Categorie
             {
                 Id = "14",
-                Nom = "Littérature sentimentale",
-                Description = "Littérature sentimentale : un genre qui se renouvelle et qui a toujours ses adeptes." +
-                              " Passions et liaisons contrariées, les sentiments sont ici à l'honneur."
+                Nom = "Guide pratique",
+                Description =
+                    "Conseils et astuces pour naviguer dans la vie quotidienne, du bricolage à la gestion du temps."
             },
             new Categorie
             {
                 Id = "15",
-                Nom = "Policier, suspense, thrillers",
-                Description = "Romans noirs, polars, suspense, thrillers... " +
-                              "tous les livres pour faire passer des nuits blanches aux amateurs de littérature noire. "
+                Nom = "Histoire - Politique",
+                Description = "Immergez-vous dans les moments clés de l'histoire et les débats politiques actuels. "
             },
             new Categorie
             {
                 Id = "16",
-                Nom = "Religion et spiritualité",
-                Description = "Dans cette catégorie : tous les livres qui ont un contenu religieux ou spirituel. " +
-                              "Les livres sont classés par date de parution, les plus récents en tête."
+                Nom = "Humour",
+                Description = "Pour un moment de détente, une collection de recueils drôles et de satires."
             },
             new Categorie
             {
                 Id = "17",
-                Nom = "Sciences sociales",
+                Nom = "Informatique",
                 Description =
-                    "Dans cette catégorie : toutes les sciences sociales : ethnologie, philopsophie, psychologie, sociologie..." +
-                    " L'histoire fait l'objet d'une catégorie à part. "
+                    "Restez à la pointe de la technologie avec des guides sur les logiciels, le codage et les innovations numériques."
             },
             new Categorie
             {
                 Id = "18",
-                Nom = "Sciences, techniques & médecine",
+                Nom = "Littérature",
                 Description =
-                    "Dans cette catégorie : les ouvrages scientifiques, qu'ils soient destinés aux spécialistes ou au grand public. " +
-                    "Les livres sont classés par date de parution, les plus récents en tête."
+                    "Une riche collection de classiques et de nouvelles œuvres, pour les amateurs de belle lettre."
             },
             new Categorie
             {
                 Id = "19",
-                Nom = "Scolaire et pédagogie",
+                Nom = "Loisir, Tourisme, Nature",
                 Description =
-                    "Dans cette catégorie, tous les ouvrages scolaires, de la maternelle à l'enseignement supérieur." +
-                    " Les livres sont classés par date de parution, les plus récents en tête."
+                    "Inspirez-vous pour votre prochaine aventure, qu'elle soit en pleine nature ou dans une métropole animée."
             },
             new Categorie
             {
                 Id = "20",
-                Nom = "SF, Fantasy",
-                Description = "Dans cette catégorie : tous les livres de science-fiction et de fantasy. " +
-                              "Les livres sont classés par date de parution, les plus récents en tête."
+                Nom = "Maternité – Famille",
+                Description =
+                    "Des ressources pour les parents et ceux qui aspirent à le devenir, pour une vie familiale épanouie."
             },
             new Categorie
             {
                 Id = "21",
-                Nom = "Sports et loisirs",
-                Description = "Dans cette catégorie : tous les livres qui ont un contenu lié au sport et aux loisirs." +
-                              " Les livres sont classés par date de parution, les plus récents en tête."
+                Nom = "Poésie – Théâtre – Essais",
+                Description =
+                    "Laissez-vous emporter par le rythme des vers, l'intensité du théâtre et la profondeur des essais."
             }, new Categorie
             {
                 Id = "22",
-                Nom = "Théâtre",
-                Description = "Dans cette catégorie : tous les livres qui ont un contenu lié au théâtre." +
-                              " Les livres sont classés par date de parution, les plus récents en tête."
+                Nom = "Psychologie – Santé",
+                Description = "omprenez mieux la complexité de l'esprit humain et les clés d'une vie saine."
             },
             new Categorie
             {
                 Id = "23",
-                Nom = "Tourisme et voyages",
+                Nom = "Religion – Ésotérisme",
                 Description =
-                    "Dans cette catégorie : tous les livres qui ont un contenu lié au tourisme et aux voyages." +
-                    " Les livres sont classés par date de parution, les plus récents en tête."
+                    "Explorez les croyances spirituelles du monde entier, des textes sacrés aux mystères ésotériques."
+            },
+            new Categorie
+            {
+                Id = "24",
+                Nom = "Roman de science-fiction et fantastique",
+                Description =
+                    "Voyagez dans des mondes parallèles, où l'imaginaire rencontre souvent la réflexion profonde."
+            },
+            new Categorie
+            {
+                Id = "25",
+                Nom = "Roman français et étranger ",
+                Description =
+                    "Des romans venus de France et d'ailleurs pour vous transporter dans de multiples univers narratifs."
+            },
+            new Categorie
+            {
+                Id = "26",
+                Nom = "Roman policier",
+                Description =
+                    "Plongez dans des enquêtes palpitantes, des énigmes à résoudre et des mystères à élucider."
+            },
+            new Categorie
+            {
+                Id = "27",
+                Nom = "Roman québécois",
+                Description =
+                    "Découvrez la richesse de la littérature québécoise, avec ses voix uniques et ses paysages envoûtants."
+            },
+            new Categorie
+            {
+                Id = "28",
+                Nom = "Savoir Sciences",
+                Description = "Éclairez votre curiosité avec des textes scientifiques accessibles et informatifs."
+            },
+            new Categorie
+            {
+                Id = "29",
+                Nom = "Sciences",
+                Description = "De la biologie à la physique, découvrez les dernières découvertes et théories."
+            },
+            new Categorie
+            {
+                Id = "30",
+                Nom = "Sexualité",
+                Description = "Des textes éclairants pour comprendre et explorer la diversité de la sexualité humaine."
+            },
+            new Categorie
+            {
+                Id = "31",
+                Nom = "Sport - Loisirs",
+                Description =
+                    "Pour les passionnés de sport et les chercheurs d'activités, des histoires inspirantes aux guides pratiques."
             }
         );
     }

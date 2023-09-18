@@ -5,6 +5,7 @@ namespace VLISSIDES.ViewModels.GestionLivres;
 
 public class GestionLivresAfficherVM
 {
+    public string Id { get; set; }
     public string Image { get; set; }
     public string Titre { get; set; }
     public ICollection<Auteur>? Auteur { get; set; }

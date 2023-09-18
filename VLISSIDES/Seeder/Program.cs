@@ -39,8 +39,6 @@ var auteurs = Builder<Auteur>.CreateListOfSize(99)
     .All()
     .With(c => c.Nom = Name.Last())
     .With(c => c.Prenom = Name.First())
-    .With(c => c.Biographie = Lorem.Paragraph())
-    .With(c => c.Photo = "~/jean-luc.png")
     .Build();
 context.Auteurs.AddRange(auteurs);
 context.SaveChanges();
