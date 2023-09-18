@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ using VLISSIDES.ViewModels.GestionLivres;
 using VLISSIDES.ViewModels.Livres;
 
 namespace VLISSIDES.Controllers;
-
+[Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionLivresController : Controller
 {
     private readonly IConfiguration _config;
@@ -326,8 +327,8 @@ public class GestionLivresController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
-    
-//Pour montrer la la partial view de confirmation de suppression
+
+    //Pour montrer la la partial view de confirmation de suppression
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
