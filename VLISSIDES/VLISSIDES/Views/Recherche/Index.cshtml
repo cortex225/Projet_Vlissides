@@ -44,15 +44,15 @@
                         <h3>Spécification</h3>
                         <div class="form-group">
                             <label for="formGroupExampleInput">Titre</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+                            <input type="text" class="form-control" id="specificationTitre" placeholder="">
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput2">Auteur</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                            <input type="text" class="form-control" id="specificationAuteur" placeholder="">
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput2">Maison d'édition</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                            <input type="text" class="form-control" id="specificationMaisonEdition" placeholder="">
                         </div>
                     </div>
 
@@ -131,6 +131,6 @@
         var searchTerm = search.value; // Récupérer la valeur de la barre de recherche
 
         // Utiliser la valeur dans l'URL pour l'action Index
-        window.location.href = `/Recherche/Index?motCle=${searchTerm}`;
+        window.location.href = `/Recherche/Index?motCles=${searchTerm}`;
     }
 </script> 

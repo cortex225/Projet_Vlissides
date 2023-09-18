@@ -156,9 +156,12 @@ Une tonne de scripts divers
 
         // Utiliser la valeur dans l'URL pour l'action Index
         if (critere == null) {
-            window.location.href = `/Recherche/Index?motCle=${searchTerm}`;
+            window.location.href = `/Recherche/Index?motCles=${searchTerm}`;
         }else{
-            window.location.href = `/Recherche/Index?motCle=${searchTerm}&critere=${critere}`;
+            var maListe = [critere];
+            var listeSerialisee = maListe.join(",");
+
+            window.location.href = `/Recherche/Index?motCles=${searchTerm}&criteres=${listeSerialisee}`;
         }
     }
 </script>
