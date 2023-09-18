@@ -3,16 +3,16 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Accueil
 {
-    public class _PromotionCardVM
+    public class PromotionCardVM
     {
-        public _PromotionCardVM(string description, decimal rabais, DateTime dateDebut, DateTime dateFin)
+        public PromotionCardVM(string description, decimal rabais, DateTime dateDebut, DateTime dateFin)
         {
             Description = description;
             Rabais = rabais;
             DateDebut = dateDebut;
             DateFin = dateFin;
         }
-        public _PromotionCardVM(Promotions promotions)
+        public PromotionCardVM(Promotions promotions)
         {
             Description = promotions.Description;
             Rabais = promotions.Rabais;

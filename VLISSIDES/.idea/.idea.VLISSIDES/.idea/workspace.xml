@@ -8,7 +8,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd365774-666c-483c-b7e2-a3a3b85efb7d" name="Changes" comment="" />
+    <list default="true" id="bd365774-666c-483c-b7e2-a3a3b85efb7d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_ServiceOffert.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/dataSources/5beff40d-dbf5-4695-a987-29a92f9f50ba.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/dataSources/5beff40d-dbf5-4695-a987-29a92f9f50ba.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Controllers/AccueilController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Controllers/AccueilController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/ViewModels/Accueil/_ServiceCardVM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/ViewModels/Accueil/_ServiceCardVM.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_CarteEvenement.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_CarteEvenement.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_CarteLivre.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_CarteLivre.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_CarteLivrePetit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_CarteLivrePetit.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_CartePromotion.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_CartePromotion.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_ServiceOffert.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/Accueil.css" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/Accueil.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/footer.css" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/footer.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,28 +49,30 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.39050537&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.39050537",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache&quot;,
-      &quot;/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache&quot;,
-      &quot;/Users/jlgouaho/.local/share/Symbols/src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache",
+      "/Users/jlgouaho/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache",
+      "/Users/jlgouaho/.local/share/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="main" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" />
@@ -82,6 +100,7 @@
       <updated>1694693075398</updated>
       <workItem from="1694693076986" duration="362000" />
       <workItem from="1694693956984" duration="16075000" />
+      <workItem from="1694875218428" duration="7799000" />
     </task>
     <servers />
   </component>

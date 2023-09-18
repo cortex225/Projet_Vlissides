@@ -5,16 +5,16 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Accueil;
 
-public class _EventCardVM
+public class EventCardVM
 {
-    public _EventCardVM(string image = "", string nom = "", string description = "")
+    public EventCardVM(string image = "", string nom = "", string description = "")
     {
         Image = image;
         Nom = nom;
         Description = description;
     }
 
-    public _EventCardVM(Evenement evenement)
+    public EventCardVM(Evenement evenement)
     {
         Image = evenement.Image;
         Nom = evenement.Nom;

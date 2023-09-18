@@ -5,9 +5,9 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Accueil;
 
-public class _LivreCardVM
+public class LivreCardVM
 {
-    public _LivreCardVM(string couverture = "", string titre = "", double prix = 0, List<Auteur> auteurs = default!,
+    public LivreCardVM(string couverture = "", string titre = "", double prix = 0, List<Auteur> auteurs = default!,
         List<Categorie> categories = default!)
     {
         auteurs ??= new List<Auteur>();
@@ -26,7 +26,7 @@ public class _LivreCardVM
         categories.ForEach(categorie => Categories.Add(categorie.Nom));
     }
 
-    public _LivreCardVM(Livre livre)
+    public LivreCardVM(Livre livre)
     {
         livre.Evaluations ??= new List<Evaluation>();
         Couverture = livre.Couverture;
