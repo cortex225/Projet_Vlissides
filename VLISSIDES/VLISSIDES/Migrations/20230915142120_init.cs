@@ -58,9 +58,7 @@ namespace VLISSIDES.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Prenom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Biographie = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Prenom = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,6 +117,22 @@ namespace VLISSIDES.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MaisonEditions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Promotions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rabais = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DateDebut = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateFin = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LivreId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Promotions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -393,12 +407,13 @@ namespace VLISSIDES.Migrations
                     Prix = table.Column<double>(type: "float", nullable: false),
                     DatePublication = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategorieId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AuteurId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MaisonEditionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CategorieId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TypeLivreId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EvaluationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LangueId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PromotionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CommandeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -566,6 +581,30 @@ namespace VLISSIDES.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LivrePromotions",
+                columns: table => new
+                {
+                    LivresId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PromotionsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LivrePromotions", x => new { x.LivresId, x.PromotionsId });
+                    table.ForeignKey(
+                        name: "FK_LivrePromotions_Livres_LivresId",
+                        column: x => x.LivresId,
+                        principalTable: "Livres",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LivrePromotions_Promotions_PromotionsId",
+                        column: x => x.PromotionsId,
+                        principalTable: "Promotions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LivreTypeLivre",
                 columns: table => new
                 {
@@ -594,9 +633,9 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0", "c67845d3-8ee3-4674-a131-b8f8b62a0496", "Employe", "EMPLOYE" },
-                    { "1", "52c06941-650c-4944-8605-f2a4a375f81f", "Membre", "MEMBRE" },
-                    { "2", "ba9b522e-e73a-4d07-bb1b-693d1f4aaacd", "Admin", "ADMIN" }
+                    { "0", "5dd03105-c527-4c7f-87a8-5e3ef720ee33", "Employe", "EMPLOYE" },
+                    { "1", "a8b88f93-bb2a-4fa8-b96d-11d5edb42516", "Membre", "MEMBRE" },
+                    { "2", "f7e6effa-aeee-4127-9961-7fe9a2ae07ff", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -604,44 +643,52 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AdresseLivraisonId", "AdressePrincipaleId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "0", 0, null, null, "14a49074-dd8d-4aab-991f-4892481b8287", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "fb529e7a-e6cf-41ca-8cca-687109816421", false, "admin@admin.com" },
-                    { "1", 0, null, "", "90d38bb4-d6f9-4ae8-83aa-ae6b71894fc6", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "ff9a9db9-218b-44c3-936a-494c93c817ea", false, "employe@employe.com" },
-                    { "2", 0, null, "", "68efeb05-6978-437e-bb38-130f34ae6823", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", null, null, false, "Membre", "6339cfbb-98c9-4659-ad7f-afa7beeab313", false, "membre@membre.com" }
+                    { "0", 0, null, null, "95beb176-3120-4cd2-905c-a13d50ad8796", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "0c9a3844-0ef8-4be2-89cf-72020b8e551d", false, "admin@admin.com" },
+                    { "1", 0, null, "", "727cdc69-c1e2-4dfb-bf63-af01dd7229ea", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "2481c91d-7dde-4eb1-8b8a-031d3b0a1f8e", false, "employe@employe.com" },
+                    { "2", 0, null, "", "ef28c495-d52d-4486-bc53-b3f59c05d6ac", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", "fa5bb8a4-c791-4a46-862c-eedd27074973", false, "membre@membre.com" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Auteurs",
-                columns: new[] { "Id", "Biographie", "Nom", "Photo", "Prenom" },
-                values: new object[] { "0", "Tony Stack est un auteur de livre de programmation", "Tony", "", "Stack" });
+                columns: new[] { "Id", "Nom", "Prenom" },
+                values: new object[] { "0", "Tony", "Stack" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "Description", "Nom" },
                 values: new object[,]
                 {
-                    { "1", "L'art sous toutes ses facettes : peinture, sculpture, musique, street art... Vous trouverez ici des monographies, des catalogues d'exposition, des biographies d'artistes et une multitude de beaux livres. Les livres sont classés par date de parution, les plus récents en tête. 1 914 livres sont proposés dans cette catégorie.", "Art musique et cinéma" },
-                    { "10", "Dans cette catégorie : tous les livres qui ont un contenu humoristique. Les livres sont classés par date de parution, les plus récents en tête.", "Humour" },
-                    { "11", " Dans cette catégorie : tous les livres qui ont un contenu liés à internet et des nouvelles techniques de l'information. Les livres sont classés par date de parution, les plus récents en tête.", "Informatique et internet" },
-                    { "12", "Dans cette catégorie : tous les livres pour la jeunesse, du premier âge à l'adolescence. Les publications pour la jeunesse sont abondantes. Et c'est tant mieux. Inciter les plus jeunes à lire devrait être une priorité. ", "Jeunesse" },
-                    { "13", "Dans cette catégorie, toute la littérature, française ou étrangère. Des classiques aux auteurs contemporains, le choix est large.", "Littérature" },
-                    { "14", "Littérature sentimentale : un genre qui se renouvelle et qui a toujours ses adeptes. Passions et liaisons contrariées, les sentiments sont ici à l'honneur.", "Littérature sentimentale" },
-                    { "15", "Romans noirs, polars, suspense, thrillers... tous les livres pour faire passer des nuits blanches aux amateurs de littérature noire. ", "Policier, suspense, thrillers" },
-                    { "16", "Dans cette catégorie : tous les livres qui ont un contenu religieux ou spirituel. Les livres sont classés par date de parution, les plus récents en tête.", "Religion et spiritualité" },
-                    { "17", "Dans cette catégorie : toutes les sciences sociales : ethnologie, philopsophie, psychologie, sociologie... L'histoire fait l'objet d'une catégorie à part. ", "Sciences sociales" },
-                    { "18", "Dans cette catégorie : les ouvrages scientifiques, qu'ils soient destinés aux spécialistes ou au grand public. Les livres sont classés par date de parution, les plus récents en tête.", "Sciences, techniques & médecine" },
-                    { "19", "Dans cette catégorie, tous les ouvrages scolaires, de la maternelle à l'enseignement supérieur. Les livres sont classés par date de parution, les plus récents en tête.", "Scolaire et pédagogie" },
-                    { "2", " Dans cette catégorie : Bandes dessinées, comics, romans graphiques et mangas. Choisissez une sous-catégorie (BD ou manga) pour affiner la sélection. Les livres sont classés par date de parution, les plus récents en tête. ", "Bandes dessinées" },
-                    { "20", "Dans cette catégorie : tous les livres de science-fiction et de fantasy. Les livres sont classés par date de parution, les plus récents en tête.", "SF, Fantasy" },
-                    { "21", "Dans cette catégorie : tous les livres qui ont un contenu lié au sport et aux loisirs. Les livres sont classés par date de parution, les plus récents en tête.", "Sports et loisirs" },
-                    { "22", "Dans cette catégorie : tous les livres qui ont un contenu lié au théâtre. Les livres sont classés par date de parution, les plus récents en tête.", "Théâtre" },
-                    { "23", "Dans cette catégorie : tous les livres qui ont un contenu lié au tourisme et aux voyages. Les livres sont classés par date de parution, les plus récents en tête.", "Tourisme et voyages" },
-                    { "3", "Les livres de cuisine ont le vent en poupe, malgré la disponibilité de multiples recettes sur internet. Dans cette catégorie, vous trouverez des ouvrages généralistes ou thématiques, pour ceux qui doivent suivre un régime par exemple ou qui, simplement, font attention à leur alimentation. ", "Cuisine" },
-                    { "4", "Dans cette catégorie : tous les ouvrages qui peuvent aider à mieux vivre. Les livres sont classés par date de parution, les plus récents en tête.", "Développement personnel" },
-                    { "5", "Dans cette catégorie : tous les dictionnaires pour tous les niveaux et tous les âges, mais aussi les méthodes d'apprentissage des langues. Les livres sont classés par date de parution, les plus récents en tête.", "Dictionnaires & langues" },
-                    { "6", "Les livres sont classés par date de parution, les plus récents en tête.", "Droit & économie" },
-                    { "7", "La production de livres ne se limite pas à la littérature. Vous trouverez dans cette catégories des essais ou documents, politiques ou non. Les livres sont classés par date de parution, les plus récents en tête.", "Essais et documents" },
-                    { "8", "Dans cette catégorie : tous les guides pratiques pour vous aider dans la vie quotidienne. Les livres sont classés par date de parution, les plus récents en tête.", "Guides pratiques" },
-                    { "9", "L'histoire permet de comprendre le présent. Vous trouverez ici tout ce qui a trait à l'histoire, de l'antiquité à nos jours, en France comme dans le monde. Les livres sont classés par date de parution, les plus récents en tête. ", "Histoire" }
+                    { "1", "Une section dédiée à l'exploration des chefs-d'œuvre artistiques, des mouvements et des artistes qui ont marqué l'histoire.", "Art" },
+                    { "10", "Engagez-vous dans des réflexions profondes et argumentatives sur des enjeux contemporains.", "Essai" },
+                    { "11", "Explorez le monde naturel, de la canopée de la jungle aux profondeurs des océans.", "Faune – Flore" },
+                    { "12", "Évadez-vous avec des guides de voyage et des récits d'aventuriers des quatre coins du monde.", "Géographie – Voyage" },
+                    { "13", "Démystifiez le monde des affaires, la complexité économique et les arcanes du droit.", "Gestion – Économie – droit" },
+                    { "14", "Conseils et astuces pour naviguer dans la vie quotidienne, du bricolage à la gestion du temps.", "Guide pratique" },
+                    { "15", "Immergez-vous dans les moments clés de l'histoire et les débats politiques actuels. ", "Histoire - Politique" },
+                    { "16", "Pour un moment de détente, une collection de recueils drôles et de satires.", "Humour" },
+                    { "17", "Restez à la pointe de la technologie avec des guides sur les logiciels, le codage et les innovations numériques.", "Informatique" },
+                    { "18", "Une riche collection de classiques et de nouvelles œuvres, pour les amateurs de belle lettre.", "Littérature" },
+                    { "19", "Inspirez-vous pour votre prochaine aventure, qu'elle soit en pleine nature ou dans une métropole animée.", "Loisir, Tourisme, Nature" },
+                    { "2", "Plongez dans un monde de bien-être, d'esthétique et d'équilibre pour enrichir votre quotidien.", "Art de vivre" },
+                    { "20", "Des ressources pour les parents et ceux qui aspirent à le devenir, pour une vie familiale épanouie.", "Maternité – Famille" },
+                    { "21", "Laissez-vous emporter par le rythme des vers, l'intensité du théâtre et la profondeur des essais.", "Poésie – Théâtre – Essais" },
+                    { "22", "omprenez mieux la complexité de l'esprit humain et les clés d'une vie saine.", "Psychologie – Santé" },
+                    { "23", "Explorez les croyances spirituelles du monde entier, des textes sacrés aux mystères ésotériques.", "Religion – Ésotérisme" },
+                    { "24", "Voyagez dans des mondes parallèles, où l'imaginaire rencontre souvent la réflexion profonde.", "Roman de science-fiction et fantastique" },
+                    { "25", "Des romans venus de France et d'ailleurs pour vous transporter dans de multiples univers narratifs.", "Roman français et étranger " },
+                    { "26", "Plongez dans des enquêtes palpitantes, des énigmes à résoudre et des mystères à élucider.", "Roman policier" },
+                    { "27", "Découvrez la richesse de la littérature québécoise, avec ses voix uniques et ses paysages envoûtants.", "Roman québécois" },
+                    { "28", "Éclairez votre curiosité avec des textes scientifiques accessibles et informatifs.", "Savoir Sciences" },
+                    { "29", "De la biologie à la physique, découvrez les dernières découvertes et théories.", "Sciences" },
+                    { "3", "De colorées bandes dessinées aux histoires captivantes pour les plus jeunes, sans oublier une touche d'humour.", "BD, Jeunesse, Humour" },
+                    { "30", "Des textes éclairants pour comprendre et explorer la diversité de la sexualité humaine.", "Sexualité" },
+                    { "31", "Pour les passionnés de sport et les chercheurs d'activités, des histoires inspirantes aux guides pratiques.", "Sport - Loisirs" },
+                    { "4", "Un vaste choix de narrations graphiques, des super-héros aux récits autobiographiques.", "Bandes dessinées" },
+                    { "5", "Découvrez les vies fascinantes des personnalités qui ont façonné le monde.", "Biographie" },
+                    { "6", "Voyagez dans des mondes lointains avec des histoires intemporelles, des fables et des légendes.", "Conte" },
+                    { "7", "Des recettes alléchantes aux guides sommeliers, découvrez les saveurs du monde.", "Cuisine – Vin" },
+                    { "8", "Approfondissez votre compréhension des sociétés contemporaines et de leurs nuances culturelles.", "Culture et Société" },
+                    { "9", "Des ressources pour les linguistes, les étudiants et les éternels apprenants.", "Dictionnaire – Langues – Éducation" }
                 });
 
             migrationBuilder.InsertData(
@@ -661,9 +708,13 @@ namespace VLISSIDES.Migrations
             migrationBuilder.InsertData(
                 table: "StatutCommande",
                 columns: new[] { "Id", "Nom" },
+                values: new object[] { "1", "En attente" });
+
+            migrationBuilder.InsertData(
+                table: "StatutCommande",
+                columns: new[] { "Id", "Nom" },
                 values: new object[,]
                 {
-                    { "1", "En attente" },
                     { "2", "En cours de traitement" },
                     { "3", "En cours de livraison" },
                     { "4", "Livrée" },
@@ -697,7 +748,7 @@ namespace VLISSIDES.Migrations
             migrationBuilder.InsertData(
                 table: "Membres",
                 columns: new[] { "Id", "CommandeId", "DateAdhesion", "NoMembre", "ReservationId" },
-                values: new object[] { "2", null, new DateTime(2023, 9, 8, 10, 5, 8, 969, DateTimeKind.Local).AddTicks(1513), "123456", null });
+                values: new object[] { "2", null, new DateTime(2023, 9, 15, 10, 21, 19, 969, DateTimeKind.Local).AddTicks(6578), "123456", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_UtilisateurLivraisonId",
@@ -801,6 +852,11 @@ namespace VLISSIDES.Migrations
                 column: "CommandeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LivrePromotions_PromotionsId",
+                table: "LivrePromotions",
+                column: "PromotionsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Livres_CommandeId",
                 table: "Livres",
                 column: "CommandeId");
@@ -865,6 +921,9 @@ namespace VLISSIDES.Migrations
                 name: "LivreCommandes");
 
             migrationBuilder.DropTable(
+                name: "LivrePromotions");
+
+            migrationBuilder.DropTable(
                 name: "LivreTypeLivre");
 
             migrationBuilder.DropTable(
@@ -881,6 +940,9 @@ namespace VLISSIDES.Migrations
 
             migrationBuilder.DropTable(
                 name: "Langues");
+
+            migrationBuilder.DropTable(
+                name: "Promotions");
 
             migrationBuilder.DropTable(
                 name: "Livres");

@@ -1,6 +1,6 @@
 @model RegisterVM
 @{
-    ViewData["Title"] = "Enregistrement";
+    ViewData["Title"] = "Inscription";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -8,7 +8,7 @@
 
 <head>
     <partial name="PartialViews/_HeadPartial"/>
-    <link href="~/assets/css/Register.css" rel="stylesheet"/>
+    <link href="~/css/Register.css" rel="stylesheet" asp-append-version="true"/>
 
 </head>
 
@@ -91,18 +91,46 @@
     }
 </style>
 
-
-<script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-    //Ici on gère l'affichage du champ companyName en fonction de la sélection de l'utilisateur
-  </script>
+<!--   Core JS Files   -->
+<partial name="PartialViews/_JsPartial"/>
 
 </body>
 
 </html>
+
+@* SweetAlert2 pour afficher une notification de succès ou d'erreur *@
+<script>
+
+  // Attache un gestionnaire d'événements de soumission à tous les formulaires sur la page
+  $('form').submit(function(e) {
+    e.preventDefault();  // Empêche la soumission par défaut du formulaire
+    $.ajax({    // Obtient l'URL d'action du formulaire
+      url: $(this).attr('action'),
+      type: 'POST',
+      data: $(this).serialize(),    // Sérialise les données du formulaire pour les envoyer dans la requête
+      success: function(result) {
+        Swal.fire({
+          icon: 'success',
+          title: result,
+          showConfirmButton: false,
+          timer: 3000
+        }).then((result) => {
+          window.location.href = '@Url.Action("Login", "Compte")';
+        });
+      },
+      error: function(xhr, status, error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Une erreur s\'est produite',
+          text: xhr.responseText
+        });
+      }
+    });
+  });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+
+
+}

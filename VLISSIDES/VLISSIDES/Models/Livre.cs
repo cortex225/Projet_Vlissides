@@ -30,15 +30,15 @@ public class Livre
 
     [DisplayName("Auteur(s)")] public ICollection<Auteur> Auteur { get; set; } = default!;
 
-    [DisplayName("Identifiant de la maison d'�dition")]
+    [DisplayName("Identifiant de la maison d'édition")]
     public string? MaisonEditionId { get; set; }
 
     [DisplayName("Maison d'édition")] public MaisonEdition? MaisonEdition { get; set; }
 
-    [DisplayName("Identifiant de la cat�gorie")]
+    [DisplayName("Identifiant de la catégorie")]
     public string CategorieId { get; set; } = default!;
 
-    [DisplayName("Cat�gories associ�s")] public ICollection<Categorie> Categories { get; set; } = default!;
+    [DisplayName("Cat�gories associés")] public ICollection<Categorie> Categories { get; set; } = default!;
 
     [DisplayName("Identifiant du type de livre")]
     public string? TypeLivreId { get; set; } = default!;
@@ -58,4 +58,8 @@ public class Livre
     [DisplayName("Favoris")] public ICollection<Favori>? Favoris { get; set; }
 
     [DisplayName("Livres commande")] public ICollection<LivreCommande>? LivreCommandes { get; set; }
+
+    public string? PromotionId { get; set; } = default!;
+
+    [DisplayName("Promotions")] public ICollection<Promotions>? Promotions { get; set; }
 }

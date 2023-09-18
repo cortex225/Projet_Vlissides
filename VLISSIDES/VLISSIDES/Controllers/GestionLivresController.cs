@@ -23,10 +23,18 @@ public class GestionLivresController : Controller
     }
 
     // GET: Livre
-    public async Task<IActionResult> Inventaire()
+    public async Task<IActionResult> Inventaire(int page = 1)
     {
-        var livres = await _context.Livres.Include(l => l.Auteur).Include(l => l.MaisonEdition).Select(l =>
-            new GestionLivresAfficherVM
+        int itemsPerPage = 10;
+        var totalItems = await _context.Livres.CountAsync();
+
+        var livres = await _context.Livres
+            .Include(l => l.Auteur)
+            .Include(l => l.MaisonEdition)
+            .OrderByDescending(l => l.DateAjout)
+            .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+            .Take(itemsPerPage)
+            .Select(l => new GestionLivresAfficherVM
             {
                 Id = l.Id,
                 Image = l.Couverture,
@@ -39,7 +47,14 @@ public class GestionLivresController : Controller
                 //        }
                 //}).ToListAsync(),
                 Quantite = l.NbExemplaires
-            }).ToListAsync();
+            })
+            .ToListAsync();
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
         return View(livres);
     }
 
@@ -61,7 +76,7 @@ public class GestionLivresController : Controller
     public IActionResult Ajouter()
     {
         var vm = new AjouterVM();
-        //Populer les listes d�roulantes
+        //Populer les listes déroulantes
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
             Text = x.Prenom + " " + x.Nom,
@@ -107,7 +122,7 @@ public class GestionLivresController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "/2167594/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
             }
 
             //Types de livres
@@ -214,7 +229,7 @@ public class GestionLivresController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return View(vm);
+        return PartialView("PartialViews/Modals/InventaireLivres/_EditPartial", vm);
     }
 
     [HttpPost]
@@ -311,6 +326,19 @@ public class GestionLivresController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+    
+//Pour montrer la la partial view de confirmation de suppression
+    [HttpGet]
+    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    {
+        if (id == null) return NotFound();
+
+        var livre = await _context.Livres.FindAsync(id);
+        if (livre == null) return NotFound();
+
+        return PartialView("PartialViews/Modals/InventaireLivres/_DeleteInventairePartial", livre);
+    }
+
 
     private bool LivreExists(string id)
     {
