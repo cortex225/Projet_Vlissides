@@ -52,7 +52,8 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     <div class="">
         <div class="collapse" id="serviceCollapse">
             
-            <h2 class="container-fluid titreSections">Nos Services offerts: </h2>
+            <h2 class="container-fluid titreSections mb-1">Nos Services offerts: </h2>
+            <p class="m-2">Des services adaptés à chaque passionné de lecture."</p>
             @if (Model.Services.Count > 0)
             {
                 <div class="cards-wrapper ">
@@ -77,7 +78,8 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     -->
     @if (Model.Evenements.Count > 1)
     {
-        <h2 class="titreSections">Nos Évenements: </h2>
+        <h2 class="titreSections mb-1">Nos Activité Et Évenements: </h2>
+        <p class="m-2">Immergez-vous dans nos événements et partagez des moments d'exception.</p>
         <div id="carouselEvenements" class="carousel slide container">
             <a href="#" class="voirPlus">Voir plus ->: </a>
             <div class="carousel-inner">
@@ -128,7 +130,8 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     <!--Carousel contenant les promotions-->
     @if (Model.Promotions.Count > 1)
     {
-        <h2 class="titreSections">Nos Promotions: </h2>
+        <h2 class="titreSections mb-1">Offres spéciales juste pour vous! </h2>
+        <p class="m-2">Découvrez nos offres du moment et enrichissez votre collection.</p>
         <div id="carouselEvenements" class="carousel slide container">
             <a href="#" class="voirPlus">Voir plus ->: </a>
             <div class="carousel-inner">
@@ -186,7 +189,8 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     -->
     @if (Model.Vedettes.Count > 1)
     {
-        <h2 class="titreSections">Nos Livres en vedette: </h2>
+        <h2 class="titreSections mb-1">Nos Livres en vedette: </h2>
+        <p class="m-2">Nos sélections du moment, des œuvres qui font parler d'elles.</p>
         <div id="carouselLivresVedette" class="carousel slide container">
             <a href="#" class="voirPlus">Voir plus ->: </a>
             <div class="carousel-inner">
@@ -316,7 +320,8 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     @if (Model.Categories.Count > 1)
     {
         <div class="titreBoutonsDeGrille">
-            <h3 class="titreSections titreCategories">Nos Catégories en vedette:</h3>
+            <h3 class="titreSections titreCategories mb-1">Nos Catégories en vedette:</h3>
+            <p class="mt-2 mb-4">Plongez dans nos collections et explorez de nouveaux horizons littéraires.</p>
 
             <div class="btn-group" role="group" aria-label="Basic example">
                 @foreach (var categorie in Model.Categories)

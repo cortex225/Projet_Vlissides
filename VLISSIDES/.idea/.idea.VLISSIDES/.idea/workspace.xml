@@ -9,21 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bd365774-666c-483c-b7e2-a3a3b85efb7d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_ServiceOffert.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/dataSources/5beff40d-dbf5-4695-a987-29a92f9f50ba.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/dataSources/5beff40d-dbf5-4695-a987-29a92f9f50ba.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Controllers/AccueilController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Controllers/AccueilController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/ViewModels/Accueil/_ServiceCardVM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/ViewModels/Accueil/_ServiceCardVM.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_CarteEvenement.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_CarteEvenement.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_CarteLivre.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_CarteLivre.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_CarteLivrePetit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_CarteLivrePetit.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_CartePromotion.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Shared/PartialViews/Accueil/_CartePromotion.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/_ServiceOffert.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/Accueil.css" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/Accueil.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/footer.css" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/footer.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +86,7 @@
       <updated>1694693075398</updated>
       <workItem from="1694693076986" duration="362000" />
       <workItem from="1694693956984" duration="16075000" />
-      <workItem from="1694875218428" duration="7799000" />
+      <workItem from="1694875218428" duration="9855000" />
     </task>
     <servers />
   </component>
