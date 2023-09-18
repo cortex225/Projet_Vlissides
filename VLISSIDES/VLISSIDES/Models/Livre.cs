@@ -12,15 +12,10 @@ public class Livre
 
     [DisplayName("Page couverture")] public string Couverture { get; set; } = default!;
 
-    [DisplayName("Nombre d'exemplaires disponibles")]
-    public int NbExemplaires { get; set; } = default!;
-
     [DisplayName("Date d'ajout")] public DateTime DateAjout { get; set; } = default!;
 
     [DisplayName("Nombre de pages")] public int NbPages { get; set; } = default!;
-
-    [DisplayName("Prix")] public double Prix { get; set; } = default!;
-
+    
     [DisplayName("Date de publication")] public DateTime DatePublication { get; set; } = default!;
 
     [DisplayName("ISBN")] public string ISBN { get; set; } = default!;
@@ -43,7 +38,7 @@ public class Livre
     [DisplayName("Identifiant du type de livre")]
     public string? TypeLivreId { get; set; } = default!;
 
-    [DisplayName("Type(s) de livre")] public ICollection<TypeLivre> TypesLivre { get; set; } = default!;
+    [DisplayName("Type(s) de livre")] public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; } = default!;
 
     [DisplayName("Identifiant de l'évaluation")]
     public string? EvaluationId { get; set; } = default!;
@@ -53,7 +48,7 @@ public class Livre
     [DisplayName("Identifiant de la langue")]
     public string LangueId { get; set; } = default!;
 
-    [DisplayName("Langues")] public ICollection<Langue> Langues { get; set; } = default!;
+    [DisplayName("Langues")] public ICollection<LangueLivre> LangueLivres { get; set; } = default!;
 
     [DisplayName("Favoris")] public ICollection<Favori>? Favoris { get; set; }
 

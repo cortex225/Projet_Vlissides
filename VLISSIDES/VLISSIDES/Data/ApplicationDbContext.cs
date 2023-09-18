@@ -42,6 +42,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<MaisonEdition> MaisonEditions { get; set; }
 
     public DbSet<Promotions> Promotions { get; set; }
+    
+    public DbSet<LangueLivre> LangueLivres { get; set; }
+    
+    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -115,6 +119,38 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
+
+        // Configuration de la relation entre Livre et Langue
+        builder.Entity<LangueLivre>()
+            .HasKey(ll => new { ll.LivreId, ll.LangueId });
+        
+        //Un livre peut être dans plusieurs langues
+        builder.Entity<LangueLivre>()
+            .HasOne(ll => ll.Livre)
+            .WithMany(l => l.LangueLivres)
+            .HasForeignKey(ll => ll.LivreId);
+        
+        //Une langue peut avoir plusieurs livres
+        builder.Entity<LangueLivre>()
+            .HasOne(ll => ll.Langue)
+            .WithMany(l => l.LangueLivres)
+            .HasForeignKey(ll => ll.LangueId);
+        
+        // Configuration de la relation entre Livre et TypeLivre
+        builder.Entity<LivreTypeLivre>()
+            .HasKey(ltl => new { ltl.LivreId, ltl.TypeLivreId });
+        
+        //Un livre peut être dans plusieurs types de livres
+        builder.Entity<LivreTypeLivre>()
+            .HasOne(ltl => ltl.Livre)
+            .WithMany(l => l.LivreTypeLivres)
+            .HasForeignKey(ltl => ltl.LivreId);
+        
+        //Un type de livre peut avoir plusieurs livres
+        builder.Entity<LivreTypeLivre>()
+            .HasOne(ltl => ltl.TypeLivre)
+            .WithMany(l => l.LivreTypeLivres)
+            .HasForeignKey(ltl => ltl.TypeLivreId);
 
 
         //Création des différent comptes

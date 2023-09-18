@@ -10,6 +10,6 @@ public class Langue
 
     [DisplayName("Code")] public string Code { get; set; } = default!;
 
-    [DisplayName("Livre �crits dans cette langue")]
-    public ICollection<Livre>? Livres { get; set; }
+    [DisplayName("Livre écrits dans cette langue")]
+    public ICollection<LangueLivre>? LangueLivres { get; set; }
 }

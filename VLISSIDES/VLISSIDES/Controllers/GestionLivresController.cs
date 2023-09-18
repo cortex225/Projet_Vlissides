@@ -46,7 +46,6 @@ public class GestionLivresController : Controller
                 //            Auteurs.Remove(Auteurs.Length - 2, 2);
                 //        }
                 //}).ToListAsync(),
-                Quantite = l.NbExemplaires
             })
             .ToListAsync();
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
@@ -144,14 +143,11 @@ public class GestionLivresController : Controller
                 Id = "Id" + (_context.Livres.Count() + 1),
                 Titre = vm.Titre,
                 Resume = vm.Resume,
-                NbExemplaires = vm.NbExemplaires,
                 NbPages = vm.NbPages,
-                Prix = vm.Prix,
                 ISBN = vm.ISBN,
                 AuteurId = vm.AuteurId,
                 MaisonEditionId = vm.MaisonEditionId,
                 Couverture = vm.CoverImageUrl,
-                TypesLivre = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
                 CategorieId = vm.CategorieId,
@@ -173,8 +169,8 @@ public class GestionLivresController : Controller
     {
         var livre = _context.Livres
             .Include(l => l.Auteur)
-            .Include(l => l.TypesLivre)
-            .Include(l => l.Langues)
+            .Include(l => l.LivreTypeLivres)
+            .Include(l => l.LangueLivres)
             .Include(l => l.Categories)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
@@ -184,9 +180,7 @@ public class GestionLivresController : Controller
             ISBN = livre.ISBN,
             Auteurs = livre.Auteur,
             DatePublication = livre.DatePublication,
-            NbExemplaires = livre.NbExemplaires,
             NbPages = livre.NbPages,
-            Prix = livre.Prix,
             Resume = livre.Resume,
             Titre = livre.Titre,
             CategorieId = livre.CategorieId,
@@ -195,15 +189,15 @@ public class GestionLivresController : Controller
             CoverImageUrl = livre.Couverture
         };
         //Remplir les checkbox types 
-        if (livre.TypesLivre.Count == 0)
+        if (livre.LivreTypeLivres.Count == 0)
         {
             vm.Neuf = false;
             vm.Numerique = false;
         }
         else
         {
-            vm.Neuf = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "1")) ? true : false;
-            vm.Numerique = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "2"))
+            vm.Neuf = livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1")) ? true : false;
+            vm.Numerique = livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2"))
                 ? true
                 : false;
         }
@@ -269,8 +263,8 @@ public class GestionLivresController : Controller
 
             var livre = await _context.Livres
                 .Include(l => l.Auteur)
-                .Include(l => l.TypesLivre)
-                .Include(l => l.Langues)
+                .Include(l => l.LivreTypeLivres)
+                .Include(l => l.LangueLivres)
                 .Include(l => l.Categories)
                 .FirstOrDefaultAsync(x => x.Id == vm.Id);
 
@@ -278,15 +272,12 @@ public class GestionLivresController : Controller
             livre.ISBN = vm.ISBN;
             livre.Titre = vm.Titre;
             livre.Resume = vm.Resume;
-            livre.NbExemplaires = vm.NbExemplaires;
             livre.NbPages = vm.NbPages;
             livre.AuteurId = vm.AuteurId;
             livre.CategorieId = vm.CategorieId;
             livre.LangueId = vm.LangueId;
-            livre.TypesLivre = listeType.ToList();
             livre.Couverture = vm.CoverImageUrl;
             livre.MaisonEditionId = vm.MaisonEditionId;
-            livre.Prix = vm.Prix;
             livre.DatePublication = vm.DatePublication;
 
             await _context.SaveChangesAsync();
@@ -352,7 +343,6 @@ public class GestionLivresController : Controller
     {
         var livre = await _context.Livres.FindAsync(id);
         if (livre == null) return BadRequest();
-        livre.NbExemplaires = quantite;
         await _context.SaveChangesAsync();
         return Ok();
     }

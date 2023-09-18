@@ -9,7 +9,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bd365774-666c-483c-b7e2-a3a3b85efb7d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/Index.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VLISSIDES/Migrations/20230918184911_NewConfigDB.Designer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VLISSIDES/Migrations/20230918184911_NewConfigDB.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VLISSIDES/Models/LangueLivre.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VLISSIDES/Models/LivreTypeLivre.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/dataSources/5beff40d-dbf5-4695-a987-29a92f9f50ba.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/dataSources/5beff40d-dbf5-4695-a987-29a92f9f50ba.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Seeder/DbContextFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Seeder/DbContextFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Seeder/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Seeder/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Controllers/GestionLivresController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Controllers/GestionLivresController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Data/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Data/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Models/Langue.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Models/Langue.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Models/Livre.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Models/Livre.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Models/TypeLivre.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Models/TypeLivre.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/ViewModels/Accueil/LivreCardVM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/ViewModels/Accueil/LivreCardVM.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +74,25 @@
     ]
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected=".NET Launch Settings Profile.main">
+    <configuration name="Seeder" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Seeder/bin/Debug/net6.0/Seeder" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Seeder/bin/Debug/net6.0" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Seeder/Seeder.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net6.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="main" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
@@ -75,6 +108,10 @@
         <option name="Build" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue=".NET Launch Settings Profile.main" />
+      <item itemvalue=".NET Project.Seeder" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -86,7 +123,7 @@
       <updated>1694693075398</updated>
       <workItem from="1694693076986" duration="362000" />
       <workItem from="1694693956984" duration="16075000" />
-      <workItem from="1694875218428" duration="9855000" />
+      <workItem from="1694875218428" duration="15744000" />
     </task>
     <servers />
   </component>
@@ -96,5 +133,37 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Seeder/DbContextFactory.cs</url>
+          <line>16</line>
+          <properties documentPath="$PROJECT_DIR$/Seeder/DbContextFactory.cs" initialLine="16" containingFunctionPresentation="Method 'CreateDbContext'">
+            <startOffsets>
+              <option value="464" />
+            </startOffsets>
+            <endOffsets>
+              <option value="539" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Seeder/Program.cs</url>
+          <line>29</line>
+          <properties documentPath="$PROJECT_DIR$/Seeder/Program.cs" initialLine="29" containingFunctionPresentation="">
+            <startOffsets>
+              <option value="799" />
+            </startOffsets>
+            <endOffsets>
+              <option value="844" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

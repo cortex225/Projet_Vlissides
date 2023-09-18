@@ -57,17 +57,13 @@ var livres = Builder<Livre>.CreateListOfSize(2999)
     .With(c => c.Titre = Company.Name())
     .With(c => c.Resume = Lorem.Paragraph())
     .With(c => c.Couverture = "https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg")
-    .With(c => c.NbExemplaires = 1)
     .With(c => c.DateAjout = DateTime.Now)
     .With(c => c.NbPages = 120)
-    .With(c => c.Prix = 1.99)
     .With(c => c.DatePublication = Identification.DateOfBirth())
     .With(c => c.ISBN = Identification.UsPassportNumber())
     .With(c => c.Categories = new List<Categorie> { Pick<Categorie>.RandomItemFrom(categories) })
     .With(c => c.Auteur = new List<Auteur> { Pick<Auteur>.RandomItemFrom(auteurs) })
     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
-    .With(c => c.TypesLivre = new List<TypeLivre> { Pick<TypeLivre>.RandomItemFrom(typeLivres) })
-    .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) })
     .Build();
 context.Livres.AddRange(livres);
 context.SaveChanges();

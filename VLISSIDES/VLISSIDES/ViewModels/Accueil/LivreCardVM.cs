@@ -31,7 +31,6 @@ public class LivreCardVM
         livre.Evaluations ??= new List<Evaluation>();
         Couverture = livre.Couverture;
         Titre = livre.Titre;
-        Prix = livre.Prix;
         Auteurs = "";
         Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
         if (!((List<Auteur>)livre.Auteur).Any())
