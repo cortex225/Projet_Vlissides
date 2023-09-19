@@ -3,5 +3,6 @@
     public class MaisonEditionsAjouterVM
     {
         public string Nom { get; set; }
+
     }
 }

@@ -4,7 +4,42 @@
 @{
 }
 @using VLISSIDES.ViewModels.MaisonEditions
-@model MaisonEditionsAjouterVM
+@model MaisonEditionsIndexVM
 
-<partial name="../Shared/PartialViews/MaisonEditions/_MaisonEditionsAjouterPartial.cshtml" 
-/>
+<!--Début : Ajouter maison edition-->
+<div class="container">
+    <br />
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#champAjouter">
+        Ajouter une maison d'édition
+    </button>
+    <form class="collapse" id="champAjouter" enctype="multipart/form-data">
+        @* @Html.AntiForgeryToken() *@ 
+        <label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>
+        <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="Nom" />
+        <span asp-validation-for="MaisonEditionsAjouterVM.Nom" class="text-danger"></span>
+        <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter le livre">
+            Ajouter
+        </button>
+    </form>
+</div> 
+
+ <script type="text/javascript">
+    function AjouterMaisonEdition() {
+        var form = document.getElementById("champAjouter");
+        var data = new FormData(form);
+        //var jsonData  = JSON.stringify(Object.fromEntries(formData));
+         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
+        fetch('Ajouter', {
+            method: "POST",
+            body: data
+             // headers: {
+             //    RequestVerificationToken: csrfToken,
+             // },
+        }).catch(error => {
+            console.error('Échec du fetch pour ajouter maison edition', error);
+        }).then(() => {
+
+        })
+    }
+</script> 
+<!--Fin : Ajouter maison edition-->

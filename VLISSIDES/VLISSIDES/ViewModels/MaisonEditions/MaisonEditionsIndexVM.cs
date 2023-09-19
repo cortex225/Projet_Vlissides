@@ -2,6 +2,6 @@
 {
     public class MaisonEditionsIndexVM
     {
-        public MaisonEditionsAjouterVM MaisonEditionsAjouterVM { get; set; }
+        public MaisonEditionsAjouterVM? MaisonEditionsAjouterVM { get; set; }
     }
 }

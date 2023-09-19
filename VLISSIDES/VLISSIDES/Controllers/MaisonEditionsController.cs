@@ -20,28 +20,37 @@ namespace VLISSIDES.Controllers
         }
         public ActionResult Index()
         {
-            return View("Index");
+            var vm = new MaisonEditionsIndexVM();
+            vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM() { Nom = "" };
+            return View(vm);
         }
-        public PartialViewResult Ajouter()
-        {
-            var vm = new MaisonEditionsAjouterVM();
-            return PartialView(vm);
-        }
+        //public PartialViewResult Ajouter()
+        //{
+        //    var vm = new MaisonEditionsAjouterVM() { Nom = "" };
+        //    return PartialView(vm);
+        //}
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Ajouter(MaisonEditionsAjouterVM vm)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Ajouter([FromForm] MaisonEditionsIndexVM vm)
         {
+            //if (vm.MaisonEditionsAjouterVM.Nom == null || vm.MaisonEditionsAjouterVM.Nom == string.Empty)
+            //{
+            //    ModelState.AddModelError(string.Empty, "Nom vide");
+            //}
             if (ModelState.IsValid)
             {
+
                 var maisonEdition = new MaisonEdition()
                 {
-                    Id = "Id" + (_context.MaisonEditions.Count() + 1).ToString(),
-                    Nom = vm.Nom,
+                    Id = Guid.NewGuid().ToString(),
+                    Nom = vm.MaisonEditionsAjouterVM.Nom,
+
                 };
                 _context.MaisonEditions.Add(maisonEdition);
+                _context.SaveChanges();
                 return Ok();
             }
-            return View(vm);
+            return View();
         }
     }
 }
