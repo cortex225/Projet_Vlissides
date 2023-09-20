@@ -11,19 +11,10 @@
 }
 
 #ulListeNomLivres {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    height: 40vh;
-    
+   width: 38vw !important;
+    height: 42vh;
     overflow: scroll;
+    column-count: 2;
 }
 
-.listcolumns {
-    -moz-column-count: 2;
-    -moz-column-gap: 1em;
-    -webkit-column-count: 2;
-    -webkit-column-gap: 1em;
-    column-count: 2;
-    column-gap: 1em;
-}
+
