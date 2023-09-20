@@ -15,6 +15,9 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Librairie</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Info">À propos de nous</a>
+                    </li>
 
                 }
                 @if (User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN))

@@ -104,6 +104,7 @@ public class AccueilController : Controller
     {
         return View(new MessageVM(titre, message));
     }
+    public IActionResult Info() => View();
 
     public IActionResult Privacy()
     {
