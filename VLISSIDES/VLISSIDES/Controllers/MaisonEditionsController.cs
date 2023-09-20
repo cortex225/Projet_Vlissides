@@ -27,18 +27,7 @@ namespace VLISSIDES.Controllers
             vm.ListeMaisonEditions = liste;
             return View(vm);
         }
-        //public PartialViewResult AfficherLivres(string id)
-        //{
-        //    var vm = new MaisonsEditionsAfficherLivresVM();
-        //    vm.Livres = new List<Livre>();
-        //    var a = _context.MaisonEditions.Include(me => me.Livres).Where(me => me.Id == id);
-        //    foreach (var item in a.Select(me => me.Livres))
-        //    {
-        //        vm.Livres.Add((Livre)item);
-        //    }
 
-        //    return PartialView(vm);
-        //}
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Ajouter([FromForm] MaisonEditionsIndexVM vm)
