@@ -15,7 +15,7 @@
             <div class="list-group col-6" id="list-tab" role="tablist">
                 @foreach (var item in Model)
                 {
-                    <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherAuteurLivres('@item.Id')">
+                    <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherAuteurLivres(@item.Id)">
                         <div class="card-body row align-items-center p-0">
                             <div class="col-9 text-center">
                                 <input id="@item.Id auteur" type="text" asp-for="@item.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Nom)">
@@ -50,7 +50,7 @@
 
 
 <script>
-    function AfficherAuteurLivres(id="") {
+    function AfficherAuteurLivres(var id) {
         fetch('/GestionAuteurs/AfficherLivre', {
             method: 'GET',
             data = id
