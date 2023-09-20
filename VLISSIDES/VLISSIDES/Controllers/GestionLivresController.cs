@@ -74,7 +74,7 @@ public class GestionLivresController : Controller
         return View(livre);
     }
 
-    // GET: Livre/Ajouter
+    // GET: C
     public IActionResult Ajouter()
     {
         var vm = new AjouterVM();
