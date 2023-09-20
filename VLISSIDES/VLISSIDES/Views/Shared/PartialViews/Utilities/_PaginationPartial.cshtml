@@ -1,6 +1,6 @@
 <nav aria-label="NavBar Pagination">
     <ul class="pagination">
-        
+
         @* Si la page courante est plus petite que 1, on désactive le bouton précédent *@
         <li class="page-item @(ViewBag.CurrentPage <= 1 ? "disabled" : "")">
             <a class="page-link" href="@Url.Action("Inventaire", new { page = ViewBag.CurrentPage - 1 })" data-toggle="tooltip" title="Aller à la page précédente">Précédent</a>
@@ -9,27 +9,38 @@
         @* // Si la page courante est plus grande que 3, on affiche la première page et des points de suspension *@
         @if (ViewBag.CurrentPage > 3)
         {
-            <li class="page-item"><a class="page-link" href="@Url.Action("Inventaire", new { page = 1 })" data-toggle="tooltip" title="Aller à la première page">1</a></li>
-            <li class="page-item disabled"><span class="page-link">...</span></li>
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Inventaire", new { page = 1 })" data-toggle="tooltip" title="Aller à la première page">1</a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
         }
-         @* Pour chaque page entre la page courante - 2 et la page courante + 2, on affiche un bouton *@
+        @* Pour chaque page entre la page courante - 2 et la page courante + 2, on affiche un bouton *@
         @for (var i = Math.Max(1, ViewBag.CurrentPage - 2); i <= Math.Min(ViewBag.TotalPages, ViewBag.CurrentPage + 2); i++)
         {
-            
             if (i == ViewBag.CurrentPage)
             {
-                <li class="page-item active"><span class="page-link">@i</span></li>
+                <li class="page-item active">
+                    <span class="page-link">@i</span>
+                </li>
             }
             else
             {
-                <li class="page-item"><a class="page-link" href="@Url.Action("Inventaire", new { page = i })" data-toggle="tooltip" title="Aller à la page @i">@i</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Inventaire", new { page = i })" data-toggle="tooltip" title="Aller à la page @i">@i</a>
+                </li>
             }
         }
         @* Ici si la page courante est plus petite que la page total - 2, on affiche des points de suspension et la dernière page *@
         @if (ViewBag.CurrentPage < ViewBag.TotalPages - 2)
         {
-            <li class="page-item disabled"><span class="page-link">...</span></li>
-            <li class="page-item"><a class="page-link" href="@Url.Action("Inventaire", new { page = ViewBag.TotalPages })" data-toggle="tooltip" title="Aller à la dernière page">@ViewBag.TotalPages</a></li>
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Inventaire", new { page = ViewBag.TotalPages })" data-toggle="tooltip" title="Aller à la dernière page">@ViewBag.TotalPages</a>
+            </li>
         }
 
         <li class="page-item @(ViewBag.CurrentPage >= ViewBag.TotalPages ? "disabled" : "")">

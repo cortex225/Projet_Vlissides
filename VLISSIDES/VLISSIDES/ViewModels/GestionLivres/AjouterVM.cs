@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Livres;
@@ -22,12 +22,11 @@ public class AjouterVM
     [Display(Name = "Date de publication")]
     public DateTime DatePublication { get; set; }
 
-    [Display(Name = "ISBN")]
-    public string ISBN { get; set; }
+    [Display(Name = "ISBN")] public string ISBN { get; set; }
 
     //Categories
-    [Display(Name = "Catégorie")]
-    public string CategorieId { get; set; }
+    [Display(Name = "Catégorie")] public string CategorieId { get; set; }
+
     public List<SelectListItem>? SelectListCategories { get; set; }
 
     //Auteurs
@@ -43,8 +42,8 @@ public class AjouterVM
     public List<SelectListItem>? SelectMaisonEditions { get; set; }
 
     //Type
-    [Display(Name = "Type")]
-    public string? TypeLivreId { get; set; }
+    [Display(Name = "Type")] public string? TypeLivreId { get; set; }
+
     public bool Numerique { get; set; }
     public bool Neuf { get; set; }
     public ICollection<TypeLivre>? Types { get; set; }
@@ -54,8 +53,8 @@ public class AjouterVM
     //Langue
 
 
-    [Display(Name = "Langue")]
-    public string? LangueId { get; set; }
+    [Display(Name = "Langue")] public string? LangueId { get; set; }
+
     public List<SelectListItem>? SelectLangues { get; set; }
 
     //Image

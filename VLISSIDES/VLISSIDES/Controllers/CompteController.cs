@@ -1,9 +1,9 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -440,6 +440,7 @@ public class CompteController : Controller
                 ModelState.AddModelError(string.Empty, "Tentative de connexion non valide.");
                 return View(vm);
             }
+
             var user = new ApplicationUser { UserName = vm.Email, Email = vm.Email };
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)

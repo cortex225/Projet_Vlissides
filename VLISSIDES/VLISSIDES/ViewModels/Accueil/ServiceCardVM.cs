@@ -22,6 +22,6 @@ public class ServiceCardVM
         Image = service.image;
         Description = service.description;
     }*/
-    
+
     public string icons { get; set; }
 }
