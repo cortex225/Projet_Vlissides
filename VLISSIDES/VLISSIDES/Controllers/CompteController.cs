@@ -43,6 +43,8 @@ public class CompteController : Controller
 
 
     [AllowAnonymous]
+    [Route("{controller}/{action}", Order = -2)]
+    [Route("Identity/Account/Login", Order = -1)]
     public IActionResult Login(string? returnUrl = null)
     {
         var vm = new LoginVM();

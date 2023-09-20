@@ -10,14 +10,28 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
                     </li>
+                @if (!(User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN)))
+                {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Librairie</a>
                     </li>
+
+                }
+                @if (User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN))
+                {
+                    <li class="nav-link text-dark"> - </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Tableau de bord</a>
                     </li>
-
-                </ul>
+                }
+                @if (User.IsInRole(RoleName.ADMIN))
+                {
+                    <li class="nav-link text-dark"> - </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionCompte" asp-action="Liste">Gestion des comptes</a>
+                    </li>
+                }
+            </ul>
             </div>
 
             <!-- Deuxième groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
