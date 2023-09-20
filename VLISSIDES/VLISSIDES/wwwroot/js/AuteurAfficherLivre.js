@@ -1,15 +1,23 @@
+divLivres = document.getElementById("divListeAuteurLivres");
 function afficherAuteurLivres(id = "") {
     fetch(`GestionAuteurs/AfficherLivre?id=${id}`, {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).catch(error => {
+        console.error('Échec du fetch pour supprimer le livre', error);
     }).then(function (response) {
         if (!response.ok) {
             throw Error(response);
         } else {
-            //btn1.setAttribute("disabled", "");
+            console.log(response);
         }
         return response.text()
     }).then((data) => {
-        divListeAuteurLivres.innerHTML = data;
+        console.log(data);
+        divLivres.innerHTML = data;
     });
 }
 

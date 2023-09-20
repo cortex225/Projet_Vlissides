@@ -25,15 +25,17 @@ namespace VLISSIDES.Controllers
                new AfficherVM
                {
                    Id = a.Id,
-                   Nom = a.Nom
+                   Nom = a.Nom,
+                   ListLivre = await _context.Livres.Where(l => l.AuteurId == a.Id).ToList()
+
                }).OrderBy(auteur => auteur.Nom).ToListAsync();
             return View(auteurs);
         }
 
-        public async Task<IActionResult> AfficherLivre(string id = "")
+        public async Task<IActionResult> AfficherLivre(string id)
         {
             var livres = await _context.Livres.Where(l => l.AuteurId == id).ToListAsync();
-            return PartialView(@"~/Views/Shared/PartialViews/Auteurs/_AfficherAuteurLivresPartial.cshtml", livres);
+            return Json(PartialView(@"~/Views/Shared/PartialViews/Auteurs/_AfficherAuteurLivresPartial.cshtml", livres));
         }
     }
 }
