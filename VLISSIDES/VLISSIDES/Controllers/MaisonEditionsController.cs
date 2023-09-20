@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.MaisonEditions;
@@ -22,13 +23,11 @@ namespace VLISSIDES.Controllers
         {
             var vm = new MaisonEditionsIndexVM();
             vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM() { Nom = "" };
+            List<MaisonEdition> liste = _context.MaisonEditions.Include(me => me.Livres).ToList();
+            vm.ListeMaisonEditions = liste;
             return View(vm);
         }
-        //public PartialViewResult Ajouter()
-        //{
-        //    var vm = new MaisonEditionsAjouterVM() { Nom = "" };
-        //    return PartialView(vm);
-        //}
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Ajouter([FromForm] MaisonEditionsIndexVM vm)
