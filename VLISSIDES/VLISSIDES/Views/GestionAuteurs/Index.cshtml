@@ -49,13 +49,13 @@
                 <div class="" id="divListeAuteursLivres">
                     @foreach (var item in Model.ListeAuteurs)
                     {
-                        <div id="Liste_@item.Id" class="visually-hidden">
+                        <div id="Liste_@item.Id" class="visually-hidden listcolumns">
                             <p>@item.Nom</p>
 
 
                             @if (item.Livres.Count != 0)
                             {
-                                <ul>
+                                <ul id="ulListeNomLivres">
                                     @foreach (var livre in item.Livres)
                                     {
 
