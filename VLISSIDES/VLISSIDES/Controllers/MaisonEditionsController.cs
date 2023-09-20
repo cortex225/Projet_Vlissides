@@ -51,5 +51,17 @@ namespace VLISSIDES.Controllers
             }
             return View();
         }
+        [HttpPost]
+        public ActionResult Modifier([FromForm] MaisonEditionsIndexVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var maisonEdition = _context.MaisonEditions.FirstOrDefault(me => me.Id == vm.MaisonEditionsModifierVM.Id);
+                maisonEdition.Nom = vm.MaisonEditionsModifierVM.Nom;
+                _context.SaveChanges();
+                return Ok();
+            }
+            return View();
+        }
     }
 }
