@@ -1,7 +1,10 @@
-﻿namespace VLISSIDES.ViewModels.MaisonEditions
+﻿using VLISSIDES.Models;
+
+namespace VLISSIDES.ViewModels.MaisonEditions;
+
+public class MaisonEditionsIndexVM
 {
-    public class MaisonEditionsIndexVM
-    {
-        public MaisonEditionsAjouterVM? MaisonEditionsAjouterVM { get; set; }
-    }
+    public MaisonEditionsAjouterVM? MaisonEditionsAjouterVM { get; set; }
+
+    public List<MaisonEdition>? ListeMaisonEditions { get; set; }
 }

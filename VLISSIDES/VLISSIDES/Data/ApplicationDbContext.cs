@@ -175,8 +175,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         {
             Id = "0",
             Nom = "Tony",
-            Prenom = "Stack",
-
+            Prenom = "Stack"
         };
         builder.Entity<Auteur>().HasData(DefaultAuteur);
 
