@@ -18,28 +18,34 @@
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#champAjouter">
             Ajouter une maison d'édition
         </button>
+        
         <form class="collapse" id="champAjouter" enctype="multipart/form-data">
+            <br />
             @* @Html.AntiForgeryToken() *@
-            <label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>
-            <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" />
-            <span asp-validation-for="MaisonEditionsAjouterVM.Nom" class="text-danger"></span>
-            <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter le livre">
-                Ajouter
-            </button>
+            @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
+            <div class="input-group">
+                <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" placeholder="Nom" />
+                <span asp-validation-for="MaisonEditionsAjouterVM.Nom" class="text-danger"></span>
+                <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter le livre">
+                    Ajouter
+                </button>
+            </div>
+            
         </form>
+        
     </div>
+    <br />
     <!--Fin : Ajouter maison edition-->
     <div class="mb-4">
         <h3>Liste des maisons d'éditions</h3>        
         <div class="row">
             <div class="list-group col-6" id="list-tab" role="tablist">
-                <button onclick="afficherAuteurLivres(`Je suis le meilleur!♥`)">Détaile</button>                
+                               
                 @foreach (var item in Model.ListeMaisonEditions)
 
                 {
 
-                    <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@item.Id')"
-                    >
+                    <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@item.Id')">
                         <div class="card-body row align-items-center p-0">
                             <div class="col-9 text-center">                                
                                 <input type="text" asp-for="@item.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Nom)">                            
@@ -91,7 +97,7 @@
         </div>
     </div>
 </div>
- <script type="text/javascript">
+<script type="text/javascript">
     function AjouterMaisonEdition() {
         var form = document.getElementById("champAjouter");
         var data = new FormData(form);
@@ -105,10 +111,12 @@
             // },
         }).catch(error => {
             console.error('Échec du fetch pour ajouter maison edition', error);
-        }).then(() => {
-
+        }).then((response) => {
+            
         });
         form.reset();
+        
+        alert("La maison d'édition a été ajouté, veuillez rafraichir la page");
     }
 </script>
 <script type="text/javascript">
