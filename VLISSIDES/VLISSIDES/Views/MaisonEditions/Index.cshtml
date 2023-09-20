@@ -15,7 +15,7 @@
     <form class="collapse" id="champAjouter" enctype="multipart/form-data">
         @* @Html.AntiForgeryToken() *@ 
         <label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>
-        <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="Nom" />
+        <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" />
         <span asp-validation-for="MaisonEditionsAjouterVM.Nom" class="text-danger"></span>
         <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter le livre">
             Ajouter
@@ -27,19 +27,20 @@
     function AjouterMaisonEdition() {
         var form = document.getElementById("champAjouter");
         var data = new FormData(form);
-        //var jsonData  = JSON.stringify(Object.fromEntries(formData));
-         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
+        
+        //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
         fetch('Ajouter', {
             method: "POST",
             body: data
-             // headers: {
-             //    RequestVerificationToken: csrfToken,
-             // },
+            // headers: {
+            //    RequestVerificationToken: csrfToken,
+            // },
         }).catch(error => {
             console.error('Échec du fetch pour ajouter maison edition', error);
         }).then(() => {
 
-        })
+        });
+        form.reset();
     }
 </script> 
 <!--Fin : Ajouter maison edition-->
