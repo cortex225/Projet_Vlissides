@@ -43,8 +43,9 @@ public class CompteController : Controller
 
 
     [AllowAnonymous]
-    [Route("{controller}/{action}", Order = -2)]
     [Route("Identity/Account/Login", Order = -1)]
+    [Route("Identity/Account/AccessDenied", Order = -1)]
+    [Route("{controller}/{action}", Order = -2)]
     public IActionResult Login(string? returnUrl = null)
     {
         var vm = new LoginVM();
@@ -59,6 +60,9 @@ public class CompteController : Controller
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
+    [Route("Identity/Account/Login", Order = -1)]
+    [Route("Identity/Account/AccessDenied", Order = -1)]
+    [Route("{controller}/{action}", Order = -2)]
     public async Task<ActionResult> Login(LoginVM vm, string? returnUrl = null)
     {
         if (ModelState.IsValid)
