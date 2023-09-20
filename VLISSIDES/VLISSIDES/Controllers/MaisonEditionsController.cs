@@ -52,12 +52,12 @@ namespace VLISSIDES.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Modifier([FromForm] MaisonEditionsIndexVM vm)
+        public ActionResult Modifier(string id, string nom)
         {
             if (ModelState.IsValid)
             {
-                var maisonEdition = _context.MaisonEditions.FirstOrDefault(me => me.Id == vm.MaisonEditionsModifierVM.Id);
-                maisonEdition.Nom = vm.MaisonEditionsModifierVM.Nom;
+                var maisonEdition = _context.MaisonEditions.FirstOrDefault(me => me.Id == id);
+                maisonEdition.Nom = nom;
                 _context.SaveChanges();
                 return Ok();
             }
