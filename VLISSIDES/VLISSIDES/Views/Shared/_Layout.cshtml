@@ -99,7 +99,7 @@ Une tonne de scripts divers
             window.location.href = `/Recherche/Index?motCles=${searchTerm}`;
         }else{
             var maListe = [critere];
-            var listeSerialisee = maListe.join(",");
+            var listeSerialisee = maListe.join("|");
 
             window.location.href = `/Recherche/Index?motCles=${searchTerm}&criteres=${listeSerialisee}`;
         }

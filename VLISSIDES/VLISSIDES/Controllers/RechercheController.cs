@@ -24,12 +24,25 @@ namespace VLISSIDES.Controllers
 
         // GET: RechercheController
         [Route("/Recherche/Index")]
-        public ActionResult Index(List<string>? motCles, List<string>? criteres)
+        public ActionResult Index(string? motCles, string? criteres)
         {
+            List<string> listMotCles = new List<string>();
+            if (motCles != null)
+            {
+                listMotCles = motCles.Split('|').ToList();
+            }
+
+            List<string> listCriteres = new List<string>();
+            if (criteres != null)
+            {
+                listCriteres = criteres.Split('|').ToList();
+            }
+
             List<Livre> TousLesLivres = _context.Livres.ToList();
 
-            //Variables pour le regex
-            //string matchLivre = ".*" + motCles + ".*";
+            List<Categorie> listCategories = _context.Categories.ToList();
+            List<Langue> listLangues = _context.Langues.ToList();
+            List<TypeLivre> listTypeLivres = _context.TypeLivres.ToList();
 
             List<Livre> livresRecherches;
 
@@ -42,59 +55,78 @@ namespace VLISSIDES.Controllers
                     .ToList();
             if (motCles == null)
             {
-                livresRecherches = new List<Livre>(); //Donne une liste vide car au cun
+                livresRecherches = new List<Livre>(); //Donne une liste vide car aucun
             }
             else if (criteres == null) //Lorsqu'il n'y a pas de criteres spécifiques
             {
-                for (int i = 0; i <= motCles.Count(); ++i)
+                for (int i = 0; i <= listMotCles.Count(); ++i)
                 {
                     livresRecherches = livresRecherches
-                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase))
+                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                     .ToList();
                 }
             }
-            else if (criteres.Count > 0)
+            else if (listCriteres.Count > 0)
             {
-                for (int i = 0; i < motCles.Count(); ++i)
+                for (int i = 0; i < listMotCles.Count(); ++i)
                 {
-                    switch (criteres[i])
+                    switch (listCriteres[i])
                     {
                         default:
                             livresRecherches = livresRecherches
-                            .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "titre":
                             livresRecherches = livresRecherches
-                            .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "auteur":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Auteur.Any(auteur => Regex.IsMatch(auteur.NomComplet, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .Where(livre => livre.Auteur.Any(auteur => Regex.IsMatch(auteur.NomComplet, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "categorie":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "maisonEdition":
                             livresRecherches = livresRecherches
                             .Where(livre =>
                                 livre.MaisonEdition != null &&
-                                Regex.IsMatch(livre.MaisonEdition.Nom, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase))
-                            .ToList();
-                            break;
-                        case "prix":
-                            livresRecherches = livresRecherches
-                            .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase)))
+                                Regex.IsMatch(livre.MaisonEdition.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "langue":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
                             .ToList();
+                            break;
+                        case "typeLivre":
+                            livresRecherches = livresRecherches
+                            .Where(livre => livre.TypesLivre.Any(type => Regex.IsMatch(type.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .ToList();
+                            break;
+                        case "prixMin":
+                            double prixMinD;
+                            if (double.TryParse(listMotCles[i], out prixMinD))
+                            {
+                                livresRecherches = livresRecherches
+                                    .Where(objet => objet.Prix >= prixMinD)
+                                    .ToList();
+                            }
+                            break;
+
+                        case "prixMax":
+                            double prixMaxD;
+                            if (double.TryParse(listMotCles[i], out prixMaxD))
+                            {
+                                livresRecherches = livresRecherches
+                                    .Where(objet => objet.Prix <= prixMaxD)
+                                    .ToList();
+                            }
                             break;
                     }
                 }
@@ -102,15 +134,32 @@ namespace VLISSIDES.Controllers
             else
             {
                 livresRecherches = livresRecherches
-                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[0] + ".*", RegexOptions.IgnoreCase))
+                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                     .ToList();
             }
-
-            IndexRechercheVM vm = new IndexRechercheVM
+            IndexRechercheVM vm;
+            if (motCles == null)
             {
-                ResultatRecherche = livresRecherches,
-                MotRecherche = motCles[0]
-            };
+                vm = new IndexRechercheVM
+                {
+                    ResultatRecherche = livresRecherches,
+                    MotRecherche = "",
+                    ListeCategories = listCategories,
+                    ListeLangues = listLangues,
+                    ListeTypeLivres = listTypeLivres
+                };
+            }
+            else
+            {
+                vm = new IndexRechercheVM
+                {
+                    ResultatRecherche = livresRecherches,
+                    MotRecherche = listMotCles[0],
+                    ListeCategories = listCategories,
+                    ListeLangues = listLangues,
+                    ListeTypeLivres = listTypeLivres
+                };
+            }
 
             return View(vm);
         }
