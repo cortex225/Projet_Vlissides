@@ -52,7 +52,7 @@ namespace VLISSIDES.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Modifier(string id, string nom)
+        public ActionResult ModifierMaison(string id, string nom)
         {
             if (ModelState.IsValid)
             {
