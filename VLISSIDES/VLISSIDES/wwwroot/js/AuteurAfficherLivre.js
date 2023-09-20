@@ -1,7 +1,6 @@
-function afficherAuteurLivres(var id) {
-    fetch('/GestionAuteurs/AfficherLivre', {
-        method: 'GET',
-        data = id
+function afficherAuteurLivres(id = "") {
+    fetch(`GestionAuteurs/AfficherLivre?id=${id}`, {
+        method: 'GET'
     }).then(function (response) {
         if (!response.ok) {
             throw Error(response);
@@ -11,7 +10,6 @@ function afficherAuteurLivres(var id) {
         return response.text()
     }).then((data) => {
         divListeAuteurLivres.innerHTML = data;
-    })
+    });
 }
-
 

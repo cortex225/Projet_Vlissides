@@ -13,6 +13,7 @@
         <h3>Liste des auteurs</h3>
         <div class="row">
             <div class="list-group col-6" id="list-tab" role="tablist">
+                <button onclick="afficherAuteurLivres(`Je suis le meilleur!♥`)">Détaile</button>
                 @foreach (var item in Model)
                 {
                     <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherAuteurLivres(@item.Id)">
@@ -50,10 +51,9 @@
 
 
 <script>
-    function AfficherAuteurLivres(var id) {
-        fetch('/GestionAuteurs/AfficherLivre', {
-            method: 'GET',
-            data = id
+    function afficherAuteurLivres(id = "") {
+        fetch(`GestionAuteurs/AfficherLivre?id=${id}`, {
+            method: 'GET'
         }).then(function (response) {
             if (!response.ok) {
                 throw Error(response);
@@ -63,8 +63,10 @@
             return response.text()
         }).then((data) => {
             divListeAuteurLivres.innerHTML = data;
-        })
+        });
     }
+
+
 </script> @* type="text/javascript" src="~/js/AuteurAfficherLivre.js" *@
 
 @section Scripts {

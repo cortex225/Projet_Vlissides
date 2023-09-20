@@ -30,7 +30,7 @@ namespace VLISSIDES.Controllers
             return View(auteurs);
         }
 
-        public async Task<IActionResult> AfficherLivre(string id)
+        public async Task<IActionResult> AfficherLivre(string id = "")
         {
             var livres = await _context.Livres.Where(l => l.AuteurId == id).ToListAsync();
             return PartialView(@"~/Views/Shared/PartialViews/Auteurs/_AfficherAuteurLivresPartial.cshtml", livres);
