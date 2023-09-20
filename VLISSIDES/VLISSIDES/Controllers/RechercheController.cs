@@ -49,7 +49,7 @@ namespace VLISSIDES.Controllers
                 for (int i = 0; i <= motCles.Count(); ++i)
                 {
                     livresRecherches = livresRecherches
-                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[i] + ".*"))
+                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase))
                     .ToList();
                 }
             }
@@ -61,39 +61,39 @@ namespace VLISSIDES.Controllers
                     {
                         default:
                             livresRecherches = livresRecherches
-                            .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[i] + ".*"))
+                            .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "titre":
                             livresRecherches = livresRecherches
-                            .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[i] + ".*"))
+                            .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "auteur":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Auteur.Any(auteur => Regex.IsMatch(auteur.NomComplet, ".*" + motCles[i] + ".*")))
+                            .Where(livre => livre.Auteur.Any(auteur => Regex.IsMatch(auteur.NomComplet, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "categorie":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, ".*" + motCles[i] + ".*")))
+                            .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "maisonEdition":
                             livresRecherches = livresRecherches
                             .Where(livre =>
                                 livre.MaisonEdition != null &&
-                                Regex.IsMatch(livre.MaisonEdition.Nom, ".*" + motCles[i] + ".*"))
+                                Regex.IsMatch(livre.MaisonEdition.Nom, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "prix":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, ".*" + motCles[i] + ".*")))
+                            .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "langue":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, ".*" + motCles[i] + ".*")))
+                            .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, ".*" + motCles[i] + ".*", RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                     }
@@ -102,7 +102,7 @@ namespace VLISSIDES.Controllers
             else
             {
                 livresRecherches = livresRecherches
-                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[0] + ".*"))
+                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + motCles[0] + ".*", RegexOptions.IgnoreCase))
                     .ToList();
             }
 
