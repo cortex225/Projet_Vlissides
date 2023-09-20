@@ -1,0 +1,22 @@
+﻿#divListeLivres {
+    position: sticky;
+    width: 40vw;
+    height: 50vh;
+    margin-left: auto;
+    margin-right: auto;
+    right: 0;
+    top: 25%;
+    background-color: #ffffff;
+    display: inline-block;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 50vh;
+}
+
+li {
+ 
+}

@@ -1,7 +1,12 @@
-﻿@model List<VLISSIDES.ViewModels.GestionAuteurs.AfficherVM>
+﻿@model VLISSIDES.ViewModels.GestionAuteurs.AuteursIndexVM
 @{
     ViewData["Title"] = "Auteurs";
 }
+
+
+
+<link rel="stylesheet" href="~/css/ListeAuteurs.css"/>
+
 
 <div class="d-block p-4 p-4">
 
@@ -11,12 +16,11 @@
 
     <div class="mb-4">
         <h3>Liste des auteurs</h3>
-        <div class="row">
+        <div class="row p-0">
             <div class="list-group col-6" id="list-tab" role="tablist">
-                <button onclick="afficherAuteurLivres(`Je suis le meilleur!♥`)">Détaile</button>
-                @foreach (var item in Model)
+                @foreach (var item in Model.ListeAuteurs)
                 {
-                    <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="afficherAuteurLivres('@item.Id')">
+                    <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherAuteursLivres('@item.Id')">
                         <div class="card-body row align-items-center p-0">
                             <div class="col-9 text-center">
                                 <input id="@item.Id auteur" type="text" asp-for="@item.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Nom)">
@@ -40,9 +44,40 @@
                     </div>
                 }
             </div>
-            <div class="divListeAuteurLivres col-6">
+            <div id="divListeLivres" class="col-6 border border-dark rounded">
+
+                <div class="" id="divListeAuteursLivres">
+                    @foreach (var item in Model.ListeAuteurs)
+                    {
+                        <div id="Liste_@item.Id" class="visually-hidden">
+                            <p>@item.Nom</p>
+
+
+                            @if (item.Livres.Count != 0)
+                            {
+                                <ul>
+                                    @foreach (var livre in item.Livres)
+                                    {
+
+                                        <li>@livre.Titre</li>
+
+                                    }
+                                </ul>
+
+                            }
+                            else
+                            {
+                                <p>pas de livres</p>
+                            }
+
+
+                        </div>
+                    }
+
+                </div>
 
             </div>
+            
         </div>
         
     </div>
@@ -50,7 +85,22 @@
 </div>
 
 
-<script type="text/javascript" src="~/js/AuteurAfficherLivre.js"></script>
+@* <script type="text/javascript" src="~/js/AuteurAfficherLivre.js"></script> *@
+
+@* AfficherLivre *@
+<script type="text/javascript">
+    function hideall() {
+        divListes = document.getElementById("divListeAuteursLivres").childNodes;
+        divListes.forEach((element) => { element.className = "visually-hidden" });
+    }
+    function AfficherAuteursLivres(id = "") {
+        hideall();
+
+        var liste = document.getElementById("Liste_" + id);
+        liste.className = "";
+    }
+</script>
+
 
 @section Scripts {
                                 

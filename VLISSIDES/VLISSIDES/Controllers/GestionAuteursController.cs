@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
+using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionAuteurs;
 
 namespace VLISSIDES.Controllers
@@ -21,22 +22,16 @@ namespace VLISSIDES.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var auteurs = await _context.Auteurs.Include(a => a.Livres).Select(a =>
-               new AfficherVM
-               {
-                   Id = a.Id,
-                   Nom = a.Nom,
-                   ListLivre = _context.Livres.Where(l => l.AuteurId == a.Id).ToList(),
-                   _context.Auteurs.Where(a => a.Id == l.AuteurId).ToList()
-
-               }).OrderBy(auteur => auteur.Nom).ToListAsync();
-            return View(auteurs);
+            var vm = new AuteursIndexVM();
+            List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).ToList();
+            vm.ListeAuteurs = liste;
+            return View(vm);
         }
 
-        public async Task<IActionResult> AfficherLivre(string id)
+        public async Task<IActionResult> AfficherLivre(List<Livre> listLivre)
         {
-            var livres = await _context.Livres.Where(l => l.AuteurId == id).ToListAsync();
-            return Json(PartialView(@"~/Views/Shared/PartialViews/Auteurs/_AfficherAuteurLivresPartial.cshtml", livres));
+
+            return Json(listLivre);
         }
     }
 }
