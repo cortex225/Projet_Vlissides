@@ -38,7 +38,7 @@ public class Livre
     [DisplayName("Identifiant de la catégorie")]
     public string CategorieId { get; set; } = default!;
 
-    [DisplayName("Cat�gories associés")] public ICollection<Categorie> Categories { get; set; } = default!;
+    [DisplayName("Catégories associés")] public ICollection<Categorie> Categories { get; set; } = default!;
 
     [DisplayName("Identifiant du type de livre")]
     public string? TypeLivreId { get; set; } = default!;
@@ -48,7 +48,7 @@ public class Livre
     [DisplayName("Identifiant de l'évaluation")]
     public string? EvaluationId { get; set; } = default!;
 
-    [DisplayName("�valuations")] public ICollection<Evaluation>? Evaluations { get; set; }
+    [DisplayName("Évaluations")] public ICollection<Evaluation>? Evaluations { get; set; }
 
     [DisplayName("Identifiant de la langue")]
     public string LangueId { get; set; } = default!;

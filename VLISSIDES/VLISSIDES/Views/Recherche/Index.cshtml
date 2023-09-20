@@ -19,19 +19,18 @@
     <div class="container-fluid m-1">
 
         @* Les recherches *@
-        <form>
             @* Research bar *@
             <div class="row mb-3">
                 <div class="col-2 ml-4 text-center">
-                    <a id="rechercherBTN" asp-controller="Recherche" asp-action="Index" > 
-                        <button type="button" class="container-fluid btn btn-primary">
+                    <a asp-controller="Recherche" asp-action="Index" > 
+                        <button id="rechercherBTN" type="button" class="container-fluid btn btn-primary">
                             Rechercher
                         </button>
                     </a>
                 </div>
 
                 <div class="col-10">
-                    <input id="rechercheGeneral" type="text" class="form-control" placeholder="Recherche général" aria-label="recherche" aria-describedby="basic-addon2">
+                    <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale">
                 </div>
             </div>
 
@@ -112,25 +111,23 @@
                 </div>
 
             </div>
-            
-        </form>
 
     </div>
 
 </div>
 <script type="text/javascript">
     //Script pour la recherche
-    var search = document.getElementById("rechercheGeneral"); 
+    var searchGeneral = document.getElementById("rechercheGeneral"); 
     var btnSearch = document.getElementById("rechercherBTN");
 
-    btnSearch.addEventListener("click", Rechercher);
+    btnSearch.addEventListener("click", RechercheGenerale);
 
-    async function Rechercher(ev) {
+    async function RechercheGenerale(ev) {
         ev.preventDefault();
 
-        var searchTerm = search.value; // Récupérer la valeur de la barre de recherche
+        var searchTerm = searchGeneral.value; // Récupérer la valeur de la barre de recherche
 
         // Utiliser la valeur dans l'URL pour l'action Index
-        window.location.href = `/Recherche/Index?motCles=${searchTerm}`;
+        window.location.href = `/Recherche/Index?motCles=${searchTerm}&criteres=titre`;
     }
 </script> 
