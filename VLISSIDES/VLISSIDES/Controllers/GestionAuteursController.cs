@@ -21,12 +21,13 @@ namespace VLISSIDES.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var auteurs = await _context.Auteurs.Select(a =>
+            var auteurs = await _context.Auteurs.Include(a => a.Livres).Select(a =>
                new AfficherVM
                {
                    Id = a.Id,
                    Nom = a.Nom,
-                   ListLivre = await _context.Livres.Where(l => l.AuteurId == a.Id).ToList()
+                   ListLivre = _context.Livres.Where(l => l.AuteurId == a.Id).ToList(),
+                   _context.Auteurs.Where(a => a.Id == l.AuteurId).ToList()
 
                }).OrderBy(auteur => auteur.Nom).ToListAsync();
             return View(auteurs);
