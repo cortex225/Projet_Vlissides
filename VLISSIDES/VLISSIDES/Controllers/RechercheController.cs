@@ -164,5 +164,23 @@ namespace VLISSIDES.Controllers
 
             return View(vm);
         }
+
+        // GET: RechercheController
+        [Route("/Recherche/Details")]
+        public ActionResult Details(string id)
+        {
+            List<Livre> mesLivres = _context.Livres
+                    .Include(l => l.Auteur)
+                    .Include(l => l.Categories)
+                    .Include(l => l.Langues)
+                    .Include(l => l.Evaluations)
+                    .Include(l => l.MaisonEdition)
+                    .Include(l => l.TypesLivre)
+                    .ToList();
+
+            Livre monLivre = mesLivres.Find(l => l.Id == id);
+
+            return View(monLivre);
+        }
     }
 }

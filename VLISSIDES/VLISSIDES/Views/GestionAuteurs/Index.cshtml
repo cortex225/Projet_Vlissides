@@ -5,7 +5,41 @@
 
 
 <link rel="stylesheet" href="~/css/ListeLivres.css"/>
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<div class="d-block p-4 p-4">
+    <div class="mb-4">
+        <h1>Gestion des maisons d'éditions</h1>
+    </div>
+    <!--Début : Ajouter maison edition-->
+    <div class="container-fluid">
 
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#champAjouter">
+            Ajouter une maison d'édition
+        </button>
+
+        <form class="collapse" id="champAjouter" enctype="multipart/form-data">
+            <br />
+            @* @Html.AntiForgeryToken() *@
+            @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
+            <div class="input-group">
+                @* <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" placeholder="Nom" />
+                <span asp-validation-for="MaisonEditionsAjouterVM.Nom" class="text-danger"></span> *@
+                <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter le livre">
+                    Ajouter
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+    <br />
+    <!--Fin : Ajouter maison edition-->
 
 <div class="d-block p-4 p-4">
 
@@ -19,23 +53,27 @@
             <div class="list-group col-6" id="list-tab" role="tablist">
                 @foreach (var item in Model.ListeAuteurs)
                 {
+
+                    <!--onclick pour afficher livres ici-->
                     <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherAuteursLivres('@item.Id')">
                         <div class="card-body row align-items-center p-0">
                             <div class="col-9 text-center">
-                                <input id="@item.Id auteur" type="text" asp-for="@item.NomAuteur" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.NomAuteur)">
+                                <!--Début : Modifier nom d'une maison d'édition-->
+                                    <input id="@item.Id @item.NomAuteur" type="text" asp-for="@item.NomAuteur" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.NomAuteur)"
+                                        onclick="enableButton('@item.Id')">
                             </div>
                             <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                                 @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
 
-                                <button id="saveButton @item.Id" type="button" class="btn btn-success" @* onclick="
-                                    saveQuantite('@item.Id', '@item.Nom')
+                                <button id="saveButton_@item.Id" type="button" class="btn btn-success"
+                                            onclick="ModifierAuteur('@item.Id', '@item.NomAuteur')
                                     disableButton('@item.Id')"
-                                    disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Nom" *@>
-
+                                            disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.NomAuteur">
                                     Sauvegarder
-
                                 </button>
-                                <button type="button" class="btn btn-danger p-2 mx-2" @* onclick="SupprimerLivre(`@item.Id`)" *@>
+                                    <!--Fin : Modifier nom d'une maison d'édition-->
+                                    <!--Bouton supprimer ici-->
+                                <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionAuteurs", new { id = item.Id })')">
                                     <span class="fa-solid fa-trash fa-2x"></span>
                                 </button>
                             </div>
@@ -84,9 +122,7 @@
 </div>
 
 
-@* <script type="text/javascript" src="~/js/AuteurAfficherLivre.js"></script> *@
-
-@* AfficherLivre *@
+<!--Script pour la liste de livres d'une maison d'édition-->
 <script type="text/javascript">
     function hideall() {
         divListes = document.getElementById("divListeAuteursLivres").childNodes;
@@ -101,6 +137,54 @@
 </script>
 
 
-@section Scripts {
+<!--Script pour Modifier-->
+<script type="text/javascript">
+    function ModifierAuteur(id = "", nom = "") {
+        fetch('GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => console.error('Échec du fetch pour modifier le nom'))
+            .then((response) => disableButton(id));
+    }
 
-}
+    function enableButton(itemId) {
+        button = document.getElementById("saveButton_" + itemId);
+        button.disabled = false;
+    }
+
+    function disableButton(itemId) {
+        button = document.getElementById("saveButton_" + itemId);
+        button.disabled = true;
+
+    }
+</script>
+
+<!--Script pour la supprimation-->
+<script type="text/javascript">
+        function SupprimerAuteur(id = "") {
+            fetch(`GestionAuteurs/SupprimerAuteur?id=${id}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => {
+            console.error('Échec du fetch pour supprimer la maison', error);
+        }).then(() => {
+            document.getElementById(`${id}`).remove();
+            $('#ModalId').modal('hide'); // Ferme la modale
+        });
+    }
+
+
+    // ModalScript
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+</script>
