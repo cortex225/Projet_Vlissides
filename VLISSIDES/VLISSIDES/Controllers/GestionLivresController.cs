@@ -56,6 +56,7 @@ public class GestionLivresController : Controller
             .Include(l => l.Langues)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
+            .Include(l => l.TypesLivre)
             .OrderByDescending(l => l.DateAjout)
             .ToListAsync();
 
