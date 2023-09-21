@@ -37,8 +37,7 @@ context.SaveChanges();
 //Générer les auteurs
 var auteurs = Builder<Auteur>.CreateListOfSize(99)
     .All()
-    .With(c => c.Nom = Name.Last())
-    .With(c => c.Prenom = Name.First())
+    .With(c => c.NomAuteur = Name.Last())
     .Build();
 context.Auteurs.AddRange(auteurs);
 context.SaveChanges();

@@ -4,7 +4,7 @@
 }
 
 
-<link rel="stylesheet" href="~/css/ListeAuteurs.css"/>
+<link rel="stylesheet" href="~/css/ListeLivres.css"/>
 
 
 <div class="d-block p-4 p-4">
@@ -22,7 +22,7 @@
                     <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherAuteursLivres('@item.Id')">
                         <div class="card-body row align-items-center p-0">
                             <div class="col-9 text-center">
-                                <input id="@item.Id auteur" type="text" asp-for="@item.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Nom)">
+                                <input id="@item.Id auteur" type="text" asp-for="@item.NomAuteur" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.NomAuteur)">
                             </div>
                             <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                                 @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
@@ -44,12 +44,13 @@
                 }
             </div>
             <div id="divListeLivres" class="col-6 card rounded-xl">
+                <h3 class="text-center my-3">Livres de l'auteur</h3>
 
                 <div class="" id="divListeAuteursLivres">
                     @foreach (var item in Model.ListeAuteurs)
                     {
                         <div id="Liste_@item.Id" class=" visually-hidden">
-                            <p>@item.Nom</p>
+                            <h5 class="my-2">@item.NomAuteur</h5>
 
 
                             @if (item.Livres.Count != 0)

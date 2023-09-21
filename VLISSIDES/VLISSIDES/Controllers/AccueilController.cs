@@ -50,7 +50,7 @@ public class AccueilController : Controller
         List<_LivreCardVM> vedettes = new()
         {
             new _LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", 6.66,
-                new List<Auteur> { new() { Nom = "Vlissides", Prenom = "Équipe" } },
+                new List<Auteur> { new() { NomAuteur = "Vlissides"} },
                 new List<Categorie> { new() { Nom = "Horreur" } }),
             new _LivreCardVM("img/flat.png"),
             new _LivreCardVM("img/flat.png"),
@@ -63,7 +63,7 @@ public class AccueilController : Controller
         List<_LivreCardVM> recommandations = new()
         {
             new _LivreCardVM("img/flat.png", "Le chaperon rouge", 0.69,
-                new List<Auteur> { new() { Nom = "Grimms", Prenom = "Frères" } },
+                new List<Auteur> { new() { NomAuteur = "Grimms"} },
                 new List<Categorie> { new() { Nom = "Conte" } }),
             new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"),
             new _LivreCardVM("img/flat.png")
@@ -72,10 +72,10 @@ public class AccueilController : Controller
         List<_LivreCardVM> livreCategories = new()
         {
             new _LivreCardVM("img/flat.png", "Fahrenheit 451", 0.69,
-                new List<Auteur> { new() { Nom = "Bradbury", Prenom = "Ray" } },
+                new List<Auteur> { new() { NomAuteur = "Bradbury"} },
                 new List<Categorie> { new() { Nom = "Fiction Dystopie" } }),
             new _LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", 40.99,
-                new List<Auteur> { new() { Nom = "", Prenom = "Jean-Luc" } },
+                new List<Auteur> { new() { NomAuteur = ""} },
                 new List<Categorie> { new() { Nom = "Informatique" } }),
             new _LivreCardVM("img/flat.png"),
             new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"),

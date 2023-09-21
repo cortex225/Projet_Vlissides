@@ -79,7 +79,7 @@ public class GestionLivresController : Controller
         //Populer les listes déroulantes
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
-            Text = x.Prenom + " " + x.Nom,
+            Text = x.NomAuteur,
             Value = x.Id
         }).ToList();
         vm.SelectMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
@@ -211,7 +211,7 @@ public class GestionLivresController : Controller
         //Populer les selectList
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
-            Text = x.Prenom + " " + x.Nom,
+            Text = x.NomAuteur,
             Value = x.Id
         }).ToList();
         vm.SelectMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
@@ -326,8 +326,8 @@ public class GestionLivresController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
-    
-//Pour montrer la la partial view de confirmation de suppression
+
+    //Pour montrer la la partial view de confirmation de suppression
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
