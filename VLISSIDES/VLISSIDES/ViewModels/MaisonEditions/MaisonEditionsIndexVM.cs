@@ -1,4 +1,6 @@
-﻿namespace VLISSIDES.ViewModels.MaisonEditions
+﻿using VLISSIDES.Models;
+
+namespace VLISSIDES.ViewModels.MaisonEditions
 {
     public class MaisonEditionsIndexVM
     {

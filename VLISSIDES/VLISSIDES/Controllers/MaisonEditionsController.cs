@@ -1,4 +1,10 @@
-﻿namespace VLISSIDES.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.MaisonEditions;
+
+namespace VLISSIDES.Controllers;
 
 public class MaisonEditionsController : Controller
 {
@@ -60,4 +66,4 @@ public class MaisonEditionsController : Controller
         return View();
     }
 }
-}
+
