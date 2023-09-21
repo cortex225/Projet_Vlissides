@@ -7,7 +7,6 @@ using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionLivres;
 using VLISSIDES.ViewModels.Livres;
-using VLISSIDES.ViewModels.Recherche;
 
 namespace VLISSIDES.Controllers;
 
@@ -245,7 +244,7 @@ public class GestionLivresController : Controller
 
             var livre = new Livre
             {
-                Id = "Id" + (_context.Livres.Count() + 1),
+                Id = Guid.NewGuid().ToString(),
                 Titre = vm.Titre,
                 Resume = vm.Resume,
                 NbExemplaires = vm.NbExemplaires,
