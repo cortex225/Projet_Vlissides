@@ -40,16 +40,30 @@ public class MaisonEditionsController : Controller
         //}
         if (ModelState.IsValid)
         {
-            var maisonEdition = new MaisonEdition
+
+            var maisonEdition = new MaisonEdition()
             {
                 Id = Guid.NewGuid().ToString(),
-                Nom = vm.MaisonEditionsAjouterVM.Nom
+                Nom = vm.MaisonEditionsAjouterVM.Nom,
+
             };
             _context.MaisonEditions.Add(maisonEdition);
             _context.SaveChanges();
             return Ok();
         }
-
+        return View();
+    }
+    [HttpPost]
+    public ActionResult ModifierMaison(string id, string nom)
+    {
+        if (ModelState.IsValid)
+        {
+            var maisonEdition = _context.MaisonEditions.FirstOrDefault(me => me.Id == id);
+            maisonEdition.Nom = nom;
+            _context.SaveChanges();
+            return Ok();
+        }
         return View();
     }
 }
+
