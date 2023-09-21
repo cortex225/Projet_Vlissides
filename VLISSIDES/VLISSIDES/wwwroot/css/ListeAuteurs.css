@@ -1,18 +1,21 @@
 ﻿#divListeLivres {
     position: sticky;
     width: 40vw;
-    height: 400px;
+    height: auto;
+    max-height: 60vh;
     margin-left: auto;
     margin-right: auto;
     right: 0;
     top: 25%;
     background-color: #ffffff;
     display: block;
+    overflow: scroll;
+    
 }
 
 #ulListeNomLivres {
    width: 38vw !important;
-    height: 350px;
+    height: auto;
     overflow: scroll;
     column-count: 2;
 }

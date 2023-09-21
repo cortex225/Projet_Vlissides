@@ -9,9 +9,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bd365774-666c-483c-b7e2-a3a3b85efb7d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/dataSources/5beff40d-dbf5-4695-a987-29a92f9f50ba.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/dataSources/5beff40d-dbf5-4695-a987-29a92f9f50ba.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/GestionAuteurs/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/GestionAuteurs/Index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/ListeAuteurs.css" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/ListeAuteurs.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
