@@ -6,6 +6,7 @@ using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionLivres;
 using VLISSIDES.ViewModels.Livres;
+using VLISSIDES.ViewModels.Recherche;
 
 namespace VLISSIDES.Controllers;
 
@@ -29,6 +30,10 @@ public class GestionLivresController : Controller
     {
         var itemsPerPage = 10;
         var totalItems = await _context.Livres.CountAsync();
+
+        var categories = _context.Categories.ToList();
+        var langues = _context.Langues.ToList();
+        var typesLivres = _context.TypeLivres.ToList();
 
         var livres = await _context.Livres
             .Include(l => l.Auteur)
@@ -57,7 +62,15 @@ public class GestionLivresController : Controller
         ViewBag.CurrentPage = page;
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
-        return View(livres);
+
+        GestionLivresInventaireVM vm = new GestionLivresInventaireVM
+        {
+            ListeLivres = livres,
+            ListeCategories = categories,
+            ListeLangue = langues,
+            ListeTypeLivres = typesLivres
+        };
+        return View(vm);
     }
 
     // GET: Livre/Details/5
