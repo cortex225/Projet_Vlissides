@@ -8,6 +8,7 @@ using VLISSIDES.ViewModels.GestionLivres;
 using VLISSIDES.ViewModels.Livres;
 
 namespace VLISSIDES.Controllers;
+
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionLivresController : Controller
 {
@@ -26,7 +27,7 @@ public class GestionLivresController : Controller
     // GET: Livre
     public async Task<IActionResult> Inventaire(int page = 1)
     {
-        int itemsPerPage = 10;
+        var itemsPerPage = 10;
         var totalItems = await _context.Livres.CountAsync();
 
         var livres = await _context.Livres

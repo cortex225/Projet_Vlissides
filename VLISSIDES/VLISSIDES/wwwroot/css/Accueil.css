@@ -19,18 +19,19 @@
     padding: 20px;
     border-radius: 50px;
     align-self: center;
-    width:fit-content;
+    width: fit-content;
 
 }
+
 #Mission {
     color: white;
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 10px;
-    align-content:baseline;
-    text-align:justify;
-    margin-bottom:0%;
-    padding:15px;
-    font-size:24px;
+    align-content: baseline;
+    text-align: justify;
+    margin-bottom: 0%;
+    padding: 15px;
+    font-size: 24px;
 }
 
 .voirPlus {
@@ -135,7 +136,7 @@
 /*--Accueil/_CarteEvenement------------------------------------------------------------------------------------------------------------------*/
 .event {
     width: 18rem;
-    height:35rem;
+    height: 35rem;
 }
 
 .event:hover {
@@ -218,13 +219,14 @@
 
 .cardServiceOffert:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.cardServiceOffert i  {
+.cardServiceOffert i {
     font-size: 50px;
     margin-bottom: 20px;
-    color: #5A9;!important;
+    color: #5A9;
+!important;
 }
 
 
@@ -236,15 +238,18 @@
 .cardServiceOffert .btn {
     margin-top: 20px;
     border: none;
-    background-color: #5A9;!important;
-    color: #fff;!important;
+    background-color: #5A9;
+!important;
+    color: #fff;
+!important;
     padding: 10px 20px;
     border-radius: 20px;
     transition: background-color 0.2s;
 }
 
 .cardServiceOffert .btn:hover {
-    background-color: #478;!important;
+    background-color: #478;
+!important;
 }
 
 @media (max-width: 768px) {
