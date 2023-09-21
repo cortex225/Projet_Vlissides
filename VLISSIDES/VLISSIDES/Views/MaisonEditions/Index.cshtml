@@ -4,8 +4,14 @@
 @{
 }
 @model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
-
-
+<link rel="stylesheet" href="~/css/ListeLivres.css"/>
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
 <div class="d-block p-4 p-4">
     <div class="mb-4">
         <h1>Gestion des maisons d'éditions</h1>
@@ -58,7 +64,8 @@
                                     Sauvegarder
                                 </button>
                                 <!--Fin : Modifier nom d'une maison d'édition-->
-                                <button type="button" class="btn btn-danger p-2" @* onclick="SupprimerLivre(`@item.Id`)" *@>                                    
+                                <!--Bouton supprimer ici-->
+                                <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "MaisonEditions", new { id = item.Id })')">
                                     <span class="fa-solid fa-trash fa-2x"></span>                                
                                 </button>
 
@@ -66,30 +73,40 @@
                         </div>
                     </div>
                 }
-            </div>            
-            <div class="ListeMaisonsEditionsLivre col-6" id="divListeMaisonEditionLivres">
-                @foreach (var item in Model.ListeMaisonEditions)
-                {
-                    <div id="Liste_@item.Id" class="visually-hidden">
-                        <p>@item.Nom</p>
+            </div>       
+            
+            <div id="divListeLivres" class="col-6 card rounded-xl">
+                <h3 class="text-center my-3">Livres de la maison d'édition</h3>
+
+                <div class="" id="divListeMaisonEditionLivres">
+                    @foreach (var item in Model.ListeMaisonEditions)
+                    {
+                        <div id="Liste_@item.Id" class=" visually-hidden">
+                            <h5 class="my-2">@item.Nom</h5>
 
 
-                        @if (item.Livres.Count != 0)
-                        {
-                            
-                        <ul>
-                            @foreach (var livre in item.Livres)
+                            @if (item.Livres.Count != 0)
                             {
-                                <li>@livre.Titre</li>
-
-                                }
-                            </ul>
-
-                            }else{
+                                <div class="listcolumns">
+                                    <ul id="ulListeNomLivres">
+                                        @foreach (var livre in item.Livres)
+                                        {
+                                            <li>@livre.Titre</li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
                                 <p>pas de livres</p>
                             }
-                    </div>
-                }
+
+
+                        </div>
+                    }
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -157,4 +174,29 @@
 
     }
 </script>
+<!--Script pour la supprimation-->
+<script type="text/javascript">
+    function SupprimerMaisonEdition(id = "") {
+        fetch(`SupprimerMaison?id=${id}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => {
+            console.error('Échec du fetch pour supprimer la maison', error);
+        }).then(() => {
+            document.getElementById(`${id}`).remove();
+            $('#ModalId').modal('hide'); // Ferme la modale
+        });
+    }
 
+
+    // ModalScript
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+</script>

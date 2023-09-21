@@ -14,9 +14,7 @@
 }
 
 #ulListeNomLivres {
-   width: 38vw !important;
+    width: 38vw !important;
     height: auto;
     column-count: 2;
 }
-
-

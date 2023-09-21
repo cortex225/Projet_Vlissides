@@ -65,5 +65,30 @@ public class MaisonEditionsController : Controller
         }
         return View();
     }
+
+    [HttpPost]
+    public ActionResult SupprimerMaison(string id)
+    {
+        var maisonEdition = _context.MaisonEditions.FirstOrDefault(me => me.Id == id);
+        //Si la maison d'édition n'est pas trouvé
+        if (maisonEdition == null)
+            return NotFound();
+        //Enlever la maison d'édition pour chaque livre
+        _context.Livres.Where(l => l.MaisonEditionId == maisonEdition.Id)
+            .ToList().ForEach(l => l.MaisonEditionId = null);
+        _context.MaisonEditions.Remove(maisonEdition);
+        _context.SaveChanges();
+        return RedirectToAction(nameof(Index));
+    }
+    [HttpGet]
+    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    {
+        if (id == null) return NotFound();
+
+        var maisonEdition = await _context.MaisonEditions.FindAsync(id);
+        if (maisonEdition == null) return NotFound();
+
+        return PartialView("PartialViews/Modals/MaisonEditions/_DeleteMaisonEditionPartial", maisonEdition);
+    }
 }
 
