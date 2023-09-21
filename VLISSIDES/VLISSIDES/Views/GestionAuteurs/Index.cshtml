@@ -13,33 +13,33 @@
     </div>
 </div>
 <div class="d-block p-4 p-4">
-    <div class="mb-4">
-        <h1>Gestion des maisons d'éditions</h1>
-    </div>
-    <!--Début : Ajouter maison edition-->
-    <div class="container-fluid">
+<div class="mb-4">
+    <h1>Gestion des maisons d'éditions</h1>
+</div>
+<!--Début : Ajouter maison edition-->
+<div class="container-fluid">
 
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#champAjouter">
-            Ajouter une maison d'édition
-        </button>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#champAjouter">
+        Ajouter une maison d'édition
+    </button>
 
-        <form class="collapse" id="champAjouter" enctype="multipart/form-data">
-            <br />
-            @* @Html.AntiForgeryToken() *@
-            @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
-            <div class="input-group">
-                @* <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" placeholder="Nom" />
+    <form class="collapse" id="champAjouter" enctype="multipart/form-data">
+        <br/>
+        @* @Html.AntiForgeryToken() *@
+        @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
+        <div class="input-group">
+            @* <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" placeholder="Nom" />
                 <span asp-validation-for="MaisonEditionsAjouterVM.Nom" class="text-danger"></span> *@
-                <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter le livre">
-                    Ajouter
-                </button>
-            </div>
+            <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter le livre">
+                Ajouter
+            </button>
+        </div>
 
-        </form>
+    </form>
 
-    </div>
-    <br />
-    <!--Fin : Ajouter maison edition-->
+</div>
+<br/>
+<!--Fin : Ajouter maison edition-->
 
 <div class="d-block p-4 p-4">
 
@@ -53,26 +53,25 @@
             <div class="list-group col-6" id="list-tab" role="tablist">
                 @foreach (var item in Model.ListeAuteurs)
                 {
-
                     <!--onclick pour afficher livres ici-->
                     <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherAuteursLivres('@item.Id')">
                         <div class="card-body row align-items-center p-0">
                             <div class="col-9 text-center">
                                 <!--Début : Modifier nom d'une maison d'édition-->
-                                    <input id="@item.Id @item.NomAuteur" type="text" asp-for="@item.NomAuteur" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.NomAuteur)"
-                                        onclick="enableButton('@item.Id')">
+                                <input id="@item.Id @item.NomAuteur" type="text" asp-for="@item.NomAuteur" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.NomAuteur)"
+                                       onclick="enableButton('@item.Id')">
                             </div>
                             <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                                 @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
 
                                 <button id="saveButton_@item.Id" type="button" class="btn btn-success"
-                                            onclick="ModifierAuteur('@item.Id', '@item.NomAuteur')
+                                        onclick="ModifierAuteur('@item.Id', '@item.NomAuteur')
                                     disableButton('@item.Id')"
-                                            disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.NomAuteur">
+                                        disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.NomAuteur">
                                     Sauvegarder
                                 </button>
-                                    <!--Fin : Modifier nom d'une maison d'édition-->
-                                    <!--Bouton supprimer ici-->
+                                <!--Fin : Modifier nom d'une maison d'édition-->
+                                <!--Bouton supprimer ici-->
                                 <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionAuteurs", new { id = item.Id })')">
                                     <span class="fa-solid fa-trash fa-2x"></span>
                                 </button>

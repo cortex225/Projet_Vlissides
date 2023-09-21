@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using VLISSIDES.Data;
+
 namespace Seeder;
 
 public class DbContextFactory
