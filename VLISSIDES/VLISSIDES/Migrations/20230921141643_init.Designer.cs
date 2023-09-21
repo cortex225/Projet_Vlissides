@@ -12,11 +12,7 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-    [Migration("20230921133847_init")]
-========
-    [Migration("20230920190525_init")]
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+    [Migration("20230921141643_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,33 +129,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-                            ConcurrencyStamp = "70eedb6d-66cd-4537-959b-c31e6bcfd313",
-========
-                            ConcurrencyStamp = "fea8adaf-0155-43f9-8d55-6d71ec141af3",
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+                            ConcurrencyStamp = "73ed39da-de3a-4404-992a-83e893250025",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-                            ConcurrencyStamp = "f93fd5d0-52a2-4af2-b680-e66ba9ba7eaa",
-========
-                            ConcurrencyStamp = "26ae007b-9d6f-43bd-9426-b2c2b8313276",
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+                            ConcurrencyStamp = "1b36f216-6176-473c-b34c-74be55b89fc0",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-                            ConcurrencyStamp = "97b1feec-03fe-4376-9e4a-1ce6bb57ddfd",
-========
-                            ConcurrencyStamp = "d9247830-2550-4f53-9149-149aac935e13",
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+                            ConcurrencyStamp = "223c403f-7399-456a-8755-f5b2232ff529",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -421,11 +405,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-                            ConcurrencyStamp = "8fe11c37-611a-40ca-aa9c-eddd40c0ea0c",
-========
-                            ConcurrencyStamp = "f8e195e5-3408-48fd-a705-0640ce1a6fed",
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+                            ConcurrencyStamp = "c52aff9c-5bec-44fc-8f7e-5c0db01b93f0",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -435,11 +415,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-                            SecurityStamp = "c571aa98-b719-4b0c-bd4f-74299010485b",
-========
-                            SecurityStamp = "01aa6113-2399-4220-891d-e76153925f53",
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+                            SecurityStamp = "aa69f16b-eedc-4d5c-ad6e-80dc0fe6c686",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -1066,11 +1042,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-                            ConcurrencyStamp = "ccea4901-ef5a-44ac-b684-7efb190ad6dd",
-========
-                            ConcurrencyStamp = "47757383-c915-442f-a420-71873cba8482",
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+                            ConcurrencyStamp = "a396df39-c77b-4c7c-b3c1-4f51f5e0d89a",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1080,11 +1052,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-                            SecurityStamp = "97a7ac7d-3ef0-4c27-a1ce-13aa381191ac",
-========
-                            SecurityStamp = "a2e01f09-76e6-4124-9f53-01b3c1ad7752",
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+                            SecurityStamp = "b97722dc-1096-4926-9f1f-68c7e8eddfd0",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1116,11 +1084,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-                            ConcurrencyStamp = "6d0ff126-91c6-4030-acb6-5a8dc5d6e732",
-========
-                            ConcurrencyStamp = "e89b8813-45fe-4e38-901d-6800babc0a5d",
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+                            ConcurrencyStamp = "cc5cb50a-bcd1-4226-9fa8-4e91edcb4e31",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1130,17 +1094,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.Designer.cs
-                            SecurityStamp = "81977395-ac4f-445a-a6d0-ac89c88d6c38",
+                            SecurityStamp = "fa819313-5278-4f41-9277-f7c980f96df8",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 9, 21, 9, 38, 47, 484, DateTimeKind.Local).AddTicks(3494),
-========
-                            SecurityStamp = "081be1d4-4ce8-4cb6-b909-f5447416f55b",
-                            TwoFactorEnabled = false,
-                            UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 9, 20, 15, 5, 25, 530, DateTimeKind.Local).AddTicks(1460),
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.Designer.cs
+                            DateAdhesion = new DateTime(2023, 9, 21, 10, 16, 42, 968, DateTimeKind.Local).AddTicks(4523),
                             NoMembre = "123456"
                         });
                 });

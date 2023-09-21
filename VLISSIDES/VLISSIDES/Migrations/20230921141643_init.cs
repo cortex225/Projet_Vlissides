@@ -632,15 +632,9 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.cs
-                    { "0", "70eedb6d-66cd-4537-959b-c31e6bcfd313", "Employe", "EMPLOYE" },
-                    { "1", "f93fd5d0-52a2-4af2-b680-e66ba9ba7eaa", "Membre", "MEMBRE" },
-                    { "2", "97b1feec-03fe-4376-9e4a-1ce6bb57ddfd", "Admin", "ADMIN" }
-========
-                    { "0", "fea8adaf-0155-43f9-8d55-6d71ec141af3", "Employe", "EMPLOYE" },
-                    { "1", "26ae007b-9d6f-43bd-9426-b2c2b8313276", "Membre", "MEMBRE" },
-                    { "2", "d9247830-2550-4f53-9149-149aac935e13", "Admin", "ADMIN" }
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.cs
+                    { "0", "73ed39da-de3a-4404-992a-83e893250025", "Employe", "EMPLOYE" },
+                    { "1", "1b36f216-6176-473c-b34c-74be55b89fc0", "Membre", "MEMBRE" },
+                    { "2", "223c403f-7399-456a-8755-f5b2232ff529", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -648,15 +642,9 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AdresseLivraisonId", "AdressePrincipaleId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.cs
-                    { "0", 0, null, null, "8fe11c37-611a-40ca-aa9c-eddd40c0ea0c", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "c571aa98-b719-4b0c-bd4f-74299010485b", false, "admin@admin.com" },
-                    { "1", 0, null, "", "ccea4901-ef5a-44ac-b684-7efb190ad6dd", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "97a7ac7d-3ef0-4c27-a1ce-13aa381191ac", false, "employe@employe.com" },
-                    { "2", 0, null, "", "6d0ff126-91c6-4030-acb6-5a8dc5d6e732", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", "81977395-ac4f-445a-a6d0-ac89c88d6c38", false, "membre@membre.com" }
-========
-                    { "0", 0, null, null, "f8e195e5-3408-48fd-a705-0640ce1a6fed", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "01aa6113-2399-4220-891d-e76153925f53", false, "admin@admin.com" },
-                    { "1", 0, null, "", "47757383-c915-442f-a420-71873cba8482", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "a2e01f09-76e6-4124-9f53-01b3c1ad7752", false, "employe@employe.com" },
-                    { "2", 0, null, "", "e89b8813-45fe-4e38-901d-6800babc0a5d", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", "081be1d4-4ce8-4cb6-b909-f5447416f55b", false, "membre@membre.com" }
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.cs
+                    { "0", 0, null, null, "c52aff9c-5bec-44fc-8f7e-5c0db01b93f0", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "aa69f16b-eedc-4d5c-ad6e-80dc0fe6c686", false, "admin@admin.com" },
+                    { "1", 0, null, "", "a396df39-c77b-4c7c-b3c1-4f51f5e0d89a", "employe@employe.com", true, false, null, "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "b97722dc-1096-4926-9f1f-68c7e8eddfd0", false, "employe@employe.com" },
+                    { "2", 0, null, "", "cc5cb50a-bcd1-4226-9fa8-4e91edcb4e31", "membre@membre.com", true, false, null, "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", "fa819313-5278-4f41-9277-f7c980f96df8", false, "membre@membre.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -759,11 +747,7 @@ namespace VLISSIDES.Migrations
             migrationBuilder.InsertData(
                 table: "Membres",
                 columns: new[] { "Id", "CommandeId", "DateAdhesion", "NoMembre", "ReservationId" },
-<<<<<<<< HEAD:VLISSIDES/VLISSIDES/Migrations/20230921133847_init.cs
-                values: new object[] { "2", null, new DateTime(2023, 9, 21, 9, 38, 47, 484, DateTimeKind.Local).AddTicks(3494), "123456", null });
-========
-                values: new object[] { "2", null, new DateTime(2023, 9, 20, 15, 5, 25, 530, DateTimeKind.Local).AddTicks(1460), "123456", null });
->>>>>>>> Dev:VLISSIDES/VLISSIDES/Migrations/20230920190525_init.cs
+                values: new object[] { "2", null, new DateTime(2023, 9, 21, 10, 16, 42, 968, DateTimeKind.Local).AddTicks(4523), "123456", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_UtilisateurLivraisonId",

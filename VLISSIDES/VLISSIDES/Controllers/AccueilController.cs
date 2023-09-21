@@ -1,4 +1,11 @@
-﻿namespace VLISSIDES.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels;
+using VLISSIDES.ViewModels.Accueil;
+
+namespace VLISSIDES.Controllers;
 
 public class AccueilController : Controller
 {
