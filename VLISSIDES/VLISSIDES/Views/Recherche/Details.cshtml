@@ -1,6 +1,35 @@
 ﻿@model Livre
 @{
 }
-<p>Détails</p>
 
-<p>@Model.Titre</p>
+
+<link rel="stylesheet" href="~/css/Details.css">
+<div id="detailsDivPrincipal">
+    <div id="DetailsIMG">
+        <img src="@Model.Couverture" />
+    </div>
+
+    <div id="DetailsInfo">
+        <h2>@Model.Titre</h2>
+
+        <div id="checkboxTypeLivre">
+            
+        </div>
+
+        <p>Prix: @Model.Prix $</p>
+        <p>Auteur(s): @foreach(Auteur a in Model.Auteur){ @a.NomComplet }</p>
+        <p>Catégorie(s): @foreach(Categorie c in Model.Categories){ @c.Nom }</p>
+        <p>Date publication: @Model.DatePublication</p>
+        <p>Éditeur: @Model.MaisonEdition.Nom</p>
+        <p>Nombre de pages: @Model.NbPages</p>
+        <strong>Résumé:</strong> 
+        <p>@Model.Resume</p>
+        <br />
+        @if (@Model.NbExemplaires > 0)
+        {
+            <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+        }else{
+            <p style="font-weight: bold; color: red;">En rupture de stock</p>
+        }
+    </div>
+</div>

@@ -1,0 +1,13 @@
+﻿#detailsDivPrincipal {
+    display: flex;
+    flex-direction: row;
+}
+
+    #detailsDivPrincipal * {
+        margin: 12px;
+    }
+
+#checkboxTypeLivre {
+    display: flex;
+    flex-direction: row;
+}
