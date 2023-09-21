@@ -12,8 +12,8 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230914135948_MigrationRecherche")]
-    partial class MigrationRecherche
+    [Migration("20230921131217_SousCategorie")]
+    partial class SousCategorie
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,21 @@ namespace VLISSIDES.Migrations
                     b.ToTable("LangueLivre");
                 });
 
+            modelBuilder.Entity("LivrePromotions", b =>
+                {
+                    b.Property<string>("LivresId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PromotionsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LivresId", "PromotionsId");
+
+                    b.HasIndex("PromotionsId");
+
+                    b.ToTable("LivrePromotions");
+                });
+
             modelBuilder.Entity("LivreTypeLivre", b =>
                 {
                     b.Property<string>("LivresId")
@@ -114,21 +129,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "32e874c7-3550-4a64-ad5d-0991e23f0049",
+                            ConcurrencyStamp = "81ded9d5-f413-4b6c-a1a9-1e3e384bcfb4",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "62027613-3add-4a82-8816-c26b91d0aa1c",
+                            ConcurrencyStamp = "73ba6313-9db1-4c19-bd46-7ae82de77339",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "f96e9178-4f8e-4121-ba10-58127e4c7aa4",
+                            ConcurrencyStamp = "bb94f801-0635-44b4-bbd6-b2505985bee3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -390,7 +405,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a3440082-404b-4860-9ee9-8299b71a13ec",
+                            ConcurrencyStamp = "1e2cb243-7df4-4b49-91ae-0278e56b7d83",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -400,7 +415,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "3445367d-e2f5-4776-8fb8-5c87f6a3623c",
+                            SecurityStamp = "19ae5fa8-e7c2-4ebc-b096-4fa05f8241d8",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -411,15 +426,7 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Biographie")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Nom")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Photo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -435,9 +442,7 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            Biographie = "Tony Stack est un auteur de livre de programmation",
                             Nom = "Tony",
-                            Photo = "",
                             Prenom = "Stack"
                         });
                 });
@@ -456,7 +461,12 @@ namespace VLISSIDES.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ParentId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories", (string)null);
 
@@ -464,140 +474,188 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "1",
-                            Description = "L'art sous toutes ses facettes : peinture, sculpture, musique, street art... Vous trouverez ici des monographies, des catalogues d'exposition, des biographies d'artistes et une multitude de beaux livres. Les livres sont classés par date de parution, les plus récents en tête. 1 914 livres sont proposés dans cette catégorie.",
-                            Nom = "Art musique et cinéma"
+                            Description = "Une section dédiée à l'exploration des chefs-d'œuvre artistiques, des mouvements et des artistes qui ont marqué l'histoire.",
+                            Nom = "Art"
                         },
                         new
                         {
                             Id = "2",
-                            Description = " Dans cette catégorie : Bandes dessinées, comics, romans graphiques et mangas. Choisissez une sous-catégorie (BD ou manga) pour affiner la sélection. Les livres sont classés par date de parution, les plus récents en tête. ",
-                            Nom = "Bandes dessinées"
+                            Description = "Plongez dans un monde de bien-être, d'esthétique et d'équilibre pour enrichir votre quotidien.",
+                            Nom = "Art de vivre"
                         },
                         new
                         {
                             Id = "3",
-                            Description = "Les livres de cuisine ont le vent en poupe, malgré la disponibilité de multiples recettes sur internet. Dans cette catégorie, vous trouverez des ouvrages généralistes ou thématiques, pour ceux qui doivent suivre un régime par exemple ou qui, simplement, font attention à leur alimentation. ",
-                            Nom = "Cuisine"
+                            Description = "De colorées bandes dessinées aux histoires captivantes pour les plus jeunes, sans oublier une touche d'humour.",
+                            Nom = "BD, Jeunesse, Humour"
                         },
                         new
                         {
                             Id = "4",
-                            Description = "Dans cette catégorie : tous les ouvrages qui peuvent aider à mieux vivre. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Développement personnel"
+                            Description = "Un vaste choix de narrations graphiques, des super-héros aux récits autobiographiques.",
+                            Nom = "Bandes dessinées"
                         },
                         new
                         {
                             Id = "5",
-                            Description = "Dans cette catégorie : tous les dictionnaires pour tous les niveaux et tous les âges, mais aussi les méthodes d'apprentissage des langues. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Dictionnaires & langues"
+                            Description = "Découvrez les vies fascinantes des personnalités qui ont façonné le monde.",
+                            Nom = "Biographie"
                         },
                         new
                         {
                             Id = "6",
-                            Description = "Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Droit & économie"
+                            Description = "Voyagez dans des mondes lointains avec des histoires intemporelles, des fables et des légendes.",
+                            Nom = "Conte"
                         },
                         new
                         {
                             Id = "7",
-                            Description = "La production de livres ne se limite pas à la littérature. Vous trouverez dans cette catégories des essais ou documents, politiques ou non. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Essais et documents"
+                            Description = "Des recettes alléchantes aux guides sommeliers, découvrez les saveurs du monde.",
+                            Nom = "Cuisine – Vin"
                         },
                         new
                         {
                             Id = "8",
-                            Description = "Dans cette catégorie : tous les guides pratiques pour vous aider dans la vie quotidienne. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Guides pratiques"
+                            Description = "Approfondissez votre compréhension des sociétés contemporaines et de leurs nuances culturelles.",
+                            Nom = "Culture et Société"
                         },
                         new
                         {
                             Id = "9",
-                            Description = "L'histoire permet de comprendre le présent. Vous trouverez ici tout ce qui a trait à l'histoire, de l'antiquité à nos jours, en France comme dans le monde. Les livres sont classés par date de parution, les plus récents en tête. ",
-                            Nom = "Histoire"
+                            Description = "Des ressources pour les linguistes, les étudiants et les éternels apprenants.",
+                            Nom = "Dictionnaire – Langues – Éducation"
                         },
                         new
                         {
                             Id = "10",
-                            Description = "Dans cette catégorie : tous les livres qui ont un contenu humoristique. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Humour"
+                            Description = "Engagez-vous dans des réflexions profondes et argumentatives sur des enjeux contemporains.",
+                            Nom = "Essai"
                         },
                         new
                         {
                             Id = "11",
-                            Description = " Dans cette catégorie : tous les livres qui ont un contenu liés à internet et des nouvelles techniques de l'information. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Informatique et internet"
+                            Description = "Explorez le monde naturel, de la canopée de la jungle aux profondeurs des océans.",
+                            Nom = "Faune – Flore"
                         },
                         new
                         {
                             Id = "12",
-                            Description = "Dans cette catégorie : tous les livres pour la jeunesse, du premier âge à l'adolescence. Les publications pour la jeunesse sont abondantes. Et c'est tant mieux. Inciter les plus jeunes à lire devrait être une priorité. ",
-                            Nom = "Jeunesse"
+                            Description = "Évadez-vous avec des guides de voyage et des récits d'aventuriers des quatre coins du monde.",
+                            Nom = "Géographie – Voyage"
                         },
                         new
                         {
                             Id = "13",
-                            Description = "Dans cette catégorie, toute la littérature, française ou étrangère. Des classiques aux auteurs contemporains, le choix est large.",
-                            Nom = "Littérature"
+                            Description = "Démystifiez le monde des affaires, la complexité économique et les arcanes du droit.",
+                            Nom = "Gestion – Économie – droit"
                         },
                         new
                         {
                             Id = "14",
-                            Description = "Littérature sentimentale : un genre qui se renouvelle et qui a toujours ses adeptes. Passions et liaisons contrariées, les sentiments sont ici à l'honneur.",
-                            Nom = "Littérature sentimentale"
+                            Description = "Conseils et astuces pour naviguer dans la vie quotidienne, du bricolage à la gestion du temps.",
+                            Nom = "Guide pratique"
                         },
                         new
                         {
                             Id = "15",
-                            Description = "Romans noirs, polars, suspense, thrillers... tous les livres pour faire passer des nuits blanches aux amateurs de littérature noire. ",
-                            Nom = "Policier, suspense, thrillers"
+                            Description = "Immergez-vous dans les moments clés de l'histoire et les débats politiques actuels. ",
+                            Nom = "Histoire - Politique"
                         },
                         new
                         {
                             Id = "16",
-                            Description = "Dans cette catégorie : tous les livres qui ont un contenu religieux ou spirituel. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Religion et spiritualité"
+                            Description = "Pour un moment de détente, une collection de recueils drôles et de satires.",
+                            Nom = "Humour"
                         },
                         new
                         {
                             Id = "17",
-                            Description = "Dans cette catégorie : toutes les sciences sociales : ethnologie, philopsophie, psychologie, sociologie... L'histoire fait l'objet d'une catégorie à part. ",
-                            Nom = "Sciences sociales"
+                            Description = "Restez à la pointe de la technologie avec des guides sur les logiciels, le codage et les innovations numériques.",
+                            Nom = "Informatique"
                         },
                         new
                         {
                             Id = "18",
-                            Description = "Dans cette catégorie : les ouvrages scientifiques, qu'ils soient destinés aux spécialistes ou au grand public. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Sciences, techniques & médecine"
+                            Description = "Une riche collection de classiques et de nouvelles œuvres, pour les amateurs de belle lettre.",
+                            Nom = "Littérature"
                         },
                         new
                         {
                             Id = "19",
-                            Description = "Dans cette catégorie, tous les ouvrages scolaires, de la maternelle à l'enseignement supérieur. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Scolaire et pédagogie"
+                            Description = "Inspirez-vous pour votre prochaine aventure, qu'elle soit en pleine nature ou dans une métropole animée.",
+                            Nom = "Loisir, Tourisme, Nature"
                         },
                         new
                         {
                             Id = "20",
-                            Description = "Dans cette catégorie : tous les livres de science-fiction et de fantasy. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "SF, Fantasy"
+                            Description = "Des ressources pour les parents et ceux qui aspirent à le devenir, pour une vie familiale épanouie.",
+                            Nom = "Maternité – Famille"
                         },
                         new
                         {
                             Id = "21",
-                            Description = "Dans cette catégorie : tous les livres qui ont un contenu lié au sport et aux loisirs. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Sports et loisirs"
+                            Description = "Laissez-vous emporter par le rythme des vers, l'intensité du théâtre et la profondeur des essais.",
+                            Nom = "Poésie – Théâtre – Essais"
                         },
                         new
                         {
                             Id = "22",
-                            Description = "Dans cette catégorie : tous les livres qui ont un contenu lié au théâtre. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Théâtre"
+                            Description = "omprenez mieux la complexité de l'esprit humain et les clés d'une vie saine.",
+                            Nom = "Psychologie – Santé"
                         },
                         new
                         {
                             Id = "23",
-                            Description = "Dans cette catégorie : tous les livres qui ont un contenu lié au tourisme et aux voyages. Les livres sont classés par date de parution, les plus récents en tête.",
-                            Nom = "Tourisme et voyages"
+                            Description = "Explorez les croyances spirituelles du monde entier, des textes sacrés aux mystères ésotériques.",
+                            Nom = "Religion – Ésotérisme"
+                        },
+                        new
+                        {
+                            Id = "24",
+                            Description = "Voyagez dans des mondes parallèles, où l'imaginaire rencontre souvent la réflexion profonde.",
+                            Nom = "Roman de science-fiction et fantastique"
+                        },
+                        new
+                        {
+                            Id = "25",
+                            Description = "Des romans venus de France et d'ailleurs pour vous transporter dans de multiples univers narratifs.",
+                            Nom = "Roman français et étranger "
+                        },
+                        new
+                        {
+                            Id = "26",
+                            Description = "Plongez dans des enquêtes palpitantes, des énigmes à résoudre et des mystères à élucider.",
+                            Nom = "Roman policier"
+                        },
+                        new
+                        {
+                            Id = "27",
+                            Description = "Découvrez la richesse de la littérature québécoise, avec ses voix uniques et ses paysages envoûtants.",
+                            Nom = "Roman québécois"
+                        },
+                        new
+                        {
+                            Id = "28",
+                            Description = "Éclairez votre curiosité avec des textes scientifiques accessibles et informatifs.",
+                            Nom = "Savoir Sciences"
+                        },
+                        new
+                        {
+                            Id = "29",
+                            Description = "De la biologie à la physique, découvrez les dernières découvertes et théories.",
+                            Nom = "Sciences"
+                        },
+                        new
+                        {
+                            Id = "30",
+                            Description = "Des textes éclairants pour comprendre et explorer la diversité de la sexualité humaine.",
+                            Nom = "Sexualité"
+                        },
+                        new
+                        {
+                            Id = "31",
+                            Description = "Pour les passionnés de sport et les chercheurs d'activités, des histoires inspirantes aux guides pratiques.",
+                            Nom = "Sport - Loisirs"
                         });
                 });
 
@@ -791,6 +849,9 @@ namespace VLISSIDES.Migrations
                     b.Property<double>("Prix")
                         .HasColumnType("float");
 
+                    b.Property<string>("PromotionId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Resume")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -848,6 +909,33 @@ namespace VLISSIDES.Migrations
                             Id = "0",
                             Nom = "Maison d'édition par défaut"
                         });
+                });
+
+            modelBuilder.Entity("VLISSIDES.Models.Promotions", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateDebut")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LivreId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Rabais")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Reservation", b =>
@@ -964,7 +1052,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "c6959c5a-4ca1-4db0-b93e-ddf66cba4d14",
+                            ConcurrencyStamp = "251bc315-79ac-46de-808d-7a4017d40c28",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -974,7 +1062,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "f13f5058-8d0c-47d4-86a2-9dcb4978744f",
+                            SecurityStamp = "57d2038c-8c3c-40c4-a330-38e1f9e5809e",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -999,6 +1087,29 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Membres", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2",
+                            AccessFailedCount = 0,
+                            AdressePrincipaleId = "",
+                            ConcurrencyStamp = "4f4d6be7-cbd0-446f-bc51-dc60defdfef0",
+                            Email = "membre@membre.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Nom = "MEMBRE",
+                            NormalizedEmail = "MEMBRE@MEMBRE.COM",
+                            NormalizedUserName = "MEMBRE@MEMBRE.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
+                            PhoneNumberConfirmed = false,
+                            Prenom = "Membre",
+                            SecurityStamp = "1a7f932f-acef-4393-98bb-f6ca15456f97",
+                            TwoFactorEnabled = false,
+                            UserName = "membre@membre.com",
+                            DateAdhesion = new DateTime(2023, 9, 21, 9, 12, 16, 383, DateTimeKind.Local).AddTicks(8996),
+                            NoMembre = "123456"
+                        });
                 });
 
             modelBuilder.Entity("AuteurLivre", b =>
@@ -1042,6 +1153,21 @@ namespace VLISSIDES.Migrations
                     b.HasOne("VLISSIDES.Models.Livre", null)
                         .WithMany()
                         .HasForeignKey("LivresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LivrePromotions", b =>
+                {
+                    b.HasOne("VLISSIDES.Models.Livre", null)
+                        .WithMany()
+                        .HasForeignKey("LivresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VLISSIDES.Models.Promotions", null)
+                        .WithMany()
+                        .HasForeignKey("PromotionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1127,6 +1253,15 @@ namespace VLISSIDES.Migrations
                     b.Navigation("UtilisateurLivraison");
 
                     b.Navigation("UtilisateurPrincipal");
+                });
+
+            modelBuilder.Entity("VLISSIDES.Models.Categorie", b =>
+                {
+                    b.HasOne("VLISSIDES.Models.Categorie", "Parent")
+                        .WithMany("Enfants")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Commande", b =>
@@ -1264,6 +1399,11 @@ namespace VLISSIDES.Migrations
                     b.Navigation("AdressePrincipale");
 
                     b.Navigation("AdressesLivraison");
+                });
+
+            modelBuilder.Entity("VLISSIDES.Models.Categorie", b =>
+                {
+                    b.Navigation("Enfants");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Commande", b =>
