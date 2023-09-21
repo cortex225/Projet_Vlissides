@@ -4,12 +4,12 @@
 @model Livre;
 
 <div class="item livrePetit livre @Model.Categories">
-    <div class="card cardLivre" style="width: 12rem">
-        <div class="imgDiv">
+    <div class="card cardLivre" style="width: 12rem; height: 30rem">
+        <a asp-area="" asp-controller="Recherche" asp-action="Details" method="get" class="imgDiv">
             <img src="@Model.Couverture"
                  class="card-img-top imgLivre"
                  alt="Couverture du livre" />
-        </div>
+        </a>
         <div class="card-body">
             <h6 class="card-title">@Model.Titre</h6>
 
@@ -31,8 +31,6 @@
                     <a href="#" class="btn btn-secondary btnCategorie">@categorie.Nom</a>
                 }
             }
-
-            <a class="btn btn-primary btnCategorie">Voir plus</a>
         </div>
     </div>
 </div>

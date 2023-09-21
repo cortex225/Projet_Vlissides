@@ -164,5 +164,12 @@ namespace VLISSIDES.Controllers
 
             return View(vm);
         }
+
+        // GET: RechercheController
+        [Route("/Recherche/Details")]
+        public ActionResult Details()
+        {
+            return View();
+        }
     }
 }
