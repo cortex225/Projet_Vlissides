@@ -23,7 +23,7 @@ public class DbContextFactory
         var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
         
-        builder.UseSqlServer(connectionString);
+        builder.UseSqlServer(connectionStringJL);
 
         return new ApplicationDbContext(builder.Options);
     }
