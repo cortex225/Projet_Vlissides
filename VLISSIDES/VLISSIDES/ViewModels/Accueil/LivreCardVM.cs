@@ -18,7 +18,7 @@ public class LivreCardVM
         Auteurs = "";
         if (auteurs.Any())
         {
-            auteurs.ForEach(auteur => Auteurs += auteur.NomComplet + ", ");
+            auteurs.ForEach(auteur => Auteurs += auteur.NomAuteur + ", ");
             Auteurs.Remove(Auteurs.Length - 2, 2);
         }
 
@@ -36,12 +36,12 @@ public class LivreCardVM
         Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
         if (!((List<Auteur>)livre.Auteur).Any())
         {
-            ((List<Auteur>)livre.Auteur).ForEach(auteur => Auteurs += auteur.NomComplet + ", ");
+            ((List<Auteur>)livre.Auteur).ForEach(auteur => Auteurs += auteur.NomAuteur + ", ");
             Auteurs.Remove(Auteurs.Length - 2, 2);
         }
 
         Categories ??= new List<string>();
-        ((List<Auteur>)livre.Categories).ForEach(categorie => Categories.Add(categorie.Nom));
+        ((List<Categorie>)livre.Categories).ForEach(categorie => Categories.Add(categorie.Nom));
     }
 
     [DisplayName("Page couverture")] public string Couverture { get; set; }

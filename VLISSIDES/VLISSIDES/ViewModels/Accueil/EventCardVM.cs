@@ -23,7 +23,7 @@ public class EventCardVM
 
     [DisplayName("Image")] public string Image { get; set; }
 
-    [DisplayName("Nom")] public string Nom { get; set; }
+    [DisplayName("NomAuteur")] public string Nom { get; set; }
 
     [DisplayName("Description")] public string Description { get; set; }
 }

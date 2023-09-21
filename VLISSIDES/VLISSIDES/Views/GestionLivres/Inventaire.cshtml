@@ -1,4 +1,5 @@
-﻿@model List<VLISSIDES.ViewModels.GestionLivres.GestionLivresAfficherVM>
+﻿@using VLISSIDES.ViewModels.GestionLivres;
+@model GestionLivresInventaireVM
 
 @{
     ViewData["Title"] = "Inventaire";
@@ -30,11 +31,15 @@
             @* Research bar *@
             <div class="row mb-3">
                 <div class="col-2 ml-4 text-center">
-                    <button type="submit" class="container-fluid btn btn-primary" disabled>Recherche non fonctionnelle</button>
+                    <a asp-controller="Recherche" asp-action="Index">
+                        <button id="rechercherBTN_GL" type="button" class="container-fluid btn btn-primary">
+                            Rechercher
+                        </button>
+                    </a>
                 </div>
 
                 <div class="col-10">
-                    <input type="text" class="form-control" placeholder="Recherche général" aria-label="recherche" aria-describedby="basic-addon2">
+                    <input id="rechercheGeneralGL" type="text" class="form-control recherche-input" placeholder="Recherche générale">
                 </div>
             </div>
 
@@ -44,61 +49,56 @@
 
                     @* Recherche précise *@
                     <div class="my-2">
-                        <h3>Spécification</h3>
+                        <h3>Spécifications</h3>
                         <div class="form-group">
-                            <label for="formGroupExampleInput">Titre</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+                            <label for="specificationTitre">Titre:</label>
+                            <input type="text" class="form-control" id="specificationTitreGL" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="formGroupExampleInput2">Auteur</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                            <label for="specificationAuteur">Auteur:</label>
+                            <input type="text" class="form-control" id="specificationAuteurGL" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="formGroupExampleInput2">Maison d'édition</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+                            <label for="specificationMaisonEdition">Maison d'édition:</label>
+                            <input type="text" class="form-control" id="specificationMaisonEditionGL" placeholder="">
                         </div>
-                    </div>
-
-                    @* Catégorie *@
-                    <div class="my-4">
-                        <h3>Catégorie</h3>
-                        <div class="form-check border border-dark">
-                            @* Ici il va y avoir une boucle for pour générer automatiquement les checkbox selon la liste des catégories *@
-                            <div class="form-check">
-
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Fantaisie
-                                </label>
-
-                            </div>
-
-                            <div class="form-check">
-
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Sci-Fi
-                                </label>
-
-                            </div>
-
-                            <div class="form-check">
-
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Aventure
-                                </label>
-
-                            </div>
-
-                            <div class="form-check">
-
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Horreur
-                                </label>
-
-                            </div>
+                        <div class="form-group">
+                            <label for="specificationCategorie">Categorie:</label>
+                            <select class="form-control" id="specificationCategorieGL" name="categorie">
+                                <option value="">Sélectionnez...</option>
+                                @foreach (var categorie in Model.ListeCategories)
+                                {
+                                    <option value="@categorie.Nom">@categorie.Nom</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="specificationLangue">Langue:</label>
+                            <select class="form-control" id="specificationLangueGL" name="langue">
+                                <option value="">Sélectionnez...</option>
+                                @foreach (var langue in Model.ListeLangue)
+                                {
+                                    <option value="@langue.Nom">@langue.Nom</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="specificationPrixMin">Prix minimum:</label>
+                            <input type="text" class="form-control" id="specificationPrixMinGL" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="specificationPrixMax">Prix maximum:</label>
+                            <input type="text" class="form-control" id="specificationPrixMaxGL" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="specificationTypeLivre">Type de livre:</label>
+                            <select class="form-control" id="specificationTypeLivreGL" name="typeLivre">
+                                <option value="">Sélectionnez...</option>
+                                @foreach (var type in Model.ListeTypeLivres)
+                                {
+                                    <option value="@type.Nom">@type.Nom</option>
+                                }
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                         </div>
 
                         @* Results *@
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.ListeLivres)
                         {
                             <div id="@item.Id" class="card mb-2 mx-3 ">
                                 <div class="card-body row p-2 align-items-center">
@@ -193,7 +193,106 @@
 
 </div>
 
+<script type="text/javascript">
+    //Utiliser "GL" à la fin de chaque variable, pour signifier "GestionLivres" et pour différencier des variables de Recherche/Index
 
+    //Script pour la recherche
+    var btnSearchGL = document.getElementById("rechercherBTN_GL");
+
+    btnSearchGL.addEventListener("click", RechercheGestionLivres);
+
+    async function RechercheGestionLivres(ev) {
+        ev.preventDefault();
+
+        var partieMotClesGL = "motCles=";
+        var partieCriteresGL = "criteres=";
+
+        //Recherche générale
+        var searchGeneralGL = document.getElementById("rechercheGeneralGL");
+        var searchTermGL = searchGeneralGL.value; // Récupérer la valeur de la barre de recherche
+
+        if (searchTermGL != "") {
+            artieMotClesGL = partieMotClesGL.concat(`${searchTermGL}|`);
+            partieCriteresGL = partieCriteresGL.concat("general|");
+        }
+
+        //Titre
+        var titreSpecificationGL = document.getElementById("specificationTitreGL");
+        var titreEntreeGL = titreSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+
+        if (titreEntreeGL != "") {
+            partieMotClesGL = partieMotClesGL.concat(`${titreEntreeGL}|`);
+            partieCriteresGL = partieCriteresGL.concat("titre|");
+        }
+
+        //Auteur
+        var auteurSpecificationGL = document.getElementById("specificationAuteurGL");
+        var auteurEntreeGL = auteurSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+
+        if (auteurEntreeGL != "") {
+            partieMotClesGL = partieMotClesGL.concat(`${auteurEntreeGL}|`);
+            partieCriteresGL = partieCriteresGL.concat("auteur|");
+        }
+
+        //MaisonEdition
+        var maisonEditionSpecificationGL = document.getElementById("specificationMaisonEditionGL");
+        var maisonEditionEntreeGL = maisonEditionSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+
+        if (maisonEditionEntreeGL != "") {
+            partieMotClesGL = partieMotClesGL.concat(`${maisonEditionEntreeGL}|`);
+            partieCriteresGL = partieCriteresGL.concat("maisonEdition|");
+        }
+
+        //Categorie
+        var categorieSpecificationGL = document.getElementById("specificationCategorieGL");
+        var categorieEntreeGL = categorieSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+
+        if (categorieEntreeGL != "") {
+            partieMotClesGL = partieMotClesGL.concat(`${categorieEntreeGL}|`);
+            partieCriteresGL = partieCriteresGL.concat("categorie|");
+        }
+
+        //Langue
+        var langueSpecificationGL = document.getElementById("specificationLangueGL");
+        var langueEntreeGL = langueSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+
+        if (langueEntreeGL != "") {
+            partieMotClesGL = partieMotClesGL.concat(`${langueEntreeGL}|`);
+            partieCriteresGL = partieCriteresGL.concat("langue|");
+        }
+
+        //Type livre
+        var typeLivreSpecificationGL = document.getElementById("specificationTypeLivreGL");
+        var typeLivreEntreeGL = typeLivreSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+
+        if (typeLivreEntreeGL != "") {
+            partieMotClesGL = partieMotClesGL.concat(`${typeLivreEntreeGL}|`);
+            partieCriteresGL = partieCriteresGL.concat("typeLivre|");
+        }
+
+        //Prix minimum
+        var prixMinSpecificationGL = document.getElementById("specificationPrixMinGL");
+        var prixMinEntreeGL = prixMinSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+
+        if (prixMinEntreeGL != "") {
+            partieMotClesGL = partieMotClesGL.concat(`${prixMinEntreeGL}|`);
+            partieCriteresGL = partieCriteresGL.concat("prixMin|");
+        }
+
+        //Prix maximum
+        var prixMaxSpecificationGL = document.getElementById("specificationPrixMaxGL");
+        var prixMaxEntreeGL = prixMaxSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+
+        if (prixMaxEntreeGL != "") {
+            partieMotClesGL = partieMotClesGL.concat(`${prixMaxEntreeGL}|`);
+            partieCriteresGL = partieCriteresGL.concat("prixMax|");
+        }
+
+
+        // Utiliser la valeur dans l'URL pour l'action Inventaire
+        window.location.href = `/GestionLivres/Inventaire?${partieMotClesGL}&${partieCriteresGL}`;
+    }
+</script>
 <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
 <script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
 
