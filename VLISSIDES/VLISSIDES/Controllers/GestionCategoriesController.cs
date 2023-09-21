@@ -126,8 +126,13 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             if (_context.Categories == null) return Problem("Entity set 'ApplicationDbContext.Categories' is null.");
-            var livre = await _context.Categories.FindAsync(id);
-            if (livre != null) _context.Categories.Remove(livre);
+            var categorie = await _context.Categories.FindAsync(id);
+            if (categorie != null)
+            {
+                _context.Livres.Where(l => l.CategorieId == id)
+                    .ToList().ForEach(l => l.CategorieId = null);
+                _context.Categories.Remove(categorie);
+            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
