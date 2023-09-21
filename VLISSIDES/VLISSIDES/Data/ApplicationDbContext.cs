@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ExcelDataReader;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
+using System.Text;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.Data;
@@ -43,11 +46,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Promotions> Promotions { get; set; }
 
+    private ModelBuilder buidler;
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        this.buidler = builder;
 
+        //Permet l'encodage pour "encoding 1252."
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         builder.Entity<Employe>().ToTable("Employes");
         builder.Entity<Membre>().ToTable("Membres");
@@ -63,6 +71,53 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         //Ajout des langues des livres à la bd
         builder.ApplyConfiguration(new LangueConfiguration());
+        //Lire la page excel
+        using (var stream = File.Open("Data/DonneesLivres.xlsx", FileMode.Open, FileAccess.Read))
+        {
+            using (var reader = ExcelReaderFactory.CreateReader(stream))
+            {
+
+                do
+                {
+                    while (reader.Read())
+                    {
+                        List<Auteur> auteurs = new List<Auteur>();
+                        List<Categorie> categories = new List<Categorie>();
+                        foreach (var auteur in reader.GetString(1).Split(",").Select(a => a.Trim()))
+                            auteurs.AddRange(Auteurs.Where(a => a.Nom.Equals(auteur)));
+                        foreach (var categorie in reader.GetString(6).Split(",").Select(c => c.Trim()))
+                            categories.AddRange(Categories.Where(c => c.Nom.Equals(categorie)));
+                        if (reader.GetBoolean(7))
+                            builder.ApplyConfiguration(new LivreConfiguration(
+                                titre: reader.GetString(0),
+                                auteurs: auteurs,
+                                maisonEdition: MaisonEditions.First(me => me.Nom.Equals(reader.GetString(2))),
+                                nombresPages: reader.GetInt16(3),
+                                iSBN: reader.GetString(4),
+                                couverture: (Bitmap)reader.GetValue(5),
+                                categories: categories,
+                                typeLivre: TypeLivres.ToList()[0],
+                                prix: reader.GetDouble(8),
+                                quantité: reader.GetInt16(9)
+                            ));
+                        if (reader.GetBoolean(10))
+                            builder.ApplyConfiguration(new LivreConfiguration(
+                                titre: reader.GetString(0),
+                                auteurs: auteurs,
+                                maisonEdition: MaisonEditions.First(me => me.Nom.Equals(reader.GetString(2))),
+                                nombresPages: reader.GetInt16(3),
+                                iSBN: reader.GetString(4),
+                                couverture: (Bitmap)reader.GetValue(5),
+                                categories: categories,
+                                typeLivre: TypeLivres.ToList()[0],
+                                prix: reader.GetDouble(11),
+                                quantité: reader.GetInt16(9)
+                                ));
+                    }
+                } while (reader.NextResult());
+            }
+        }
+
 
         //Roles de l'application
         var roleEmploye = new IdentityRole { Id = "0", Name = "Employe", NormalizedName = "Employe".ToUpper() };
@@ -100,6 +155,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(l => l.Favoris)
             .HasForeignKey(f => f.LivreId);
 
+        //Un livre à plusieurs auteurs avec plusieurs livre.
+        builder.Entity<Livre>()
+            .HasMany(l => l.Auteurs)
+            .WithMany(a => a.Livres);
+        //Un livre à plusieurs auteurs avec plusieurs livre.
+        builder.Entity<Livre>()
+            .HasMany(l => l.Categories)
+            .WithMany(c => c.Livres);
         // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
         builder.Entity<LivreCommande>()
             .HasKey(lc => new { lc.LivreId, lc.CommandeId });

@@ -31,7 +31,7 @@ public class GestionLivresController : Controller
         var totalItems = await _context.Livres.CountAsync();
 
         var livres = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.MaisonEdition)
             .OrderByDescending(l => l.DateAjout)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -66,7 +66,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
@@ -127,20 +127,6 @@ public class GestionLivresController : Controller
                 vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
             }
 
-            //Types de livres
-            var listeType = new List<TypeLivre>();
-            if (vm.Neuf)
-            {
-                var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
-                listeType.Add(neuf);
-            }
-
-            if (vm.Numerique)
-            {
-                var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
-                listeType.Add(numerique);
-            }
-
             var livre = new Livre
             {
                 Id = "Id" + (_context.Livres.Count() + 1),
@@ -153,11 +139,10 @@ public class GestionLivresController : Controller
                 AuteurId = vm.AuteurId,
                 MaisonEditionId = vm.MaisonEditionId,
                 Couverture = vm.CoverImageUrl,
-                TypesLivre = listeType,
+                //TypesLivre = vm.listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
-                CategorieId = vm.CategorieId,
-                LangueId = vm.LangueId
+                //LangueId = vm.LangueId
             };
 
             _context.Livres.Add(livre);
@@ -174,9 +159,9 @@ public class GestionLivresController : Controller
     public IActionResult Modifier(string id)
     {
         var livre = _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.TypesLivre)
-            .Include(l => l.Langues)
+            .Include(l => l.Langue)
             .Include(l => l.Categories)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
@@ -184,32 +169,16 @@ public class GestionLivresController : Controller
         {
             Id = livre.Id,
             ISBN = livre.ISBN,
-            Auteurs = livre.Auteur,
+            Auteurs = livre.Auteurs,
             DatePublication = livre.DatePublication,
             NbExemplaires = livre.NbExemplaires,
             NbPages = livre.NbPages,
             Prix = livre.Prix,
             Resume = livre.Resume,
             Titre = livre.Titre,
-            CategorieId = livre.CategorieId,
-            LangueId = livre.LangueId,
             AuteurId = livre.AuteurId,
             CoverImageUrl = livre.Couverture
         };
-        //Remplir les checkbox types 
-        if (livre.TypesLivre.Count == 0)
-        {
-            vm.Neuf = false;
-            vm.Numerique = false;
-        }
-        else
-        {
-            vm.Neuf = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "1")) ? true : false;
-            vm.Numerique = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "2"))
-                ? true
-                : false;
-        }
-
         //Populer les selectList
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
@@ -270,9 +239,9 @@ public class GestionLivresController : Controller
             }
 
             var livre = await _context.Livres
-                .Include(l => l.Auteur)
+                .Include(l => l.Auteurs)
                 .Include(l => l.TypesLivre)
-                .Include(l => l.Langues)
+                .Include(l => l.Langue)
                 .Include(l => l.Categories)
                 .FirstOrDefaultAsync(x => x.Id == vm.Id);
 
@@ -283,10 +252,9 @@ public class GestionLivresController : Controller
             livre.NbExemplaires = vm.NbExemplaires;
             livre.NbPages = vm.NbPages;
             livre.AuteurId = vm.AuteurId;
-            livre.CategorieId = vm.CategorieId;
-            livre.LangueId = vm.LangueId;
-            livre.TypesLivre = listeType.ToList();
-            livre.Couverture = vm.CoverImageUrl;
+            //livre.LangueId = vm.LangueId;
+            livre.TypesLivre = listeType[0];
+            livre.Couverture = vm.CoverImageUrl ?? "";
             livre.MaisonEditionId = vm.MaisonEditionId;
             livre.Prix = vm.Prix;
             livre.DatePublication = vm.DatePublication;
@@ -305,7 +273,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
