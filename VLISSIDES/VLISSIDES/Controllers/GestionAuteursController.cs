@@ -33,5 +33,48 @@ namespace VLISSIDES.Controllers
 
             return Json(listLivre);
         }
+
+        //AJOUTER
+        //================
+        //================
+        //================
+
+        [HttpPost]
+        public ActionResult ModifierAuteur(string id, string nom)
+        {
+            if (ModelState.IsValid)
+            {
+                var auteur = _context.Auteurs.FirstOrDefault(a => a.Id == id);
+                auteur.NomAuteur = nom;
+                _context.SaveChanges();
+                return Ok();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SupprimerAuteur(string id)
+        {
+            var auteur = _context.Auteurs.FirstOrDefault(me => me.Id == id);
+            //Si l'auteur n'est pas trouvé
+            if (auteur == null)
+                return NotFound();
+            //Enlever l'auteur pour chaque livre
+            _context.Livres.Where(l => l.AuteurId == auteur.Id)
+                .ToList().ForEach(l => l.AuteurId = null);
+            _context.Auteurs.Remove(auteur);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> ShowDeleteConfirmation(string id)
+        {
+            if (id == null) return NotFound();
+
+            var auteur = await _context.Auteurs.FindAsync(id);
+            if (auteur == null) return NotFound();
+
+            return PartialView("PartialViews/Modals/Auteurs/_DeleteAuteurPartial", auteur);
+        }
     }
 }

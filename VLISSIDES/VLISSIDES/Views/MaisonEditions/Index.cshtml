@@ -152,7 +152,6 @@
 <script type="text/javascript">
     function ModifierMaison(id = "",nom = "")
     {
-        console.log("Allo");
         fetch('MaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
             method: 'POST',
             headers: {
@@ -177,7 +176,7 @@
 <!--Script pour la supprimation-->
 <script type="text/javascript">
     function SupprimerMaisonEdition(id = "") {
-        fetch(`SupprimerMaison?id=${id}`, {
+        fetch(`MaisonEditions/SupprimerMaison?id=${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
