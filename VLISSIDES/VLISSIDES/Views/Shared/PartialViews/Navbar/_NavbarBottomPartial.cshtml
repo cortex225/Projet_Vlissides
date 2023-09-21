@@ -1,30 +1,47 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-    
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-0 px-4" id="navBottom">
-        <div class="container-fluid">
-            <!-- Premier groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
-            <div class="navbar-collapse collapse d-sm-inline-flex">
-                <ul class="navbar-nav flex-grow-1">
 
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
-                    </li>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-0 px-4" id="navBottom">
+    <div class="container-fluid">
+        <!-- Premier groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
+        <div class="navbar-collapse collapse d-sm-inline-flex">
+            <ul class="navbar-nav flex-grow-1">
+
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
+                </li>
+                @if (!(User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN)))
+                {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Librairie</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Tableau de bord</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Info">À propos de nous</a>
                     </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="GestionAuteurs" asp-action="Index">Auteurs</a>
                 </li>
 
-                </ul>
-            </div>
+                }
+                @if (User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN))
+                {
+                    <li class="nav-link text-dark"> - </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Tableau de bord</a>
+                    </li>
+                }
+                @if (User.IsInRole(RoleName.ADMIN))
+                {
+                    <li class="nav-link text-dark"> - </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Compte" asp-action="Liste">Gestion des comptes</a>
+                    </li>
+                }
+            </ul>
+        </div>
 
-            <!-- Deuxième groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
-            @* <div class="navbar-collapse collapse d-sm-inline-flex">
+        <!-- Deuxième groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
+        @* <div class="navbar-collapse collapse d-sm-inline-flex">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 1</a>
@@ -40,30 +57,30 @@
                     </li>
                 </ul>
             </div> *@
-   @if (SignInManager.IsSignedIn(User))
-    {
+        @if (SignInManager.IsSignedIn(User))
+        {
             <!-- Icônes de profil et de panier -->
-        <div class="navbar-icons">
-            <ul class="navbar-nav flex-grow-1">
-                <!--
-                Gérer son profil
-                -->
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
-                        <i class="fa-solid fa-circle-user"></i>
-                    </a>
-                </li>
-                <!--
-                Gérer panier
-                -->
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
-                        Consulter le panier
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
+            <div class="navbar-icons">
+                <ul class="navbar-nav flex-grow-1">
+                    <!--
+                    Gérer son profil
+                    -->
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
+                            <i class="fa-solid fa-circle-user"></i>
+                        </a>
+                    </li>
+                    <!--
+                    Gérer panier
+                    -->
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
+                            Consulter le panier
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         }
-        </div>
-    </nav>
+    </div>
+</nav>

@@ -9,7 +9,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bd365774-666c-483c-b7e2-a3a3b85efb7d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/ListeAuteurs.css" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/wwwroot/css/ListeAuteurs.css" afterDir="false" />
+<<<<<<< Updated upstream
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/Accueil/Index.cshtml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VLISSIDES/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VLISSIDES/Views/GestionLivres/Inventaire.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/VLISSIDES/Views/GestionLivres/Inventaire.cshtml" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,9 +43,12 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.39050537&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
@@ -55,8 +63,31 @@
       &quot;/Users/jlgouaho/.local/share/Symbols/src&quot;
     ]
   }
-}</component>
+<<<<<<< Updated upstream
+}]]></component>
   <component name="RunManager">
+=======
+}</component>
+  <component name="RunManager" selected=".NET Launch Settings Profile.main">
+    <configuration name="Seeder" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Seeder/bin/Debug/net6.0/Seeder" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Seeder/bin/Debug/net6.0" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Seeder/Seeder.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net6.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+>>>>>>> Stashed changes
     <configuration name="main" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/VLISSIDES/VLISSIDES.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
@@ -83,7 +114,12 @@
       <updated>1694693075398</updated>
       <workItem from="1694693076986" duration="362000" />
       <workItem from="1694693956984" duration="16075000" />
-      <workItem from="1695245804808" duration="640000" />
+<<<<<<< Updated upstream
+      <workItem from="1694875218428" duration="9855000" />
+=======
+      <workItem from="1694875218428" duration="17003000" />
+      <workItem from="1695223905572" duration="820000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
@@ -94,4 +130,26 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
+<<<<<<< Updated upstream
+=======
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Seeder/DbContextFactory.cs</url>
+          <line>16</line>
+          <properties documentPath="$PROJECT_DIR$/Seeder/DbContextFactory.cs" initialLine="16" containingFunctionPresentation="Method 'CreateDbContext'">
+            <startOffsets>
+              <option value="464" />
+            </startOffsets>
+            <endOffsets>
+              <option value="539" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+>>>>>>> Stashed changes
 </project>

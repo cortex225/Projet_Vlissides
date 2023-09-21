@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using VLISSIDES.ViewModels.Livres;
 
 namespace VLISSIDES.Controllers;
 
+[Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionLivresController : Controller
 {
     private readonly IConfiguration _config;
@@ -25,7 +27,7 @@ public class GestionLivresController : Controller
     // GET: Livre
     public async Task<IActionResult> Inventaire(int page = 1)
     {
-        int itemsPerPage = 10;
+        var itemsPerPage = 10;
         var totalItems = await _context.Livres.CountAsync();
 
         var livres = await _context.Livres

@@ -19,18 +19,19 @@
     padding: 20px;
     border-radius: 50px;
     align-self: center;
-    width:fit-content;
+    width: fit-content;
 
 }
+
 #Mission {
     color: white;
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 10px;
-    align-content:baseline;
-    text-align:justify;
-    margin-bottom:0%;
-    padding:15px;
-    font-size:24px;
+    align-content: baseline;
+    text-align: justify;
+    margin-bottom: 0%;
+    padding: 15px;
+    font-size: 24px;
 }
 
 .voirPlus {
@@ -41,7 +42,8 @@
 }
 
 .titreSections {
-    margin-top: 24px;
+    margin-top: 2.5%;
+    margin-bottom: 3%;
 }
 
 .livresGrillesListeLivres {
@@ -62,7 +64,8 @@
 
 .cards-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Distribue l'espace également entre les cartes */
+    width: 100%;
 }
 
 .card {
@@ -133,7 +136,7 @@
 /*--Accueil/_CarteEvenement------------------------------------------------------------------------------------------------------------------*/
 .event {
     width: 18rem;
-    height:35rem;
+    height: 35rem;
 }
 
 .event:hover {
@@ -195,4 +198,64 @@
 
 .cardLivre:hover {
     background-color: #DCE4EC;
+}
+
+/*--Accueil/_CarteServices Offerts-----------------------------------------------------------------------------------------------------------------*/
+
+.cardServiceOffert {
+    flex: 1 2 20%; /* Prendre un cinquième de l'espace disponible */
+    max-width: 20%; /* Limiter la largeur maximale */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    overflow: hidden;
+    position: relative;
+    padding: 20px;
+}
+
+.cardServiceOffert:last-child {
+    margin-right: 0;
+}
+
+.cardServiceOffert:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cardServiceOffert i {
+    font-size: 50px;
+    margin-bottom: 20px;
+    color: #5A9;
+!important;
+}
+
+
+.cardServiceOffert h5 {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.cardServiceOffert .btn {
+    margin-top: 20px;
+    border: none;
+    background-color: #5A9;
+!important;
+    color: #fff;
+!important;
+    padding: 10px 20px;
+    border-radius: 20px;
+    transition: background-color 0.2s;
+}
+
+.cardServiceOffert .btn:hover {
+    background-color: #478;
+!important;
+}
+
+@media (max-width: 768px) {
+    .cardServiceOffert {
+        flex: 1 2 100%; /* Prendre toute la largeur disponible */
+        max-width: 100%;
+        margin-bottom: 20px; /* Espacement entre les cartes empilées */
+    }
 }

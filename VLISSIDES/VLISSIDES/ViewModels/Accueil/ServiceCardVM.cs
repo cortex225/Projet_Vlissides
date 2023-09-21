@@ -2,13 +2,14 @@
 
 namespace VLISSIDES.ViewModels.Accueil;
 
-public class _ServiceCardVM
+public class ServiceCardVM
 {
-    public _ServiceCardVM(string image = "", string titre = "", string description = "")
+    public ServiceCardVM(string image = "", string titre = "", string description = "", string icons = "")
     {
         Image = image;
         Titre = titre;
         Description = description;
+        this.icons = icons;
     }
 
     [DisplayName("Image")] public string Image { get; set; }
@@ -21,4 +22,6 @@ public class _ServiceCardVM
         Image = service.image;
         Description = service.description;
     }*/
+
+    public string icons { get; set; }
 }

@@ -1,4 +1,3 @@
-
 // SweetAlert2 pour afficher une notification de succès ou d 'erreur 
 
 // Attache un gestionnaire d'événements de soumission à tous les formulaires sur la page

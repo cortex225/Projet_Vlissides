@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using VLISSIDES.Models;
-
-namespace VLISSIDES.Data;
+﻿namespace VLISSIDES.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {

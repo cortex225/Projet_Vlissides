@@ -1,0 +1,29 @@
+﻿@model VLISSIDES.ViewModels.Accueil.ServiceCardVM;
+@*
+    Vue partielle pour les services offerts
+*@
+<div class="cardServiceOffert card my-5">
+    <i class="@Model.icons"></i>
+    <h5>@Model.Titre</h5>
+    <p class="description" style="display: none;">
+        @Model.Description
+    </p>
+    <button type="button" class="btn btn-secondary" onclick="toggleDescription(this)">Voir plus</button>
+
+</div>
+
+<script>
+function toggleDescription(buttonElement) {
+    var descriptionElement = buttonElement.previousElementSibling;
+
+    if (descriptionElement.style.display === "none" || descriptionElement.style.display === "") {
+        descriptionElement.style.display = "block";
+        buttonElement.innerText = "Voir moins";
+    } else {
+        descriptionElement.style.display = "none";
+        buttonElement.innerText = "Voir plus";
+    }
+}
+
+
+</script>
