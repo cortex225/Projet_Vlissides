@@ -4,7 +4,6 @@
 }
 
 
-
 <link rel="stylesheet" href="~/css/ListeAuteurs.css"/>
 
 
@@ -44,13 +43,12 @@
                     </div>
                 }
             </div>
-            <div id="divListeLivres" class="col-6 border border-dark rounded">
+            <div id="divListeLivres" class="col-6 card rounded-xl">
 
                 <div class="" id="divListeAuteursLivres">
                     @foreach (var item in Model.ListeAuteurs)
                     {
-                        
-                        <div id="Liste_@item.Id" class=" visually-hidden" >
+                        <div id="Liste_@item.Id" class=" visually-hidden">
                             <p>@item.Nom</p>
 
 
@@ -58,16 +56,12 @@
                             {
                                 <div class="listcolumns">
                                     <ul id="ulListeNomLivres">
-                                                                        @foreach (var livre in item.Livres)
-                                                                        {
-                                    
-                                                                            <li>@livre.Titre</li>
-                                    
-                                                                        }
-                                                                    </ul>
+                                        @foreach (var livre in item.Livres)
+                                        {
+                                            <li>@livre.Titre</li>
+                                        }
+                                    </ul>
                                 </div>
-                                
-
                             }
                             else
                             {
@@ -81,9 +75,9 @@
                 </div>
 
             </div>
-            
+
         </div>
-        
+
     </div>
 
 </div>
@@ -107,5 +101,5 @@
 
 
 @section Scripts {
-                                
+
 }
