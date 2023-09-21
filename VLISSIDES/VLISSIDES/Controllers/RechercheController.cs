@@ -167,9 +167,11 @@ namespace VLISSIDES.Controllers
 
         // GET: RechercheController
         [Route("/Recherche/Details")]
-        public ActionResult Details()
+        public ActionResult Details(string id)
         {
-            return View();
+            Livre monLivre = _context.Livres.Find(id);
+
+            return View(monLivre);
         }
     }
 }

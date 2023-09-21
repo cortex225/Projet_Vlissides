@@ -5,7 +5,7 @@
 
 <div class="item livrePetit livre @Model.Categories">
     <div class="card cardLivre" style="width: 12rem; height: 30rem">
-        <a asp-area="" asp-controller="Recherche" asp-action="Details" method="get" class="imgDiv">
+        <a asp-area="" asp-controller="Recherche" asp-action="Details" asp-route-id="@Model.Id" method="get" class="imgDiv">
             <img src="@Model.Couverture"
                  class="card-img-top imgLivre"
                  alt="Couverture du livre" />
