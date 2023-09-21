@@ -116,6 +116,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
 
+        //Une commande peut avoir plusieurs livres
+        builder.Entity<Categorie>()
+            .HasOne(c => c.Parent)
+            .WithMany(c => c.Enfants);
 
         //Création des différent comptes
         //var password = new PasswordHasher<ApplicationUser>();

@@ -18,12 +18,19 @@
                 </div>
                 <input type="text" class="form-control recherche-input" placeholder="Rechercher...">
                 <button type="button" class="btn btn-secondary recherche-btn">
-                    <i class="fa-solid fa-magnifying-glass fa-sm"></i>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Comptes" asp-action="Index">
+                        <i class="fa-solid fa-magnifying-glass fa-sm"></i>
+                    </a>
+
                 </button>
             </div>
         </div>
 
         <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
+
+        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
+            <i class="fa-solid fa-circle-user"></i>
+        </a>
         <partial name="_LoginPartial"/>
     </div>
 </nav>

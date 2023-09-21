@@ -27,12 +27,13 @@ var generator = new RandomGenerator();
 
 
 //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
+context.Livres.RemoveRange(context.Livres);
+context.SaveChanges();
 context.Auteurs.RemoveRange(context.Auteurs);
 context.SaveChanges();
 context.MaisonEditions.RemoveRange(context.MaisonEditions);
 context.SaveChanges();
-context.Livres.RemoveRange(context.Livres);
-context.SaveChanges();
+
 
 //Générer les auteurs
 var auteurs = Builder<Auteur>.CreateListOfSize(99)
@@ -51,7 +52,7 @@ context.MaisonEditions.AddRange(maisonsEditions);
 context.SaveChanges();
 
 //Générer les livres
-var livres = Builder<Livre>.CreateListOfSize(2999)
+var livres = Builder<Livre>.CreateListOfSize(299)
     .All()
     .With(c => c.Titre = Company.Name())
     .With(c => c.Resume = Lorem.Paragraph())

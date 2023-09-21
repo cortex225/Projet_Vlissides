@@ -13,7 +13,13 @@
                 @if (!(User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN)))
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Librairie</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Livres" asp-action="Index">Livres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Evenments" asp-action="Index">Evenements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Promotions" asp-action="Index">Promotions</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Info">À propos de nous</a>
@@ -23,11 +29,33 @@
                 </li>
 
                 }
+                @if (User.IsInRole(RoleName.MEMBRE))
+                {
+                    <li class="nav-link text-dark"> - </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Commandes" asp-action="Index">Mes commandes</a>
+                    </li>
+                }
                 @if (User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN))
                 {
                     <li class="nav-link text-dark"> - </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Tableau de bord</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Livres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionMaisonEditions" asp-action="Index">Maison d'éditions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionCategories" asp-action="Index">Catégories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionCommandes" asp-action="Index">Commandes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionEvenments" asp-action="Index">Evenements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionPromotions" asp-action="Index">Promotions</a>
                     </li>
                 }
                 @if (User.IsInRole(RoleName.ADMIN))
@@ -42,21 +70,21 @@
 
         <!-- Deuxième groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
         @* <div class="navbar-collapse collapse d-sm-inline-flex">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 1</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 2</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 3</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 4</a>
-                    </li>
-                </ul>
-            </div> *@
+        <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 1</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 2</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 3</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 4</a>
+        </li>
+        </ul>
+        </div> *@
         @if (SignInManager.IsSignedIn(User))
         {
             <!-- Icônes de profil et de panier -->
@@ -66,15 +94,13 @@
                     Gérer son profil
                     -->
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
-                            <i class="fa-solid fa-circle-user"></i>
-                        </a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="index">Profile</a>
                     </li>
                     <!--
                     Gérer panier
                     -->
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
                             Consulter le panier
                             <i class="fa-solid fa-cart-shopping"></i>
                         </a>
