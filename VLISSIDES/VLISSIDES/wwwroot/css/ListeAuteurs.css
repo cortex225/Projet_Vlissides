@@ -1,7 +1,7 @@
 ﻿#divListeLivres {
     position: sticky;
     width: 40vw;
-    height: 50vh;
+    height: 400px;
     margin-left: auto;
     margin-right: auto;
     right: 0;
@@ -12,7 +12,7 @@
 
 #ulListeNomLivres {
    width: 38vw !important;
-    height: 42vh;
+    height: 350px;
     overflow: scroll;
     column-count: 2;
 }
