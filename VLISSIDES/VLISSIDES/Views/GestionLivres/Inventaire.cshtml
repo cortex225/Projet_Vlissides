@@ -124,13 +124,16 @@
                                 <div class="col-2 text-center">
                                     Titre
                                 </div>
-                                <div class="col-2 text-center">
-                                    Auteur
+                                <div class="col-1 text-center">
+                                    ISBN
                                 </div>
                                 <div class="col-2 text-center">
-                                    Maison d'édition
+                                    Catégorie
                                 </div>
                                 <div class="col-2 text-center">
+                                    Prix par type
+                                </div>
+                                <div class="col-1 text-center">
                                     Quantité
                                 </div>
                             </div>
@@ -148,13 +151,19 @@
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Titre)
                                     </div>
+                                    <div class="col-1 text-center">
+                                        @Html.DisplayFor(modelItem => item.ISBN)
+                                    </div>
                                     <div class="col-2 text-center">
+                                        @Html.DisplayFor(modelItem => item.Categorie)
+                                    </div>
+                                    @* <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Auteur)
-                                    </div>
+                                    </div> *@
                                     <div class="col-2 text-center">
-                                        @Html.DisplayFor(modelItem => item.Editeur)
+                                        Type prix
                                     </div>
-                                    <div class="col-2 text-center">
+                                    <div class="col-1 text-center">
                                         <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
                                     </div>
                                     <div class="col-3 text-center d-flex flex-row justify-content-around h-40">

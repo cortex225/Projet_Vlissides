@@ -134,13 +134,8 @@ public class GestionLivresController : Controller
                 Id = l.Id,
                 Image = l.Couverture,
                 Titre = l.Titre,
-                //ListAuteur = _context.Auteurs.Select(a => new SelectList{
-                //    if (!((List<Auteur>)l.Auteur).Any())
-                //        {
-                //            ((List<Auteur>)l.Auteur).ForEach(auteur => Auteurs += auteur.NomComplet + ", ");
-                //            Auteurs.Remove(Auteurs.Length - 2, 2);
-                //        }
-                //}).ToListAsync(),
+                ISBN = l.ISBN,
+                Categorie = l.Categories.FirstOrDefault().Nom,
                 Quantite = l.NbExemplaires
             }).ToList();
 
