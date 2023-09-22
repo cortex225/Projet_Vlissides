@@ -12,7 +12,9 @@
         </div>
     </div>
 </div>
+
 <div class="d-block p-4 p-4">
+    <button class="btn btn-primary" onclick="ShowModal('@Url.Action("Ajouter","GestionCategories")')">Ajouter une catégorie</button>
     <div class="mb-4">
         <h1>Gestion des catégories</h1>
     </div>
@@ -27,15 +29,21 @@
                     <!--onclick pour afficher livres ici-->
                     <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@item.Id')">
                         <div class="card-body row align-items-center p-0">
-                            <div class="col-9 text-center">
+                            <div class="col-8 text-center">
                                 <!--Début : Modifier nom d'une maison d'édition-->
                                 <input id="@item.Id @item.Nom" type="text" asp-for="@item.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Nom)"
                                        onclick="enableButton('@item.Id')">
                             </div>
-                            <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+                            <div class="col-4 text-center d-flex flex-row justify-content-around h-40">
                                 <button id="saveButton_@item.Id" type="button" class="btn btn-success"
-                                        onclick="ShowModal('@Url.Action("Modifier","GestionCategories", new{id=item.Id})')">
+                                        onclick="ModifierNomCategorie('@item.Id', '@item.Nom')
+                                        disableButton('@item.Id')"
+                                        disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Nom">
                                     Sauvegarder
+                                </button>
+                                <button type="button" class="btn btn-primary"
+                                        onclick="ShowModal('@Url.Action("Modifier","GestionCategories", new{id=item.Id})')">
+                                    Modifier
                                 </button>
                                 <!--Fin : Modifier nom d'une maison d'édition-->
                                 <!--Bouton supprimer ici-->
@@ -138,9 +146,9 @@
 </script>
 <!--Script pour Modifier-->
 <script type="text/javascript">
-    function ModifierMaison(id = "", nom = "") {
+    function ModifierNomCategorie(id = "", nom = "") {
         console.log("Allo");
-        fetch('MaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch('MaisonEditions/ModifierNomCategorie?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

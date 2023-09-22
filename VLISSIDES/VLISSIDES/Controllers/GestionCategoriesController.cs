@@ -36,7 +36,7 @@ namespace VLISSIDES.Controllers
                 Text = c.Nom,
                 Value = c.Id
             }).ToList();
-            return View(vm);
+            return PartialView("PartialViews/Modals/Categories/_AjouterCategoriesPartial", vm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -132,6 +132,17 @@ namespace VLISSIDES.Controllers
 
             }
             return View(vm);
+        }
+        [HttpPost]
+        public ActionResult ModifierNomCategorie(string id, string nom)
+        {
+            if (ModelState.IsValid)
+            {
+                var categorie = _context.Categories.FirstOrDefault(c => c.Id == id);
+                categorie.Nom = nom;
+                _context.SaveChanges();
+            }
+            return View();
         }
         public async Task<IActionResult> ShowDeleteConfirmation(string id)
         {
