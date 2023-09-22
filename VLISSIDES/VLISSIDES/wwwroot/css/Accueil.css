@@ -21,12 +21,12 @@
 }
 .acheter {
     background-color: rgba(214, 41, 41, 0);
-    border: 2px solid #D62929;
-    color: #D62929!important;
+    border: 2px solid #e94a47;
+    color: #e94a47!important;
     align-self: center;
 }
 .acheter:hover {
-    background-color: #D62929;
+    background-color: #e94a47;
     color: #ffff!important;
 }
 
