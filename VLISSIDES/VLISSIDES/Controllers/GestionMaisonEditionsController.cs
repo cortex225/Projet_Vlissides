@@ -6,13 +6,13 @@ using VLISSIDES.ViewModels.MaisonEditions;
 
 namespace VLISSIDES.Controllers;
 
-public class MaisonEditionsController : Controller
+public class GestionMaisonEditionsController : Controller
 {
     private readonly IConfiguration _config;
     private readonly ApplicationDbContext _context;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public MaisonEditionsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
+    public GestionMaisonEditionsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
         IConfiguration config)
     {
         _context = context;
