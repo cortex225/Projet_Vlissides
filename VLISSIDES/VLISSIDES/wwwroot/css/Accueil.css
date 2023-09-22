@@ -73,7 +73,7 @@
     border-radius: 0;
 }
 
-.card img {
+.cardLivre img {
     max-width: 168px;
     min-width: 168px;
     max-height: 168px;
@@ -134,7 +134,9 @@
 /*--Accueil/_CarteEvenement------------------------------------------------------------------------------------------------------------------*/
 .event {
     width: 18rem;
-    height: 35rem;
+    height: 30rem;
+    padding: 0px;
+
 }
 
 .event:hover {

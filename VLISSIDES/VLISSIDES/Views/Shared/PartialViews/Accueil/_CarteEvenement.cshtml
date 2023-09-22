@@ -2,16 +2,19 @@
 
 <div class="item">
     <div class="card event">
-        <img src="@Model.Image"
-             class="card-fluid"
-             id="cardEvent"
-             alt="Image de l'évènment"/>
+        <div class="imgEvent bg-image hover-overlay ripple card-img-top" data-mdb-ripple-color="light" >
+            <img src="@Model.Image" class="img-fluid" id="cardEvent" 
+                 alt="Image de l'évènment" />
+            <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+            </a>
+        </div>
         <div class="card-body">
             <h5 class="card-title">@Model.Nom</h5>
             <p class="card-text">
                 @Model.Description
             </p>
-            <a href="#" class="btn btn-primary">Voir plus</a>
+            <a href="#" class="btn btn-primary eventBTN" style="position: absolute;bottom: 0;left: 0;right: 0;margin: 40px;">Voir plus</a>
         </div>
     </div>
 </div>
