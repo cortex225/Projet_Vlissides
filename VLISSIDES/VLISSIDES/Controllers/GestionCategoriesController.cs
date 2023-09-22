@@ -23,7 +23,7 @@ namespace VLISSIDES.Controllers
         public ActionResult Index()
         {
             var vm = new CategoriesIndexVM();
-            var liste = _context.Categories.Include(c => c.Livres)
+            var liste = _context.Categories.Include(c => c.Livres).Include(c => c.Enfants)
                 .OrderBy(c => c.Nom).ToList();
             vm.ListeCategories = liste;
             return View(vm);
@@ -51,7 +51,7 @@ namespace VLISSIDES.Controllers
                     Description = vm.Description,
 
                 };
-                if (vm.ParentId != null)
+                if (vm.ASousCategorie)
                 {
                     var cParent = _context.Categories.FirstOrDefault(c => c.Id == vm.ParentId);
                     if (cParent != null)
@@ -66,7 +66,7 @@ namespace VLISSIDES.Controllers
         }
         public IActionResult Modifier(string id)
         {
-            var categorie = _context.Categories.FirstOrDefault(c => c.Id == id);
+            var categorie = _context.Categories.Include(c => c.Parent).FirstOrDefault(c => c.Id == id);
             var vm = new CategoriesModifierVM()
             {
                 Id = categorie.Id,
@@ -74,15 +74,24 @@ namespace VLISSIDES.Controllers
                 Description = categorie.Description,
                 CategoriesParents = _context.Categories.Select(c => new SelectListItem
                 {
+                    Selected = c.Parent.Equals(categorie.Parent),
                     Text = c.Nom,
                     Value = c.Id
-                }).ToList()
+                }).ToList(),
+                ParentId = null,
+                ASousCategorie = false
             };
             if (categorie.Parent != null)
             {
                 vm.ParentId = categorie.Parent.Id;
+                vm.ASousCategorie = true;
             }
-            return PartialView("", vm);
+            else
+            {
+                vm.ParentId = null;
+                vm.ASousCategorie = false;
+            }
+            return PartialView("PartialViews/Modals/Categories/_ModifierCategoriesPartial", vm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -98,13 +107,24 @@ namespace VLISSIDES.Controllers
                     categorie.Nom = vm.Nom;
                     categorie.Description = vm.Description;
                     //Parent de la sous-catégorie
-                    if (categorie.Parent != null)
+                    if (vm.ASousCategorie)
                     {
-                        if (vm.ParentId != null &&
-                            vm.ParentId != categorie.Parent.Id)
+                        if (categorie.Parent != null)
+                        {
+                            if (vm.ParentId != categorie.Parent.Id)
+                            {
+                                categorie.Parent = _context.Categories.FirstOrDefault(c => c.Id == vm.ParentId);
+                            }
+                        }
+                        else
                         {
                             categorie.Parent = _context.Categories.FirstOrDefault(c => c.Id == vm.ParentId);
                         }
+
+                    }
+                    else
+                    {
+                        categorie.Parent = null;
                     }
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index");

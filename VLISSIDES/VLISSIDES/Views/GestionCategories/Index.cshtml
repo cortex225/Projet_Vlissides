@@ -17,7 +17,7 @@
         <h1>Gestion des catégories</h1>
     </div>
     <div class="mb-4">
-        <h3>Liste des maisons d'éditions</h3>
+        <h3>Liste des catégories</h3>
         <div class="row">
             <div class="list-group col-6" id="list-tab" role="tablist">
 
@@ -34,9 +34,7 @@
                             </div>
                             <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                                 <button id="saveButton_@item.Id" type="button" class="btn btn-success"
-                                        onclick="ModifierMaison('@item.Id', '@item.Nom')
-                                        disableButton('@item.Id')"
-                                        disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Nom">
+                                        onclick="ShowModal('@Url.Action("Modifier","GestionCategories", new{id=item.Id})')">
                                     Sauvegarder
                                 </button>
                                 <!--Fin : Modifier nom d'une maison d'édition-->
@@ -52,15 +50,15 @@
             </div>
 
             <div id="divListeLivres" class="col-6 card rounded-xl">
-                <h3 class="text-center my-3">Livres de la maison d'édition</h3>
+                <h3 class="text-center my-3">Informations de la catégorie</h3>
 
                 <div class="" id="divListeMaisonEditionLivres">
                     @foreach (var item in Model.ListeCategories)
                     {
                         <div id="Liste_@item.Id" class=" visually-hidden">
-                            <h5 class="my-2">@item.Nom</h5>
-
-
+                            <h4 class="my-2">Nom : @item.Nom</h4>
+                            <p><span class="fw-bold">Description :</span> @item.Description</p>
+                            <h4>Les livres de la catégorie</h4>
                             @if (item.Livres.Count != 0)
                             {
                                 <div class="listcolumns">
@@ -76,9 +74,24 @@
                             {
                                 <p>pas de livres</p>
                             }
-
+                            <h4>Sous-catégories</h4>
+                            @if (item.Enfants.Count != 0)
+                            {
+                                <ul>
+                                @foreach (var enfant in item.Enfants)
+                                {
+                                        <li>@enfant.Nom</li>
+                                    
+                                }
+                                </ul>
+                            }
+                            else
+                            {
+                                <h6>Pas de sous-catégorie</h6>
+                            }
 
                         </div>
+                        
                     }
 
                 </div>
