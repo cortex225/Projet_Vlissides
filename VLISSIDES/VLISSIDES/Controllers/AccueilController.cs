@@ -97,7 +97,7 @@ public class AccueilController : Controller
             new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
                 DateTime.MaxValue),
             new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
-                DateTime.MaxValue)
+                DateTime.MaxValue) 
         };
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories,
             promotionCards));
