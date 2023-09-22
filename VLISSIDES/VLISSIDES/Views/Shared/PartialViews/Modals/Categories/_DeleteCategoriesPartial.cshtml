@@ -7,9 +7,9 @@
     <h5 class="modal-title">Confirmation de suppression</h5>
 </div>
 <div class="modal-body">
-    Êtes-vous sûr de vouloir supprimer le livre @Model.Nom ?
+    Êtes-vous sûr de vouloir supprimer la catégorie : @Model.Nom ?
 </div>
 <div class="modal-footer">
-    <a class="btn btn-secondary" href="~/MaisonEditions/Index">Annuler</a>
-    <button type="button" class="btn btn-danger" id="confirmDelete" onclick="SupprimerMaisonEdition('@Model.Id')">Supprimer</button>
+    <a class="btn btn-secondary" href="~/GestionCategories/Index">Annuler</a>
+    <button type="button" class="btn btn-danger" id="confirmDelete" onclick="SupprimerCategorie('@Model.Id')">Supprimer</button>
 </div>

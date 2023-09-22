@@ -151,7 +151,7 @@
 <!--Script pour la supprimation-->
 <script type="text/javascript">
     function SupprimerCategorie(id = "") {
-        fetch(`SupprimerMaison?id=${id}`, {
+        fetch('GestionCategories/SupprimerCategorie?id='+id, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -161,6 +161,7 @@
             console.error('Échec du fetch pour supprimer la categorie', error);
         }).then(() => {
             document.getElementById(`${id}`).remove();
+            document.getElementById('Liste_' + id).remove();
             $('#ModalId').modal('hide'); // Ferme la modale
         });
     }

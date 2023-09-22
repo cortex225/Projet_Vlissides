@@ -120,22 +120,27 @@ namespace VLISSIDES.Controllers
             var categorie = await _context.Categories.FindAsync(id);
             if (categorie == null) return NotFound();
 
-            return PartialView("PartialViews/Modals/InventaireLivres/_DeleteInventairePartial", categorie);
+            return PartialView("PartialViews/Modals/Categories/_DeleteCategoriesPartial", categorie);
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> SupprimerCategorie(string id)
         {
             if (_context.Categories == null) return Problem("Entity set 'ApplicationDbContext.Categories' is null.");
             var categorie = await _context.Categories.FindAsync(id);
             if (categorie != null)
             {
-                _context.Livres.Where(l => l.CategorieId == id)
-                    .ToList().ForEach(l => l.CategorieId = null);
                 _context.Categories.Remove(categorie);
-            }
+                await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            }
+            //var categorie = _context.Categories.FirstOrDefault(c => c.Id == id);
+            //if (categorie == null) { return NotFound(); }
+
+            //_context.Livres.Where(l => l.CategorieId == categorie.Id)
+            //    .ToList().ForEach(l => l.CategorieId = null);
+            //_context.Categories.Remove(categorie);
+            //_context.SaveChanges();
+            return Ok();
         }
     }
 }
