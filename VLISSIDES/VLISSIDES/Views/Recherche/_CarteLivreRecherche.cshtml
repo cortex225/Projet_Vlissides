@@ -4,7 +4,7 @@
 @model Livre;
 
 <div class="item livrePetit livre @Model.Categories">
-    <div class="card cardLivre" style="width: 12rem; height: 30rem">
+    <div class="card cardLivreSearch" style="width: 12rem; height: 26rem">
         <a asp-area="" asp-controller="Recherche" asp-action="Details" asp-route-id="@Model.Id" method="get" 
             class="imgDiv bg-image hover-overlay ripple card-img-top" data-mdb-ripple-color="light">
             <img src="@Model.Couverture"
