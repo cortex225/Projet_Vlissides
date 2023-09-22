@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.MaisonEditions;
@@ -20,12 +21,21 @@ public class GestionMaisonEditionsController : Controller
         _config = config;
     }
 
-    public ActionResult Index()
+    public ActionResult Index(string? motCle)
     {
         var vm = new MaisonEditionsIndexVM();
         vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
         var liste = _context.MaisonEditions.Include(me => me.Livres)
             .OrderBy(me => me.Nom).ToList();
+
+        if (motCle != null && motCle != "")
+        {
+            liste = liste
+                .Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .ToList();
+        }
+
+
         vm.ListeMaisonEditions = liste;
         return View(vm);
     }

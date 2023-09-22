@@ -30,7 +30,7 @@
             <div class="input-group">
                 <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" placeholder="Nom"/>
                 <span asp-validation-for="MaisonEditionsAjouterVM.Nom" class="text-danger"></span>
-                <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter le livre">
+                <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter la maison d'édition">
                     Ajouter
                 </button>
             </div>
@@ -40,6 +40,29 @@
     </div>
     <br/>
     <!--Fin : Ajouter maison edition-->
+    <!--Début : Rechercher maison edition-->
+    <div class="container-fluid">
+
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#rechercherMaisonEdition">
+            Rechercher une maison d'édition
+        </button>
+
+        <form class="collapse" id="rechercherMaisonEdition" enctype="multipart/form-data">
+            <br />
+            @* @Html.AntiForgeryToken() *@
+            @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
+            <div class="input-group">
+                <input class="form-control" id="inputRechercherMaison" placeholder="Rechercher..." />
+                <button class="btn btn-primary p-2" type="button" onclick="RechercherMaisonEdition()" data-toggle="tooltip" title="Rechercher la maison d'édition">
+                    Rechercher
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+    <br />
+    <!--Fin : Rechercher maison edition-->
     <div class="mb-4">
         <h3>Liste des maisons d'éditions</h3>
         <div class="row">
@@ -118,7 +141,7 @@
         var data = new FormData(form);
         
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch('MaisonEditions/Ajouter', {
+        fetch('GestionMaisonEditions/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -152,7 +175,7 @@
 <script type="text/javascript">
     function ModifierMaison(id = "",nom = "")
     {
-        fetch('MaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch('GestionMaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -173,10 +196,10 @@
 
     }
 </script>
-<!--Script pour la supprimation-->
+<!--Script pour la suppression-->
 <script type="text/javascript">
     function SupprimerMaisonEdition(id = "") {
-        fetch(`MaisonEditions/SupprimerMaison?id=${id}`, {
+        fetch(`GestionMaisonEditions/SupprimerMaison?id=${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -194,6 +217,19 @@
     // ModalScript
     function ShowModal($url) {
         $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+</script>
+
+<!--Script pour la recherche-->
+<script type="text/javascript">
+    // ModalScript
+    function RechercherMaisonEdition() {
+        console.log("Recherche commencée");
+        var motCle = document.getElementById("inputRechercherMaison").value;
+        $.get(`/GestionMaisonEditions/Index?motCle=${motCle}`, function (result) {
             $('.modal-content').html(result);
             $('.modal').modal('show');
         });
