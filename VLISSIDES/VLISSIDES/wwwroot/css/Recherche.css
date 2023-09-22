@@ -34,15 +34,15 @@
     margin-top: 20px;
 }
 /*La carte au complet, mais un div plus bas*/
-.cardLivre {
+.cardLivreSearch {
     width: 12rem;
-    height: 27rem;
+    height: 20rem;
 }
 
-    .cardLivre:hover {
+    .cardLivreSearch:hover {
         background-color: #DCE4EC;
     }
 
-    .cardLivre:hover > .imgDiv {
+    .cardLivreSearch:hover > .imgDiv {
         background-color: #B1BECB;
     }

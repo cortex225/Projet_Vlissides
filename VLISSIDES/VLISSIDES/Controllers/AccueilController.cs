@@ -45,12 +45,12 @@ public class AccueilController : Controller
                 "Soirée poésie",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
-                "https://images.pexels.com/photos/8617842/pexels-photo-8617842.jpeg?auto=compress&cs=tinysrgb"),
+                "img/jean-luc.png"),
             new EventCardVM(
                 "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
-                "https://images.pexels.com/photos/331723/pexels-photo-331723.jpeg?auto=compress&cs=tinysrgb"),
+                "img/jean-luc.png"),
             new EventCardVM("img/logo/Logo.png"),
             new EventCardVM(
                 "https://images.pexels.com/photos/2608517/pexels-photo-2608517.jpeg?auto=compress&cs=tinysrgb",
