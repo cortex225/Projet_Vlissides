@@ -4,7 +4,9 @@
 @{
     ViewData["Title"] = "Inventaire";
 }
-<link rel="stylesheet" href="css/Inventaire.css">
+<link rel="stylesheet" href="~/css/Inventaire.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true">
+
 
 @*********************@
 @* Modals *@
@@ -18,9 +20,14 @@
         </div>
     </div>
 </div>
-<div class="d-block p-4 p-4">
 
-    <div class="mb-4">
+<!-- Barre latérale coulissante -->
+<partial name="PartialViews/Dashboard/_SideBarPartial"/>
+
+
+<div class="d-block p-4 p-4 col">
+
+    <div class="text-center mb-4">
         <h1>Inventaire des livres</h1>
     </div>
 
@@ -90,7 +97,7 @@
                             <label for="specificationPrixMax">Prix maximum:</label>
                             <input type="text" class="form-control" id="specificationPrixMaxGL" placeholder="">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="specificationTypeLivre">Type de livre:</label>
                             <select class="form-control" id="specificationTypeLivreGL" name="typeLivre">
@@ -145,12 +152,12 @@
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="imgDiv col-1 text-center">
                                         <img src="@item.Image" alt="..." class="imagesLivre" height="50px">
-                                         
+
                                     </div>
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Titre)
                                     </div>
-                                    
+
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Auteur)
                                     </div>
@@ -158,7 +165,7 @@
                                         @Html.DisplayFor(modelItem => item.Editeur)
                                     </div>
                                     <div class="col-2 text-center">
-                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control " placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')"  >
+                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control " placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
                                     </div>
                                     <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                                         @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
