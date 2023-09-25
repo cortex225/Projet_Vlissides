@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace VLISSIDES.Models;
 
 public class TypeLivre
@@ -8,5 +6,5 @@ public class TypeLivre
 
     [DisplayName("Nom")] public string Nom { get; set; } = default!;
 
-    [DisplayName("Livres associés")] public ICollection<Livre> Livres { get; set; } = default!;
+    [DisplayName("Type(s) de livre")] public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; } = default!;
 }

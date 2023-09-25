@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using VLISSIDES.Models;
-
-namespace VLISSIDES.Data;
+﻿namespace VLISSIDES.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
@@ -42,6 +37,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<MaisonEdition> MaisonEditions { get; set; }
 
     public DbSet<Promotions> Promotions { get; set; }
+
+    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -116,10 +113,21 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
 
-        //Une commande peut avoir plusieurs livres
-        builder.Entity<Categorie>()
-            .HasOne(c => c.Parent)
-            .WithMany(c => c.Enfants);
+        // Configuration de la relation entre Livre et TypeLivre
+        builder.Entity<LivreTypeLivre>()
+            .HasKey(ltl => new { ltl.LivreId, ltl.TypeLivreId });
+
+        //Un livre peut être dans plusieurs types de livres
+        builder.Entity<LivreTypeLivre>()
+            .HasOne(ltl => ltl.Livre)
+            .WithMany(l => l.LivreTypeLivres)
+            .HasForeignKey(ltl => ltl.LivreId);
+
+        //Un type de livre peut avoir plusieurs livres
+        builder.Entity<LivreTypeLivre>()
+            .HasOne(ltl => ltl.TypeLivre)
+            .WithMany(l => l.LivreTypeLivres)
+            .HasForeignKey(ltl => ltl.TypeLivreId);
 
         //Création des différent comptes
         //var password = new PasswordHasher<ApplicationUser>();

@@ -42,8 +42,7 @@ public class Livre
 
     [DisplayName("Identifiant du type de livre")]
     public string? TypeLivreId { get; set; } = default!;
-
-    [DisplayName("Type(s) de livre")] public ICollection<TypeLivre> TypesLivre { get; set; } = default!;
+    [DisplayName("Type(s) de livre")] public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; } = default!;
 
     [DisplayName("Identifiant de l'évaluation")]
     public string? EvaluationId { get; set; } = default!;
