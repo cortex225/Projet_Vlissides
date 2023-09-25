@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Inventaire";
 }
-<link rel="stylesheet" href="css/Inventaire.css">
 
 @*********************@
 @* Modals *@
@@ -200,6 +199,13 @@
     </div>
 
 </div>
+
+<style> 
+    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
 
 <script type="text/javascript" onload="hideAllButtons">
     //Hide save button
