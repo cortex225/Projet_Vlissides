@@ -148,7 +148,7 @@
 <script type="text/javascript">
     function ModifierNomCategorie(id = "", nom = "") {
         console.log("Allo");
-        fetch('MaisonEditions/ModifierNomCategorie?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch('GestionCategories/ModifierNomCategorie?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
