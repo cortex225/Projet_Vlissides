@@ -154,14 +154,21 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Categories/_DeleteCategoriesPartial", categorie);
         }
         [HttpPost]
-        public async Task<IActionResult> SupprimerCategorie(string id)
+        public ActionResult SupprimerCategorie(string id)
         {
             if (_context.Categories == null) return Problem("Entity set 'ApplicationDbContext.Categories' is null.");
-            var categorie = await _context.Categories.FindAsync(id);
+            var categorie = _context.Categories.Include(c => c.Livres).Include(c => c.Enfants).FirstOrDefault(c => c.Id == id);
             if (categorie != null)
             {
+                //_context.Livres.Where(l => l.CategorieId == categorie.Id).ToList().ForEach(l => l.CategorieId = null);
+                //if (categorie.Enfants != null)
+                //    _context.Categories.Find(id).Enfants.ToList().ForEach(e => e.Parent = null);
+                //categorie.Enfants = null;
+                var enfants = _context.Categories.Where(c => c.Enfants.Contains(categorie)).ToList();
+                enfants.ForEach(e => e.Enfants.Remove(categorie));
                 _context.Categories.Remove(categorie);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
+
 
             }
             //var categorie = _context.Categories.FirstOrDefault(c => c.Id == id);

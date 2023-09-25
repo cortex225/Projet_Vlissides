@@ -108,30 +108,8 @@
         </div>
     </div>
 </div>
-<!--Script pour Ajouter-->
-<script type="text/javascript">
-    function AjouterMaisonEdition() {
-        var form = document.getElementById("champAjouter");
-        var data = new FormData(form);
 
-        //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch('MaisonEditions/Ajouter', {
-            method: "POST",
-            body: data
-            // headers: {
-            //    RequestVerificationToken: csrfToken,
-            // },
-        }).catch(error => {
-            console.error('Échec du fetch pour ajouter maison edition', error);
-        }).then((response) => {
-
-        });
-        form.reset();
-
-        alert("La maison d'édition a été ajouté, veuillez rafraichir la page");
-    }
-</script>
-<!--Script pour la liste de livres d'une maison d'édition-->
+<!--Script pour la liste de livres d'une categorie-->
 <script type="text/javascript">
     function hideall() {
         divListes = document.getElementById("divListeMaisonEditionLivres").childNodes;
@@ -144,7 +122,7 @@
         liste.className = "";
     }
 </script>
-<!--Script pour Modifier-->
+<!--Script pour Modifier nom-->
 <script type="text/javascript">
     function ModifierNomCategorie(id = "", nom = "") {
         console.log("Allo");
@@ -169,7 +147,7 @@
 
     }
 </script>
-<!--Script pour la supprimation-->
+<!--Script pour la supprimation et le modal-->
 <script type="text/javascript">
     function SupprimerCategorie(id = "") {
         fetch('GestionCategories/SupprimerCategorie?id='+id, {
