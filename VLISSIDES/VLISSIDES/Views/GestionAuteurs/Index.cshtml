@@ -130,60 +130,70 @@
     function AfficherAuteursLivres(id = "") {
         hideall();
 
-        var liste = document.getElementById("Liste_" + id);
-        liste.className = "";
-    }
-</script>
+            var liste = document.getElementById("Liste_" + id);
+            liste.className = "";
+        }
+    </script>
 
 
-<!--Script pour Modifier-->
-<script type="text/javascript">
-    function ModifierAuteur(id = "", nom = "") {
-        fetch('GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).catch(error => console.error('Échec du fetch pour modifier le nom'))
-            .then((response) => disableButton(id));
-    }
+    <!--Script pour Modifier-->
+    <script type="text/javascript">
+        function ModifierAuteur(id = "", nom = "") {
+            fetch('GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).catch(error => console.error('Échec du fetch pour modifier le nom'))
+                .then((response) => disableButton(id));
+        }
 
-    function enableButton(itemId) {
-        button = document.getElementById("saveButton_" + itemId);
-        button.disabled = false;
-    }
+        function enableButton(itemId) {
+            button = document.getElementById("saveButton_" + itemId);
+            button.disabled = false;
+        }
 
-    function disableButton(itemId) {
-        button = document.getElementById("saveButton_" + itemId);
-        button.disabled = true;
+        function disableButton(itemId) {
+            button = document.getElementById("saveButton_" + itemId);
+            button.disabled = true;
 
-    }
-</script>
+        }
+    </script>
 
-<!--Script pour la supprimation-->
-<script type="text/javascript">
-        function SupprimerAuteur(id = "") {
-            fetch(`GestionAuteurs/SupprimerAuteur?id=${id}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).catch(error => {
-            console.error('Échec du fetch pour supprimer la maison', error);
-        }).then(() => {
-            document.getElementById(`${id}`).remove();
-            $('#ModalId').modal('hide'); // Ferme la modale
-        });
-    }
+    <!--Script pour la supprimation-->
+    <script type="text/javascript">
+            function SupprimerAuteur(id = "") {
+                fetch(`GestionAuteurs/SupprimerAuteur?id=${id}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).catch(error => {
+                console.error('Échec du fetch pour supprimer la maison', error);
+            }).then(() => {
+                document.getElementById(`${id}`).remove();
+                $('#ModalId').modal('hide'); // Ferme la modale
+            });
+        }
 
 
-    // ModalScript
-    function ShowModal($url) {
-        $.get($url, function (result) {
-            $('.modal-content').html(result);
-            $('.modal').modal('show');
-        });
-    }
-</script>
+        // ModalScript
+        function ShowModal($url) {
+            $.get($url, function (result) {
+                $('.modal-content').html(result);
+                $('.modal').modal('show');
+            });
+        }
+    </script>
+    <!--Script pour la recherche-->
+    <script type="text/javascript">
+        // ModalScript
+        function RechercherAuteur() {
+            console.log("Recherche commencée");
+            var motCle = document.getElementById("inputRechercherAuteur").value;
+            console.log("Mot entré: " + motCle);
+            window.location.href = `/GestionAuteurs/Index?motCle=${motCle}`;
+        }
+    </script>

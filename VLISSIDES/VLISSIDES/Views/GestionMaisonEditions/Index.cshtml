@@ -49,8 +49,6 @@
 
         <form class="collapse" id="rechercherMaisonEdition" enctype="multipart/form-data">
             <br />
-            @* @Html.AntiForgeryToken() *@
-            @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
             <div class="input-group">
                 <input class="form-control" id="inputRechercherMaison" placeholder="Rechercher..." />
                 <button class="btn btn-primary p-2" type="button" onclick="RechercherMaisonEdition()" data-toggle="tooltip" title="Rechercher la maison d'édition">
@@ -233,3 +231,4 @@
         window.location.href = `/GestionMaisonEditions/Index?motCle=${motCle}`;
     }
 </script>
+

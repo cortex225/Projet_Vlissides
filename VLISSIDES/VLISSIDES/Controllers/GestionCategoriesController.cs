@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Categories;
@@ -20,11 +21,20 @@ namespace VLISSIDES.Controllers
             _webHostEnvironment = webHostEnvironment;
             _config = config;
         }
-        public ActionResult Index()
+        public ActionResult Index(string? motCle)
         {
             var vm = new CategoriesIndexVM();
             var liste = _context.Categories.Include(c => c.Livres).Include(c => c.Enfants)
                 .OrderBy(c => c.Nom).ToList();
+
+            if (motCle != null && motCle != "")
+            {
+                liste = liste
+                    .Where(categorie => Regex.IsMatch(categorie.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .ToList();
+            }
+
+
             vm.ListeCategories = liste;
             return View(vm);
         }
