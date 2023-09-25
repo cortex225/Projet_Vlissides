@@ -1,10 +1,16 @@
+allSaveButtons = document.getElementByClassName("saveButton");
+
 function enableButton(itemId) {
     button = document.getElementById("saveButton " + itemId);
-    button.disabled = false;
+    button.style.visibility = 'visible';
 }
 
 function disableButton(itemId) {
     button = document.getElementById("saveButton " + itemId);
-    button.disabled = true;
+    button.style.visibility = 'hidden';
 
+}
+
+function hideAllButtons() {
+    allSaveButtons.style.visibility = 'hidden';
 }
