@@ -229,9 +229,7 @@
     function RechercherMaisonEdition() {
         console.log("Recherche commencée");
         var motCle = document.getElementById("inputRechercherMaison").value;
-        $.get(`/GestionMaisonEditions/Index?motCle=${motCle}`, function (result) {
-            $('.modal-content').html(result);
-            $('.modal').modal('show');
-        });
+        console.log("Mot entré: " + motCle);
+        window.location.href = `/GestionMaisonEditions/Index?motCle=${motCle}`;
     }
 </script>
