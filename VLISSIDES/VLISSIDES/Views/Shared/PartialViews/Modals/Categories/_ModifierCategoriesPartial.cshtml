@@ -52,7 +52,7 @@
                 
                 <div class="modal-footer">
                     <input type="submit" value="Modifier les changements" class="btn btn-primary" />
-                    <a class="btn btn-danger " href="~/GestionCategories/Index">Annuler</a>
+                    <input type="button" class="btn btn-danger " onclick="Annuler()"  value="Annuler"></input>
                 </div>
             </form>
         </div>
@@ -68,5 +68,8 @@
         } else {
             div.className = "visually-hidden";
         }
+    }
+    function Annuler() {
+        $('#ModalId').modal('hide');
     }
 </script>

@@ -10,6 +10,12 @@
     Êtes-vous sûr de vouloir supprimer la catégorie : @Model.Nom ?
 </div>
 <div class="modal-footer">
-    <a class="btn btn-secondary" href="~/GestionCategories/Index">Annuler</a>
+    <input class="btn btn-secondary" onclick="Annuler()" value="Annuler"></input>
     <button type="button" class="btn btn-danger" id="confirmDelete" onclick="SupprimerCategorie('@Model.Id')">Supprimer</button>
 </div>
+<script type="text/javascript">
+    function Annuler() {
+        $('#ModalId').modal('hide');
+    }
+    
+</script>
