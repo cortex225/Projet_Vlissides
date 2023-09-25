@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionAuteurs;
@@ -20,10 +21,18 @@ namespace VLISSIDES.Controllers
             _config = config;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? motCle)
         {
             var vm = new AuteursIndexVM();
             List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).ToList();
+
+            if (motCle != null && motCle != "")
+            {
+                liste = liste
+                    .Where(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .ToList();
+            }
+
             vm.ListeAuteurs = liste;
             return View(vm);
         }
