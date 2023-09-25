@@ -136,6 +136,7 @@ public class GestionLivresController : Controller
                 Titre = l.Titre,
                 ISBN = l.ISBN,
                 Categorie = l.Categories.FirstOrDefault().Nom,
+                TypeLivre = _context.TypeLivres.Include(t => t.Livres).ToList(),
                 Quantite = l.NbExemplaires
             }).ToList();
 
