@@ -200,7 +200,7 @@ public class GestionLivresController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return View(vm);
+        return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
     }
 
     [HttpPost]

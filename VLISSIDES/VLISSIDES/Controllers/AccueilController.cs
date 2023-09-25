@@ -45,16 +45,21 @@ public class AccueilController : Controller
                 "Soirée poésie",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
-                "img/jean-luc.png"),
+                "img/jean-luc.png",
+                "Atelier coder avec Jean-Luc"),
             new EventCardVM(
                 "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
+                "Lorem ipsum",
+                "Dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
-                "img/jean-luc.png"),
-            new EventCardVM("img/logo/Logo.png"),
+                "img/jean-luc.png",
+                "Atelier coder avec Jean-Luc 2"),
+            new EventCardVM("img/logo/Logo.png",
+                            "La fourmi ailée fête ses 1 ans!"),
             new EventCardVM(
                 "https://images.pexels.com/photos/2608517/pexels-photo-2608517.jpeg?auto=compress&cs=tinysrgb",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. ")
+                "Lorem ipsum",
+                "Dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. ")
         };
         List<LivreCardVM> vedettes = new()
         {
@@ -97,7 +102,7 @@ public class AccueilController : Controller
             new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
                 DateTime.MaxValue),
             new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
-                DateTime.MaxValue)
+                DateTime.MaxValue) 
         };
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories,
             promotionCards));

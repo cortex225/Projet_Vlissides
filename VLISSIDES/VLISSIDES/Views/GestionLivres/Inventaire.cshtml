@@ -10,10 +10,10 @@
 @* Modals *@
 @*********************@
 
-<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+<div class="modal fade modal-dialog-centered " tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
 
         </div>
     </div>
@@ -21,7 +21,7 @@
 <div class="d-block p-4 p-4">
 
     <div class="mb-4">
-        <h1>Inventaire</h1>
+        <h1>Inventaire des livres</h1>
     </div>
 
     <div class="container-fluid m-1">
@@ -90,6 +90,7 @@
                             <label for="specificationPrixMax">Prix maximum:</label>
                             <input type="text" class="form-control" id="specificationPrixMaxGL" placeholder="">
                         </div>
+                        
                         <div class="form-group">
                             <label for="specificationTypeLivre">Type de livre:</label>
                             <select class="form-control" id="specificationTypeLivreGL" name="typeLivre">
@@ -110,7 +111,7 @@
                     @* Add button *@
                     <div class="m-4">
                         @* <button type="button" class="btn btn-primary" asp-controller="GestionLivresController" asp-action="Ajouter">Ajouter livre</button> *@
-                        <a asp-action="Ajouter" class="btn btn-primary">Ajouter livre</a>
+                        <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
                     </div>
 
 
@@ -144,10 +145,12 @@
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="imgDiv col-1 text-center">
                                         <img src="@item.Image" alt="..." class="imagesLivre" height="50px">
+                                         
                                     </div>
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Titre)
                                     </div>
+                                    
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Auteur)
                                     </div>
@@ -155,7 +158,7 @@
                                         @Html.DisplayFor(modelItem => item.Editeur)
                                     </div>
                                     <div class="col-2 text-center">
-                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
+                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control " placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')"  >
                                     </div>
                                     <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                                         @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@

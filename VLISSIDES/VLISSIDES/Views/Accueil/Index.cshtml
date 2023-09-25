@@ -7,20 +7,23 @@
 Ceci est le div qui contient une image large avec le titre
 -->
 <div id="photoPageAccueilDiv" class="col-md-12 mb-6 img-fluid justify-content-center text-center d-flex flex-row ">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-around d-flex">
             <h1 id="Titre" class="d-block">
                 La fourmi ailée
             </h1>
         </div>
         <!--
-        Un div pour la mission de l'entreprise.
+        Un div pour le Slogan de l'entreprise.
         -->
-        <div class="row">
-            <p class="text-white"id="Mission">
-                Ouverte depuis plus d’une décennie à Stanstead, elle fait maintenant peau neuve à Granby sur la magnifique rue piétonnière ST-Joseph au centre-ville. La Fourmi ailée est spécialisée dans la vente de livres sur place et en ligne et offre une panoplie d’activités en lien avec la lecture : soirée poésie, atelier de création littéraire, lecture de contes, après-midi improvisation et combat d’écriture. Développer le plaisir de la lecture, stimuler la curiosité et la créativité, informer, conseiller et favoriser un échange.
-            </p>
+        <div class="row my-4">
+            <h3 class="slogan">
+                Découvrez de nouveaux horizons littéraires
+            </h3>
         </div>
+        <a href="#" type="btn" class="acheter btn btn-lg ">
+            Achetez maintenant
+        </a>
 
     </div>
 
@@ -129,31 +132,27 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     {
         <h2 class="titreSections mb-1">Offres spéciales juste pour vous! </h2>
         <p class="m-2">Découvrez nos offres du moment et enrichissez votre collection.</p>
-        <div id="carouselEvenements" class="carousel slide container">
+        <div id="carouselPromotions" class="carousel slide container">
             <a href="#" class="voirPlus">Voir plus ->: </a>
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="cards-wrapper">
                         <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]"/>
-                        @if (Model.Promotions.Count > 2)
+                        @if (Model.Promotions.Count > 1)
                         {
                             <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]"/>
                         }
-                        @if (Model.Promotions.Count > 3)
-                        {
-                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[2]"/>
-                        }
                     </div>
                 </div>
-                @for (var indexEvenement = 1; indexEvenement < (float)Model.Evenements.Count / 3; indexEvenement++)
+                @for (var indexPromotion = 1; indexPromotion < (float)Model.Promotions.Count / 2; indexPromotion++)
                 {
                     <div class="carousel-item">
                         <div class="cards-wrapper">
-                            @for (var indexEvenement2 = 0; indexEvenement2 < 3; indexEvenement2++)
+                            @for (var indexPromotion2 = 0; indexPromotion2 < 2; indexPromotion2++)
                             {
-                                @if (Model.Evenements.Count > indexEvenement * 3 + indexEvenement2)
+                                @if (Model.Promotions.Count > indexPromotion2 * 2 + indexPromotion2)
                                 {
-                                    <partial name="PartialViews/Accueil/_CarteEvenement" model="Model.Evenements[indexEvenement * 3 + indexEvenement2]"/>
+                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion * 2 + indexPromotion2]" />
                                 }
                                 else
                                 {
@@ -164,11 +163,11 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                     </div>
                 }
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotions" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotions" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
