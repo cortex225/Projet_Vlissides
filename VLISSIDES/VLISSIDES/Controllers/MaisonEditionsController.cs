@@ -29,7 +29,15 @@ public class MaisonEditionsController : Controller
         vm.ListeMaisonEditions = liste;
         return View(vm);
     }
-
+    public async Task<IActionResult> AfficherListe()
+    {
+        var vm = new MaisonEditionsIndexVM();
+        vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
+        var liste = _context.MaisonEditions.Include(me => me.Livres)
+            .OrderBy(me => me.Nom).ToList();
+        vm.ListeMaisonEditions = liste;
+        return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial", vm);
+    }
     [HttpPost]
     //[ValidateAntiForgeryToken]
     public ActionResult Ajouter([FromForm] MaisonEditionsIndexVM vm)
