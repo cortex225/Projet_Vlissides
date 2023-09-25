@@ -151,7 +151,13 @@ public class GestionLivresController : Controller
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
                 CategorieId = vm.CategorieId,
-                LangueId = vm.LangueId
+                LangueId = vm.LangueId,
+                LivreTypeLivres = listeType.Select(x => new LivreTypeLivre
+                {
+                    LivreId = "Id" + (_context.Livres.Count() + 1),
+                    TypeLivreId = x.Id,
+                    Prix = vm.Prix
+                }).ToList()
             };
 
             _context.Livres.Add(livre);
@@ -186,7 +192,8 @@ public class GestionLivresController : Controller
             CategorieId = livre.CategorieId,
             LangueId = livre.LangueId,
             AuteurId = livre.AuteurId,
-            CoverImageUrl = livre.Couverture
+            CoverImageUrl = livre.Couverture,
+            
         };
         //Remplir les checkbox types 
         if (livre.LivreTypeLivres.Count == 0)
