@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -52,7 +50,7 @@ namespace VLISSIDES.Controllers
                     .Include(l => l.Langues)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
-                    .Include(l => l.TypesLivre)
+                    .Include(l => l.LivreTypeLivres)
                     .ToList();
             if (motCles == null)
             {
@@ -107,7 +105,7 @@ namespace VLISSIDES.Controllers
                             break;
                         case "typeLivre":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.TypesLivre.Any(type => Regex.IsMatch(type.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .Where(livre => livre.LivreTypeLivres.Any(type => Regex.IsMatch(type.TypeLivre.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "prixMin":
@@ -175,7 +173,7 @@ namespace VLISSIDES.Controllers
                     .Include(l => l.Langues)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
-                    .Include(l => l.TypesLivre)
+                    .Include(l => l.LivreTypeLivres)
                     .ToList();
 
             Livre monLivre = mesLivres.Find(l => l.Id == id);

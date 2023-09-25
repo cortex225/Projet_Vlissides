@@ -66,7 +66,7 @@ var livres = Builder<Livre>.CreateListOfSize(299)
     .With(c => c.Categories = new List<Categorie> { Pick<Categorie>.RandomItemFrom(categories) })
     .With(c => c.Auteur = new List<Auteur> { Pick<Auteur>.RandomItemFrom(auteurs) })
     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
-    .With(c => c.TypesLivre = new List<TypeLivre> { Pick<TypeLivre>.RandomItemFrom(typeLivres) })
+    .With(c => c.LivreTypeLivres = new List<LivreTypeLivre> { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
     .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) })
     .Build();
 context.Livres.AddRange(livres);

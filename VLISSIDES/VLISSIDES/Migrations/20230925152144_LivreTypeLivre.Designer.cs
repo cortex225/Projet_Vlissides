@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VLISSIDES.Data;
 
@@ -11,9 +12,10 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230925152144_LivreTypeLivre")]
+    partial class LivreTypeLivre
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,21 +114,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "24b126ed-2c28-45a9-973a-3d96af07e30f",
+                            ConcurrencyStamp = "d659b77b-c1d8-4063-86e5-bbb18a4891e9",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "aab353fc-cc87-4569-bafc-4f7624c23315",
+                            ConcurrencyStamp = "eeb4aef4-7114-4313-a1c3-d703ad000d93",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "ee59798f-83ae-4b2f-8be7-407707681bc4",
+                            ConcurrencyStamp = "9abf0d25-e64b-452d-a7a5-a36df918cab3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -388,7 +390,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1440bbff-8661-4cfc-9b51-f9030bbcb018",
+                            ConcurrencyStamp = "fe9204e6-52ae-4371-b433-ab92c0ec878e",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -398,7 +400,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "93d8f2cf-dc17-4fb3-8d28-29071fbd223f",
+                            SecurityStamp = "4fa6358d-9256-4ca5-94fe-95700c2a76d1",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -876,7 +878,7 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("TypeLivreId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<double?>("Prix")
+                    b.Property<double>("Prix")
                         .HasColumnType("float");
 
                     b.HasKey("LivreId", "TypeLivreId");
@@ -1048,7 +1050,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "b124c5ec-7bab-437b-874c-ac6ebe259d91",
+                            ConcurrencyStamp = "bf500b87-af28-4705-b2bb-eeaea6fb44c2",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1058,7 +1060,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "46c752bc-e6fc-4f6a-b65f-740a6d889b8d",
+                            SecurityStamp = "499b76ed-5dd9-477e-b078-ad13bda3eff4",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1090,7 +1092,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "9705df8b-1696-481a-adb0-5f5cccc6fca6",
+                            ConcurrencyStamp = "e29cac18-a0d1-485d-b172-eb3742ca2ea9",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1100,10 +1102,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "d15cfe19-94ed-4e2b-8d73-ba2f5056acbf",
+                            SecurityStamp = "d98706f8-1198-456a-9906-0f53baf43d1e",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 9, 25, 11, 30, 22, 625, DateTimeKind.Local).AddTicks(8445),
+                            DateAdhesion = new DateTime(2023, 9, 25, 11, 21, 43, 738, DateTimeKind.Local).AddTicks(8683),
                             NoMembre = "123456"
                         });
                 });

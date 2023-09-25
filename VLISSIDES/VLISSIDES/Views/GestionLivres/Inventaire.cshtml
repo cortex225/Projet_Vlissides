@@ -156,13 +156,10 @@
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Categorie)
                                     </div>
-                                    @* <div class="col-2 text-center">
-                                        @Html.DisplayFor(modelItem => item.Auteur)
-                                    </div> *@
                                     <div class="col-2 d-flex justify-content-start flex-column">
-                                        @foreach(var type in Model.ListeTypeLivres)
+                                        @foreach(var type in item.LivreTypeLivres)
                                         {
-                                            <p>@Html.DisplayFor(modelItem => type.Nom) :</p>
+                                            <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix)</p>
                                         }
                                     </div>
                                     <div class="col-1 text-center">

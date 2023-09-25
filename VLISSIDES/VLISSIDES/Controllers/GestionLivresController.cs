@@ -55,7 +55,7 @@ public class GestionLivresController : Controller
             .Include(l => l.Langues)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
-            .Include(l => l.TypesLivre)
+            .Include(l => l.LivreTypeLivres)
             .OrderByDescending(l => l.DateAjout)
             .ToListAsync();
 
@@ -100,7 +100,7 @@ public class GestionLivresController : Controller
                         break;
                     case "typeLivre":
                         livres = livres
-                        .Where(livre => livre.TypesLivre.Any(type => Regex.IsMatch(type.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                        .Where(livre => livre.LivreTypeLivres.Any(type => Regex.IsMatch(type.TypeLivre.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
                         .ToList();
                         break;
                     case "prixMin":
@@ -136,7 +136,7 @@ public class GestionLivresController : Controller
                 Titre = l.Titre,
                 ISBN = l.ISBN,
                 Categorie = l.Categories.FirstOrDefault().Nom,
-                TypeLivre = _context.TypeLivres.Include(t => t.Livres).ToList(),
+                LivreTypeLivres = _context.LivreTypeLivres.Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires
             }).ToList();
 
@@ -250,7 +250,12 @@ public class GestionLivresController : Controller
                 AuteurId = vm.AuteurId,
                 MaisonEditionId = vm.MaisonEditionId,
                 Couverture = vm.CoverImageUrl,
-                TypesLivre = listeType,
+                LivreTypeLivres = listeType.Select(x => new LivreTypeLivre
+                {
+                    LivreId = "Id" + (_context.Livres.Count() + 1),
+                    TypeLivreId = x.Id,
+                    Prix = vm.Prix
+                }).ToList(),
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
                 CategorieId = vm.CategorieId,
@@ -272,7 +277,7 @@ public class GestionLivresController : Controller
     {
         var livre = _context.Livres
             .Include(l => l.Auteur)
-            .Include(l => l.TypesLivre)
+            .Include(l => l.LivreTypeLivres)
             .Include(l => l.Langues)
             .Include(l => l.Categories)
             .FirstOrDefault(x => x.Id == id);
@@ -294,15 +299,15 @@ public class GestionLivresController : Controller
             CoverImageUrl = livre.Couverture
         };
         //Remplir les checkbox types 
-        if (livre.TypesLivre.Count == 0)
+        if (livre.LivreTypeLivres.Count == 0)
         {
             vm.Neuf = false;
             vm.Numerique = false;
         }
         else
         {
-            vm.Neuf = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "1")) ? true : false;
-            vm.Numerique = livre.TypesLivre.Contains(_context.TypeLivres.FirstOrDefault(x => x.Id == "2"))
+            vm.Neuf = livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1")) ? true : false;
+            vm.Numerique = livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2"))
                 ? true
                 : false;
         }
@@ -368,7 +373,7 @@ public class GestionLivresController : Controller
 
             var livre = await _context.Livres
                 .Include(l => l.Auteur)
-                .Include(l => l.TypesLivre)
+                .Include(l => l.LivreTypeLivres)
                 .Include(l => l.Langues)
                 .Include(l => l.Categories)
                 .FirstOrDefaultAsync(x => x.Id == vm.Id);
@@ -382,7 +387,12 @@ public class GestionLivresController : Controller
             livre.AuteurId = vm.AuteurId;
             livre.CategorieId = vm.CategorieId;
             livre.LangueId = vm.LangueId;
-            livre.TypesLivre = listeType.ToList();
+            livre.LivreTypeLivres = listeType.Select(x => new LivreTypeLivre
+            {
+                LivreId = "Id" + (_context.Livres.Count() + 1),
+                TypeLivreId = x.Id,
+                Prix = vm.Prix
+            }).ToList();
             livre.Couverture = vm.CoverImageUrl;
             livre.MaisonEditionId = vm.MaisonEditionId;
             livre.Prix = vm.Prix;
