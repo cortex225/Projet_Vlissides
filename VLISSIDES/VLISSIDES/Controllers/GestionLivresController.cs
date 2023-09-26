@@ -136,7 +136,7 @@ public class GestionLivresController : Controller
                 Titre = l.Titre,
                 ISBN = l.ISBN,
                 Categorie = l.Categories.FirstOrDefault().Nom,
-                LivreTypeLivres = _context.LivreTypeLivres.Include(t => t.TypeLivre).ToList(),
+                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires
             }).ToList();
 
