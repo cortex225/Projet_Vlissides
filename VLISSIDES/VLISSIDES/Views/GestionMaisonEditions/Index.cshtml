@@ -63,7 +63,7 @@
     <!--Fin : Rechercher maison edition-->
     <div class="mb-4">
         <h3>Liste des maisons d'éditions</h3>
-        <div class="row" id="ListePartial">
+        <div class="row" id="ListeMaisonPartial">
             
         </div>
     </div>
@@ -74,15 +74,14 @@
         fetch('MaisonEditions/AfficherListe', {
             method: "GET"
         }).catch(error => {
-            console.error('Échec du fetch pour ajouter maison edition', error);
+            console.error('Échec du fetch pour afficher liste', error);
         }).then((response) => {
             console.log(response);
             return response.text();
 
         }).then((result) => {
-            //$('#ListePartial').html(result);
             console.log(result);
-            var div = document.getElementById("ListePartial");
+            var div = document.getElementById("ListeMaisonPartial");
             div.innerHTML=result;
         });
     }
