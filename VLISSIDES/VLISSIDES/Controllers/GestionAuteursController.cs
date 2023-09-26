@@ -24,6 +24,7 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> Index(string? motCle)
         {
             var vm = new AuteursIndexVM();
+            vm.AuteursAjouterVM = new AuteursAjouterVM() { NomAuteur = "" };
             List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).ToList();
 
             if (motCle != null && motCle != "")
@@ -42,12 +43,35 @@ namespace VLISSIDES.Controllers
 
             return Json(listLivre);
         }
-
+        public async Task<IActionResult> AfficherListe()
+        {
+            var vm = new AuteursIndexVM();
+            vm.AuteursAjouterVM = new AuteursAjouterVM();
+            var liste = _context.Auteurs.Include(a => a.Livres)
+                .OrderBy(a => a.NomAuteur).ToList();
+            vm.ListeAuteurs = liste;
+            return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial", vm);
+        }
         //AJOUTER
         //================
         //================
         //================
-
+        [HttpPost]
+        public ActionResult Ajouter([FromForm] AuteursIndexVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var auteur = new Auteur()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    NomAuteur = vm.AuteursAjouterVM.NomAuteur,
+                };
+                _context.Auteurs.Add(auteur);
+                _context.SaveChanges();
+                return Ok();
+            }
+            return View(vm);
+        }
         [HttpPost]
         public ActionResult ModifierAuteur(string id, string nom)
         {
