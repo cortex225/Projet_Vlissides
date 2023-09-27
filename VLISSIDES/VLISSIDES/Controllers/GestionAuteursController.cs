@@ -43,12 +43,18 @@ namespace VLISSIDES.Controllers
 
             return Json(listLivre);
         }
-        public async Task<IActionResult> AfficherListe()
+        public async Task<IActionResult> AfficherListe(string? motCle)
         {
             var vm = new AuteursIndexVM();
             vm.AuteursAjouterVM = new AuteursAjouterVM();
             var liste = _context.Auteurs.Include(a => a.Livres)
                 .OrderBy(a => a.NomAuteur).ToList();
+            if (motCle != null && motCle != "")
+            {
+                liste = liste
+                    .Where(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .ToList();
+            }
             vm.ListeAuteurs = liste;
             return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial", vm);
         }
