@@ -164,16 +164,15 @@ namespace VLISSIDES.Controllers
         [Route("/Recherche/Details")]
         public ActionResult Details(string id)
         {
-            List<Livre> mesLivres = _context.Livres
+            Livre? monLivre = _context.Livres
                     .Include(l => l.Auteur)
                     .Include(l => l.Categories)
                     .Include(l => l.Langues)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
                     .Include(l => l.LivreTypeLivres)
-                    .ToList();
+                    .FirstOrDefault(l => l.Id == id);
 
-            Livre? monLivre = mesLivres.Find(l => l.Id == id);
 
             DetailsLivreVM vm;
 
