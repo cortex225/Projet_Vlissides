@@ -1,3 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionLivres;
+using VLISSIDES.ViewModels.Livres;
+
 namespace VLISSIDES.Controllers;
 
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]

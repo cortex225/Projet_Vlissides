@@ -1,4 +1,9 @@
-﻿namespace VLISSIDES.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using VLISSIDES.Models;
+
+namespace VLISSIDES.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
@@ -43,10 +48,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        this.buidler = builder;
 
-        //Permet l'encodage pour "encoding 1252."
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         #region configuration
         //Ajout des statuts des commandes à la bd
