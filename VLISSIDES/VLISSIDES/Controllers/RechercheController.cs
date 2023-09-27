@@ -109,21 +109,21 @@ namespace VLISSIDES.Controllers
                             .ToList();
                             break;
                         case "prixMin":
-                            double prixMinD;
-                            if (double.TryParse(listMotCles[i], out prixMinD))
+                            decimal prixMinD;
+                            if (decimal.TryParse(listMotCles[i], out prixMinD))
                             {
                                 livresRecherches = livresRecherches
-                                    .Where(objet => objet.Prix >= prixMinD)
+                                    .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix >= prixMinD)
                                     .ToList();
                             }
                             break;
 
                         case "prixMax":
-                            double prixMaxD;
-                            if (double.TryParse(listMotCles[i], out prixMaxD))
+                            decimal prixMaxD;
+                            if (decimal.TryParse(listMotCles[i], out prixMaxD))
                             {
                                 livresRecherches = livresRecherches
-                                    .Where(objet => objet.Prix <= prixMaxD)
+                                    .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix <= prixMaxD)
                                     .ToList();
                             }
                             break;

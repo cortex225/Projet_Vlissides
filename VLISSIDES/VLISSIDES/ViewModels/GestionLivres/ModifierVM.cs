@@ -18,7 +18,7 @@ public class ModifierVM
 
     [Display(Name = "Nombre de pages")] public int NbPages { get; set; }
 
-    public double Prix { get; set; }
+    public decimal Prix { get; set; }
     public DateTime DatePublication { get; set; }
 
     public string ISBN { get; set; }

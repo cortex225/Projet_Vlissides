@@ -108,7 +108,7 @@ public class GestionLivresController : Controller
                         if (double.TryParse(listMotCles[i], out prixMinD))
                         {
                             livres = livres
-                                .Where(objet => objet.Prix >= prixMinD)
+                                .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix >= (decimal)prixMinD)
                                 .ToList();
                         }
                         break;
@@ -118,7 +118,7 @@ public class GestionLivresController : Controller
                         if (double.TryParse(listMotCles[i], out prixMaxD))
                         {
                             livres = livres
-                                .Where(objet => objet.Prix <= prixMaxD)
+                                .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix <= (decimal)prixMaxD)
                                 .ToList();
                         }
                         break;
@@ -137,7 +137,7 @@ public class GestionLivresController : Controller
                 ISBN = l.ISBN,
                 Categorie = l.Categories.FirstOrDefault().Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
-                Quantite = l.NbExemplaires
+                Quantite = l.NbExemplaires,
             }).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
@@ -245,17 +245,11 @@ public class GestionLivresController : Controller
                 Resume = vm.Resume,
                 NbExemplaires = vm.NbExemplaires,
                 NbPages = vm.NbPages,
-                Prix = vm.Prix,
                 ISBN = vm.ISBN,
                 AuteurId = vm.AuteurId,
                 MaisonEditionId = vm.MaisonEditionId,
                 Couverture = vm.CoverImageUrl,
-                LivreTypeLivres = listeType.Select(x => new LivreTypeLivre
-                {
-                    LivreId = "Id" + (_context.Livres.Count() + 1),
-                    TypeLivreId = x.Id,
-                    Prix = vm.Prix
-                }).ToList(),
+                TypeLivreId = vm.TypeLivreId,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
                 CategorieId = vm.CategorieId,
@@ -290,7 +284,7 @@ public class GestionLivresController : Controller
             DatePublication = livre.DatePublication,
             NbExemplaires = livre.NbExemplaires,
             NbPages = livre.NbPages,
-            Prix = livre.Prix,
+            Prix = livre.LivreTypeLivres.FirstOrDefault().Prix,
             Resume = livre.Resume,
             Titre = livre.Titre,
             CategorieId = livre.CategorieId,
@@ -394,8 +388,7 @@ public class GestionLivresController : Controller
                 Prix = vm.Prix
             }).ToList();
             livre.Couverture = vm.CoverImageUrl;
-            livre.MaisonEditionId = vm.MaisonEditionId;
-            livre.Prix = vm.Prix;
+            livre.MaisonEditionId = vm.MaisonEditionId; 
             livre.DatePublication = vm.DatePublication;
 
             await _context.SaveChangesAsync();

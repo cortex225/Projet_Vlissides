@@ -17,7 +17,7 @@ public class AjouterVM
 
     [Display(Name = "Nombre de pages")] public int NbPages { get; set; }
 
-    public double Prix { get; set; }
+    public decimal Prix { get; set; }
 
     [Display(Name = "Date de publication")]
     public DateTime DatePublication { get; set; }
