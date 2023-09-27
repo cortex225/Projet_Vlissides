@@ -45,9 +45,9 @@ public class AjouterVM
     [Display(Name = "Type")] public string? TypeLivreId { get; set; }
 
     public bool Numerique { get; set; }
-    public double? PrixNumerique { get; set; }
+    public decimal PrixNumerique { get; set; }
     public bool Neuf { get; set; }
-    public double? PrixNeuf { get; set; }
+    public decimal PrixNeuf { get; set; }
     public ICollection<TypeLivre>? Types { get; set; }
 
     //public string EvaluationId { get; set; }

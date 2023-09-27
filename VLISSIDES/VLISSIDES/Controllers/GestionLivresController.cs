@@ -104,21 +104,21 @@ public class GestionLivresController : Controller
                         .ToList();
                         break;
                     case "prixMin":
-                        double prixMinD;
-                        if (double.TryParse(listMotCles[i], out prixMinD))
+                        decimal prixMinD;
+                        if (decimal.TryParse(listMotCles[i], out prixMinD))
                         {
                             livres = livres
-                                .Where(objet => objet.Prix >= prixMinD)
+                                .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix >= prixMinD)
                                 .ToList();
                         }
                         break;
 
                     case "prixMax":
-                        double prixMaxD;
-                        if (double.TryParse(listMotCles[i], out prixMaxD))
+                        decimal prixMaxD;
+                        if (decimal.TryParse(listMotCles[i], out prixMaxD))
                         {
                             livres = livres
-                                .Where(objet => objet.Prix <= prixMaxD)
+                                .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix <= prixMaxD)
                                 .ToList();
                         }
                         break;
@@ -137,7 +137,7 @@ public class GestionLivresController : Controller
                 ISBN = l.ISBN,
                 Categorie = _context.Categories.FirstOrDefault(c => c.Id == l.CategorieId).Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
-                Quantite = l.NbExemplaires
+                Quantite = l.NbExemplaires,
             }).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
@@ -153,6 +153,7 @@ public class GestionLivresController : Controller
             ListeCategories = categories,
             ListeLangue = langues,
             ListeTypeLivres = typesLivres
+            
         };
         return View(vm);
     }
@@ -412,7 +413,6 @@ public class GestionLivresController : Controller
             livre.LivreTypeLivres = listeType;
             livre.Couverture = vm.CoverImageUrl;
             livre.MaisonEditionId = vm.MaisonEditionId;
-            livre.Prix = vm.Prix;
             livre.DatePublication = vm.DatePublication;
 
             await _context.SaveChangesAsync();
