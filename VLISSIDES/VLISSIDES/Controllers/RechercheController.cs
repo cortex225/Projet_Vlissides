@@ -46,7 +46,7 @@ namespace VLISSIDES.Controllers
 
             livresRecherches = _context.Livres
                     .Include(l => l.Auteur)
-                    .Include(l => l.Categories)
+                    .Include(l => l.Categorie)
                     .Include(l => l.Langues)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
@@ -80,12 +80,12 @@ namespace VLISSIDES.Controllers
                             break;
                         case "auteur":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Auteur.Any(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "categorie":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                            .Where(livre => Regex.IsMatch(livre.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "maisonEdition":
@@ -166,7 +166,7 @@ namespace VLISSIDES.Controllers
         {
             Livre? monLivre = _context.Livres
                     .Include(l => l.Auteur)
-                    .Include(l => l.Categories)
+                    .Include(l => l.Categorie)
                     .Include(l => l.Langues)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
@@ -183,8 +183,8 @@ namespace VLISSIDES.Controllers
                 {
                     Id = monLivre.Id,
                     Titre = monLivre.Titre,
-                    lesAuteurs = monLivre.Auteur,
-                    lesCategories = monLivre.Categories,
+                    lAuteur = monLivre.Auteur,
+                    laCategorie = monLivre.Categorie,
                     Prix = monLivre.Prix,
                     DatePublication = monLivre.DatePublication,
                     Couverture = monLivre.Couverture,

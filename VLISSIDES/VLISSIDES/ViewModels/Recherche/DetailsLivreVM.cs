@@ -6,8 +6,8 @@ namespace VLISSIDES.ViewModels.Recherche
     {
         public string Id { get; set; }
         public string Titre { get; set; }
-        public ICollection<Auteur> lesAuteurs { get; set; }
-        public ICollection<Categorie> lesCategories { get; set; }
+        public Auteur lAuteur { get; set; }
+        public Categorie laCategorie { get; set; }
         public double Prix { get; set; }
         public DateTime DatePublication { get; set; }
         public string Couverture { get; set; }

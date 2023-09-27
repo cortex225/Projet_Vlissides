@@ -51,7 +51,7 @@ public class GestionLivresController : Controller
         //Prendre tous les livres
         List<Livre> livres = await _context.Livres
             .Include(l => l.Auteur)
-            .Include(l => l.Categories)
+            .Include(l => l.Categorie)
             .Include(l => l.Langues)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
@@ -78,12 +78,12 @@ public class GestionLivresController : Controller
                         break;
                     case "auteur":
                         livres = livres
-                        .Where(livre => livre.Auteur.Any(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "categorie":
                         livres = livres
-                        .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                        .Where(livre => Regex.IsMatch(livre.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "maisonEdition":
@@ -135,7 +135,7 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = l.Categories.FirstOrDefault().Nom,
+                Categorie = l.Categorie.Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires
             }).ToList();
@@ -279,14 +279,14 @@ public class GestionLivresController : Controller
             .Include(l => l.Auteur)
             .Include(l => l.LivreTypeLivres)
             .Include(l => l.Langues)
-            .Include(l => l.Categories)
+            .Include(l => l.Categorie)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
         var vm = new ModifierVM
         {
             Id = livre.Id,
             ISBN = livre.ISBN,
-            Auteurs = livre.Auteur,
+            Auteur = livre.Auteur,
             DatePublication = livre.DatePublication,
             NbExemplaires = livre.NbExemplaires,
             NbPages = livre.NbPages,
@@ -375,7 +375,7 @@ public class GestionLivresController : Controller
                 .Include(l => l.Auteur)
                 .Include(l => l.LivreTypeLivres)
                 .Include(l => l.Langues)
-                .Include(l => l.Categories)
+                .Include(l => l.Categorie)
                 .FirstOrDefaultAsync(x => x.Id == vm.Id);
 
             //Changement des donn�es

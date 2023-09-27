@@ -18,8 +18,8 @@
         </div>
 
         <p>Prix: @Model.Prix $</p>
-        <p>Auteur(s): @foreach(Auteur a in Model.lesAuteurs){ @a.NomAuteur }</p>
-        <p>Catégorie(s): @foreach(Categorie c in Model.lesCategories){ @c.Nom }</p>
+        <p>Auteur(s): @Model.lAuteur.NomAuteur </p>
+        <p>Catégorie(s): @Model.laCategorie.Nom </p>
         <p>Date publication: @Model.DatePublication</p>
         <p>Éditeur: @Model.maisonEdition.Nom</p>
         <p>Nombre de pages: @Model.NbPages</p>

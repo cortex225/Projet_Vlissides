@@ -32,7 +32,7 @@ public class ModifierVM
 
     public List<SelectListItem>? SelectListAuteurs { get; set; }
 
-    public ICollection<Auteur>? Auteurs { get; set; } //Plusieur auteurs écrit un livre 
+    public Auteur? Auteur { get; set; } //Plusieur auteurs écrit un livre 
 
     //Maison Edition
     [Display(Name = "Éditeur")] public string MaisonEditionId { get; set; }

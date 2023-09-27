@@ -7,23 +7,17 @@ namespace VLISSIDES.ViewModels.Accueil;
 
 public class LivreCardVM
 {
-    public LivreCardVM(string couverture = "", string titre = "", double prix = 0, List<Auteur> auteurs = default!,
-        List<Categorie> categories = default!)
+    public LivreCardVM(string couverture = "", string titre = "", double prix = 0, Auteur auteurs = default!,
+        Categorie categories = default!)
     {
-        auteurs ??= new List<Auteur>();
-        categories ??= new List<Categorie>();
+        //auteurs ??= new List<Auteur>();
+        //categories ??= new List<Categorie>();
         Couverture = couverture;
         Titre = titre;
         Prix = prix;
-        Auteurs = "";
-        if (auteurs.Any())
-        {
-            auteurs.ForEach(auteur => Auteurs += auteur.NomAuteur + ", ");
-            Auteurs.Remove(Auteurs.Length - 2, 2);
-        }
+        Auteurs = auteurs?.NomAuteur;
 
-        Categories ??= new List<string>();
-        categories.ForEach(categorie => Categories.Add(categorie.Nom));
+        Categorie = categories?.Nom;
     }
 
     public LivreCardVM(Livre livre)
@@ -32,16 +26,10 @@ public class LivreCardVM
         Couverture = livre.Couverture;
         Titre = livre.Titre;
         Prix = livre.Prix;
-        Auteurs = "";
+        Auteurs = livre.Auteur.NomAuteur;
         Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
-        if (!((List<Auteur>)livre.Auteur).Any())
-        {
-            ((List<Auteur>)livre.Auteur).ForEach(auteur => Auteurs += auteur.NomAuteur + ", ");
-            Auteurs.Remove(Auteurs.Length - 2, 2);
-        }
 
-        Categories ??= new List<string>();
-        ((List<Categorie>)livre.Categories).ForEach(categorie => Categories.Add(categorie.Nom));
+        Categorie = livre.Categorie.Nom;
     }
 
     [DisplayName("Page couverture")] public string Couverture { get; set; }
@@ -54,5 +42,5 @@ public class LivreCardVM
 
     [DisplayName("Score")] public int Score { get; set; }
 
-    [DisplayName("Catégories associés")] public List<string> Categories { get; set; }
+    [DisplayName("Catégories associés")] public string Categorie { get; set; }
 }

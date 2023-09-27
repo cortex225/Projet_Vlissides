@@ -3,7 +3,7 @@
 }
 @model Livre;
 
-<div class="item livrePetit livre @Model.Categories">
+<div class="item livrePetit livre @Model.Categorie">
     <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;;">
         <a asp-area="" asp-controller="Recherche" asp-action="Details" asp-route-id="@Model.Id" method="get"
            class="imgDiv bg-image hover-overlay ripple card-img-top" data-mdb-ripple-color="light">
@@ -19,18 +19,12 @@
             <h6>Auteurs: </h6>
             @if (Model.Auteur != null)
             {
-                @foreach (Auteur a in Model.Auteur)
-                {
-                    <p>@a.NomAuteur</p>
-                }
+                <p>@Model.Auteur.NomAuteur</p>
             }
 
             <h6>Catégories reliées: </h6>
             @{
-                foreach (var categorie in Model.Categories)
-                {
-                    <a href="#" class="btn btn-secondary btnCategorie">@categorie.Nom</a>
-                }
+                <a href="#" class="btn btn-secondary btnCategorie">@Model.Categorie.Nom</a>
             }
         </div>
     </div>
