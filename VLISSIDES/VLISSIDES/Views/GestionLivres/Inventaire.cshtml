@@ -108,7 +108,6 @@
 
                     @* Add button *@
                     <div class="m-4">
-                        @* <button type="button" class="btn btn-primary" asp-controller="GestionLivresController" asp-action="Ajouter">Ajouter livre</button> *@
                         <a asp-action="Ajouter" class="btn btn-primary">Ajouter livre</a>
                     </div>
 
@@ -159,7 +158,7 @@
                                     <div class="col-2 d-flex justify-content-start flex-column">
                                         @foreach(var type in item.LivreTypeLivres)
                                         {
-                                            <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix)</p>
+                                            <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
                                         }
                                     </div>
                                     <div class="col-1 text-center">
