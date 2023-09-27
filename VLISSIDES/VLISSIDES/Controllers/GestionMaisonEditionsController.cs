@@ -39,12 +39,16 @@ public class GestionMaisonEditionsController : Controller
         vm.ListeMaisonEditions = liste;
         return View(vm);
     }
-    public async Task<IActionResult> AfficherListe()
+    public async Task<IActionResult> AfficherListe(string? motCle)
     {
         var vm = new MaisonEditionsIndexVM();
         vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
         var liste = _context.MaisonEditions.Include(me => me.Livres)
             .OrderBy(me => me.Nom).ToList();
+        if (motCle != null && motCle != "")
+        {
+            liste = liste.Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase)).ToList();
+        }
         vm.ListeMaisonEditions = liste;
         return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial", vm);
     }

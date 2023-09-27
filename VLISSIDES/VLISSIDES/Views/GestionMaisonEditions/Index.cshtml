@@ -51,7 +51,7 @@
             <br />
             <div class="input-group">
                 <input class="form-control" id="inputRechercherMaison" placeholder="Rechercher..." />
-                <button class="btn btn-primary p-2" type="button" onclick="RechercherMaisonEdition()" data-toggle="tooltip" title="Rechercher la maison d'édition">
+                <button class="btn btn-primary p-2" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la maison d'édition">
                     Rechercher
                 </button>
             </div>
@@ -70,20 +70,40 @@
 </div>
 <!--Script pour liste-->
 <script type="text/javascript">
-    function AfficherListe(){
-        fetch('GestionMaisonEditions/AfficherListe', {
-            method: "GET"
-        }).catch(error => {
-            console.error('Échec du fetch pour afficher liste', error);
-        }).then((response) => {
-            console.log(response);
-            return response.text();
 
-        }).then((result) => {
-            console.log(result);
-            var div = document.getElementById("ListeMaisonPartial");
-            div.innerHTML=result;
-        });
+    function AfficherListe(){
+        var motCle = document.getElementById("inputRechercherMaison").value;
+        console.log("Mot entré: " + motCle);
+        if (motCle == null && motCle == "") {
+            fetch('GestionMaisonEditions/AfficherListe', {
+                method: "GET"
+            }).catch(error => {
+                console.error('Échec du fetch pour afficher liste', error);
+            }).then((response) => {
+                console.log(response);
+                return response.text();
+
+            }).then((result) => {
+                console.log(result);
+                var div = document.getElementById("ListeMaisonPartial");
+                div.innerHTML = result;
+            });
+        } else {
+            fetch('GestionMaisonEditions/AfficherListe?motCle=' + motCle, {
+                method: "GET"
+            }).catch(error => {
+                console.error('Échec du fetch pour afficher liste', error);
+            }).then((response) => {
+                console.log(response);
+                return response.text();
+
+            }).then((result) => {
+                console.log(result);
+                var div = document.getElementById("ListeMaisonPartial");
+                div.innerHTML = result;
+            });
+        }
+        
     }
     AfficherListe();
 </script>
@@ -176,13 +196,14 @@
 </script>
 
 <!--Script pour la recherche-->
-<script type="text/javascript">
+@* <script type="text/javascript">
     // ModalScript
     function RechercherMaisonEdition() {
         console.log("Recherche commencée");
         var motCle = document.getElementById("inputRechercherMaison").value;
         console.log("Mot entré: " + motCle);
         window.location.href = `/GestionMaisonEditions/Index?motCle=${motCle}`;
+        
     }
 </script>
-
+ *@
