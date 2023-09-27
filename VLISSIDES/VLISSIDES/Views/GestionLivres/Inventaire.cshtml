@@ -172,18 +172,29 @@
                                         }
                                     </div>
                                     <div class="col-1 text-center">
-                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
+                                        @if(item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
+                                        {
+                                            <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
+                                        }else
+                                        {
+                                            <span>N/A</span>
+                                        }
                                     </div>
                                     <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
-                                        @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf")){
+                                            <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
+                                                saveQuantite('@item.Id', '@item.Quantite')
+                                                disableButton('@item.Id')">
 
-                                        <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
-                                            saveQuantite('@item.Id', '@item.Quantite')
-                                            disableButton('@item.Id')">
+                                                <span class="fa-solid fa-check fa-2x"></span>
 
-                                            <span class="fa-solid fa-check fa-2x"></span>
-
-                                        </button>
+                                            </button>
+                                        }else
+                                        {
+                                            <button class="btn btn-success saveButton px-3">
+                                                <span class="fa-solid fa-check fa-2x"></span>
+                                            </button>
+                                        }
                                         <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
                                             <span class="fa-solid fa-pen fa-2x"></span>
                                         </a>

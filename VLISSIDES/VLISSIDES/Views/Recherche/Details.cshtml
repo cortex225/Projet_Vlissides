@@ -16,7 +16,7 @@
             
         </div>
 
-        <p>Prix: @Model.Prix $</p>
+        <p>Prix: @Model.LivreTypeLivres.FirstOrDefault().Prix  $</p>
         <p>Auteur(s): @foreach(Auteur a in Model.Auteur){ @a.NomAuteur }</p>
         <p>Catégorie(s): @foreach(Categorie c in Model.Categories){ @c.Nom }</p>
         <p>Date publication: @Model.DatePublication</p>

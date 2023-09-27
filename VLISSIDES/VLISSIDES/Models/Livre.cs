@@ -18,9 +18,7 @@ public class Livre
     [DisplayName("Date d'ajout")] public DateTime DateAjout { get; set; } = default!;
 
     [DisplayName("Nombre de pages")] public int NbPages { get; set; } = default!;
-
-    [DisplayName("Prix")] public double Prix { get; set; } = default!;
-
+    
     [DisplayName("Date de publication")] public DateTime DatePublication { get; set; } = default!;
 
     [DisplayName("ISBN")] public string ISBN { get; set; } = default!;

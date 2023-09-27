@@ -24,6 +24,7 @@ var typeLivres = context.TypeLivres.ToList();
 var langues = context.Langues.ToList();
 
 var generator = new RandomGenerator();
+Random rand = new Random();
 
 
 //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
@@ -60,16 +61,27 @@ var livres = Builder<Livre>.CreateListOfSize(299)
     .With(c => c.NbExemplaires = 1)
     .With(c => c.DateAjout = DateTime.Now)
     .With(c => c.NbPages = 120)
-    .With(c => c.Prix = 1.99)
     .With(c => c.DatePublication = Identification.DateOfBirth())
     .With(c => c.ISBN = Identification.UsPassportNumber())
-    .With(c => c.Categories = new List<Categorie> { Pick<Categorie>.RandomItemFrom(categories) })
+    .With(c => c.CategorieId = Pick<Categorie>.RandomItemFrom(categories).Id )
     .With(c => c.Auteur = new List<Auteur> { Pick<Auteur>.RandomItemFrom(auteurs) })
     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
     .With(c => c.LivreTypeLivres = new List<LivreTypeLivre> { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
     .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) })
     .Build();
 context.Livres.AddRange(livres);
+context.SaveChanges();
+
+//Générer les prix de chaque livres existant dans la base de donnés 
+var livreTypeLivres = context.LivreTypeLivres.ToList();
+foreach (var livre in livres)
+{
+    var livreTypeLivre = livreTypeLivres.FirstOrDefault(ltl => ltl.LivreId == livre.Id);
+    if (livreTypeLivre != null)
+    {
+        livreTypeLivre.Prix = rand.Next(10, 100);
+    }
+}
 context.SaveChanges();
 
 //Signaler la fin du seeder

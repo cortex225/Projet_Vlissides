@@ -7,7 +7,7 @@ namespace VLISSIDES.ViewModels.Accueil;
 
 public class LivreCardVM
 {
-    public LivreCardVM(string couverture = "", string titre = "", double prix = 0, List<Auteur> auteurs = default!,
+    public LivreCardVM(string couverture = "", string titre = "", decimal prix = 0, List<Auteur> auteurs = default!,
         List<Categorie> categories = default!)
     {
         auteurs ??= new List<Auteur>();
@@ -31,7 +31,7 @@ public class LivreCardVM
         livre.Evaluations ??= new List<Evaluation>();
         Couverture = livre.Couverture;
         Titre = livre.Titre;
-        Prix = livre.Prix;
+        Prix = livre.LivreTypeLivres.FirstOrDefault().Prix;
         Auteurs = "";
         Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
         if (!((List<Auteur>)livre.Auteur).Any())
@@ -48,7 +48,7 @@ public class LivreCardVM
 
     [DisplayName("Titre")] public string Titre { get; set; }
 
-    [DisplayName("Prix")] public double Prix { get; set; }
+    [DisplayName("Prix")] public decimal Prix { get; set; }
 
     [DisplayName("Auteurs")] public string Auteurs { get; set; }
 
