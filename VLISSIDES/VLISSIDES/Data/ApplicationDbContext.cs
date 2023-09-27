@@ -115,6 +115,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
+        //Une catégorie peut avoir un parent avec plusieurs enfants
+        builder.Entity<Categorie>()
+            .HasOne(c => c.Parent)
+            .WithMany(c => c.Enfants)
+            .HasForeignKey(c => c.ParentId);
 
 
         //Création des différent comptes
