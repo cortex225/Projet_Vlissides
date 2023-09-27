@@ -124,9 +124,9 @@ public class GestionLivresController : Controller
                         break;
                 }
             }
-        }
+        }  
 
-        List<GestionLivresAfficherVM> livresVM = livres
+        var livresVM = livres
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
             .Take(itemsPerPage)
             .Select(l => new GestionLivresAfficherVM
@@ -135,7 +135,7 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.FirstOrDefault(c => c.Id == l.CategorieId).Nom,
+                Categorie = _context.Categories.Where(c=>c.Id == l.CategorieId).FirstOrDefault()?.Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
@@ -265,7 +265,8 @@ public class GestionLivresController : Controller
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
                 CategorieId = vm.CategorieId,
-                LangueId = vm.LangueId
+                LangueId = vm.LangueId,
+                TypeLivreId = vm.TypeLivreId
             };
 
             _context.Livres.Add(livre);
@@ -277,7 +278,7 @@ public class GestionLivresController : Controller
 
 
         }
-        return View(vm);
+        return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
     }
     public IActionResult Modifier(string id)
     {

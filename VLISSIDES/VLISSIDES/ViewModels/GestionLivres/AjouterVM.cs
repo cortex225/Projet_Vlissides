@@ -18,7 +18,6 @@ public class AjouterVM
     [Display(Name = "Nombre de pages")] public int NbPages { get; set; }
 
 
-
     [Display(Name = "Date de publication")]
     public DateTime DatePublication { get; set; }
 
@@ -26,6 +25,8 @@ public class AjouterVM
 
     //Categories
     [Display(Name = "Catégorie")] public string CategorieId { get; set; }
+
+    public ICollection<Categorie>? Categories { get; set; }
 
     public List<SelectListItem>? SelectListCategories { get; set; }
 
