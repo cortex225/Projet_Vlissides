@@ -34,9 +34,9 @@ public class LivreCardVM
         Prix = livre.Prix;
         Auteurs = "";
         Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
-        if (!((List<Auteur>)livre.Auteur).Any())
+        if (!((List<Auteur>)livre.Auteurs).Any())
         {
-            ((List<Auteur>)livre.Auteur).ForEach(auteur => Auteurs += auteur.NomComplet + ", ");
+            ((List<Auteur>)livre.Auteurs).ForEach(auteur => Auteurs += auteur.NomComplet + ", ");
             Auteurs.Remove(Auteurs.Length - 2, 2);
         }
 

@@ -16,9 +16,9 @@
             <h6>@Model.Prix $</h6>
 
             <h6>Auteurs: </h6>
-            @if (Model.Auteur != null)
+            @if (Model.Auteurs != null)
             {
-                @foreach (Auteur a in Model.Auteur)
+                @foreach (Auteur a in Model.Auteurs)
                 {
                     <p>@a.NomComplet</p>
                 }

@@ -10,8 +10,12 @@ public class Categorie
 
     [DisplayName("Description")] public string Description { get; set; } = default!;
 
-    [DisplayName("Livres reli�es � cette cat�gorie")]
+    [DisplayName("L'identifiant du parent")]
     public string? ParentId { get; set; }
+    [DisplayName("Parent")]
     public Categorie? Parent { get; set; }
+    [DisplayName("Enfants")]
     public ICollection<Categorie>? Enfants { get; set; }
+    [DisplayName("Livres")]
+    public ICollection<Livre>? Livres { get; set; }
 }

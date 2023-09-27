@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -47,9 +45,9 @@ namespace VLISSIDES.Controllers
             List<Livre> livresRecherches;
 
             livresRecherches = _context.Livres
-                    .Include(l => l.Auteur)
+                    .Include(l => l.Auteurs)
                     .Include(l => l.Categories)
-                    .Include(l => l.Langues)
+                    .Include(l => l.Langue)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
                     .ToList();
@@ -84,7 +82,7 @@ namespace VLISSIDES.Controllers
                             break;
                         case "auteur":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Auteur.Any(auteur => Regex.IsMatch(auteur.NomComplet, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .Where(livre => livre.Auteurs.Any(auteur => Regex.IsMatch(auteur.NomComplet, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "categorie":
@@ -101,12 +99,12 @@ namespace VLISSIDES.Controllers
                             break;
                         case "langue":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                            .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "typeLivre":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.TypesLivre.Any(type => Regex.IsMatch(type.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .Where(livre => Regex.IsMatch(livre.TypesLivre.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "prixMin":
