@@ -4,7 +4,9 @@
 @{
 }
 @model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
-<div class="list-group col-6" id="list-tab" role="tablist">
+@if(Model.ListeMaisonEditions.Count !=0)
+{
+    <div class="list-group col-6" id="list-tab" role="tablist">
 
     @foreach (var item in Model.ListeMaisonEditions)
 
@@ -68,4 +70,9 @@
 
     </div>
 
-</div>
+    </div>
+}
+else
+{
+    <h1>Aucun résultat</h1>
+}

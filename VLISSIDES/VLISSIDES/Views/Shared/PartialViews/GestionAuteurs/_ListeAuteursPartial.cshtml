@@ -4,8 +4,9 @@
 @{
 }
 @model VLISSIDES.ViewModels.GestionAuteurs.AuteursIndexVM
-
-<div class="list-group col-6" id="list-tab" role="tablist">
+@if (Model.ListeAuteurs.Count != 0)
+{
+    <div class="list-group col-6" id="list-tab" role="tablist">
     @foreach (var item in Model.ListeAuteurs)
     {
         <!--onclick pour afficher livres ici-->
@@ -67,4 +68,9 @@
 
     </div>
 
-</div>
+    </div>
+}
+else
+{
+    <h1>Aucun résultat</h1>
+}
