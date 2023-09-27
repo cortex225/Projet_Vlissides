@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
+<div class="list-group col-6" id="list-tab" role="tablist">
+
+    @foreach (var item in Model.ListeMaisonEditions)
+
+    {
+        <!--onclick pour afficher livres ici-->
+        <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@item.Id')">
+            <div class="card-body row align-items-center p-0">
+                <div class="col-9 text-center">
+                    <!--Début : Modifier nom d'une maison d'édition-->
+                    <input id="@item.Id @item.Nom" type="text" asp-for="@item.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Nom)"
+                           onclick="enableButton('@item.Id')">
+                </div>
+                <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+                    <button id="saveButton_@item.Id" type="button" class="btn btn-success"
+                            onclick="ModifierMaison('@item.Id', '@item.Nom')
+                                        disableButton('@item.Id')"
+                            disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Nom">
+                        Sauvegarder
+                    </button>
+                    <!--Fin : Modifier nom d'une maison d'édition-->
+                    <!--Bouton supprimer ici-->
+                    <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "MaisonEditions", new { id = item.Id })')">
+                        <span class="fa-solid fa-trash fa-2x"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="divListeLivres" class="col-6 card rounded-xl">
+    <h3 class="text-center my-3">Livres de la maison d'édition</h3>
+
+    <div class="" id="divListeMaisonEditionLivres">
+        @foreach (var item in Model.ListeMaisonEditions)
+        {
+            <div id="Liste_@item.Id" class=" visually-hidden">
+                <h5 class="my-2">@item.Nom</h5>
+
+
+                @if (item.Livres.Count != 0)
+                {
+                    <div class="listcolumns">
+                        <ul id="ulListeNomLivres">
+                            @foreach (var livre in item.Livres)
+                            {
+                                <li>@livre.Titre</li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <p>pas de livres</p>
+                }
+
+
+            </div>
+        }
+
+    </div>
+
+</div>

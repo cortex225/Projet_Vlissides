@@ -4,23 +4,30 @@
 @{
     ViewData["Title"] = "Inventaire";
 }
+<link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true">
+
 
 @*********************@
 @* Modals *@
 @*********************@
 
-<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+<div class="modal fade modal-dialog-centered " tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
 
         </div>
     </div>
 </div>
-<div class="d-block p-4 p-4">
 
-    <div class="mb-4">
-        <h1>Inventaire</h1>
+<!-- Barre latérale coulissante -->
+<partial name="PartialViews/Dashboard/_SideBarPartial"/>
+
+
+<div class="d-block p-4 p-4 col">
+
+    <div class="text-center mb-4">
+        <h1>Inventaire des livres</h1>
     </div>
 
     <div class="container-fluid m-1">
@@ -89,6 +96,7 @@
                             <label for="specificationPrixMax">Prix maximum:</label>
                             <input type="text" class="form-control" id="specificationPrixMaxGL" placeholder="">
                         </div>
+
                         <div class="form-group">
                             <label for="specificationTypeLivre">Type de livre:</label>
                             <select class="form-control" id="specificationTypeLivreGL" name="typeLivre">
@@ -108,7 +116,7 @@
 
                     @* Add button *@
                     <div class="m-4">
-                        <a asp-action="Ajouter" class="btn btn-primary">Ajouter livre</a>
+                        <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
                     </div>
 
 
@@ -145,10 +153,12 @@
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="imgDiv col-1 text-center">
                                         <img src="@item.Image" alt="..." class="imagesLivre" height="50px">
+
                                     </div>
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Titre)
                                     </div>
+
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.ISBN)
                                     </div>

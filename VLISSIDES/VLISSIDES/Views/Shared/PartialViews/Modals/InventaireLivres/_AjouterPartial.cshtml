@@ -1,9 +1,9 @@
-@model VLISSIDES.ViewModels.GestionLivres.ModifierVM
+@model VLISSIDES.ViewModels.Livres.AjouterVM
 
 <div class="modal-header">
-    <h5 class="modal-title" id="ModalEditLabel">Modifier Livre</h5>
+    <h5 class="modal-title" id="ModalEditLabel">Ajouter un nouveau Livre</h5>
 </div>
-<form asp-action="Modifier" enctype="multipart/form-data">
+<form asp-action="Ajouter" asp-controller="GestionLivres" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <div class="modal-body">
 
@@ -11,12 +11,9 @@
         <div class="container d-flex justify-content-center">
             
             <div class="row">
-                 <input type="hidden" asp-for="Id"/>
                         <input type="hidden" asp-for="CoverImageUrl"/>
                         <div class="custom-file row">
-                            <div class="col-6 text-center align-center">
-                                <img src="@Model.CoverImageUrl" alt="..." class="imagesLivre" height="65" >
-                            </div>
+                           
                             <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
                 
                         </div>
@@ -99,7 +96,7 @@
     </div>
 
     <div class="modal-footer">
-        <input type="submit" value="Modifier les changements" class="btn btn-primary"/>
+        <input type="submit" value="Ajouter" class="btn btn-primary"/>
         <a class="btn btn-danger " href="~/GestionLivres/Inventaire">Annuler</a>
     </div>
 

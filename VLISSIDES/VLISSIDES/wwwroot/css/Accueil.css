@@ -1,38 +1,35 @@
 ﻿/*--Accueil/Index------------------------------------------------------------------------------------------------------------------------*/
-
 #photoPageAccueilDiv {
-    background: url('https://images.pexels.com/photos/261821/pexels-photo-261821.jpeg?auto=compress&cs=tinysrgb') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
+    background: url('../img/Hero.png') no-repeat center center fixed;
     background-size: cover;
-    width: 100vw !important;
     overflow: hidden;
     height: 90vh;
 }
 
 #Titre {
-    color: white;
-    background-color: rgba(0, 0, 0, 0.4);
-    margin-top: 20%;
-    margin-bottom: 7%;
-    padding: 20px;
-    border-radius: 50px;
+    margin-top: 10%;
     align-self: center;
-    width: fit-content;
+    font-family: "ITF Devanagari Marathi";
+    font-size: 5em;
 
 }
-
-#Mission {
-    color: white;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-    align-content: baseline;
-    text-align: justify;
-    margin-bottom: 0%;
-    padding: 15px;
-    font-size: 24px;
+.slogan {
+    font-family: "ITF Devanagari Marathi";
+    font-style: italic;
+    align-self: center;
 }
+.acheter {
+    background-color: rgba(214, 41, 41, 0);
+    border: 2px solid #e94a47;
+    color: #e94a47!important;
+    align-self: center;
+}
+.acheter:hover {
+    background-color: #e94a47;
+    color: #ffff!important;
+}
+
+
 
 .voirPlus {
     text-align: right;
@@ -227,7 +224,7 @@
 .cardServiceOffert i {
     font-size: 50px;
     margin-bottom: 20px;
-    color: #5A9;
+    color: #146ec3;
 !important;
 }
 
@@ -240,7 +237,7 @@
 .cardServiceOffert .btn {
     margin-top: 20px;
     border: none;
-    background-color: #5A9;
+    background-color: #146ec3;
 !important;
     color: #fff;
 !important;
@@ -250,7 +247,7 @@
 }
 
 .cardServiceOffert .btn:hover {
-    background-color: #478;
+    background-color: #4e7fd0;
 !important;
 }
 

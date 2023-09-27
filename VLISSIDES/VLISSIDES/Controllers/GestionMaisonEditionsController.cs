@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.MaisonEditions;
 
 namespace VLISSIDES.Controllers;
 
-public class MaisonEditionsController : Controller
+public class GestionMaisonEditionsController : Controller
 {
     private readonly IConfiguration _config;
     private readonly ApplicationDbContext _context;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public MaisonEditionsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
+    public GestionMaisonEditionsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
         IConfiguration config)
     {
         _context = context;
@@ -20,16 +21,33 @@ public class MaisonEditionsController : Controller
         _config = config;
     }
 
-    public ActionResult Index()
+    public ActionResult Index(string? motCle)
+    {
+        var vm = new MaisonEditionsIndexVM();
+        vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
+        var liste = _context.MaisonEditions.Include(me => me.Livres)
+            .OrderBy(me => me.Nom).ToList();
+
+        if (motCle != null && motCle != "")
+        {
+            liste = liste
+                .Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .ToList();
+        }
+
+
+        vm.ListeMaisonEditions = liste;
+        return View(vm);
+    }
+    public async Task<IActionResult> AfficherListe()
     {
         var vm = new MaisonEditionsIndexVM();
         vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
         var liste = _context.MaisonEditions.Include(me => me.Livres)
             .OrderBy(me => me.Nom).ToList();
         vm.ListeMaisonEditions = liste;
-        return View(vm);
+        return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial", vm);
     }
-
     [HttpPost]
     //[ValidateAntiForgeryToken]
     public ActionResult Ajouter([FromForm] MaisonEditionsIndexVM vm)

@@ -1,0 +1,86 @@
+@using VLISSIDES.Extensions
+<!-- Bouton pour déclencher la barre latérale -->
+<button class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+    <i class="fa-solid fa-bars fa-2xl"></i>
+</button>
+
+<div class="offcanvas offcanvas-start card" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+    <div class="offcanvas-header text-black text-center py-1">
+        <div class="d-flex flex-column">
+            <div class="">
+                <!-- Div pour le logo -->
+                <a href="#">
+                    <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" class="my-1" width="50%">
+                </a>
+            </div>
+            <div class="">
+                <!-- Div pour le titre -->
+                <h1 class="dashboard-title">TABLEAU DE BORD</h1>
+            </div>
+        </div>
+
+        <button type="button" class="btn-close btn-close-black text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body py-5">
+        <ul class="nav flex-column">
+            <!-- Chaque élément de navigation est maintenant enveloppé dans une "card" -->
+            <li class="nav-item mb-3">
+                <div class="card  card-menu-dash">
+                    <a asp-controller="GestionLivres" asp-action="Inventaire" class="nav-link-dash   card-body @Html.IsActive("GestionLivres", "Inventaire")">
+                        <i class="fas fa-home"></i> L'Inventaire des livres
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item mb-3">
+                <div class="card  card-menu-dash">
+                    <a asp-controller="GestionCategories" asp-action="Index" class="nav-link-dash   card-body @Html.IsActive("GestionCategories", "Index")">
+                        <i class="fas fa-clipboard-list"></i> Les Catégories
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item mb-3">
+                <div class="card card-menu-dash">
+                    <a asp-controller="GestionAuteurs" asp-action="Index" class="nav-link-dash  card-body @Html.IsActive("GestionAuteurs", "Index")">
+                        <i class="fas fa-book"></i> Les Auteurs
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item mb-3">
+                <div class="card card-menu-dash">
+                    <a asp-controller="GestionMaisonEditions" asp-action="Index" class="nav-link-dash  card-body @Html.IsActive("MaisonEditions", "Index")">
+                        <i class="fas fa-building"></i> Les Maison d'Éditions
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item mb-3">
+                <div class="card card-menu-dash">
+                    <a asp-controller="GestionMaisonEditions" asp-action="Index" class="nav-link-dash  card-body @Html.IsActive("MaisonEditions", "Index")">
+                        <i class="fas fa-calendar-days"></i> Les Événements
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="card card-menu-dash">
+                    <a asp-controller="GestionMaisonEditions" asp-action="Index" class="nav-link-dash  card-body @Html.IsActive("MaisonEditions", "Index")">
+                        <i class="fas fa-tag"></i> Les Promotions
+                    </a>
+                </div>
+            </li>
+            @* <li class="nav-item mt-4 mb-3"> *@
+            @*     <h6 class="text-uppercase text-xs font-weight-bolder text-muted">Compte</h6> *@
+            @* </li> *@
+            @* <li class="nav-item mb-3"> *@
+            @*     <div class="card card-menu-dash"> *@
+            @*         <a asp-controller="Compte" asp-action="MyProfile" class="nav-link-dash  card-body @Html.IsActive("Compte", "MyProfile")"> *@
+            @*             <i class="fas fa-user"></i> Profil *@
+            @*         </a> *@
+            @*     </div> *@
+            @* </li> *@
+        </ul>
+        <div class="mb-6 py-5">
+            <form class="form-inline" method="post" asp-area="" asp-controller="Compte" asp-action="Logout" asp-route-returnUrl="@Url.Action("Login", "Compte", new { area = "" })">
+                <button type="submit" class="btn btn-primary w-100 ">Se Déconnecter</button>
+            </form>
+        </div>
+    </div>
+</div>
