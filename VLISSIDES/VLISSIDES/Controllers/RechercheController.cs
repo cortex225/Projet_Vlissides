@@ -52,11 +52,8 @@ namespace VLISSIDES.Controllers
                     .Include(l => l.MaisonEdition)
                     .Include(l => l.LivreTypeLivres)
                     .ToList();
-            if (motCles == null)
-            {
-                livresRecherches = new List<Livre>(); //Donne une liste vide car aucun
-            }
-            else if (criteres == null) //Lorsqu'il n'y a pas de criteres spécifiques
+
+            if (criteres == null) //Lorsqu'il n'y a pas de criteres spécifiques
             {
                 for (int i = 0; i <= listMotCles.Count(); ++i)
                 {
