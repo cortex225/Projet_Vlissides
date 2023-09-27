@@ -3,6 +3,7 @@
     ViewData["Title"] = "Accueil Page";
 }
 <link rel="stylesheet" href="css/Accueil.css">
+<link rel="stylesheet" href="css/event-card.css">
 <!--
 Ceci est le div qui contient une image large avec le titre
 -->
@@ -49,7 +50,6 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     Les cartes sont toutes des vues partielles.
     
     -->
-    <div class="">
         <div class="collapse" id="serviceCollapse">
 
             <h2 class="container-fluid titreSections mb-1">Nos Services offerts: </h2>
@@ -66,7 +66,6 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             }
         </div>
 
-    </div>
 
 
     <!--
@@ -76,11 +75,39 @@ Un bouton pour cacher/montrer les services de l'entreprises'
 
     Les cartes sont toutes des vues partielles.
     -->
+    
+    @* Section pour les nouveaux services *@
+    
+    @* <div class="event-card px-lg-5 m-lg-5"> *@
+    @*     <div class="event-image"> *@
+    @*         <img src="~/img/jean-luc.png" alt="Image de l'événement"> *@
+    @*     </div> *@
+    @*     <div class="event-content"> *@
+    @*         <h2>Atelier coder avec Jean-Luc</h2> *@
+    @*         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis.</p> *@
+    @*         <button class="reserve-btn btn btn-primary">Réserver Maintenant</button> *@
+    @* *@
+    @*     </div> *@
+    @*     <div class="event-date-time"> *@
+    @*         <div class="date"> *@
+    @*             <i class="fas fa-calendar-alt"></i> 27 Septembre 2023 *@
+    @*         </div> *@
+    @*         <div class="time"> *@
+    @*             <i class="fas fa-clock"></i> 18:00 *@
+    @*         </div> *@
+    @*         <div class="seats"> *@
+    @*             <i class="fas fa-chair"></i> Places : 5/50 *@
+    @*         </div> *@
+    @*     </div> *@
+    @*     <div class="sticker ">Complet</div> *@
+    @* </div> *@
+    
+    
     @if (Model.Evenements.Count > 1)
     {
         <h2 class="titreSections mb-1">Nos Activité Et Évenements: </h2>
         <p class="m-2">Immergez-vous dans nos événements et partagez des moments d'exception.</p>
-        <div id="carouselEvenements" class="carousel slide container">
+        <div id="carouselEvenements" class="carousel slide container-fluid">
             <a href="#" class="voirPlus">Voir plus ->: </a>
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -351,4 +378,19 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             livre.hidden = false;
 
     }*/
+</script>
+<script>
+function toggleDescription(buttonElement) {
+    var descriptionElement = buttonElement.previousElementSibling;
+
+    if (descriptionElement.style.display === "none" || descriptionElement.style.display === "") {
+        descriptionElement.style.display = "block";
+        buttonElement.innerText = "Voir moins";
+    } else {
+        descriptionElement.style.display = "none";
+        buttonElement.innerText = "Voir plus";
+    }
+}
+
+
 </script>

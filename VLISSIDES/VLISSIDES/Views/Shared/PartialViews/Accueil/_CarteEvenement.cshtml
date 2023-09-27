@@ -1,20 +1,20 @@
 ﻿@model VLISSIDES.ViewModels.Accueil.EventCardVM;
 
 <div class="item">
-    <div class="card event">
+    <div class="card event pb-4" style="width: 25em;">
         <div class="imgEvent bg-image hover-overlay ripple card-img-top" data-mdb-ripple-color="light" >
-            <img src="@Model.Image" class="img-fluid" id="cardEvent" 
-                 alt="Image de l'évènment" />
+            <img src="@Model.Image" class="img-fluid" id="cardEvent"  style="width: 100%; object-fit: fill; min-height: 20em;"
+                 alt="Image de l'évènment"/>
             <a href="#!">
                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
             </a>
         </div>
-        <div class="card-body">
+        <div class="card-body my-4">
             <h5 class="card-title">@Model.Nom</h5>
             <p class="card-text">
                 @Model.Description
             </p>
-            <a href="#" class="btn btn-primary eventBTN" style="position: absolute;bottom: 0;left: 0;right: 0;margin: 40px;">Voir plus</a>
+            <a href="#" class="btn btn-primary eventBTN rounded-pill" style="position: absolute;bottom: 0;left: 0;right: 0;margin: 40px;">Réserver Maintenant</a>
         </div>
     </div>
 </div>

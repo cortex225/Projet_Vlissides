@@ -1,6 +1,6 @@
 ﻿/*--Accueil/Index------------------------------------------------------------------------------------------------------------------------*/
 #photoPageAccueilDiv {
-    background: url('../img/Hero.png') no-repeat center center fixed;
+    background: url('../img/Hero-2.svg') no-repeat center center fixed;
     background-size: cover;
     overflow: hidden;
     height: 90vh;
@@ -21,11 +21,11 @@
 .acheter {
     background-color: rgba(214, 41, 41, 0);
     border: 2px solid #e94a47;
-    color: #e94a47!important;
+    color: #ff4b5c!important;
     align-self: center;
 }
 .acheter:hover {
-    background-color: #e94a47;
+    background-color: #ff4b5c;
     color: #ffff!important;
 }
 
@@ -258,3 +258,4 @@
         margin-bottom: 20px; /* Espacement entre les cartes empilées */
     }
 }
+

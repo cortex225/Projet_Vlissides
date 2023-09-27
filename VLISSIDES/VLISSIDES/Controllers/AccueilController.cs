@@ -46,16 +46,19 @@ public class AccueilController : Controller
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
                 "img/jean-luc.png",
-                "Atelier coder avec Jean-Luc"),
+                "Atelier coder avec Jean-Luc",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
                 "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
                 "Lorem ipsum",
                 "Dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
                 "img/jean-luc.png",
-                "Atelier coder avec Jean-Luc 2"),
+                "Atelier coder avec Jean-Luc 2",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM("img/logo/Logo.png",
-                            "La fourmi ailée fête ses 1 ans!"),
+                            "La fourmi ailée fête ses 1 ans!",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
                 "https://images.pexels.com/photos/2608517/pexels-photo-2608517.jpeg?auto=compress&cs=tinysrgb",
                 "Lorem ipsum",
