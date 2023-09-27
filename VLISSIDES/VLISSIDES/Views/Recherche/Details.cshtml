@@ -1,4 +1,5 @@
-﻿@model Livre
+﻿@using VLISSIDES.ViewModels.Recherche;
+@model DetailsLivreVM
 @{
 }
 
@@ -17,10 +18,10 @@
         </div>
 
         <p>Prix: @Model.Prix $</p>
-        <p>Auteur(s): @foreach(Auteur a in Model.Auteur){ @a.NomAuteur }</p>
-        <p>Catégorie(s): @foreach(Categorie c in Model.Categories){ @c.Nom }</p>
+        <p>Auteur(s): @foreach(Auteur a in Model.lesAuteurs){ @a.NomAuteur }</p>
+        <p>Catégorie(s): @foreach(Categorie c in Model.lesCategories){ @c.Nom }</p>
         <p>Date publication: @Model.DatePublication</p>
-        <p>Éditeur: @Model.MaisonEdition.Nom</p>
+        <p>Éditeur: @Model.maisonEdition.Nom</p>
         <p>Nombre de pages: @Model.NbPages</p>
         <strong>Résumé:</strong> 
         <p>@Model.Resume</p>

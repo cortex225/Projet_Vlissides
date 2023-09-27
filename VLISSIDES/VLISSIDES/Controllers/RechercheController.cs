@@ -173,9 +173,30 @@ namespace VLISSIDES.Controllers
                     .Include(l => l.LivreTypeLivres)
                     .ToList();
 
-            Livre monLivre = mesLivres.Find(l => l.Id == id);
+            Livre? monLivre = mesLivres.Find(l => l.Id == id);
 
-            return View(monLivre);
+            DetailsLivreVM vm;
+
+            if (monLivre == null) {
+                vm = new DetailsLivreVM();
+            } else {
+                vm = new DetailsLivreVM
+                {
+                    Id = monLivre.Id,
+                    Titre = monLivre.Titre,
+                    lesAuteurs = monLivre.Auteur,
+                    lesCategories = monLivre.Categories,
+                    Prix = monLivre.Prix,
+                    DatePublication = monLivre.DatePublication,
+                    Couverture = monLivre.Couverture,
+                    maisonEdition = monLivre.MaisonEdition,
+                    NbPages = monLivre.NbPages,
+                    Resume = monLivre.Resume,
+                    NbExemplaires = monLivre.NbExemplaires
+                };
+            }
+
+            return View(vm);
         }
     }
 }
