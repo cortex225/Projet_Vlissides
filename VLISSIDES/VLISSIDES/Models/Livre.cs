@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace VLISSIDES.Models;
 
 public class Livre
