@@ -108,7 +108,7 @@ public class GestionLivresController : Controller
                         if (double.TryParse(listMotCles[i], out prixMinD))
                         {
                             livres = livres
-                                .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix >= (decimal)prixMinD)
+                                .Where(objet => objet.Prix >= prixMinD)
                                 .ToList();
                         }
                         break;
@@ -118,7 +118,7 @@ public class GestionLivresController : Controller
                         if (double.TryParse(listMotCles[i], out prixMaxD))
                         {
                             livres = livres
-                                .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix <= (decimal)prixMaxD)
+                                .Where(objet => objet.Prix <= prixMaxD)
                                 .ToList();
                         }
                         break;
@@ -135,9 +135,9 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = l.Categories.FirstOrDefault().Nom,
+                Categorie = _context.Categories.FirstOrDefault(c => c.Id == l.CategorieId).Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
-                Quantite = l.NbExemplaires,
+                Quantite = l.NbExemplaires
             }).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
@@ -223,24 +223,35 @@ public class GestionLivresController : Controller
             {
                 vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
             }
-
+            var id = Guid.NewGuid().ToString();
             //Types de livres
-            var listeType = new List<TypeLivre>();
+            var listeType = new List<LivreTypeLivre>();
             if (vm.Neuf)
             {
-                var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
-                listeType.Add(neuf);
+                //var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
+                listeType.Add(new LivreTypeLivre()
+                {
+                    LivreId = id,
+                    TypeLivreId = "1",
+                    Prix = vm.PrixNeuf
+                });
             }
 
             if (vm.Numerique)
             {
-                var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
-                listeType.Add(numerique);
-            }
+                //var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
+                listeType.Add(new LivreTypeLivre()
+                {
+                    LivreId = id,
+                    TypeLivreId = "2",
+                    Prix = vm.PrixNumerique
+                });
 
+
+            }
             var livre = new Livre
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = id,
                 Titre = vm.Titre,
                 Resume = vm.Resume,
                 NbExemplaires = vm.NbExemplaires,
@@ -249,7 +260,7 @@ public class GestionLivresController : Controller
                 AuteurId = vm.AuteurId,
                 MaisonEditionId = vm.MaisonEditionId,
                 Couverture = vm.CoverImageUrl,
-                TypeLivreId = vm.TypeLivreId,
+                LivreTypeLivres = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
                 CategorieId = vm.CategorieId,
@@ -262,11 +273,11 @@ public class GestionLivresController : Controller
             Console.Write("2");
 
             return RedirectToAction("Inventaire");
+
+
         }
-
-        return BadRequest();
+        return View(vm);
     }
-
     public IActionResult Modifier(string id)
     {
         var livre = _context.Livres
@@ -284,7 +295,6 @@ public class GestionLivresController : Controller
             DatePublication = livre.DatePublication,
             NbExemplaires = livre.NbExemplaires,
             NbPages = livre.NbPages,
-            Prix = livre.LivreTypeLivres.FirstOrDefault().Prix,
             Resume = livre.Resume,
             Titre = livre.Titre,
             CategorieId = livre.CategorieId,
@@ -300,10 +310,20 @@ public class GestionLivresController : Controller
         }
         else
         {
-            vm.Neuf = livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1")) ? true : false;
-            vm.Numerique = livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2"))
-                ? true
-                : false;
+            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1")))
+            {
+                vm.Neuf = true;
+                vm.PrixNeuf = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1").Prix;
+            }
+            else
+                vm.Neuf = false;
+            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2")))
+            {
+                vm.Numerique = true;
+                vm.PrixNumerique = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2").Prix;
+            }
+            else vm.Numerique = false;
+
         }
 
         //Populer les selectList
@@ -352,17 +372,25 @@ public class GestionLivresController : Controller
             }
 
             //Types de livres
-            var listeType = new List<TypeLivre>();
+            var listeType = new List<LivreTypeLivre>();
             if (vm.Neuf)
             {
-                var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
-                listeType.Add(neuf);
+                listeType.Add(new LivreTypeLivre()
+                {
+                    LivreId = vm.Id.ToString(),
+                    TypeLivreId = "1",
+                    Prix = vm.PrixNeuf
+                });
             }
 
             if (vm.Numerique)
             {
-                var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
-                listeType.Add(numerique);
+                listeType.Add(new LivreTypeLivre()
+                {
+                    LivreId = vm.Id.ToString(),
+                    TypeLivreId = "2",
+                    Prix = vm.PrixNumerique
+                });
             }
 
             var livre = await _context.Livres
@@ -381,14 +409,10 @@ public class GestionLivresController : Controller
             livre.AuteurId = vm.AuteurId;
             livre.CategorieId = vm.CategorieId;
             livre.LangueId = vm.LangueId;
-            livre.LivreTypeLivres = listeType.Select(x => new LivreTypeLivre
-            {
-                LivreId = "Id" + (_context.Livres.Count() + 1),
-                TypeLivreId = x.Id,
-                Prix = vm.Prix
-            }).ToList();
+            livre.LivreTypeLivres = listeType;
             livre.Couverture = vm.CoverImageUrl;
-            livre.MaisonEditionId = vm.MaisonEditionId; 
+            livre.MaisonEditionId = vm.MaisonEditionId;
+            livre.Prix = vm.Prix;
             livre.DatePublication = vm.DatePublication;
 
             await _context.SaveChangesAsync();

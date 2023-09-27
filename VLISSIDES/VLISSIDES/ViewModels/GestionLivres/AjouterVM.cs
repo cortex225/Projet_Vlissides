@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Livres;
@@ -17,7 +17,7 @@ public class AjouterVM
 
     [Display(Name = "Nombre de pages")] public int NbPages { get; set; }
 
-    public decimal Prix { get; set; }
+
 
     [Display(Name = "Date de publication")]
     public DateTime DatePublication { get; set; }
@@ -45,7 +45,9 @@ public class AjouterVM
     [Display(Name = "Type")] public string? TypeLivreId { get; set; }
 
     public bool Numerique { get; set; }
+    public double? PrixNumerique { get; set; }
     public bool Neuf { get; set; }
+    public double? PrixNeuf { get; set; }
     public ICollection<TypeLivre>? Types { get; set; }
 
     //public string EvaluationId { get; set; }
