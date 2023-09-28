@@ -21,8 +21,12 @@ namespace VLISSIDES.Controllers
             _config = config;
         }
 
-        public async Task<IActionResult> Index(string? motCle)
+        
+        public async Task<IActionResult> Index(string? motCle, int page = 1)
         {
+
+            var itemsPerPage = 10;
+            var totalItems = await _context.Livres.CountAsync();
             var vm = new AuteursIndexVM();
             vm.AuteursAjouterVM = new AuteursAjouterVM() { NomAuteur = "" };
             List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).ToList();
@@ -34,7 +38,18 @@ namespace VLISSIDES.Controllers
                 .ToList();
             }
 
-            vm.ListeAuteurs = liste;
+            vm.ListeAuteurs = liste
+                .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                .Take(itemsPerPage)
+                .ToList();
+            //ViewBag qui permet de savoir le nom de l'action
+            ViewBag.ActionName = "Index";
+            //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+            //Math.Ceiling permet d'arrondir au nombre supérieur
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.CurrentPage = page;
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
             return View(vm);
         }
 
@@ -43,8 +58,11 @@ namespace VLISSIDES.Controllers
 
             return Json(listLivre);
         }
-        public async Task<IActionResult> AfficherListe(string? motCle)
+        public async Task<IActionResult> AfficherListe(string? motCle, int page = 1)
         {
+            var itemsPerPage = 10;
+            var totalItems = await _context.Livres.CountAsync();
+            
             var vm = new AuteursIndexVM();
             vm.AuteursAjouterVM = new AuteursAjouterVM();
             var liste = _context.Auteurs.Include(a => a.Livres)
@@ -52,10 +70,22 @@ namespace VLISSIDES.Controllers
             if (motCle != null && motCle != "")
             {
                 liste = liste
-                    .Where(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
                 .ToList();
             }
-            vm.ListeAuteurs = liste;
+            vm.ListeAuteurs = liste
+                .Where(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                .Take(itemsPerPage)
+                .ToList();
+            //ViewBag qui permet de savoir le nom de l'action
+            ViewBag.ActionName = "Index";
+            //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+            //Math.Ceiling permet d'arrondir au nombre supérieur
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.CurrentPage = page;
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+            
             return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial", vm);
         }
         //AJOUTER

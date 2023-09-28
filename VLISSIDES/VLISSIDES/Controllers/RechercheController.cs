@@ -22,8 +22,11 @@ namespace VLISSIDES.Controllers
 
         // GET: RechercheController
         [Route("/Recherche/Index")]
-        public ActionResult Index(string? motCles, string? criteres)
+        public async Task<ActionResult> Index(string? motCles, string? criteres, int page = 1)
         {
+            var itemsPerPage = 10;
+            var totalItems = await _context.Livres.CountAsync();
+            
             List<string> listMotCles = new List<string>();
             if (motCles != null)
             {
@@ -51,6 +54,8 @@ namespace VLISSIDES.Controllers
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
                     .Include(l => l.LivreTypeLivres)
+                    .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                    .Take(itemsPerPage) // Nombre d'items par page
                     .ToList();
 
             if (criteres == null) //Lorsqu'il n'y a pas de criteres spécifiques
@@ -129,9 +134,13 @@ namespace VLISSIDES.Controllers
             }
             else
             {
+                
+                
                 livresRecherches = livresRecherches
                     .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                     .ToList();
+                
+               
             }
             IndexRechercheVM vm;
             if (motCles == null)
@@ -157,6 +166,15 @@ namespace VLISSIDES.Controllers
                 };
             }
 
+            //ViewBag qui permet de savoir le nom de l'action
+            ViewBag.ActionName = "Index";
+            //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+            //Math.Ceiling permet d'arrondir au nombre supérieur
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.CurrentPage = page;
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+            
             return View(vm);
         }
 

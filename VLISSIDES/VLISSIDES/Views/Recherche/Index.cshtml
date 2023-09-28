@@ -101,7 +101,10 @@
                         @foreach(Livre livre in Model.ResultatRecherche){
                             <partial name="_CarteLivreRecherche.cshtml" model="@livre"/>
                         }
+                        @* Ajout de la pagination *@
+                        <partial name="PartialViews/Utilities/_PaginationPartial"/>
                     </div>
+                     
                 </div>
             </div>
 

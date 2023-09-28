@@ -139,7 +139,9 @@ public class GestionLivresController : Controller
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
-
+        
+        //ViewBag qui permet de savoir le nom de l'action
+        ViewBag.ActionName = "Inventaire";
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
         // ReSharper disable once HeapView.BoxingAllocation
