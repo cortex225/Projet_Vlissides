@@ -6,8 +6,8 @@
 
 <link rel="stylesheet" href="~/css/Details.css">
 <div id="detailsDivPrincipal">
-    <div id="DetailsIMG">
-        <img src="@Model.Couverture" />
+    <div id="DetailsDIV">
+        <img id="DetailsIMG" src="@Model.Couverture" />
     </div>
 
     <div id="DetailsInfo">
@@ -34,3 +34,13 @@
         }
     </div>
 </div>
+
+<style>
+    #DetailsDIV{
+        max-width: 35%;
+    }
+
+    #DetailsIMG {
+        max-width: 100%;
+    }
+</style>
