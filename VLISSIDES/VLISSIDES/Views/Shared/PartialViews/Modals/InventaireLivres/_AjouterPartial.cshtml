@@ -3,7 +3,7 @@
 <div class="modal-header">
     <h5 class="modal-title" id="ModalEditLabel">Ajouter un nouveau Livre</h5>
 </div>
-<form asp-action="Ajouter" asp-controller="GestionLivres" enctype="multipart/form-data">
+<form asp-action="Ajouter" asp-controller="GestionLivres" enctype="multipart/form-data" id="FormLivreAjouter">
     @Html.AntiForgeryToken()
     <div class="modal-body">
 
@@ -105,8 +105,9 @@
     </div>
 
     <div class="modal-footer">
-        <input type="submit" value="Ajouter" class="btn btn-primary"/>
         <a class="btn btn-danger " href="~/GestionLivres/Inventaire">Annuler</a>
+        <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterLivre()"/>
+        
     </div>
 
 </form>
@@ -132,5 +133,43 @@
         } else {
             div.className = "visually-hidden ml-2";
         }
+    }
+    function AjouterLivre() {
+        var form = document.getElementById("FormLivreAjouter");
+        var data = new FormData(form);
+
+        //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
+        fetch('/GestionLivres/Ajouter', {
+            method: "POST",
+            body: data
+            // headers: {
+            //    RequestVerificationToken: csrfToken,
+            // },
+        }).catch(error => {
+            console.error('Échec du fetch pour ajouter maison edition', error);
+        }).then((response) => {
+            
+                return response.text();
+        }).then((result) => {
+            console.log(result);
+            if(result ==""){
+                
+                $('.modal').modal('hide');
+                AfficherLivres();
+            }else{
+                document.querySelector('.modal-content').innerHTML = result;
+            
+            }
+            
+        });
+    };
+    function AfficherLivres() {
+        fetch("/GestionLivres/AfficherLivres", {
+            method: "GET"
+        }).then((response)=>{
+            return response.text();
+        }).then((result) => {
+            document.getElementById("TabLivreListes").innerHTML = result;
+        });
     }
 </script>
