@@ -23,10 +23,14 @@ body {
     margin-bottom: 60px;
     position: relative;
     background-color: #f8f4f1 !important;
+    overflow-x: hidden;
 }
 
 header {
     background-color: #f8f4f1 !important;
 }
 
-
+/*.modal-inventaire {*/
+/*    justify-content: center!important;*/
+/*    width: 50vw!important;*/
+/*}*/

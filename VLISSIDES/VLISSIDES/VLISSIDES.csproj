@@ -70,7 +70,7 @@
 
     <ItemGroup>
         <Folder Include="Areas\Identity\" />
-        <Folder Include="Migrations\" />
+        <Folder Include="wwwroot\img\icons_Services\" />
         <Folder Include="wwwroot\img\Images_Livre\" />
         <Folder Include="wwwroot\img\CouvertureLivre\" />
     </ItemGroup>

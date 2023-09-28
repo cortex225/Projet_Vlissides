@@ -9,7 +9,38 @@
         La navbar est divisée en deux navbar, une pour la partie du haut, une autre pour le bas.
     *@
     <!--Navbar du haut-->
-    <partial name="PartialViews/Navbar/_NavbarTopPartial"/>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0 px-4" id="navTop">
+        <div class="container-fluid">
+            <!-- Logo fourmi ailée. Ce logo permet de retourner à l'accueil -->
+            <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
+                <img src="img/Logo/Logo_sans_fond.png" alt="logo" class="brand-logo"/>
+            </a>
+
+            <!-- Barre de recherche -->
+            <div id="divRecherche" class="navbar-nav flex-grow-1 recherche-container">
+                <div class="input-group mb-3 recherche-group">
+                    <div class="category-dropdown dropdown">
+                        <span class="selected-category">Trier par :</span>
+                        <select class="form-select recherche-select" id="dropdownRechercheNavbar">
+                            <option value="titre">Titre</option>
+                            <option value="auteur">Auteur</option>
+                            <option value="categorie">Catégorie</option>
+                        </select>
+                    </div>
+                    <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher...">
+                    <a id="loupeRechercheNavbar" asp-area="" asp-controller="Recherche" asp-action="Index" >
+                        <button type="button" class="btn btn-secondary recherche-btn">
+                            <i class="fa-solid fa-magnifying-glass fa-sm"></i>
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
+            <partial name="_LoginPartial"/>
+        </div>
+    </nav>
+
     <!--Navbar du bas-->
     <partial name="PartialViews/Navbar/_NavbarBottomPartial"/>
 
@@ -40,6 +71,44 @@ Afficher le corps de la page
 <!--
 Une tonne de scripts divers
 -->
+
+<script type="text/javascript">
+    //Script pour la recherche
+    var search = document.getElementById("barreRechercheNavbar");
+    var loupe = document.getElementById("loupeRechercheNavbar");
+    var dropdown = document.getElementById("dropdownRechercheNavbar");
+
+    loupe.addEventListener("click", Rechercher);
+
+    var selectedCategory = document.querySelector(".selected-category");
+
+    // Écoutez les changements de sélection dans le dropdown
+    dropdown.addEventListener("change", function () {
+        var selectedOption = dropdown.options[dropdown.selectedIndex];
+        selectedCategory.textContent = selectedOption.text;
+    });
+
+    async function Rechercher(ev) {
+        ev.preventDefault();
+
+        var searchTerm = search.value; // Récupérer la valeur de la barre de recherche
+        var critere = dropdown.value; //Récupérer la valeur de la liste déroulante
+
+        // Utiliser la valeur dans l'URL pour l'action Index
+        if (critere == null) {
+            window.location.href = `/Recherche/Index?motCles=${searchTerm}`;
+        }else{
+            var maListe = [critere];
+            var listeSerialisee = maListe.join("|");
+
+            window.location.href = `/Recherche/Index?motCles=${searchTerm}&criteres=${listeSerialisee}`;
+        }
+    }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+
 <!-- MDB -->
 <script
     type="text/javascript"

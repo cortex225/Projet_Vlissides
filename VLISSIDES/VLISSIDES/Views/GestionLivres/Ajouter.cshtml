@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
 }
 @model VLISSIDES.ViewModels.Livres.AjouterVM
 <div class="container">
@@ -38,11 +37,6 @@
                                         <select asp-for="MaisonEditionId" asp-items="Model.SelectMaisonEditions" class="form-control"></select>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="Prix" class="control-label"></label>
-                                        <input asp-for="Prix" class="form-control"/>
-                                        <span asp-validation-for="Prix" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
                                         <label asp-for="NbPages" class="control-label"></label>
                                         <input asp-for="NbPages" class="form-control"/>
                                         <span asp-validation-for="NbPages" class="text-danger"></span>
@@ -58,14 +52,32 @@
                                         <span asp-validation-for="CategorieId" class="text-danger"></span>
                                     </div>
                                     <fieldset>
-                                       @*  <legend>Type de livre</legend> *@
+                                        @*  <legend>Type de livre</legend> *@
                                         <div>
-                                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" asp-for="@Model.Neuf">
+                                            <input id="cbNeuf" class="form-check-input" type="checkbox" asp-for="@Model.Neuf" onclick="ShowInputsNeuf()">
                                             <label asp-for="@Model.Neuf"></label>
+                                            <div id="inputsNeuf" class="visually-hidden">
+                                                <div class="form-group">
+                                                    <label asp-for="PrixNeuf" class="control-label"></label>
+                                                    <input asp-for="PrixNeuf" class="form-control" />
+                                                    <span asp-validation-for="PrixNeuf" class="text-danger"></span>
+                                                </div>
+                                                <div>
+                                                    <label asp-for="NbExemplaires" class="control-label"></label>
+                                                    <input asp-for="NbExemplaires" class="form-control" />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div>
-                                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" asp-for="@Model.Numerique">
+                                            <input id="cbNumerique" class="form-check-input" type="checkbox" asp-for="@Model.Numerique" onclick="ShowInputNumerique()">
                                             <label asp-for="@Model.Numerique"></label>
+                                            <div id="inputNumerique" class="visually-hidden">
+                                                <div class="form-group">
+                                                    <label asp-for="PrixNumerique" class="control-label"></label>
+                                                    <input asp-for="PrixNumerique" class="form-control" />
+                                                    <span asp-validation-for="PrixNumerique" class="text-danger"></span>
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </fieldset>
@@ -74,11 +86,7 @@
                                         <select asp-for="LangueId" asp-items="Model.SelectLangues" class="form-control">
                                         </select>
                                         <span asp-validation-for="LangueId" class="text-danger"></span>
-                                    </div>
-                                    <div>
-                                        <label asp-for="NbExemplaires" class="control-label"></label>
-                                        <input asp-for="NbExemplaires" class="form-control"/>
-                                    </div>
+                                    </div>        
                                     <div>
                                         <label asp-for="DatePublication"></label>
                                         <input asp-for="DatePublication"/>
@@ -106,3 +114,26 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function ShowInputsNeuf() {
+        console.log("aloo");
+        var cbNeuf = document.getElementById("cbNeuf");
+        var divNeuf = document.getElementById("inputsNeuf");
+        if (cbNeuf.checked == true) {
+            divNeuf.className = "";
+        } else {
+            divNeuf.className = "visually-hidden";
+        }
+    }
+
+    function ShowInputNumerique() {
+        var cb = document.getElementById("cbNumerique");
+        var div = document.getElementById("inputNumerique");
+        if (cb.checked == true) {
+            div.className = "";
+        } else {
+            div.className = "visually-hidden";
+        }
+    }
+</script>

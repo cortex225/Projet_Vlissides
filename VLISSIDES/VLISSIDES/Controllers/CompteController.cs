@@ -1,9 +1,9 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -43,6 +43,9 @@ public class CompteController : Controller
 
 
     [AllowAnonymous]
+    [Route("Identity/Account/Login", Order = -1)]
+    [Route("Identity/Account/AccessDenied", Order = -1)]
+    [Route("{controller}/{action}", Order = -2)]
     public IActionResult Login(string? returnUrl = null)
     {
         var vm = new LoginVM();
@@ -57,6 +60,9 @@ public class CompteController : Controller
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
+    [Route("Identity/Account/Login", Order = -1)]
+    [Route("Identity/Account/AccessDenied", Order = -1)]
+    [Route("{controller}/{action}", Order = -2)]
     public async Task<ActionResult> Login(LoginVM vm, string? returnUrl = null)
     {
         if (ModelState.IsValid)
@@ -436,6 +442,7 @@ public class CompteController : Controller
                 ModelState.AddModelError(string.Empty, "Tentative de connexion non valide.");
                 return View(vm);
             }
+
             var user = new ApplicationUser { UserName = vm.Email, Email = vm.Email };
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)

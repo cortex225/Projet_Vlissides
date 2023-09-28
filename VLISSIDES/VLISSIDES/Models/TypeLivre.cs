@@ -8,5 +8,5 @@ public class TypeLivre
 
     [DisplayName("Nom")] public string Nom { get; set; } = default!;
 
-    [DisplayName("Livres associ�s")] public ICollection<Livre> Livres { get; set; } = default!;
+    [DisplayName("Type(s) de livre")] public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; } = default!;
 }

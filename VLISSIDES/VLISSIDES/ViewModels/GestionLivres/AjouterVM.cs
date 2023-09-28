@@ -17,17 +17,17 @@ public class AjouterVM
 
     [Display(Name = "Nombre de pages")] public int NbPages { get; set; }
 
-    public double Prix { get; set; }
 
     [Display(Name = "Date de publication")]
     public DateTime DatePublication { get; set; }
 
-    [Display(Name = "ISBN")]
-    public string ISBN { get; set; }
+    [Display(Name = "ISBN")] public string ISBN { get; set; }
 
     //Categories
-    [Display(Name = "Catégorie")]
-    public string CategorieId { get; set; }
+    [Display(Name = "Catégorie")] public string CategorieId { get; set; }
+
+    public ICollection<Categorie>? Categories { get; set; }
+
     public List<SelectListItem>? SelectListCategories { get; set; }
 
     //Auteurs
@@ -43,10 +43,14 @@ public class AjouterVM
     public List<SelectListItem>? SelectMaisonEditions { get; set; }
 
     //Type
-    [Display(Name = "Type")]
-    public string? TypeLivreId { get; set; }
+    [Display(Name = "Type")] public string? TypeLivreId { get; set; }
+
     public bool Numerique { get; set; }
+    [Display(Name = "Prix Numérique")]
+    public decimal PrixNumerique { get; set; }
     public bool Neuf { get; set; }
+    [Display(Name = "Prix Neuf")]
+    public decimal PrixNeuf { get; set; }
     public ICollection<TypeLivre>? Types { get; set; }
 
     //public string EvaluationId { get; set; }
@@ -54,8 +58,8 @@ public class AjouterVM
     //Langue
 
 
-    [Display(Name = "Langue")]
-    public string? LangueId { get; set; }
+    [Display(Name = "Langue")] public string? LangueId { get; set; }
+
     public List<SelectListItem>? SelectLangues { get; set; }
 
     //Image

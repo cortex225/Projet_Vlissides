@@ -20,75 +20,92 @@ public class AccueilController : Controller
 
     public IActionResult Index()
     {
-        List<_ServiceCardVM> services = new()
+        List<ServiceCardVM> services = new()
         {
-            new _ServiceCardVM("img/book-icon.png", "Vente de livre",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."),
-            new _ServiceCardVM("img/event.png", "Évènements",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla."),
-            new _ServiceCardVM("img/book-icon.png", "a",
-                "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. Aliquam purus odio, consequat at pulvinar in, sollicitudin quis augue. Fusce eu magna mauris. Sed pretium, lorem at consectetur pretium, diam nulla faucibus purus, ac iaculis tellus purus at nulla.\"")
+            new ServiceCardVM("img/book-icon.png", "Boutique en ligne ",
+                "Découvrez notre vaste sélection de livres neufs et numériques. Recherchez facilement parmi vos auteurs, genres ou éditeurs préférés et profitez d'une livraison rapide. Notre stock en temps réel vous assure de trouver ce que vous cherchez.",
+                "fa-solid fa-cart-shopping"),
+            new ServiceCardVM("img/event.png", "Événements et Activités",
+                "Plongez dans le monde littéraire avec nos événements exclusifs ! De la poésie aux ateliers d'écriture, réservez votre place en ligne et rejoignez une communauté passionnée de littérature.",
+                "fa-solid fa-calendar-check"),
+            new ServiceCardVM("img/book-icon.png", "Programme Éco-responsable",
+                "Faites un choix éco-responsable lors de vos achats. Participez à notre initiative de réduction de l'empreinte écologique et contribuez à la plantation d'arbres. Ensemble, faisons une différence !",
+                "fa-brands fa-pagelines"),
+            new ServiceCardVM("img/book-icon.png", "Promotions et Offres spéciales  ",
+                "Ne manquez pas nos offres exceptionnelles ! Découvrez les promotions du moment, bénéficiez de rabais exclusifs et profitez de réductions spéciales pour nos membres.",
+                "fa-solid fa-tags"),
+            new ServiceCardVM("img/book-icon.png", "Espace Membre",
+                "Devenez membre gratuitement et accédez à des avantages exclusifs. Gérez votre profil, suivez vos commandes et réservations, et profitez d'une expérience d'achat personnalisée.",
+                "fa-solid fa-user-group")
         };
-        List<_EventCardVM> evenements = new()
+        List<EventCardVM> evenements = new()
         {
-            new _EventCardVM(
+            new EventCardVM(
                 "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
                 "Soirée poésie",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
-            new _EventCardVM(
-                "https://images.pexels.com/photos/8617842/pexels-photo-8617842.jpeg?auto=compress&cs=tinysrgb"),
-            new _EventCardVM(
-                "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
+            new EventCardVM(
+                "img/jean-luc.png",
+                "Atelier coder avec Jean-Luc",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
-            new _EventCardVM(
-                "https://images.pexels.com/photos/331723/pexels-photo-331723.jpeg?auto=compress&cs=tinysrgb"),
-            new _EventCardVM("img/logo/Logo.png"),
-            new _EventCardVM(
+            new EventCardVM(
+                "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
+                "Lorem ipsum",
+                "Dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
+            new EventCardVM(
+                "img/jean-luc.png",
+                "Atelier coder avec Jean-Luc 2",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
+            new EventCardVM("img/logo/Logo.png",
+                            "La fourmi ailée fête ses 1 ans!",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
+            new EventCardVM(
                 "https://images.pexels.com/photos/2608517/pexels-photo-2608517.jpeg?auto=compress&cs=tinysrgb",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. ")
+                "Lorem ipsum",
+                "Dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. ")
         };
-        List<_LivreCardVM> vedettes = new()
+        List<LivreCardVM> vedettes = new()
         {
-            new _LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", 6.66,
-                new List<Auteur> { new() { Nom = "Vlissides", Prenom = "Équipe" } },
-                new List<Categorie> { new() { Nom = "Horreur" } }),
-            new _LivreCardVM("img/flat.png"),
-            new _LivreCardVM("img/flat.png"),
-            new _LivreCardVM("img/flat.png"),
-            new _LivreCardVM("img/flat.png"),
-            new _LivreCardVM("img/flat.png"),
-            new _LivreCardVM("img/flat.png"),
-            new _LivreCardVM("img/flat.png")
+            new LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", (decimal)6.66,
+                new Auteur { NomAuteur = "Vlissides"} ,
+                new Categorie { Nom = "Horreur" } ),
+            new LivreCardVM("img/flat.png"),
+            new LivreCardVM("img/flat.png"),
+            new LivreCardVM("img/flat.png"),
+            new LivreCardVM("img/flat.png"),
+            new LivreCardVM("img/flat.png"),
+            new LivreCardVM("img/flat.png"),
+            new LivreCardVM("img/flat.png")
         };
-        List<_LivreCardVM> recommandations = new()
+        List<LivreCardVM> recommandations = new()
         {
-            new _LivreCardVM("img/flat.png", "Le chaperon rouge", 0.69,
-                new List<Auteur> { new() { Nom = "Grimms", Prenom = "Frères" } },
-                new List<Categorie> { new() { Nom = "Conte" } }),
-            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"),
-            new _LivreCardVM("img/flat.png")
+            new LivreCardVM("img/flat.png", "Le chaperon rouge", (decimal)0.69,
+                new Auteur { NomAuteur = "Grimms"},
+                new Categorie { Nom = "Conte" }),
+            new LivreCardVM("img/flat.png"), new LivreCardVM("img/flat.png"), new LivreCardVM("img/flat.png"),
+            new LivreCardVM("img/flat.png")
         };
         List<string> categories = new() { "Humour", "Essai", "Faune - Flore", "Art de vivre", "Informatique" };
-        List<_LivreCardVM> livreCategories = new()
+        List<LivreCardVM> livreCategories = new()
         {
-            new _LivreCardVM("img/flat.png", "Fahrenheit 451", 0.69,
-                new List<Auteur> { new() { Nom = "Bradbury", Prenom = "Ray" } },
-                new List<Categorie> { new() { Nom = "Fiction Dystopie" } }),
-            new _LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", 40.99,
-                new List<Auteur> { new() { Nom = "", Prenom = "Jean-Luc" } },
-                new List<Categorie> { new() { Nom = "Informatique" } }),
-            new _LivreCardVM("img/flat.png"),
-            new _LivreCardVM("img/flat.png"), new _LivreCardVM("img/flat.png"),
-            new _LivreCardVM("img/flat.png")
+            new LivreCardVM("img/flat.png", "Fahrenheit 451", (decimal)0.69,
+                new Auteur { NomAuteur = "Bradbury"},
+                new Categorie{ Nom = "Fiction Dystopie" }),
+            new LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", (decimal)40.99,
+                new Auteur{ NomAuteur = ""},
+                new Categorie { Nom = "Informatique" }),            
+            new LivreCardVM("img/flat.png"),
+            new LivreCardVM("img/flat.png"), new LivreCardVM("img/flat.png"),
+            new LivreCardVM("img/flat.png")
         };
-        List<_PromotionCardVM> promotionCards = new()
+        List<PromotionCardVM> promotionCards = new()
         {
-            new _PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
+            new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
                 DateTime.MaxValue),
-            new _PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
+            new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
                 DateTime.MaxValue),
-            new _PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
-                DateTime.MaxValue)
+            new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
+                DateTime.MaxValue) 
         };
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories,
             promotionCards));
@@ -98,6 +115,7 @@ public class AccueilController : Controller
     {
         return View(new MessageVM(titre, message));
     }
+    public IActionResult Info() => View();
 
     public IActionResult Privacy()
     {

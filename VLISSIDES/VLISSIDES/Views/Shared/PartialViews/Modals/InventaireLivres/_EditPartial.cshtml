@@ -3,26 +3,30 @@
 <div class="modal-header">
     <h5 class="modal-title" id="ModalEditLabel">Modifier Livre</h5>
 </div>
-<form asp-action="Modifier" enctype="multipart/form-data">
+<form asp-action="Modifier" enctype="multipart/form-data" id="FormLivreModifier">
     @Html.AntiForgeryToken()
     <div class="modal-body">
 
-        <input type="hidden" asp-for="Id"/>
-        <input type="hidden" asp-for="CoverImageUrl"/>
-        <div class="custom-file">
-            <label class="custom-file-label" asp-for="CoverPhoto"></label>
-            <input asp-for="CoverPhoto" type="file" class="custom-file-input" id="customFile">
-
-        </div>
+       
         <div class="container d-flex justify-content-center">
+            
             <div class="row">
+                 <input type="hidden" asp-for="Id"/>
+                        <input type="hidden" asp-for="CoverImageUrl"/>
+                        <div class="custom-file row">
+                            <div class="col-6 text-center align-center">
+                                <img src="@Model.CoverImageUrl" alt="..." class="imagesLivre" height="65" >
+                            </div>
+                            <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
+                
+                        </div>
                 <div class="col">
-                    <div class="form-group">
+                    <div class="form-group ">
                         <label asp-for="Titre" class="control-label"></label>
                         <input asp-for="Titre" class="form-control"/>
                         <span asp-validation-for="Titre" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-1">
                         <label asp-for="ISBN" class="control-label"></label>
                         <input asp-for="ISBN" class="form-control"/>
                         <span asp-validation-for="ISBN" class="text-danger"></span>
@@ -34,11 +38,6 @@
                     <div class="form-group">
                         <label asp-for="MaisonEditionId" class="control-label"></label>
                         <select asp-for="MaisonEditionId" asp-items="Model.SelectMaisonEditions" class="form-control"></select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Prix" class="control-label"></label>
-                        <input asp-for="Prix" class="form-control"/>
-                        <span asp-validation-for="Prix" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="NbPages" class="control-label"></label>
@@ -56,28 +55,70 @@
                         <span asp-validation-for="CategorieId" class="text-danger"></span>
                     </div>
                     <fieldset>
-                        <legend>Type de livre</legend>
+                        @*  <legend>Type de livre</legend> *@
                         <div>
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" asp-for="@Model.Neuf">
+                            <input id="cbNeuf" class="form-check-input" type="checkbox" asp-for="@Model.Neuf" onclick="ShowInputsNeuf()">
                             <label asp-for="@Model.Neuf"></label>
+                            @if (Model.Neuf)
+                            {
+                                <div id="inputsNeuf" class="">
+                                    <div class="form-group">
+                                        <label asp-for="PrixNeuf" class="control-label"></label>
+                                        <input asp-for="PrixNeuf" class="form-control" />
+                                        <span asp-validation-for="PrixNeuf" class="text-danger"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="NbExemplaires" class="control-label"></label>
+                                        <input asp-for="NbExemplaires" class="form-control" />
+                                    </div>
+                                </div>
+                            }else{
+                                <div id="inputsNeuf" class="visually-hidden">
+                                    <div class="form-group">
+                                        <label asp-for="PrixNeuf" class="control-label"></label>
+                                        <input asp-for="PrixNeuf" class="form-control" />
+                                        <span asp-validation-for="PrixNeuf" class="text-danger"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="NbExemplaires" class="control-label"></label>
+                                        <input asp-for="NbExemplaires" class="form-control" />
+                                    </div>
+                                </div>
+                            }
+
                         </div>
                         <div>
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" asp-for="@Model.Numerique">
+                            <input id="cbNumerique" class="form-check-input" type="checkbox" asp-for="@Model.Numerique" onclick="ShowInputNumerique()">
                             <label asp-for="@Model.Numerique"></label>
+                            @if (Model.Numerique)
+                            {
+                                <div id="inputNumerique" class="">
+                                    <div class="form-group">
+                                        <label asp-for="PrixNumerique" class="control-label"></label>
+                                        <input asp-for="PrixNumerique" class="form-control" />
+                                        <span asp-validation-for="PrixNumerique" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            }else{
+                                <div id="inputNumerique" class="visually-hidden">
+                                    <div class="form-group">
+                                        <label asp-for="PrixNumerique" class="control-label"></label>
+                                        <input asp-for="PrixNumerique" class="form-control" />
+                                        <span asp-validation-for="PrixNumerique" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            }
+
                         </div>
 
                     </fieldset>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <label asp-for="LangueId" class="control-label"></label>
                         <select asp-for="LangueId" asp-items="Model.SelectLangues" class="form-control">
                         </select>
                         <span asp-validation-for="LangueId" class="text-danger"></span>
                     </div>
-                    <div>
-                        <label asp-for="NbExemplaires" class="control-label"></label>
-                        <input asp-for="NbExemplaires" class="form-control"/>
-                    </div>
-                    <div>
+                    <div class="form-group mt-4">
                         <label asp-for="DatePublication"></label>
                         <input asp-for="DatePublication"/>
                     </div>
@@ -88,15 +129,77 @@
 
         <div class="form-group">
             <label asp-for="Resume" class="control-label"></label>
-            <textarea asp-for="Resume" class="form-control"></textarea>
+            <textarea asp-for="Resume"rows="5" style="height:100%;" class="form-control"></textarea>
             <span asp-validation-for="Resume" class="text-danger"></span>
         </div>
 
     </div>
 
     <div class="modal-footer">
-        <input type="submit" value="Modifier les changements" class="btn btn-primary"/>
+        
         <a class="btn btn-danger " href="~/GestionLivres/Inventaire">Annuler</a>
+        <input type="button" value="Modifier les changements" class="btn btn-primary" onclick="ModifierLivre()" />
     </div>
 
 </form>
+
+<script type="text/javascript">
+    function ShowInputsNeuf() {
+        console.log("aloo");
+        var cb = document.getElementById("cbNeuf");
+        var div = document.getElementById("inputsNeuf");
+        if (cb.checked == true) {
+            div.className = "";
+        } else {
+            div.className = "visually-hidden ml-2";
+        }
+    }
+
+    function ShowInputNumerique() {
+        var cb = document.getElementById("cbNumerique");
+        var div = document.getElementById("inputNumerique");
+        if (cb.checked == true) {
+            div.className = "";
+        } else {
+            div.className = "visually-hidden ml-2";
+        }
+    }
+    function ModifierLivre() {
+        var form = document.getElementById("FormLivreModifier");
+        var data = new FormData(form);
+
+        //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
+        fetch('/GestionLivres/Modifier', {
+            method: "POST",
+            body: data
+            // headers: {
+            //    RequestVerificationToken: csrfToken,
+            // },
+        }).catch(error => {
+            console.error('Échec du fetch pour ajouter maison edition', error);
+        }).then((response) => {
+
+            return response.text();
+        }).then((result) => {
+            console.log(result);
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                AfficherLivres();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+
+            }
+
+        });
+    }
+    function AfficherLivres() {
+        fetch("/GestionLivres/AfficherLivres", {
+            method: "GET"
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            document.getElementById("TabLivreListes").innerHTML = result;
+        });
+    }
+</script>
