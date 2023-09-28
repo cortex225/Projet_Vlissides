@@ -4,7 +4,7 @@ namespace VLISSIDES.Models
 {
     public class LivreTypeLivre
     {
-        [DisplayName("Prix")] public double? Prix { get; set; } = default!;
+        [DisplayName("Prix")] public decimal Prix { get; set; } = default!;
         public string LivreId { get; set; } = default!;
         public Livre Livre { get; set; } = default!;
         public string TypeLivreId { get; set; } = default!;

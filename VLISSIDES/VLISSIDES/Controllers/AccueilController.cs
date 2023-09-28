@@ -79,7 +79,7 @@ public class AccueilController : Controller
         };
         List<LivreCardVM> recommandations = new()
         {
-            new LivreCardVM("img/flat.png", "Le chaperon rouge", 0.69,
+            new LivreCardVM("img/flat.png", "Le chaperon rouge", (decimal)0.69,
                 new Auteur { NomAuteur = "Grimms"},
                 new Categorie { Nom = "Conte" }),
             new LivreCardVM("img/flat.png"), new LivreCardVM("img/flat.png"), new LivreCardVM("img/flat.png"),
@@ -88,7 +88,7 @@ public class AccueilController : Controller
         List<string> categories = new() { "Humour", "Essai", "Faune - Flore", "Art de vivre", "Informatique" };
         List<LivreCardVM> livreCategories = new()
         {
-            new LivreCardVM("img/flat.png", "Fahrenheit 451", 0.69,
+            new LivreCardVM("img/flat.png", "Fahrenheit 451", (decimal)0.69,
                 new Auteur { NomAuteur = "Bradbury"},
                 new Categorie{ Nom = "Fiction Dystopie" }),
             new LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", 40.99,

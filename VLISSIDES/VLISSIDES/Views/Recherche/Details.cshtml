@@ -17,7 +17,7 @@
             
         </div>
 
-        <p>Prix: @Model.Prix $</p>
+        <p>Prix: @Model.LivreTypeLivres.FirstOrDefault().Prix $</p>
         <p>Auteur(s): @Model.lAuteur.NomAuteur </p>
         <p>Catégorie(s): @Model.laCategorie.Nom </p>
         <p>Date publication: @Model.DatePublication</p>
