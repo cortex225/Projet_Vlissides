@@ -66,7 +66,7 @@ public class AccueilController : Controller
         };
         List<LivreCardVM> vedettes = new()
         {
-            new LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", 6.66,
+            new LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", (decimal)6.66,
                 new Auteur { NomAuteur = "Vlissides"} ,
                 new Categorie { Nom = "Horreur" } ),
             new LivreCardVM("img/flat.png"),
@@ -91,7 +91,7 @@ public class AccueilController : Controller
             new LivreCardVM("img/flat.png", "Fahrenheit 451", (decimal)0.69,
                 new Auteur { NomAuteur = "Bradbury"},
                 new Categorie{ Nom = "Fiction Dystopie" }),
-            new LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", 40.99,
+            new LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", (decimal)40.99,
                 new Auteur{ NomAuteur = ""},
                 new Categorie { Nom = "Informatique" }),            
             new LivreCardVM("img/flat.png"),

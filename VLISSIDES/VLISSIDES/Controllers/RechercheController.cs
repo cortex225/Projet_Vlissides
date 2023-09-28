@@ -185,7 +185,7 @@ namespace VLISSIDES.Controllers
                     Titre = monLivre.Titre,
                     lAuteur = monLivre.Auteur,
                     laCategorie = monLivre.Categorie,
-                    Prix = monLivre.Prix,
+                    Prix = monLivre.LivreTypeLivres.FirstOrDefault()?.Prix,
                     DatePublication = monLivre.DatePublication,
                     Couverture = monLivre.Couverture,
                     maisonEdition = monLivre.MaisonEdition,
