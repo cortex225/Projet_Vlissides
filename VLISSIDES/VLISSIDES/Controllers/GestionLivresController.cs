@@ -567,10 +567,29 @@ public class GestionLivresController : Controller
             livre.DatePublication = vm.DatePublication;
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Inventaire");
+            return Ok();
         }
-
-        return View(vm);
+        vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+        {
+            Text = x.NomAuteur,
+            Value = x.Id
+        }).ToList();
+        vm.SelectMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectLangues = _context.Langues.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        return PartialView("PartialViews/Modals/InventaireLivres/_EditPartial", vm);
     }
 
     // GET: Livre/Delete/5
