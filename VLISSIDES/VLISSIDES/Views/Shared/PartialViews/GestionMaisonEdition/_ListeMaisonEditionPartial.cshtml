@@ -20,15 +20,14 @@
                            onclick="enableButton('@item.Id')">
                 </div>
                 <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
-                    <button id="saveButton_@item.Id" type="button" class="btn btn-success"
+                        <button id="saveButton @item.Id" type="button" class="btn btn-success saveButton"
                             onclick="ModifierMaison('@item.Id', '@item.Nom')
-                                        disableButton('@item.Id')"
-                            disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Nom">
-                        Sauvegarder
+                                        disableButton('@item.Id')">
+                            <span class="fa-solid fa-check fa-2x"></span>
                     </button>
                     <!--Fin : Modifier nom d'une maison d'édition-->
                     <!--Bouton supprimer ici-->
-                    <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "MaisonEditions", new { id = item.Id })')">
+                    <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionMaisonEditions", new { id = item.Id })')">
                         <span class="fa-solid fa-trash fa-2x"></span>
                     </button>
 

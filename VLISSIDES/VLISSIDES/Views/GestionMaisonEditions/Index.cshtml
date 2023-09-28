@@ -68,6 +68,17 @@
         </div>
     </div>
 </div>
+
+<!--Fonctionalite des boutons *-->
+<style>
+    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
+<!--Fin pour Fonctionalite des boutons-->
+
 <!--Script pour liste-->
 <script type="text/javascript">
 
@@ -154,17 +165,6 @@
             }
         }).catch(error => console.error('Échec du fetch pour modifier le nom'))
         .then((response)=>disableButton(id));
-    }
-    
-    function enableButton(itemId) {
-        button = document.getElementById("saveButton_" + itemId);
-        button.disabled = false;
-    }
-
-    function disableButton(itemId) {
-        button = document.getElementById("saveButton_" + itemId);
-        button.disabled = true;
-
     }
 </script>
 <!--Script pour la suppression-->

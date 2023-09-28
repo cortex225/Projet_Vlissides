@@ -56,15 +56,14 @@
                                        onclick="enableButton('@item.Id')">
                             </div>
                             <div class="col-4 text-center d-flex flex-row justify-content-around h-40">
-                                <button id="saveButton_@item.Id" type="button" class="btn btn-success"
+                                <button id="saveButton @item.Id" type="button" class="btn btn-success saveButton"
                                         onclick="ModifierNomCategorie('@item.Id', '@item.Nom')
-                                        disableButton('@item.Id')"
-                                        disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.Nom">
-                                    Sauvegarder
+                                        disableButton('@item.Id')">
+                                    <span class="fa-solid fa-check fa-2x"></span>
                                 </button>
-                                <button type="button" class="btn btn-primary"
+                                <button type="button" class="btn btn-primary p-2"
                                         onclick="ShowModal('@Url.Action("Modifier","GestionCategories", new{id=item.Id})')">
-                                    Modifier
+                                    <span class="fa-solid fa-pen fa-2x"></span>
                                 </button>
                                 <!--Fin : Modifier nom d'une maison d'édition-->
                                 <!--Bouton supprimer ici-->
@@ -130,6 +129,16 @@
     </div>
 </div>
 
+<!--Fonctionalite des boutons *-->
+<style>
+    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
+<!--Fin pour Fonctionalite des boutons-->
+
 <!--Script pour la liste de livres d'une categorie-->
 <script type="text/javascript">
     function hideall() {
@@ -155,17 +164,6 @@
             }
         }).catch(error => console.error('Échec du fetch pour modifier le nom'))
             .then((response) => disableButton(id));
-    }
-
-    function enableButton(itemId) {
-        button = document.getElementById("saveButton_" + itemId);
-        button.disabled = false;
-    }
-
-    function disableButton(itemId) {
-        button = document.getElementById("saveButton_" + itemId);
-        button.disabled = true;
-
     }
 </script>
 <!--Script pour la supprimation et le modal-->

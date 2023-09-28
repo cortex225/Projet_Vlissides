@@ -20,11 +20,10 @@
                 <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
                     @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
 
-                    <button id="saveButton_@item.Id" type="button" class="btn btn-success"
+                        <button id="saveButton @item.Id" type="button" class="btn btn-success saveButton"
                             onclick="ModifierAuteur('@item.Id', '@item.NomAuteur')
-                                    disableButton('@item.Id')"
-                            disabled="document.getElementById(@item.Id).value<0||document.getElementById(@item.Id).value = @item.NomAuteur">
-                        Sauvegarder
+                                    disableButton('@item.Id')">
+                            <span class="fa-solid fa-check fa-2x"></span>
                     </button>
                     <!--Fin : Modifier nom d'une maison d'édition-->
                     <!--Bouton supprimer ici-->
