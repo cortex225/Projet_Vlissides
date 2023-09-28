@@ -46,10 +46,10 @@ public class AjouterVM
     [Display(Name = "Type")] public string? TypeLivreId { get; set; }
 
     public bool Numerique { get; set; }
-    [Display(Name = "Prix Neuf")]
+    [Display(Name = "Prix Numérique")]
     public decimal PrixNumerique { get; set; }
     public bool Neuf { get; set; }
-    [Display(Name = "Prix Numérique")]
+    [Display(Name = "Prix Neuf")]
     public decimal PrixNeuf { get; set; }
     public ICollection<TypeLivre>? Types { get; set; }
 
