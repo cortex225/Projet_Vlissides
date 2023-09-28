@@ -6,12 +6,9 @@ namespace VLISSIDES.Data;
 
 public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
 {
-    public void Configure(EntityTypeBuilder<Categorie> builder)
-    {
-        builder.ToTable("Categories");
-        builder.HasKey(sc => sc.Id);
-        builder.Property(sc => sc.Id).ValueGeneratedOnAdd();
-        builder.HasData(
+    List<Categorie> categories;
+    List<Categorie> categoriesDeBase = new()
+        {
             new Categorie
             {
                 Id = "1",
@@ -219,6 +216,39 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
                 Description =
                     "Pour les passionnés de sport et les chercheurs d'activités, des histoires inspirantes aux guides pratiques."
             }
-        );
+        };
+
+    public CategorieLivreConfiguration(List<string> categories, List<string> ids)
+    {
+        this.categories = new();
+        foreach (var categorie in categories)
+        {
+            if (!this.categories.Any(c => c.Nom.Equals(categorie)))
+                this.categories.Add(new Categorie()
+                {
+                    Id = ids[categories.IndexOf(categorie)],
+                    Nom = categorie,
+                    Description = ""
+                });
+        }
+        foreach (var categorie in categoriesDeBase)
+            if (this.categories.Contains(categorie))
+            {
+                var categorieSimilaire = this.categories.Find(c => c.Nom.Equals((categorie.Nom)));
+                categorie.Id = categorieSimilaire.Id;
+                this.categories.Remove(categorie);
+            }
+        this.categories.AddRange(categoriesDeBase);
+        foreach (var categorie in this.categories)
+            Console.WriteLine(categorie.Id + " : " + categorie.Nom);
+    }
+
+    public void Configure(EntityTypeBuilder<Categorie> builder)
+    {
+        builder.ToTable("Categories");
+        builder.HasKey(sc => sc.Id);
+        builder.Property(sc => sc.Id).ValueGeneratedOnAdd();
+        //foreach (var categorie in categories)
+        builder.HasData(categories);
     }
 }

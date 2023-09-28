@@ -10,7 +10,7 @@ public class Livre
 
     [DisplayName("Résumé")] public string Resume { get; set; } = default!;
 
-    [DisplayName("Page couverture")] public string Couverture { get; set; } = default!;
+    [DisplayName("Page couverture")] public string? Couverture { get; set; } = default!;
 
     [DisplayName("Nombre d'exemplaires disponibles")]
     public int NbExemplaires { get; set; } = default!;
@@ -31,17 +31,17 @@ public class Livre
 
     [DisplayName("Maison d'édition")] public MaisonEdition? MaisonEdition { get; set; }
 
-    [DisplayName("Catégories associés")] public ICollection<Categorie> Categories { get; set; } = default!;
+    [DisplayName("Catégories associés")] public ICollection<Categorie>? Categories { get; set; }
 
-    [DisplayName("Identifiant du type de livre")] public string? TypeLivreId { get; set; } = default!;
+    [DisplayName("Identifiant du type de livre")] public string? TypeLivreId { get; set; }
 
-    [DisplayName("Type de livre")] public TypeLivre TypesLivre { get; set; } = default!;
+    [DisplayName("Type de livre")] public TypeLivre? TypesLivre { get; set; }
 
     [DisplayName("Évaluations")] public ICollection<Evaluation>? Evaluations { get; set; }
 
-    [DisplayName("Identifiant de la langue")] public string LangueId { get; set; } = default!;
+    [DisplayName("Identifiant de la langue")] public string? LangueId { get; set; }
 
-    [DisplayName("Langues")] public Langue Langue { get; set; } = default!;
+    [DisplayName("Langues")] public Langue? Langue { get; set; } = default!;
 
     [DisplayName("Favoris")] public ICollection<Favori>? Favoris { get; set; }
 
