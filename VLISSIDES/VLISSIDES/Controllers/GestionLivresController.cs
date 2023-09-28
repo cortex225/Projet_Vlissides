@@ -278,7 +278,7 @@ public class GestionLivresController : Controller
 
 
         }
-        return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
+        return View( vm);
     }
     public IActionResult Modifier(string id)
     {
