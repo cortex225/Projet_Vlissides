@@ -191,7 +191,9 @@ namespace VLISSIDES.Controllers
                     maisonEdition = monLivre.MaisonEdition,
                     NbPages = monLivre.NbPages,
                     Resume = monLivre.Resume,
-                    NbExemplaires = monLivre.NbExemplaires
+                    NbExemplaires = monLivre.NbExemplaires,
+                    LivreTypeLivres = monLivre.LivreTypeLivres,
+                    
                 };
             }
 

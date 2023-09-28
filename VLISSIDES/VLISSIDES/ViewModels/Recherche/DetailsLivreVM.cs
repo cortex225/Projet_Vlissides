@@ -15,7 +15,6 @@ namespace VLISSIDES.ViewModels.Recherche
         public int NbPages { get; set; }
         public string Resume { get; set; }
         public int NbExemplaires { get; set; }
-
         public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; }
 
     }
