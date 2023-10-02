@@ -1,4 +1,11 @@
-﻿namespace VLISSIDES.Data;
+﻿using ExcelDataReader;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
+using VLISSIDES.Models;
+
+namespace VLISSIDES.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
@@ -105,21 +112,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #region Livre
         //Un livre a plusieurs auteurs et un auteurs a plusieurs livres
         builder.Entity<Livre>()
-            .HasMany(l => l.Auteurs)
+            .HasOne(l => l.Auteur)
             .WithMany(a => a.Livres);
         //Un livre a un éditeur et un éditeur a plusieurs livres
         builder.Entity<Livre>()
             .HasOne(l => l.MaisonEdition)
-            .WithMany(me => me.Livres)
-            .HasForeignKey(l => l.MaisonEditionId);
+            .WithMany(me => me.Livres);
         //Un livre peut avoir plusiseurs catégories et une catégorie peut avoir plusieurs livres
         builder.Entity<Livre>()
-            .HasMany(l => l.Categories)
+            .HasOne(l => l.Categorie)
             .WithMany(c => c.Livres);
         //Un livre peut avoir un type de livre et un type de livre peut avoir plusieurs livres
         builder.Entity<Livre>()
-            .HasOne(l => l.TypesLivre)
-            .WithMany(tl => tl.Livres)
+            .HasMany(l => l.LivreTypeLivres)
+            .WithOne(tl => tl.Livre)
             .HasForeignKey(l => l.TypeLivreId);
         //Un livre peut avoir plusiseurs évaluation et une évaluation peut avoir qu'un livre
         builder.Entity<Livre>()
@@ -128,9 +134,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(e => e.LivreId);
         //Un livre peut avoir une langue et une langue peut avoir plusieurs livres
         builder.Entity<Livre>()
-            .HasOne(l => l.Langue)
-            .WithMany(l => l.Livres)
-            .HasForeignKey(l => l.LangueId);
+            .HasMany(l => l.Langues)
+            .WithMany(l => l.Livres);
         //Un livre peut avoir plusiseurs promotions et une ptomotion peut avoir plusieurs livres
         builder.Entity<Livre>()
             .HasMany(l => l.Promotions)
@@ -239,6 +244,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<MaisonEdition>().HasData(DefaultMaisonEdition);
 
         //Connecte les rôles aux users pré-créés
+        //Roles de l'application
+        var roleEmploye = new IdentityRole { Id = "0", Name = "Employe", NormalizedName = "Employe".ToUpper() };
+        var roleMembre = new IdentityRole { Id = "1", Name = "Membre", NormalizedName = "Membre".ToUpper() };
+        var roleAdmin = new IdentityRole { Id = "2", Name = "Admin", NormalizedName = "Admin".ToUpper() };
+        builder.Entity<IdentityRole>().HasData(roleEmploye, roleMembre, roleAdmin);
 
         builder.Entity<IdentityUserRole<string>>().HasData(
             new IdentityUserRole<string> { RoleId = roleEmploye.Id, UserId = UserEmploye.Id },
