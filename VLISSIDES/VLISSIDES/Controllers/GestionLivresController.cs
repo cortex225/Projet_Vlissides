@@ -357,7 +357,7 @@ public class GestionLivresController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "~/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "/2167594/img/CouvertureLivre/livredefault.png";
             }
             var id = Guid.NewGuid().ToString();
             //Types de livres
