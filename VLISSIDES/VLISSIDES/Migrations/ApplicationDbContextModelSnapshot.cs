@@ -34,7 +34,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("LivresId");
 
-                    b.ToTable("AuteurLivre");
+                    b.ToTable("AuteurLivre", (string)null);
                 });
 
             modelBuilder.Entity("CategorieLivre", b =>
@@ -49,7 +49,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("LivresId");
 
-                    b.ToTable("CategorieLivre");
+                    b.ToTable("CategorieLivre", (string)null);
                 });
 
             modelBuilder.Entity("LangueLivre", b =>
@@ -64,7 +64,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("LivresId");
 
-                    b.ToTable("LangueLivre");
+                    b.ToTable("LangueLivre", (string)null);
                 });
 
             modelBuilder.Entity("LivrePromotions", b =>
@@ -79,7 +79,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("PromotionsId");
 
-                    b.ToTable("LivrePromotions");
+                    b.ToTable("LivrePromotions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -302,7 +302,7 @@ namespace VLISSIDES.Migrations
                         .IsUnique()
                         .HasFilter("[UtilisateurPrincipalId] IS NOT NULL");
 
-                    b.ToTable("Adresses");
+                    b.ToTable("Adresses", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.ApplicationUser", b =>
@@ -415,7 +415,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Auteurs");
+                    b.ToTable("Auteurs", (string)null);
 
                     b.HasData(
                         new
@@ -667,7 +667,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("StatutCommandeId");
 
-                    b.ToTable("Commandes");
+                    b.ToTable("Commandes", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Evaluation", b =>
@@ -698,7 +698,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("MembreId");
 
-                    b.ToTable("Evaluations");
+                    b.ToTable("Evaluations", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Evenement", b =>
@@ -726,7 +726,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Evenements");
+                    b.ToTable("Evenements", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Favori", b =>
@@ -741,7 +741,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("LivreId");
 
-                    b.ToTable("Favoris");
+                    b.ToTable("Favoris", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Langue", b =>
@@ -844,7 +844,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("MaisonEditionId");
 
-                    b.ToTable("Livres");
+                    b.ToTable("Livres", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.LivreCommande", b =>
@@ -862,7 +862,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("CommandeId");
 
-                    b.ToTable("LivreCommandes");
+                    b.ToTable("LivreCommandes", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.LivreTypeLivre", b =>
@@ -880,7 +880,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("TypeLivreId");
 
-                    b.ToTable("LivreTypeLivres");
+                    b.ToTable("LivreTypeLivres", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.MaisonEdition", b =>
@@ -894,7 +894,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MaisonEditions");
+                    b.ToTable("MaisonEditions", (string)null);
 
                     b.HasData(
                         new
@@ -928,7 +928,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Promotions");
+                    b.ToTable("Promotions", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Reservation", b =>
@@ -957,7 +957,7 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("MembreId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.StatutCommande", b =>

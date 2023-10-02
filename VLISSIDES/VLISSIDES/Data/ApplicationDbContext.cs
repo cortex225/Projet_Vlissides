@@ -90,9 +90,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         //Ajout des langues des livres à la bd
         builder.ApplyConfiguration(new LangueConfiguration());
-        //Ajout des livres à la bd
+        //Ajout des auteurs à la bd
         builder.ApplyConfiguration(new AuteurConfiguration(auteurs, auteurIds));
-        //Ajout des livres à la bd
+        //Ajout des maison d'édition à la bd
         builder.ApplyConfiguration(new MaisonEditionsConfiguration(maisonEditions, maisonEditionIds));
         //Ajout des livres à la bd
         builder.ApplyConfiguration(new LivreConfiguration(titres, auteurIds, pages, ISBNs, couvertures, quantites, typeLivreIds, prix));
@@ -137,7 +137,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(e => e.LivreId);
         //Un livre peut avoir une langue et une langue peut avoir plusieurs livres
         builder.Entity<Livre>()
-            .HasMany(l => l.Langues)
+            .HasOne(l => l.Langues)
             .WithMany(l => l.Livres);
         //Un livre peut avoir plusiseurs promotions et une ptomotion peut avoir plusieurs livres
         builder.Entity<Livre>()

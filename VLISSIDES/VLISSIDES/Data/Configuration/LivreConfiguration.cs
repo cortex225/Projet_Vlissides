@@ -19,16 +19,17 @@ public class LivreConfiguration : IEntityTypeConfiguration<Livre>
                 Id = "Excel " + titres.IndexOf(titre),
                 Titre = titre,
                 AuteurId = auteurIds[titres.IndexOf(titre)],
-                MaisonEditionId = "",
+                MaisonEditionId = null,
                 Resume = "",
-                CategorieId = "",
-                LangueId = "",
+                CategorieId = null,
+                DateAjout = DateTime.Now,
+                LangueId = null,
                 NbPages = pages[titres.IndexOf(titre)],
                 ISBN = ISBNs[titres.IndexOf(titre)],
                 Couverture = couvertures[titres.IndexOf(titre)],
                 NbExemplaires = quantites[titres.IndexOf(titre)],
-                TypeLivreId = typeLivreIds[titres.IndexOf(titre)]
-                //Prix = prix[titres.IndexOf(titre)]
+                TypeLivreId = typeLivreIds[titres.IndexOf(titre)],
+
             });
         }
         foreach (var livre in livres)
