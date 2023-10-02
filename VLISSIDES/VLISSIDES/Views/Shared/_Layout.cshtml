@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <partial name="PartialViews/_HeadPartial"/>
+    <link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true"/>
 </head>
 <body>
 <header >
@@ -49,7 +50,11 @@
 Afficher le corps de la page
 -->
 <div class="col-md-12 mb-12">
+    <!-- Barre latérale coulissante -->
+            <partial name="PartialViews/Dashboard/_SideBarPartial"/>
     <main role="main" class="pb-3">
+
+
         @RenderBody()
     </main>
 </div>
