@@ -23,18 +23,18 @@
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Accueil", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link rounded-pill  bg-secondary bg-gradient text-white px-4">Se déconnecter <i class="fa-solid fa-arrow-right-from-bracket px-2"></i></button>
+                <button type="submit" class="nav-link btn btn-link rounded-pill  bg-secondary  text-white px-4">Se déconnecter <i class="fa-solid fa-arrow-right-from-bracket px-2"></i></button>
             </form>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link rounded-pill btn btn-outline-primary mx-2 text-primary" asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a>
+            <a class="nav-link rounded-pill btn btn-outline-secondary mx-2 " asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link rounded-pill btn bg-primary bg-gradient text-white px-4" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a>
+            <a class="nav-link rounded-pill btn bg-primary  text-white px-4" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a>
         </li>
     }
 </ul>

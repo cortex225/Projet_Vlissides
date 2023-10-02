@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Recherche;
-
-namespace VLISSIDES.Controllers
+﻿namespace VLISSIDES.Controllers
 {
     public class RechercheController : Controller
     {
@@ -45,17 +38,15 @@ namespace VLISSIDES.Controllers
             List<Livre> livresRecherches;
 
             livresRecherches = _context.Livres
-                    .Include(l => l.Auteurs)
-                    .Include(l => l.Categories)
-                    .Include(l => l.Langue)
+                    .Include(l => l.Auteur)
+                    .Include(l => l.Categorie)
+                    .Include(l => l.Langues)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
+                    .Include(l => l.LivreTypeLivres)
                     .ToList();
-            if (motCles == null)
-            {
-                livresRecherches = new List<Livre>(); //Donne une liste vide car aucun
-            }
-            else if (criteres == null) //Lorsqu'il n'y a pas de criteres spécifiques
+
+            if (criteres == null) //Lorsqu'il n'y a pas de criteres spécifiques
             {
                 for (int i = 0; i <= listMotCles.Count(); ++i)
                 {
@@ -82,12 +73,12 @@ namespace VLISSIDES.Controllers
                             break;
                         case "auteur":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Auteurs.Any(auteur => Regex.IsMatch(auteur.NomComplet, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "categorie":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Categories.Any(categorie => Regex.IsMatch(categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                            .Where(livre => Regex.IsMatch(livre.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "maisonEdition":
@@ -99,30 +90,30 @@ namespace VLISSIDES.Controllers
                             break;
                         case "langue":
                             livresRecherches = livresRecherches
-                            .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
+                            .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "typeLivre":
                             livresRecherches = livresRecherches
-                            .Where(livre => Regex.IsMatch(livre.TypesLivre.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .Where(livre => livre.LivreTypeLivres.Any(type => Regex.IsMatch(type.TypeLivre.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "prixMin":
-                            double prixMinD;
-                            if (double.TryParse(listMotCles[i], out prixMinD))
+                            decimal prixMinD;
+                            if (decimal.TryParse(listMotCles[i], out prixMinD))
                             {
                                 livresRecherches = livresRecherches
-                                    .Where(objet => objet.Prix >= prixMinD)
+                                    .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix >= prixMinD)
                                     .ToList();
                             }
                             break;
 
                         case "prixMax":
-                            double prixMaxD;
-                            if (double.TryParse(listMotCles[i], out prixMaxD))
+                            decimal prixMaxD;
+                            if (decimal.TryParse(listMotCles[i], out prixMaxD))
                             {
                                 livresRecherches = livresRecherches
-                                    .Where(objet => objet.Prix <= prixMaxD)
+                                    .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix <= prixMaxD)
                                     .ToList();
                             }
                             break;
@@ -156,6 +147,49 @@ namespace VLISSIDES.Controllers
                     ListeCategories = listCategories,
                     ListeLangues = listLangues,
                     ListeTypeLivres = listTypeLivres
+                };
+            }
+
+            return View(vm);
+        }
+
+        // GET: RechercheController
+        [Route("/Recherche/Details")]
+        public ActionResult Details(string id)
+        {
+            Livre? monLivre = _context.Livres
+                    .Include(l => l.Auteur)
+                    .Include(l => l.Categorie)
+                    .Include(l => l.Langues)
+                    .Include(l => l.Evaluations)
+                    .Include(l => l.MaisonEdition)
+                    .Include(l => l.LivreTypeLivres)
+                    .FirstOrDefault(l => l.Id == id);
+
+
+            DetailsLivreVM vm;
+
+            if (monLivre == null)
+            {
+                vm = new DetailsLivreVM();
+            }
+            else
+            {
+                vm = new DetailsLivreVM
+                {
+                    Id = monLivre.Id,
+                    Titre = monLivre.Titre,
+                    lAuteur = monLivre.Auteur,
+                    laCategorie = monLivre.Categorie,
+                    Prix = monLivre.LivreTypeLivres.FirstOrDefault()?.Prix,
+                    DatePublication = monLivre.DatePublication,
+                    Couverture = monLivre.Couverture,
+                    maisonEdition = monLivre.MaisonEdition,
+                    NbPages = monLivre.NbPages,
+                    Resume = monLivre.Resume,
+                    NbExemplaires = monLivre.NbExemplaires,
+                    LivreTypeLivres = monLivre.LivreTypeLivres,
+
                 };
             }
 

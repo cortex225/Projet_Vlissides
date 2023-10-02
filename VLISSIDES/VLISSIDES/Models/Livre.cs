@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace VLISSIDES.Models;
 
 public class Livre
@@ -10,7 +8,7 @@ public class Livre
 
     [DisplayName("Résumé")] public string Resume { get; set; } = default!;
 
-    [DisplayName("Page couverture")] public string? Couverture { get; set; } = default!;
+    [DisplayName("Page couverture")] public string Couverture { get; set; } = default!;
 
     [DisplayName("Nombre d'exemplaires disponibles")]
     public int NbExemplaires { get; set; } = default!;
@@ -19,29 +17,35 @@ public class Livre
 
     [DisplayName("Nombre de pages")] public int NbPages { get; set; } = default!;
 
-    [DisplayName("Prix")] public double Prix { get; set; } = default!;
-
     [DisplayName("Date de publication")] public DateTime DatePublication { get; set; } = default!;
 
     [DisplayName("ISBN")] public string ISBN { get; set; } = default!;
 
-    [DisplayName("Auteur(s)")] public ICollection<Auteur> Auteurs { get; set; } = default!;
+    [DisplayName("Identifiant de l'auteur")]
+    public string AuteurId { get; set; } = default!;
 
-    [DisplayName("Identifiant de la maison d'édition")] public string? MaisonEditionId { get; set; }
+    [DisplayName("Auteur(s)")] public Auteur Auteur { get; set; } = default!;
 
     [DisplayName("Maison d'édition")] public MaisonEdition? MaisonEdition { get; set; }
 
-    [DisplayName("Catégories associés")] public ICollection<Categorie>? Categories { get; set; }
+    [DisplayName("Identifiant de la catégorie")]
+    public string CategorieId { get; set; } = default!;
 
-    [DisplayName("Identifiant du type de livre")] public string? TypeLivreId { get; set; }
+    [DisplayName("Catégories associés")] public Categorie Categorie { get; set; } = default!;
 
-    [DisplayName("Type de livre")] public TypeLivre? TypesLivre { get; set; }
+    [DisplayName("Identifiant du type de livre")]
+    public string? TypeLivreId { get; set; } = default!;
+    [DisplayName("Type(s) de livre")] public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; } = default!;
+
+    [DisplayName("Identifiant de l'évaluation")]
+    public string? EvaluationId { get; set; } = default!;
 
     [DisplayName("Évaluations")] public ICollection<Evaluation>? Evaluations { get; set; }
 
-    [DisplayName("Identifiant de la langue")] public string? LangueId { get; set; }
+    [DisplayName("Identifiant de la langue")]
+    public string LangueId { get; set; } = default!;
 
-    [DisplayName("Langues")] public Langue? Langue { get; set; } = default!;
+    [DisplayName("Langues")] public ICollection<Langue> Langues { get; set; } = default!;
 
     [DisplayName("Favoris")] public ICollection<Favori>? Favoris { get; set; }
 

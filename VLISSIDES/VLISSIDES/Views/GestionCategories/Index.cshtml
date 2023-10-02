@@ -1,0 +1,206 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model VLISSIDES.ViewModels.Categories.CategoriesIndexVM
+<link rel="stylesheet" href="~/css/ListeLivres.css" />
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="d-block p-4 p-4">
+    <button class="btn btn-primary" onclick="ShowModal('@Url.Action("Ajouter","GestionCategories")')">Ajouter une catégorie</button>
+    <div class="mb-4">
+        <h1>Gestion des catégories</h1>
+    </div>
+    <!--Fin : Rechercher catégorie-->
+    <div class="container-fluid">
+
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#rechercherCategorie">
+            Rechercher une catégorie
+        </button>
+
+        <form class="collapse" id="rechercherCategorie" enctype="multipart/form-data">
+            <br />
+            <div class="input-group">
+                <input class="form-control" id="inputRechercherCategorie" placeholder="Rechercher..." />
+                <button class="btn btn-primary p-2" type="button" onclick="RechercherCategorie()" data-toggle="tooltip" title="Rechercher la catégorie">
+                    Rechercher
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+    <br />
+    <!--Fin : Rechercher catégorie-->
+    <div class="mb-4">
+        <h3>Liste des catégories</h3>
+        <div class="row">
+            <div class="list-group col-6" id="list-tab" role="tablist">
+
+                @foreach (var item in Model.ListeCategories)
+
+                {
+                    <!--onclick pour afficher livres ici-->
+                    <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@item.Id')">
+                        <div class="card-body row align-items-center p-0">
+                            <div class="col-8 text-center">
+                                <!--Début : Modifier nom d'une maison d'édition-->
+                                <input id="@item.Id @item.Nom" type="text" asp-for="@item.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Nom)"
+                                       onclick="enableButton('@item.Id')">
+                            </div>
+                            <div class="col-4 text-center d-flex flex-row justify-content-around h-40">
+                                <button id="saveButton @item.Id" type="button" class="btn btn-success saveButton"
+                                        onclick="ModifierNomCategorie('@item.Id', '@item.Nom')
+                                        disableButton('@item.Id')">
+                                    <span class="fa-solid fa-check fa-2x"></span>
+                                </button>
+                                <button type="button" class="btn btn-primary p-2"
+                                        onclick="ShowModal('@Url.Action("Modifier","GestionCategories", new{id=item.Id})')">
+                                    <span class="fa-solid fa-pen fa-2x"></span>
+                                </button>
+                                <!--Fin : Modifier nom d'une maison d'édition-->
+                                <!--Bouton supprimer ici-->
+                                <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionCategories", new { id = item.Id })')">
+                                    <span class="fa-solid fa-trash fa-2x"></span>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div id="divListeLivres" class="col-6 card rounded-xl">
+                <h3 class="text-center my-3">Informations de la catégorie</h3>
+
+                <div class="" id="divListeMaisonEditionLivres">
+                    @foreach (var item in Model.ListeCategories)
+                    {
+                        <div id="Liste_@item.Id" class=" visually-hidden">
+                            <h4 class="my-2">Nom : @item.Nom</h4>
+                            <p><span class="fw-bold">Description :</span> @item.Description</p>
+                            <h4>Les livres de la catégorie</h4>
+                            @if (item.Livres.Count != 0)
+                            {
+                                <div class="listcolumns">
+                                    <ul id="ulListeNomLivres">
+                                        @foreach (var livre in item.Livres)
+                                        {
+                                            <li>@livre.Titre</li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                <p>pas de livres</p>
+                            }
+                            <h4>Sous-catégories</h4>
+                            @if (item.Enfants.Count != 0)
+                            {
+                                <ul>
+                                @foreach (var enfant in item.Enfants)
+                                {
+                                        <li>@enfant.Nom</li>
+                                    
+                                }
+                                </ul>
+                            }
+                            else
+                            {
+                                <h6>Pas de sous-catégorie</h6>
+                            }
+
+                        </div>
+                        
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Fonctionalite des boutons *-->
+<style>
+    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
+<!--Fin pour Fonctionalite des boutons-->
+
+<!--Script pour la liste de livres d'une categorie-->
+<script type="text/javascript">
+    function hideall() {
+        divListes = document.getElementById("divListeMaisonEditionLivres").childNodes;
+        divListes.forEach((element) => { element.className = "visually-hidden" });
+    }
+    function AfficherMaisonsEditionsLivres(id = "") {
+        hideall();
+
+        var liste = document.getElementById("Liste_" + id);
+        liste.className = "";
+    }
+</script>
+<!--Script pour Modifier nom-->
+<script type="text/javascript">
+    function ModifierNomCategorie(id = "", nom = "") {
+        
+        fetch('GestionCategories/ModifierNomCategorie?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => console.error('Échec du fetch pour modifier le nom'))
+            .then((response) => disableButton(id));
+    }
+</script>
+<!--Script pour la supprimation et le modal-->
+<script type="text/javascript">
+    function SupprimerCategorie(id = "") {
+        fetch('GestionCategories/SupprimerCategorie?id='+id, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => {
+            console.error('Échec du fetch pour supprimer la categorie', error);
+        }).then(() => {
+            document.getElementById(`${id}`).remove();
+            document.getElementById('Liste_' + id).remove();
+            $('#ModalId').modal('hide'); // Ferme la modale
+        });
+    }
+
+
+    // ModalScript
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+</script>
+
+<!--Script pour la recherche-->
+<script type="text/javascript">
+    // ModalScript
+    function RechercherCategorie() {
+        console.log("Recherche commencée");
+        var motCle = document.getElementById("inputRechercherCategorie").value;
+        console.log("Mot entré: " + motCle);
+        window.location.href = `/GestionCategories/Index?motCle=${motCle}`;
+    }
+</script>

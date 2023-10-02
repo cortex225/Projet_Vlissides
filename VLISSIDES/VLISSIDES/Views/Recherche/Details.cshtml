@@ -1,0 +1,50 @@
+﻿@using VLISSIDES.ViewModels.Recherche;
+@model DetailsLivreVM
+@{
+}
+
+
+<link rel="stylesheet" href="~/css/Details.css">
+<div id="detailsDivPrincipal">
+    <div id="DetailsDIV">
+        <img id="DetailsIMG" src="@Model.Couverture"/>
+    </div>
+
+    <div id="DetailsInfo">
+        <h2>@Model.Titre</h2>
+
+        <div id="checkboxTypeLivre">
+
+        </div>
+        @foreach (var type in Model.LivreTypeLivres)
+        {
+            <p>Prix @Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
+        }
+        <p>Auteur(s): @Model.lAuteur.NomAuteur </p>
+        <p>Catégorie(s): @Model.laCategorie.Nom </p>
+        <p>Date publication: @Model.DatePublication</p>
+        <p>Éditeur: @Model.maisonEdition.Nom</p>
+        <p>Nombre de pages: @Model.NbPages</p>
+        <strong>Résumé:</strong>
+        <p>@Model.Resume</p>
+        <br/>
+        @if (@Model.NbExemplaires > 0)
+        {
+            <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+        }
+        else
+        {
+            <p style="font-weight: bold; color: red;">En rupture de stock</p>
+        }
+    </div>
+</div>
+
+<style>
+    #DetailsDIV{
+        max-width: 35%;
+    }
+
+    #DetailsIMG {
+        max-width: 100%;
+    }
+</style>

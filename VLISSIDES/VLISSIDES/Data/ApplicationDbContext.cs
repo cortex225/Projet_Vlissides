@@ -1,11 +1,4 @@
-﻿using ExcelDataReader;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
-using VLISSIDES.Models;
-
-namespace VLISSIDES.Data;
+﻿namespace VLISSIDES.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
@@ -45,6 +38,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Promotions> Promotions { get; set; }
     #endregion
+
+    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -157,31 +152,22 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
-        #endregion
-        #region Catégorie
-        //Une catégorie peut avoir un parent avec plusieurs enfants
-        builder.Entity<Categorie>()
-            .HasOne(c => c.Parent)
-            .WithMany(c => c.Enfants)
-            .HasForeignKey(c => c.ParentId);
-        #endregion
-        #region Compte
-        // Configuration pour l' adresse principale car un utilisateur peut avoir une adresse principale
-        builder.Entity<ApplicationUser>()
-            .HasOne(a => a.AdressePrincipale)
-            .WithOne(a => a.UtilisateurPrincipal)
-            .HasForeignKey<Adresse>(a => a.UtilisateurPrincipalId)
-            .OnDelete(DeleteBehavior.Restrict);
 
-        // Configuration pour les adresses de livraison car un utilisateur peut avoir plusieurs adresses de livraison
-        builder.Entity<ApplicationUser>()
-            .HasMany(a => a.AdressesLivraison)
-            .WithOne(a => a.UtilisateurLivraison)
-            .HasForeignKey(a => a.UtilisateurLivraisonId)
-            .OnDelete(DeleteBehavior.Restrict);
+        // Configuration de la relation entre Livre et TypeLivre
+        builder.Entity<LivreTypeLivre>()
+            .HasKey(ltl => new { ltl.LivreId, ltl.TypeLivreId });
 
-        builder.Entity<Employe>().ToTable("Employes");
-        builder.Entity<Membre>().ToTable("Membres");
+        //Un livre peut être dans plusieurs types de livres
+        builder.Entity<LivreTypeLivre>()
+            .HasOne(ltl => ltl.Livre)
+            .WithMany(l => l.LivreTypeLivres)
+            .HasForeignKey(ltl => ltl.LivreId);
+
+        //Un type de livre peut avoir plusieurs livres
+        builder.Entity<LivreTypeLivre>()
+            .HasOne(ltl => ltl.TypeLivre)
+            .WithMany(l => l.LivreTypeLivres)
+            .HasForeignKey(ltl => ltl.TypeLivreId);
 
         //Création des différent comptes
         //var password = new PasswordHasher<ApplicationUser>();
@@ -240,8 +226,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         var DefaultAuteur = new Auteur
         {
             Id = "0",
-            Nom = "Tony",
-            Prenom = "Stack"
+            NomAuteur = "Tony"
+
         };
         builder.Entity<Auteur>().HasData(DefaultAuteur);
 
@@ -251,13 +237,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Nom = "Maison d'édition par défaut"
         };
         builder.Entity<MaisonEdition>().HasData(DefaultMaisonEdition);
-        #endregion
-        #region Rôle
-        //Roles de l'application
-        var roleEmploye = new IdentityRole { Id = "0", Name = "Employe", NormalizedName = "Employe".ToUpper() };
-        var roleMembre = new IdentityRole { Id = "1", Name = "Membre", NormalizedName = "Membre".ToUpper() };
-        var roleAdmin = new IdentityRole { Id = "2", Name = "Admin", NormalizedName = "Admin".ToUpper() };
-        builder.Entity<IdentityRole>().HasData(roleEmploye, roleMembre, roleAdmin);
 
         //Connecte les rôles aux users pré-créés
 

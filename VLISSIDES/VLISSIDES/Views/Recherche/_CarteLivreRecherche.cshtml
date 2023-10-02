@@ -3,34 +3,30 @@
 }
 @model Livre;
 
-<div class="item livrePetit livre @Model.Categories">
-    <div class="card cardLivre" style="width: 12rem">
-        <div class="imgDiv">
+<div class="item livrePetit livre @Model.Categorie">
+    <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;;">
+        <a asp-area="" asp-controller="Recherche" asp-action="Details" asp-route-id="@Model.Id" method="get"
+           class="imgDiv bg-image hover-overlay ripple card-img-top" data-mdb-ripple-color="light">
             <img src="@Model.Couverture"
                  class="card-img-top imgLivre"
                  alt="Couverture du livre" />
-        </div>
+        </a>
         <div class="card-body">
             <h6 class="card-title">@Model.Titre</h6>
 
-            <h6>@Model.Prix $</h6>
+            <h6>@Model.LivreTypeLivres.FirstOrDefault().Prix $</h6>
 
             <h6>Auteurs: </h6>
-            @if (Model.Auteurs != null)
+            @if (Model.Auteur != null)
             {
-                @foreach (Auteur a in Model.Auteurs)
-                {
-                    <p>@a.NomComplet</p>
-                }
+                <p>@Model.Auteur.NomAuteur</p>
             }
 
             <h6>Catégories reliées: </h6>
             @{
-                foreach (var categorie in Model.Categories)
-                {
-                    <a href="#" class="btn btn-secondary btnCategorie">@categorie.Nom</a>
-                }
+                <a href="#" class="btn btn-secondary btnCategorie">@Model.Categorie.Nom</a>
             }
         </div>
     </div>
 </div>
+

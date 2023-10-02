@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels;
@@ -45,22 +45,30 @@ public class AccueilController : Controller
                 "Soirée poésie",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
-                "https://images.pexels.com/photos/8617842/pexels-photo-8617842.jpeg?auto=compress&cs=tinysrgb"),
-            new EventCardVM(
-                "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
+                "img/jean-luc.png",
+                "Atelier coder avec Jean-Luc",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
-                "https://images.pexels.com/photos/331723/pexels-photo-331723.jpeg?auto=compress&cs=tinysrgb"),
-            new EventCardVM("img/logo/Logo.png"),
+                "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
+                "Lorem ipsum",
+                "Dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
+            new EventCardVM(
+                "img/jean-luc.png",
+                "Atelier coder avec Jean-Luc 2",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
+            new EventCardVM("img/logo/Logo.png",
+                            "La fourmi ailée fête ses 1 ans!",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
             new EventCardVM(
                 "https://images.pexels.com/photos/2608517/pexels-photo-2608517.jpeg?auto=compress&cs=tinysrgb",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. ")
+                "Lorem ipsum",
+                "Dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. ")
         };
         List<LivreCardVM> vedettes = new()
         {
-            new LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", 6.66,
-                new List<Auteur> { new() { Nom = "Vlissides", Prenom = "Équipe" } },
-                new List<Categorie> { new() { Nom = "Horreur" } }),
+            new LivreCardVM("img/flat.png", "Ma vie avec l'équipe Vlissides", (decimal)6.66,
+                new Auteur { NomAuteur = "Vlissides"} ,
+                new Categorie { Nom = "Horreur" } ),
             new LivreCardVM("img/flat.png"),
             new LivreCardVM("img/flat.png"),
             new LivreCardVM("img/flat.png"),
@@ -71,21 +79,21 @@ public class AccueilController : Controller
         };
         List<LivreCardVM> recommandations = new()
         {
-            new LivreCardVM("img/flat.png", "Le chaperon rouge", 0.69,
-                new List<Auteur> { new() { Nom = "Grimms", Prenom = "Frères" } },
-                new List<Categorie> { new() { Nom = "Conte" } }),
+            new LivreCardVM("img/flat.png", "Le chaperon rouge", (decimal)0.69,
+                new Auteur { NomAuteur = "Grimms"},
+                new Categorie { Nom = "Conte" }),
             new LivreCardVM("img/flat.png"), new LivreCardVM("img/flat.png"), new LivreCardVM("img/flat.png"),
             new LivreCardVM("img/flat.png")
         };
         List<string> categories = new() { "Humour", "Essai", "Faune - Flore", "Art de vivre", "Informatique" };
         List<LivreCardVM> livreCategories = new()
         {
-            new LivreCardVM("img/flat.png", "Fahrenheit 451", 0.69,
-                new List<Auteur> { new() { Nom = "Bradbury", Prenom = "Ray" } },
-                new List<Categorie> { new() { Nom = "Fiction Dystopie" } }),
-            new LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", 40.99,
-                new List<Auteur> { new() { Nom = "", Prenom = "Jean-Luc" } },
-                new List<Categorie> { new() { Nom = "Informatique" } }),
+            new LivreCardVM("img/flat.png", "Fahrenheit 451", (decimal)0.69,
+                new Auteur { NomAuteur = "Bradbury"},
+                new Categorie{ Nom = "Fiction Dystopie" }),
+            new LivreCardVM("img/jean-luc.png", "Coder avec Jean-Luc", (decimal)40.99,
+                new Auteur{ NomAuteur = ""},
+                new Categorie { Nom = "Informatique" }),            
             new LivreCardVM("img/flat.png"),
             new LivreCardVM("img/flat.png"), new LivreCardVM("img/flat.png"),
             new LivreCardVM("img/flat.png")
@@ -97,7 +105,7 @@ public class AccueilController : Controller
             new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
                 DateTime.MaxValue),
             new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
-                DateTime.MaxValue)
+                DateTime.MaxValue) 
         };
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories,
             promotionCards));
