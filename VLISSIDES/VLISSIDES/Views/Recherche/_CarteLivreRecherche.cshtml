@@ -17,9 +17,12 @@
             <h6>@Model.LivreTypeLivres.FirstOrDefault().Prix $</h6>
 
             <h6>Auteurs: </h6>
-            @if (Model.Auteur != null)
+            @if (Model.Auteurs != null)
             {
-                <p>@Model.Auteur.NomAuteur</p>
+                foreach(var auteur in Model.Auteurs.OrderBy(x => x.NomAuteur))
+                    {
+                        <p>@auteur.NomAuteur</p>
+                    }
             }
 
             <h6>Catégories reliées: </h6>

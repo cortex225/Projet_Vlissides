@@ -26,7 +26,7 @@ public class Livre
     [DisplayName("Identifiant de l'auteur")]
     public string AuteurId { get; set; } = default!;
 
-    [DisplayName("Auteur(s)")] public Auteur Auteur { get; set; } = default!;
+    [DisplayName("Auteur(s)")] public  ICollection<Auteur> Auteurs { get; set; } = default!;
 
     [DisplayName("Identifiant de la maison d'édition")]
     public string? MaisonEditionId { get; set; }

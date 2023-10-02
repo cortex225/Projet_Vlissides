@@ -48,7 +48,7 @@ namespace VLISSIDES.Controllers
             List<Livre> livresRecherches;
 
             livresRecherches = _context.Livres
-                    .Include(l => l.Auteur)
+                    .Include(l => l.Auteurs)
                     .Include(l => l.Categorie)
                     .Include(l => l.Langues)
                     .Include(l => l.Evaluations)
@@ -85,7 +85,7 @@ namespace VLISSIDES.Controllers
                             break;
                         case "auteur":
                             livresRecherches = livresRecherches
-                            .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .Where(livre => Regex.IsMatch(livre.Auteurs.FirstOrDefault().NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "categorie":
@@ -183,7 +183,7 @@ namespace VLISSIDES.Controllers
         public ActionResult Details(string id)
         {
             Livre? monLivre = _context.Livres
-                    .Include(l => l.Auteur)
+                    .Include(l => l.Auteurs)
                     .Include(l => l.Categorie)
                     .Include(l => l.Langues)
                     .Include(l => l.Evaluations)
@@ -201,7 +201,7 @@ namespace VLISSIDES.Controllers
                 {
                     Id = monLivre.Id,
                     Titre = monLivre.Titre,
-                    lAuteur = monLivre.Auteur,
+                    lAuteur = monLivre.Auteurs.FirstOrDefault(),
                     laCategorie = monLivre.Categorie,
                     Prix = monLivre.LivreTypeLivres.FirstOrDefault()?.Prix,
                     DatePublication = monLivre.DatePublication,

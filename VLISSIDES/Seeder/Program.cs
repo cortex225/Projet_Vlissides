@@ -23,7 +23,6 @@ var categories = context.Categories.ToList();
 var typeLivres = context.TypeLivres.ToList();
 var langues = context.Langues.ToList();
 
-var generator = new RandomGenerator();
 Random rand = new Random();
 
 
@@ -64,7 +63,7 @@ var livres = Builder<Livre>.CreateListOfSize(299)
     .With(c => c.DatePublication = Identification.DateOfBirth())
     .With(c => c.ISBN = Identification.UsPassportNumber())
     .With(c => c.Categorie = Pick<Categorie>.RandomItemFrom(categories))
-    .With(c => c.Auteur = Pick<Auteur>.RandomItemFrom(auteurs))
+    .With(c => { return c.Auteurs = auteurs.OrderBy(a => Guid.NewGuid()).Take(3).ToList(); })
     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
     .With(c => c.LivreTypeLivres = new List<LivreTypeLivre> { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
     .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) })
@@ -86,3 +85,4 @@ context.SaveChanges();
 
 //Signaler la fin du seeder
 Console.WriteLine("Fin du seed!");
+

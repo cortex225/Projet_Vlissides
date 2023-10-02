@@ -28,10 +28,12 @@
                         <input asp-for="ISBN" class="form-control"/>
                         <span asp-validation-for="ISBN" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="AuteurId" class="control-label"></label>
-                        <select asp-for="AuteurId" asp-items="Model.SelectListAuteurs" class="form-control"></select>
-                    </div>
+                   <div class="form-group my-4">
+                       <label asp-for="AuteurIds" class="control-label"></label>
+                       <select asp-for="AuteurIds" asp-items="Model.SelectListAuteurs" class="form-control select" multiple style="z-index: 1000!important;position: relative;"></select>
+                       <span asp-validation-for="AuteurIds" class="text-danger"></span>
+                   </div>
+
                     <div class="form-group">
                         <label asp-for="MaisonEditionId" class="control-label"></label>
                         <select asp-for="MaisonEditionId" asp-items="Model.SelectMaisonEditions" class="form-control"></select>
@@ -91,6 +93,7 @@
                         <label asp-for="DatePublication"></label>
                         <input asp-for="DatePublication"/>
                     </div>
+                 
                 </div>
             </div>
 
@@ -138,7 +141,7 @@
         var form = document.getElementById("FormLivreAjouter");
         var data = new FormData(form);
 
-        //var csrfToken = form.querySelector(�'[name="__RequestVerificationToken"]').value;
+        //var csrfToken = form.querySelector(�'[name="__RequestVerificationToken"]').value;
         fetch('/2167594/GestionLivres/Ajouter', {
             method: "POST",
             body: data
@@ -146,7 +149,7 @@
             //    RequestVerificationToken: csrfToken,
             // },
         }).catch(error => {
-            console.error('�chec du fetch pour ajouter maison edition', error);
+            console.error('�chec du fetch pour ajouter maison edition', error);
         }).then((response) => {
             
                 return response.text();
@@ -172,4 +175,16 @@
             document.getElementById("TabLivreListes").innerHTML = result;
         });
     }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.select').select2({
+            placeholder: "Sélectionnez un ou plusieurs auteurs", // Texte d'invite pour guider l'utilisateur
+            allowClear: true, // Permet de vider la sélection
+            minimumInputLength: 1, // Nombre minimum de caractères nécessaires pour déclencher la recherche
+          
+            
+        });
+    });
 </script>

@@ -50,7 +50,7 @@ public class GestionLivresController : Controller
 
         //Prendre tous les livres
         List<Livre> livres = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.Categorie)
             .Include(l => l.Langues)
             .Include(l => l.Evaluations)
@@ -78,7 +78,7 @@ public class GestionLivresController : Controller
                         break;
                     case "auteur":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .Where(livre => Regex.IsMatch(livre.Auteurs.FirstOrDefault().NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "categorie":
@@ -185,7 +185,7 @@ public class GestionLivresController : Controller
 
         //Prendre tous les livres
         List<Livre> livres = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.Categorie)
             .Include(l => l.Langues)
             .Include(l => l.Evaluations)
@@ -213,7 +213,7 @@ public class GestionLivresController : Controller
                         break;
                     case "auteur":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .Where(livre => Regex.IsMatch(livre.Auteurs.FirstOrDefault().NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "categorie":
@@ -298,7 +298,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
@@ -312,6 +312,8 @@ public class GestionLivresController : Controller
     {
         var vm = new AjouterVM();
         //Populer les listes déroulantes
+        vm.AuteurIds = new List<string>();
+
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
             Text = x.NomAuteur,
@@ -343,6 +345,13 @@ public class GestionLivresController : Controller
     {
         if (ModelState.IsValid)
         {
+            // Vérification de la sélection d'au moins un auteur
+            if (!vm.AuteurIds.Any())
+            {
+                ModelState.AddModelError("AuteurIds", "Veuillez sélectionner au moins un auteur.");
+                return View(vm); // Retourner à la vue avec l'erreur
+            }
+            
             //Sauvegarder l'image dans root
             if (vm.CoverPhoto != null)
             {
@@ -395,7 +404,6 @@ public class GestionLivresController : Controller
                 NbExemplaires = vm.NbExemplaires,
                 NbPages = vm.NbPages,
                 ISBN = vm.ISBN,
-                AuteurId = vm.AuteurId,
                 MaisonEditionId = vm.MaisonEditionId,
                 Couverture = vm.CoverImageUrl,
                 LivreTypeLivres = listeType,
@@ -408,6 +416,17 @@ public class GestionLivresController : Controller
 
             _context.Livres.Add(livre);
             Console.Write("1");
+
+            // Associer les auteurs sélectionnés au livre
+            // foreach (var auteurId in vm.AuteurIds)
+            // {
+            //     var livreAuteur = new AuteurLivre
+            //     {
+            //         LivreId = id,
+            //         AuteurId = auteurId
+            //     };
+            //     _context.AuteurLivre.Add(livreAuteur);
+            // }
             _context.SaveChanges();
             Console.Write("2");
 
@@ -437,10 +456,14 @@ public class GestionLivresController : Controller
         }).ToList();
         return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
     }
+
+    [HttpGet]
+    [Route("2167594/GestionLivres/Modifier/{id}")]
+    [Route("{controller}/{action}/{id}")]
     public IActionResult Modifier(string id)
     {
         var livre = _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.LivreTypeLivres)
             .Include(l => l.Langues)
             .Include(l => l.Categorie)
@@ -450,7 +473,7 @@ public class GestionLivresController : Controller
         {
             Id = livre.Id,
             ISBN = livre.ISBN,
-            Auteur = livre.Auteur,
+            Auteur = livre.Auteurs.FirstOrDefault(),
             DatePublication = livre.DatePublication,
             NbExemplaires = livre.NbExemplaires,
             NbPages = livre.NbPages,
@@ -511,7 +534,7 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Modifier(ModifierVM vm)
+    public async Task<IActionResult> Modifier(ModifierVM vm,string id)
     {
         if (ModelState.IsValid)
         {
@@ -553,7 +576,7 @@ public class GestionLivresController : Controller
             }
 
             var livre = await _context.Livres
-                .Include(l => l.Auteur)
+                .Include(l => l.Auteurs)
                 .Include(l => l.LivreTypeLivres)
                 .Include(l => l.Langues)
                 .Include(l => l.Categorie)
@@ -606,7 +629,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();

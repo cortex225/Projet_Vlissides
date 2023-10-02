@@ -134,6 +134,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(l => l.LivreTypeLivres)
             .HasForeignKey(ltl => ltl.TypeLivreId);
 
+        builder.Entity<Livre>()
+            .HasMany(l => l.Auteurs)
+            .WithMany(a => a.Livres)
+            .UsingEntity(j => j.ToTable("LivreAuteur"));
+
         //Création des différent comptes
         //var password = new PasswordHasher<ApplicationUser>();
         var UserAdmin = new ApplicationUser
