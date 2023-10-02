@@ -124,7 +124,7 @@ public class GestionLivresController : Controller
                         break;
                 }
             }
-        }  
+        }
 
         var livresVM = livres
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -135,7 +135,7 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c=>c.Id == l.CategorieId).FirstOrDefault()?.Nom,
+                Categorie = _context.Categories.Where(c => c.Id == l.CategorieId).FirstOrDefault()?.Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
@@ -155,9 +155,141 @@ public class GestionLivresController : Controller
             ListeCategories = categories,
             ListeLangue = langues,
             ListeTypeLivres = typesLivres
-            
+
         };
         return View(vm);
+    }
+    [Route("2167594/GestionLivres/{action}")]
+    [Route("{controller}/{action}")]
+    public async Task<IActionResult> AfficherLivres(string? motCles, string? criteres, int page = 1)
+    {
+        //Récuppérer les mot clés et les critères de recherches
+        List<string> listMotCles = new List<string>();
+        if (motCles != null)
+        {
+            listMotCles = motCles.Split('|').ToList();
+        }
+
+        List<string> listCriteres = new List<string>();
+        if (criteres != null)
+        {
+            listCriteres = criteres.Split('|').ToList();
+        }
+
+        var itemsPerPage = 10;
+        var totalItems = await _context.Livres.CountAsync();
+
+        var categories = _context.Categories.ToList();
+        var langues = _context.Langues.ToList();
+        var typesLivres = _context.TypeLivres.ToList();
+
+        //Prendre tous les livres
+        List<Livre> livres = await _context.Livres
+            .Include(l => l.Auteur)
+            .Include(l => l.Categorie)
+            .Include(l => l.Langues)
+            .Include(l => l.Evaluations)
+            .Include(l => l.MaisonEdition)
+            .Include(l => l.LivreTypeLivres)
+            .OrderByDescending(l => l.DateAjout)
+            .ToListAsync();
+
+        //Appliquer les critères de recherche si il y a lieu
+        if (listCriteres.Count > 0 || listMotCles.Count > 0)
+        {
+            for (int i = 0; i < listMotCles.Count(); ++i)
+            {
+                switch (listCriteres[i])
+                {
+                    default:
+                        livres = livres
+                        .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .ToList();
+                        break;
+                    case "titre":
+                        livres = livres
+                        .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .ToList();
+                        break;
+                    case "auteur":
+                        livres = livres
+                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .ToList();
+                        break;
+                    case "categorie":
+                        livres = livres
+                        .Where(livre => Regex.IsMatch(livre.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase))
+                        .ToList();
+                        break;
+                    case "maisonEdition":
+                        livres = livres
+                        .Where(livre =>
+                            livre.MaisonEdition != null &&
+                            Regex.IsMatch(livre.MaisonEdition.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .ToList();
+                        break;
+                    case "langue":
+                        livres = livres
+                        .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                        .ToList();
+                        break;
+                    case "typeLivre":
+                        livres = livres
+                        .Where(livre => livre.LivreTypeLivres.Any(type => Regex.IsMatch(type.TypeLivre.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                        .ToList();
+                        break;
+                    case "prixMin":
+                        decimal prixMinD;
+                        if (decimal.TryParse(listMotCles[i], out prixMinD))
+                        {
+                            livres = livres
+                                .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix >= prixMinD)
+                                .ToList();
+                        }
+                        break;
+
+                    case "prixMax":
+                        decimal prixMaxD;
+                        if (decimal.TryParse(listMotCles[i], out prixMaxD))
+                        {
+                            livres = livres
+                                .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix <= prixMaxD)
+                                .ToList();
+                        }
+                        break;
+                }
+            }
+        }
+        var livresVM = livres
+            .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+            .Take(itemsPerPage)
+            .Select(l => new GestionLivresAfficherVM
+            {
+                Id = l.Id,
+                Image = l.Couverture,
+                Titre = l.Titre,
+                ISBN = l.ISBN,
+                Categorie = _context.Categories.Where(c => c.Id == l.CategorieId).FirstOrDefault()?.Nom,
+                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
+                Quantite = l.NbExemplaires,
+            }).ToList();
+
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+
+        GestionLivresInventaireVM vm = new GestionLivresInventaireVM
+        {
+            ListeLivres = livresVM,
+            ListeCategories = categories,
+            ListeLangue = langues,
+            ListeTypeLivres = typesLivres
+
+        };
+        return PartialView("PartialViews/GestionLivres/_ListeLivresPartial", vm);
     }
 
     // GET: Livre/Details/5
@@ -175,6 +307,7 @@ public class GestionLivresController : Controller
     }
 
     // GET: C
+    [Route("2167594/GestionLivres/Ajouter")]
     public IActionResult Ajouter()
     {
         var vm = new AjouterVM();
@@ -204,6 +337,8 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Route("2167594/GestionLivres/Ajouter")]
+    [Route("{controller}/{action}")]
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
         if (ModelState.IsValid)
@@ -224,7 +359,7 @@ public class GestionLivresController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "~/img/CouvertureLivre/livredefault.png";
             }
             var id = Guid.NewGuid().ToString();
             //Types de livres
@@ -276,11 +411,31 @@ public class GestionLivresController : Controller
             _context.SaveChanges();
             Console.Write("2");
 
-            return RedirectToAction("Inventaire");
-
+            //return RedirectToAction("Inventaire");
+            return Ok();
 
         }
-        return View( vm);
+        vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+        {
+            Text = x.NomAuteur,
+            Value = x.Id
+        }).ToList();
+        vm.SelectMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectLangues = _context.Langues.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
     }
     public IActionResult Modifier(string id)
     {
@@ -419,10 +574,29 @@ public class GestionLivresController : Controller
             livre.DatePublication = vm.DatePublication;
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Inventaire");
+            return Ok();
         }
-
-        return View(vm);
+        vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+        {
+            Text = x.NomAuteur,
+            Value = x.Id
+        }).ToList();
+        vm.SelectMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        vm.SelectLangues = _context.Langues.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        return PartialView("PartialViews/Modals/InventaireLivres/_EditPartial", vm);
     }
 
     // GET: Livre/Delete/5
