@@ -1,6 +1,6 @@
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using VLISSIDES.Data;
 using VLISSIDES.Helpers;
 using VLISSIDES.Interfaces;
@@ -69,7 +69,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     "default",
-    "{controller=Accueil}/{action=Index}/{id?}");
+    "/{controller=Accueil}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
