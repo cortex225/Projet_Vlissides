@@ -14,16 +14,15 @@ public class AuteurConfiguration : IEntityTypeConfiguration<Auteur>
         this.auteurs = new();
         foreach (var auteur in auteurs)
         {
-            if (!this.auteurs.Any(a => a.NomComplet.Equals(auteur)))
+            if (!this.auteurs.Any(a => a.NomAuteur.Equals(auteur)))
                 this.auteurs.Add(new()
                 {
                     Id = ids[auteurs.IndexOf(auteur)],
-                    Prenom = auteur.Split(" ").Count() > 1 ? auteur.Split(" ")[0] : auteur,
-                    Nom = auteur.Split(" ").Count() > 1 ? auteur.Substring(auteur.Split(" ")[0].Count()).Trim() : ""
+                    NomAuteur = auteur
                 });
         }
         foreach (var auteur in this.auteurs)
-            Console.WriteLine(auteur.Id + " : " + auteur.NomComplet);
+            Console.WriteLine(auteur.Id + " : " + auteur.NomAuteur);
     }
 
     public void Configure(EntityTypeBuilder<Auteur> builder)

@@ -28,6 +28,8 @@ public class Livre
 
     [DisplayName("Auteur(s)")] public Auteur Auteur { get; set; } = default!;
 
+    [DisplayName("Maison d'édition identifiant")] public string? MaisonEditionId { get; set; }
+
     [DisplayName("Maison d'édition")] public MaisonEdition? MaisonEdition { get; set; }
 
     [DisplayName("Identifiant de la catégorie")]

@@ -1,3 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionLivres;
+using VLISSIDES.ViewModels.Livres;
+
 namespace VLISSIDES.Controllers;
 
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
@@ -284,7 +294,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteurs)
+            .Include(l => l.Auteur)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
@@ -379,7 +389,7 @@ public class GestionLivresController : Controller
                 NbPages = vm.NbPages,
                 ISBN = vm.ISBN,
                 AuteurId = vm.AuteurId,
-                MaisonEditionId = vm.MaisonEditionId,
+                MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId)),
                 Couverture = vm.CoverImageUrl,
                 LivreTypeLivres = listeType,
                 DatePublication = vm.DatePublication,
@@ -548,7 +558,7 @@ public class GestionLivresController : Controller
             livre.LangueId = vm.LangueId;
             livre.LivreTypeLivres = listeType;
             livre.Couverture = vm.CoverImageUrl;
-            livre.MaisonEditionId = vm.MaisonEditionId;
+            livre.MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId));
             livre.DatePublication = vm.DatePublication;
 
             await _context.SaveChangesAsync();
@@ -584,7 +594,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteurs)
+            .Include(l => l.Auteur)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();

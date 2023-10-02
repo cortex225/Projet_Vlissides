@@ -1,5 +1,8 @@
 ﻿//ViewModel pour _CarteLivre.cshtml et CarteLivrePetit.cshtml
 
+using System.ComponentModel;
+using VLISSIDES.Models;
+
 namespace VLISSIDES.ViewModels.Accueil;
 
 public class LivreCardVM
@@ -17,7 +20,7 @@ public class LivreCardVM
         Categorie = categories?.Nom;
     }
 
-    public LivreCardVM(Livre livre)
+    public LivreCardVM(string v, Livre livre)
     {
         livre.Evaluations ??= new List<Evaluation>();
         Couverture = livre.Couverture;

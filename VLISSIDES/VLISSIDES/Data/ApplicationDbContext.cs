@@ -21,6 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Employe> Employes { get; set; }
 
     public DbSet<Auteur> Auteurs { get; set; }
+
     public DbSet<Membre> Membres { get; set; }
 
     public DbSet<Reservation> Reservations { get; set; }
@@ -28,6 +29,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Evenement> Evenements { get; set; }
 
     public DbSet<Evaluation> Evaluations { get; set; }
+
     public DbSet<Livre> Livres { get; set; }
 
     public DbSet<Categorie> Categories { get; set; }
@@ -41,12 +43,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Favori> Favoris { get; set; }
 
     public DbSet<Langue> Langues { get; set; }
+
     public DbSet<MaisonEdition> MaisonEditions { get; set; }
 
     public DbSet<Promotions> Promotions { get; set; }
-    #endregion
 
     public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
+    #endregion
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -255,6 +258,19 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserMembre.Id },
             new IdentityUserRole<string> { RoleId = roleAdmin.Id, UserId = UserAdmin.Id }
         );
+        #endregion
+        #region Adresse
+
+
+        //Un type de livre peut avoir plusieurs livres
+        /*builder.Entity<Adresse>()
+            .HasOne(a => a.UtilisateurLivraison)
+            .WithMany(l => l.AdressesLivraison)
+            .HasForeignKey(a => a.UtilisateurLivraisonId);
+        //Un type de livre peut avoir plusieurs livres
+        builder.Entity<Adresse>()
+            .HasOne(a => a.UtilisateurPrincipal)
+            .WithOne(l => l.AdressePrincipale);*/
         #endregion
     }
     public void ReadExcel(string url, out List<string> titres, out List<string> auteurs, out List<string> auteurIds,
