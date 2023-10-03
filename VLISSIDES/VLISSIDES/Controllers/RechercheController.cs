@@ -21,7 +21,8 @@ namespace VLISSIDES.Controllers
         }
 
         // GET: RechercheController
-        [Route("/Recherche/Index")]
+        [Route("2167594/Recherche/Index")]
+        [Route("{controller}/{action}")]
         public ActionResult Index(string? motCles, string? criteres)
         {
             List<string> listMotCles = new List<string>();
@@ -176,9 +177,12 @@ namespace VLISSIDES.Controllers
 
             DetailsLivreVM vm;
 
-            if (monLivre == null) {
+            if (monLivre == null)
+            {
                 vm = new DetailsLivreVM();
-            } else {
+            }
+            else
+            {
                 vm = new DetailsLivreVM
                 {
                     Id = monLivre.Id,
@@ -193,7 +197,7 @@ namespace VLISSIDES.Controllers
                     Resume = monLivre.Resume,
                     NbExemplaires = monLivre.NbExemplaires,
                     LivreTypeLivres = monLivre.LivreTypeLivres,
-                    
+
                 };
             }
 
