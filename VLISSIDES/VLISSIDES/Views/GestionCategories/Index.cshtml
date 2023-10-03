@@ -14,12 +14,20 @@
 </div>
 
 <div class="d-block p-4 p-4">
-    <button class="btn btn-primary" onclick="ShowModal('@Url.Action("Ajouter","GestionCategories")')">Ajouter une catégorie</button>
+    
     <div class="mb-4">
         <h1>Gestion des catégories</h1>
     </div>
-    <!--Fin : Rechercher catégorie-->
+
     <div class="container-fluid">
+        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("Ajouter","GestionCategories")')">Ajouter une catégorie</button>
+    </div>
+
+    <br />
+
+    <!--Début : Rechercher catégorie-->
+    <div class="container-fluid">
+        
 
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#rechercherCategorie">
             Rechercher une catégorie
@@ -39,13 +47,14 @@
     </div>
     <br />
     <!--Fin : Rechercher catégorie-->
+
     <div class="mb-4">
         <h3>Liste des catégories</h3>
         <div class="row">
+
+            <!--Début: Affichage des catégorie-->
             <div class="list-group col-6" id="list-tab" role="tablist">
-
                 @foreach (var item in Model.ListeCategories)
-
                 {
                     <!--onclick pour afficher livres ici-->
                     <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@item.Id')">
@@ -76,7 +85,9 @@
                     </div>
                 }
             </div>
+            <!--Fin: Affichage des catégorie-->
 
+            <!--Début: Affichage des informations de la catégorie (droite)-->
             <div id="divListeLivres" class="col-6 card rounded-xl">
                 <h3 class="text-center my-3">Informations de la catégorie</h3>
 
@@ -125,6 +136,8 @@
                 </div>
 
             </div>
+            <!--Fin: Affichage des informations de la catégorie (droite)-->
+
         </div>
     </div>
 </div>
@@ -169,7 +182,7 @@
 <!--Script pour la supprimation et le modal-->
 <script type="text/javascript">
     function SupprimerCategorie(id = "") {
-        fetch('GestionCategories/SupprimerCategorie?id='+id, {
+        fetch('/2167594/GestionCategories/SupprimerCategorie?id='+id, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
