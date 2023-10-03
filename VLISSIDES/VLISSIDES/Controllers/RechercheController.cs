@@ -45,9 +45,9 @@ namespace VLISSIDES.Controllers
             List<Livre> livresRecherches;
 
             livresRecherches = _context.Livres
-                    .Include(l => l.Auteur)
+                    .Include(l => l.Auteurs)
                     .Include(l => l.Categorie)
-                    .Include(l => l.Langues)
+                    .Include(l => l.Langue)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
                     .Include(l => l.LivreTypeLivres)
@@ -80,7 +80,7 @@ namespace VLISSIDES.Controllers
                             break;
                         case "auteur":
                             livresRecherches = livresRecherches
-                            .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .Where(livre => livre.Auteurs.Any(a => Regex.IsMatch(a.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "categorie":
@@ -97,7 +97,7 @@ namespace VLISSIDES.Controllers
                             break;
                         case "langue":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                            .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
                             .ToList();
                             break;
                         case "typeLivre":
@@ -165,9 +165,9 @@ namespace VLISSIDES.Controllers
         public ActionResult Details(string id)
         {
             Livre? monLivre = _context.Livres
-                    .Include(l => l.Auteur)
+                    .Include(l => l.Auteurs)
                     .Include(l => l.Categorie)
-                    .Include(l => l.Langues)
+                    .Include(l => l.Langue)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
                     .Include(l => l.LivreTypeLivres)
@@ -186,7 +186,7 @@ namespace VLISSIDES.Controllers
                 {
                     Id = monLivre.Id,
                     Titre = monLivre.Titre,
-                    lAuteur = monLivre.Auteur,
+                    lAuteur = monLivre.Auteurs.First(),
                     laCategorie = monLivre.Categorie,
                     Prix = monLivre.LivreTypeLivres.FirstOrDefault()?.Prix,
                     DatePublication = monLivre.DatePublication,

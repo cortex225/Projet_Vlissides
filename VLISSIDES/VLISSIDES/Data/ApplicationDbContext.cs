@@ -59,6 +59,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #region configuration
         #region Prendre les données de la feuille excel
+        List<string> livreIds = new();
         List<string> titres = new();
         List<string> auteurs = new();
         List<string> auteurIds = new();
@@ -69,6 +70,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         List<string> couvertures = new();
         List<string> categories = new();
         List<string> categorieIds = new();
+        List<string> categorieIdOuts = new();
         List<int> quantites = new();
         List<string> typeLivres = new();
         List<string> typeLivreIds = new();
@@ -86,7 +88,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.ApplyConfiguration(new TypeLivreConfiguration());
 
         //Ajout des catégories des livres à la bd
-        builder.ApplyConfiguration(new CategorieLivreConfiguration(categories, categorieIds));
+        builder.ApplyConfiguration(new CategorieConfiguration(categories, categorieIds, out categorieIdOuts));
 
         //Ajout des langues des livres à la bd
         builder.ApplyConfiguration(new LangueConfiguration());
@@ -95,7 +97,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         //Ajout des maison d'édition à la bd
         builder.ApplyConfiguration(new MaisonEditionsConfiguration(maisonEditions, maisonEditionIds));
         //Ajout des livres à la bd
-        builder.ApplyConfiguration(new LivreConfiguration(titres, auteurIds, pages, ISBNs, couvertures, quantites, typeLivreIds, prix));
+        builder.ApplyConfiguration(new LivreConfiguration(titres, maisonEditionIds, pages, ISBNs, couvertures, quantites, out livreIds));
+
+        //Ajout des livres à la bd
+        builder.ApplyConfiguration(new LivreAuteurConfiguration(livreIds, auteurIds));
+        //Ajout des livres à la bd
+        builder.ApplyConfiguration(new LivreCategorieConfiguration(livreIds, categorieIdOuts));
+        //Ajout des livres à la bd
+        builder.ApplyConfiguration(new LivreTypeLivreConfiguration(livreIds, typeLivreIds));
         #endregion
         #region Favorie
         // Configuration de la relation entre les favoris les membres et les livres
@@ -115,7 +124,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #region Livre
         //Un livre a plusieurs auteurs et un auteurs a plusieurs livres
         builder.Entity<Livre>()
-            .HasOne(l => l.Auteur)
+            .HasMany(l => l.Auteurs)
             .WithMany(a => a.Livres);
         //Un livre a un éditeur et un éditeur a plusieurs livres
         builder.Entity<Livre>()
@@ -137,7 +146,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(e => e.LivreId);
         //Un livre peut avoir une langue et une langue peut avoir plusieurs livres
         builder.Entity<Livre>()
-            .HasOne(l => l.Langues)
+            .HasOne(l => l.Langue)
             .WithMany(l => l.Livres);
         //Un livre peut avoir plusiseurs promotions et une ptomotion peut avoir plusieurs livres
         builder.Entity<Livre>()
@@ -279,7 +288,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         out List<string> typeLivres, out List<string> typeLivreIds, out List<double> prix)
     {
         #region Donner une valleur initial aux paramettres
-        int range = 0;
+        List<Livre> livres = new();
+        List<Auteur> auteurs = new();
+        List<MaisonEdition> maisonEditions = new();
+
         titres = new();
         auteurs = new();
         auteurIds = new();
@@ -364,7 +376,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                             else
                                 categorieIds.Add("Excel " + range);
                             #endregion
-                            #region Qunatité
+                            #region Quantité
                             Console.WriteLine("\n-Quantité-----------------------------------------------------\n" + reader.GetDouble(9));
                             quantites.Add(reader.GetValue(9) != null ? (int)reader.GetDouble(9) : 0);
                             #endregion

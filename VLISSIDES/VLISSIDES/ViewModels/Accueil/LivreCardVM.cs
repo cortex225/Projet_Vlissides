@@ -26,7 +26,8 @@ public class LivreCardVM
         Couverture = livre.Couverture;
         Titre = livre.Titre;
         Prix = livre.LivreTypeLivres.FirstOrDefault().Prix;
-        Auteurs = livre.Auteur.NomAuteur;
+        Auteurs = "";
+        livre.Auteurs.ForEach(a => Auteurs += a.NomAuteur + ", ");
         Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
 
         Categorie = livre.Categorie.Nom;

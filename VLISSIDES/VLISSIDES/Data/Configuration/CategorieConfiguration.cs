@@ -4,7 +4,7 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.Data;
 
-public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
+public class CategorieConfiguration : IEntityTypeConfiguration<Categorie>
 {
     List<Categorie> categories;
     List<Categorie> categoriesDeBase = new()
@@ -218,7 +218,7 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
             }
         };
 
-    public CategorieLivreConfiguration(List<string> categories, List<string> ids)
+    public CategorieConfiguration(List<string> categories, List<string> ids, out List<string> categoriesIdout)
     {
         this.categories = new();
         foreach (var categorie in categories)
@@ -239,6 +239,7 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
                 this.categories.Remove(categorie);
             }
         this.categories.AddRange(categoriesDeBase);
+        categoriesIdout = this.categories.Select(c => c.Id).ToList();
         foreach (var categorie in this.categories)
             Console.WriteLine(categorie.Id + " : " + categorie.Nom);
     }
@@ -248,7 +249,6 @@ public class CategorieLivreConfiguration : IEntityTypeConfiguration<Categorie>
         builder.ToTable("Categories");
         builder.HasKey(sc => sc.Id);
         builder.Property(sc => sc.Id).ValueGeneratedOnAdd();
-        //foreach (var categorie in categories)
         builder.HasData(categories);
     }
 }

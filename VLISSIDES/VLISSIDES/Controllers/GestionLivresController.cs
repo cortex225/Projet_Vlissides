@@ -50,9 +50,9 @@ public class GestionLivresController : Controller
 
         //Prendre tous les livres
         List<Livre> livres = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.Categorie)
-            .Include(l => l.Langues)
+            .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
@@ -78,7 +78,7 @@ public class GestionLivresController : Controller
                         break;
                     case "auteur":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .Where(livre => Regex.IsMatch(livre.Auteurs.First().NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "categorie":
@@ -95,7 +95,7 @@ public class GestionLivresController : Controller
                         break;
                     case "langue":
                         livres = livres
-                        .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                        .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "typeLivre":
@@ -135,7 +135,7 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => c.Id == l.CategorieId).FirstOrDefault()?.Nom,
+                Categorie = _context.Categories.Where(c => l.Categorie.Id.Equals(c.Id)).FirstOrDefault()?.Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
@@ -181,9 +181,9 @@ public class GestionLivresController : Controller
 
         //Prendre tous les livres
         List<Livre> livres = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.Categorie)
-            .Include(l => l.Langues)
+            .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
@@ -209,7 +209,7 @@ public class GestionLivresController : Controller
                         break;
                     case "auteur":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .Where(livre => livre.Auteurs.Any(a => Regex.IsMatch(a.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
                         .ToList();
                         break;
                     case "categorie":
@@ -226,7 +226,7 @@ public class GestionLivresController : Controller
                         break;
                     case "langue":
                         livres = livres
-                        .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                        .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "typeLivre":
@@ -265,7 +265,7 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => c.Id == l.CategorieId).FirstOrDefault()?.Nom,
+                Categorie = _context.Categories.Where(c => c.Id == l.Categorie.Id).FirstOrDefault()?.Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
@@ -294,7 +294,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
@@ -388,15 +388,15 @@ public class GestionLivresController : Controller
                 NbExemplaires = vm.NbExemplaires,
                 NbPages = vm.NbPages,
                 ISBN = vm.ISBN,
-                AuteurId = vm.AuteurId,
+                //AuteurId = vm.AuteurId,
                 MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId)),
                 Couverture = vm.CoverImageUrl,
                 LivreTypeLivres = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
-                CategorieId = vm.CategorieId,
+                //CategorieId = vm.CategorieId,
                 LangueId = vm.LangueId,
-                TypeLivreId = vm.TypeLivreId
+                //TypeLivreId = vm.TypeLivreId
             };
 
             Console.Write("1");
@@ -432,9 +432,9 @@ public class GestionLivresController : Controller
     public IActionResult Modifier(string id)
     {
         var livre = _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.LivreTypeLivres)
-            .Include(l => l.Langues)
+            .Include(l => l.Langue)
             .Include(l => l.Categorie)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
@@ -442,7 +442,7 @@ public class GestionLivresController : Controller
         {
             Id = livre.Id,
             ISBN = livre.ISBN,
-            Auteur = livre.Auteur,
+            //Auteur = livre.Auteurs,
             DatePublication = livre.DatePublication,
             NbExemplaires = livre.NbExemplaires,
             NbPages = livre.NbPages,
@@ -543,9 +543,9 @@ public class GestionLivresController : Controller
             }
 
             var livre = await _context.Livres
-                .Include(l => l.Auteur)
+                .Include(l => l.Auteurs)
                 .Include(l => l.LivreTypeLivres)
-                .Include(l => l.Langues)
+                .Include(l => l.Langue)
                 .Include(l => l.Categorie)
                 .FirstOrDefaultAsync(x => x.Id == vm.Id);
 
@@ -594,7 +594,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.Auteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();

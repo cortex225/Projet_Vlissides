@@ -23,33 +23,22 @@ public class Livre
 
     [DisplayName("ISBN")] public string ISBN { get; set; } = default!;
 
-    [DisplayName("Identifiant de l'auteur")]
-    public string AuteurId { get; set; } = default!;
-
-    [DisplayName("Auteur(s)")] public Auteur Auteur { get; set; } = default!;
+    [DisplayName("Auteur(s)")] public List<Auteur>? Auteurs { get; set; } = default!;
 
     [DisplayName("Maison d'édition identifiant")] public string? MaisonEditionId { get; set; }
 
     [DisplayName("Maison d'édition")] public MaisonEdition? MaisonEdition { get; set; }
 
-    [DisplayName("Identifiant de la catégorie")]
-    public string CategorieId { get; set; } = default!;
+    [DisplayName("Catégories associés")] public Categorie? Categorie { get; set; } = default!;
 
-    [DisplayName("Catégories associés")] public Categorie Categorie { get; set; } = default!;
-
-    [DisplayName("Identifiant du type de livre")]
-    public string? TypeLivreId { get; set; } = default!;
     [DisplayName("Type(s) de livre")] public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; } = default!;
-
-    [DisplayName("Identifiant de l'évaluation")]
-    public string? EvaluationId { get; set; } = default!;
 
     [DisplayName("Évaluations")] public ICollection<Evaluation>? Evaluations { get; set; }
 
     [DisplayName("Identifiant de la langue")]
-    public string LangueId { get; set; } = default!;
+    public string? LangueId { get; set; } = default!;
 
-    [DisplayName("Langues")] public Langue Langues { get; set; } = default!;
+    [DisplayName("Langues")] public Langue? Langue { get; set; } = default!;
 
     [DisplayName("Favoris")] public ICollection<Favori>? Favoris { get; set; }
 

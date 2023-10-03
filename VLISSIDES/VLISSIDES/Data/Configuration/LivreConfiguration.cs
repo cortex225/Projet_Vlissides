@@ -8,30 +8,28 @@ public class LivreConfiguration : IEntityTypeConfiguration<Livre>
 {
     private List<Livre> livres;
 
-    public LivreConfiguration(List<string> titres, List<string> auteurIds, List<int> pages, List<string> ISBNs, List<string> couvertures,
-        List<int> quantites, List<string> typeLivreIds, List<double> prix)
+    public LivreConfiguration(List<string> titres, List<string> maisonEditionIds, List<int> pages, List<string> ISBNs, List<string> couvertures,
+        List<int> quantites, out List<string> livreIds)
     {
         livres = new();
         foreach (var titre in titres)
         {
+            var id = titres.IndexOf(titre);
             livres.Add(new()
             {
-                Id = "Excel " + titres.IndexOf(titre),
+                Id = "Excel " + id,
                 Titre = titre,
-                AuteurId = auteurIds[titres.IndexOf(titre)],
-                MaisonEditionId = null,
+                MaisonEditionId = maisonEditionIds[id],
                 Resume = "",
-                CategorieId = null,
                 DateAjout = DateTime.Now,
                 LangueId = null,
-                NbPages = pages[titres.IndexOf(titre)],
-                ISBN = ISBNs[titres.IndexOf(titre)],
-                Couverture = couvertures[titres.IndexOf(titre)],
-                NbExemplaires = quantites[titres.IndexOf(titre)],
-                TypeLivreId = typeLivreIds[titres.IndexOf(titre)],
-
+                NbPages = pages[id],
+                ISBN = ISBNs[id],
+                Couverture = couvertures[id],
+                NbExemplaires = quantites[id],
             });
         }
+        livreIds = livres.Select(l => l.Id).ToList();
         foreach (var livre in livres)
             Console.WriteLine(livre.Id + " : " + livre.Titre);
     }
