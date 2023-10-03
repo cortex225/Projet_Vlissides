@@ -45,6 +45,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
 
+    public DbSet<Panier> Paniers { get; set; }
+    public DbSet<LivrePanier> LivrePanier { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -87,6 +90,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(a => a.UtilisateurLivraisonId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // Configuration pour le panier car un utilisateur peut avoir un seul panier
+        builder.Entity<ApplicationUser>()
+            .HasOne(a => a.Panier)
+            .WithOne(a => a.User)
+            .HasForeignKey<Panier>(a => a.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Configuration de la relation entre les favoris les membres et les livres
         builder.Entity<Favori>()
@@ -117,6 +126,22 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
+
+        // Configuration de la relation entre Livre et Panier et la table de liaison LivrePanier
+        builder.Entity<LivrePanier>()
+            .HasKey(lp => new { lp.LivreId, lp.PanierId });
+
+        //Un livre peut être dans plusieurs paniers
+        builder.Entity<LivrePanier>()
+            .HasOne(lp => lp.Livre)
+            .WithMany(l => l.LivrePanier)
+            .HasForeignKey(lp => lp.LivreId);
+
+        //Un panier peut avoir plusieurs livres
+        builder.Entity<LivrePanier>()
+            .HasOne(lp => lp.Panier)
+            .WithMany(p => p.LivresPanier)
+            .HasForeignKey(lp => lp.PanierId);
 
         // Configuration de la relation entre Livre et TypeLivre
         builder.Entity<LivreTypeLivre>()
