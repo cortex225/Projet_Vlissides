@@ -164,6 +164,8 @@ namespace VLISSIDES.Controllers
         [Route("/Recherche/Details")]
         public ActionResult Details(string id)
         {
+            List<TypeLivre> listTypeLivres = _context.TypeLivres.ToList();
+
             Livre? monLivre = _context.Livres
                     .Include(l => l.Auteur)
                     .Include(l => l.Categorie)
@@ -193,7 +195,7 @@ namespace VLISSIDES.Controllers
                     Resume = monLivre.Resume,
                     NbExemplaires = monLivre.NbExemplaires,
                     LivreTypeLivres = monLivre.LivreTypeLivres,
-                    
+                    listTypeLivres = listTypeLivres
                 };
             }
 
