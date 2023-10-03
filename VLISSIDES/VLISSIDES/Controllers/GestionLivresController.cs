@@ -435,6 +435,7 @@ public class GestionLivresController : Controller
         }).ToList();
         return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
     }
+    [Route("2167594/GestionLivres/Modifier")]
     public IActionResult Modifier(string id)
     {
         var livre = _context.Livres
@@ -509,6 +510,8 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Route("2167594/GestionLivres/Modifier")]
+    [Route("{controller}/{action}")]
     public async Task<IActionResult> Modifier(ModifierVM vm)
     {
         if (ModelState.IsValid)
