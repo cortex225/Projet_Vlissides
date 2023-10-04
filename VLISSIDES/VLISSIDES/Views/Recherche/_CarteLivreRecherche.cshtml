@@ -14,7 +14,23 @@
         <div class="card-body">
             <h6 class="card-title">@Model.Titre</h6>
 
-            <h6>@Model.LivreTypeLivres.FirstOrDefault().Prix $</h6>
+            @if(Model.LivreTypeLivres.Count <= 0)
+            {
+                <p><strong>Aucun Prix</strong></p>
+            }
+            else{
+                @foreach (LivreTypeLivre t in Model.LivreTypeLivres)
+                {
+                    if (t.TypeLivre.Nom == "Neuf")
+                    {
+                        <p><strong>Prix neuf:</strong> @t.Prix $</p>
+                    }
+                    if (t.TypeLivre.Nom == "Numérique")
+                    {
+                        <p><strong>Prix numérique:</strong> @t.Prix $</p>
+                    }
+                }
+            }
 
             <h6>Auteurs: </h6>
             @if (Model.LivreAuteurs != null)

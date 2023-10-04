@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Recherche;
-
-namespace VLISSIDES.Controllers
+﻿namespace VLISSIDES.Controllers
 {
     public class RechercheController : Controller
     {
@@ -21,7 +14,8 @@ namespace VLISSIDES.Controllers
         }
 
         // GET: RechercheController
-        [Route("/Recherche/Index")]
+        [Route("2167594/Recherche/Index")]
+        [Route("{controller}/{action}")]
         public ActionResult Index(string? motCles, string? criteres)
         {
             List<string> listMotCles = new List<string>();
@@ -164,6 +158,8 @@ namespace VLISSIDES.Controllers
         [Route("/Recherche/Details")]
         public ActionResult Details(string id)
         {
+            List<TypeLivre> listTypeLivres = _context.TypeLivres.ToList();
+
             Livre? monLivre = _context.Livres
                     .Include(l => l.LivreAuteurs)
                     .Include(l => l.LivreCategories)
@@ -196,7 +192,7 @@ namespace VLISSIDES.Controllers
                     Resume = monLivre.Resume,
                     NbExemplaires = monLivre.NbExemplaires,
                     LivreTypeLivres = monLivre.LivreTypeLivres,
-
+                    listTypeLivres = listTypeLivres
                 };
             }
 
