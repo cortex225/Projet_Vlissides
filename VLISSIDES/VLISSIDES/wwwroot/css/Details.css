@@ -12,6 +12,10 @@
     flex-direction: row;    
 }
 
+#DetailsInfo {
+    width: 40%;
+}
+
 .btnPanier {
     width: 100%; 
     display: flex;
