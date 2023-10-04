@@ -91,11 +91,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.ApplyConfiguration(new LivreConfiguration(livres, maisonEditions));
 
         //Ajout des relations livres auteurs à la bd
-        builder.ApplyConfiguration(new LivreAuteurConfiguration(livres, auteurIds));
+        //builder.ApplyConfiguration(new LivreAuteurConfiguration(livres, auteurIds));
         //Ajout des relations livres catégories à la bd
-        builder.ApplyConfiguration(new LivreCategorieConfiguration(livres, categorieIds));
+        //builder.ApplyConfiguration(new LivreCategorieConfiguration(livres, categorieIds));
         //Ajout des relations livres typeLivres à la bd
-        builder.ApplyConfiguration(new LivreTypeLivreConfiguration(livres, typeLivres));
+        //builder.ApplyConfiguration(new LivreTypeLivreConfiguration(livres, typeLivres));
 
         #endregion
         #region Favorie
@@ -114,25 +114,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(f => f.LivreId);
         #endregion
         #region Livre
-        //Un livre a plusieurs auteurs et un auteurs a plusieurs livres
-        builder.Entity<Livre>()
-            .HasMany(l => l.LivreAuteurs)
-            .WithOne(la => la.Livre)
-            .HasForeignKey(la => la.LivreId);
         //Un livre a un éditeur et un éditeur a plusieurs livres
         builder.Entity<Livre>()
             .HasOne(l => l.MaisonEdition)
             .WithMany(me => me.Livres);
-        //Un livre peut avoir plusiseurs catégories et une catégorie peut avoir plusieurs livres
-        builder.Entity<Livre>()
-            .HasMany(l => l.LivreCategories)
-            .WithOne(lc => lc.Livre)
-            .HasForeignKey(lc => lc.LivreId);
-        //Un livre peut avoir un type de livre et un type de livre peut avoir plusieurs livres
-        builder.Entity<Livre>()
-            .HasMany(l => l.LivreTypeLivres)
-            .WithOne(tl => tl.Livre)
-            .HasForeignKey(l => l.TypeLivreId);
         //Un livre peut avoir plusiseurs évaluation et une évaluation peut avoir qu'un livre
         builder.Entity<Livre>()
             .HasMany(l => l.Evaluations)
@@ -298,7 +283,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<LivreCategorie>()
             .HasOne(la => la.Livre)
             .WithMany(l => l.LivreCategories)
-            .HasForeignKey(la => la.CategorieId);
+            .HasForeignKey(la => la.LivreId);
         //Un LivreCategorie peut avoir une catégorie qui a plusieurs LivreCategories
         builder.Entity<LivreCategorie>()
             .HasOne(la => la.Categorie)

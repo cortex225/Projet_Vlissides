@@ -17,7 +17,11 @@ public class LivreAuteurConfiguration : IEntityTypeConfiguration<LivreAuteur>
 
     public void Configure(EntityTypeBuilder<LivreAuteur> builder)
     {
-        builder.ToTable("LivreAuteur");
+        builder.ToTable("LivreAuteurs");
+        builder.HasKey(sc => sc.LivreId);
+        builder.Property(sc => sc.LivreId).ValueGeneratedOnAdd();
+        builder.HasKey(sc => sc.AuteurId);
+        builder.Property(sc => sc.AuteurId).ValueGeneratedOnAdd();
         builder.HasData(LivreAuteur);
     }
 }

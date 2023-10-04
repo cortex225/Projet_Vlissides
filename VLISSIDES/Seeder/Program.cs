@@ -1,16 +1,21 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-/**
- * Ce seeder sert à créer des donnés pour tester le programme. Ce seeder crée:
- *      -Auteurs
- *      -Maisons d'édtions
- *      -Livres
- * 
- * Éventuellement, nous n'aurons plus besoin de ce seeder lorsqu'on aura les donnés
- */
+
 
 //Signaler le debut du seeder
+using Faker;
+using FizzWare.NBuilder;
+using Seeder;
+using VLISSIDES.Models;
+/**
+* Ce seeder sert à créer des donnés pour tester le programme. Ce seeder crée:
+*      -Auteurs
+*      -Maisons d'édtions
+*      -Livres
+* 
+* Éventuellement, nous n'aurons plus besoin de ce seeder lorsqu'on aura les donnés
+*/
 Console.WriteLine("Début du seed!");
 using var context = DbContextFactory.CreateDbContext();
 
@@ -59,11 +64,11 @@ var livres = Builder<Livre>.CreateListOfSize(299)
     .With(c => c.NbPages = 120)
     .With(c => c.DatePublication = Identification.DateOfBirth())
     .With(c => c.ISBN = Identification.UsPassportNumber())
-    .With(c => c.Categorie = Pick<Categorie>.RandomItemFrom(categories))
-    .With(c => c.Auteur = Pick<Auteur>.RandomItemFrom(auteurs))
+    .With(c => c.LivreCategories = new())
+    .With(c => c.LivreAuteurs = new())
     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
     .With(c => c.LivreTypeLivres = new List<LivreTypeLivre> { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
-    .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) })
+    .With(c => c.Langue = Pick<Langue>.RandomItemFrom(langues))
     .Build();
 context.Livres.AddRange(livres);
 context.SaveChanges();
