@@ -5,9 +5,24 @@
 
     #detailsDivPrincipal * {
         margin: 12px;
-    }
+    }   
 
 #checkboxTypeLivre {
     display: flex;
-    flex-direction: row;
+    flex-direction: row;    
+}
+
+.btnPanier {
+    width: 100%; 
+    display: flex;
+    align-items: center;
+}
+ 
+#DetailsDIV {
+    max-width: 20%;
+    min-width: 20%;
+}
+
+#DetailsIMG {
+    max-width: 100%;    
 }

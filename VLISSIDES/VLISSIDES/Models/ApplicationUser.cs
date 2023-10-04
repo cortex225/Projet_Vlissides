@@ -21,9 +21,7 @@ public class ApplicationUser : IdentityUser
 
     [DisplayName("Adresse de livraison")] public ICollection<Adresse>? AdressesLivraison { get; set; }
 
-    [DisplayName("Identifiant du panier")]
-    public string? PanierId { get; set; }
-
     [DisplayName("Panier")]
-    public Panier? Panier { get; set; }
+    public ICollection<LivrePanier>? Panier { get; set; }
+
 }

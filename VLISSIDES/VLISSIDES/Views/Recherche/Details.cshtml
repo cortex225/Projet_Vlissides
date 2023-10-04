@@ -28,23 +28,35 @@
         <strong>Résumé:</strong>
         <p>@Model.Resume</p>
         <br/>
-        @if (@Model.NbExemplaires > 0)
+    </div>
+    <div>
+        @foreach (var t in Model.LivreTypeLivres)
         {
-            <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
-        }
-        else
-        {
-            <p style="font-weight: bold; color: red;">En rupture de stock</p>
+            @if (t.TypeLivreId == "1")//1 = "Neuf"
+            {
+                <br />
+                @if (Model.NbExemplaires > 0)
+                {
+                    <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+
+                        <a href="#" class="btn btn-primary btnPanier">
+                            <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
+                        </a>
+                        <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
+                    </div>
+                }
+                else
+                {
+                    <p style="font-weight: bold; color: red;">Livre neuf en rupture de stock</p>
+                }
+            }
+            @if (t.TypeLivreId == "2")//2 = "Numérique"
+            {
+                <a href="#" class="btn btn-primary btnPanier">
+                    <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
+                </a>
+            }
         }
     </div>
 </div>
-
-<style>
-    #DetailsDIV{
-        max-width: 35%;
-    }
-
-    #DetailsIMG {
-        max-width: 100%;
-    }
-</style>
