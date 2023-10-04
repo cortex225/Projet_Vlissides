@@ -1,0 +1,6 @@
+.img-promo img {
+    width: 100% !important;
+    height: 100%!important;
+    object-fit: contain!important;
+    margin-right: 20px;
+}

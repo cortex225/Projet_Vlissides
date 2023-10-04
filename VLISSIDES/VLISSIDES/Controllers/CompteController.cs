@@ -228,6 +228,7 @@ public class CompteController : Controller
 
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") return PartialView("_RegisterForm", vm);
 
+        
         // Retourne la vue avec le modèle d'inscription si l'état du modèle est invalide.
         return View(vm);
     }

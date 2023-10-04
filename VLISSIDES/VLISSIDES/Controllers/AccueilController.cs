@@ -107,15 +107,15 @@ public class AccueilController : Controller
         List<PromotionCardVM> promotionCards = new()
         {
             new PromotionCardVM("Tout pour la lecture 2 pour 1 sur tous les livres québécois", 100, DateTime.MinValue,
-                DateTime.MaxValue, "https://sqlinfocg.cegepgranby.qc.ca/2167594/img/flat.png"),
+                DateTime.MaxValue, "/img/images_Promo/promo1.png"),
             new PromotionCardVM("Tout pour la lecture", 30, DateTime.MinValue,
-                DateTime.MaxValue, "https://sqlinfocg.cegepgranby.qc.ca/2167594/img/flat.png"),
+                DateTime.MaxValue, "/img/images_Promo/promo2.png"),
             new PromotionCardVM("Promotion éclair d’une journée\r\nDimanche 1er octobre 2023\r\n", 25, DateTime.MinValue,
-                DateTime.MaxValue, "https://sqlinfocg.cegepgranby.qc.ca/2167594/img/flat.png"),
+                DateTime.MaxValue, "/img/images_Promo/promo3.png"),
             new PromotionCardVM("Promotion éclair d’une journée\r\nVendredi 27 octobre 2023\r\n", 30, DateTime.MinValue,
-                DateTime.MaxValue, "https://sqlinfocg.cegepgranby.qc.ca/2167594/img/flat.png"),
+                DateTime.MaxValue, "/img/images_Promo/promo3.png"),
             new PromotionCardVM("Promotion éclair sur 2 jours\r\nLes 15 et 16 janvier 2024\r\n", 20, DateTime.MinValue,
-                DateTime.MaxValue, "https://sqlinfocg.cegepgranby.qc.ca/2167594/img/flat.png"),
+                DateTime.MaxValue, "/img/images_Promo/promo3.png"),
             
         };
 

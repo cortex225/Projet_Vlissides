@@ -4,6 +4,8 @@
 }
 <link rel="stylesheet" href="~/css/Accueil.css">
 <link rel="stylesheet" href="~/css/event-card.css">
+<link rel="stylesheet" href="~/css/promo-card.css">
+
 <!--
 Ceci est le div qui contient une image large avec le titre
 -->
@@ -122,34 +124,23 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             <div id="carouselPromotions" class="carousel slide">
                 <a href="#" class="voirPlus">Voir plus -></a>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="cards-wrapper justify-content-evenly">
-                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]"/>
-                            @if (Model.Promotions.Count > 1)
-                            {
-                                <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]"/>
-                            }
-                        </div>
-                    </div>
-                    @for (var indexPromotion = 1; indexPromotion < (float)Model.Promotions.Count / 2; indexPromotion++)
-                    {
-                        <div class="carousel-item">
-                            <div class="cards-wrapper">
-                                @for (var indexPromotion2 = 0; indexPromotion2 < 2; indexPromotion2++)
-                                {
-                                    @if (Model.Promotions.Count > indexPromotion2 * 2 + indexPromotion2)
-                                    {
-                                        <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion * 2 + indexPromotion2]"/>
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                            </div>
-                        </div>
-                    }
-                </div>
+                           @for (var indexPromotion = 0; indexPromotion < Model.Promotions.Count; indexPromotion++)
+                           {
+                               <div class="carousel-item @(indexPromotion == 0 ? "active" : "")">
+                                   <div class="row mb-4">
+                                       <div class="col-md-6 col-12">
+                                           <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion]" />
+                                       </div>
+                                       @if (++indexPromotion < Model.Promotions.Count)
+                                       {
+                                           <div class="col-md-6 d-none d-md-block">
+                                               <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion]" />
+                                           </div>
+                                       }
+                                   </div>
+                               </div>
+                           }
+                       </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotions" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Précédent</span>
