@@ -50,22 +50,21 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     Les cartes sont toutes des vues partielles.
     
     -->
-        <div class="collapse" id="serviceCollapse">
+    <div class="collapse" id="serviceCollapse">
 
-            <h2 class="container-fluid titreSections mb-1">Nos Services offerts: </h2>
-            <p class="m-2">Des services adaptés à chaque passionné de lecture."</p>
-            @if (Model.Services.Count > 0)
-            {
-                <div class="cards-wrapper ">
-                    @foreach (var service in Model.Services)
-                    {
-                        <partial name="PartialViews/Accueil/_ServiceOffert" model="service"/>
-                    }
-                </div>
-                <hr/>
-            }
-        </div>
-
+        <h2 class="container-fluid titreSections mb-1">Nos Services offerts: </h2>
+        <p class="m-2">Des services adaptés à chaque passionné de lecture."</p>
+        @if (Model.Services.Count > 0)
+        {
+            <div class="cards-wrapper ">
+                @foreach (var service in Model.Services)
+                {
+                    <partial name="PartialViews/Accueil/_ServiceOffert" model="service"/>
+                }
+            </div>
+            <hr/>
+        }
+    </div>
 
 
     <!--
@@ -75,132 +74,92 @@ Un bouton pour cacher/montrer les services de l'entreprises'
 
     Les cartes sont toutes des vues partielles.
     -->
-    
+
     @* Section pour les nouveaux services *@
     
-    @* <div class="event-card px-lg-5 m-lg-5"> *@
-    @*     <div class="event-image"> *@
-    @*         <img src="~/img/jean-luc.png" alt="Image de l'événement"> *@
-    @*     </div> *@
-    @*     <div class="event-content"> *@
-    @*         <h2>Atelier coder avec Jean-Luc</h2> *@
-    @*         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis.</p> *@
-    @*         <button class="reserve-btn btn btn-primary">Réserver Maintenant</button> *@
-    @* *@
-    @*     </div> *@
-    @*     <div class="event-date-time"> *@
-    @*         <div class="date"> *@
-    @*             <i class="fas fa-calendar-alt"></i> 27 Septembre 2023 *@
-    @*         </div> *@
-    @*         <div class="time"> *@
-    @*             <i class="fas fa-clock"></i> 18:00 *@
-    @*         </div> *@
-    @*         <div class="seats"> *@
-    @*             <i class="fas fa-chair"></i> Places : 5/50 *@
-    @*         </div> *@
-    @*     </div> *@
-    @*     <div class="sticker ">Complet</div> *@
-    @* </div> *@
-    
-    
-    @if (Model.Evenements.Count > 1)
-    {
-        <h2 class="titreSections mb-1">Nos Activité Et Évenements: </h2>
-        <p class="m-2">Immergez-vous dans nos événements et partagez des moments d'exception.</p>
-        <div id="carouselEvenements" class="carousel slide container-fluid">
-            <a href="#" class="voirPlus">Voir plus ->: </a>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="cards-wrapper">
-                        <partial name="PartialViews/Accueil/_CarteEvenement" model="Model.Evenements[0]"/>
-                        @if (Model.Evenements.Count > 2)
+@if (Model.Evenements.Count > 0)
+{
+    <h2 class="titreSections mb-1">Nos Activité Et Évenements: </h2>
+    <p class="m-2">Immergez-vous dans nos événements et partagez des moments d'exception.</p>
+    <div id="carouselEvenements" class="carousel slide container-fluid">
+        <a href="#" class="voirPlus">Voir plus ->: </a>
+        <div class="carousel-inner">
+            @for (var indexEvenement = 0; indexEvenement < Model.Evenements.Count; indexEvenement++)
+            {
+                <div class="carousel-item @(indexEvenement == 0 ? "active" : "")">
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-12">
+                            <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement]" />
+                        </div>
+                        @if (++indexEvenement < Model.Evenements.Count)
                         {
-                            <partial name="PartialViews/Accueil/_CarteEvenement" model="Model.Evenements[1]"/>
-                        }
-                        @if (Model.Evenements.Count > 3)
-                        {
-                            <partial name="PartialViews/Accueil/_CarteEvenement" model="Model.Evenements[2]"/>
+                            <div class="col-md-6 d-none d-md-block">
+                                <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement]" />
+                            </div>
                         }
                     </div>
                 </div>
-                @for (var indexEvenement = 1; indexEvenement < (float)Model.Evenements.Count / 3; indexEvenement++)
-                {
-                    <div class="carousel-item">
-                        <div class="cards-wrapper">
-                            @for (var indexEvenement2 = 0; indexEvenement2 < 3; indexEvenement2++)
-                            {
-                                @if (Model.Evenements.Count > indexEvenement * 3 + indexEvenement2)
-                                {
-                                    <partial name="PartialViews/Accueil/_CarteEvenement" model="Model.Evenements[indexEvenement * 3 + indexEvenement2]"/>
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        </div>
-                    </div>
-                }
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+            }
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+}
 
-        <hr/>
-    }
-    <!--Carousel contenant les promotions-->
+
+    <!-- Carousel contenant les promotions -->
     @if (Model.Promotions.Count > 1)
     {
-        <h2 class="titreSections mb-1">Offres spéciales juste pour vous! </h2>
-        <p class="m-2">Découvrez nos offres du moment et enrichissez votre collection.</p>
-        <div id="carouselPromotions" class="carousel slide container">
-            <a href="#" class="voirPlus">Voir plus ->: </a>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="cards-wrapper">
-                        <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]"/>
-                        @if (Model.Promotions.Count > 1)
-                        {
-                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]"/>
-                        }
-                    </div>
-                </div>
-                @for (var indexPromotion = 1; indexPromotion < (float)Model.Promotions.Count / 2; indexPromotion++)
-                {
-                    <div class="carousel-item">
-                        <div class="cards-wrapper">
-                            @for (var indexPromotion2 = 0; indexPromotion2 < 2; indexPromotion2++)
+        <section class="promotions-section">
+            <h2 class="titreSections">Offres spéciales juste pour vous!</h2>
+            <p>Découvrez nos offres du moment et enrichissez votre collection.</p>
+            <div id="carouselPromotions" class="carousel slide">
+                <a href="#" class="voirPlus">Voir plus -></a>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="cards-wrapper justify-content-evenly">
+                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]"/>
+                            @if (Model.Promotions.Count > 1)
                             {
-                                @if (Model.Promotions.Count > indexPromotion2 * 2 + indexPromotion2)
-                                {
-                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion * 2 + indexPromotion2]" />
-                                }
-                                else
-                                {
-                                    break;
-                                }
+                                <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]"/>
                             }
                         </div>
                     </div>
-                }
+                    @for (var indexPromotion = 1; indexPromotion < (float)Model.Promotions.Count / 2; indexPromotion++)
+                    {
+                        <div class="carousel-item">
+                            <div class="cards-wrapper">
+                                @for (var indexPromotion2 = 0; indexPromotion2 < 2; indexPromotion2++)
+                                {
+                                    @if (Model.Promotions.Count > indexPromotion2 * 2 + indexPromotion2)
+                                    {
+                                        <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion * 2 + indexPromotion2]"/>
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotions" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Précédent</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotions" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Suivant</span>
+                </button>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotions" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotions" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-        <hr/>
+        </section>
     }
     <!--
     Un carousel contenant les livres en vedette. Nous désirons y ajouter les livres populaires, ou les nouveautés dans ce carousel.
