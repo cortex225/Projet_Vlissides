@@ -19,4 +19,5 @@ public class Membre : ApplicationUser
     [DisplayName("R�servations")] public ICollection<Reservation>? Reservations { get; set; }
 
     [DisplayName("Livres favoris")] public ICollection<Favori>? Favoris { get; set; }
+    public string? StripeCustomerId { get; internal set; }
 }
