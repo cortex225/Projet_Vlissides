@@ -3,6 +3,8 @@
 *@
 @{
     var username = User.Identity.Name;
+    string myURL = Context.Request.Host.Value;    
+    string BASE_URL_RAZOR = Url.Content("~");
 }
 @model VLISSIDES.ViewModels.Profile.ProfileIndexVM
 
@@ -12,14 +14,14 @@
             <div class="card position-sticky top-1">
                 <ul class="nav flex-column bg-white border-radiusalign-content-lg-around p-3">
                     <li class="nav-item">
-                        <a class="nav-link text-dark d-flex profile-btn">
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showProfileInformation()">
                             <i class="material-icons text-lg-center me-2">person</i>
                             <span class="text-sm">Profile</span>
                         </a>
                     </li>
                     <li class="nav-item pt-2">
-                        <a class="nav-link text-dark d-flex profile-btn">
-                            <i class="material-icons text-lg-center me-2">person</i>
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showProfilePassword()">
+                            <i class="material-icons text-lg-center me-2" >person</i>
                             <span class="text-sm">Profile</span>
                         </a>
                     </li>
@@ -39,3 +41,27 @@
         </div>
     </div>
 </div>
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
+<script>
+    function showProfileInformation(){
+        fetch(BASE_URL+"/Profile/ModifierInformation", {
+            method: "GET",
+        }).then((response) => {
+            return response.text();
+        }).then((result)=>{
+            document.getElementById("ModifierProfile").innerHTML = result;
+        })
+    }
+    function showProfilePassword() {
+        fetch(BASE_URL + "/Profile/ModifierPassword", {
+            method: "GET",
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            document.getElementById("ModifierProfile").innerHTML = result;
+        })
+    }
+
+</script>

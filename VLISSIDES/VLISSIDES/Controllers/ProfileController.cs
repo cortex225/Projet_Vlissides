@@ -38,10 +38,12 @@ namespace VLISSIDES.Controllers
             };
             return View(vm);
         }
+        [Route("2167594/Profile/ModifierInformation")]
+        [Route("{controller}/{action}")]
         public IActionResult ModifierInformation()
         {
-            var userId = _userManager.FindByNameAsync(User.Identity.Name).Result;
-            var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var user = _userManager.FindByIdAsync(userId).Result;
             var vm = new ProfileModifierInformationVM
             {
                 Prenom = user.Prenom,
@@ -52,7 +54,7 @@ namespace VLISSIDES.Controllers
                 Id = user.Id,
                 Telephone = user.PhoneNumber
             };
-            return View(vm);
+            return PartialView("PartialViews/Profile/_ProfilePartial", vm);
         }
         [HttpPost]
         [Route("2167594/Profile/ModifierInformation")]
@@ -66,6 +68,8 @@ namespace VLISSIDES.Controllers
             if (ModelState.IsValid)
             {
                 var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
+                var userM = _userManager.Users.FirstOrDefault(u => u.Id == vm.Id);
+
                 if (user != null)
                 {
                     user.Prenom = vm.Prenom;
@@ -76,15 +80,20 @@ namespace VLISSIDES.Controllers
                     user.NormalizedEmail = vm.Courriel.ToUpper();
                     user.UserName = vm.NomUtilisateur;
                     user.NormalizedUserName = vm.NomUtilisateur.ToUpper();
+                    userM.UserName = vm.NomUtilisateur;
+
+
                     _context.SaveChanges();
 
                 }
 
 
-                return PartialView("PartialViews/Profile/_ProfilePartial", vm);
+                return RedirectToAction("Index");
             }
-            return PartialView("PartialViews/Profile/_ProfilePartial", vm);
+            return View(vm);
         }
+        [Route("2167594/Profile/ModifierPassword")]
+        [Route("{controller}/{action}")]
         public IActionResult ModifierPassword()
         {
             var vm = new ProfilePasswordVM()
@@ -101,7 +110,24 @@ namespace VLISSIDES.Controllers
             if (ModelState.IsValid)
             {
                 var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
+                var passswordVerificationResult = new PasswordHasher<ApplicationUser>().VerifyHashedPassword(user, user.PasswordHash, vm.Password);
+                if (passswordVerificationResult == PasswordVerificationResult.Failed)
+                {
+                    ModelState.AddModelError("Password", "Mot de passe actuel erroné");
+                }
+                if (vm.NewPassword != vm.ConfirmPassword)
+                {
+                    ModelState.AddModelError("ConfirmPassword", "La confirmation du mot de passe n'est pas correcte");
+                }
+                if (ModelState.IsValid)
+                {
+                    user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, vm.NewPassword);
+                    _context.SaveChanges();
+
+                }
+
             }
+            return PartialView("PartialViews/Profile/_ModifierPasswordPartial", vm);
         }
     }
 }

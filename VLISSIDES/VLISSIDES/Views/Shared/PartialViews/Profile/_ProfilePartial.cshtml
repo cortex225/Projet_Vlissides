@@ -49,7 +49,7 @@
 
 
         </div>
-
+        @Html.ValidationSummary(false,"",new{@class="text-danger"})
 
         <div class="card mt-4" id="basic-info">
             <div class="card-header">
@@ -166,7 +166,7 @@
                         </div>
                     } *@
                     <div class="col-md">
-                        <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="button" onclick="ProfileInformationEnregistrer()">
+                        <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="submit" @* onclick="ProfileInformationEnregistrer()" *@>
                             Enregistrer les changements
                         </button>
                     </div>
@@ -176,11 +176,11 @@
         </div>
     </div>
 </form>
-<script>
+@* <script>
     function ProfileInformationEnregistrer(){
         var form = document.getElementById("updateProfileForm");
         var data = new FormData(form);
-        fetch("/2167594/Profile/ModifierInformation", {
+        fetch(BASE_URL+"/Profile/ModifierInformation", {
             method: "POST",
             body: data,
         }).then((response)=>{
@@ -189,7 +189,7 @@
             document.getElementById("ModifierProfile").innerHTML = result;
         });
     }
-</script>
+</script> *@
 @* <script>
   function triggerFileInput() {
       document.getElementById("customFile").click();
