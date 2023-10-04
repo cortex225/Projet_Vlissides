@@ -139,7 +139,7 @@
         var data = new FormData(form);
 
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch('/GestionLivres/Ajouter', {
+        fetch('/2167594/GestionLivres/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -164,7 +164,7 @@
         });
     };
     function AfficherLivres() {
-        fetch("/GestionLivres/AfficherLivres", {
+        fetch("/2167594/GestionLivres/AfficherLivres", {
             method: "GET"
         }).then((response)=>{
             return response.text();

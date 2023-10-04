@@ -157,6 +157,8 @@ public class GestionLivresController : Controller
         };
         return View(vm);
     }
+    [Route("2167594/GestionLivres/{action}")]
+    [Route("{controller}/{action}")]
     public async Task<IActionResult> AfficherLivres(string? motCles, string? criteres, int page = 1)
     {
         //Récuppérer les mot clés et les critères de recherches
@@ -303,6 +305,7 @@ public class GestionLivresController : Controller
     }
 
     // GET: C
+    [Route("2167594/GestionLivres/Ajouter")]
     public IActionResult Ajouter()
     {
         var vm = new AjouterVM();
@@ -332,6 +335,8 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Route("2167594/GestionLivres/Ajouter")]
+    [Route("{controller}/{action}")]
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
         if (ModelState.IsValid)
@@ -352,7 +357,7 @@ public class GestionLivresController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "~/img/CouvertureLivre/livredefault.png";
             }
             var id = Guid.NewGuid().ToString();
             //Types de livres
