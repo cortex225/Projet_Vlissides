@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Text.Json.Serialization;
 using VLISSIDES.Data;
 using VLISSIDES.Helpers;
@@ -16,6 +17,9 @@ var connectionStringJL = builder.Configuration.GetConnectionString("JLConnection
 
 //Connection par Defaut
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+//Stripe
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe_Test:SecretKey").Value;
 
 if (OperatingSystem.IsMacOS())
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
