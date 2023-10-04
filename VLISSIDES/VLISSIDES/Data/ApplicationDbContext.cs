@@ -48,6 +48,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Promotions> Promotions { get; set; }
 
+    public DbSet<LivreAuteur> LivreAuteurs { get; set; }
+    public DbSet<LivreCategorie> LivreCategories { get; set; }
     public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
     #endregion
 
@@ -59,52 +61,42 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #region configuration
         #region Prendre les données de la feuille excel
-        List<string> livreIds = new();
-        List<string> titres = new();
-        List<string> auteurs = new();
-        List<string> auteurIds = new();
-        List<string> maisonEditions = new();
-        List<string> maisonEditionIds = new();
-        List<int> pages = new();
-        List<string> ISBNs = new();
-        List<string> couvertures = new();
-        List<string> categories = new();
-        List<string> categorieIds = new();
-        List<string> categorieIdOuts = new();
-        List<int> quantites = new();
-        List<string> typeLivres = new();
-        List<string> typeLivreIds = new();
-        List<double> prix = new();
-        ReadExcel("Data/DonneesLivres.xlsx", out titres, out auteurs, out auteurIds, out maisonEditions, out maisonEditionIds, out pages,
-            out ISBNs, out couvertures, out categories, out categorieIds, out quantites, out typeLivres, out typeLivreIds, out prix);
+        List<Livre> livres;
+        List<List<Auteur>> auteurs;
+        List<IEnumerable<string>> auteurIds = new();
+        List<MaisonEdition> maisonEditions;
+        List<List<Categorie>> categories;
+        List<IEnumerable<string>> categorieIds = new();
+        List<List<TypeLivre>> typeLivres;
+        ReadExcel("Data/DonneesLivres.xlsx", out livres, out auteurs, out maisonEditions,
+        out categories, out typeLivres);
         #endregion
-
-
 
         //Ajout des statuts des commandes à la bd
         builder.ApplyConfiguration(new StatutCommandeConfiguration());
 
         //Ajout des types de livres à la bd
-        builder.ApplyConfiguration(new TypeLivreConfiguration());
+        builder.ApplyConfiguration(new TypeLivreConfiguration(typeLivres));
 
         //Ajout des catégories des livres à la bd
-        builder.ApplyConfiguration(new CategorieConfiguration(categories, categorieIds, out categorieIdOuts));
+        builder.ApplyConfiguration(new CategorieConfiguration(categories, out categorieIds));
 
         //Ajout des langues des livres à la bd
         builder.ApplyConfiguration(new LangueConfiguration());
         //Ajout des auteurs à la bd
-        builder.ApplyConfiguration(new AuteurConfiguration(auteurs, auteurIds));
+        builder.ApplyConfiguration(new AuteurConfiguration(auteurs, out auteurIds));
         //Ajout des maison d'édition à la bd
-        builder.ApplyConfiguration(new MaisonEditionsConfiguration(maisonEditions, maisonEditionIds));
+        builder.ApplyConfiguration(new MaisonEditionsConfiguration(maisonEditions));
         //Ajout des livres à la bd
-        builder.ApplyConfiguration(new LivreConfiguration(titres, maisonEditionIds, pages, ISBNs, couvertures, quantites, out livreIds));
+        builder.ApplyConfiguration(new LivreConfiguration(livres, maisonEditions));
 
-        //Ajout des livres à la bd
-        builder.ApplyConfiguration(new LivreAuteurConfiguration(livreIds, auteurIds));
-        //Ajout des livres à la bd
-        builder.ApplyConfiguration(new LivreCategorieConfiguration(livreIds, categorieIdOuts));
-        //Ajout des livres à la bd
-        builder.ApplyConfiguration(new LivreTypeLivreConfiguration(livreIds, typeLivreIds));
+        //Ajout des relations livres auteurs à la bd
+        builder.ApplyConfiguration(new LivreAuteurConfiguration(livres, auteurIds));
+        //Ajout des relations livres catégories à la bd
+        builder.ApplyConfiguration(new LivreCategorieConfiguration(livres, categorieIds));
+        //Ajout des relations livres typeLivres à la bd
+        builder.ApplyConfiguration(new LivreTypeLivreConfiguration(livres, typeLivres));
+
         #endregion
         #region Favorie
         // Configuration de la relation entre les favoris les membres et les livres
@@ -124,16 +116,18 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #region Livre
         //Un livre a plusieurs auteurs et un auteurs a plusieurs livres
         builder.Entity<Livre>()
-            .HasMany(l => l.Auteurs)
-            .WithMany(a => a.Livres);
+            .HasMany(l => l.LivreAuteurs)
+            .WithOne(la => la.Livre)
+            .HasForeignKey(la => la.LivreId);
         //Un livre a un éditeur et un éditeur a plusieurs livres
         builder.Entity<Livre>()
             .HasOne(l => l.MaisonEdition)
             .WithMany(me => me.Livres);
         //Un livre peut avoir plusiseurs catégories et une catégorie peut avoir plusieurs livres
         builder.Entity<Livre>()
-            .HasOne(l => l.Categorie)
-            .WithMany(c => c.Livres);
+            .HasMany(l => l.LivreCategories)
+            .WithOne(lc => lc.Livre)
+            .HasForeignKey(lc => lc.LivreId);
         //Un livre peut avoir un type de livre et un type de livre peut avoir plusieurs livres
         builder.Entity<Livre>()
             .HasMany(l => l.LivreTypeLivres)
@@ -183,7 +177,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         //Un type de livre peut avoir plusieurs livres
         builder.Entity<LivreTypeLivre>()
             .HasOne(ltl => ltl.TypeLivre)
-            .WithMany(l => l.LivreTypeLivres)
+            .WithMany(l => l.TypeLivres)
             .HasForeignKey(ltl => ltl.TypeLivreId);
 
         //Création des différent comptes
@@ -281,32 +275,62 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(a => a.UtilisateurPrincipal)
             .WithOne(l => l.AdressePrincipale);*/
         #endregion
+        #region LivreAuteur
+        // Configuration des relation de livreAuteur
+        builder.Entity<LivreAuteur>()
+            .HasKey(la => new { la.LivreId, la.AuteurId });
+        //Un livreAuteur peut avoir un livre qui a plusieurs livreAuteurs
+        builder.Entity<LivreAuteur>()
+            .HasOne(la => la.Livre)
+            .WithMany(l => l.LivreAuteurs)
+            .HasForeignKey(la => la.LivreId);
+        //Un livreauteur peut avoir un auteur qui a plusieurs livreAuteurs
+        builder.Entity<LivreAuteur>()
+            .HasOne(la => la.Auteur)
+            .WithMany(a => a.Livres)
+            .HasForeignKey(la => la.AuteurId);
+        #endregion
+        #region LivreCatégorie
+        // Configuration des relation de livreCatégorie
+        builder.Entity<LivreCategorie>()
+            .HasKey(la => new { la.LivreId, la.CategorieId });
+        //Un LivreCategorie peut avoir un livre qui a plusieurs LivreCategories
+        builder.Entity<LivreCategorie>()
+            .HasOne(la => la.Livre)
+            .WithMany(l => l.LivreCategories)
+            .HasForeignKey(la => la.CategorieId);
+        //Un LivreCategorie peut avoir une catégorie qui a plusieurs LivreCategories
+        builder.Entity<LivreCategorie>()
+            .HasOne(la => la.Categorie)
+            .WithMany(c => c.Livres)
+            .HasForeignKey(la => la.CategorieId);
+        #endregion
+        #region LivreTypeLivre
+        // Configuration des relations de LivreTypeLivre
+        //builder.Entity<LivreTypeLivre>()
+        //    .HasKey(la => new { la.LivreId, la.TypeLivreId });
+        //Un LivreTypeLivre peut avoir un livre qui a plusieurs LivreTypeLivres
+        builder.Entity<LivreTypeLivre>()
+            .HasOne(la => la.Livre)
+            .WithMany(tl => tl.LivreTypeLivres)
+            .HasForeignKey(la => la.LivreId);
+        //Un LivreTypeLivre peut avoir un typeLivre qui a plusieurs LivreTypeLivres
+        builder.Entity<LivreTypeLivre>()
+            .HasOne(la => la.TypeLivre)
+            .WithMany(a => a.TypeLivres)
+            .HasForeignKey(la => la.TypeLivreId);
+        #endregion
     }
-    public void ReadExcel(string url, out List<string> titres, out List<string> auteurs, out List<string> auteurIds,
-        out List<string> maisonEditions, out List<string> maisonEditionIds, out List<int> pages, out List<string> ISBNs,
-        out List<string> couvertures, out List<string> categories, out List<string> categorieIds, out List<int> quantites,
-        out List<string> typeLivres, out List<string> typeLivreIds, out List<double> prix)
+    public void ReadExcel(string url, out List<Livre> livres, out List<List<Auteur>> listAuteurs, out List<MaisonEdition> maisonEditions,
+        out List<List<Categorie>> ListCategories, out List<List<TypeLivre>> ListTypeLivres)
     {
         #region Donner une valleur initial aux paramettres
-        List<Livre> livres = new();
-        List<Auteur> auteurs = new();
-        List<MaisonEdition> maisonEditions = new();
-
-        titres = new();
-        auteurs = new();
-        auteurIds = new();
+        int range = 0;
+        livres = new();
+        listAuteurs = new();
         maisonEditions = new();
-        maisonEditionIds = new();
-        pages = new();
-        ISBNs = new();
-        couvertures = new();
-        categories = new();
-        categorieIds = new();
-        quantites = new();
-        typeLivres = new();
-        typeLivreIds = new();
-        prix = new();
-
+        ListCategories = new();
+        ListTypeLivres = new();
         #endregion
         //Permet l'encodage pour "encoding 1252."
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -328,80 +352,84 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
                     while (reader.Read())
                     {
+                        #region variable de l'entré
                         range++;
+                        string id = "Excel " + range;
+                        var livre = new Livre() { Id = id };
+                        var auteurs = new List<Auteur>();
+                        var maisonEdition = new MaisonEdition() { Id = id };
+                        var categories = new List<Categorie>();
+                        var typeLivres = new List<TypeLivre>();
+                        #endregion
                         if (reader.GetValue(0) != null)
                         {
-                            Console.WriteLine("-----------------------------------------------------------------");
                             #region Titre
-                            Console.WriteLine("-Titre-----------------------------------------------------------\n" + reader.GetString(0));
-                            titres.Add(reader.GetValue(0) != null ? reader.GetString(0).Trim() : "");
+                            livre.Titre = reader.GetValue(0) != null ? reader.GetString(0).Trim() : "";
                             #endregion
                             #region Auteur
-                            Console.WriteLine("\n-Auteur----------------------------------------------------------\n" + reader.GetString(1));
-                            auteurs.Add(reader.GetValue(1) != null ? reader.GetString(1).Trim() : "");
-                            /*f (auteurs.Where(a => a.Equals(reader.GetString(1))).Count() > 1)
-                                auteurIds.Add(auteurIds[auteurs.FindIndex(a => a.Equals(reader.GetValue(1) != null ?
-                                    reader.GetString(1) : ""))]);
-                            else*/
-                            auteurIds.Add("Excel " + range);
+                            if (reader.GetValue(1) != null)
+                                auteurs.Add(new() { Id = id, NomAuteur = reader.GetString(1).Trim() });
                             #endregion
                             #region Edition
-                            Console.WriteLine("\n-Edition---------------------------------------------------------\n" + reader.GetString(2));
                             if (reader.GetValue(2) != null)
                             {
-                                maisonEditions.Add(reader.GetString(2).Trim());
-                                maisonEditionIds.Add("Excel " + range);
+                                maisonEdition.Nom = reader.GetString(2);
                             }
                             #endregion
                             #region Page
-                            Console.WriteLine("\n-Page---------------------------------------------------------\n" + reader.GetDouble(3));
-                            pages.Add(reader.GetValue(3) != null ? (int)reader.GetDouble(3) : 0);
+                            livre.NbPages = reader.GetValue(3) != null ? (int)reader.GetDouble(3) : 0;
                             #endregion
                             #region ISBN
-                            Console.WriteLine("\n-Isbns--------------------------------------------------------\n"
-                                + reader.GetValue(4));
-                            ISBNs.Add(reader.GetValue(4) != null ? reader.GetValue(4).ToString().Trim() : "");
+                            livre.ISBN = reader.GetValue(4) != null ? reader.GetValue(4).ToString().Trim() : "";
                             #endregion
                             #region Couverture
-                            Console.WriteLine("\n-Couverture---------------------------------------------------\n");
-                            //Console.WriteLine(reader.GetFieldType(5));
-                            couvertures.Add(reader.GetValue(5) != null ? "" : "");/*reader.GetValue(5)*/
+                            livre.Couverture = "";
                             #endregion
                             #region Catégorie
-                            Console.WriteLine("\n-Catégorie----------------------------------------------------\n" + reader.GetString(6));
-                            categories.Add(reader.GetValue(6) != null ? reader.GetString(6) : "");
-                            if (categories.Where(c => c.Equals(reader.GetString(6))).Count() > 1)
-                                categorieIds.Add(categorieIds[categories.FindIndex(c => c.Equals(reader.GetValue(6) != null ?
-                                    reader.GetString(6) : ""))]);
-                            else
-                                categorieIds.Add("Excel " + range);
+                            if (reader.GetValue(6) != null)
+                                categories.Add(new Categorie() { Id = id, Nom = reader.GetString(6), Description = "" });
                             #endregion
                             #region Quantité
-                            Console.WriteLine("\n-Quantité-----------------------------------------------------\n" + reader.GetDouble(9));
-                            quantites.Add(reader.GetValue(9) != null ? (int)reader.GetDouble(9) : 0);
+                            livre.NbExemplaires = reader.GetValue(9) != null ? (int)reader.GetDouble(9) : 0;
                             #endregion
                             #region Papier
-                            Console.WriteLine("\n-Papier-------------------------------------------------------");
-                            Console.WriteLine(reader.GetValue(7) != null ? true : false);
                             if (reader.GetValue(7) != null)
                             {
-                                typeLivres.Add("Papier");
-                                typeLivreIds.Add("1");
-                                Console.WriteLine("\n-Prix papier--------------------------------------------------\n" + reader.GetDouble(8));
-                                prix.Add(reader.GetValue(7) != null ? reader.GetDouble(8) : 0);
+                                typeLivres.Add(new TypeLivre()
+                                {
+                                    Id = "Papier " + id,
+                                    Nom = "Papier",
+                                    Prix = reader.GetValue(7) != null ? reader.GetDouble(8) : 0
+                                });
                             }
                             #endregion
                             #region Numérique
-                            Console.WriteLine("\n-Numérique----------------------------------------------------");
-                            Console.WriteLine(reader.GetValue(10) != null ? true : false);
                             if (reader.GetValue(10) != null)
                             {
-                                typeLivres.Add("Numérique");
-                                typeLivreIds.Add("2");
-                                Console.WriteLine("\n-Prix numérique-----------------------------------------------\n" + reader.GetDouble(11));
-                                prix.Add(reader.GetValue(10) != null ? reader.GetDouble(11) : 0);
+                                typeLivres.Add(new TypeLivre()
+                                {
+                                    Id = "Numérique " + id,
+                                    Nom = "Numérique",
+                                    Prix = reader.GetValue(7) != null ? reader.GetDouble(11) : 0
+                                });
                             }
                             #endregion
+                            livres.Add(livre);
+                            listAuteurs.Add(auteurs);
+                            maisonEditions.Add(maisonEdition);
+                            ListCategories.Add(categories);
+                            ListTypeLivres.Add(typeLivres);
+                            /*Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+                            Console.WriteLine("Titre\tAuteur\tEditeur\tPage\tISBN\tCouverture\tCatégorie\tQuantité\tPapier" +
+                                "\tPrix papier\tNumérique\tPrix numérique" +
+                                "\n" + reader.GetString(0) + "\t" + reader.GetString(1) + "\t" + reader.GetString(2)
+                                + "\t" + reader.GetDouble(3).ToString() + "\t" + reader.GetValue(4).ToString()
+                                + "\t" + (reader.GetValue(5) != null ? reader.GetValue(5).ToString() : "")
+                                + "\t" + reader.GetString(6) + "\t" + (reader.GetValue(7) != null ? true : false)
+                                + "\t" + (reader.GetDouble(8) != null ? reader.GetDouble(8).ToString() : "")
+                                + "\t" + reader.GetDouble(9) + "\t" + (reader.GetValue(10) != null ? true : false)
+                                + "\t" + (reader.GetDouble(11) != null ? reader.GetDouble(11).ToString() : null)
+                                );*/
                         }
                     }
                 } while (reader.NextResult());

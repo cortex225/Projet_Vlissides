@@ -8,28 +8,25 @@ public class LivreConfiguration : IEntityTypeConfiguration<Livre>
 {
     private List<Livre> livres;
 
-    public LivreConfiguration(List<string> titres, List<string> maisonEditionIds, List<int> pages, List<string> ISBNs, List<string> couvertures,
-        List<int> quantites, out List<string> livreIds)
+    public LivreConfiguration(List<Livre> livres, List<MaisonEdition> maisonEditions)
     {
         livres = new();
-        foreach (var titre in titres)
+        foreach (var livre in livres)
         {
-            var id = titres.IndexOf(titre);
             livres.Add(new()
             {
-                Id = "Excel " + id,
-                Titre = titre,
-                MaisonEditionId = maisonEditionIds[id],
+                Id = livre.Id,
+                Titre = livre.Titre,
+                MaisonEditionId = maisonEditions[livres.IndexOf(livre)].Id,
                 Resume = "",
                 DateAjout = DateTime.Now,
                 LangueId = null,
-                NbPages = pages[id],
-                ISBN = ISBNs[id],
-                Couverture = couvertures[id],
-                NbExemplaires = quantites[id],
+                NbPages = livre.NbPages,
+                ISBN = livre.ISBN,
+                Couverture = livre.Couverture,
+                NbExemplaires = livre.NbExemplaires,
             });
         }
-        livreIds = livres.Select(l => l.Id).ToList();
         foreach (var livre in livres)
             Console.WriteLine(livre.Id + " : " + livre.Titre);
     }
@@ -40,7 +37,8 @@ public class LivreConfiguration : IEntityTypeConfiguration<Livre>
         builder.ToTable("Livres");
         builder.HasKey(sc => sc.Id);
         builder.Property(sc => sc.Id).ValueGeneratedOnAdd();
-        foreach (var livre in livres)
-            builder.HasData(livre);
+        if (livres != null)
+            foreach (var livre in livres)
+                builder.HasData(livre);
     }
 }

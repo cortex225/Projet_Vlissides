@@ -7,17 +7,17 @@ namespace VLISSIDES.Data;
 public class LivreCategorieConfiguration : IEntityTypeConfiguration<LivreCategorie>
 {
     private List<LivreCategorie> LivreCategories { get; set; }
-    public LivreCategorieConfiguration(List<string> livreIds, List<string> categorieids)
+    public LivreCategorieConfiguration(List<Livre> livres, List<IEnumerable<string>> listCategories)
     {
         LivreCategories = new List<LivreCategorie>();
-        foreach (var id in categorieids)
-            LivreCategories.Add(new() { LivreId = livreIds[categorieids.IndexOf(id)], CategorieId = id });
+        foreach (var categories in listCategories)
+            foreach (var categorie in categories)
+                LivreCategories.Add(new() { LivreId = livres[listCategories.IndexOf(categories)].Id, CategorieId = categorie });
     }
 
     public void Configure(EntityTypeBuilder<LivreCategorie> builder)
     {
-        builder.ToTable("Categories");
-        //foreach (var categorie in categories)
+        builder.ToTable("LivreCategorie");
         builder.HasData(LivreCategories);
     }
 }

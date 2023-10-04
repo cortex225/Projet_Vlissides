@@ -9,17 +9,13 @@ public class MaisonEditionsConfiguration : IEntityTypeConfiguration<MaisonEditio
     private List<MaisonEdition> maisonEditions;
 
 
-    public MaisonEditionsConfiguration(List<string> maisonEditions, List<string> ids)
+    public MaisonEditionsConfiguration(List<MaisonEdition> maisonEditions)
     {
         this.maisonEditions = new();
         foreach (var maisonEdition in maisonEditions)
         {
             if (!this.maisonEditions.Any(me => me.Nom.Equals(maisonEdition)))
-                this.maisonEditions.Add(new()
-                {
-                    Id = ids[maisonEditions.IndexOf(maisonEdition)],
-                    Nom = maisonEdition
-                });
+                this.maisonEditions.Add(maisonEdition);
         }
         foreach (var maisonEdition in this.maisonEditions)
             Console.WriteLine(maisonEdition.Id + " : " + maisonEdition.Nom);

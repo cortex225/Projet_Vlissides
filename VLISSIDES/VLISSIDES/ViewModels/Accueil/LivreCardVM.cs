@@ -27,10 +27,11 @@ public class LivreCardVM
         Titre = livre.Titre;
         Prix = livre.LivreTypeLivres.FirstOrDefault().Prix;
         Auteurs = "";
-        livre.Auteurs.ForEach(a => Auteurs += a.NomAuteur + ", ");
+        livre.LivreAuteurs.ForEach(a => Auteurs += a.Auteur.NomAuteur + ", ");
         Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
 
-        Categorie = livre.Categorie.Nom;
+        Categorie = "";
+        Categorie += livre.LivreCategories.Select(lc => lc.Categorie.Nom);
     }
 
     [DisplayName("Page couverture")] public string Couverture { get; set; }

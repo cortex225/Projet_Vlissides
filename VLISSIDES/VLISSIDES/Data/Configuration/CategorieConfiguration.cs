@@ -218,28 +218,44 @@ public class CategorieConfiguration : IEntityTypeConfiguration<Categorie>
             }
         };
 
-    public CategorieConfiguration(List<string> categories, List<string> ids, out List<string> categoriesIdout)
+    public CategorieConfiguration(List<List<Categorie>> listCategories, out List<IEnumerable<string>> listIdfinal)
     {
         this.categories = new();
-        foreach (var categorie in categories)
-        {
-            if (!this.categories.Any(c => c.Nom.Equals(categorie)))
-                this.categories.Add(new Categorie()
-                {
-                    Id = ids[categories.IndexOf(categorie)],
-                    Nom = categorie,
-                    Description = ""
-                });
-        }
-        foreach (var categorie in categoriesDeBase)
-            if (this.categories.Contains(categorie))
+        listIdfinal = new();
+        foreach (var categories in listCategories)
+            foreach (var categorie in categories)
             {
-                var categorieSimilaire = this.categories.Find(c => c.Nom.Equals((categorie.Nom)));
-                categorie.Id = categorieSimilaire.Id;
-                this.categories.Remove(categorie);
+                if (!this.categories.Any(c => c.Nom.Equals(categorie.Nom)))
+                    this.categories.Add(categorie);
             }
+        foreach (var categorie in categoriesDeBase)
+            if (this.categories.Any(c => categorie.Nom.Equals(c.Nom)))
+                this.categories.Remove(this.categories.Find(c => c.Nom.Equals(categorie.Nom)));
         this.categories.AddRange(categoriesDeBase);
-        categoriesIdout = this.categories.Select(c => c.Id).ToList();
+        List<Categorie> sousCategorie = new();
+        foreach (var categorie in this.categories)
+        {
+            for (int souscategorieId = 1; souscategorieId < categorie.Nom.Split(" – ").Length; souscategorieId++)
+                sousCategorie.Add(new()
+                {
+                    Id = "Sous-Catégorie " + categorie.Id + "-" + souscategorieId,
+                    Nom = categorie.Nom.Split(" – ").ToList()[souscategorieId],
+                    Description = "",
+                    ParentId = categorie.Id
+                });
+            for (int souscategorieId = 1; souscategorieId < categorie.Nom.Split(" - ").Length; souscategorieId++)
+                sousCategorie.Add(new()
+                {
+                    Id = "Sous-Catégorie " + categorie.Id + "-" + souscategorieId,
+                    Nom = categorie.Nom.Split(" - ").ToList()[souscategorieId],
+                    Description = "",
+                    ParentId = categorie.Id
+                });
+            categorie.Nom = categorie.Nom.Split(" - ")[0];
+        }
+        this.categories.AddRange(sousCategorie);
+        foreach (var categories in listCategories)
+            listIdfinal.Add(categories.Select(c => c.Id = this.categories.First(thisC => thisC.Nom.Equals(c.Nom)).Id));
         foreach (var categorie in this.categories)
             Console.WriteLine(categorie.Id + " : " + categorie.Nom);
     }

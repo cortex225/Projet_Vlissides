@@ -16,5 +16,5 @@ public class Categorie
 
     [DisplayName("Enfants")] public ICollection<Categorie>? Enfants { get; set; } = default!;
 
-    [DisplayName("Livres")] public ICollection<Livre>? Livres { get; set; }
+    [DisplayName("Livres")] public ICollection<LivreCategorie>? Livres { get; set; }
 }

@@ -99,8 +99,8 @@ namespace VLISSIDES.Controllers
             if (auteur == null)
                 return NotFound();
             //Enlever l'auteur pour chaque livre
-            _context.Livres.Where(l => l.Auteurs.Any(a => a.Id.Equals(auteur.Id)))
-                .ToList().ForEach(l => l.Auteurs = null);
+            _context.Livres.Where(l => l.LivreAuteurs.Any(a => a.AuteurId.Contains(auteur.Id)))
+                .ToList().ForEach(l => l.LivreAuteurs = null);
             _context.Auteurs.Remove(auteur);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
