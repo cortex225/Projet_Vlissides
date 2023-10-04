@@ -1,5 +1,5 @@
-using System.ComponentModel;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 
 namespace VLISSIDES.Models;
 
@@ -20,4 +20,5 @@ public class ApplicationUser : IdentityUser
     public string? AdresseLivraisonId { get; set; }
 
     [DisplayName("Adresse de livraison")] public ICollection<Adresse>? AdressesLivraison { get; set; }
+    [DisplayName("Date de naissance")] public DateTime? DateNaissance { get; set; }
 }
