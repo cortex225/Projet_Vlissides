@@ -2,6 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 @model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
 <link rel="stylesheet" href="~/css/ListeLivres.css"/>
@@ -12,6 +14,10 @@
         </div>
     </div>
 </div>
+
+<!-- Barre latérale coulissante -->
+<partial name="PartialViews/Dashboard/_SideBarPartial"/>
+
 <div class="d-block p-4 p-4">
     <div class="mb-4">
         <h1>Gestion des maisons d'éditions</h1>
@@ -48,9 +54,9 @@
         </button>
 
         <form class="collapse" id="rechercherMaisonEdition" enctype="multipart/form-data">
-            <br />
+            <br/>
             <div class="input-group">
-                <input class="form-control" id="inputRechercherMaison" placeholder="Rechercher..." />
+                <input class="form-control" id="inputRechercherMaison" placeholder="Rechercher..."/>
                 <button class="btn btn-primary p-2" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la maison d'édition">
                     Rechercher
                 </button>
@@ -59,16 +65,20 @@
         </form>
 
     </div>
-    <br />
+    <br/>
     <!--Fin : Rechercher maison edition-->
     <div class="mb-4">
         <h3>Liste des maisons d'éditions</h3>
         <div class="row" id="ListeMaisonPartial">
-            
+
         </div>
     </div>
 </div>
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 
+</script>
 <!--Fonctionalite des boutons *-->
 <style>
     /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
@@ -86,7 +96,7 @@
         var motCle = document.getElementById("inputRechercherMaison").value;
         console.log("Mot entré: " + motCle);
         if (motCle == null && motCle == "") {
-            fetch('GestionMaisonEditions/AfficherListe', {
+            fetch(BASE_URL+'/GestionMaisonEditions/AfficherListe', {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -100,7 +110,7 @@
                 div.innerHTML = result;
             });
         } else {
-            fetch('GestionMaisonEditions/AfficherListe?motCle=' + motCle, {
+            fetch(BASE_URL+'/GestionMaisonEditions/AfficherListe?motCle=' + motCle, {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -125,7 +135,7 @@
         var data = new FormData(form);
         
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch('GestionMaisonEditions/Ajouter', {
+        fetch(BASE_URL+'/GestionMaisonEditions/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -152,12 +162,12 @@
         var liste = document.getElementById("Liste_"+id);
         liste.className= "";        
     }
-</script> 
+</script>
 <!--Script pour Modifier-->
 <script type="text/javascript">
     function ModifierMaison(id = "",nom = "")
     {
-        fetch('GestionMaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch(BASE_URL+'/GestionMaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -170,7 +180,7 @@
 <!--Script pour la suppression-->
 <script type="text/javascript">
     function SupprimerMaisonEdition(id = "") {
-        fetch(`GestionMaisonEditions/SupprimerMaison?id=${id}`, {
+        fetch(BASE_URL+`/GestionMaisonEditions/SupprimerMaison?id=${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

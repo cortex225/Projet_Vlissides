@@ -1,6 +1,8 @@
 ﻿@model VLISSIDES.ViewModels.GestionAuteurs.AuteursIndexVM
 @{
     ViewData["Title"] = "Auteurs";
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 
 
@@ -12,9 +14,12 @@
         </div>
     </div>
 </div>
+
+<!-- Barre latérale coulissante -->
+<partial name="PartialViews/Dashboard/_SideBarPartial"/>
+
 <div class="d-block p-4 p-4">
-    <!-- Barre latérale coulissante -->
-    <partial name="PartialViews/Dashboard/_SideBarPartial"/>
+
 
     <!--Début : Ajouter Auteur-->
     <div class="container-fluid">
@@ -28,7 +33,7 @@
             @* @Html.AntiForgeryToken() *@
             @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
             <div class="input-group">
-                <input class="form-control" asp-for="AuteursAjouterVM.NomAuteur" id="inputNom" placeholder="Nom" />
+                <input class="form-control" asp-for="AuteursAjouterVM.NomAuteur" id="inputNom" placeholder="Nom"/>
                 <span asp-validation-for="AuteursAjouterVM.NomAuteur" class="text-danger"></span>
                 <button class="btn btn-primary p-2" type="button" onclick="AjouterAuteur()" data-toggle="tooltip" title="Ajouter le livre">
                     Ajouter
@@ -48,9 +53,9 @@
         </button>
 
         <form class="collapse" id="rechercherAuteur" enctype="multipart/form-data">
-            <br />
+            <br/>
             <div class="input-group">
-                <input class="form-control" id="inputRechercherAuteur" placeholder="Rechercher..." />
+                <input class="form-control" id="inputRechercherAuteur" placeholder="Rechercher..."/>
                 <button class="btn btn-primary p-2" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la auteur">
                     Rechercher
                 </button>
@@ -59,7 +64,7 @@
         </form>
 
     </div>
-    <br />
+    <br/>
     <!--Fin : Rechercher auteur-->
 
     <div class="d-block p-4 p-4">
@@ -71,7 +76,7 @@
         <div class="mb-4">
             <h3>Liste des auteurs</h3>
             <div class="row p-0" id="ListeAuteurPartial">
-                
+
 
             </div>
 
@@ -79,7 +84,11 @@
 
     </div>
 </div>
-
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+    
+</script>
 <!--Fonctionalite des boutons *-->
 <style>
     /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
@@ -95,7 +104,7 @@
     function AfficherListe() {
         var motCle = document.getElementById("inputRechercherAuteur").value;
         if (motCle == null && motCle == "") {
-            fetch('GestionAuteurs/AfficherListe', {
+            fetch(BASE_URL + '/GestionAuteurs/AfficherListe', {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -109,7 +118,7 @@
                 div.innerHTML = result;
             });
         }else{
-            fetch('GestionAuteurs/AfficherListe?motCle='+motCle, {
+            fetch(BASE_URL+'/GestionAuteurs/AfficherListe?motCle=' + motCle, {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -134,7 +143,7 @@
         var data = new FormData(form);
 
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch('GestionAuteurs/Ajouter', {
+        fetch(BASE_URL + '/GestionAuteurs/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -148,7 +157,7 @@
         form.reset();
     }
 </script>
-<!--Script pour la liste de livres d'une maison d'édition-->
+<!--Script pour la liste de livres d'un auteur-->
 <script type="text/javascript">
     function hideall() {
         divListes = document.getElementById("divListeAuteursLivres").childNodes;
@@ -163,10 +172,10 @@
     </script>
 
 
-    <!--Script pour Modifier-->
-    <script type="text/javascript">
+<!--Script pour Modifier-->
+<script type="text/javascript">
         function ModifierAuteur(id = "", nom = "") {
-            fetch('GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch(BASE_URL+'/GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -177,10 +186,10 @@
         }
     </script>
 
-    <!--Script pour la supprimation-->
-    <script type="text/javascript">
+<!--Script pour la supprimation-->
+<script type="text/javascript">
             function SupprimerAuteur(id = "") {
-                fetch(`GestionAuteurs/SupprimerAuteur?id=${id}`, {
+        fetch(BASE_URL+`/GestionAuteurs/SupprimerAuteur?id=${id}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -203,8 +212,8 @@
             });
         }
     </script>
-    <!--Script pour la recherche-->
-    @* <script type="text/javascript">
+<!--Script pour la recherche-->
+@* <script type="text/javascript">
         // ModalScript
         function RechercherAuteur() {
             console.log("Recherche commencée");

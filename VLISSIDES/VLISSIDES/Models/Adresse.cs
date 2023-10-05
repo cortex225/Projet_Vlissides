@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VLISSIDES.Models;
 
@@ -23,12 +24,15 @@ public class Adresse
     [DisplayName("Identifiant de utilisateur principal")]
     public string? UtilisateurPrincipalId { get; set; }
 
-    [DisplayName("Utilisateur principal")] public ApplicationUser? UtilisateurPrincipal { get; set; }
+    [NotMapped]
+    [DisplayName("Utilisateur principal")]
+    public ApplicationUser? UtilisateurPrincipal { get; set; }
 
     // Propriété de navigation pour l'utilisateur de livraison
     [DisplayName("Identifiant de utilisateur de livraison")]
     public string? UtilisateurLivraisonId { get; set; }
 
+    [NotMapped]
     [DisplayName("Utilisateur de livraison")]
     public ApplicationUser? UtilisateurLivraison { get; set; }
 }
