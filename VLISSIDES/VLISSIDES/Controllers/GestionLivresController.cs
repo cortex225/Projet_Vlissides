@@ -135,8 +135,8 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => c.Id == l.CategorieId).FirstOrDefault()?.Nom,
-                ListAuteur = _context.Auteurs.Where(a => a.Id == l.AuteurId).ToList(),
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
@@ -268,8 +268,8 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => c.Id == l.CategorieId).FirstOrDefault()?.Nom,
-                ListAuteur = _context.Auteurs.Where(a => a.Id == l.AuteurId).ToList(),
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();

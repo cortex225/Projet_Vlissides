@@ -130,10 +130,10 @@
                                 <div class="col-2 text-center">
                                     ISBN
                                 </div>
-                                <div class="col-1 text-center">
+                                <div class="col-2 text-center">
                                     Auteur
                                 </div>
-                                <div class="col-2 text-center">
+                                <div class="col-1 text-center">
                                     Catégorie
                                 </div>
                                 <div class="col-2 text-center">
@@ -159,13 +159,13 @@
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.ISBN)
                                     </div>
-                                    <div class="col-1 d-flex flex-column">
+                                    <div class="col-2 d-flex flex-column align-items-center">
                                         @foreach(var auteur in item.ListAuteur)
                                         {
                                             <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
                                         }
                                     </div>
-                                    <div class="col-2 text-center">
+                                    <div class="col-1 text-center">
                                         @Html.DisplayFor(modelItem => item.Categorie)
                                     </div>
                                     <div class="col-2 d-flex flex-column">
