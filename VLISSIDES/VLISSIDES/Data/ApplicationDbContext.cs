@@ -124,12 +124,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #endregion
 
         #region ApplicationUser
-
-        builder.Entity<Livre>()
-            .HasMany(l => l.Auteurs)
-            .WithMany(a => a.Livres)
-            .UsingEntity(j => j.ToTable("LivreAuteur"));
-
         //Création des différent comptes
         //var password = new PasswordHasher<ApplicationUser>();
         var UserAdmin = new ApplicationUser
