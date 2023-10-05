@@ -6,14 +6,13 @@ namespace VLISSIDES.Data;
 
 public class LivreConfiguration : IEntityTypeConfiguration<Livre>
 {
-    private List<Livre> livres;
+    private readonly List<Livre> livres;
 
     public LivreConfiguration(List<Livre> livres, List<MaisonEdition> maisonEditions)
     {
-        this.livres = new();
+        this.livres = new List<Livre>();
         foreach (var livre in livres)
-        {
-            this.livres.Add(new()
+            this.livres.Add(new Livre
             {
                 Id = livre.Id,
                 Titre = livre.Titre,
@@ -24,16 +23,14 @@ public class LivreConfiguration : IEntityTypeConfiguration<Livre>
                 NbPages = livre.NbPages,
                 ISBN = livre.ISBN,
                 Couverture = livre.Couverture,
-                NbExemplaires = livre.NbExemplaires,
+                NbExemplaires = livre.NbExemplaires
             });
-        }
         foreach (var livre in this.livres)
             Console.WriteLine(livre.Id + " : " + livre.Titre);
     }
 
     public void Configure(EntityTypeBuilder<Livre> builder)
     {
-
         builder.ToTable("Livres");
         builder.HasKey(sc => sc.Id);
         builder.Property(sc => sc.Id).ValueGeneratedOnAdd();

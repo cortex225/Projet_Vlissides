@@ -10,7 +10,8 @@ public class Categorie
 
     [DisplayName("Description")] public string Description { get; set; } = default!;
 
-    [DisplayName("L'identifiant du parent")] public string? ParentId { get; set; }
+    [DisplayName("L'identifiant du parent")]
+    public string? ParentId { get; set; }
 
     [DisplayName("Parent")] public Categorie? Parent { get; set; } = default!;
 

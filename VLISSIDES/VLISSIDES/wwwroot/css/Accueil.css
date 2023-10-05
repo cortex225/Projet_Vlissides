@@ -15,22 +15,24 @@
     font-size: 5em;
 
 }
+
 .slogan {
     font-family: "ITF Devanagari Marathi";
     font-style: italic;
     align-self: center;
 }
+
 .acheter {
     background-color: rgba(214, 41, 41, 0);
     border: 2px solid #e94a47;
-    color: #ff4b5c!important;
+    color: #ff4b5c !important;
     align-self: center;
 }
+
 .acheter:hover {
     background-color: #ff4b5c;
-    color: #ffff!important;
+    color: #ffff !important;
 }
-
 
 
 .voirPlus {

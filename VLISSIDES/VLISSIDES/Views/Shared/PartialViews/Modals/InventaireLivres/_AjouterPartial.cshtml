@@ -1,7 +1,7 @@
 @model VLISSIDES.ViewModels.Livres.AjouterVM
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 <div class="modal-header">
     <h5 class="modal-title" id="ModalEditLabel">Ajouter un nouveau Livre</h5>
@@ -10,16 +10,16 @@
     @Html.AntiForgeryToken()
     <div class="modal-body">
 
-       
+
         <div class="container d-flex justify-content-center">
-            
+
             <div class="row">
-                        <input type="hidden" asp-for="CoverImageUrl"/>
-                        <div class="custom-file row">
-                           
-                            <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
-                
-                        </div>
+                <input type="hidden" asp-for="CoverImageUrl"/>
+                <div class="custom-file row">
+
+                    <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
+
+                </div>
                 <div class="col">
                     <div class="form-group ">
                         <label asp-for="Titre" class="control-label"></label>
@@ -110,7 +110,7 @@
     <div class="modal-footer">
         <a class="btn btn-danger " href="~/GestionLivres/Inventaire">Annuler</a>
         <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterLivre()"/>
-        
+
     </div>
 
 </form>
@@ -145,7 +145,7 @@
         var form = document.getElementById("FormLivreAjouter");
         var data = new FormData(form);
         
-        //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
+        //var csrfToken = form.querySelector(ï¿½'[name="__RequestVerificationToken"]').value;
         fetch(BASE_URL + '/GestionLivres/Ajouter', {
             method: "POST",
             body: data
@@ -153,7 +153,7 @@
             //    RequestVerificationToken: csrfToken,
             // },
         }).catch(error => {
-            console.error('Échec du fetch pour ajouter maison edition', error);
+            console.error('ï¿½chec du fetch pour ajouter maison edition', error);
         }).then((response) => {
             
                 return response.text();

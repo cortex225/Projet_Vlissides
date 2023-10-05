@@ -7,7 +7,7 @@
     position: relative;
     width: 80vw;
     max-width: 650px;
-    height: 250px; 
+    height: 250px;
     background-color: #f5f7fa;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -15,8 +15,8 @@
 
 }
 
-.event-image  {
-    object-fit: cover; 
+.event-image {
+    object-fit: cover;
     border-radius: 15px;
     margin-right: 20px;
 }
@@ -48,8 +48,9 @@
 }
 
 .event-date-time i, .event-content p {
-    color: #2a5b9a; 
+    color: #2a5b9a;
 }
+
 .dateEvent {
     background-color: rgba(42, 91, 154, 0.2);
 }
@@ -85,8 +86,8 @@
 
 .reserve-btn {
     align-self: flex-end;
-    margin-top: 2px!important;
-    margin-bottom: 0!important;
+    margin-top: 2px !important;
+    margin-bottom: 0 !important;
     padding: 10px 20px;
     border: none;
     border-radius: 20px;

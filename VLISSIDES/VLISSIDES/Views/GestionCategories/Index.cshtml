@@ -2,11 +2,11 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 @model VLISSIDES.ViewModels.Categories.CategoriesIndexVM
-<link rel="stylesheet" href="~/css/ListeLivres.css" />
+<link rel="stylesheet" href="~/css/ListeLivres.css"/>
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
     <div class="modal-dialog" role="document">
@@ -16,32 +16,32 @@
 </div>
 
 <!-- Barre latérale coulissante -->
-<partial name="PartialViews/Dashboard/_SideBarPartial" />
+<partial name="PartialViews/Dashboard/_SideBarPartial"/>
 
 <div class="d-block p-4 p-4">
-    
+
     <div class="mb-4">
         <h1>Gestion des catégories</h1>
     </div>
 
     <div class="container-fluid">
-        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("Ajouter","GestionCategories")')">Ajouter une catégorie</button>
+        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("Ajouter", "GestionCategories")')">Ajouter une catégorie</button>
     </div>
 
-    <br />
+    <br/>
 
     <!--Début : Rechercher catégorie-->
     <div class="container-fluid">
-        
+
 
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#rechercherCategorie">
             Rechercher une catégorie
         </button>
 
         <form class="collapse" id="rechercherCategorie" enctype="multipart/form-data">
-            <br />
+            <br/>
             <div class="input-group">
-                <input class="form-control" id="inputRechercherCategorie" placeholder="Rechercher..." />
+                <input class="form-control" id="inputRechercherCategorie" placeholder="Rechercher..."/>
                 <button class="btn btn-primary p-2" type="button" onclick="RechercherCategorie()" data-toggle="tooltip" title="Rechercher la catégorie">
                     Rechercher
                 </button>
@@ -50,7 +50,7 @@
         </form>
 
     </div>
-    <br />
+    <br/>
     <!--Fin : Rechercher catégorie-->
 
     <div class="mb-4">
@@ -76,7 +76,7 @@
                                     <span class="fa-solid fa-check fa-2x"></span>
                                 </button>
                                 <button type="button" class="btn btn-primary p-2"
-                                        onclick="ShowModal('@Url.Action("Modifier","GestionCategories", new{id=item.Id})')">
+                                        onclick="ShowModal('@Url.Action("Modifier", "GestionCategories", new { id = item.Id })')">
                                     <span class="fa-solid fa-pen fa-2x"></span>
                                 </button>
                                 <!--Fin : Modifier nom d'une maison d'édition-->
@@ -101,7 +101,9 @@
                     {
                         <div id="Liste_@item.Id" class=" visually-hidden">
                             <h4 class="my-2">Nom : @item.Nom</h4>
-                            <p><span class="fw-bold">Description :</span> @item.Description</p>
+                            <p>
+                                <span class="fw-bold">Description :</span> @item.Description
+                            </p>
                             <h4>Les livres de la catégorie</h4>
                             @if (item.Livres.Count != 0)
                             {
@@ -122,11 +124,10 @@
                             @if (item.Enfants.Count != 0)
                             {
                                 <ul>
-                                @foreach (var enfant in item.Enfants)
-                                {
+                                    @foreach (var enfant in item.Enfants)
+                                    {
                                         <li>@enfant.Nom</li>
-                                    
-                                }
+                                    }
                                 </ul>
                             }
                             else
@@ -135,7 +136,6 @@
                             }
 
                         </div>
-                        
                     }
 
                 </div>

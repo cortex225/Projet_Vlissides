@@ -1,10 +1,9 @@
 ﻿using VLISSIDES.Models;
 
-namespace VLISSIDES.ViewModels.GestionAuteurs
+namespace VLISSIDES.ViewModels.GestionAuteurs;
+
+public class AuteursIndexVM
 {
-    public class AuteursIndexVM
-    {
-        public List<Auteur>? ListeAuteurs { get; set; }
-        public AuteursAjouterVM? AuteursAjouterVM { get; set; }
-    }
+    public List<Auteur>? ListeAuteurs { get; set; }
+    public AuteursAjouterVM? AuteursAjouterVM { get; set; }
 }

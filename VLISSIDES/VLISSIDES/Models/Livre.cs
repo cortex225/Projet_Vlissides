@@ -12,7 +12,8 @@ public class Livre
 
     [DisplayName("Page couverture")] public string Couverture { get; set; } = default!;
 
-    [DisplayName("Nombre d'exemplaires disponibles")] public int NbExemplaires { get; set; } = default!;
+    [DisplayName("Nombre d'exemplaires disponibles")]
+    public int NbExemplaires { get; set; } = default!;
 
     [DisplayName("Date d'ajout")] public DateTime DateAjout { get; set; } = default!;
 
@@ -24,7 +25,8 @@ public class Livre
 
     [DisplayName("Auteur(s)")] public List<LivreAuteur>? LivreAuteurs { get; set; } = default!;
 
-    [DisplayName("Maison d'édition identifiant")] public string? MaisonEditionId { get; set; }
+    [DisplayName("Maison d'édition identifiant")]
+    public string? MaisonEditionId { get; set; }
 
     [DisplayName("Maison d'édition")] public MaisonEdition? MaisonEdition { get; set; }
 
