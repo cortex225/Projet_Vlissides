@@ -13,7 +13,7 @@ public class GestionLivresAfficherVM
     public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; }
 
     //public ICollection<Auteur>? Auteur { get; set; }
-    //public List<SelectListItem>? ListAuteur { get; set; }
+    public ICollection<Auteur>? ListAuteur { get; set; }
 
     public int Quantite { get; set; }
 }

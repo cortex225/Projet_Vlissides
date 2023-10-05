@@ -1,13 +1,3 @@
-using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.GestionLivres;
-using VLISSIDES.ViewModels.Livres;
-
 namespace VLISSIDES.Controllers;
 
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
@@ -128,11 +118,10 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id))
-                    .FirstOrDefault()?.Nom,
-                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre)
-                    .ToList(),
-                Quantite = l.NbExemplaires
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
+                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
+                Quantite = l.NbExemplaires,
             }).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
@@ -256,11 +245,10 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id))
-                    .FirstOrDefault()?.Nom,
-                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre)
-                    .ToList(),
-                Quantite = l.NbExemplaires
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
+                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
+                Quantite = l.NbExemplaires,
             }).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
