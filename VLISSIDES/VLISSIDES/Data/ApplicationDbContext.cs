@@ -103,7 +103,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region Livre commendé
+        #region Livre commandé
 
         // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
         builder.Entity<LivreCommande>()
