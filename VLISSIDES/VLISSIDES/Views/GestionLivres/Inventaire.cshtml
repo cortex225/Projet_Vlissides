@@ -159,7 +159,7 @@
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.ISBN)
                                     </div>
-                                    <div class="col-1 text-center">
+                                    <div class="col-1 d-flex flex-column">
                                         @foreach(var auteur in item.ListAuteur)
                                         {
                                             <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
@@ -168,7 +168,7 @@
                                     <div class="col-2 text-center">
                                         @Html.DisplayFor(modelItem => item.Categorie)
                                     </div>
-                                    <div class="col-2 d-flex justify-content-start flex-column">
+                                    <div class="col-2 d-flex flex-column">
                                         @foreach(var type in item.LivreTypeLivres)
                                         {
                                             <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
