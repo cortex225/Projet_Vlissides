@@ -25,7 +25,7 @@ namespace VLISSIDES.Controllers
         {
             var vm = new AuteursIndexVM();
             vm.AuteursAjouterVM = new AuteursAjouterVM() { NomAuteur = "" };
-            List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).ToList();
+            List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre).Include(la => la.Livres).ToList();
 
             if (motCle != null && motCle != "")
             {
@@ -47,7 +47,7 @@ namespace VLISSIDES.Controllers
         {
             var vm = new AuteursIndexVM();
             vm.AuteursAjouterVM = new AuteursAjouterVM();
-            var liste = _context.Auteurs.Include(a => a.Livres)
+            var liste = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre).Include(la => la.Livres)
                 .OrderBy(a => a.NomAuteur).ToList();
             if (motCle != null && motCle != "")
             {
@@ -99,8 +99,8 @@ namespace VLISSIDES.Controllers
             if (auteur == null)
                 return NotFound();
             //Enlever l'auteur pour chaque livre
-            _context.Livres.Where(l => l.AuteurId == auteur.Id)
-                .ToList().ForEach(l => l.AuteurId = null);
+            _context.Livres.Where(l => l.LivreAuteurs.Any(a => a.AuteurId.Contains(auteur.Id)))
+                .ToList().ForEach(l => l.LivreAuteurs = null);
             _context.Auteurs.Remove(auteur);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));

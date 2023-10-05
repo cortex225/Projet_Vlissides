@@ -1,13 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.GestionLivres;
-using VLISSIDES.ViewModels.Livres;
-
 namespace VLISSIDES.Controllers;
 
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
@@ -50,9 +40,9 @@ public class GestionLivresController : Controller
 
         //Prendre tous les livres
         List<Livre> livres = await _context.Livres
-            .Include(l => l.Auteur)
-            .Include(l => l.Categorie)
-            .Include(l => l.Langues)
+            .Include(l => l.LivreAuteurs)
+            .Include(l => l.Categories)
+            .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
@@ -78,12 +68,12 @@ public class GestionLivresController : Controller
                         break;
                     case "auteur":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .Where(livre => Regex.IsMatch(livre.LivreAuteurs.Select(la => la.Auteur).First().NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "categorie":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase))
+                        .Where(livre => Regex.IsMatch(livre.Categories.Select(lc => lc.Categorie).First().Nom, listMotCles[i], RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "maisonEdition":
@@ -95,7 +85,7 @@ public class GestionLivresController : Controller
                         break;
                     case "langue":
                         livres = livres
-                        .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                        .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "typeLivre":
@@ -158,7 +148,7 @@ public class GestionLivresController : Controller
         };
         return View(vm);
     }
-    [Route("2167594/GestionLivres/{action}")]
+    [Route("2147186/GestionLivres/{action}")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> AfficherLivres(string? motCles, string? criteres, int page = 1)
     {
@@ -184,9 +174,9 @@ public class GestionLivresController : Controller
 
         //Prendre tous les livres
         List<Livre> livres = await _context.Livres
-            .Include(l => l.Auteur)
-            .Include(l => l.Categorie)
-            .Include(l => l.Langues)
+            .Include(l => l.LivreAuteurs)
+            .Include(l => l.Categories)
+            .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
@@ -212,12 +202,12 @@ public class GestionLivresController : Controller
                         break;
                     case "auteur":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                        .Where(livre => livre.LivreAuteurs.Any(la => Regex.IsMatch(la.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
                         .ToList();
                         break;
                     case "categorie":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase))
+                        .Where(livre => livre.Categories.Any(lc => Regex.IsMatch(lc.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
                         .ToList();
                         break;
                     case "maisonEdition":
@@ -229,7 +219,7 @@ public class GestionLivresController : Controller
                         break;
                     case "langue":
                         livres = livres
-                        .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                        .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "typeLivre":
@@ -298,7 +288,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.LivreAuteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
@@ -307,7 +297,7 @@ public class GestionLivresController : Controller
     }
 
     // GET: C
-    [Route("2167594/GestionLivres/Ajouter")]
+    [Route("2147186/GestionLivres/Ajouter")]
     public IActionResult Ajouter()
     {
         var vm = new AjouterVM();
@@ -337,7 +327,7 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2167594/GestionLivres/Ajouter")]
+    [Route("2147186/GestionLivres/Ajouter")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
@@ -359,7 +349,7 @@ public class GestionLivresController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "/2167594/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "/2147186/img/CouvertureLivre/livredefault.png";
             }
             var id = Guid.NewGuid().ToString();
             //Types de livres
@@ -395,18 +385,17 @@ public class GestionLivresController : Controller
                 NbExemplaires = vm.NbExemplaires,
                 NbPages = vm.NbPages,
                 ISBN = vm.ISBN,
-                AuteurId = vm.AuteurId,
-                MaisonEditionId = vm.MaisonEditionId,
+                //AuteurId = vm.AuteurId,
+                MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId)),
                 Couverture = vm.CoverImageUrl,
                 LivreTypeLivres = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
-                CategorieId = vm.CategorieId,
+                //CategorieId = vm.CategorieId,
                 LangueId = vm.LangueId,
-                TypeLivreId = vm.TypeLivreId
+                //TypeLivreId = vm.TypeLivreId
             };
 
-            _context.Livres.Add(livre);
             Console.Write("1");
             _context.SaveChanges();
             Console.Write("2");
@@ -437,29 +426,27 @@ public class GestionLivresController : Controller
         }).ToList();
         return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
     }
-    [Route("2167594/GestionLivres/Modifier")]
+    [Route("2147186/GestionLivres/Modifier")]
     public IActionResult Modifier(string id)
     {
         var livre = _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.LivreAuteurs)
             .Include(l => l.LivreTypeLivres)
-            .Include(l => l.Langues)
-            .Include(l => l.Categorie)
+            .Include(l => l.Langue)
+            .Include(l => l.Categories)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
         var vm = new ModifierVM
         {
             Id = livre.Id,
             ISBN = livre.ISBN,
-            Auteur = livre.Auteur,
+            //Auteur = livre.Auteurs,
             DatePublication = livre.DatePublication,
             NbExemplaires = livre.NbExemplaires,
             NbPages = livre.NbPages,
             Resume = livre.Resume,
             Titre = livre.Titre,
-            CategorieId = livre.CategorieId,
             LangueId = livre.LangueId,
-            AuteurId = livre.AuteurId,
             CoverImageUrl = livre.Couverture
         };
         //Remplir les checkbox types 
@@ -512,7 +499,7 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2167594/GestionLivres/Modifier")]
+    [Route("2147186/GestionLivres/Modifier")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> Modifier(ModifierVM vm)
     {
@@ -556,10 +543,10 @@ public class GestionLivresController : Controller
             }
 
             var livre = await _context.Livres
-                .Include(l => l.Auteur)
+                .Include(l => l.LivreAuteurs)
                 .Include(l => l.LivreTypeLivres)
-                .Include(l => l.Langues)
-                .Include(l => l.Categorie)
+                .Include(l => l.Langue)
+                .Include(l => l.Categories)
                 .FirstOrDefaultAsync(x => x.Id == vm.Id);
 
             //Changement des donn�es
@@ -568,12 +555,10 @@ public class GestionLivresController : Controller
             livre.Resume = vm.Resume;
             livre.NbExemplaires = vm.NbExemplaires;
             livre.NbPages = vm.NbPages;
-            livre.AuteurId = vm.AuteurId;
-            livre.CategorieId = vm.CategorieId;
             livre.LangueId = vm.LangueId;
             livre.LivreTypeLivres = listeType;
             livre.Couverture = vm.CoverImageUrl;
-            livre.MaisonEditionId = vm.MaisonEditionId;
+            livre.MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId));
             livre.DatePublication = vm.DatePublication;
 
             await _context.SaveChangesAsync();
@@ -609,7 +594,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.LivreAuteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();

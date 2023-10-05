@@ -1,5 +1,8 @@
 @model VLISSIDES.ViewModels.Livres.AjouterVM
-
+@{
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+}
 <div class="modal-header">
     <h5 class="modal-title" id="ModalEditLabel">Ajouter un nouveau Livre</h5>
 </div>
@@ -111,7 +114,11 @@
     </div>
 
 </form>
-
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+    console.log(BASE_URL);
+</script>
 
 <script type="text/javascript">
     function ShowInputsNeuf() {
@@ -137,9 +144,9 @@
     function AjouterLivre() {
         var form = document.getElementById("FormLivreAjouter");
         var data = new FormData(form);
-
+        
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch('/2167594/GestionLivres/Ajouter', {
+        fetch(BASE_URL + '/GestionLivres/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -164,7 +171,7 @@
         });
     };
     function AfficherLivres() {
-        fetch("/2167594/GestionLivres/AfficherLivres", {
+        fetch(BASE_URL+"/GestionLivres/AfficherLivres", {
             method: "GET"
         }).then((response)=>{
             return response.text();

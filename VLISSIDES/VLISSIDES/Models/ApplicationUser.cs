@@ -1,5 +1,5 @@
-using System.ComponentModel;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 
 namespace VLISSIDES.Models;
 
@@ -16,8 +16,5 @@ public class ApplicationUser : IdentityUser
     [DisplayName("Adresse principale")] public Adresse? AdressePrincipale { get; set; }
 
     // Un utilisateur peut avoir plusieurs adresses de livraison
-    [DisplayName("Identifiant de l'adresse de livraison")]
-    public string? AdresseLivraisonId { get; set; }
-
     [DisplayName("Adresse de livraison")] public ICollection<Adresse>? AdressesLivraison { get; set; }
 }
