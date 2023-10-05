@@ -1,19 +1,31 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model VLISSIDES.ViewModels.Accueil.PromotionCardVM;
+﻿@model VLISSIDES.ViewModels.Accueil.PromotionCardVM;
+
 <div class="item">
-    <div class="card">
-        <div class="card-body">
-            <h6 class="card-title">@Model.Description</h6>
-
-            <h6>@Model.Rabais %</h6>
-
-            <pre>@Model.DateDebut - @Model.DateFin</pre>
-
-
+    <div class="event-card card shadow-sm p-3 my-4 bg-white">
+        <div class="row align-items-center">
+            <!-- Image de l'événement -->
+            <div class="col-md-3">
+                <img src="@Model.Image" alt="Image de l'événement" class="img-fluid rounded">
+            </div>
+            <!-- Description et bouton -->
+            <div class="col-md-5">
+                <h2 class="font-weight-bold mb-2">@Model.Description</h2>
+                <p class="text-muted mb-3">Profitez de cette offre exceptionnelle !</p>
+                <button class="reserve-btn btn btn-primary btn-block">Acheter Maintenant</button>
+            </div>
+            <!-- Date et rabais -->
+            <div class="col-md-4">
+                <div class="date-box mb-3 p-3 rounded">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                    Du: <span class="font-weight-bold">@Model.DateDebut.ToString("f")</span> 
+                    Au: <span class="font-weight-bold">@Model.DateFin.ToString("f")</span>
+                </div>
+                <div class="discount-box p-3 rounded">
+                    <i class="fas fa-dollar-sign mr-2"></i> 
+                    Rabais : <span class="font-weight-bold">@Model.Rabais%</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
