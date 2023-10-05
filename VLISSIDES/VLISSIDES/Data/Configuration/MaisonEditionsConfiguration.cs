@@ -6,17 +6,15 @@ namespace VLISSIDES.Data;
 
 public class MaisonEditionsConfiguration : IEntityTypeConfiguration<MaisonEdition>
 {
-    private List<MaisonEdition> maisonEditions;
+    private readonly List<MaisonEdition> maisonEditions;
 
 
     public MaisonEditionsConfiguration(List<MaisonEdition> maisonEditions)
     {
-        this.maisonEditions = new();
+        this.maisonEditions = new List<MaisonEdition>();
         foreach (var maisonEdition in maisonEditions)
-        {
             if (!this.maisonEditions.Any(me => me.Nom.Equals(maisonEdition)))
                 this.maisonEditions.Add(maisonEdition);
-        }
         foreach (var maisonEdition in this.maisonEditions)
             Console.WriteLine(maisonEdition.Id + " : " + maisonEdition.Nom);
     }

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Livres;
@@ -46,11 +46,13 @@ public class AjouterVM
     [Display(Name = "Type")] public string? TypeLivreId { get; set; }
 
     public bool Numerique { get; set; }
-    [Display(Name = "Prix Numérique")]
-    public decimal PrixNumerique { get; set; }
+
+    [Display(Name = "Prix Numérique")] public decimal PrixNumerique { get; set; }
+
     public bool Neuf { get; set; }
-    [Display(Name = "Prix Neuf")]
-    public decimal PrixNeuf { get; set; }
+
+    [Display(Name = "Prix Neuf")] public decimal PrixNeuf { get; set; }
+
     public ICollection<TypeLivre>? Types { get; set; }
 
     //public string EvaluationId { get; set; }

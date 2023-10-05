@@ -1,5 +1,4 @@
-﻿@using VLISSIDES.ViewModels.GestionLivres;
-@model GestionLivresInventaireVM
+﻿@model VLISSIDES.ViewModels.GestionLivres.GestionLivresInventaireVM
 
 @{
     ViewData["Title"] = "Inventaire";
@@ -166,22 +165,24 @@
                                         @Html.DisplayFor(modelItem => item.Categorie)
                                     </div>
                                     <div class="col-2 d-flex justify-content-start flex-column">
-                                        @foreach(var type in item.LivreTypeLivres)
+                                        @foreach (var type in item.LivreTypeLivres)
                                         {
                                             <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
                                         }
                                     </div>
                                     <div class="col-1 text-center">
-                                        @if(item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
+                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
                                         {
                                             <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
-                                        }else
+                                        }
+                                        else
                                         {
                                             <span>N/A</span>
                                         }
                                     </div>
                                     <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
-                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf")){
+                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
+                                        {
                                             <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
                                                 saveQuantite('@item.Id', '@item.Quantite')
                                                 disableButton('@item.Id')">
@@ -189,7 +190,8 @@
                                                 <span class="fa-solid fa-check fa-2x"></span>
 
                                             </button>
-                                        }else
+                                        }
+                                        else
                                         {
                                             <button class="btn btn-success saveButton px-3">
                                                 <span class="fa-solid fa-check fa-2x"></span>

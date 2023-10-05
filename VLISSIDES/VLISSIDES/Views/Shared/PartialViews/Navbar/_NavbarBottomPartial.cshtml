@@ -1,5 +1,3 @@
-@using Microsoft.AspNetCore.Identity;
-@using VLISSIDES.Models;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -12,7 +10,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
                 </li>
-                @if (!(User.Identity.IsAuthenticated) || User.IsInRole(RoleName.MEMBRE))
+                @if (!User.Identity.IsAuthenticated || User.IsInRole(RoleName.MEMBRE))
                 {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Livres" asp-action="Index">Livres</a>

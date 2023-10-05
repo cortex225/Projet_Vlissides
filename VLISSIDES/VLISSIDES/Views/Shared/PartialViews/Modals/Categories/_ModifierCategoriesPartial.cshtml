@@ -11,27 +11,27 @@
     <div class="row">
         <div class="col">
             <form asp-action="Modifier" enctype="multipart/form-data">
-                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Id"/>
                 <div>
                     <label class="control-label" asp-for="Nom"></label>
-                    <input class="form-control" asp-for="Nom" />
+                    <input class="form-control" asp-for="Nom"/>
                     <span asp-validation-for="Nom" class="text-danger"></span>
                 </div>
                 <div>
                     <label class="control-label" asp-for="Description"></label>
-                    <input class="form-control" asp-for="Description" />
+                    <input class="form-control" asp-for="Description"/>
                 </div>
                 @if (Model.ASousCategorie)
                 {
                     <div>
-                    <label asp-for="ASousCategorie" class="control-label"></label>
-                    <input class="form-check-input" type="checkbox" id="cbSousCategorie" asp-for="ASousCategorie" onclick="ShowSousCategorie()">
-                </div>
-                
-                <div id="selectSousCategorie" class="">
-                    <label class="control-label" asp-for="ParentId"></label>
-                    <select class="form-control" asp-for="ParentId" asp-items="Model.CategoriesParents">
-                    </select>
+                        <label asp-for="ASousCategorie" class="control-label"></label>
+                        <input class="form-check-input" type="checkbox" id="cbSousCategorie" asp-for="ASousCategorie" onclick="ShowSousCategorie()">
+                    </div>
+
+                    <div id="selectSousCategorie" class="">
+                        <label class="control-label" asp-for="ParentId"></label>
+                        <select class="form-control" asp-for="ParentId" asp-items="Model.CategoriesParents">
+                        </select>
                     </div>
                 }
                 else
@@ -48,16 +48,15 @@
                     </div>
                 }
 
-                
-                
+
                 <div class="modal-footer">
-                    <input type="submit" value="Modifier les changements" class="btn btn-primary" />
-                    <input type="button" class="btn btn-danger " onclick="Annuler()"  value="Annuler"></input>
+                    <input type="submit" value="Modifier les changements" class="btn btn-primary"/>
+                    <input type="button" class="btn btn-danger " onclick="Annuler()" value="Annuler"></input>
                 </div>
             </form>
         </div>
     </div>
-    
+
 </div>
 <script type="text/javascript">
     function ShowSousCategorie(){
