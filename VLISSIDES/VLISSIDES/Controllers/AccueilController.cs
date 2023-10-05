@@ -118,7 +118,6 @@ public class AccueilController : Controller
                 DateTime.MaxValue, "/img/images_Promo/promo3.png"),
             
         };
-
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories,
             promotionCards));
     }

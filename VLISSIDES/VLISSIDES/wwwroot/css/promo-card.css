@@ -1,6 +1,22 @@
-.img-promo img {
-    width: 100% !important;
-    height: 100%!important;
-    object-fit: contain!important;
-    margin-right: 20px;
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.reserve-btn {
+    font-size: 0.9em;
+}
+
+.date-box, .discount-box {
+    background-color: #f7f7f7;
+    border-radius: 5px;
+}
+
+.date-box i, .discount-box i {
+    color: #007bff;
+}
+
+h3 {
+    font-size: 1.2em;
 }
