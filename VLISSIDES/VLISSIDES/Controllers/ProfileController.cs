@@ -135,9 +135,39 @@ namespace VLISSIDES.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var user = _userManager.FindByIdAsync(userId).Result;
+            var vm = new ProfileModifierAdressesVM
+            {
+                Id = user.Id,
+                AdressePrincipale = user.AdressePrincipale,
+                AdressesDeLivraison = user.AdressesLivraison != null ? user.AdressesLivraison.ToList() : null
+            };
 
+            return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
+        }
+        [HttpPost]
+        public IActionResult ModifierAdresses(ProfileModifierAdressesVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
+                if (user != null)
+                {
+                    user.AdressePrincipale = new Adresse
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        NoCivique = vm.AdressePrincipale.NoCivique,
+                        Rue = vm.AdressePrincipale.Rue,
+                        CodePostal = vm.AdressePrincipale.CodePostal,
+                        Ville = vm.AdressePrincipale.Ville,
+                        Province = vm.AdressePrincipale.Province,
+                        Pays = vm.AdressePrincipale.Pays,
 
-            return PartialView();
+                    };
+                    _context.SaveChanges();
+                }
+            }
+
+            return PartialView("PartialViews/Profile/_ModifierPasswordPartial", vm);
         }
     }
 }

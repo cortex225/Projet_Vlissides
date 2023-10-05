@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model VLISSIDES.ViewModels.Profile.ProfileModifierAdressesVM
+<form method="post" asp-controller="Profile" asp-action="ModifierAdresses" id="AdressesForm">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Adresses</h5>
+        </div>
+        <div class="card-body pt-0">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group form-group-static">
+                        <label asp-for="AdressePrincipale.Pays" class="control-label"></label>
+                        <input asp-for="AdressePrincipale.Pays" class="form-control" type="text" placeholder="@Html.DisplayFor(model=>model.AdressePrincipale.Pays)"/>
+                        <span asp-validation-for="AdressePrincipale.Pays" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
