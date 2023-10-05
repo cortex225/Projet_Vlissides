@@ -96,8 +96,8 @@ public class GestionMaisonEditionsController : Controller
         if (maisonEdition == null)
             return NotFound();
         //Enlever la maison d'édition pour chaque livre
-        _context.Livres.Where(l => l.MaisonEditionId == maisonEdition.Id)
-            .ToList().ForEach(l => l.MaisonEditionId = null);
+        _context.Livres.Where(l => l.MaisonEdition.Id == maisonEdition.Id)
+            .ToList().ForEach(l => l.MaisonEdition = null);
         _context.MaisonEditions.Remove(maisonEdition);
         _context.SaveChanges();
         return RedirectToAction(nameof(Index));

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VLISSIDES.Data;
 
@@ -11,9 +12,10 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231005134519_feuilleExcel")]
+    partial class feuilleExcel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1140,10 +1142,6 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuteurId");
-
-                    b.HasIndex("CategorieId");
 
                     b.HasIndex("CommandeId");
 
@@ -3860,18 +3858,6 @@ namespace VLISSIDES.Migrations
 
             modelBuilder.Entity("VLISSIDES.Models.Livre", b =>
                 {
-                    b.HasOne("VLISSIDES.Models.Auteur", "Auteur")
-                        .WithMany("Livres")
-                        .HasForeignKey("AuteurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VLISSIDES.Models.Categorie", "Categorie")
-                        .WithMany("Livres")
-                        .HasForeignKey("CategorieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("VLISSIDES.Models.Commande", null)
                         .WithMany("Livres")
                         .HasForeignKey("CommandeId");
