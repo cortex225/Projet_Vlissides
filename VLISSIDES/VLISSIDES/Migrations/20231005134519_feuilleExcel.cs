@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -8,14 +9,6 @@ namespace VLISSIDES.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Adresses_AspNetUsers_UtilisateurLivraisonId",
-                table: "Adresses");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Adresses_AspNetUsers_UtilisateurPrincipalId",
-                table: "Adresses");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Commandes_Membres_MembreId",
                 table: "Commandes");
@@ -47,16 +40,18 @@ namespace VLISSIDES.Migrations
             migrationBuilder.DropTable(
                 name: "Membres");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Adresses_UtilisateurLivraisonId",
-                table: "Adresses");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Adresses_UtilisateurPrincipalId",
-                table: "Adresses");
-
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
+                keyColumn: "Id",
+                keyValue: "0");
+
+            migrationBuilder.DeleteData(
+                table: "Auteurs",
+                keyColumn: "Id",
+                keyValue: "0");
+
+            migrationBuilder.DeleteData(
+                table: "MaisonEditions",
                 keyColumn: "Id",
                 keyValue: "0");
 
@@ -151,30 +146,6 @@ namespace VLISSIDES.Migrations
                 type: "nvarchar(max)",
                 nullable: true);
 
-            migrationBuilder.AlterColumn<string>(
-                name: "UtilisateurPrincipalId",
-                table: "Adresses",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(450)",
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "UtilisateurLivraisonId",
-                table: "Adresses",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(450)",
-                oldNullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "ApplicationUserId",
-                table: "Adresses",
-                type: "nvarchar(450)",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "LivreAuteurs",
                 columns: table => new
@@ -228,36 +199,36 @@ namespace VLISSIDES.Migrations
                 keyColumn: "Id",
                 keyValue: "0",
                 column: "ConcurrencyStamp",
-                value: "06a234f5-841f-4300-abf9-2011d5b4870c");
+                value: "4e89be58-751a-49f7-9c56-aba926ee05a6");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "1",
                 column: "ConcurrencyStamp",
-                value: "02855473-5bda-49fc-97fc-22bcaf704fdf");
+                value: "d490f73c-1e06-4cdc-ad93-8b7407287962");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "2",
                 column: "ConcurrencyStamp",
-                value: "b64fcabb-b5aa-4f1e-89fb-2418ff364d31");
+                value: "b6679203-ec9e-476a-a7d0-9ae73acdf683");
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "0", 0, null, "a768e422-2fd9-4dfb-9ad1-19c12cbeb2c5", "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "ebef9099-b466-42cc-b241-3502694bc89d", false, "admin@admin.com" });
+                values: new object[] { "0", 0, null, "8e1be8b9-e4ca-4c48-b915-4796ba993634", "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "92729ed1-7d03-4caf-b582-c838be86851d", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NoEmploye", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "", "bd735ca2-3a53-4113-bfe2-e6a4b1eab5f0", "Employe", "employe@employe.com", true, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "4b1ffda0-fc32-4921-b66e-85912fdac203", false, "employe@employe.com" });
+                values: new object[] { "1", 0, "", "2a310335-3007-481e-b1e9-dc7ee196f7a3", "Employe", "employe@employe.com", true, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "36ee37f9-ceb4-4cd9-9790-a155bdda5808", false, "employe@employe.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "CommandeId", "ConcurrencyStamp", "DateAdhesion", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NoMembre", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "ReservationId", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "", null, "17b2c8ff-06a3-4197-abb1-04d27f4f20cb", new DateTime(2023, 10, 5, 9, 31, 34, 578, DateTimeKind.Local).AddTicks(5541), "Membre", "membre@membre.com", true, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "c8604b80-dfd2-4724-b325-9e55cfa2e59f", false, "membre@membre.com" });
+                values: new object[] { "2", 0, "", null, "66273432-e4e5-415f-be47-1feec6dc8fbd", new DateTime(2023, 10, 5, 9, 45, 18, 964, DateTimeKind.Local).AddTicks(1650), "Membre", "membre@membre.com", true, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "b9192a14-72b6-476d-b045-15a7d0e34c07", false, "membre@membre.com" });
 
             migrationBuilder.InsertData(
                 table: "Auteurs",
@@ -526,47 +497,47 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "CommandeId", "Couverture", "DateAjout", "DatePublication", "ISBN", "LangueId", "MaisonEditionId", "NbExemplaires", "NbPages", "Resume", "Titre" },
                 values: new object[,]
                 {
-                    { "Excel 1", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4791), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001193", null, "Excel 1", 24, 96, "", "\"Le Petit Prince\"" },
-                    { "Excel 10", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4886), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001202", null, "Excel 10", 32, 464, "", "\"La Nuit des temps\"" },
-                    { "Excel 11", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4890), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001203", null, "Excel 11", 2, 256, "", "\"Le Guépard\"" },
-                    { "Excel 12", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4988), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001204", null, "Excel 12", 13, 540, "", "\"Les Fourmis\"" },
-                    { "Excel 13", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4992), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540102", null, "Excel 13", 62, 720, "", "\"Moby-Dick\"" },
-                    { "Excel 14", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4996), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540103", null, "Excel 14", 2, 704, "", "\"Crime et Châtiment\"" },
-                    { "Excel 15", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5001), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540104", null, "Excel 15", 2, 480, "", "\"Le Maître et Marguerite\"" },
-                    { "Excel 16", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5005), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540105", null, "Excel 16", 14, 255, "", "\"Le Parfum\"" },
-                    { "Excel 17", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5010), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540106", null, "Excel 17", 15, 288, "", "\"Le Lion\"" },
-                    { "Excel 18", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5016), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540107", null, "Excel 18", 34, 123, "", "\"L'Étranger\"" },
-                    { "Excel 19", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5022), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540108", null, "Excel 19", 6, 880, "", "\"Le Chardonneret\"" },
-                    { "Excel 2", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4845), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001194", null, "Excel 2", 325, 320, "", "\"Harry Potter à l'école des sorciers\"" },
-                    { "Excel 20", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5026), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540109", null, "Excel 20", 2, 384, "", "\"Le Journal d'Anne Frank\"" },
-                    { "Excel 21", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5031), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540110", null, "Excel 21", 40, 144, "", "\"La Ferme des Animaux\"" },
-                    { "Excel 22", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5035), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540111", null, "Excel 22", 31, 416, "", "\"L'Odyssée\"" },
-                    { "Excel 23", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5041), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540112", null, "Excel 23", 20, 128, "", "\"Le Vieil Homme et la Mer\"" },
-                    { "Excel 24", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5049), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540113", null, "Excel 24", 21, 320, "", "\"Le Journal de Bridget Jones\"" },
-                    { "Excel 25", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5054), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540114", null, "Excel 25", 1, 416, "", "\"Le Meilleur des Mondes\"" },
-                    { "Excel 26", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5059), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540115", null, "Excel 26", 15, 192, "", "\"L'Alchimiste\"" },
-                    { "Excel 27", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5065), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540116", null, "Excel 27", 4, 384, "", "\"Le Portrait de Dorian Gray\"" },
-                    { "Excel 28", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5069), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540118", null, "Excel 28", 6, 1312, "", "\"Le Comte de Monte-Cristo\"" },
-                    { "Excel 29", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5074), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540119", null, "Excel 29", 20, 320, "", "\"Le Hobbit\"" },
-                    { "Excel 3", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4852), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001195", null, "Excel 3", 3, 328, "", "\"1984\"" },
-                    { "Excel 30", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5079), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540120", null, "Excel 30", 21, 704, "", "\"Les Trois Mousquetaires\"" },
-                    { "Excel 31", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5084), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540121", null, "Excel 31", 2, 368, "", "\"Les Cerfs-volants de Kaboul\"" },
-                    { "Excel 32", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5089), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540122", null, "Excel 32", 0, 224, "", "\"Le Grand Meaulnes\"" },
-                    { "Excel 33", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5094), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540123", null, "Excel 33", 10, 304, "", "\"Le Journal de Kurt Cobain\"" },
-                    { "Excel 34", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5101), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "978-2253004229", null, "Excel 34", 0, 288, "", "\"Les Fleurs du Mal\"" },
-                    { "Excel 35", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5105), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "978-2070367980", null, "Excel 35", 30, 128, "", "\"Le Parti pris des choses\"" },
-                    { "Excel 36", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5110), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140586", null, "Excel 36", 2, 288, "", "Les Contes de Grimm" },
-                    { "Excel 37", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5116), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140589", null, "Excel 37", 12, 192, "", "Contes de Perrault" },
-                    { "Excel 38", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5121), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140590", null, "Excel 38", 13, 384, "", "Les Contes d'Andersen" },
-                    { "Excel 39", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5125), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140591", null, "Excel 39", 50, 832, "", "Contes des Mille et Une Nuits" },
-                    { "Excel 4", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4856), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001196", null, "Excel 4", 60, 576, "", "\"Le Seigneur des Anneaux : La Communauté de l'Anneau\"" },
-                    { "Excel 40", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5134), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140592", null, "Excel 40", 21, 160, "", "Contes de la Rue Broca" },
-                    { "Excel 42", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5140), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140594", null, "Excel 42", 3, 400, "", "\"Pédagogie positive\"" },
-                    { "Excel 43", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5145), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140595", null, "Excel 43", 23, 160, "", "\"L'École du Colibri\"" },
-                    { "Excel 44", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5151), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140596", null, "Excel 44", 2, 288, "", "\"Apprendre autrement avec la pédagogie positive\"" },
-                    { "Excel 45", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5156), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140597", null, "Excel 45", 150, 320, "", "\"Le guide de survie enseignant suppléant\"" },
-                    { "Excel 46", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5161), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140598", null, "Excel 46", 3, 192, "", "\"La pédagogie Montessori à la maison\"" },
-                    { "Excel 48", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5167), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782012101320", null, "Excel 48", 20, 48, "", "\"Astérix le Gaulois\"" }
+                    { "Excel 1", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4187), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001193", null, "Excel 1", 24, 96, "", "\"Le Petit Prince\"" },
+                    { "Excel 10", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4282), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001202", null, "Excel 10", 32, 464, "", "\"La Nuit des temps\"" },
+                    { "Excel 11", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4287), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001203", null, "Excel 11", 2, 256, "", "\"Le Guépard\"" },
+                    { "Excel 12", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4291), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001204", null, "Excel 12", 13, 540, "", "\"Les Fourmis\"" },
+                    { "Excel 13", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4295), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540102", null, "Excel 13", 62, 720, "", "\"Moby-Dick\"" },
+                    { "Excel 14", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4300), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540103", null, "Excel 14", 2, 704, "", "\"Crime et Châtiment\"" },
+                    { "Excel 15", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4314), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540104", null, "Excel 15", 2, 480, "", "\"Le Maître et Marguerite\"" },
+                    { "Excel 16", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4318), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540105", null, "Excel 16", 14, 255, "", "\"Le Parfum\"" },
+                    { "Excel 17", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4322), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540106", null, "Excel 17", 15, 288, "", "\"Le Lion\"" },
+                    { "Excel 18", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4329), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540107", null, "Excel 18", 34, 123, "", "\"L'Étranger\"" },
+                    { "Excel 19", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4333), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540108", null, "Excel 19", 6, 880, "", "\"Le Chardonneret\"" },
+                    { "Excel 2", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4243), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001194", null, "Excel 2", 325, 320, "", "\"Harry Potter à l'école des sorciers\"" },
+                    { "Excel 20", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4337), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540109", null, "Excel 20", 2, 384, "", "\"Le Journal d'Anne Frank\"" },
+                    { "Excel 21", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4342), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540110", null, "Excel 21", 40, 144, "", "\"La Ferme des Animaux\"" },
+                    { "Excel 22", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4346), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540111", null, "Excel 22", 31, 416, "", "\"L'Odyssée\"" },
+                    { "Excel 23", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4351), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540112", null, "Excel 23", 20, 128, "", "\"Le Vieil Homme et la Mer\"" },
+                    { "Excel 24", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4357), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540113", null, "Excel 24", 21, 320, "", "\"Le Journal de Bridget Jones\"" },
+                    { "Excel 25", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4361), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540114", null, "Excel 25", 1, 416, "", "\"Le Meilleur des Mondes\"" },
+                    { "Excel 26", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4366), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540115", null, "Excel 26", 15, 192, "", "\"L'Alchimiste\"" },
+                    { "Excel 27", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4371), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540116", null, "Excel 27", 4, 384, "", "\"Le Portrait de Dorian Gray\"" },
+                    { "Excel 28", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4375), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540118", null, "Excel 28", 6, 1312, "", "\"Le Comte de Monte-Cristo\"" },
+                    { "Excel 29", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4380), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540119", null, "Excel 29", 20, 320, "", "\"Le Hobbit\"" },
+                    { "Excel 3", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4247), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001195", null, "Excel 3", 3, 328, "", "\"1984\"" },
+                    { "Excel 30", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4387), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540120", null, "Excel 30", 21, 704, "", "\"Les Trois Mousquetaires\"" },
+                    { "Excel 31", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4397), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540121", null, "Excel 31", 2, 368, "", "\"Les Cerfs-volants de Kaboul\"" },
+                    { "Excel 32", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4402), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540122", null, "Excel 32", 0, 224, "", "\"Le Grand Meaulnes\"" },
+                    { "Excel 33", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4408), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540123", null, "Excel 33", 10, 304, "", "\"Le Journal de Kurt Cobain\"" },
+                    { "Excel 34", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4415), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "978-2253004229", null, "Excel 34", 0, 288, "", "\"Les Fleurs du Mal\"" },
+                    { "Excel 35", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4420), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "978-2070367980", null, "Excel 35", 30, 128, "", "\"Le Parti pris des choses\"" },
+                    { "Excel 36", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4426), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140586", null, "Excel 36", 2, 288, "", "Les Contes de Grimm" },
+                    { "Excel 37", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4431), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140589", null, "Excel 37", 12, 192, "", "Contes de Perrault" },
+                    { "Excel 38", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4437), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140590", null, "Excel 38", 13, 384, "", "Les Contes d'Andersen" },
+                    { "Excel 39", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4444), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140591", null, "Excel 39", 50, 832, "", "Contes des Mille et Une Nuits" },
+                    { "Excel 4", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4251), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001196", null, "Excel 4", 60, 576, "", "\"Le Seigneur des Anneaux : La Communauté de l'Anneau\"" },
+                    { "Excel 40", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4449), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140592", null, "Excel 40", 21, 160, "", "Contes de la Rue Broca" },
+                    { "Excel 42", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4455), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140594", null, "Excel 42", 3, 400, "", "\"Pédagogie positive\"" },
+                    { "Excel 43", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4460), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140595", null, "Excel 43", 23, 160, "", "\"L'École du Colibri\"" },
+                    { "Excel 44", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4467), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140596", null, "Excel 44", 2, 288, "", "\"Apprendre autrement avec la pédagogie positive\"" },
+                    { "Excel 45", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4473), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140597", null, "Excel 45", 150, 320, "", "\"Le guide de survie enseignant suppléant\"" },
+                    { "Excel 46", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4478), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140598", null, "Excel 46", 3, 192, "", "\"La pédagogie Montessori à la maison\"" },
+                    { "Excel 48", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4484), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782012101320", null, "Excel 48", 20, 48, "", "\"Astérix le Gaulois\"" }
                 });
 
             migrationBuilder.InsertData(
@@ -574,15 +545,15 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "CommandeId", "Couverture", "DateAjout", "DatePublication", "ISBN", "LangueId", "MaisonEditionId", "NbExemplaires", "NbPages", "Resume", "Titre" },
                 values: new object[,]
                 {
-                    { "Excel 49", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5173), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001193", null, "Excel 49", 12, 62, "", "\"Tintin au Tibet\"" },
-                    { "Excel 5", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4860), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001197", null, "Excel 5", 3, 592, "", "\"Le Nom de la Rose\"" },
-                    { "Excel 50", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5178), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540102", null, "Excel 50", 2, 296, "", "\"Maus\"" },
-                    { "Excel 51", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5206), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140587", null, "Excel 51", 6, 352, "", "\"Persepolis\"" },
-                    { "Excel 52", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5211), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "978-2-8094-3960-2", null, "Excel 52", 8, 416, "", "\"Watchmen\"" },
-                    { "Excel 6", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4867), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001198", null, "Excel 6", 5, 384, "", "\"Orgueil et Préjugés\"" },
-                    { "Excel 7", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4871), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001199", null, "Excel 7", 10, 316, "", "\"L'Écume des Jours\"" },
-                    { "Excel 8", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4876), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001200", null, "Excel 8", 12, 1232, "", "\"Les Misérables\"" },
-                    { "Excel 9", null, "", new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4880), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001201", null, "Excel 9", 1, 576, "", "\"Le Rouge et le Noir\"" }
+                    { "Excel 49", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4490), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001193", null, "Excel 49", 12, 62, "", "\"Tintin au Tibet\"" },
+                    { "Excel 5", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4255), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001197", null, "Excel 5", 3, 592, "", "\"Le Nom de la Rose\"" },
+                    { "Excel 50", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4496), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782070540102", null, "Excel 50", 2, 296, "", "\"Maus\"" },
+                    { "Excel 51", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4504), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782844140587", null, "Excel 51", 6, 352, "", "\"Persepolis\"" },
+                    { "Excel 52", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4511), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "978-2-8094-3960-2", null, "Excel 52", 8, 416, "", "\"Watchmen\"" },
+                    { "Excel 6", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4261), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001198", null, "Excel 6", 5, 384, "", "\"Orgueil et Préjugés\"" },
+                    { "Excel 7", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4264), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001199", null, "Excel 7", 10, 316, "", "\"L'Écume des Jours\"" },
+                    { "Excel 8", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4271), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001200", null, "Excel 8", 12, 1232, "", "\"Les Misérables\"" },
+                    { "Excel 9", null, "", new DateTime(2023, 10, 5, 9, 45, 18, 956, DateTimeKind.Local).AddTicks(4276), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9782203001201", null, "Excel 9", 1, 576, "", "\"Le Rouge et le Noir\"" }
                 });
 
             migrationBuilder.InsertData(
@@ -812,16 +783,6 @@ namespace VLISSIDES.Migrations
                 column: "LangueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_AdressePrincipaleId",
-                table: "AspNetUsers",
-                column: "AdressePrincipaleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adresses_ApplicationUserId",
-                table: "Adresses",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_LivreAuteurs_AuteurId",
                 table: "LivreAuteurs",
                 column: "AuteurId");
@@ -830,20 +791,6 @@ namespace VLISSIDES.Migrations
                 name: "IX_LivreCategories_CategorieId",
                 table: "LivreCategories",
                 column: "CategorieId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Adresses_AspNetUsers_ApplicationUserId",
-                table: "Adresses",
-                column: "ApplicationUserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_Adresses_AdressePrincipaleId",
-                table: "AspNetUsers",
-                column: "AdressePrincipaleId",
-                principalTable: "Adresses",
-                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Commandes_AspNetUsers_MembreId",
@@ -888,14 +835,6 @@ namespace VLISSIDES.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Adresses_AspNetUsers_ApplicationUserId",
-                table: "Adresses");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_Adresses_AdressePrincipaleId",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_Commandes_AspNetUsers_MembreId",
                 table: "Commandes");
 
@@ -924,14 +863,6 @@ namespace VLISSIDES.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Livres_LangueId",
                 table: "Livres");
-
-            migrationBuilder.DropIndex(
-                name: "IX_AspNetUsers_AdressePrincipaleId",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Adresses_ApplicationUserId",
-                table: "Adresses");
 
             migrationBuilder.DeleteData(
                 table: "Categories",
@@ -2507,10 +2438,6 @@ namespace VLISSIDES.Migrations
                 name: "NoMembre",
                 table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "ApplicationUserId",
-                table: "Adresses");
-
             migrationBuilder.RenameColumn(
                 name: "ReservationId",
                 table: "AspNetUsers",
@@ -2557,24 +2484,6 @@ namespace VLISSIDES.Migrations
                 table: "Livres",
                 type: "nvarchar(max)",
                 nullable: true);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "UtilisateurPrincipalId",
-                table: "Adresses",
-                type: "nvarchar(450)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "UtilisateurLivraisonId",
-                table: "Adresses",
-                type: "nvarchar(450)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
 
             migrationBuilder.CreateTable(
                 name: "AuteurLivre",
@@ -2727,6 +2636,11 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "ConcurrencyStamp", "SecurityStamp" },
                 values: new object[] { "e6cd738d-940e-4435-9cff-0e3859bfbf6f", "447dc6ce-45fd-4e75-9e1b-d1cc882813a2" });
 
+            migrationBuilder.InsertData(
+                table: "Auteurs",
+                columns: new[] { "Id", "NomAuteur" },
+                values: new object[] { "0", "Tony" });
+
             migrationBuilder.UpdateData(
                 table: "Categories",
                 keyColumn: "Id",
@@ -2747,6 +2661,11 @@ namespace VLISSIDES.Migrations
                 values: new object[] { "1", "007" });
 
             migrationBuilder.InsertData(
+                table: "MaisonEditions",
+                columns: new[] { "Id", "Nom" },
+                values: new object[] { "0", "Maison d'édition par défaut" });
+
+            migrationBuilder.InsertData(
                 table: "Membres",
                 columns: new[] { "Id", "DateAdhesion", "NoMembre" },
                 values: new object[] { "2", new DateTime(2023, 9, 27, 12, 4, 53, 400, DateTimeKind.Local).AddTicks(7740), "123456" });
@@ -2759,18 +2678,6 @@ namespace VLISSIDES.Migrations
                     { "1", "Neuf" },
                     { "2", "Numérique" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adresses_UtilisateurLivraisonId",
-                table: "Adresses",
-                column: "UtilisateurLivraisonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adresses_UtilisateurPrincipalId",
-                table: "Adresses",
-                column: "UtilisateurPrincipalId",
-                unique: true,
-                filter: "[UtilisateurPrincipalId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AuteurLivre_LivresId",
@@ -2786,22 +2693,6 @@ namespace VLISSIDES.Migrations
                 name: "IX_LangueLivre_LivresId",
                 table: "LangueLivre",
                 column: "LivresId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Adresses_AspNetUsers_UtilisateurLivraisonId",
-                table: "Adresses",
-                column: "UtilisateurLivraisonId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Adresses_AspNetUsers_UtilisateurPrincipalId",
-                table: "Adresses",
-                column: "UtilisateurPrincipalId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Commandes_Membres_MembreId",

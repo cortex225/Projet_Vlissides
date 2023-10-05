@@ -216,6 +216,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserMembre.Id },
             new IdentityUserRole<string> { RoleId = roleAdmin.Id, UserId = UserAdmin.Id }
         );
+        // Configuration pour l' adresse principale car un utilisateur peut avoir une adresse principale
+        builder.Entity<ApplicationUser>()
+            .HasOne(a => a.AdressePrincipale)
+            .WithOne(a => a.UtilisateurPrincipal)
+            .HasForeignKey<Adresse>(a => a.UtilisateurPrincipalId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
+        // Configuration pour les adresses de livraison car un utilisateur peut avoir plusieurs adresses de livraison
+        builder.Entity<ApplicationUser>()
+            .HasMany(a => a.AdressesLivraison)
+            .WithOne(a => a.UtilisateurLivraison)
+            .HasForeignKey(a => a.UtilisateurLivraisonId)
+            .OnDelete(DeleteBehavior.Restrict);
         #endregion
         #region LivreAuteur
         // Configuration des relation de livreAuteur

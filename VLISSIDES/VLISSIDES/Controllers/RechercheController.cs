@@ -47,11 +47,14 @@ namespace VLISSIDES.Controllers
 
             livresRecherches = _context.Livres
                     .Include(l => l.LivreAuteurs)
+                    .ThenInclude(la => la.Auteur)
                     .Include(l => l.Categories)
+                    .ThenInclude(lc => lc.Categorie)
                     .Include(l => l.Langue)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
                     .Include(l => l.LivreTypeLivres)
+                    .ThenInclude(ltl => ltl.TypeLivre)
                     .ToList();
 
             if (criteres == null) //Lorsqu'il n'y a pas de criteres spécifiques
@@ -81,7 +84,7 @@ namespace VLISSIDES.Controllers
                             break;
                         case "auteur":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.LivreAuteurs.Any(la => Regex.IsMatch(la.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .Where(livre => livre.LivreAuteurs.Any(la => la.Auteur != null ? Regex.IsMatch(la.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase) : false))
                             .ToList();
                             break;
                         case "categorie":
@@ -98,7 +101,7 @@ namespace VLISSIDES.Controllers
                             break;
                         case "langue":
                             livresRecherches = livresRecherches
-                            .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
+                            .Where(livre => livre.Langue != null ? Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase) : false)
                             .ToList();
                             break;
                         case "typeLivre":
@@ -169,11 +172,14 @@ namespace VLISSIDES.Controllers
 
             Livre? monLivre = _context.Livres
                     .Include(l => l.LivreAuteurs)
+                    .ThenInclude(la => la.Auteur)
                     .Include(l => l.Categories)
+                    .ThenInclude(lc => lc.Categorie)
                     .Include(l => l.Langue)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
                     .Include(l => l.LivreTypeLivres)
+                    .ThenInclude(ltl => ltl.TypeLivre)
                     .FirstOrDefault(l => l.Id == id);
 
 
