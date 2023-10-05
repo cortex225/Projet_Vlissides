@@ -22,11 +22,15 @@ public class Livre
 
     [DisplayName("ISBN")] public string ISBN { get; set; } = default!;
 
+    [DisplayName("Auteur identifiant")] public string? AuteurId { get; set; }
+
     [DisplayName("Auteur(s)")] public List<LivreAuteur>? LivreAuteurs { get; set; } = default!;
 
     [DisplayName("Maison d'édition identifiant")] public string? MaisonEditionId { get; set; }
 
     [DisplayName("Maison d'édition")] public MaisonEdition? MaisonEdition { get; set; }
+
+    [DisplayName("Catégorie identifiant")] public string? CategorieId { get; set; }
 
     [DisplayName("Catégories associés")] public ICollection<LivreCategorie> Categories { get; set; } = default!;
 
