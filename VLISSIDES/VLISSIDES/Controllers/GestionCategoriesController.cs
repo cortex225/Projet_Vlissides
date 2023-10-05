@@ -38,6 +38,9 @@ namespace VLISSIDES.Controllers
             vm.ListeCategories = liste;
             return View(vm);
         }
+
+        [Route("2167594/GestionCategories/Ajouter")]
+        [Route("{controller}/{action}")]
         public ActionResult Ajouter()
         {
             var vm = new CategoriesAjouterVM();
@@ -50,6 +53,8 @@ namespace VLISSIDES.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("2167594/GestionCategories/Ajouter")]
+        [Route("{controller}/{action}")]
         public async Task<IActionResult> Ajouter(CategoriesAjouterVM vm)
         {
             if (ModelState.IsValid)
@@ -74,6 +79,9 @@ namespace VLISSIDES.Controllers
 
             return View(vm);
         }
+
+        [Route("2167594/GestionCategories/Modifier")]
+        [Route("{controller}/{action}")]
         public IActionResult Modifier(string id)
         {
             var categorie = _context.Categories.Include(c => c.Parent).FirstOrDefault(c => c.Id == id);
@@ -103,8 +111,11 @@ namespace VLISSIDES.Controllers
             }
             return PartialView("PartialViews/Modals/Categories/_ModifierCategoriesPartial", vm);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("2167594/GestionCategories/Modifier")]
+        [Route("{controller}/{action}")]
         public async Task<IActionResult> Modifier(CategoriesModifierVM vm)
         {
             if (ModelState.IsValid)
@@ -143,7 +154,10 @@ namespace VLISSIDES.Controllers
             }
             return View(vm);
         }
+
         [HttpPost]
+        [Route("2167594/GestionCategories/ModifierNomCategorie")]
+        [Route("{controller}/{action}")]
         public ActionResult ModifierNomCategorie(string id, string nom)
         {
             if (ModelState.IsValid)
@@ -154,6 +168,7 @@ namespace VLISSIDES.Controllers
             }
             return View();
         }
+
         public async Task<IActionResult> ShowDeleteConfirmation(string id)
         {
             if (id == null) return NotFound();
@@ -163,31 +178,22 @@ namespace VLISSIDES.Controllers
 
             return PartialView("PartialViews/Modals/Categories/_DeleteCategoriesPartial", categorie);
         }
+
         [HttpPost]
+        [Route("2167594/GestionCategories/SupprimerCategorie")]
+        [Route("{controller}/{action}")]
         public ActionResult SupprimerCategorie(string id)
         {
             if (_context.Categories == null) return Problem("Entity set 'ApplicationDbContext.Categories' is null.");
             var categorie = _context.Categories.Include(c => c.Livres).Include(c => c.Enfants).FirstOrDefault(c => c.Id == id);
             if (categorie != null)
             {
-                //_context.Livres.Where(l => l.CategorieId == categorie.Id).ToList().ForEach(l => l.CategorieId = null);
-                //if (categorie.Enfants != null)
-                //    _context.Categories.Find(id).Enfants.ToList().ForEach(e => e.Parent = null);
-                //categorie.Enfants = null;
                 var enfants = _context.Categories.Where(c => c.Enfants.Contains(categorie)).ToList();
                 enfants.ForEach(e => e.Enfants.Remove(categorie));
                 _context.Categories.Remove(categorie);
                 _context.SaveChanges();
 
-
             }
-            //var categorie = _context.Categories.FirstOrDefault(c => c.Id == id);
-            //if (categorie == null) { return NotFound(); }
-
-            //_context.Livres.Where(l => l.CategorieId == categorie.Id)
-            //    .ToList().ForEach(l => l.CategorieId = null);
-            //_context.Categories.Remove(categorie);
-            //_context.SaveChanges();
             return Ok();
         }
     }
