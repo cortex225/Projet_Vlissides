@@ -21,7 +21,7 @@ namespace VLISSIDES.Controllers
         }
 
         // GET: RechercheController
-        [Route("2167594/Recherche/Index")]
+        [Route("2147186/Recherche/Index")]
         [Route("{controller}/{action}")]
         public ActionResult Index(string? motCles, string? criteres)
         {
