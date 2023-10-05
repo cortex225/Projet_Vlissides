@@ -1,16 +1,18 @@
-﻿@using VLISSIDES.ViewModels.Recherche;
-@model IndexRechercheVM;
+﻿@model VLISSIDES.ViewModels.Recherche.IndexRechercheVM;
 @{
     ViewData["Title"] = "Inventaire";
 }
 <link rel="stylesheet" href="~/css/Recherche.css">
 <div class="d-block p-4 p-4">
 
-    @if(Model.ResultatRecherche.Count <= 0){
+    @if (Model.ResultatRecherche.Count <= 0)
+    {
         <div class="mb-4">
             <h1>Aucun résultat pour "@Model.MotRecherche"</h1>
         </div>
-    }else{
+    }
+    else
+    {
         <div class="mb-4">
             <h1>Résultat de recherche pour "@Model.MotRecherche"</h1>
         </div>
@@ -19,94 +21,92 @@
     <div class="container-fluid m-1">
 
         @* Les recherches *@
-            @* Research bar *@
-            <div class="row mb-3">
-                <div class="col-2 ml-4 text-center">
-                    <a asp-controller="Recherche" asp-action="Index" > 
-                        <button id="rechercherBTN" type="button" class="container-fluid btn btn-primary">
-                            Rechercher
-                        </button>
-                    </a>
-                </div>
-
-                <div class="col-10">
-                    <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale">
-                </div>
+        @* Research bar *@
+        <div class="row mb-3">
+            <div class="col-2 ml-4 text-center">
+                <a asp-controller="Recherche" asp-action="Index">
+                    <button id="rechercherBTN" type="button" class="container-fluid btn btn-primary">
+                        Rechercher
+                    </button>
+                </a>
             </div>
 
-            <div class="row">
+            <div class="col-10">
+                <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale">
+            </div>
+        </div>
 
-                <div class="col-2 bg-secondary">
+        <div class="row">
 
-                    @* Recherche précise *@
-                    <div class="my-2">
-                        <h3>Spécifications</h3>
-                        <div class="form-group">
-                            <label for="specificationTitre">Titre:</label>
-                            <input type="text" class="form-control" id="specificationTitre" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationAuteur">Auteur:</label>
-                            <input type="text" class="form-control" id="specificationAuteur" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationMaisonEdition">Maison d'édition:</label>
-                            <input type="text" class="form-control" id="specificationMaisonEdition" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationCategorie">Categorie:</label>
-                            <select class="form-control" id="specificationCategorie" name="categorie">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var categorie in Model.ListeCategories)
-                                {
-                                    <option value="@categorie.Nom">@categorie.Nom</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationLangue">Langue:</label>
-                            <select class="form-control" id="specificationLangue" name="langue">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var langue in Model.ListeLangues)
-                                {
-                                    <option value="@langue.Nom">@langue.Nom</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationPrixMin">Prix minimum:</label>
-                            <input type="text" class="form-control" id="specificationPrixMin" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationPrixMax">Prix maximum:</label>
-                            <input type="text" class="form-control" id="specificationPrixMax" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationTypeLivre">Type de livre:</label>
-                            <select class="form-control" id="specificationTypeLivre" name="typeLivre">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var type in Model.ListeTypeLivres)
-                                {
-                                    <option value="@type.Nom">@type.Nom</option>
-                                }
-                            </select>
-                        </div>
+            <div class="col-2 bg-secondary">
+
+                @* Recherche précise *@
+                <div class="my-2">
+                    <h3>Spécifications</h3>
+                    <div class="form-group">
+                        <label for="specificationTitre">Titre:</label>
+                        <input type="text" class="form-control" id="specificationTitre" placeholder="">
                     </div>
-                </div>
-                @* Body *@
-                <div class="col-10">
-
-                    @* Results *@
-                    <div class="results">
-                        @foreach(Livre livre in Model.ResultatRecherche){
-                            <partial name="_CarteLivreRecherche.cshtml" model="@livre"/>
-                        }
-                        @* Ajout de la pagination *@
-                        <partial name="PartialViews/Utilities/_PaginationPartial"/>
+                    <div class="form-group">
+                        <label for="specificationAuteur">Auteur:</label>
+                        <input type="text" class="form-control" id="specificationAuteur" placeholder="">
                     </div>
-                     
+                    <div class="form-group">
+                        <label for="specificationMaisonEdition">Maison d'édition:</label>
+                        <input type="text" class="form-control" id="specificationMaisonEdition" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationCategorie">Categorie:</label>
+                        <select class="form-control" id="specificationCategorie" name="categorie">
+                            <option value="">Sélectionnez...</option>
+                            @foreach (var categorie in Model.ListeCategories)
+                            {
+                                <option value="@categorie.Nom">@categorie.Nom</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationLangue">Langue:</label>
+                        <select class="form-control" id="specificationLangue" name="langue">
+                            <option value="">Sélectionnez...</option>
+                            @foreach (var langue in Model.ListeLangues)
+                            {
+                                <option value="@langue.Nom">@langue.Nom</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationPrixMin">Prix minimum:</label>
+                        <input type="text" class="form-control" id="specificationPrixMin" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationPrixMax">Prix maximum:</label>
+                        <input type="text" class="form-control" id="specificationPrixMax" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationTypeLivre">Type de livre:</label>
+                        <select class="form-control" id="specificationTypeLivre" name="typeLivre">
+                            <option value="">Sélectionnez...</option>
+                            @foreach (var type in Model.ListeTypeLivres)
+                            {
+                                <option value="@type.Nom">@type.Nom</option>
+                            }
+                        </select>
+                    </div>
                 </div>
             </div>
+            @* Body *@
+            <div class="col-10">
+
+                @* Results *@
+                <div class="results">
+                    @foreach (var livre in Model.ResultatRecherche)
+                    {
+                        <partial name="_CarteLivreRecherche.cshtml" model="@livre"/>
+                    }
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -208,4 +208,4 @@
         // Utiliser la valeur dans l'URL pour l'action Index
         window.location.href = `/Recherche/Index?${partieMotCles}&${partieCriteres}`;
     }
-</script> 
+</script>

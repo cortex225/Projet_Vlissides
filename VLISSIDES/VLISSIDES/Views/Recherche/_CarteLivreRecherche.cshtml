@@ -1,25 +1,27 @@
-﻿@using VLISSIDES.ViewModels.Accueil;
-@{
+﻿@{
 }
 @model Livre;
 
-<div class="item livrePetit livre @Model.Categorie">
-    <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;">
+<div class="item livrePetit livre @Model.Categories">
+    <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;;">
         <a asp-area="" asp-controller="Recherche" asp-action="Details" asp-route-id="@Model.Id" method="get"
            class="imgDiv bg-image hover-overlay ripple card-img-top" data-mdb-ripple-color="light">
             <img src="@Model.Couverture"
                  class="card-img-top imgLivre"
-                 alt="Couverture du livre" />
+                 alt="Couverture du livre"/>
         </a>
         <div class="card-body">
             <h6 class="card-title">@Model.Titre</h6>
 
-            @if(Model.LivreTypeLivres.Count <= 0)
+            @if (Model.LivreTypeLivres.Count <= 0)
             {
-                <p><strong>Aucun Prix</strong></p>
+                <p>
+                    <strong>Aucun Prix</strong>
+                </p>
             }
-            else{
-                @foreach (LivreTypeLivre t in Model.LivreTypeLivres)
+            else
+            {
+                @foreach (var t in Model.LivreTypeLivres)
                 {
                     if (t.TypeLivre.Nom == "Neuf")
                     {
@@ -33,16 +35,15 @@
             }
 
             <h6>Auteurs: </h6>
-            @if (Model.Auteur != null)
+            @if (Model.LivreAuteurs != null)
             {
-                <p>@Model.Auteur.NomAuteur</p>
+                <p>@Model.LivreAuteurs.Select(a => a.Auteur.NomAuteur)</p>
             }
 
             <h6>Catégories reliées: </h6>
             @{
-                <a href="#" class="btn btn-secondary btnCategorie">@Model.Categorie.Nom</a>
+                <a href="#" class="btn btn-secondary btnCategorie">@Model.Categories.Select(lc => lc.Categorie.Nom)</a>
             }
         </div>
     </div>
 </div>
-

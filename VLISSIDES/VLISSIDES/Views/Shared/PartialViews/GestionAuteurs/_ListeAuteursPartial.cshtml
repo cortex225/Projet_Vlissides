@@ -7,21 +7,21 @@
 @if (Model.ListeAuteurs.Count != 0)
 {
     <div class="list-group col-6" id="list-tab" role="tablist">
-    @foreach (var item in Model.ListeAuteurs)
-    {
-        <!--onclick pour afficher livres ici-->
-        <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherAuteursLivres('@item.Id')">
-            <div class="card-body row align-items-center p-0">
-                <div class="col-9 text-center">
-                    <!--Début : Modifier nom d'une maison d'édition-->
-                    <input id="@item.Id @item.NomAuteur" type="text" asp-for="@item.NomAuteur" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.NomAuteur)"
-                           onclick="enableButton('@item.Id')">
-                </div>
-                <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
-                    @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
+        @foreach (var item in Model.ListeAuteurs)
+        {
+            <!--onclick pour afficher livres ici-->
+            <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherAuteursLivres('@item.Id')">
+                <div class="card-body row align-items-center p-0">
+                    <div class="col-9 text-center">
+                        <!--Début : Modifier nom d'une maison d'édition-->
+                        <input id="@item.Id @item.NomAuteur" type="text" asp-for="@item.NomAuteur" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.NomAuteur)"
+                               onclick="enableButton('@item.Id')">
+                    </div>
+                    <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+                        @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
 
                         <button id="saveButton @item.Id" type="button" class="btn btn-success saveButton"
-                            onclick="ModifierAuteur('@item.Id', '@item.NomAuteur')
+                                onclick="ModifierAuteur('@item.Id', '@item.NomAuteur')
                                     disableButton('@item.Id')">
                             <span class="fa-solid fa-check fa-2x"></span>
                     </button>
@@ -40,34 +40,34 @@
 <div id="divListeLivres" class="col-6 card rounded-xl">
     <h3 class="text-center my-3">Livres de l'auteur</h3>
 
-    <div class="" id="divListeAuteursLivres">
-        @foreach (var item in Model.ListeAuteurs)
-        {
-            <div id="Liste_@item.Id" class=" visually-hidden">
-                <h5 class="my-2">@item.NomAuteur</h5>
+        <div class="" id="divListeAuteursLivres">
+            @foreach (var item in Model.ListeAuteurs)
+            {
+                <div id="Liste_@item.Id" class=" visually-hidden">
+                    <h5 class="my-2">@item.NomAuteur</h5>
 
 
-                @if (item.Livres.Count != 0)
-                {
-                    <div class="listcolumns">
-                        <ul id="ulListeNomLivres">
-                            @foreach (var livre in item.Livres)
-                            {
-                                <li>@livre.Titre</li>
-                            }
-                        </ul>
-                    </div>
-                }
-                else
-                {
-                    <p>pas de livres</p>
-                }
+                    @if (item.Livres.Count != 0)
+                    {
+                        <div class="listcolumns">
+                            <ul id="ulListeNomLivres">
+                                @foreach (var livreAuteur in item.Livres)
+                                {
+                                    <li>@livreAuteur.Livre.Titre</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <p>pas de livres</p>
+                    }
 
 
-            </div>
-        }
+                </div>
+            }
 
-    </div>
+        </div>
 
     </div>
 }

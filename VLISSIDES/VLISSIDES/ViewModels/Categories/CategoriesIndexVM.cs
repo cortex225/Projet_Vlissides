@@ -1,9 +1,8 @@
 ﻿using VLISSIDES.Models;
 
-namespace VLISSIDES.ViewModels.Categories
+namespace VLISSIDES.ViewModels.Categories;
+
+public class CategoriesIndexVM
 {
-    public class CategoriesIndexVM
-    {
-        public List<Categorie>? ListeCategories { get; set; }
-    }
+    public List<Categorie>? ListeCategories { get; set; }
 }

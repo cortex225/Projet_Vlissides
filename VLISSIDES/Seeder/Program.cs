@@ -1,20 +1,21 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-/**
- * Ce seeder sert à créer des donnés pour tester le programme. Ce seeder crée:
- *      -Auteurs
- *      -Maisons d'édtions
- *      -Livres
- * 
- * Éventuellement, nous n'aurons plus besoin de ce seeder lorsqu'on aura les donnés
- */
+
+
+//Signaler le debut du seeder
 using Faker;
 using FizzWare.NBuilder;
 using Seeder;
 using VLISSIDES.Models;
-
-//Signaler le debut du seeder
+/**
+* Ce seeder sert à créer des donnés pour tester le programme. Ce seeder crée:
+*      -Auteurs
+*      -Maisons d'édtions
+*      -Livres
+* 
+* Éventuellement, nous n'aurons plus besoin de ce seeder lorsqu'on aura les donnés
+*/
 Console.WriteLine("Début du seed!");
 using var context = DbContextFactory.CreateDbContext();
 
@@ -23,6 +24,7 @@ var categories = context.Categories.ToList();
 var typeLivres = context.TypeLivres.ToList();
 var langues = context.Langues.ToList();
 
+var generator = new RandomGenerator();
 Random rand = new Random();
 
 
@@ -56,17 +58,17 @@ var livres = Builder<Livre>.CreateListOfSize(299)
     .All()
     .With(c => c.Titre = Company.Name())
     .With(c => c.Resume = Lorem.Paragraph())
-    .With(c => c.Couverture = "https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg")
+    .With(c => c.Couverture)
     .With(c => c.NbExemplaires = 1)
     .With(c => c.DateAjout = DateTime.Now)
     .With(c => c.NbPages = 120)
     .With(c => c.DatePublication = Identification.DateOfBirth())
     .With(c => c.ISBN = Identification.UsPassportNumber())
-    .With(c => c.Categorie = Pick<Categorie>.RandomItemFrom(categories))
-    .With(c => { return c.Auteurs = auteurs.OrderBy(a => Guid.NewGuid()).Take(3).ToList(); })
+    .With(c => c.Categories = new List<LivreCategorie>())
+    .With(c => c.LivreAuteurs = new())
     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
     .With(c => c.LivreTypeLivres = new List<LivreTypeLivre> { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
-    .With(c => c.Langues = new List<Langue> { Pick<Langue>.RandomItemFrom(langues) })
+    .With(c => c.Langue = Pick<Langue>.RandomItemFrom(langues))
     .Build();
 context.Livres.AddRange(livres);
 context.SaveChanges();
@@ -85,4 +87,3 @@ context.SaveChanges();
 
 //Signaler la fin du seeder
 Console.WriteLine("Fin du seed!");
-

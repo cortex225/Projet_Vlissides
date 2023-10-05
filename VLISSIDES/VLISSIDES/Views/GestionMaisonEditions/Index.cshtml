@@ -2,8 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 @model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
 <link rel="stylesheet" href="~/css/ListeLivres.css"/>
@@ -16,7 +16,7 @@
 </div>
 
 <!-- Barre latérale coulissante -->
-<partial name="PartialViews/Dashboard/_SideBarPartial" />
+<partial name="PartialViews/Dashboard/_SideBarPartial"/>
 
 <div class="d-block p-4 p-4 ">
     <div class="mb-4 my-5">
@@ -54,9 +54,9 @@
         </button>
 
         <form class="collapse" id="rechercherMaisonEdition" enctype="multipart/form-data">
-            <br />
+            <br/>
             <div class="input-group">
-                <input class="form-control" id="inputRechercherMaison" placeholder="Rechercher..." />
+                <input class="form-control" id="inputRechercherMaison" placeholder="Rechercher..."/>
                 <button class="btn btn-primary p-2" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la maison d'édition">
                     Rechercher
                 </button>
@@ -65,12 +65,12 @@
         </form>
 
     </div>
-    <br />
+    <br/>
     <!--Fin : Rechercher maison edition-->
     <div class="mb-4">
         <h3>Liste des maisons d'éditions</h3>
         <div class="row" id="ListeMaisonPartial">
-            
+
         </div>
     </div>
 </div>
@@ -162,7 +162,7 @@
         var liste = document.getElementById("Liste_"+id);
         liste.className= "";        
     }
-</script> 
+</script>
 <!--Script pour Modifier-->
 <script type="text/javascript">
     function ModifierMaison(id = "",nom = "")

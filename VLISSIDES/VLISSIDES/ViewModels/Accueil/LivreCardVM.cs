@@ -20,16 +20,18 @@ public class LivreCardVM
         Categorie = categories?.Nom;
     }
 
-    public LivreCardVM(Livre livre)
+    public LivreCardVM(string v, Livre livre)
     {
         livre.Evaluations ??= new List<Evaluation>();
         Couverture = livre.Couverture;
         Titre = livre.Titre;
         Prix = livre.LivreTypeLivres.FirstOrDefault().Prix;
-        Auteurs = livre.Auteurs.FirstOrDefault().NomAuteur;
+        Auteurs = "";
+        livre.LivreAuteurs.ForEach(a => Auteurs += a.Auteur.NomAuteur + ", ");
         Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
 
-        Categorie = livre.Categorie.Nom;
+        Categorie = "";
+        Categorie += livre.Categories.Select(lc => lc.Categorie.Nom);
     }
 
     [DisplayName("Page couverture")] public string Couverture { get; set; }

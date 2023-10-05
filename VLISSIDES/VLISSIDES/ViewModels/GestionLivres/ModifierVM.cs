@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.GestionLivres;
@@ -14,8 +14,7 @@ public class ModifierVM
 
     public string? Couverture { get; set; }
 
-    [Display(Name = "Quantité")]
-    public int NbExemplaires { get; set; }
+    [Display(Name = "Quantité")] public int NbExemplaires { get; set; }
 
     [Display(Name = "Nombre de pages")] public int NbPages { get; set; }
 
@@ -25,8 +24,8 @@ public class ModifierVM
     public string ISBN { get; set; }
 
     //Categories
-    [Display(Name = "Catégorie")]
-    public string CategorieId { get; set; }
+    [Display(Name = "Catégorie")] public string CategorieId { get; set; }
+
     public List<SelectListItem>? SelectListCategories { get; set; }
 
     //Auteurs
@@ -42,21 +41,23 @@ public class ModifierVM
     public List<SelectListItem>? SelectMaisonEditions { get; set; }
 
     //Type
-    [Display(Name = "Type")]
-    public string? TypeLivreId { get; set; }
+    [Display(Name = "Type")] public string? TypeLivreId { get; set; }
+
     public bool Numerique { get; set; }
-    [Display(Name = "Prix Numérique")]
-    public decimal PrixNumerique { get; set; }
+
+    [Display(Name = "Prix Numérique")] public decimal PrixNumerique { get; set; }
+
     public bool Neuf { get; set; }
-    [Display(Name = "Prix Neuf")]
-    public decimal PrixNeuf { get; set; }
+
+    [Display(Name = "Prix Neuf")] public decimal PrixNeuf { get; set; }
+
     public ICollection<TypeLivre>? Types { get; set; }
 
     //public string EvaluationId { get; set; }
 
     //Langue
-    [Display(Name = "Langue")]
-    public string? LangueId { get; set; }
+    [Display(Name = "Langue")] public string? LangueId { get; set; }
+
     public List<SelectListItem>? SelectLangues { get; set; }
 
     //Image

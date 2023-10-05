@@ -1,8 +1,7 @@
-﻿namespace VLISSIDES.ViewModels.GestionAuteurs
+﻿namespace VLISSIDES.ViewModels.GestionAuteurs;
+
+public class AuteursModifierVM
 {
-    public class AuteursModifierVM
-    {
-        public string Id { get; set; }
-        public string NomAuteur { get; set; }
-    }
+    public string Id { get; set; }
+    public string NomAuteur { get; set; }
 }

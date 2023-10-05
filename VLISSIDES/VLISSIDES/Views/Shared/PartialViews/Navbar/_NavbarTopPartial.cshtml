@@ -2,35 +2,30 @@
     <div class="container-fluid">
         <!-- Logo fourmi ailée. Ce logo permet de retourner à l'accueil -->
         <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
-            <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" class="brand-logo" width="100" /> 
+            <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" class="brand-logo"/>
         </a>
 
         <!-- Barre de recherche -->
         <div id="divRecherche" class="navbar-nav flex-grow-1 recherche-container">
             <div class="input-group mb-3 recherche-group">
                 <div class="category-dropdown dropdown">
-                    <span class="selected-category">Trier par</span>
-                    <select class="form-select recherche-select" id="myDropdown">
-                        <option value="option1 active">Titre</option>
-                        <option value="option2">Auteur</option>
-                        <option value="option3">Catégorie</option>
+                    <span class="selected-category">Trier par :</span>
+                    <select class="form-select recherche-select" id="dropdownRechercheNavbar">
+                        <option value="titre">Titre</option>
+                        <option value="auteur">Auteur</option>
+                        <option value="categorie">Catégorie</option>
                     </select>
                 </div>
-                <input type="text" class="form-control recherche-input" placeholder="Rechercher...">
-                <button type="button" class="btn btn-secondary recherche-btn">
-                    @*<a class="nav-link text-dark" asp-area="" asp-controller="Recherche" asp-action="Index">*@
+                <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher...">
+                <a id="loupeRechercheNavbar" asp-area="" asp-controller="Recherche" asp-action="Index">
+                    <button type="button" class="btn btn-secondary recherche-btn">
                         <i class="fa-solid fa-magnifying-glass fa-sm"></i>
-                    @*</a>*@
-
-                </button>
+                    </button>
+                </a>
             </div>
         </div>
 
         <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
-
-        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">
-            <i class="fa-solid fa-circle-user"></i>
-        </a>
         <partial name="_LoginPartial"/>
     </div>
 </nav>
