@@ -14,6 +14,8 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+        <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+        <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.18" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.18" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.18" />
@@ -70,6 +72,7 @@
 
     <ItemGroup>
         <Folder Include="Areas\Identity\" />
+        <Folder Include="Migrations\" />
         <Folder Include="wwwroot\img\icons_Services\" />
         <Folder Include="wwwroot\img\Images_Livre\" />
         <Folder Include="wwwroot\img\CouvertureLivre\" />

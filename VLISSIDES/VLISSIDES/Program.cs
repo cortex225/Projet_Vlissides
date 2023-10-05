@@ -10,7 +10,6 @@ using VLISSIDES.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 //Connection JL
 var connectionStringJL = builder.Configuration.GetConnectionString("JLConnection");
 

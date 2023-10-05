@@ -8,5 +8,5 @@ public class Auteur
 
     [DisplayName("Nom de l'auteur")] public string NomAuteur { get; set; } = default!;
 
-    [DisplayName("Livres écrits")] public ICollection<Livre> Livres { get; set; } = default!;
+    [DisplayName("Livres écrits")] public ICollection<LivreAuteur> Livres { get; set; } = default!;
 }

@@ -107,9 +107,9 @@
                             {
                                 <div class="listcolumns">
                                     <ul id="ulListeNomLivres">
-                                        @foreach (var livre in item.Livres)
+                                        @foreach (var livreCategorie in item.Livres)
                                         {
-                                            <li>@livre.Titre</li>
+                                            <li>@livreCategorie.Livre.Titre</li>
                                         }
                                     </ul>
                                 </div>
