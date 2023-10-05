@@ -159,7 +159,7 @@ public class GestionLivresController : Controller
         };
         return View(vm);
     }
-    [Route("2167594/GestionLivres/{action}")]
+    [Route("2147186/GestionLivres/{action}")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> AfficherLivres(string? motCles, string? criteres, int page = 1)
     {
@@ -307,7 +307,7 @@ public class GestionLivresController : Controller
     }
 
     // GET: C
-    [Route("2167594/GestionLivres/Ajouter")]
+    [Route("2147186/GestionLivres/Ajouter")]
     public IActionResult Ajouter()
     {
         var vm = new AjouterVM();
@@ -339,7 +339,7 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2167594/GestionLivres/Ajouter")]
+    [Route("2147186/GestionLivres/Ajouter")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
@@ -368,7 +368,7 @@ public class GestionLivresController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "~/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "/2147186/img/CouvertureLivre/livredefault.png";
             }
             var id = Guid.NewGuid().ToString();
             //Types de livres
@@ -456,10 +456,7 @@ public class GestionLivresController : Controller
         }).ToList();
         return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
     }
-
-    [HttpGet]
-    [Route("2167594/GestionLivres/Modifier/{id}")]
-    [Route("{controller}/{action}/{id}")]
+    [Route("2147186/GestionLivres/Modifier")]
     public IActionResult Modifier(string id)
     {
         var livre = _context.Livres
@@ -534,6 +531,8 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Route("2147186/GestionLivres/Modifier")]
+    [Route("{controller}/{action}")]
     public async Task<IActionResult> Modifier(ModifierVM vm,string id)
     {
         if (ModelState.IsValid)

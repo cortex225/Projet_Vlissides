@@ -1,6 +1,8 @@
 ﻿@model VLISSIDES.ViewModels.GestionAuteurs.AuteursIndexVM
 @{
     ViewData["Title"] = "Auteurs";
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
 }
 
 
@@ -12,8 +14,10 @@
         </div>
     </div>
 </div>
-<div class="d-block p-4 p-4">
 
+
+<div class="d-block p-4 p-4">
+    
 
     <!--Début : Ajouter Auteur-->
     <div class="container-fluid ">
@@ -78,7 +82,11 @@
 
     </div>
 </div>
-
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+    
+</script>
 <!--Fonctionalite des boutons *-->
 <style>
     /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
@@ -94,7 +102,7 @@
     function AfficherListe() {
         var motCle = document.getElementById("inputRechercherAuteur").value;
         if (motCle == null && motCle == "") {
-            fetch('GestionAuteurs/AfficherListe', {
+            fetch(BASE_URL + '/GestionAuteurs/AfficherListe', {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -108,7 +116,7 @@
                 div.innerHTML = result;
             });
         }else{
-            fetch('GestionAuteurs/AfficherListe?motCle='+motCle, {
+            fetch(BASE_URL+'/GestionAuteurs/AfficherListe?motCle=' + motCle, {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -133,7 +141,7 @@
         var data = new FormData(form);
 
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch('GestionAuteurs/Ajouter', {
+        fetch(BASE_URL + '/GestionAuteurs/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -147,7 +155,7 @@
         form.reset();
     }
 </script>
-<!--Script pour la liste de livres d'une maison d'édition-->
+<!--Script pour la liste de livres d'un auteur-->
 <script type="text/javascript">
     function hideall() {
         divListes = document.getElementById("divListeAuteursLivres").childNodes;
@@ -165,7 +173,7 @@
     <!--Script pour Modifier-->
     <script type="text/javascript">
         function ModifierAuteur(id = "", nom = "") {
-            fetch('GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch(BASE_URL+'/GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -179,7 +187,7 @@
     <!--Script pour la supprimation-->
     <script type="text/javascript">
             function SupprimerAuteur(id = "") {
-                fetch(`GestionAuteurs/SupprimerAuteur?id=${id}`, {
+        fetch(BASE_URL+`/GestionAuteurs/SupprimerAuteur?id=${id}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

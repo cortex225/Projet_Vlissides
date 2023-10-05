@@ -12,11 +12,13 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
                 </li>
-                @if (!(User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN)))
+                @if (!(User.Identity.IsAuthenticated) || User.IsInRole(RoleName.MEMBRE))
                 {
-                   
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Evenments" asp-action="Index">Evenements</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Livres" asp-action="Index">Livres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Evenments" asp-action="Index">Évènements</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Promotions" asp-action="Index">Promotions</a>
@@ -24,8 +26,6 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Info">À propos de nous</a>
                     </li>
-              
-
                 }
                 @if (User.IsInRole(RoleName.MEMBRE))
                 {
@@ -38,7 +38,10 @@
                 {
                     <li class="nav-link text-dark"> - </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Livres</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Inventaire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionAuteurs" asp-action="Index">Auteurs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="GestionMaisonEditions" asp-action="Index">Maison d'éditions</a>
@@ -50,7 +53,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="GestionCommandes" asp-action="Index">Commandes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionEvenments" asp-action="Index">Evenements</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionEvenments" asp-action="Index">Évènements</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="GestionPromotions" asp-action="Index">Promotions</a>

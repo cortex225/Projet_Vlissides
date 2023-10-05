@@ -1,5 +1,8 @@
 @model VLISSIDES.ViewModels.Livres.AjouterVM
-
+@{
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+}
 <div class="modal-header">
     <h5 class="modal-title" id="ModalEditLabel">Ajouter un nouveau Livre</h5>
 </div>
@@ -28,12 +31,10 @@
                         <input asp-for="ISBN" class="form-control"/>
                         <span asp-validation-for="ISBN" class="text-danger"></span>
                     </div>
-                   <div class="form-group my-4">
-                       <label asp-for="AuteurIds" class="control-label"></label>
-                       <select asp-for="AuteurIds" asp-items="Model.SelectListAuteurs" class="form-control select" multiple style="z-index: 1000!important;position: relative;"></select>
-                       <span asp-validation-for="AuteurIds" class="text-danger"></span>
-                   </div>
-
+                    <div class="form-group">
+                        <label asp-for="AuteurId" class="control-label"></label>
+                        <select asp-for="AuteurId" asp-items="Model.SelectListAuteurs" class="form-control"></select>
+                    </div>
                     <div class="form-group">
                         <label asp-for="MaisonEditionId" class="control-label"></label>
                         <select asp-for="MaisonEditionId" asp-items="Model.SelectMaisonEditions" class="form-control"></select>
@@ -93,7 +94,6 @@
                         <label asp-for="DatePublication"></label>
                         <input asp-for="DatePublication"/>
                     </div>
-                 
                 </div>
             </div>
 
@@ -114,7 +114,11 @@
     </div>
 
 </form>
-
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+    console.log(BASE_URL);
+</script>
 
 <script type="text/javascript">
     function ShowInputsNeuf() {
@@ -140,9 +144,9 @@
     function AjouterLivre() {
         var form = document.getElementById("FormLivreAjouter");
         var data = new FormData(form);
-
+        
         //var csrfToken = form.querySelector(�'[name="__RequestVerificationToken"]').value;
-        fetch('/2167594/GestionLivres/Ajouter', {
+        fetch(BASE_URL + '/GestionLivres/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -167,7 +171,7 @@
         });
     };
     function AfficherLivres() {
-        fetch("/2167594/GestionLivres/AfficherLivres", {
+        fetch(BASE_URL+"/GestionLivres/AfficherLivres", {
             method: "GET"
         }).then((response)=>{
             return response.text();

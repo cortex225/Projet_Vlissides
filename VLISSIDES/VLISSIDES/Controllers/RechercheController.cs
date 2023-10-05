@@ -21,7 +21,8 @@ namespace VLISSIDES.Controllers
         }
 
         // GET: RechercheController
-        [Route("/Recherche/Index")]
+        [Route("2147186/Recherche/Index")]
+        [Route("{controller}/{action}")]
         public async Task<ActionResult> Index(string? motCles, string? criteres, int page = 1)
         {
             var itemsPerPage = 10;
@@ -182,6 +183,8 @@ namespace VLISSIDES.Controllers
         [Route("/Recherche/Details")]
         public ActionResult Details(string id)
         {
+            List<TypeLivre> listTypeLivres = _context.TypeLivres.ToList();
+
             Livre? monLivre = _context.Livres
                     .Include(l => l.Auteurs)
                     .Include(l => l.Categorie)
@@ -194,9 +197,12 @@ namespace VLISSIDES.Controllers
 
             DetailsLivreVM vm;
 
-            if (monLivre == null) {
+            if (monLivre == null)
+            {
                 vm = new DetailsLivreVM();
-            } else {
+            }
+            else
+            {
                 vm = new DetailsLivreVM
                 {
                     Id = monLivre.Id,
@@ -211,7 +217,7 @@ namespace VLISSIDES.Controllers
                     Resume = monLivre.Resume,
                     NbExemplaires = monLivre.NbExemplaires,
                     LivreTypeLivres = monLivre.LivreTypeLivres,
-                    
+                    listTypeLivres = listTypeLivres
                 };
             }
 
