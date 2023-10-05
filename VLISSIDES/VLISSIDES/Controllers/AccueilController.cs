@@ -41,28 +41,34 @@ public class AccueilController : Controller
         List<EventCardVM> evenements = new()
         {
             new EventCardVM(
-                "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
-                "Soirée poésie",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
+                "/img/images_Events/pinocio.png",
+                "Projet Pinochio (5 ans et plus)",
+                "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps," +
+                " les revirements de l’âme, les changements auxquels nous sommes toutes" +
+                " et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+                new DateTime(2023, 08, 01, 14, 00, 00), new DateTime(2023, 08, 01, 14, 00, 00), 20, 0, 0,
+                "Salle de spectacle", 0),
+                
             new EventCardVM(
-                "https://sqlinfocg.cegepgranby.qc.ca/2147186/img/jean-luc.png",
-                "Atelier coder avec Jean-Luc",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
+                "/img/images_Events/reve.png",
+                "Rêves à colorier",
+                "Aventure musicale haute-voltige qui allie la chanson, le théâtre d’objets et la littérature." +
+                " et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+                new DateTime(2023, 08, 01, 14, 00, 00), new DateTime(2023, 08, 01, 14, 00, 00), 25,0 , 15,
+                "Salle de spectacle", 8),
             new EventCardVM(
-                "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb",
-                "Lorem ipsum",
-                "Dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
+                "/img/images_Events/Heli.png",
+                "Héli, l’enfant cerf-volant",
+                "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs" +
+                " sur les limites parfois floues entre la fiction et la réalité.\r\nAtelier d’écriture pour les 12-16 ans\r\n",
+                new DateTime(2023, 08, 01, 14, 00, 00), new DateTime(2023, 08, 01, 14, 00, 00), 25, 0, 0,
+                "Salle de spectacle", 0),
             new EventCardVM(
-                "https://sqlinfocg.cegepgranby.qc.ca/2147186/img/jean-luc.png",
-                "Atelier coder avec Jean-Luc 2",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
-            new EventCardVM("img/logo/Logo.png",
-                            "La fourmi ailée fête ses 1 ans!",
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. "),
-            new EventCardVM(
-                "https://images.pexels.com/photos/2608517/pexels-photo-2608517.jpeg?auto=compress&cs=tinysrgb",
-                "Lorem ipsum",
-                "Dolor sit amet, consectetur adipiscing elit. Suspendisse ac vulputate turpis. ")
+                "https://sqlinfocg.cegepgranby.qc.ca/2167594/img/flat.png",
+                "Atelier d’écriture pour les 12-16 ans",
+                "Un atelier d’écriture pour les 12-16 ans sera offert en lien avec le spectacle. Les jeunes participants seront invités à écrire un texte" ,
+                new DateTime(2023, 08, 01, 14, 00, 00), new DateTime(2023, 08, 01, 14, 00, 00), 30, 0, 15,
+                "Salle de lecture", 0),
         };
         List<LivreCardVM> vedettes = new()
         {
@@ -100,14 +106,18 @@ public class AccueilController : Controller
         };
         List<PromotionCardVM> promotionCards = new()
         {
-            new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
-                DateTime.MaxValue),
-            new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
-                DateTime.MaxValue),
-            new PromotionCardVM("Rabais de 10% sur les livres de programmation", 10, DateTime.MinValue,
-                DateTime.MaxValue)
+            new PromotionCardVM("Tout pour la lecture 2 pour 1 sur tous les livres québécois", 100, DateTime.MinValue,
+                DateTime.MaxValue, "/img/images_Promo/promo1.png"),
+            new PromotionCardVM("Tout pour la lecture", 30, DateTime.MinValue,
+                DateTime.MaxValue, "/img/images_Promo/promo2.png"),
+            new PromotionCardVM("Promotion éclair d’une journée\r\nDimanche 1er octobre 2023\r\n", 25, DateTime.MinValue,
+                DateTime.MaxValue, "/img/images_Promo/promo3.png"),
+            new PromotionCardVM("Promotion éclair d’une journée\r\nVendredi 27 octobre 2023\r\n", 30, DateTime.MinValue,
+                DateTime.MaxValue, "/img/images_Promo/promo3.png"),
+            new PromotionCardVM("Promotion éclair sur 2 jours\r\nLes 15 et 16 janvier 2024\r\n", 20, DateTime.MinValue,
+                DateTime.MaxValue, "/img/images_Promo/promo3.png"),
+            
         };
-
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories,
             promotionCards));
     }
