@@ -31,7 +31,7 @@ public class LivreCardVM
         Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
 
         Categorie = "";
-        Categorie += livre.LivreCategories.Select(lc => lc.Categorie.Nom);
+        Categorie += livre.Categories.Select(lc => lc.Categorie.Nom);
     }
 
     [DisplayName("Page couverture")] public string Couverture { get; set; }

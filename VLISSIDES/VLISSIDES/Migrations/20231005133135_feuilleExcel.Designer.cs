@@ -12,7 +12,7 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231004204920_feuilleExcel")]
+    [Migration("20231005133135_feuilleExcel")]
     partial class feuilleExcel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,21 +69,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "706f1b7e-4122-480f-a45b-9c5768959648",
+                            ConcurrencyStamp = "06a234f5-841f-4300-abf9-2011d5b4870c",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "ebb08d38-75dd-4034-a6db-c47b5ee9ffd3",
+                            ConcurrencyStamp = "02855473-5bda-49fc-97fc-22bcaf704fdf",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "a47224ef-08f8-4154-b0a1-895dd5d82cb3",
+                            ConcurrencyStamp = "b64fcabb-b5aa-4f1e-89fb-2418ff364d31",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -349,7 +349,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cd7c15a9-4d9e-4757-9aa8-2ef34fd9f29d",
+                            ConcurrencyStamp = "a768e422-2fd9-4dfb-9ad1-19c12cbeb2c5",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -359,7 +359,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "de3729eb-68b8-49b7-bb7b-3675b8d7c711",
+                            SecurityStamp = "ebef9099-b466-42cc-b241-3502694bc89d",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -1156,6 +1156,658 @@ namespace VLISSIDES.Migrations
                     b.HasIndex("MaisonEditionId");
 
                     b.ToTable("Livres", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "Excel 1",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4791),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001193",
+                            MaisonEditionId = "Excel 1",
+                            NbExemplaires = 24,
+                            NbPages = 96,
+                            Resume = "",
+                            Titre = "\"Le Petit Prince\""
+                        },
+                        new
+                        {
+                            Id = "Excel 2",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4845),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001194",
+                            MaisonEditionId = "Excel 2",
+                            NbExemplaires = 325,
+                            NbPages = 320,
+                            Resume = "",
+                            Titre = "\"Harry Potter à l'école des sorciers\""
+                        },
+                        new
+                        {
+                            Id = "Excel 3",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4852),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001195",
+                            MaisonEditionId = "Excel 3",
+                            NbExemplaires = 3,
+                            NbPages = 328,
+                            Resume = "",
+                            Titre = "\"1984\""
+                        },
+                        new
+                        {
+                            Id = "Excel 4",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4856),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001196",
+                            MaisonEditionId = "Excel 4",
+                            NbExemplaires = 60,
+                            NbPages = 576,
+                            Resume = "",
+                            Titre = "\"Le Seigneur des Anneaux : La Communauté de l'Anneau\""
+                        },
+                        new
+                        {
+                            Id = "Excel 5",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4860),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001197",
+                            MaisonEditionId = "Excel 5",
+                            NbExemplaires = 3,
+                            NbPages = 592,
+                            Resume = "",
+                            Titre = "\"Le Nom de la Rose\""
+                        },
+                        new
+                        {
+                            Id = "Excel 6",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4867),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001198",
+                            MaisonEditionId = "Excel 6",
+                            NbExemplaires = 5,
+                            NbPages = 384,
+                            Resume = "",
+                            Titre = "\"Orgueil et Préjugés\""
+                        },
+                        new
+                        {
+                            Id = "Excel 7",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4871),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001199",
+                            MaisonEditionId = "Excel 7",
+                            NbExemplaires = 10,
+                            NbPages = 316,
+                            Resume = "",
+                            Titre = "\"L'Écume des Jours\""
+                        },
+                        new
+                        {
+                            Id = "Excel 8",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4876),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001200",
+                            MaisonEditionId = "Excel 8",
+                            NbExemplaires = 12,
+                            NbPages = 1232,
+                            Resume = "",
+                            Titre = "\"Les Misérables\""
+                        },
+                        new
+                        {
+                            Id = "Excel 9",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4880),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001201",
+                            MaisonEditionId = "Excel 9",
+                            NbExemplaires = 1,
+                            NbPages = 576,
+                            Resume = "",
+                            Titre = "\"Le Rouge et le Noir\""
+                        },
+                        new
+                        {
+                            Id = "Excel 10",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4886),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001202",
+                            MaisonEditionId = "Excel 10",
+                            NbExemplaires = 32,
+                            NbPages = 464,
+                            Resume = "",
+                            Titre = "\"La Nuit des temps\""
+                        },
+                        new
+                        {
+                            Id = "Excel 11",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4890),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001203",
+                            MaisonEditionId = "Excel 11",
+                            NbExemplaires = 2,
+                            NbPages = 256,
+                            Resume = "",
+                            Titre = "\"Le Guépard\""
+                        },
+                        new
+                        {
+                            Id = "Excel 12",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4988),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001204",
+                            MaisonEditionId = "Excel 12",
+                            NbExemplaires = 13,
+                            NbPages = 540,
+                            Resume = "",
+                            Titre = "\"Les Fourmis\""
+                        },
+                        new
+                        {
+                            Id = "Excel 13",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4992),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540102",
+                            MaisonEditionId = "Excel 13",
+                            NbExemplaires = 62,
+                            NbPages = 720,
+                            Resume = "",
+                            Titre = "\"Moby-Dick\""
+                        },
+                        new
+                        {
+                            Id = "Excel 14",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(4996),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540103",
+                            MaisonEditionId = "Excel 14",
+                            NbExemplaires = 2,
+                            NbPages = 704,
+                            Resume = "",
+                            Titre = "\"Crime et Châtiment\""
+                        },
+                        new
+                        {
+                            Id = "Excel 15",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5001),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540104",
+                            MaisonEditionId = "Excel 15",
+                            NbExemplaires = 2,
+                            NbPages = 480,
+                            Resume = "",
+                            Titre = "\"Le Maître et Marguerite\""
+                        },
+                        new
+                        {
+                            Id = "Excel 16",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5005),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540105",
+                            MaisonEditionId = "Excel 16",
+                            NbExemplaires = 14,
+                            NbPages = 255,
+                            Resume = "",
+                            Titre = "\"Le Parfum\""
+                        },
+                        new
+                        {
+                            Id = "Excel 17",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5010),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540106",
+                            MaisonEditionId = "Excel 17",
+                            NbExemplaires = 15,
+                            NbPages = 288,
+                            Resume = "",
+                            Titre = "\"Le Lion\""
+                        },
+                        new
+                        {
+                            Id = "Excel 18",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5016),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540107",
+                            MaisonEditionId = "Excel 18",
+                            NbExemplaires = 34,
+                            NbPages = 123,
+                            Resume = "",
+                            Titre = "\"L'Étranger\""
+                        },
+                        new
+                        {
+                            Id = "Excel 19",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5022),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540108",
+                            MaisonEditionId = "Excel 19",
+                            NbExemplaires = 6,
+                            NbPages = 880,
+                            Resume = "",
+                            Titre = "\"Le Chardonneret\""
+                        },
+                        new
+                        {
+                            Id = "Excel 20",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5026),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540109",
+                            MaisonEditionId = "Excel 20",
+                            NbExemplaires = 2,
+                            NbPages = 384,
+                            Resume = "",
+                            Titre = "\"Le Journal d'Anne Frank\""
+                        },
+                        new
+                        {
+                            Id = "Excel 21",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5031),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540110",
+                            MaisonEditionId = "Excel 21",
+                            NbExemplaires = 40,
+                            NbPages = 144,
+                            Resume = "",
+                            Titre = "\"La Ferme des Animaux\""
+                        },
+                        new
+                        {
+                            Id = "Excel 22",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5035),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540111",
+                            MaisonEditionId = "Excel 22",
+                            NbExemplaires = 31,
+                            NbPages = 416,
+                            Resume = "",
+                            Titre = "\"L'Odyssée\""
+                        },
+                        new
+                        {
+                            Id = "Excel 23",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5041),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540112",
+                            MaisonEditionId = "Excel 23",
+                            NbExemplaires = 20,
+                            NbPages = 128,
+                            Resume = "",
+                            Titre = "\"Le Vieil Homme et la Mer\""
+                        },
+                        new
+                        {
+                            Id = "Excel 24",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5049),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540113",
+                            MaisonEditionId = "Excel 24",
+                            NbExemplaires = 21,
+                            NbPages = 320,
+                            Resume = "",
+                            Titre = "\"Le Journal de Bridget Jones\""
+                        },
+                        new
+                        {
+                            Id = "Excel 25",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5054),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540114",
+                            MaisonEditionId = "Excel 25",
+                            NbExemplaires = 1,
+                            NbPages = 416,
+                            Resume = "",
+                            Titre = "\"Le Meilleur des Mondes\""
+                        },
+                        new
+                        {
+                            Id = "Excel 26",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5059),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540115",
+                            MaisonEditionId = "Excel 26",
+                            NbExemplaires = 15,
+                            NbPages = 192,
+                            Resume = "",
+                            Titre = "\"L'Alchimiste\""
+                        },
+                        new
+                        {
+                            Id = "Excel 27",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5065),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540116",
+                            MaisonEditionId = "Excel 27",
+                            NbExemplaires = 4,
+                            NbPages = 384,
+                            Resume = "",
+                            Titre = "\"Le Portrait de Dorian Gray\""
+                        },
+                        new
+                        {
+                            Id = "Excel 28",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5069),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540118",
+                            MaisonEditionId = "Excel 28",
+                            NbExemplaires = 6,
+                            NbPages = 1312,
+                            Resume = "",
+                            Titre = "\"Le Comte de Monte-Cristo\""
+                        },
+                        new
+                        {
+                            Id = "Excel 29",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5074),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540119",
+                            MaisonEditionId = "Excel 29",
+                            NbExemplaires = 20,
+                            NbPages = 320,
+                            Resume = "",
+                            Titre = "\"Le Hobbit\""
+                        },
+                        new
+                        {
+                            Id = "Excel 30",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5079),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540120",
+                            MaisonEditionId = "Excel 30",
+                            NbExemplaires = 21,
+                            NbPages = 704,
+                            Resume = "",
+                            Titre = "\"Les Trois Mousquetaires\""
+                        },
+                        new
+                        {
+                            Id = "Excel 31",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5084),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540121",
+                            MaisonEditionId = "Excel 31",
+                            NbExemplaires = 2,
+                            NbPages = 368,
+                            Resume = "",
+                            Titre = "\"Les Cerfs-volants de Kaboul\""
+                        },
+                        new
+                        {
+                            Id = "Excel 32",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5089),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540122",
+                            MaisonEditionId = "Excel 32",
+                            NbExemplaires = 0,
+                            NbPages = 224,
+                            Resume = "",
+                            Titre = "\"Le Grand Meaulnes\""
+                        },
+                        new
+                        {
+                            Id = "Excel 33",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5094),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540123",
+                            MaisonEditionId = "Excel 33",
+                            NbExemplaires = 10,
+                            NbPages = 304,
+                            Resume = "",
+                            Titre = "\"Le Journal de Kurt Cobain\""
+                        },
+                        new
+                        {
+                            Id = "Excel 34",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5101),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "978-2253004229",
+                            MaisonEditionId = "Excel 34",
+                            NbExemplaires = 0,
+                            NbPages = 288,
+                            Resume = "",
+                            Titre = "\"Les Fleurs du Mal\""
+                        },
+                        new
+                        {
+                            Id = "Excel 35",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5105),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "978-2070367980",
+                            MaisonEditionId = "Excel 35",
+                            NbExemplaires = 30,
+                            NbPages = 128,
+                            Resume = "",
+                            Titre = "\"Le Parti pris des choses\""
+                        },
+                        new
+                        {
+                            Id = "Excel 36",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5110),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140586",
+                            MaisonEditionId = "Excel 36",
+                            NbExemplaires = 2,
+                            NbPages = 288,
+                            Resume = "",
+                            Titre = "Les Contes de Grimm"
+                        },
+                        new
+                        {
+                            Id = "Excel 37",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5116),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140589",
+                            MaisonEditionId = "Excel 37",
+                            NbExemplaires = 12,
+                            NbPages = 192,
+                            Resume = "",
+                            Titre = "Contes de Perrault"
+                        },
+                        new
+                        {
+                            Id = "Excel 38",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5121),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140590",
+                            MaisonEditionId = "Excel 38",
+                            NbExemplaires = 13,
+                            NbPages = 384,
+                            Resume = "",
+                            Titre = "Les Contes d'Andersen"
+                        },
+                        new
+                        {
+                            Id = "Excel 39",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5125),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140591",
+                            MaisonEditionId = "Excel 39",
+                            NbExemplaires = 50,
+                            NbPages = 832,
+                            Resume = "",
+                            Titre = "Contes des Mille et Une Nuits"
+                        },
+                        new
+                        {
+                            Id = "Excel 40",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5134),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140592",
+                            MaisonEditionId = "Excel 40",
+                            NbExemplaires = 21,
+                            NbPages = 160,
+                            Resume = "",
+                            Titre = "Contes de la Rue Broca"
+                        },
+                        new
+                        {
+                            Id = "Excel 42",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5140),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140594",
+                            MaisonEditionId = "Excel 42",
+                            NbExemplaires = 3,
+                            NbPages = 400,
+                            Resume = "",
+                            Titre = "\"Pédagogie positive\""
+                        },
+                        new
+                        {
+                            Id = "Excel 43",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5145),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140595",
+                            MaisonEditionId = "Excel 43",
+                            NbExemplaires = 23,
+                            NbPages = 160,
+                            Resume = "",
+                            Titre = "\"L'École du Colibri\""
+                        },
+                        new
+                        {
+                            Id = "Excel 44",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5151),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140596",
+                            MaisonEditionId = "Excel 44",
+                            NbExemplaires = 2,
+                            NbPages = 288,
+                            Resume = "",
+                            Titre = "\"Apprendre autrement avec la pédagogie positive\""
+                        },
+                        new
+                        {
+                            Id = "Excel 45",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5156),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140597",
+                            MaisonEditionId = "Excel 45",
+                            NbExemplaires = 150,
+                            NbPages = 320,
+                            Resume = "",
+                            Titre = "\"Le guide de survie enseignant suppléant\""
+                        },
+                        new
+                        {
+                            Id = "Excel 46",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5161),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140598",
+                            MaisonEditionId = "Excel 46",
+                            NbExemplaires = 3,
+                            NbPages = 192,
+                            Resume = "",
+                            Titre = "\"La pédagogie Montessori à la maison\""
+                        },
+                        new
+                        {
+                            Id = "Excel 48",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5167),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782012101320",
+                            MaisonEditionId = "Excel 48",
+                            NbExemplaires = 20,
+                            NbPages = 48,
+                            Resume = "",
+                            Titre = "\"Astérix le Gaulois\""
+                        },
+                        new
+                        {
+                            Id = "Excel 49",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5173),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782203001193",
+                            MaisonEditionId = "Excel 49",
+                            NbExemplaires = 12,
+                            NbPages = 62,
+                            Resume = "",
+                            Titre = "\"Tintin au Tibet\""
+                        },
+                        new
+                        {
+                            Id = "Excel 50",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5178),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782070540102",
+                            MaisonEditionId = "Excel 50",
+                            NbExemplaires = 2,
+                            NbPages = 296,
+                            Resume = "",
+                            Titre = "\"Maus\""
+                        },
+                        new
+                        {
+                            Id = "Excel 51",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5206),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "9782844140587",
+                            MaisonEditionId = "Excel 51",
+                            NbExemplaires = 6,
+                            NbPages = 352,
+                            Resume = "",
+                            Titre = "\"Persepolis\""
+                        },
+                        new
+                        {
+                            Id = "Excel 52",
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 9, 31, 34, 572, DateTimeKind.Local).AddTicks(5211),
+                            DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ISBN = "978-2-8094-3960-2",
+                            MaisonEditionId = "Excel 52",
+                            NbExemplaires = 8,
+                            NbPages = 416,
+                            Resume = "",
+                            Titre = "\"Watchmen\""
+                        });
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.LivreAuteur", b =>
@@ -1170,22 +1822,528 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("AuteurId");
 
-                    b.ToTable("LivreAuteurs");
+                    b.ToTable("LivreAuteurs", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            LivreId = "Excel 1",
+                            AuteurId = "Excel 1"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 2",
+                            AuteurId = "Excel 2"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 3",
+                            AuteurId = "Excel 3"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 4",
+                            AuteurId = "Excel 4"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 5",
+                            AuteurId = "Excel 5"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 6",
+                            AuteurId = "Excel 6"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 7",
+                            AuteurId = "Excel 7"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 8",
+                            AuteurId = "Excel 8"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 9",
+                            AuteurId = "Excel 9"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 10",
+                            AuteurId = "Excel 10"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 11",
+                            AuteurId = "Excel 11"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 12",
+                            AuteurId = "Excel 12"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 13",
+                            AuteurId = "Excel 13"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 14",
+                            AuteurId = "Excel 14"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 15",
+                            AuteurId = "Excel 15"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 16",
+                            AuteurId = "Excel 16"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 17",
+                            AuteurId = "Excel 17"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 18",
+                            AuteurId = "Excel 18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 19",
+                            AuteurId = "Excel 19"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 20",
+                            AuteurId = "Excel 20"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 21",
+                            AuteurId = "Excel 3"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 22",
+                            AuteurId = "Excel 22"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 23",
+                            AuteurId = "Excel 23"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 24",
+                            AuteurId = "Excel 24"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 25",
+                            AuteurId = "Excel 25"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 26",
+                            AuteurId = "Excel 26"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 27",
+                            AuteurId = "Excel 27"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 28",
+                            AuteurId = "Excel 28"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 29",
+                            AuteurId = "Excel 4"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 30",
+                            AuteurId = "Excel 28"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 31",
+                            AuteurId = "Excel 31"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 32",
+                            AuteurId = "Excel 32"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 33",
+                            AuteurId = "Excel 33"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 34",
+                            AuteurId = "Excel 34"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 35",
+                            AuteurId = "Excel 35"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 36",
+                            AuteurId = "Excel 36"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 37",
+                            AuteurId = "Excel 37"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 38",
+                            AuteurId = "Excel 38"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 39",
+                            AuteurId = "Excel 39"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 40",
+                            AuteurId = "Excel 40"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 42",
+                            AuteurId = "Excel 42"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 43",
+                            AuteurId = "Excel 43"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 44",
+                            AuteurId = "Excel 44"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 45",
+                            AuteurId = "Excel 45"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 46",
+                            AuteurId = "Excel 46"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 48",
+                            AuteurId = "Excel 48"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 49",
+                            AuteurId = "Excel 49"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 50",
+                            AuteurId = "Excel 50"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 51",
+                            AuteurId = "Excel 51"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 52",
+                            AuteurId = "Excel 52"
+                        });
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.LivreCategorie", b =>
                 {
                     b.Property<string>("LivreId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CategorieId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LivreId", "CategorieId");
 
                     b.HasIndex("CategorieId");
 
-                    b.ToTable("LivreCategories");
+                    b.ToTable("LivreCategories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            LivreId = "Excel 1",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 2",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 3",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 4",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 5",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 6",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 7",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 8",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 9",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 10",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 11",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 12",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 13",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 14",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 15",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 16",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 17",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 18",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 19",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 20",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 21",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 22",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 23",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 24",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 25",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 26",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 27",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 28",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 29",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 30",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 31",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 32",
+                            CategorieId = "18"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 33",
+                            CategorieId = "5"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 34",
+                            CategorieId = "Excel 34"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 35",
+                            CategorieId = "Excel 34"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 36",
+                            CategorieId = "6"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 37",
+                            CategorieId = "6"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 38",
+                            CategorieId = "6"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 39",
+                            CategorieId = "6"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 40",
+                            CategorieId = "6"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 42",
+                            CategorieId = "Excel 42"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 43",
+                            CategorieId = "Excel 43"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 44",
+                            CategorieId = "Excel 42"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 45",
+                            CategorieId = "Excel 42"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 46",
+                            CategorieId = "Excel 42"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 48",
+                            CategorieId = "Excel 48"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 49",
+                            CategorieId = "Excel 48"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 50",
+                            CategorieId = "Excel 48"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 51",
+                            CategorieId = "Excel 48"
+                        },
+                        new
+                        {
+                            LivreId = "Excel 52",
+                            CategorieId = "Excel 48"
+                        });
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.LivreCommande", b =>
@@ -1221,7 +2379,441 @@ namespace VLISSIDES.Migrations
 
                     b.HasIndex("TypeLivreId");
 
-                    b.ToTable("LivreTypeLivres");
+                    b.ToTable("LivreTypeLivres", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            LivreId = "Excel 1",
+                            TypeLivreId = "Papier Excel 1",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 2",
+                            TypeLivreId = "Papier Excel 2",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 2",
+                            TypeLivreId = "Numérique Excel 2",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 3",
+                            TypeLivreId = "Papier Excel 3",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 4",
+                            TypeLivreId = "Papier Excel 4",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 4",
+                            TypeLivreId = "Numérique Excel 4",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 5",
+                            TypeLivreId = "Papier Excel 5",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 6",
+                            TypeLivreId = "Papier Excel 6",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 7",
+                            TypeLivreId = "Papier Excel 7",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 8",
+                            TypeLivreId = "Papier Excel 8",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 9",
+                            TypeLivreId = "Papier Excel 9",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 10",
+                            TypeLivreId = "Papier Excel 10",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 10",
+                            TypeLivreId = "Numérique Excel 10",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 11",
+                            TypeLivreId = "Papier Excel 11",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 12",
+                            TypeLivreId = "Papier Excel 12",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 12",
+                            TypeLivreId = "Numérique Excel 12",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 13",
+                            TypeLivreId = "Papier Excel 13",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 13",
+                            TypeLivreId = "Numérique Excel 13",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 14",
+                            TypeLivreId = "Papier Excel 14",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 15",
+                            TypeLivreId = "Papier Excel 15",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 15",
+                            TypeLivreId = "Numérique Excel 15",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 16",
+                            TypeLivreId = "Papier Excel 16",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 16",
+                            TypeLivreId = "Numérique Excel 16",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 17",
+                            TypeLivreId = "Papier Excel 17",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 18",
+                            TypeLivreId = "Papier Excel 18",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 19",
+                            TypeLivreId = "Papier Excel 19",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 20",
+                            TypeLivreId = "Papier Excel 20",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 21",
+                            TypeLivreId = "Papier Excel 21",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 22",
+                            TypeLivreId = "Papier Excel 22",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 22",
+                            TypeLivreId = "Numérique Excel 22",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 23",
+                            TypeLivreId = "Papier Excel 23",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 23",
+                            TypeLivreId = "Numérique Excel 23",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 24",
+                            TypeLivreId = "Papier Excel 24",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 24",
+                            TypeLivreId = "Numérique Excel 24",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 25",
+                            TypeLivreId = "Papier Excel 25",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 25",
+                            TypeLivreId = "Numérique Excel 25",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 26",
+                            TypeLivreId = "Papier Excel 26",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 27",
+                            TypeLivreId = "Papier Excel 27",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 28",
+                            TypeLivreId = "Papier Excel 28",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 29",
+                            TypeLivreId = "Papier Excel 29",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 29",
+                            TypeLivreId = "Numérique Excel 29",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 30",
+                            TypeLivreId = "Papier Excel 30",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 31",
+                            TypeLivreId = "Papier Excel 31",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 32",
+                            TypeLivreId = "Papier Excel 32",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 33",
+                            TypeLivreId = "Papier Excel 33",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 34",
+                            TypeLivreId = "Papier Excel 34",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 35",
+                            TypeLivreId = "Papier Excel 35",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 36",
+                            TypeLivreId = "Papier Excel 36",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 36",
+                            TypeLivreId = "Numérique Excel 36",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 37",
+                            TypeLivreId = "Papier Excel 37",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 37",
+                            TypeLivreId = "Numérique Excel 37",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 38",
+                            TypeLivreId = "Papier Excel 38",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 38",
+                            TypeLivreId = "Numérique Excel 38",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 39",
+                            TypeLivreId = "Papier Excel 39",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 39",
+                            TypeLivreId = "Numérique Excel 39",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 40",
+                            TypeLivreId = "Papier Excel 40",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 40",
+                            TypeLivreId = "Numérique Excel 40",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 42",
+                            TypeLivreId = "Papier Excel 42",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 42",
+                            TypeLivreId = "Numérique Excel 42",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 43",
+                            TypeLivreId = "Papier Excel 43",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 43",
+                            TypeLivreId = "Numérique Excel 43",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 44",
+                            TypeLivreId = "Papier Excel 44",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 44",
+                            TypeLivreId = "Numérique Excel 44",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 45",
+                            TypeLivreId = "Papier Excel 45",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 45",
+                            TypeLivreId = "Numérique Excel 45",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 46",
+                            TypeLivreId = "Papier Excel 46",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 46",
+                            TypeLivreId = "Numérique Excel 46",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 48",
+                            TypeLivreId = "Papier Excel 48",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 49",
+                            TypeLivreId = "Papier Excel 49",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 50",
+                            TypeLivreId = "Papier Excel 50",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 51",
+                            TypeLivreId = "Papier Excel 51",
+                            Prix = 0m
+                        },
+                        new
+                        {
+                            LivreId = "Excel 52",
+                            TypeLivreId = "Papier Excel 52",
+                            Prix = 0m
+                        });
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.MaisonEdition", b =>
@@ -2062,7 +3654,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "d094ebfd-565f-4725-8ccf-a235ee584ae3",
+                            ConcurrencyStamp = "bd735ca2-3a53-4113-bfe2-e6a4b1eab5f0",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2072,7 +3664,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "e26736a3-d203-4d6d-bf87-065ab4ea1ced",
+                            SecurityStamp = "4b1ffda0-fc32-4921-b66e-85912fdac203",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -2104,7 +3696,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "a8f7e6d7-5fe6-4012-bd5b-f0629e0061ff",
+                            ConcurrencyStamp = "17b2c8ff-06a3-4197-abb1-04d27f4f20cb",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2114,10 +3706,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "f3f6f01d-ad72-44d4-a852-1c16a0146b3f",
+                            SecurityStamp = "c8604b80-dfd2-4724-b325-9e55cfa2e59f",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 10, 4, 16, 49, 19, 965, DateTimeKind.Local).AddTicks(8048),
+                            DateAdhesion = new DateTime(2023, 10, 5, 9, 31, 34, 578, DateTimeKind.Local).AddTicks(5541),
                             NoMembre = "123456"
                         });
                 });
@@ -2321,7 +3913,7 @@ namespace VLISSIDES.Migrations
                         .IsRequired();
 
                     b.HasOne("VLISSIDES.Models.Livre", "Livre")
-                        .WithMany("LivreCategories")
+                        .WithMany("Categories")
                         .HasForeignKey("LivreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2424,13 +4016,13 @@ namespace VLISSIDES.Migrations
 
             modelBuilder.Entity("VLISSIDES.Models.Livre", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("Evaluations");
 
                     b.Navigation("Favoris");
 
                     b.Navigation("LivreAuteurs");
-
-                    b.Navigation("LivreCategories");
 
                     b.Navigation("LivreCommandes");
 

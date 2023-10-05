@@ -10,10 +10,10 @@ public class LivreConfiguration : IEntityTypeConfiguration<Livre>
 
     public LivreConfiguration(List<Livre> livres, List<MaisonEdition> maisonEditions)
     {
-        livres = new();
+        this.livres = new();
         foreach (var livre in livres)
         {
-            livres.Add(new()
+            this.livres.Add(new()
             {
                 Id = livre.Id,
                 Titre = livre.Titre,
@@ -27,7 +27,7 @@ public class LivreConfiguration : IEntityTypeConfiguration<Livre>
                 NbExemplaires = livre.NbExemplaires,
             });
         }
-        foreach (var livre in livres)
+        foreach (var livre in this.livres)
             Console.WriteLine(livre.Id + " : " + livre.Titre);
     }
 
@@ -37,8 +37,6 @@ public class LivreConfiguration : IEntityTypeConfiguration<Livre>
         builder.ToTable("Livres");
         builder.HasKey(sc => sc.Id);
         builder.Property(sc => sc.Id).ValueGeneratedOnAdd();
-        if (livres != null)
-            foreach (var livre in livres)
-                builder.HasData(livre);
+        builder.HasData(livres);
     }
 }

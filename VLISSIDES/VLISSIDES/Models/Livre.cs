@@ -28,7 +28,7 @@ public class Livre
 
     [DisplayName("Maison d'édition")] public MaisonEdition? MaisonEdition { get; set; }
 
-    [DisplayName("Catégories associés")] public List<LivreCategorie>? LivreCategories { get; set; } = default!;
+    [DisplayName("Catégories associés")] public ICollection<LivreCategorie> Categories { get; set; } = default!;
 
     [DisplayName("Type(s) de livre")] public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; } = default!;
 

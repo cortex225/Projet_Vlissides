@@ -25,7 +25,7 @@ namespace VLISSIDES.Controllers
         {
             var vm = new AuteursIndexVM();
             vm.AuteursAjouterVM = new AuteursAjouterVM() { NomAuteur = "" };
-            List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).ToList();
+            List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).Include(la => la.Livres).ToList();
 
             if (motCle != null && motCle != "")
             {
@@ -47,7 +47,7 @@ namespace VLISSIDES.Controllers
         {
             var vm = new AuteursIndexVM();
             vm.AuteursAjouterVM = new AuteursAjouterVM();
-            var liste = _context.Auteurs.Include(a => a.Livres)
+            var liste = _context.Auteurs.Include(a => a.Livres).Include(la => la.Livres)
                 .OrderBy(a => a.NomAuteur).ToList();
             if (motCle != null && motCle != "")
             {

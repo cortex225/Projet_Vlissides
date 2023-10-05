@@ -3,7 +3,7 @@
 }
 @model Livre;
 
-<div class="item livrePetit livre @Model.LivreCategories">
+<div class="item livrePetit livre @Model.Categories">
     <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;;">
         <a asp-area="" asp-controller="Recherche" asp-action="Details" asp-route-id="@Model.Id" method="get"
            class="imgDiv bg-image hover-overlay ripple card-img-top" data-mdb-ripple-color="light">
@@ -40,7 +40,7 @@
 
             <h6>Catégories reliées: </h6>
             @{
-                <a href="#" class="btn btn-secondary btnCategorie">@Model.LivreCategories.Select(lc=>lc.Categorie.Nom)</a>
+                <a href="#" class="btn btn-secondary btnCategorie">@Model.Categories.Select(lc=>lc.Categorie.Nom)</a>
             }
         </div>
     </div>

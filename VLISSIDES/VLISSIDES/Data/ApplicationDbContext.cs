@@ -91,11 +91,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.ApplyConfiguration(new LivreConfiguration(livres, maisonEditions));
 
         //Ajout des relations livres auteurs à la bd
-        //builder.ApplyConfiguration(new LivreAuteurConfiguration(livres, auteurIds));
+        builder.ApplyConfiguration(new LivreAuteurConfiguration(livres, auteurIds));
         //Ajout des relations livres catégories à la bd
-        //builder.ApplyConfiguration(new LivreCategorieConfiguration(livres, categorieIds));
+        builder.ApplyConfiguration(new LivreCategorieConfiguration(livres, categorieIds));
         //Ajout des relations livres typeLivres à la bd
-        //builder.ApplyConfiguration(new LivreTypeLivreConfiguration(livres, typeLivres));
+        builder.ApplyConfiguration(new LivreTypeLivreConfiguration(livres, typeLivres));
 
         #endregion
         #region Favorie
@@ -148,23 +148,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
-
-        // Configuration de la relation entre Livre et TypeLivre
-        builder.Entity<LivreTypeLivre>()
-            .HasKey(ltl => new { ltl.LivreId, ltl.TypeLivreId });
-
-        //Un livre peut être dans plusieurs types de livres
-        builder.Entity<LivreTypeLivre>()
-            .HasOne(ltl => ltl.Livre)
-            .WithMany(l => l.LivreTypeLivres)
-            .HasForeignKey(ltl => ltl.LivreId);
-
-        //Un type de livre peut avoir plusieurs livres
-        builder.Entity<LivreTypeLivre>()
-            .HasOne(ltl => ltl.TypeLivre)
-            .WithMany(l => l.TypeLivres)
-            .HasForeignKey(ltl => ltl.TypeLivreId);
-
+        #endregion
+        #region ApplicationUser
         //Création des différent comptes
         //var password = new PasswordHasher<ApplicationUser>();
         var UserAdmin = new ApplicationUser
@@ -219,21 +204,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
         builder.Entity<Membre>().HasData(UserMembre);
 
-        var DefaultAuteur = new Auteur
-        {
-            Id = "0",
-            NomAuteur = "Tony"
-
-        };
-        builder.Entity<Auteur>().HasData(DefaultAuteur);
-
-        var DefaultMaisonEdition = new MaisonEdition
-        {
-            Id = "0",
-            Nom = "Maison d'édition par défaut"
-        };
-        builder.Entity<MaisonEdition>().HasData(DefaultMaisonEdition);
-
         //Connecte les rôles aux users pré-créés
         //Roles de l'application
         var roleEmploye = new IdentityRole { Id = "0", Name = "Employe", NormalizedName = "Employe".ToUpper() };
@@ -247,63 +217,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             new IdentityUserRole<string> { RoleId = roleAdmin.Id, UserId = UserAdmin.Id }
         );
         #endregion
-        #region Adresse
-
-
-        //Un type de livre peut avoir plusieurs livres
-        /*builder.Entity<Adresse>()
-            .HasOne(a => a.UtilisateurLivraison)
-            .WithMany(l => l.AdressesLivraison)
-            .HasForeignKey(a => a.UtilisateurLivraisonId);
-        //Un type de livre peut avoir plusieurs livres
-        builder.Entity<Adresse>()
-            .HasOne(a => a.UtilisateurPrincipal)
-            .WithOne(l => l.AdressePrincipale);*/
-        #endregion
         #region LivreAuteur
         // Configuration des relation de livreAuteur
         builder.Entity<LivreAuteur>()
             .HasKey(la => new { la.LivreId, la.AuteurId });
-        //Un livreAuteur peut avoir un livre qui a plusieurs livreAuteurs
-        builder.Entity<LivreAuteur>()
-            .HasOne(la => la.Livre)
-            .WithMany(l => l.LivreAuteurs)
-            .HasForeignKey(la => la.LivreId);
-        //Un livreauteur peut avoir un auteur qui a plusieurs livreAuteurs
-        builder.Entity<LivreAuteur>()
-            .HasOne(la => la.Auteur)
-            .WithMany(a => a.Livres)
-            .HasForeignKey(la => la.AuteurId);
         #endregion
         #region LivreCatégorie
         // Configuration des relation de livreCatégorie
         builder.Entity<LivreCategorie>()
             .HasKey(la => new { la.LivreId, la.CategorieId });
-        //Un LivreCategorie peut avoir un livre qui a plusieurs LivreCategories
-        builder.Entity<LivreCategorie>()
-            .HasOne(la => la.Livre)
-            .WithMany(l => l.LivreCategories)
-            .HasForeignKey(la => la.LivreId);
-        //Un LivreCategorie peut avoir une catégorie qui a plusieurs LivreCategories
-        builder.Entity<LivreCategorie>()
-            .HasOne(la => la.Categorie)
-            .WithMany(c => c.Livres)
-            .HasForeignKey(la => la.CategorieId);
         #endregion
         #region LivreTypeLivre
         // Configuration des relations de LivreTypeLivre
-        //builder.Entity<LivreTypeLivre>()
-        //    .HasKey(la => new { la.LivreId, la.TypeLivreId });
-        //Un LivreTypeLivre peut avoir un livre qui a plusieurs LivreTypeLivres
         builder.Entity<LivreTypeLivre>()
-            .HasOne(la => la.Livre)
-            .WithMany(tl => tl.LivreTypeLivres)
-            .HasForeignKey(la => la.LivreId);
-        //Un LivreTypeLivre peut avoir un typeLivre qui a plusieurs LivreTypeLivres
-        builder.Entity<LivreTypeLivre>()
-            .HasOne(la => la.TypeLivre)
-            .WithMany(a => a.TypeLivres)
-            .HasForeignKey(la => la.TypeLivreId);
+            .HasKey(la => new { la.LivreId, la.TypeLivreId });
         #endregion
     }
     public void ReadExcel(string url, out List<Livre> livres, out List<List<Auteur>> listAuteurs, out List<MaisonEdition> maisonEditions,

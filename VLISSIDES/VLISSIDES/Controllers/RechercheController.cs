@@ -47,7 +47,7 @@ namespace VLISSIDES.Controllers
 
             livresRecherches = _context.Livres
                     .Include(l => l.LivreAuteurs)
-                    .Include(l => l.LivreCategories)
+                    .Include(l => l.Categories)
                     .Include(l => l.Langue)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
@@ -86,7 +86,7 @@ namespace VLISSIDES.Controllers
                             break;
                         case "categorie":
                             livresRecherches = livresRecherches
-                            .Where(livre => livre.LivreCategories.Any(lc => Regex.IsMatch(lc.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                            .Where(livre => livre.Categories.Any(lc => Regex.IsMatch(lc.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
                             .ToList();
                             break;
                         case "maisonEdition":
@@ -169,7 +169,7 @@ namespace VLISSIDES.Controllers
 
             Livre? monLivre = _context.Livres
                     .Include(l => l.LivreAuteurs)
-                    .Include(l => l.LivreCategories)
+                    .Include(l => l.Categories)
                     .Include(l => l.Langue)
                     .Include(l => l.Evaluations)
                     .Include(l => l.MaisonEdition)
@@ -190,7 +190,7 @@ namespace VLISSIDES.Controllers
                     Id = monLivre.Id,
                     Titre = monLivre.Titre,
                     lAuteur = monLivre.LivreAuteurs.Select(la => la.Auteur).First(),
-                    laCategorie = monLivre.LivreCategories.Select(lc => lc.Categorie).First(),
+                    laCategorie = monLivre.Categories.Select(lc => lc.Categorie).First(),
                     Prix = monLivre.LivreTypeLivres.FirstOrDefault()?.Prix,
                     DatePublication = monLivre.DatePublication,
                     Couverture = monLivre.Couverture,

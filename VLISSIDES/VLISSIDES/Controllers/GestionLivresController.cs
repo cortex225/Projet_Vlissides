@@ -51,7 +51,7 @@ public class GestionLivresController : Controller
         //Prendre tous les livres
         List<Livre> livres = await _context.Livres
             .Include(l => l.LivreAuteurs)
-            .Include(l => l.LivreCategories)
+            .Include(l => l.Categories)
             .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
@@ -83,7 +83,7 @@ public class GestionLivresController : Controller
                         break;
                     case "categorie":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.LivreCategories.Select(lc => lc.Categorie).First().Nom, listMotCles[i], RegexOptions.IgnoreCase))
+                        .Where(livre => Regex.IsMatch(livre.Categories.Select(lc => lc.Categorie).First().Nom, listMotCles[i], RegexOptions.IgnoreCase))
                         .ToList();
                         break;
                     case "maisonEdition":
@@ -135,7 +135,7 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => l.LivreCategories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
@@ -184,7 +184,7 @@ public class GestionLivresController : Controller
         //Prendre tous les livres
         List<Livre> livres = await _context.Livres
             .Include(l => l.LivreAuteurs)
-            .Include(l => l.LivreCategories)
+            .Include(l => l.Categories)
             .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
@@ -216,7 +216,7 @@ public class GestionLivresController : Controller
                         break;
                     case "categorie":
                         livres = livres
-                        .Where(livre => livre.LivreCategories.Any(lc => Regex.IsMatch(lc.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                        .Where(livre => livre.Categories.Any(lc => Regex.IsMatch(lc.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
                         .ToList();
                         break;
                     case "maisonEdition":
@@ -267,7 +267,7 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => l.LivreCategories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
@@ -441,7 +441,7 @@ public class GestionLivresController : Controller
             .Include(l => l.LivreAuteurs)
             .Include(l => l.LivreTypeLivres)
             .Include(l => l.Langue)
-            .Include(l => l.LivreCategories)
+            .Include(l => l.Categories)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
         var vm = new ModifierVM
@@ -554,7 +554,7 @@ public class GestionLivresController : Controller
                 .Include(l => l.LivreAuteurs)
                 .Include(l => l.LivreTypeLivres)
                 .Include(l => l.Langue)
-                .Include(l => l.LivreCategories)
+                .Include(l => l.Categories)
                 .FirstOrDefaultAsync(x => x.Id == vm.Id);
 
             //Changement des donn�es

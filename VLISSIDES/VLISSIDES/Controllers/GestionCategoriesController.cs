@@ -24,7 +24,7 @@ namespace VLISSIDES.Controllers
         public ActionResult Index(string? motCle)
         {
             var vm = new CategoriesIndexVM();
-            var liste = _context.Categories.Include(c => c.Livres).Include(c => c.Enfants)
+            var liste = _context.Categories.Include(c => c.Livres).Include(lc => lc.Livres).Include(c => c.Enfants)
                 .OrderBy(c => c.Nom).ToList();
 
             if (motCle != null && motCle != "")
