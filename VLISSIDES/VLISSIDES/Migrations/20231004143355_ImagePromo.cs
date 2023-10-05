@@ -5,128 +5,120 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VLISSIDES.Migrations
 {
-    public partial class LivreTypeLivres2 : Migration
+    public partial class ImagePromo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<double>(
-                name: "Prix",
-                table: "LivreTypeLivres",
-                type: "float",
-                nullable: true,
-                oldClrType: typeof(double),
-                oldType: "float");
+            migrationBuilder.AddColumn<string>(
+                name: "Image",
+                table: "Promotions",
+                type: "nvarchar(max)",
+                nullable: true);
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "0",
                 column: "ConcurrencyStamp",
-                value: "24b126ed-2c28-45a9-973a-3d96af07e30f");
+                value: "de3850b9-d558-4479-b531-f3e9c74808f9");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "1",
                 column: "ConcurrencyStamp",
-                value: "aab353fc-cc87-4569-bafc-4f7624c23315");
+                value: "b15e2e47-5aae-4717-a676-db8ab3c44bde");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "2",
                 column: "ConcurrencyStamp",
-                value: "ee59798f-83ae-4b2f-8be7-407707681bc4");
+                value: "e950c7a4-f4e8-4f01-951a-61f68e73748a");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "0",
                 columns: new[] { "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { "1440bbff-8661-4cfc-9b51-f9030bbcb018", "93d8f2cf-dc17-4fb3-8d28-29071fbd223f" });
+                values: new object[] { "92b38c8a-c15a-43b1-927b-d318f5e0dce5", "159cde48-c53b-4966-850b-1759c072f769" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "1",
                 columns: new[] { "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { "b124c5ec-7bab-437b-874c-ac6ebe259d91", "46c752bc-e6fc-4f6a-b65f-740a6d889b8d" });
+                values: new object[] { "f72e5300-3e1b-4304-9bc1-1381137ea165", "16177580-58d8-4aa9-a675-9e44cdc68874" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "2",
                 columns: new[] { "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { "9705df8b-1696-481a-adb0-5f5cccc6fca6", "d15cfe19-94ed-4e2b-8d73-ba2f5056acbf" });
+                values: new object[] { "a6686317-fd70-45c1-bcb0-058f0a78e75a", "df8d975a-e2ae-4fce-a3e4-18f0a10043f2" });
 
             migrationBuilder.UpdateData(
                 table: "Membres",
                 keyColumn: "Id",
                 keyValue: "2",
                 column: "DateAdhesion",
-                value: new DateTime(2023, 9, 25, 11, 30, 22, 625, DateTimeKind.Local).AddTicks(8445));
+                value: new DateTime(2023, 10, 4, 10, 33, 55, 545, DateTimeKind.Local).AddTicks(7710));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<double>(
-                name: "Prix",
-                table: "LivreTypeLivres",
-                type: "float",
-                nullable: false,
-                defaultValue: 0.0,
-                oldClrType: typeof(double),
-                oldType: "float",
-                oldNullable: true);
+            migrationBuilder.DropColumn(
+                name: "Image",
+                table: "Promotions");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "0",
                 column: "ConcurrencyStamp",
-                value: "d659b77b-c1d8-4063-86e5-bbb18a4891e9");
+                value: "4910edcf-6fc2-4cd7-b9ce-ffaee11b533e");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "1",
                 column: "ConcurrencyStamp",
-                value: "eeb4aef4-7114-4313-a1c3-d703ad000d93");
+                value: "7e16c664-2fe5-4924-9052-a9611fc794e3");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "2",
                 column: "ConcurrencyStamp",
-                value: "9abf0d25-e64b-452d-a7a5-a36df918cab3");
+                value: "7b23abe8-eb3e-4f5c-bbf4-e24407e12d0d");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "0",
                 columns: new[] { "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { "fe9204e6-52ae-4371-b433-ab92c0ec878e", "4fa6358d-9256-4ca5-94fe-95700c2a76d1" });
+                values: new object[] { "66d47519-5a4c-4c82-a798-ebcf5cfa9ecb", "5002e832-5a22-47fd-9e93-7a718edc459d" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "1",
                 columns: new[] { "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { "bf500b87-af28-4705-b2bb-eeaea6fb44c2", "499b76ed-5dd9-477e-b078-ad13bda3eff4" });
+                values: new object[] { "b519160a-a143-4a7d-896b-37d799e4c28d", "d4fc4d46-02d2-4f5d-9580-64d5739741c1" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "2",
                 columns: new[] { "ConcurrencyStamp", "SecurityStamp" },
-                values: new object[] { "e29cac18-a0d1-485d-b172-eb3742ca2ea9", "d98706f8-1198-456a-9906-0f53baf43d1e" });
+                values: new object[] { "ec38ca0f-4024-4419-92a4-2247c26a9cb0", "13fef344-bdcb-44fb-a39a-e574ff4914e9" });
 
             migrationBuilder.UpdateData(
                 table: "Membres",
                 keyColumn: "Id",
                 keyValue: "2",
                 column: "DateAdhesion",
-                value: new DateTime(2023, 9, 25, 11, 21, 43, 738, DateTimeKind.Local).AddTicks(8683));
+                value: new DateTime(2023, 10, 3, 11, 14, 33, 930, DateTimeKind.Local).AddTicks(6170));
         }
     }
 }
