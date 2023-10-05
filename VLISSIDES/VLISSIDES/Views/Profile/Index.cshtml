@@ -13,22 +13,24 @@
         <div class="col-lg-3">
             <div class="card position-sticky top-1">
                 <ul class="nav flex-column bg-white border-radiusalign-content-lg-around p-3">
+                    <span class="text-center">Profile</span><hr />
                     <li class="nav-item">
+
                         <a class="nav-link text-dark d-flex profile-btn" onclick="showProfileInformation()">
                             <i class="material-icons text-lg-center me-2">person</i>
-                            <span class="text-sm">Profile</span>
+                            <span class="text-sm">Information de base</span>
                         </a>
                     </li>
                     <li class="nav-item pt-2">
                         <a class="nav-link text-dark d-flex profile-btn" onclick="showProfilePassword()">
                             <i class="material-icons text-lg-center me-2" >person</i>
-                            <span class="text-sm">Profile</span>
+                            <span class="text-sm">Modification de mot de passe</span>
                         </a>
                     </li>
                     <li class="nav-item pt-2">
-                        <a class="nav-link text-dark d-flex profile-btn">
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showProfileAdresses()">
                             <i class="material-icons text-lg-center me-2">person</i>
-                            <span class="text-sm">Profile</span>
+                            <span class="text-sm">Adresses</span>
                         </a>
                     </li>
                 </ul>
@@ -45,6 +47,7 @@
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 </script>
 <script>
+    //Le script avec des fonctions pour montrer les vues partiels dépendamment du bouton cliqué.
     function showProfileInformation(){
         fetch(BASE_URL+"/Profile/ModifierInformation", {
             method: "GET",
@@ -63,5 +66,29 @@
             document.getElementById("ModifierProfile").innerHTML = result;
         })
     }
+    function showProfileAdresses(){
+        fetch(BASE_URL + "/Profile/ModifierAdresses", {
+            method:"GET",
+        }).then((response)=>{
+            return response.text();
+        }).then((result)=>{
+            document.getElementById("ModifierProfile").innerHTML = result;
+        })
+    }
 
+</script>
+<script type="text/javascript">
+    //Script pour Modifier le mot de passe
+    function ProfileModifierPassword() {
+        var form = document.getElementById("PasswordForm");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/Profile/ModifierPassword", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            document.getElementById("ModifierProfile").innerHTML = result;
+        });
+    }
 </script>

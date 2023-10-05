@@ -44,6 +44,8 @@ namespace VLISSIDES.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var user = _userManager.FindByIdAsync(userId).Result;
+
+
             var vm = new ProfileModifierInformationVM
             {
                 Prenom = user.Prenom,
@@ -96,7 +98,7 @@ namespace VLISSIDES.Controllers
         [Route("{controller}/{action}")]
         public IActionResult ModifierPassword()
         {
-            var vm = new ProfilePasswordVM()
+            var vm = new ProfileModifierPasswordVM()
             {
                 Id = _userManager.GetUserId(HttpContext.User)
             };
@@ -105,7 +107,7 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         [Route("2167594/Profile/ModifierPassword")]
         [Route("{controller}/{action}")]
-        public IActionResult ModifierPassword(ProfilePasswordVM vm)
+        public IActionResult ModifierPassword(ProfileModifierPasswordVM vm)
         {
             if (ModelState.IsValid)
             {
@@ -128,6 +130,14 @@ namespace VLISSIDES.Controllers
 
             }
             return PartialView("PartialViews/Profile/_ModifierPasswordPartial", vm);
+        }
+        public IActionResult ModifierAdresses()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var user = _userManager.FindByIdAsync(userId).Result;
+
+
+            return PartialView();
         }
     }
 }
