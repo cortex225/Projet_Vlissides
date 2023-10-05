@@ -21,7 +21,7 @@ namespace VLISSIDES.Controllers
         }
 
         // GET: RechercheController
-        [Route("2167594/Recherche/Index")]
+        [Route("2147186/Recherche/Index")]
         [Route("{controller}/{action}")]
         public ActionResult Index(string? motCles, string? criteres)
         {
@@ -165,6 +165,8 @@ namespace VLISSIDES.Controllers
         [Route("/Recherche/Details")]
         public ActionResult Details(string id)
         {
+            List<TypeLivre> listTypeLivres = _context.TypeLivres.ToList();
+
             Livre? monLivre = _context.Livres
                     .Include(l => l.Auteur)
                     .Include(l => l.Categorie)
@@ -197,7 +199,7 @@ namespace VLISSIDES.Controllers
                     Resume = monLivre.Resume,
                     NbExemplaires = monLivre.NbExemplaires,
                     LivreTypeLivres = monLivre.LivreTypeLivres,
-
+                    listTypeLivres = listTypeLivres
                 };
             }
 
