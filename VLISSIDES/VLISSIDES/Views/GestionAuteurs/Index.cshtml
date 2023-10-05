@@ -101,7 +101,7 @@
     function AfficherListe() {
         var motCle = document.getElementById("inputRechercherAuteur").value;
         if (motCle == null && motCle == "") {
-            fetch(BASE_URL + 'GestionAuteurs/AfficherListe', {
+            fetch(BASE_URL + '/GestionAuteurs/AfficherListe', {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -115,7 +115,7 @@
                 div.innerHTML = result;
             });
         }else{
-            fetch(BASE_URL+'GestionAuteurs/AfficherListe?motCle=' + motCle, {
+            fetch(BASE_URL+'/GestionAuteurs/AfficherListe?motCle=' + motCle, {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -140,7 +140,7 @@
         var data = new FormData(form);
 
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch(BASE_URL + 'GestionAuteurs/Ajouter', {
+        fetch(BASE_URL + '/GestionAuteurs/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -172,7 +172,7 @@
     <!--Script pour Modifier-->
     <script type="text/javascript">
         function ModifierAuteur(id = "", nom = "") {
-        fetch(BASE_URL+'GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch(BASE_URL+'/GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -186,7 +186,7 @@
     <!--Script pour la supprimation-->
     <script type="text/javascript">
             function SupprimerAuteur(id = "") {
-        fetch(BASE_URL+`GestionAuteurs/SupprimerAuteur?id=${id}`, {
+        fetch(BASE_URL+`/GestionAuteurs/SupprimerAuteur?id=${id}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

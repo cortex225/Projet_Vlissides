@@ -176,7 +176,7 @@
         var data = new FormData(form);
 
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch(BASE_URL + 'GestionLivres/Modifier', {
+        fetch(BASE_URL + '/GestionLivres/Modifier', {
             method: "POST",
             body: data
             // headers: {
@@ -201,7 +201,7 @@
         });
     }
     function AfficherLivres() {
-        fetch(BASE_URL + "GestionLivres/AfficherLivres", {
+        fetch(BASE_URL + "/GestionLivres/AfficherLivres", {
             method: "GET"
         }).then((response) => {
             return response.text();

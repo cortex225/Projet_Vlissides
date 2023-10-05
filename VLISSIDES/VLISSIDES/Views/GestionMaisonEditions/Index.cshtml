@@ -92,7 +92,7 @@
         var motCle = document.getElementById("inputRechercherMaison").value;
         console.log("Mot entré: " + motCle);
         if (motCle == null && motCle == "") {
-            fetch(BASE_URL+'GestionMaisonEditions/AfficherListe', {
+            fetch(BASE_URL+'/GestionMaisonEditions/AfficherListe', {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -106,7 +106,7 @@
                 div.innerHTML = result;
             });
         } else {
-            fetch(BASE_URL+'GestionMaisonEditions/AfficherListe?motCle=' + motCle, {
+            fetch(BASE_URL+'/GestionMaisonEditions/AfficherListe?motCle=' + motCle, {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
@@ -131,7 +131,7 @@
         var data = new FormData(form);
         
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch(BASE_URL+'GestionMaisonEditions/Ajouter', {
+        fetch(BASE_URL+'/GestionMaisonEditions/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -163,7 +163,7 @@
 <script type="text/javascript">
     function ModifierMaison(id = "",nom = "")
     {
-        fetch(BASE_URL+'GestionMaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch(BASE_URL+'/GestionMaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -176,7 +176,7 @@
 <!--Script pour la suppression-->
 <script type="text/javascript">
     function SupprimerMaisonEdition(id = "") {
-        fetch(BASE_URL+`GestionMaisonEditions/SupprimerMaison?id=${id}`, {
+        fetch(BASE_URL+`/GestionMaisonEditions/SupprimerMaison?id=${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
