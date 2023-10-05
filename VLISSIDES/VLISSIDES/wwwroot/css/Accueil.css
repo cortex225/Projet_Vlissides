@@ -4,7 +4,10 @@
     background-size: cover;
     overflow: hidden;
     height: 90vh;
+    color: #2f2e3f;
+    width: 100%;
 }
+
 
 #Titre {
     margin-top: 10%;
