@@ -8,6 +8,10 @@
 
         public Livre Livre { get; set; } = default!;
 
+        public string TypeId { get; set; } = default!;
+
+        public TypeLivre TypeLivre { get; set; } = default!;
+
         public string? UserId { get; set; }
         public ApplicationUser? User { get; set; }
 

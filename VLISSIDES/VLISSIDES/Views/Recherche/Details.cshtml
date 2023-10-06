@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="~/css/Details.css">
 <div id="detailsDivPrincipal">
+    <input type="hidden" id="viewModelId" name="viewModelId" value="@Model.Id" />
     <div id="DetailsDIV">
         <img id="DetailsIMG" src="@Model.Couverture"/>
     </div>
@@ -37,14 +38,17 @@
                 <br />
                 @if (Model.NbExemplaires > 0)
                 {
-                    <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
-                    <div class="btn-group" role="group" aria-label="Basic example">
+                    <form>
+                        @Html.AntiForgeryToken()
+                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                        <div class="btn-group" role="group" aria-label="Basic example">
 
-                        <a href="#" class="btn btn-primary btnPanier">
-                            <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
-                        </a>
-                        <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
-                    </div>
+                            <a id="ajouterNeuf" class="btn btn-primary btnPanier">
+                                <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
+                            </a>
+                            <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
+                        </div>
+                    </form>
                 }
                 else
                 {
@@ -53,10 +57,60 @@
             }
             @if (t.TypeLivreId == "2")//2 = "Numérique"
             {
-                <a href="#" class="btn btn-primary btnPanier">
-                    <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
-                </a>
+                <form>
+                    @Html.AntiForgeryToken()
+                    <a href="#" id="ajouterNumerique" class="btn btn-primary btnPanier">
+                        <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
+                    </a>
+                </form>
             }
         }
     </div>
 </div>
+<script type="text/javascript">
+    console.log("Celeri");
+
+    var ajouterNeuf = document.getElementById("ajouterNeuf");
+
+    ajouterNeuf.addEventListener("click", ajouterLivreNeufDetails);
+
+    var quantitee = document.getElementById("quantite").value;
+
+    var viewModelId = document.getElementById("viewModelId").value;
+    
+    console.log("Tomate");
+
+    async function ajouterLivreNeufDetails(){
+        console.log("Patate");
+
+        var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        fetch('/Panier/AjouterPanier', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': csrfToken
+            },
+            body: JSON.stringify({
+                livreAjouteId: viewModelId,
+                quantitee: quantitee,
+                typeId: 1
+            })
+        })
+        .then(response => {
+            // Vérifier si la réponse est au format JSON
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+                // Traiter les données JSON
+                console.log(data);
+        })
+        .catch(error => {
+            // Gérer les erreurs
+            console.error("Erreur lors de la requête FETCH:", error);
+        });
+    }
+</script>
