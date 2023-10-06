@@ -37,7 +37,7 @@
             <div class="col-sm-auto col-8 my-auto">
                 <div class="h-100">
                     <h5 class="mb-1 font-weight-bolder">
-                        @Model.NomUtilisateur
+                        @UserManager.GetUserAsync(User).Result.UserName
                     </h5>
                     <p class="mb-0 font-weight-normal text-sm">
                         @* CEO / Co-Founder *@
@@ -166,7 +166,7 @@
                         </div>
                     } *@
                     <div class="col-md">
-                        <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="submit" @* onclick="ProfileInformationEnregistrer()" *@>
+                        <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="button"  onclick="ProfileInformationEnregistrer()"  >
                             Enregistrer les changements
                         </button>
                     </div>
@@ -176,7 +176,7 @@
         </div>
     </div>
 </form>
-@*  <script>
+   <script>
     function ProfileInformationEnregistrer(){
         var form = document.getElementById("updateProfileForm");
         var data = new FormData(form);
@@ -186,10 +186,12 @@
         }).then((response)=>{
             return response.text();
         }).then((result)=>{
-            document.getElementById("ModifierProfile").innerHTML = result;
+            document.querySelector("body").innerHTML = result;
+            //document.getElementById("ModifierProfile").innerHTML = result;
+            
         });
     }
-</script>  *@
+</script>  
 @* <script>
   function triggerFileInput() {
       document.getElementById("customFile").click();

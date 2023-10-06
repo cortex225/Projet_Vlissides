@@ -10,7 +10,7 @@ public class Adresse
     [DisplayName("Numéro civique")] public string NoCivique { get; set; } = default!;
 
     [DisplayName("Rue")] public string Rue { get; set; } = default!;
-
+    [DisplayName("Numéro apartement")] public string NoApartement { get; set; } = default!;
     [DisplayName("Ville")] public string Ville { get; set; } = default!;
 
     [DisplayName("Province")] public string Province { get; set; } = default!;

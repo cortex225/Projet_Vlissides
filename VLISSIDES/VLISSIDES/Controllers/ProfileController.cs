@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Profile;
@@ -63,6 +64,7 @@ namespace VLISSIDES.Controllers
         [Route("{controller}/{action}")]
         public IActionResult ModifierInformation(ProfileModifierInformationVM vm)
         {
+            var indexVM = new ProfileIndexVM { ProfileModifierInformationVM = vm };
             if (_context.Users.FirstOrDefault(u => u.UserName == vm.NomUtilisateur) != null)
             {
                 ModelState.AddModelError("NomUtilisateur", "Le nom d'utilisateur est déjà pris");
@@ -89,10 +91,10 @@ namespace VLISSIDES.Controllers
 
                 }
 
-
-                return RedirectToAction("Index");
+                return View("Index", indexVM);
             }
-            return View(vm);
+
+            return View("Index", indexVM);
         }
         [Route("2167594/Profile/ModifierPassword")]
         [Route("{controller}/{action}")]
@@ -134,13 +136,38 @@ namespace VLISSIDES.Controllers
         public IActionResult ModifierAdresses()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var user = _userManager.FindByIdAsync(userId).Result;
-            var vm = new ProfileModifierAdressesVM
+            //var user = _userManager.FindByIdAsync(userId).Result;
+            var user = _context.Users.Include(x => x.AdressePrincipale).FirstOrDefault(u => u.Id == userId);
+            ProfileModifierAdressesVM vm;
+            if (user.AdressePrincipale != null)
             {
-                Id = user.Id,
-                AdressePrincipale = user.AdressePrincipale,
-                AdressesDeLivraison = user.AdressesLivraison != null ? user.AdressesLivraison.ToList() : null
-            };
+                vm = new ProfileModifierAdressesVM
+                {
+                    Id = user.Id,
+                    //AdressePrincipale = user.AdressePrincipale,
+                    NoCivique = user.AdressePrincipale.NoCivique,
+                    Rue = user.AdressePrincipale.Rue,
+                    CodePostal = user.AdressePrincipale.CodePostal,
+                    Pays = user.AdressePrincipale.Pays,
+                    Province = user.AdressePrincipale.Province,
+                    Ville = user.AdressePrincipale.Ville,
+
+
+                };
+                if (user.AdressePrincipale.NoApartement != null)
+                {
+                    vm.NoApartement = user.AdressePrincipale.NoApartement;
+                }
+            }
+            else
+            {
+                vm = new ProfileModifierAdressesVM() { Id = user.Id };
+            }
+
+            if (user.AdressesLivraison != null)
+            {
+                vm.AdressesDeLivraison = user.AdressesLivraison.ToList();
+            }
 
             return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
         }
@@ -149,25 +176,43 @@ namespace VLISSIDES.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
-                if (user != null)
+                var user = _context.Users.Include(u => u.AdressePrincipale)
+                    .FirstOrDefault(u => u.Id == vm.Id);
+                if (user.AdressePrincipale == null)
                 {
+                    var id = Guid.NewGuid().ToString();
                     user.AdressePrincipale = new Adresse
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        NoCivique = vm.AdressePrincipale.NoCivique,
-                        Rue = vm.AdressePrincipale.Rue,
-                        CodePostal = vm.AdressePrincipale.CodePostal,
-                        Ville = vm.AdressePrincipale.Ville,
-                        Province = vm.AdressePrincipale.Province,
-                        Pays = vm.AdressePrincipale.Pays,
+
+                        Id = id,
+                        NoCivique = vm.NoCivique,
+                        Rue = vm.Rue,
+                        NoApartement = vm.NoApartement,
+                        CodePostal = vm.CodePostal,
+                        Ville = vm.Ville,
+                        Province = vm.Province,
+                        Pays = vm.Pays,
 
                     };
+                    user.AdressePrincipaleId = id;
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    user.AdressePrincipale.NoCivique = vm.NoCivique;
+                    user.AdressePrincipale.Rue = vm.Rue;
+                    user.AdressePrincipale.NoApartement = vm.Rue;
+                    user.AdressePrincipale.CodePostal = vm.CodePostal;
+                    user.AdressePrincipale.Ville = vm.Ville;
+                    user.AdressePrincipale.Province = vm.Province;
+                    user.AdressePrincipale.Pays = vm.Pays;
+
+
                     _context.SaveChanges();
                 }
             }
 
-            return PartialView("PartialViews/Profile/_ModifierPasswordPartial", vm);
+            return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
         }
     }
 }
