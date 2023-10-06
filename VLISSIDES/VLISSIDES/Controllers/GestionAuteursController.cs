@@ -21,19 +21,37 @@ public class GestionAuteursController : Controller
         _config = config;
     }
 
-    public async Task<IActionResult> Index(string? motCle)
+    public async Task<IActionResult> Index(string? motCle, int page = 1)
     {
+        var itemsPerPage = 10;
+        var totalItems = await _context.Auteurs.CountAsync();
+        
         var vm = new AuteursIndexVM();
         vm.AuteursAjouterVM = new AuteursAjouterVM { NomAuteur = "" };
         List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre)
-            .Include(la => la.Livres).ToList();
+            .Include(la => la.Livres)
+            .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+            .Take(itemsPerPage)
+            .ToList();
 
         if (motCle != null && motCle != "")
             liste = liste
                 .Where(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                .Take(itemsPerPage)
                 .ToList();
+        
+        
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+
 
         vm.ListeAuteurs = liste;
+        
         return View(vm);
     }
 
@@ -42,16 +60,33 @@ public class GestionAuteursController : Controller
         return Json(listLivre);
     }
 
-    public async Task<IActionResult> AfficherListe(string? motCle)
+    public async Task<IActionResult> AfficherListe(string? motCle,int page = 1)
     {
+
+        var itemsPerPage = 10;
+        var totalItems = await _context.Auteurs.CountAsync();
+        
         var vm = new AuteursIndexVM();
         vm.AuteursAjouterVM = new AuteursAjouterVM();
         var liste = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre).Include(la => la.Livres)
-            .OrderBy(a => a.NomAuteur).ToList();
+            .OrderBy(a => a.NomAuteur)
+            .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+            .Take(itemsPerPage)
+            .ToList();
         if (motCle != null && motCle != "")
             liste = liste
                 .Where(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                .Take(itemsPerPage)
                 .ToList();
+        
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+        
         vm.ListeAuteurs = liste;
         return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial", vm);
     }
