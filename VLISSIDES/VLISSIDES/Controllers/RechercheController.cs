@@ -183,8 +183,8 @@ public class RechercheController : Controller
             {
                 Id = monLivre.Id,
                 Titre = monLivre.Titre,
-                lAuteur = monLivre.LivreAuteurs.Select(la => la.Auteur).First(),
-                laCategorie = monLivre.Categories.Select(lc => lc.Categorie).First(),
+                Auteurs = monLivre.LivreAuteurs.Select(la => la.Auteur).First(),
+                Categories = monLivre.Categories.Select(lc => lc.Categorie).First(),
                 Prix = monLivre.LivreTypeLivres.FirstOrDefault()?.Prix,
                 DatePublication = monLivre.DatePublication,
                 Couverture = monLivre.Couverture,

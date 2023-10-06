@@ -61,7 +61,7 @@
                             <option value="">Sélectionnez...</option>
                             @foreach (var categorie in Model.ListeCategories)
                             {
-                                <option value="@categorie.Nom">@categorie.Nom</option>
+                                <option value="@categorie">@categorie</option>
                             }
                         </select>
                     </div>
@@ -71,7 +71,7 @@
                             <option value="">Sélectionnez...</option>
                             @foreach (var langue in Model.ListeLangues)
                             {
-                                <option value="@langue.Nom">@langue.Nom</option>
+                                <option value="@langue">@langue</option>
                             }
                         </select>
                     </div>
@@ -89,7 +89,7 @@
                             <option value="">Sélectionnez...</option>
                             @foreach (var type in Model.ListeTypeLivres)
                             {
-                                <option value="@type.Nom">@type.Nom</option>
+                                <option value="@type">@type</option>
                             }
                         </select>
                     </div>
