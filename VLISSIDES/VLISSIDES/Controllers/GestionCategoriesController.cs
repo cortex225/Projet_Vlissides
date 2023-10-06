@@ -25,7 +25,7 @@ public class GestionCategoriesController : Controller
     public async Task<ActionResult> Index(string? motCle, int page = 1)
     {
         var itemsPerPage = 10;
-        var totalItems = await _context.Auteurs.CountAsync();
+        var totalItems = await _context.Categories.CountAsync();
         
         var vm = new CategoriesIndexVM();
         var liste = _context.Categories.Include(c => c.Livres).ThenInclude(lc => lc.Livre).Include(c => c.Enfants)
