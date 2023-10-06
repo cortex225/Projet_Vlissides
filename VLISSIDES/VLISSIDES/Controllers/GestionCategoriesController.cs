@@ -22,17 +22,31 @@ public class GestionCategoriesController : Controller
         _config = config;
     }
 
-    public ActionResult Index(string? motCle)
+    public async Task<ActionResult> Index(string? motCle, int page = 1)
     {
+        var itemsPerPage = 10;
+        var totalItems = await _context.Auteurs.CountAsync();
+        
         var vm = new CategoriesIndexVM();
         var liste = _context.Categories.Include(c => c.Livres).ThenInclude(lc => lc.Livre).Include(c => c.Enfants)
-            .OrderBy(c => c.Nom).ToList();
+            .OrderBy(c => c.Nom)
+            .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+            .Take(itemsPerPage)
+            .ToList();
 
         if (motCle != null && motCle != "")
             liste = liste
                 .Where(categorie => Regex.IsMatch(categorie.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                .Take(itemsPerPage)
                 .ToList();
 
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
         vm.ListeCategories = liste;
         return View(vm);
