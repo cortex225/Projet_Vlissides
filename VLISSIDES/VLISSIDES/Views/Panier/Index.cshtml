@@ -99,18 +99,13 @@
     fieldDonEco = document.getElementById("prixDonEco");
     prixTotal = document.getElementById("prixTotal");
 
-
     function changerPrixDon() {
         if (cbDonEco.checked) {
             fieldDonEco.innerText = "+5$";
-            console.log((prixTotal.innerText).replace(',', '.'));
-            console.log(parseFloat(prixTotal.innerText) + 5);
             prixTotal.innerText = (parseFloat((prixTotal.innerText).replace(',', '.')) + 5.0).toFixed(2).toString().replace('.', ',');
             
         } else {
             fieldDonEco.innerText = "";
-            console.log(parseFloat((prixTotal.innerText).replace(',', '.')));
-            console.log(parseFloat(prixTotal.innerText) - 5);
             prixTotal.innerText = (parseFloat((prixTotal.innerText).replace(',', '.')) - 5.0).toFixed(2).toString().replace('.', ',');
             
         }
