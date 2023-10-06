@@ -4,6 +4,6 @@
     {
         public string? livreAjouteId { get; set; }
         public int? quantitee { get; set; }
-        public int? typeId { get; set; }
+        public string? typeId { get; set; }
     }
 }

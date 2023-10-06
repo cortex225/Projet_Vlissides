@@ -4,6 +4,7 @@ using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Panier;
 using VLISSIDES.ViewModels.Livres;
+using System.Security.Claims;
 
 namespace VLISSIDES.Controllers
 {
@@ -36,10 +37,29 @@ namespace VLISSIDES.Controllers
         //[Route("{controller}/{action}")]
         public async Task<IActionResult> AjouterPanier([FromBody]AjouterPanierVM vm)
         {
-            var userId = _userManager.GetUserId(HttpContext.User);
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             ApplicationUser? user = _userManager.FindByIdAsync(userId).Result;
 
             TypeLivre? type = _context.TypeLivres.Find(vm.typeId);
+
+            Livre? livre = _context.Livres.Find(vm.livreAjouteId);
+
+            LivrePanier lp = new LivrePanier();
+
+            if (livre != null && type != null && user != null)
+            {
+                lp.Livre = livre;
+                lp.TypeLivre = type;
+                lp.Quantite = vm.quantitee;
+                lp.User = user;
+
+                if (user.Panier == null)
+                {
+                    user.Panier = new List<LivrePanier>();
+                }
+
+                _context.LivrePanier.Add(lp);
+            }
 
             return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
         }

@@ -15,6 +15,6 @@
         public string? UserId { get; set; }
         public ApplicationUser? User { get; set; }
 
-        public int Quantite { get; set; } = default!;
+        public int? Quantite { get; set; } = default!;
     }
 }
