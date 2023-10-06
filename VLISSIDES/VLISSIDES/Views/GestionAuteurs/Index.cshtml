@@ -103,10 +103,11 @@
 
 <!--Script pour liste-->
 <script type="text/javascript">
-    function AfficherListe() {
+    function AfficherListe(page=@ViewBag.CurrentPage) {
+       
         var motCle = document.getElementById("inputRechercherAuteur").value;
         if (motCle == null && motCle == "") {
-            fetch(BASE_URL + '/GestionAuteurs/AfficherListe', {
+            fetch(BASE_URL + '/GestionAuteurs/AfficherListe?page='+page, {
                 method: "GET"
             }).catch(error => {
                 console.error('Échec du fetch pour afficher liste', error);
