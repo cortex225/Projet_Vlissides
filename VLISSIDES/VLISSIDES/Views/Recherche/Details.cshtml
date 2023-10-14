@@ -68,22 +68,23 @@
     </div>
 </div>
 <script type="text/javascript">
-
     var ajouterNeuf = document.getElementById("ajouterNeuf");
-
-    ajouterNeuf.addEventListener("click", ajouterLivreNeufDetails);
-
+    if (ajouterNeuf) {
+        ajouterNeuf.addEventListener("click", ajouterLivreNeufDetails);
+    }
     var ajouterNumerique = document.getElementById("ajouterNumerique");
 
-    ajouterNumerique.addEventListener("click", ajouterLivreNumeriqueDetails);
-
-    var quantitee = document.getElementById("quantite").value;
-
-    var viewModelId = document.getElementById("viewModelId").value;
+    if (ajouterNumerique) {
+        ajouterNumerique.addEventListener("click", ajouterLivreNumeriqueDetails);
+    }
 
     async function ajouterLivreNeufDetails(){
 
         var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        var quantitee = document.getElementById("quantite").value;
+
+        var viewModelId = document.getElementById("viewModelId").value;
 
         fetch('/Panier/AjouterPanier', {
             method: 'POST',
@@ -118,6 +119,8 @@
 
         var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
+        var viewModelId = document.getElementById("viewModelId").value;
+
         fetch('/Panier/AjouterPanier', {
             method: 'POST',
             headers: {
@@ -126,6 +129,7 @@
             },
             body: JSON.stringify({
                 livreAjouteId: viewModelId,
+                quantitee: null,
                 typeId: "2"
             })
         })

@@ -38,27 +38,67 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> AjouterPanier([FromBody]AjouterPanierVM vm)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ApplicationUser? user = _userManager.FindByIdAsync(userId).Result;
+            ApplicationUser? user = await _userManager.FindByIdAsync(userId);
 
-            TypeLivre? type = _context.TypeLivres.Find(vm.typeId);
+            TypeLivre? type = await _context.TypeLivres.FindAsync(vm.typeId);
 
-            Livre? livre = _context.Livres.Find(vm.livreAjouteId);
+            Livre? livre = await _context.Livres.FindAsync(vm.livreAjouteId);
 
             LivrePanier lp = new LivrePanier();
 
             if (livre != null && type != null && user != null)
             {
-                lp.Livre = livre;
-                lp.TypeLivre = type;
+                await _context.Entry(user)
+                    .Collection(u => u.Panier)
+                    .LoadAsync();
+
+                lp.LivreId = livre.Id;
+                lp.TypeId = type.Id;
                 lp.Quantite = vm.quantitee;
-                lp.User = user;
+                lp.UserId = user.Id;
+
+                bool siExiste = false;
 
                 if (user.Panier == null)
                 {
                     user.Panier = new List<LivrePanier>();
                 }
 
-                _context.LivrePanier.Add(lp);
+                foreach (LivrePanier livrePanier in user.Panier)
+                {
+                    if (livrePanier.LivreId == vm.livreAjouteId)
+                    {
+                        if (livrePanier.TypeId == "2")//Vérifier si le livre numérique est déja ajouté (peux pas l'ajouter deux fois)
+                        {
+                            siExiste = true;
+                        }
+                        else if (livrePanier.TypeId == "1")
+                        {
+                            siExiste = true;
+
+                            if (livre.NbExemplaires > livrePanier.Quantite)//Voir si il y reste des livres en stock
+                            {
+                                //Ajouter ce que le client commande au reste des livres 
+                                if (livre.NbExemplaires > (vm.quantitee + livrePanier.Quantite))
+                                {
+                                    livrePanier.Quantite += vm.quantitee;
+                                    await _context.SaveChangesAsync();
+                                }
+                                else //Prendre tous les livres
+                                {
+                                    livrePanier.Quantite = livre.NbExemplaires;
+                                    await _context.SaveChangesAsync();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!siExiste)
+                {
+                    _context.LivrePanier.Add(lp);
+                    await _context.SaveChangesAsync();
+                }
             }
 
             return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
