@@ -3,9 +3,9 @@
     flex-direction: row;
 }
 
-    #detailsDivPrincipal * {
-        margin: 12px;
-    }
+#detailsDivPrincipal * {
+    margin: 12px;
+}
 
 #checkboxTypeLivre {
     display: flex;

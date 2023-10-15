@@ -1,0 +1,51 @@
+<nav aria-label="NavBar Pagination">
+    <ul class="pagination">
+
+        <!-- Bouton Précédent -->
+        <li class="page-item @(ViewBag.CurrentPage <= 1 ? "disabled" : "")">
+            <a class="page-link" href="javascript:void(0);" onclick="AfficherListe(@(ViewBag.CurrentPage - 1))">Précédent</a>
+        </li>
+
+        <!-- Si la page courante est plus grande que 3, affiche la première page et des points de suspension -->
+        @if (ViewBag.CurrentPage > 3)
+        {
+            <li class="page-item">
+                <a class="page-link" href="javascript:void(0);" onclick="AfficherListe(1)">1</a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+        }
+
+        <!-- Boutons Numérotés -->
+        @for (var i = Math.Max(1, ViewBag.CurrentPage - 2); i <= Math.Min(ViewBag.TotalPages, ViewBag.CurrentPage + 2); i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link btn @(i == ViewBag.CurrentPage ? "btn-primary" : "")" href="javascript:void(0);" onclick="AfficherListe(@i)">@i</a>
+            </li>
+        }
+
+        <!-- Si la page courante est plus petite que la page total - 2, affiche des points de suspension et la dernière page -->
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages - 2)
+        {
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="javascript:void(0);" onclick="AfficherListe(@ViewBag.TotalPages)">@ViewBag.TotalPages</a>
+            </li>
+        }
+
+        <!-- Bouton Suivant -->
+        <li class="page-item @(ViewBag.CurrentPage >= ViewBag.TotalPages ? "disabled" : "")">
+            <a class="page-link" href="javascript:void(0);" onclick="AfficherListe(@(ViewBag.CurrentPage + 1))">Suivant</a>
+        </li>
+    </ul>
+</nav>
+
+<!-- Script pour activer les tooltips -->
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

@@ -1,5 +1,4 @@
-﻿@using VLISSIDES.ViewModels.Recherche;
-@model DetailsLivreVM
+﻿@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM
 @{
 }
 
@@ -16,12 +15,15 @@
         <div id="checkboxTypeLivre">
 
         </div>
-        @if(Model.LivreTypeLivres.Count <= 0)
+        @if (Model.LivreTypeLivres.Count <= 0)
         {
-            <p><strong>Aucun Prix</strong></p>
+            <p>
+                <strong>Aucun Prix</strong>
+            </p>
         }
-        else{
-            @foreach (LivreTypeLivre t in Model.LivreTypeLivres)
+        else
+        {
+            @foreach (var t in Model.LivreTypeLivres)
             {
                 @if (t.TypeLivre.Nom == "Neuf")
                 {
@@ -41,7 +43,7 @@
         <strong>Résumé:</strong>
         <p>@Model.Resume</p>
         <br/>
-        @if (@Model.NbExemplaires > 0)
+        @if (Model.NbExemplaires > 0)
         {
             <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
         }

@@ -1,7 +1,11 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+<<<<<<< HEAD
 using Stripe;
 using System.Text.Json.Serialization;
+=======
+>>>>>>> Pagination_V2
 using VLISSIDES.Data;
 using VLISSIDES.Helpers;
 using VLISSIDES.Interfaces;
@@ -11,7 +15,6 @@ using VLISSIDES.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 //Connection JL
 var connectionStringJL = builder.Configuration.GetConnectionString("JLConnection");
 

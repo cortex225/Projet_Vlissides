@@ -15,4 +15,5 @@ public class Promotions
     public string LivreId { get; set; }
 
     public ICollection<Livre>? Livres { get; set; }
+    public string? Image { get; set; }
 }
