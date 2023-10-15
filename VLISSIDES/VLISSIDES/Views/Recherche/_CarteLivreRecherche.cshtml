@@ -1,19 +1,15 @@
 ﻿@{
 }
 @model VLISSIDES.ViewModels.Recherche.DetailsLivreVM;
-
-<div class="item livrePetit livre @*@Model.Categories*@">
-    <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;;">
-        <a asp-area="" asp-controller="Recherche" asp-action="Details" asp-route-id="@Model.Id" method="get"
-           class="imgDiv bg-image hover-overlay ripple card-img-top" data-mdb-ripple-color="light">
-            <img src="@Model.Couverture"
-                 class="card-img-top imgLivre"
-                 alt="Couverture du livre" />
-        </a>
+<div class="item livrePetit livre" onclick="window.location.href=`/Recherche/Details?id=@Model.Id`">
+    <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;">
+        <img src="@Model.Couverture"
+             class="card-img-top imgLivre"
+             alt="Couverture du livre" />
         <div class="card-body">
             <h6 class="card-title">@Model.Titre</h6>
 
-            @if (!(Model.Papier && Model.Numerique))
+            @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
             {
                 <p>
                     <strong>Aucun médium offert</strong>
@@ -21,27 +17,28 @@
             }
             else
             {
-                if (Model.Papier)
+                <p><strong>Prix</strong></p>
+                if (!Model.Papier.Equals(null))
                 {
-                    <p><strong>Prix papier :</strong> @Model.PrixPapier $</p>
+                    <p>papier : @Model.Papier $</p>
                 }
-                if (Model.Numerique)
+                if (!Model.Numerique.Equals(null))
                 {
-                    <p><strong>Prix numérique :</strong> @Model.PrixNumerique $</p>
+                    <p>numérique :@Model.Numerique $</p>
                 }
-            }
             }
 
             <h6>Auteurs: </h6>
             @foreach (var auteur in Model.Auteurs)
             {
-                <p>@auteur</p>
+                <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@auteur" asp-route-criteres="auteur" class="btn btn-secondary btnCategorie">@auteur</a>
+
             }
 
             <h6>Catégories reliées: </h6>
             @foreach (var categorie in @Model.Categories)
             {
-                <a href="#" class="btn btn-secondary btnCategorie">@categorie</a>
+                <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@categorie" asp-route-criteres="categorie" class="btn btn-secondary btnCategorie">@categorie</a>
             }
         </div>
     </div>

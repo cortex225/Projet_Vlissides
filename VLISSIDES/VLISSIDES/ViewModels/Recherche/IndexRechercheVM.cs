@@ -4,7 +4,7 @@ namespace VLISSIDES.ViewModels.Recherche;
 
 public class IndexRechercheVM
 {
-    public string? MotRecherche { get; set; } //Juste le mot clé que l'on va afficher dans le message 
+    public string MotRecherche { get; set; } //Juste le mot clé que l'on va afficher dans le message 
 
     //"Résultat de recherche pour "MotRecherche"
     public List<string> ResultatRecherche { get; set; }
@@ -16,14 +16,20 @@ public class IndexRechercheVM
     public double minPrix { get; set; }
     public double maxPrix { get; set; }
 
-    public IndexRechercheVM(string? motRecherche, List<Livre> resultatRecherche, List<Categorie> listeCategories,
+    public IndexRechercheVM(string motRecherche, List<Livre> resultatRecherche, List<Categorie> listeCategories,
         List<Langue> listeLangues, List<TypeLivre> listeTypeLivres, double minPrix = 0, double maxPrix = 199.99)
     {
+        motRecherche ??= "";
+        resultatRecherche ??= new();
+        LivrePartials ??= new();
+        listeCategories ??= new();
+        listeLangues ??= new();
+        listeTypeLivres ??= new();
         MotRecherche = motRecherche;
         ResultatRecherche = resultatRecherche.Select(rr => rr.Titre).ToList();
         LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr.Id, rr.Titre, rr.LivreAuteurs.Select(la => la.Auteur),
             rr.Categories.Select(lc => lc.Categorie), rr.DatePublication, rr.Couverture, rr.MaisonEdition, rr.NbPages, rr.Resume,
-            rr.NbExemplaires, rr.LivreTypeLivres.Select(ltl => ltl.TypeLivre)));
+            rr.NbExemplaires, rr.LivreTypeLivres.Select(ltl => ltl.TypeLivre))).ToList();
         ListeCategories = listeCategories.Select(lc => lc.Nom).ToList();
         ListeLangues = listeLangues.Select(lc => lc.Nom).ToList();
         ListeTypeLivres = listeTypeLivres.Select(lc => lc.Nom).ToList();

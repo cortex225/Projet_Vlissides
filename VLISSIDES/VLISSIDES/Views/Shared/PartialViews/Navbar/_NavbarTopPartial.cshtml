@@ -16,9 +16,9 @@
                         <option value="categorie">Catégorie</option>
                     </select>
                 </div>
-                <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher...">
+                <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="Recherche()">
                 <a id="loupeRechercheNavbar" asp-area="" asp-controller="Recherche" asp-action="Index">
-                    <button type="button" class="btn btn-secondary recherche-btn">
+                    <button type="button" class="btn btn-secondary recherche-btn" style="width: 100%; height: 100%; border-radius: 10rem 25rem 25rem 10rem;">
                         <i class="fa-solid fa-magnifying-glass fa-sm"></i>
                     </button>
                 </a>
@@ -29,3 +29,10 @@
         <partial name="_LoginPartial"/>
     </div>
 </nav>
+<script>
+    function Recherche() {
+        if (event.key == 'Enter') window.location.href=`Recherche/index?motCles=`
+            + `${document.getElementById('barreRechercheNavbar').value}`
+            + `&criteres=${document.getElementById('dropdownRechercheNavbar').value}`;
+    }
+</script>
