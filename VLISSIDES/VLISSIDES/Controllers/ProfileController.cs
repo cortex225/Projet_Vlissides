@@ -137,7 +137,8 @@ namespace VLISSIDES.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             //var user = _userManager.FindByIdAsync(userId).Result;
-            var user = _context.Users.Include(x => x.AdressePrincipale).FirstOrDefault(u => u.Id == userId);
+            var user = _context.Users.Include(x => x.AdressePrincipale).Include(x => x.AdressesLivraison).FirstOrDefault(u => u.Id == userId);
+
             ProfileModifierAdressesVM vm;
             if (user.AdressePrincipale != null)
             {
@@ -164,7 +165,7 @@ namespace VLISSIDES.Controllers
                 vm = new ProfileModifierAdressesVM() { Id = user.Id };
             }
 
-            if (user.AdressesLivraison != null)
+            if (user.AdressesLivraison.Count() > 0)
             {
                 vm.AdressesDeLivraison = user.AdressesLivraison.ToList();
             }
@@ -172,7 +173,7 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
         }
         [HttpPost]
-        public IActionResult ModifierAdresses(ProfileModifierAdressesVM vm)
+        public IActionResult ModifierAdressePrincipale(ProfileModifierAdressesVM vm)
         {
             if (ModelState.IsValid)
             {
@@ -213,6 +214,56 @@ namespace VLISSIDES.Controllers
             }
 
             return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
+        }
+        [HttpPost]
+        public IActionResult EnleverAdressesLivraison(string? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var ad = _context.Adresses.FirstOrDefault(a => a.Id == id);
+                _context.Adresses.Remove(ad);
+                _context.SaveChanges();
+                var userId = _userManager.GetUserId(HttpContext.User);
+                //var user = _userManager.FindByIdAsync(userId).Result;
+                var user = _context.Users.Include(x => x.AdressePrincipale).Include(x => x.AdressesLivraison).FirstOrDefault(u => u.Id == userId);
+
+                ProfileModifierAdressesVM vm;
+                if (user.AdressePrincipale != null)
+                {
+                    vm = new ProfileModifierAdressesVM
+                    {
+                        Id = user.Id,
+                        //AdressePrincipale = user.AdressePrincipale,
+                        NoCivique = user.AdressePrincipale.NoCivique,
+                        Rue = user.AdressePrincipale.Rue,
+                        CodePostal = user.AdressePrincipale.CodePostal,
+                        Pays = user.AdressePrincipale.Pays,
+                        Province = user.AdressePrincipale.Province,
+                        Ville = user.AdressePrincipale.Ville,
+
+
+                    };
+                    if (user.AdressePrincipale.NoApartement != null)
+                    {
+                        vm.NoApartement = user.AdressePrincipale.NoApartement;
+                    }
+                }
+                else
+                {
+                    vm = new ProfileModifierAdressesVM() { Id = user.Id };
+                }
+
+                if (user.AdressesLivraison.Count() > 0)
+                {
+                    vm.AdressesDeLivraison = user.AdressesLivraison.ToList();
+                }
+                return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
+            }
+
         }
     }
 }

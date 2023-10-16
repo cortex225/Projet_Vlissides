@@ -97,7 +97,7 @@
     function ProfileAdresseEnregistrer() {
         var form = document.getElementById("AdressesForm");
         var data = new FormData(form);
-        fetch(BASE_URL + "/Profile/ModifierAdresses", {
+        fetch(BASE_URL + "/Profile/ModifierAdressePrincipale", {
             method: "POST",
             body: data,
         }).then((response) => {
@@ -106,5 +106,13 @@
             document.getElementById("ModifierProfile").innerHTML = result;
         });
     }
-
+    function EnleverAdressesLivraison(id = "") {
+        fetch(BASE_URL + "/Profile/EnleverAdressesLivraison?id=" + id, {
+            method: "POST",
+        }).then((response) => {
+            return response.text()
+        }).then((result) => {
+            document.getElementById("ModifierProfile").innerHTML = result;
+        });
+    }
 </script>
