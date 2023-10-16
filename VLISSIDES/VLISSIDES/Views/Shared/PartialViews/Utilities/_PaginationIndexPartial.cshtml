@@ -1,9 +1,10 @@
+<link rel="stylesheet" href="~/css/Pagination.css">
 
 <nav aria-label="NavBar Pagination ">
-    <ul class="pagination">
+    <ul class="pagination d-flex justify-content-center my-2">
 
         @* Si la page courante est plus petite que 1, on désactive le bouton précédent *@
-        <li class="page-item @(ViewBag.CurrentPage <= 1 ? "disabled" : "")">
+        <li class="page-item @(ViewBag.CurrentPage <= 1 ? "disabled " : "")">
             <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })" data-toggle="tooltip" title="Aller à la page précédente">Précédent</a>
         </li>
 
