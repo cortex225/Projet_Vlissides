@@ -65,10 +65,16 @@ namespace VLISSIDES.Controllers
         public IActionResult ModifierInformation(ProfileModifierInformationVM vm)
         {
             var indexVM = new ProfileIndexVM { ProfileModifierInformationVM = vm };
-            if (_context.Users.FirstOrDefault(u => u.UserName == vm.NomUtilisateur) != null)
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var userCourant = _userManager.FindByIdAsync(userId).Result;
+            if (userCourant.UserName != vm.NomUtilisateur)
             {
-                ModelState.AddModelError("NomUtilisateur", "Le nom d'utilisateur est déjà pris");
+                if (_context.Users.FirstOrDefault(u => u.UserName == vm.NomUtilisateur) != null)
+                {
+                    ModelState.AddModelError("NomUtilisateur", "Le nom d'utilisateur est déjà pris");
+                }
             }
+
             if (ModelState.IsValid)
             {
                 var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
