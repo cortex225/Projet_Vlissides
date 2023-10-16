@@ -1,4 +1,6 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace VLISSIDES.Models;
@@ -18,4 +20,7 @@ public class ApplicationUser : IdentityUser
     // Un utilisateur peut avoir plusieurs adresses de livraison
     [DisplayName("Adresse de livraison")] public ICollection<Adresse>? AdressesLivraison { get; set; }
     [DisplayName("Date de naissance")] public DateTime? DateNaissance { get; set; }
+
+    [Display(Name = "Photo")] [NotMapped] public IFormFile CoverPhoto { get; set; } = default!;
+    public string? CoverImageUrl { get; set; }
 }
