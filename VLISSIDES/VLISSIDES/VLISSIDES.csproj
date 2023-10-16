@@ -16,6 +16,7 @@
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
         <PackageReference Include="ExcelDataReader" Version="3.6.0" />
         <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+        <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.9" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.18" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.18" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.18" />
@@ -75,36 +76,6 @@
         <Folder Include="wwwroot\img\icons_Services\" />
         <Folder Include="wwwroot\img\Images_Livre\" />
         <Folder Include="wwwroot\img\CouvertureLivre\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="wwwroot\img\Couvertures\Contes de la Rue Broca.png" />
-      <None Include="wwwroot\img\Couvertures\Contes de Perrault.png" />
-      <None Include="wwwroot\img\Couvertures\Contes des Mille et Une Nuits.png" />
-      <None Include="wwwroot\img\Couvertures\Harry Potter à l%27école des sorciers.png" />
-      <None Include="wwwroot\img\Couvertures\L%27Alchimiste.png" />
-      <None Include="wwwroot\img\Couvertures\L%27Écume des Jours.png" />
-      <None Include="wwwroot\img\Couvertures\Le guide de survie enseignant suppléant.png" />
-      <None Include="wwwroot\img\Couvertures\Le Hobbit.png" />
-      <None Include="wwwroot\img\Couvertures\Le Journal d%27Anne Frank.png" />
-      <None Include="wwwroot\img\Couvertures\Le Journal de Kurt Cobain.png" />
-      <None Include="wwwroot\img\Couvertures\Le Nom de la Rose.png" />
-      <None Include="wwwroot\img\Couvertures\Le Parfum.png" />
-      <None Include="wwwroot\img\Couvertures\Le Parti pris des choses.png" />
-      <None Include="wwwroot\img\Couvertures\Le Petit Prince.png" />
-      <None Include="wwwroot\img\Couvertures\Le Vieil Homme et la Mer.png" />
-      <None Include="wwwroot\img\Couvertures\Les Contes d%27Andersen.png" />
-      <None Include="wwwroot\img\Couvertures\Les Contes de Grimm.png" />
-      <None Include="wwwroot\img\Couvertures\Les Fleurs du Mal.png" />
-      <None Include="wwwroot\img\Couvertures\Les Fourmis.png" />
-      <None Include="wwwroot\img\Couvertures\Les Misérables.png" />
-      <None Include="wwwroot\img\Couvertures\Les Trois Mousquetaires.png" />
-      <None Include="wwwroot\img\Couvertures\Maus.png" />
-      <None Include="wwwroot\img\Couvertures\Moby-Dick.png" />
-      <None Include="wwwroot\img\Couvertures\Persepolis.png" />
-      <None Include="wwwroot\img\Couvertures\Pédagogie positive.png" />
-      <None Include="wwwroot\img\Couvertures\Tintin au Tibet.png" />
-      <None Include="wwwroot\img\Couvertures\Watchmen.png" />
     </ItemGroup>
 
 </Project>

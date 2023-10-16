@@ -1,6 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+using System.Web.WebPages;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Recherche;
@@ -52,10 +53,10 @@ public class RechercheController : Controller
             .ThenInclude(ltl => ltl.TypeLivre)
             .ToList();
 
-        if (criteres == null) //Lorsqu'il n'y a pas de criteres spécifiques
+        if (criteres.IsEmpty()) //Lorsqu'il n'y a pas de criteres spécifiques
             for (var i = 0; i <= listMotCles.Count(); ++i)
                 livresRecherches = livresRecherches
-                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + (listMotCles.Any() ? listMotCles[i] : "") + ".*", RegexOptions.IgnoreCase))
                     .ToList();
         else if (listCriteres.Count > 0)
             for (var i = 0; i < listMotCles.Count(); ++i)
@@ -132,36 +133,16 @@ public class RechercheController : Controller
                 .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                 .ToList();
 
-        IndexRechercheVM vm;
-        if (motCles == null)
-            vm = new IndexRechercheVM
-            {
-                ResultatRecherche = livresRecherches,
-                MotRecherche = "",
-                ListeCategories = listCategories,
-                ListeLangues = listLangues,
-                ListeTypeLivres = listTypeLivres
-            };
-        else
-            vm = new IndexRechercheVM
-            {
-                ResultatRecherche = livresRecherches,
-                MotRecherche = listMotCles[0],
-                ListeCategories = listCategories,
-                ListeLangues = listLangues,
-                ListeTypeLivres = listTypeLivres
-            };
-
-        return View(vm);
+        return View(new IndexRechercheVM(motCles, livresRecherches, listCategories, listLangues, listTypeLivres));
     }
 
     // GET: RechercheController
     [Route("/Recherche/Details")]
     public ActionResult Details(string id)
     {
-        var listTypeLivres = _context.TypeLivres.ToList();
+        //var listTypeLivres = _context.TypeLivres.ToList();
 
-        var monLivre = _context.Livres
+        var livre = _context.Livres
             .Include(l => l.LivreAuteurs)
             .ThenInclude(la => la.Auteur)
             .Include(l => l.Categories)
@@ -173,29 +154,10 @@ public class RechercheController : Controller
             .ThenInclude(ltl => ltl.TypeLivre)
             .FirstOrDefault(l => l.Id == id);
 
+        if (livre == null) return NotFound();
 
-        DetailsLivreVM vm;
-
-        if (monLivre == null)
-            vm = new DetailsLivreVM();
-        else
-            vm = new DetailsLivreVM
-            {
-                Id = monLivre.Id,
-                Titre = monLivre.Titre,
-                lAuteur = monLivre.LivreAuteurs.Select(la => la.Auteur).First(),
-                laCategorie = monLivre.Categories.Select(lc => lc.Categorie).First(),
-                Prix = monLivre.LivreTypeLivres.FirstOrDefault()?.Prix,
-                DatePublication = monLivre.DatePublication,
-                Couverture = monLivre.Couverture,
-                maisonEdition = monLivre.MaisonEdition,
-                NbPages = monLivre.NbPages,
-                Resume = monLivre.Resume,
-                NbExemplaires = monLivre.NbExemplaires,
-                LivreTypeLivres = monLivre.LivreTypeLivres,
-                listTypeLivres = listTypeLivres
-            };
-
-        return View(vm);
+        return View(new DetailsLivreVM(livre.Id, livre.Titre, livre.LivreAuteurs.Select(la => la.Auteur),
+            livre.Categories.Select(lc => lc.Categorie), livre.DatePublication, livre.Couverture, livre.MaisonEdition,
+            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres.Select(ltl => ltl.TypeLivre)));
     }
 }
