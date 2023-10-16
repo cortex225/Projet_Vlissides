@@ -29,17 +29,11 @@ public class GestionLivresController : Controller
     public async Task<IActionResult> Inventaire(string? motCles, string? criteres, int page = 1)
     {
         //Récuppérer les mot clés et les critères de recherches
-        List<string> listMotCles = new List<string>();
-        if (motCles != null)
-        {
-            listMotCles = motCles.Split('|').ToList();
-        }
+        var listMotCles = new List<string>();
+        if (motCles != null) listMotCles = motCles.Split('|').ToList();
 
-        List<string> listCriteres = new List<string>();
-        if (criteres != null)
-        {
-            listCriteres = criteres.Split('|').ToList();
-        }
+        var listCriteres = new List<string>();
+        if (criteres != null) listCriteres = criteres.Split('|').ToList();
 
         var itemsPerPage = 10;
         var totalItems = await _context.Livres.CountAsync();
@@ -49,10 +43,10 @@ public class GestionLivresController : Controller
         var typesLivres = _context.TypeLivres.ToList();
 
         //Prendre tous les livres
-        List<Livre> livres = await _context.Livres
-            .Include(l => l.Auteur)
-            .Include(l => l.Categorie)
-            .Include(l => l.Langues)
+        var livres = await _context.Livres
+            .Include(l => l.LivreAuteurs)
+            .Include(l => l.Categories)
+            .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
@@ -61,70 +55,69 @@ public class GestionLivresController : Controller
 
         //Appliquer les critères de recherche si il y a lieu
         if (listCriteres.Count > 0 || listMotCles.Count > 0)
-        {
-            for (int i = 0; i < listMotCles.Count(); ++i)
-            {
+            for (var i = 0; i < listMotCles.Count(); ++i)
                 switch (listCriteres[i])
                 {
                     default:
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre =>
+                                Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "titre":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre =>
+                                Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "auteur":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre => Regex.IsMatch(livre.LivreAuteurs.Select(la => la.Auteur).First().NomAuteur,
+                                ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "categorie":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre => Regex.IsMatch(livre.Categories.Select(lc => lc.Categorie).First().Nom,
+                                listMotCles[i], RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "maisonEdition":
                         livres = livres
-                        .Where(livre =>
-                            livre.MaisonEdition != null &&
-                            Regex.IsMatch(livre.MaisonEdition.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre =>
+                                livre.MaisonEdition != null &&
+                                Regex.IsMatch(livre.MaisonEdition.Nom, ".*" + listMotCles[i] + ".*",
+                                    RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "langue":
                         livres = livres
-                        .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
-                        .ToList();
+                            .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "typeLivre":
                         livres = livres
-                        .Where(livre => livre.LivreTypeLivres.Any(type => Regex.IsMatch(type.TypeLivre.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
-                        .ToList();
+                            .Where(livre => livre.LivreTypeLivres.Any(type =>
+                                Regex.IsMatch(type.TypeLivre.Nom, ".*" + listMotCles[i] + ".*",
+                                    RegexOptions.IgnoreCase)))
+                            .ToList();
                         break;
                     case "prixMin":
                         decimal prixMinD;
                         if (decimal.TryParse(listMotCles[i], out prixMinD))
-                        {
                             livres = livres
                                 .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix >= prixMinD)
                                 .ToList();
-                        }
                         break;
 
                     case "prixMax":
                         decimal prixMaxD;
                         if (decimal.TryParse(listMotCles[i], out prixMaxD))
-                        {
                             livres = livres
                                 .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix <= prixMaxD)
                                 .ToList();
-                        }
                         break;
                 }
-            }
-        }
 
         var livresVM = livres
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -135,7 +128,8 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => c.Id == l.CategorieId).FirstOrDefault()?.Nom,
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
@@ -147,32 +141,28 @@ public class GestionLivresController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        GestionLivresInventaireVM vm = new GestionLivresInventaireVM
+        ViewBag.Action= "Inventaire";
+
+        var vm = new GestionLivresInventaireVM
         {
             ListeLivres = livresVM,
             ListeCategories = categories,
             ListeLangue = langues,
             ListeTypeLivres = typesLivres
-
         };
         return View(vm);
     }
-    [Route("2167594/GestionLivres/{action}")]
+
+    [Route("2147186/GestionLivres/{action}")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> AfficherLivres(string? motCles, string? criteres, int page = 1)
     {
         //Récuppérer les mot clés et les critères de recherches
-        List<string> listMotCles = new List<string>();
-        if (motCles != null)
-        {
-            listMotCles = motCles.Split('|').ToList();
-        }
+        var listMotCles = new List<string>();
+        if (motCles != null) listMotCles = motCles.Split('|').ToList();
 
-        List<string> listCriteres = new List<string>();
-        if (criteres != null)
-        {
-            listCriteres = criteres.Split('|').ToList();
-        }
+        var listCriteres = new List<string>();
+        if (criteres != null) listCriteres = criteres.Split('|').ToList();
 
         var itemsPerPage = 10;
         var totalItems = await _context.Livres.CountAsync();
@@ -182,10 +172,10 @@ public class GestionLivresController : Controller
         var typesLivres = _context.TypeLivres.ToList();
 
         //Prendre tous les livres
-        List<Livre> livres = await _context.Livres
-            .Include(l => l.Auteur)
-            .Include(l => l.Categorie)
-            .Include(l => l.Langues)
+        var livres = await _context.Livres
+            .Include(l => l.LivreAuteurs)
+            .Include(l => l.Categories)
+            .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
@@ -194,70 +184,70 @@ public class GestionLivresController : Controller
 
         //Appliquer les critères de recherche si il y a lieu
         if (listCriteres.Count > 0 || listMotCles.Count > 0)
-        {
-            for (int i = 0; i < listMotCles.Count(); ++i)
-            {
+            for (var i = 0; i < listMotCles.Count(); ++i)
                 switch (listCriteres[i])
                 {
                     default:
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre =>
+                                Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "titre":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre =>
+                                Regex.IsMatch(livre.Titre, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "auteur":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre => livre.LivreAuteurs.Any(la => Regex.IsMatch(la.Auteur.NomAuteur,
+                                ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
+                            .ToList();
                         break;
                     case "categorie":
                         livres = livres
-                        .Where(livre => Regex.IsMatch(livre.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre => livre.Categories.Any(lc =>
+                                Regex.IsMatch(lc.Categorie.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
+                            .ToList();
                         break;
                     case "maisonEdition":
                         livres = livres
-                        .Where(livre =>
-                            livre.MaisonEdition != null &&
-                            Regex.IsMatch(livre.MaisonEdition.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
-                        .ToList();
+                            .Where(livre =>
+                                livre.MaisonEdition != null &&
+                                Regex.IsMatch(livre.MaisonEdition.Nom, ".*" + listMotCles[i] + ".*",
+                                    RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "langue":
                         livres = livres
-                        .Where(livre => livre.Langues.Any(langue => Regex.IsMatch(langue.Nom, listMotCles[i], RegexOptions.IgnoreCase)))
-                        .ToList();
+                            .Where(livre => Regex.IsMatch(livre.Langue.Nom, listMotCles[i], RegexOptions.IgnoreCase))
+                            .ToList();
                         break;
                     case "typeLivre":
                         livres = livres
-                        .Where(livre => livre.LivreTypeLivres.Any(type => Regex.IsMatch(type.TypeLivre.Nom, ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase)))
-                        .ToList();
+                            .Where(livre => livre.LivreTypeLivres.Any(type =>
+                                Regex.IsMatch(type.TypeLivre.Nom, ".*" + listMotCles[i] + ".*",
+                                    RegexOptions.IgnoreCase)))
+                            .ToList();
                         break;
                     case "prixMin":
                         decimal prixMinD;
                         if (decimal.TryParse(listMotCles[i], out prixMinD))
-                        {
                             livres = livres
                                 .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix >= prixMinD)
                                 .ToList();
-                        }
                         break;
 
                     case "prixMax":
                         decimal prixMaxD;
                         if (decimal.TryParse(listMotCles[i], out prixMaxD))
-                        {
                             livres = livres
                                 .Where(objet => objet.LivreTypeLivres.FirstOrDefault().Prix <= prixMaxD)
                                 .ToList();
-                        }
                         break;
                 }
-            }
-        }
+
         var livresVM = livres
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
             .Take(itemsPerPage)
@@ -267,7 +257,8 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => c.Id == l.CategorieId).FirstOrDefault()?.Nom,
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
@@ -279,13 +270,12 @@ public class GestionLivresController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        GestionLivresInventaireVM vm = new GestionLivresInventaireVM
+        var vm = new GestionLivresInventaireVM
         {
             ListeLivres = livresVM,
             ListeCategories = categories,
             ListeLangue = langues,
             ListeTypeLivres = typesLivres
-
         };
         return PartialView("PartialViews/GestionLivres/_ListeLivresPartial", vm);
     }
@@ -296,7 +286,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.LivreAuteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
@@ -305,7 +295,7 @@ public class GestionLivresController : Controller
     }
 
     // GET: C
-    [Route("2167594/GestionLivres/Ajouter")]
+    [Route("2147186/GestionLivres/Ajouter")]
     public IActionResult Ajouter()
     {
         var vm = new AjouterVM();
@@ -335,7 +325,7 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2167594/GestionLivres/Ajouter")]
+    [Route("2147186/GestionLivres/Ajouter")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
@@ -357,34 +347,29 @@ public class GestionLivresController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "/2167594/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "/2147186/img/CouvertureLivre/livredefault.png";
             }
+
             var id = Guid.NewGuid().ToString();
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
             if (vm.Neuf)
-            {
                 //var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
-                listeType.Add(new LivreTypeLivre()
+                listeType.Add(new LivreTypeLivre
                 {
                     LivreId = id,
                     TypeLivreId = "1",
                     Prix = vm.PrixNeuf
                 });
-            }
 
             if (vm.Numerique)
-            {
                 //var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
-                listeType.Add(new LivreTypeLivre()
+                listeType.Add(new LivreTypeLivre
                 {
                     LivreId = id,
                     TypeLivreId = "2",
                     Prix = vm.PrixNumerique
                 });
-
-
-            }
             var livre = new Livre
             {
                 Id = id,
@@ -393,26 +378,25 @@ public class GestionLivresController : Controller
                 NbExemplaires = vm.NbExemplaires,
                 NbPages = vm.NbPages,
                 ISBN = vm.ISBN,
-                AuteurId = vm.AuteurId,
-                MaisonEditionId = vm.MaisonEditionId,
+                //AuteurId = vm.AuteurId,
+                MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId)),
                 Couverture = vm.CoverImageUrl,
                 LivreTypeLivres = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
-                CategorieId = vm.CategorieId,
-                LangueId = vm.LangueId,
-                TypeLivreId = vm.TypeLivreId
+                //CategorieId = vm.CategorieId,
+                LangueId = vm.LangueId
+                //TypeLivreId = vm.TypeLivreId
             };
 
-            _context.Livres.Add(livre);
             Console.Write("1");
             _context.SaveChanges();
             Console.Write("2");
 
             //return RedirectToAction("Inventaire");
             return Ok();
-
         }
+
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
             Text = x.NomAuteur,
@@ -435,29 +419,28 @@ public class GestionLivresController : Controller
         }).ToList();
         return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
     }
-    [Route("2167594/GestionLivres/Modifier")]
+
+    [Route("2147186/GestionLivres/Modifier")]
     public IActionResult Modifier(string id)
     {
         var livre = _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.LivreAuteurs)
             .Include(l => l.LivreTypeLivres)
-            .Include(l => l.Langues)
-            .Include(l => l.Categorie)
+            .Include(l => l.Langue)
+            .Include(l => l.Categories)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
         var vm = new ModifierVM
         {
             Id = livre.Id,
             ISBN = livre.ISBN,
-            Auteur = livre.Auteur,
+            //Auteur = livre.Auteurs,
             DatePublication = livre.DatePublication,
             NbExemplaires = livre.NbExemplaires,
             NbPages = livre.NbPages,
             Resume = livre.Resume,
             Titre = livre.Titre,
-            CategorieId = livre.CategorieId,
             LangueId = livre.LangueId,
-            AuteurId = livre.AuteurId,
             CoverImageUrl = livre.Couverture
         };
         //Remplir les checkbox types 
@@ -474,14 +457,19 @@ public class GestionLivresController : Controller
                 vm.PrixNeuf = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1").Prix;
             }
             else
+            {
                 vm.Neuf = false;
+            }
+
             if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2")))
             {
                 vm.Numerique = true;
                 vm.PrixNumerique = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2").Prix;
             }
-            else vm.Numerique = false;
-
+            else
+            {
+                vm.Numerique = false;
+            }
         }
 
         //Populer les selectList
@@ -510,7 +498,7 @@ public class GestionLivresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2167594/GestionLivres/Modifier")]
+    [Route("2147186/GestionLivres/Modifier")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> Modifier(ModifierVM vm)
     {
@@ -534,30 +522,26 @@ public class GestionLivresController : Controller
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
             if (vm.Neuf)
-            {
-                listeType.Add(new LivreTypeLivre()
+                listeType.Add(new LivreTypeLivre
                 {
-                    LivreId = vm.Id.ToString(),
+                    LivreId = vm.Id,
                     TypeLivreId = "1",
                     Prix = vm.PrixNeuf
                 });
-            }
 
             if (vm.Numerique)
-            {
-                listeType.Add(new LivreTypeLivre()
+                listeType.Add(new LivreTypeLivre
                 {
-                    LivreId = vm.Id.ToString(),
+                    LivreId = vm.Id,
                     TypeLivreId = "2",
                     Prix = vm.PrixNumerique
                 });
-            }
 
             var livre = await _context.Livres
-                .Include(l => l.Auteur)
+                .Include(l => l.LivreAuteurs)
                 .Include(l => l.LivreTypeLivres)
-                .Include(l => l.Langues)
-                .Include(l => l.Categorie)
+                .Include(l => l.Langue)
+                .Include(l => l.Categories)
                 .FirstOrDefaultAsync(x => x.Id == vm.Id);
 
             //Changement des donn�es
@@ -566,17 +550,16 @@ public class GestionLivresController : Controller
             livre.Resume = vm.Resume;
             livre.NbExemplaires = vm.NbExemplaires;
             livre.NbPages = vm.NbPages;
-            livre.AuteurId = vm.AuteurId;
-            livre.CategorieId = vm.CategorieId;
             livre.LangueId = vm.LangueId;
             livre.LivreTypeLivres = listeType;
             livre.Couverture = vm.CoverImageUrl;
-            livre.MaisonEditionId = vm.MaisonEditionId;
+            livre.MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId));
             livre.DatePublication = vm.DatePublication;
 
             await _context.SaveChangesAsync();
             return Ok();
         }
+
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
             Text = x.NomAuteur,
@@ -607,7 +590,7 @@ public class GestionLivresController : Controller
         if (id == null || _context.Livres == null) return NotFound();
 
         var livre = await _context.Livres
-            .Include(l => l.Auteur)
+            .Include(l => l.LivreAuteurs)
             .Include(l => l.MaisonEdition)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (livre == null) return NotFound();
