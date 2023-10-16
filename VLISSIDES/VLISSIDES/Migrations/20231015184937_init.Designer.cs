@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VLISSIDES.Data;
 
@@ -11,9 +12,10 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231015184937_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,21 +69,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "f815d7da-f1ed-4096-923e-603e6bc7bceb",
+                            ConcurrencyStamp = "e6d1d7a4-a62a-46b4-8a76-290332af67a3",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "baf09351-7db7-49c8-8d33-427acd9bb5c2",
+                            ConcurrencyStamp = "314dd6c2-7d1f-41f6-823c-7767a9803a90",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "e4d13af3-ae79-4dcb-b66f-5e12dcf6cc62",
+                            ConcurrencyStamp = "ffe71790-fb18-4eac-8bb8-b88c71a983b2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -346,7 +348,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5dfab986-5fd5-4bf9-af20-73a22e336c31",
+                            ConcurrencyStamp = "839dbafe-c086-43e1-b17f-2c7d92643966",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -356,7 +358,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "2e385199-2cfd-4bc1-b177-23fed4b30d0f",
+                            SecurityStamp = "9e18155f-05af-42b4-ac1f-12be129df7d0",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -1168,7 +1170,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 1",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8290),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4690),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001193",
                             MaisonEditionId = "Excel 1",
@@ -1181,7 +1183,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 2",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8330),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4740),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001194",
                             MaisonEditionId = "Excel 2",
@@ -1194,7 +1196,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 3",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8330),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4740),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001195",
                             MaisonEditionId = "Excel 3",
@@ -1207,7 +1209,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 4",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8330),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4740),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001196",
                             MaisonEditionId = "Excel 4",
@@ -1220,7 +1222,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 5",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8340),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4750),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001197",
                             MaisonEditionId = "Excel 5",
@@ -1233,7 +1235,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 6",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8340),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4750),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001198",
                             MaisonEditionId = "Excel 6",
@@ -1246,7 +1248,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 7",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8340),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4750),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001199",
                             MaisonEditionId = "Excel 7",
@@ -1259,7 +1261,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 8",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8370),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4750),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001200",
                             MaisonEditionId = "Excel 8",
@@ -1272,7 +1274,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 9",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8370),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4760),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001201",
                             MaisonEditionId = "Excel 9",
@@ -1285,7 +1287,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 10",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8370),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4760),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001202",
                             MaisonEditionId = "Excel 10",
@@ -1298,7 +1300,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 11",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8380),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4760),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001203",
                             MaisonEditionId = "Excel 11",
@@ -1311,7 +1313,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 12",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8380),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4770),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001204",
                             MaisonEditionId = "Excel 12",
@@ -1324,7 +1326,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 13",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8380),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4770),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540102",
                             MaisonEditionId = "Excel 13",
@@ -1337,7 +1339,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 14",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8380),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4770),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540103",
                             MaisonEditionId = "Excel 14",
@@ -1350,7 +1352,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 15",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8390),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4770),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540104",
                             MaisonEditionId = "Excel 15",
@@ -1363,7 +1365,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 16",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8390),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4780),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540105",
                             MaisonEditionId = "Excel 16",
@@ -1376,7 +1378,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 17",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8390),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4780),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540106",
                             MaisonEditionId = "Excel 17",
@@ -1389,7 +1391,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 18",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8400),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4780),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540107",
                             MaisonEditionId = "Excel 18",
@@ -1402,7 +1404,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 19",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8400),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4790),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540108",
                             MaisonEditionId = "Excel 19",
@@ -1415,7 +1417,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 20",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8400),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4790),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540109",
                             MaisonEditionId = "Excel 20",
@@ -1428,7 +1430,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 21",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8400),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4790),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540110",
                             MaisonEditionId = "Excel 21",
@@ -1441,7 +1443,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 22",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8410),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4790),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540111",
                             MaisonEditionId = "Excel 22",
@@ -1454,7 +1456,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 23",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8410),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4800),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540112",
                             MaisonEditionId = "Excel 23",
@@ -1467,7 +1469,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 24",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8410),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4800),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540113",
                             MaisonEditionId = "Excel 24",
@@ -1480,7 +1482,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 25",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8420),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4800),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540114",
                             MaisonEditionId = "Excel 25",
@@ -1493,7 +1495,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 26",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8420),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4810),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540115",
                             MaisonEditionId = "Excel 26",
@@ -1506,7 +1508,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 27",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8420),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4810),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540116",
                             MaisonEditionId = "Excel 27",
@@ -1519,7 +1521,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 28",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8420),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4810),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540118",
                             MaisonEditionId = "Excel 28",
@@ -1532,7 +1534,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 29",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8430),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4820),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540119",
                             MaisonEditionId = "Excel 29",
@@ -1545,7 +1547,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 30",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8430),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4820),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540120",
                             MaisonEditionId = "Excel 30",
@@ -1558,7 +1560,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 31",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8430),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4820),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540121",
                             MaisonEditionId = "Excel 31",
@@ -1571,7 +1573,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 32",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8440),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(4830),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540122",
                             MaisonEditionId = "Excel 32",
@@ -1584,7 +1586,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 33",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8440),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5020),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540123",
                             MaisonEditionId = "Excel 33",
@@ -1597,7 +1599,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 34",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8440),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5030),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "978-2253004229",
                             MaisonEditionId = "Excel 34",
@@ -1610,7 +1612,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 35",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8450),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5030),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "978-2070367980",
                             MaisonEditionId = "Excel 35",
@@ -1623,7 +1625,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 36",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8450),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5040),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140586",
                             MaisonEditionId = "Excel 36",
@@ -1636,7 +1638,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 37",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8450),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5040),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140589",
                             MaisonEditionId = "Excel 37",
@@ -1649,7 +1651,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 38",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8460),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5040),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140590",
                             MaisonEditionId = "Excel 38",
@@ -1662,7 +1664,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 39",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8460),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5050),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140591",
                             MaisonEditionId = "Excel 39",
@@ -1675,7 +1677,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 40",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8460),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5050),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140592",
                             MaisonEditionId = "Excel 40",
@@ -1688,7 +1690,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 42",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8470),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5050),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140594",
                             MaisonEditionId = "Excel 42",
@@ -1701,7 +1703,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 43",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8470),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5060),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140595",
                             MaisonEditionId = "Excel 43",
@@ -1714,7 +1716,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 44",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8470),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5060),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140596",
                             MaisonEditionId = "Excel 44",
@@ -1727,7 +1729,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 45",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8480),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5060),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140597",
                             MaisonEditionId = "Excel 45",
@@ -1740,7 +1742,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 46",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8480),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5070),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140598",
                             MaisonEditionId = "Excel 46",
@@ -1753,7 +1755,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 48",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8480),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5070),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782012101320",
                             MaisonEditionId = "Excel 48",
@@ -1766,7 +1768,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 49",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8490),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5070),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001193",
                             MaisonEditionId = "Excel 49",
@@ -1779,7 +1781,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 50",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8490),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5080),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540102",
                             MaisonEditionId = "Excel 50",
@@ -1792,7 +1794,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 51",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8490),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5080),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140587",
                             MaisonEditionId = "Excel 51",
@@ -1805,7 +1807,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "Excel 52",
                             Couverture = "",
-                            DateAjout = new DateTime(2023, 10, 15, 15, 39, 37, 379, DateTimeKind.Local).AddTicks(8500),
+                            DateAjout = new DateTime(2023, 10, 15, 14, 49, 36, 754, DateTimeKind.Local).AddTicks(5090),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "978-2-8094-3960-2",
                             MaisonEditionId = "Excel 52",
@@ -2359,9 +2361,6 @@ namespace VLISSIDES.Migrations
 
                     b.Property<string>("CommandeId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("PrixParArticle")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantite")
                         .HasColumnType("int");
@@ -3169,11 +3168,6 @@ namespace VLISSIDES.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0",
-                            Nom = "Panier"
-                        },
-                        new
-                        {
                             Id = "1",
                             Nom = "En attente"
                         },
@@ -3666,7 +3660,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "fd854ee9-1cca-4b34-b64e-9bd72034b18d",
+                            ConcurrencyStamp = "51bd390a-dc46-404e-a943-ebbb82d808d0",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -3676,7 +3670,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "048dbd8e-842b-4b7b-afe0-8157d75b3f3b",
+                            SecurityStamp = "40352790-cd6c-4dcc-92b2-8d7abbed6d3e",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -3711,7 +3705,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "676ed2da-423d-4ff0-9bb8-e9188fe2ad3b",
+                            ConcurrencyStamp = "ef442585-e4ce-46d3-aacb-0717083bdc6e",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -3721,10 +3715,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "6ddb5fb5-0cdb-499f-b0b4-2139f710122c",
+                            SecurityStamp = "29b8e7ce-7712-431c-8239-99e8af08528e",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 10, 15, 15, 39, 37, 381, DateTimeKind.Local).AddTicks(2190),
+                            DateAdhesion = new DateTime(2023, 10, 15, 14, 49, 36, 756, DateTimeKind.Local).AddTicks(3190),
                             NoMembre = "123456"
                         });
                 });

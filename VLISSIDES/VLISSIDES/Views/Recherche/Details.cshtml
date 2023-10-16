@@ -54,6 +54,48 @@
     </div>
 </div>
 
+<form asp-action="AjouterAuPanier" asp-controller="GestionCommande" method="post">
+    <input type="hidden" name="livreId" value="@Model.Id" />
+    <input type="number" name="quantite" value="1" min="1" />
+    <select name="typeLivreId">
+        @foreach (var type in Model.listTypeLivres)
+        {
+            <option value="@type.Id">@type.Nom</option>
+        }
+    </select>
+    <button type="submit">Ajouter au panier</button>
+</form>
+
+<button id="checkout-button">Checkout</button>
+
+<script type="text/javascript">
+     var checkoutButton = document.getElementById('checkout-button');
+ 
+     checkoutButton.addEventListener('click', function () {
+         fetch('/GestionCommande/CreateCheckoutSession', {
+             method: 'POST',
+         })
+         .then(function (response) {
+             return response.json();
+         })
+         .then(function (session) {
+             return stripe.redirectToCheckout({ sessionId: session.id });
+         })
+         .then(function (result) {
+             if (result.error) {
+                 alert(result.error.message);
+             }
+         })
+         .catch(function (error) {
+             console.error('Error:', error);
+         });
+     });
+ </script>
+<script src="https://js.stripe.com/v3/" asp-append-version="true"></script>
+
+
+
+
 <style>
     #DetailsDIV{
         max-width: 35%;

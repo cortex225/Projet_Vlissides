@@ -15,6 +15,11 @@ public class StatutCommandeConfiguration : IEntityTypeConfiguration<StatutComman
         builder.HasData(
             new StatutCommande
             {
+                Id = "0",
+                Nom = "Panier"
+            },
+            new StatutCommande
+            {
                 Id = "1",
                 Nom = "En attente"
             },
