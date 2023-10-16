@@ -29,12 +29,12 @@ Random rand = new Random();
 
 
 //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
-context.Livres.RemoveRange(context.Livres);
-context.SaveChanges();
-context.Auteurs.RemoveRange(context.Auteurs);
-context.SaveChanges();
-context.MaisonEditions.RemoveRange(context.MaisonEditions);
-context.SaveChanges();
+// context.Livres.RemoveRange(context.Livres);
+// context.SaveChanges();
+// context.Auteurs.RemoveRange(context.Auteurs);
+// context.SaveChanges();
+// context.MaisonEditions.RemoveRange(context.MaisonEditions);
+// context.SaveChanges();
 
 
 //Générer les auteurs

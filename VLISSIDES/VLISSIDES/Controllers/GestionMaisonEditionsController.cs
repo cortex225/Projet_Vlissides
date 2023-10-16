@@ -21,32 +21,63 @@ public class GestionMaisonEditionsController : Controller
         _config = config;
     }
 
-    public ActionResult Index(string? motCle)
+    public async Task<IActionResult>Index (string? motCle, int page = 1)
     {
+        var itemsPerPage = 10;
+        var totalItems = await _context.MaisonEditions.CountAsync();
+        
         var vm = new MaisonEditionsIndexVM();
         vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
         var liste = _context.MaisonEditions.Include(me => me.Livres)
-            .OrderBy(me => me.Nom).ToList();
+            .OrderBy(me => me.Nom)
+            .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+            .Take(itemsPerPage)
+            .ToList();
 
         if (motCle != null && motCle != "")
             liste = liste
                 .Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                .Take(itemsPerPage)
                 .ToList();
 
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
         vm.ListeMaisonEditions = liste;
         return View(vm);
     }
 
-    public async Task<IActionResult> AfficherListe(string? motCle)
+    public async Task<IActionResult> AfficherListe(string? motCle, int page = 1)
     {
+        var itemsPerPage = 10;
+        var totalItems = await _context.MaisonEditions.CountAsync();
+        
         var vm = new MaisonEditionsIndexVM();
         vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
         var liste = _context.MaisonEditions.Include(me => me.Livres)
-            .OrderBy(me => me.Nom).ToList();
+            .OrderBy(me => me.Nom)
+            .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+            .Take(itemsPerPage)
+            .ToList();
         if (motCle != null && motCle != "")
             liste = liste.Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                .Take(itemsPerPage)
                 .ToList();
+
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+        
+        
         vm.ListeMaisonEditions = liste;
         return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial", vm);
     }
