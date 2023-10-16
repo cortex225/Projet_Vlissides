@@ -17,53 +17,66 @@
         <div id="checkboxTypeLivre">
 
         </div>
-        @foreach (var type in Model.LivreTypeLivres)
+
+        @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
         {
-            <p>Prix @Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
+            <p>
+                <strong>Aucun Prix</strong>
+            </p>
         }
-        <p>Auteur(s): @Model.lAuteur.NomAuteur </p>
-        <p>Catégorie(s): @Model.laCategorie.Nom </p>
+        else
+        {
+            @if (!Model.Papier.Equals(null))
+            {
+                <p>Prix neuf: @Model.Papier $</p>
+            }
+            @if (!Model.Numerique.Equals(null))
+            {
+                <p>Prix numérique: @Model.Numerique $</p>
+            }
+        }
+
+
+        <p>Auteur(s): @Model.Auteurs[0] </p>
+        <p>Catégorie(s): @Model.Categories[0] </p>
         <p>Date publication: @Model.DatePublication</p>
-        <p>Éditeur: @Model.maisonEdition.Nom</p>
+        <p>Éditeur: @Model.MaisonEdition</p>
         <p>Nombre de pages: @Model.NbPages</p>
         <strong>Résumé:</strong>
         <p>@Model.Resume</p>
         <br/>
     </div>
     <div>
-        @foreach (var t in Model.LivreTypeLivres)
+        @if (!Model.Papier.Equals(null))//1 = "Neuf"
         {
-            @if (t.TypeLivreId == "1")//1 = "Neuf"
-            {
-                <br />
-                @if (Model.NbExemplaires > 0)
-                {
-                    <form>
-                        @Html.AntiForgeryToken()
-                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-
-                            <a id="ajouterNeuf" class="btn btn-primary btnPanier">
-                                <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
-                            </a>
-                            <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
-                        </div>
-                    </form>
-                }
-                else
-                {
-                    <p style="font-weight: bold; color: red;">Livre neuf en rupture de stock</p>
-                }
-            }
-            @if (t.TypeLivreId == "2")//2 = "Numérique"
+            <br />
+            @if (Model.NbExemplaires > 0)
             {
                 <form>
                     @Html.AntiForgeryToken()
-                    <a href="#" id="ajouterNumerique" class="btn btn-primary btnPanier">
-                        <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
-                    </a>
+                    <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+
+                        <a id="ajouterNeuf" class="btn btn-primary btnPanier">
+                            <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
+                        </a>
+                        <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
+                    </div>
                 </form>
             }
+            else
+            {
+                <p style="font-weight: bold; color: red;">Livre neuf en rupture de stock</p>
+            }
+        }
+        @if (!Model.Numerique.Equals(null))//2 = "Numérique"
+        {
+            <form>
+                @Html.AntiForgeryToken()
+                <a href="#" id="ajouterNumerique" class="btn btn-primary btnPanier">
+                    <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
+                </a>
+            </form>
         }
     </div>
 </div>

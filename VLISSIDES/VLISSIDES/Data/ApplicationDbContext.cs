@@ -153,6 +153,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #endregion
 
         #region Livre commendé
+        #endregion
 
         // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
         builder.Entity<LivreCommande>()
@@ -445,46 +446,4 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             }
         }
     }
-
-    #region DbSet
-
-    public DbSet<Adresse> Adresses { get; set; }
-
-    public DbSet<Commande> Commandes { get; set; }
-
-    public DbSet<Employe> Employes { get; set; }
-
-    public DbSet<Auteur> Auteurs { get; set; }
-
-    public DbSet<Membre> Membres { get; set; }
-
-    public DbSet<Reservation> Reservations { get; set; }
-
-    public DbSet<Evenement> Evenements { get; set; }
-
-    public DbSet<Evaluation> Evaluations { get; set; }
-
-    public DbSet<Livre> Livres { get; set; }
-
-    public DbSet<Categorie> Categories { get; set; }
-
-    public DbSet<LivreCommande> LivreCommandes { get; set; }
-
-    public DbSet<StatutCommande> StatutCommandes { get; set; }
-
-    public DbSet<TypeLivre> TypeLivres { get; set; }
-
-    public DbSet<Favori> Favoris { get; set; }
-
-    public DbSet<Langue> Langues { get; set; }
-
-    public DbSet<MaisonEdition> MaisonEditions { get; set; }
-
-    public DbSet<Promotions> Promotions { get; set; }
-
-    public DbSet<LivreAuteur> LivreAuteurs { get; set; }
-    public DbSet<LivreCategorie> LivreCategories { get; set; }
-    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
-
-    #endregion
 }
