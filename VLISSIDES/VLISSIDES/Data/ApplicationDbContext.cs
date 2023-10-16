@@ -1,8 +1,8 @@
-﻿using System.Text;
-using ExcelDataReader;
+﻿using ExcelDataReader;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.Data;
@@ -284,7 +284,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                         {
                             #region Titre
 
-                            livre.Titre = reader.GetValue(0) != null ? reader.GetString(0).Trim() : "";
+                            livre.Titre = reader.GetValue(0) != null ? reader.GetString(0).Trim().Trim('"').Trim() : "";
 
                             #endregion
 
@@ -315,7 +315,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
                             #region Couverture
 
-                            livre.Couverture = "";
+                            livre.Couverture = reader.GetValue(0) != null ? "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png" : "";
 
                             #endregion
 
