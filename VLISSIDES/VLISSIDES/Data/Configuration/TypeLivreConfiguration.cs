@@ -6,11 +6,11 @@ namespace VLISSIDES.Data;
 
 public class TypeLivreConfiguration : IEntityTypeConfiguration<TypeLivre>
 {
-    List<TypeLivre> typeLivres;
+    private readonly List<TypeLivre> typeLivres;
 
     public TypeLivreConfiguration(List<List<TypeLivre>> listTypeLivre)
     {
-        this.typeLivres = new();
+        this.typeLivres = new List<TypeLivre>();
         foreach (var typeLivres in listTypeLivre)
             this.typeLivres.AddRange(typeLivres);
     }

@@ -1,8 +1,8 @@
 ﻿@model VLISSIDES.ViewModels.GestionAuteurs.AuteursIndexVM
 @{
     ViewData["Title"] = "Auteurs";
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 
 
@@ -16,10 +16,10 @@
 </div>
 
 <!-- Barre latérale coulissante -->
-<partial name="PartialViews/Dashboard/_SideBarPartial" />
+<partial name="PartialViews/Dashboard/_SideBarPartial"/>
 
 <div class="d-block p-4 p-4">
-    
+
 
     <!--Début : Ajouter Auteur-->
     <div class="container-fluid">
@@ -33,7 +33,7 @@
             @* @Html.AntiForgeryToken() *@
             @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
             <div class="input-group">
-                <input class="form-control" asp-for="AuteursAjouterVM.NomAuteur" id="inputNom" placeholder="Nom" />
+                <input class="form-control" asp-for="AuteursAjouterVM.NomAuteur" id="inputNom" placeholder="Nom"/>
                 <span asp-validation-for="AuteursAjouterVM.NomAuteur" class="text-danger"></span>
                 <button class="btn btn-primary p-2" type="button" onclick="AjouterAuteur()" data-toggle="tooltip" title="Ajouter le livre">
                     Ajouter
@@ -53,9 +53,9 @@
         </button>
 
         <form class="collapse" id="rechercherAuteur" enctype="multipart/form-data">
-            <br />
+            <br/>
             <div class="input-group">
-                <input class="form-control" id="inputRechercherAuteur" placeholder="Rechercher..." />
+                <input class="form-control" id="inputRechercherAuteur" placeholder="Rechercher..."/>
                 <button class="btn btn-primary p-2" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la auteur">
                     Rechercher
                 </button>
@@ -64,7 +64,7 @@
         </form>
 
     </div>
-    <br />
+    <br/>
     <!--Fin : Rechercher auteur-->
 
     <div class="d-block p-4 p-4">
@@ -76,7 +76,7 @@
         <div class="mb-4">
             <h3>Liste des auteurs</h3>
             <div class="row p-0" id="ListeAuteurPartial">
-                
+
 
             </div>
 
@@ -172,8 +172,8 @@
     </script>
 
 
-    <!--Script pour Modifier-->
-    <script type="text/javascript">
+<!--Script pour Modifier-->
+<script type="text/javascript">
         function ModifierAuteur(id = "", nom = "") {
         fetch(BASE_URL+'/GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
                 method: 'POST',
@@ -186,8 +186,8 @@
         }
     </script>
 
-    <!--Script pour la supprimation-->
-    <script type="text/javascript">
+<!--Script pour la supprimation-->
+<script type="text/javascript">
             function SupprimerAuteur(id = "") {
         fetch(BASE_URL+`/GestionAuteurs/SupprimerAuteur?id=${id}`, {
                 method: 'POST',
@@ -212,8 +212,8 @@
             });
         }
     </script>
-    <!--Script pour la recherche-->
-    @* <script type="text/javascript">
+<!--Script pour la recherche-->
+@* <script type="text/javascript">
         // ModalScript
         function RechercherAuteur() {
             console.log("Recherche commencée");

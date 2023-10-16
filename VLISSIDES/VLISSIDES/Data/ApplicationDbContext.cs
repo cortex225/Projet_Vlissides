@@ -13,45 +13,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
     }
-    #region DbSet
-    public DbSet<Adresse> Adresses { get; set; }
-
-    public DbSet<Commande> Commandes { get; set; }
-
-    public DbSet<Employe> Employes { get; set; }
-
-    public DbSet<Auteur> Auteurs { get; set; }
-
-    public DbSet<Membre> Membres { get; set; }
-
-    public DbSet<Reservation> Reservations { get; set; }
-
-    public DbSet<Evenement> Evenements { get; set; }
-
-    public DbSet<Evaluation> Evaluations { get; set; }
-
-    public DbSet<Livre> Livres { get; set; }
-
-    public DbSet<Categorie> Categories { get; set; }
-
-    public DbSet<LivreCommande> LivreCommandes { get; set; }
-
-    public DbSet<StatutCommande> StatutCommandes { get; set; }
-
-    public DbSet<TypeLivre> TypeLivres { get; set; }
-
-    public DbSet<Favori> Favoris { get; set; }
-
-    public DbSet<Langue> Langues { get; set; }
-
-    public DbSet<MaisonEdition> MaisonEditions { get; set; }
-
-    public DbSet<Promotions> Promotions { get; set; }
-
-    public DbSet<LivreAuteur> LivreAuteurs { get; set; }
-    public DbSet<LivreCategorie> LivreCategories { get; set; }
-    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
-    #endregion
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -60,7 +21,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
 
         #region configuration
+
         #region Prendre les données de la feuille excel
+
         List<Livre> livres;
         List<List<Auteur>> auteurs;
         List<IEnumerable<string>> auteurIds = new();
@@ -69,7 +32,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         List<IEnumerable<string>> categorieIds = new();
         List<List<TypeLivre>> typeLivres;
         ReadExcel("Data/DonneesLivres.xlsx", out livres, out auteurs, out maisonEditions,
-        out categories, out typeLivres);
+            out categories, out typeLivres);
+
         #endregion
 
         //Ajout des statuts des commandes à la bd
@@ -98,7 +62,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.ApplyConfiguration(new LivreTypeLivreConfiguration(livres, typeLivres));
 
         #endregion
+
         #region Favorie
+
         // Configuration de la relation entre les favoris les membres et les livres
         builder.Entity<Favori>()
             .HasKey(f => new { f.MembreId, f.LivreId });
@@ -112,8 +78,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(f => f.Livre)
             .WithMany(l => l.Favoris)
             .HasForeignKey(f => f.LivreId);
+
         #endregion
+
         #region Livre
+
         //Un livre a un éditeur et un éditeur a plusieurs livres
         builder.Entity<Livre>()
             .HasOne(l => l.MaisonEdition)
@@ -131,8 +100,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Livre>()
             .HasMany(l => l.Promotions)
             .WithMany(c => c.Livres);
+
         #endregion
+
         #region Livre commendé
+
         // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
         builder.Entity<LivreCommande>()
             .HasKey(lc => new { lc.LivreId, lc.CommandeId });
@@ -148,8 +120,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
+
         #endregion
+
         #region ApplicationUser
+
         //Création des différent comptes
         //var password = new PasswordHasher<ApplicationUser>();
         var UserAdmin = new ApplicationUser
@@ -230,34 +205,49 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithOne(a => a.UtilisateurLivraison)
             .HasForeignKey(a => a.UtilisateurLivraisonId)
             .OnDelete(DeleteBehavior.Restrict);
+
         #endregion
+
         #region LivreAuteur
+
         // Configuration des relation de livreAuteur
         builder.Entity<LivreAuteur>()
             .HasKey(la => new { la.LivreId, la.AuteurId });
+
         #endregion
+
         #region LivreCatégorie
+
         // Configuration des relation de livreCatégorie
         builder.Entity<LivreCategorie>()
             .HasKey(la => new { la.LivreId, la.CategorieId });
+
         #endregion
+
         #region LivreTypeLivre
+
         // Configuration des relations de LivreTypeLivre
         builder.Entity<LivreTypeLivre>()
             .HasKey(la => new { la.LivreId, la.TypeLivreId });
+
         #endregion
     }
-    public void ReadExcel(string url, out List<Livre> livres, out List<List<Auteur>> listAuteurs, out List<MaisonEdition> maisonEditions,
+
+    public void ReadExcel(string url, out List<Livre> livres, out List<List<Auteur>> listAuteurs,
+        out List<MaisonEdition> maisonEditions,
         out List<List<Categorie>> ListCategories, out List<List<TypeLivre>> ListTypeLivres)
     {
         #region Donner une valleur initial aux paramettres
-        int range = 0;
-        livres = new();
-        listAuteurs = new();
-        maisonEditions = new();
-        ListCategories = new();
-        ListTypeLivres = new();
+
+        var range = 0;
+        livres = new List<Livre>();
+        listAuteurs = new List<List<Auteur>>();
+        maisonEditions = new List<MaisonEdition>();
+        ListCategories = new List<List<Categorie>>();
+        ListTypeLivres = new List<List<TypeLivre>>();
+
         #endregion
+
         //Permet l'encodage pour "encoding 1252."
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -279,67 +269,93 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                     while (reader.Read())
                     {
                         #region variable de l'entré
+
                         range++;
-                        string id = "Excel " + range;
-                        var livre = new Livre() { Id = id };
+                        var id = "Excel " + range;
+                        var livre = new Livre { Id = id };
                         var auteurs = new List<Auteur>();
-                        var maisonEdition = new MaisonEdition() { Id = id };
+                        var maisonEdition = new MaisonEdition { Id = id };
                         var categories = new List<Categorie>();
                         var typeLivres = new List<TypeLivre>();
+
                         #endregion
+
                         if (reader.GetValue(0) != null)
                         {
                             #region Titre
-                            livre.Titre = reader.GetValue(0) != null ? reader.GetString(0).Trim() : "";
+
+                            livre.Titre = reader.GetValue(0) != null ? reader.GetString(0).Trim().Trim('"').Trim() : "";
+
                             #endregion
+
                             #region Auteur
+
                             if (reader.GetValue(1) != null)
-                                auteurs.Add(new() { Id = id, NomAuteur = reader.GetString(1).Trim() });
+                                auteurs.Add(new Auteur { Id = id, NomAuteur = reader.GetString(1).Trim() });
+
                             #endregion
+
                             #region Edition
-                            if (reader.GetValue(2) != null)
-                            {
-                                maisonEdition.Nom = reader.GetString(2);
-                            }
+
+                            if (reader.GetValue(2) != null) maisonEdition.Nom = reader.GetString(2);
+
                             #endregion
+
                             #region Page
+
                             livre.NbPages = reader.GetValue(3) != null ? (int)reader.GetDouble(3) : 0;
+
                             #endregion
+
                             #region ISBN
+
                             livre.ISBN = reader.GetValue(4) != null ? reader.GetValue(4).ToString().Trim() : "";
+
                             #endregion
+
                             #region Couverture
-                            livre.Couverture = "";
+
+                            livre.Couverture = reader.GetValue(0) != null ? "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png" : "";
+
                             #endregion
+
                             #region Catégorie
+
                             if (reader.GetValue(6) != null)
-                                categories.Add(new Categorie() { Id = id, Nom = reader.GetString(6), Description = "" });
+                                categories.Add(new Categorie { Id = id, Nom = reader.GetString(6), Description = "" });
+
                             #endregion
+
                             #region Quantité
+
                             livre.NbExemplaires = reader.GetValue(9) != null ? (int)reader.GetDouble(9) : 0;
+
                             #endregion
+
                             #region Papier
+
                             if (reader.GetValue(7) != null)
-                            {
-                                typeLivres.Add(new TypeLivre()
+                                typeLivres.Add(new TypeLivre
                                 {
                                     Id = "Papier " + id,
                                     Nom = "Papier",
                                     Prix = reader.GetValue(7) != null ? reader.GetDouble(8) : 0
                                 });
-                            }
+
                             #endregion
+
                             #region Numérique
+
                             if (reader.GetValue(10) != null)
-                            {
-                                typeLivres.Add(new TypeLivre()
+                                typeLivres.Add(new TypeLivre
                                 {
                                     Id = "Numérique " + id,
                                     Nom = "Numérique",
                                     Prix = reader.GetValue(7) != null ? reader.GetDouble(11) : 0
                                 });
-                            }
+
                             #endregion
+
                             livres.Add(livre);
                             listAuteurs.Add(auteurs);
                             maisonEditions.Add(maisonEdition);
@@ -363,4 +379,45 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         }
     }
 
+    #region DbSet
+
+    public DbSet<Adresse> Adresses { get; set; }
+
+    public DbSet<Commande> Commandes { get; set; }
+
+    public DbSet<Employe> Employes { get; set; }
+
+    public DbSet<Auteur> Auteurs { get; set; }
+
+    public DbSet<Membre> Membres { get; set; }
+
+    public DbSet<Reservation> Reservations { get; set; }
+
+    public DbSet<Evenement> Evenements { get; set; }
+
+    public DbSet<Evaluation> Evaluations { get; set; }
+
+    public DbSet<Livre> Livres { get; set; }
+
+    public DbSet<Categorie> Categories { get; set; }
+
+    public DbSet<LivreCommande> LivreCommandes { get; set; }
+
+    public DbSet<StatutCommande> StatutCommandes { get; set; }
+
+    public DbSet<TypeLivre> TypeLivres { get; set; }
+
+    public DbSet<Favori> Favoris { get; set; }
+
+    public DbSet<Langue> Langues { get; set; }
+
+    public DbSet<MaisonEdition> MaisonEditions { get; set; }
+
+    public DbSet<Promotions> Promotions { get; set; }
+
+    public DbSet<LivreAuteur> LivreAuteurs { get; set; }
+    public DbSet<LivreCategorie> LivreCategories { get; set; }
+    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
+
+    #endregion
 }

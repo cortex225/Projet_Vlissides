@@ -1,31 +1,38 @@
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0 px-4" id="navTop">
-        <div class="container-fluid">
-            <!-- Logo fourmi ailée. Ce logo permet de retourner à l'accueil -->
-            <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
-                <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" class="brand-logo"/>
-            </a>
+    <div class="container-fluid">
+        <!-- Logo fourmi ailée. Ce logo permet de retourner à l'accueil -->
+        <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
+            <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" class="brand-logo"/>
+        </a>
 
-            <!-- Barre de recherche -->
-            <div id="divRecherche" class="navbar-nav flex-grow-1 recherche-container">
-                <div class="input-group mb-3 recherche-group">
-                    <div class="category-dropdown dropdown">
-                        <span class="selected-category">Trier par :</span>
-                        <select class="form-select recherche-select" id="dropdownRechercheNavbar">
-                            <option value="titre">Titre</option>
-                            <option value="auteur">Auteur</option>
-                            <option value="categorie">Catégorie</option>
-                        </select>
-                    </div>
-                    <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher...">
-                    <a id="loupeRechercheNavbar" asp-area="" asp-controller="Recherche" asp-action="Index" >
-                        <button type="button" class="btn btn-secondary recherche-btn">
-                            <i class="fa-solid fa-magnifying-glass fa-sm"></i>
-                        </button>
-                    </a>
+        <!-- Barre de recherche -->
+        <div id="divRecherche" class="navbar-nav flex-grow-1 recherche-container">
+            <div class="input-group mb-3 recherche-group">
+                <div class="category-dropdown dropdown">
+                    <span class="selected-category">Trier par :</span>
+                    <select class="form-select recherche-select" id="dropdownRechercheNavbar">
+                        <option value="titre">Titre</option>
+                        <option value="auteur">Auteur</option>
+                        <option value="categorie">Catégorie</option>
+                    </select>
                 </div>
+                <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="Recherche()">
+                <a id="loupeRechercheNavbar" asp-area="" asp-controller="Recherche" asp-action="Index">
+                    <button type="button" class="btn btn-secondary recherche-btn" style="width: 100%; height: 100%; border-radius: 10rem 25rem 25rem 10rem;">
+                        <i class="fa-solid fa-magnifying-glass fa-sm"></i>
+                    </button>
+                </a>
             </div>
-
-            <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
-            <partial name="_LoginPartial"/>
         </div>
-    </nav>
+
+        <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
+        <partial name="_LoginPartial"/>
+    </div>
+</nav>
+<script>
+    function Recherche() {
+        if (event.key == 'Enter') window.location.href=`Recherche/index?motCles=`
+            + `${document.getElementById('barreRechercheNavbar').value}`
+            + `&criteres=${document.getElementById('dropdownRechercheNavbar').value}`;
+    }
+</script>

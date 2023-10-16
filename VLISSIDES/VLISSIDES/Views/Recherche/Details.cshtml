@@ -1,6 +1,6 @@
-﻿@using VLISSIDES.ViewModels.Recherche;
-@model DetailsLivreVM
+﻿@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM
 @{
+    ViewData["Title"] = Model.Titre;
 }
 
 
@@ -16,32 +16,32 @@
         <div id="checkboxTypeLivre">
 
         </div>
-        @if(Model.LivreTypeLivres.Count <= 0)
+        @if (Model.Papier.Equals(null)&&Model.Numerique.Equals(null))
         {
-            <p><strong>Aucun Prix</strong></p>
+            <p>
+                <strong>Aucun Prix</strong>
+            </p>
         }
-        else{
-            @foreach (LivreTypeLivre t in Model.LivreTypeLivres)
-            {
-                @if (t.TypeLivre.Nom == "Neuf")
+        else
+        {
+            @if (!Model.Papier.Equals(null))
                 {
-                    <p>Prix neuf: @t.Prix $</p>
+                    <p>Prix neuf: @Model.Papier $</p>
                 }
-                @if (t.TypeLivre.Nom == "Numérique")
+            @if (!Model.Numerique.Equals(null))
                 {
-                    <p>Prix numérique: @t.Prix $</p>
+                    <p>Prix numérique: @Model.Numerique $</p>
                 }
-            }
         }
-        <p>Auteur(s): @Model.lAuteur.NomAuteur </p>
-        <p>Catégorie(s): @Model.laCategorie.Nom </p>
+        <div>Auteur(s): @foreach(var auteur in @Model.Auteurs){ <p>@auteur</p> } </div>
+        <div>Catégorie(s): @foreach (var categorie in @Model.Categories){<p>@categorie</p>}</div>
         <p>Date publication: @Model.DatePublication</p>
-        <p>Éditeur: @Model.maisonEdition.Nom</p>
+        <p>Éditeur: @Model.MaisonEdition</p>
         <p>Nombre de pages: @Model.NbPages</p>
         <strong>Résumé:</strong>
         <p>@Model.Resume</p>
         <br/>
-        @if (@Model.NbExemplaires > 0)
+        @if (Model.NbExemplaires > 0)
         {
             <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
         }

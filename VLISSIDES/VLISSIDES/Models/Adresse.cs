@@ -31,8 +31,8 @@ public class Adresse
     // Propriété de navigation pour l'utilisateur de livraison
     [DisplayName("Identifiant de utilisateur de livraison")]
     public string? UtilisateurLivraisonId { get; set; }
-    [NotMapped]
 
+    [NotMapped]
     [DisplayName("Utilisateur de livraison")]
     public ApplicationUser? UtilisateurLivraison { get; set; }
 }

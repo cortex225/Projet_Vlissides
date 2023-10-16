@@ -5,7 +5,7 @@ namespace VLISSIDES.ViewModels.Accueil;
 
 public class PromotionCardVM
 {
-    public PromotionCardVM(string description, decimal rabais, DateTime dateDebut, DateTime dateFin,string image)
+    public PromotionCardVM(string description, decimal rabais, DateTime dateDebut, DateTime dateFin, string image)
     {
         Description = description;
         Rabais = rabais;
@@ -13,7 +13,7 @@ public class PromotionCardVM
         DateFin = dateFin;
         Image = image;
     }
-    
+
     public PromotionCardVM(Promotions promotions)
     {
         Description = promotions.Description;
