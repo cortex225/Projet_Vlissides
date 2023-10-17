@@ -21,8 +21,8 @@ public class AuteurConfiguration : IEntityTypeConfiguration<Auteur>
         foreach (var auteurs in listAuteurs)
             listIdfinal.Add(auteurs.Select(a =>
                 a.Id = this.auteurs.First(thisA => thisA.NomAuteur.Equals(a.NomAuteur)).Id));
-        foreach (var auteur in this.auteurs)
-            Console.WriteLine(auteur.Id + " : " + auteur.NomAuteur);
+        //foreach (var auteur in this.auteurs)
+        //    Console.WriteLine(auteur.Id + " : " + auteur.NomAuteur);
     }
 
     public void Configure(EntityTypeBuilder<Auteur> builder)

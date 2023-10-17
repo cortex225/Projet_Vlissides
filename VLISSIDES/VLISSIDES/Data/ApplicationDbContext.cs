@@ -152,8 +152,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region Livre commendé
-        #endregion
+        #region Livre Commandé
 
         // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
         builder.Entity<LivreCommande>()
@@ -170,7 +169,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
+        #endregion
 
+        #region Livre Panier
         // Configuration de la relation entre Livre et Panier et la table de liaison LivrePanier
         builder.Entity<LivrePanier>()
             .HasKey(lp => new { lp.LivreId, lp.UserId });
@@ -186,10 +187,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lp => lp.User)
             .WithMany(p => p.Panier)
             .HasForeignKey(lp => lp.UserId);
-
-        // Configuration de la relation entre Livre et TypeLivre
-        builder.Entity<LivreTypeLivre>()
-            .HasKey(ltl => new { ltl.LivreId, ltl.TypeLivreId });
+        #endregion
 
         #region ApplicationUser
 
@@ -276,7 +274,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region LivreAuteur
+        #region Livre Auteur
 
         // Configuration des relation de livreAuteur
         builder.Entity<LivreAuteur>()
@@ -284,7 +282,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region LivreCatégorie
+        #region Livre Catégorie
 
         // Configuration des relation de livreCatégorie
         builder.Entity<LivreCategorie>()
@@ -292,7 +290,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region LivreTypeLivre
+        #region Livre TypeLivre
 
         // Configuration des relations de LivreTypeLivre
         builder.Entity<LivreTypeLivre>()

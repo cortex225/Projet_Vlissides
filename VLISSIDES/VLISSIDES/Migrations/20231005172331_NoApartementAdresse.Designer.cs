@@ -12,8 +12,8 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231017180750_MigrAjouterPanier")]
-    partial class MigrAjouterPanier
+    [Migration("20231005172331_NoApartementAdresse")]
+    partial class NoApartementAdresse
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,21 +69,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "7bd21e64-b925-4c5d-987b-e42137841ebe",
+                            ConcurrencyStamp = "9a80840e-b304-41b8-b5e6-9c8a1f45bba3",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "bbea85f4-ba30-41d0-9f4e-580e61e74269",
+                            ConcurrencyStamp = "2d07c354-a53d-4e0e-8b5c-a536ed1ad72c",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "8aea3932-d372-4578-a5f5-b3b557a344b0",
+                            ConcurrencyStamp = "78c5daef-95f7-413b-a13d-24c20dee2091",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -225,6 +225,10 @@ namespace VLISSIDES.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NoApartement")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NoCivique")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -259,7 +263,7 @@ namespace VLISSIDES.Migrations
                         .IsUnique()
                         .HasFilter("[UtilisateurPrincipalId] IS NOT NULL");
 
-                    b.ToTable("Adresse");
+                    b.ToTable("Adresses");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.ApplicationUser", b =>
@@ -276,6 +280,9 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateNaissance")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -348,7 +355,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8dace8cc-d4d4-4766-9517-9181952f50c3",
+                            ConcurrencyStamp = "b9e25615-a907-437d-8276-3016d35d9e55",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -358,7 +365,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "a0a7575f-a232-435e-9dd3-08b6e468ceb6",
+                            SecurityStamp = "eed4807e-006d-4d24-9be7-ee2b561bafac",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -1168,463 +1175,463 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "Excel 1",
-                            Couverture = "/img/Couvertures/Le Petit Prince.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9147),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3250),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001193",
                             MaisonEditionId = "Excel 1",
                             NbExemplaires = 24,
                             NbPages = 96,
                             Resume = "",
-                            Titre = "Le Petit Prince"
+                            Titre = "\"Le Petit Prince\""
                         },
                         new
                         {
                             Id = "Excel 2",
-                            Couverture = "/img/Couvertures/Harry Potter à l'école des sorciers.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9336),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3277),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001194",
                             MaisonEditionId = "Excel 2",
                             NbExemplaires = 325,
                             NbPages = 320,
                             Resume = "",
-                            Titre = "Harry Potter à l'école des sorciers"
+                            Titre = "\"Harry Potter à l'école des sorciers\""
                         },
                         new
                         {
                             Id = "Excel 3",
-                            Couverture = "/img/Couvertures/1984.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9357),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3281),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001195",
                             MaisonEditionId = "Excel 3",
                             NbExemplaires = 3,
                             NbPages = 328,
                             Resume = "",
-                            Titre = "1984"
+                            Titre = "\"1984\""
                         },
                         new
                         {
                             Id = "Excel 4",
-                            Couverture = "/img/Couvertures/Le Seigneur des Anneaux : La Communauté de l'Anneau.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9371),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3285),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001196",
                             MaisonEditionId = "Excel 4",
                             NbExemplaires = 60,
                             NbPages = 576,
                             Resume = "",
-                            Titre = "Le Seigneur des Anneaux : La Communauté de l'Anneau"
+                            Titre = "\"Le Seigneur des Anneaux : La Communauté de l'Anneau\""
                         },
                         new
                         {
                             Id = "Excel 5",
-                            Couverture = "/img/Couvertures/Le Nom de la Rose.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9384),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3288),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001197",
                             MaisonEditionId = "Excel 5",
                             NbExemplaires = 3,
                             NbPages = 592,
                             Resume = "",
-                            Titre = "Le Nom de la Rose"
+                            Titre = "\"Le Nom de la Rose\""
                         },
                         new
                         {
                             Id = "Excel 6",
-                            Couverture = "/img/Couvertures/Orgueil et Préjugés.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9420),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3292),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001198",
                             MaisonEditionId = "Excel 6",
                             NbExemplaires = 5,
                             NbPages = 384,
                             Resume = "",
-                            Titre = "Orgueil et Préjugés"
+                            Titre = "\"Orgueil et Préjugés\""
                         },
                         new
                         {
                             Id = "Excel 7",
-                            Couverture = "/img/Couvertures/L'Écume des Jours.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9446),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3296),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001199",
                             MaisonEditionId = "Excel 7",
                             NbExemplaires = 10,
                             NbPages = 316,
                             Resume = "",
-                            Titre = "L'Écume des Jours"
+                            Titre = "\"L'Écume des Jours\""
                         },
                         new
                         {
                             Id = "Excel 8",
-                            Couverture = "/img/Couvertures/Les Misérables.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9461),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3299),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001200",
                             MaisonEditionId = "Excel 8",
                             NbExemplaires = 12,
                             NbPages = 1232,
                             Resume = "",
-                            Titre = "Les Misérables"
+                            Titre = "\"Les Misérables\""
                         },
                         new
                         {
                             Id = "Excel 9",
-                            Couverture = "/img/Couvertures/Le Rouge et le Noir.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9476),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3303),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001201",
                             MaisonEditionId = "Excel 9",
                             NbExemplaires = 1,
                             NbPages = 576,
                             Resume = "",
-                            Titre = "Le Rouge et le Noir"
+                            Titre = "\"Le Rouge et le Noir\""
                         },
                         new
                         {
                             Id = "Excel 10",
-                            Couverture = "/img/Couvertures/La Nuit des temps.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9494),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3307),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001202",
                             MaisonEditionId = "Excel 10",
                             NbExemplaires = 32,
                             NbPages = 464,
                             Resume = "",
-                            Titre = "La Nuit des temps"
+                            Titre = "\"La Nuit des temps\""
                         },
                         new
                         {
                             Id = "Excel 11",
-                            Couverture = "/img/Couvertures/Le Guépard.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9522),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3316),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001203",
                             MaisonEditionId = "Excel 11",
                             NbExemplaires = 2,
                             NbPages = 256,
                             Resume = "",
-                            Titre = "Le Guépard"
+                            Titre = "\"Le Guépard\""
                         },
                         new
                         {
                             Id = "Excel 12",
-                            Couverture = "/img/Couvertures/Les Fourmis.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9538),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3319),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001204",
                             MaisonEditionId = "Excel 12",
                             NbExemplaires = 13,
                             NbPages = 540,
                             Resume = "",
-                            Titre = "Les Fourmis"
+                            Titre = "\"Les Fourmis\""
                         },
                         new
                         {
                             Id = "Excel 13",
-                            Couverture = "/img/Couvertures/Moby-Dick.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9552),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3323),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540102",
                             MaisonEditionId = "Excel 13",
                             NbExemplaires = 62,
                             NbPages = 720,
                             Resume = "",
-                            Titre = "Moby-Dick"
+                            Titre = "\"Moby-Dick\""
                         },
                         new
                         {
                             Id = "Excel 14",
-                            Couverture = "/img/Couvertures/Crime et Châtiment.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9568),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3327),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540103",
                             MaisonEditionId = "Excel 14",
                             NbExemplaires = 2,
                             NbPages = 704,
                             Resume = "",
-                            Titre = "Crime et Châtiment"
+                            Titre = "\"Crime et Châtiment\""
                         },
                         new
                         {
                             Id = "Excel 15",
-                            Couverture = "/img/Couvertures/Le Maître et Marguerite.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9583),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3331),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540104",
                             MaisonEditionId = "Excel 15",
                             NbExemplaires = 2,
                             NbPages = 480,
                             Resume = "",
-                            Titre = "Le Maître et Marguerite"
+                            Titre = "\"Le Maître et Marguerite\""
                         },
                         new
                         {
                             Id = "Excel 16",
-                            Couverture = "/img/Couvertures/Le Parfum.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9651),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3334),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540105",
                             MaisonEditionId = "Excel 16",
                             NbExemplaires = 14,
                             NbPages = 255,
                             Resume = "",
-                            Titre = "Le Parfum"
+                            Titre = "\"Le Parfum\""
                         },
                         new
                         {
                             Id = "Excel 17",
-                            Couverture = "/img/Couvertures/Le Lion.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9668),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3338),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540106",
                             MaisonEditionId = "Excel 17",
                             NbExemplaires = 15,
                             NbPages = 288,
                             Resume = "",
-                            Titre = "Le Lion"
+                            Titre = "\"Le Lion\""
                         },
                         new
                         {
                             Id = "Excel 18",
-                            Couverture = "/img/Couvertures/L'Étranger.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9687),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3343),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540107",
                             MaisonEditionId = "Excel 18",
                             NbExemplaires = 34,
                             NbPages = 123,
                             Resume = "",
-                            Titre = "L'Étranger"
+                            Titre = "\"L'Étranger\""
                         },
                         new
                         {
                             Id = "Excel 19",
-                            Couverture = "/img/Couvertures/Le Chardonneret.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9703),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3346),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540108",
                             MaisonEditionId = "Excel 19",
                             NbExemplaires = 6,
                             NbPages = 880,
                             Resume = "",
-                            Titre = "Le Chardonneret"
+                            Titre = "\"Le Chardonneret\""
                         },
                         new
                         {
                             Id = "Excel 20",
-                            Couverture = "/img/Couvertures/Le Journal d'Anne Frank.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9719),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3350),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540109",
                             MaisonEditionId = "Excel 20",
                             NbExemplaires = 2,
                             NbPages = 384,
                             Resume = "",
-                            Titre = "Le Journal d'Anne Frank"
+                            Titre = "\"Le Journal d'Anne Frank\""
                         },
                         new
                         {
                             Id = "Excel 21",
-                            Couverture = "/img/Couvertures/La Ferme des Animaux.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9735),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3354),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540110",
                             MaisonEditionId = "Excel 21",
                             NbExemplaires = 40,
                             NbPages = 144,
                             Resume = "",
-                            Titre = "La Ferme des Animaux"
+                            Titre = "\"La Ferme des Animaux\""
                         },
                         new
                         {
                             Id = "Excel 22",
-                            Couverture = "/img/Couvertures/L'Odyssée.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9751),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3358),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540111",
                             MaisonEditionId = "Excel 22",
                             NbExemplaires = 31,
                             NbPages = 416,
                             Resume = "",
-                            Titre = "L'Odyssée"
+                            Titre = "\"L'Odyssée\""
                         },
                         new
                         {
                             Id = "Excel 23",
-                            Couverture = "/img/Couvertures/Le Vieil Homme et la Mer.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9768),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3362),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540112",
                             MaisonEditionId = "Excel 23",
                             NbExemplaires = 20,
                             NbPages = 128,
                             Resume = "",
-                            Titre = "Le Vieil Homme et la Mer"
+                            Titre = "\"Le Vieil Homme et la Mer\""
                         },
                         new
                         {
                             Id = "Excel 24",
-                            Couverture = "/img/Couvertures/Le Journal de Bridget Jones.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9784),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3366),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540113",
                             MaisonEditionId = "Excel 24",
                             NbExemplaires = 21,
                             NbPages = 320,
                             Resume = "",
-                            Titre = "Le Journal de Bridget Jones"
+                            Titre = "\"Le Journal de Bridget Jones\""
                         },
                         new
                         {
                             Id = "Excel 25",
-                            Couverture = "/img/Couvertures/Le Meilleur des Mondes.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9800),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3370),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540114",
                             MaisonEditionId = "Excel 25",
                             NbExemplaires = 1,
                             NbPages = 416,
                             Resume = "",
-                            Titre = "Le Meilleur des Mondes"
+                            Titre = "\"Le Meilleur des Mondes\""
                         },
                         new
                         {
                             Id = "Excel 26",
-                            Couverture = "/img/Couvertures/L'Alchimiste.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9817),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3374),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540115",
                             MaisonEditionId = "Excel 26",
                             NbExemplaires = 15,
                             NbPages = 192,
                             Resume = "",
-                            Titre = "L'Alchimiste"
+                            Titre = "\"L'Alchimiste\""
                         },
                         new
                         {
                             Id = "Excel 27",
-                            Couverture = "/img/Couvertures/Le Portrait de Dorian Gray.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9834),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3379),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540116",
                             MaisonEditionId = "Excel 27",
                             NbExemplaires = 4,
                             NbPages = 384,
                             Resume = "",
-                            Titre = "Le Portrait de Dorian Gray"
+                            Titre = "\"Le Portrait de Dorian Gray\""
                         },
                         new
                         {
                             Id = "Excel 28",
-                            Couverture = "/img/Couvertures/Le Comte de Monte-Cristo.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9853),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3421),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540118",
                             MaisonEditionId = "Excel 28",
                             NbExemplaires = 6,
                             NbPages = 1312,
                             Resume = "",
-                            Titre = "Le Comte de Monte-Cristo"
+                            Titre = "\"Le Comte de Monte-Cristo\""
                         },
                         new
                         {
                             Id = "Excel 29",
-                            Couverture = "/img/Couvertures/Le Hobbit.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9870),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3426),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540119",
                             MaisonEditionId = "Excel 29",
                             NbExemplaires = 20,
                             NbPages = 320,
                             Resume = "",
-                            Titre = "Le Hobbit"
+                            Titre = "\"Le Hobbit\""
                         },
                         new
                         {
                             Id = "Excel 30",
-                            Couverture = "/img/Couvertures/Les Trois Mousquetaires.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 539, DateTimeKind.Local).AddTicks(9952),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3435),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540120",
                             MaisonEditionId = "Excel 30",
                             NbExemplaires = 21,
                             NbPages = 704,
                             Resume = "",
-                            Titre = "Les Trois Mousquetaires"
+                            Titre = "\"Les Trois Mousquetaires\""
                         },
                         new
                         {
                             Id = "Excel 31",
-                            Couverture = "/img/Couvertures/Les Cerfs-volants de Kaboul.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(76),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3456),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540121",
                             MaisonEditionId = "Excel 31",
                             NbExemplaires = 2,
                             NbPages = 368,
                             Resume = "",
-                            Titre = "Les Cerfs-volants de Kaboul"
+                            Titre = "\"Les Cerfs-volants de Kaboul\""
                         },
                         new
                         {
                             Id = "Excel 32",
-                            Couverture = "/img/Couvertures/Le Grand Meaulnes.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(95),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3461),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540122",
                             MaisonEditionId = "Excel 32",
                             NbExemplaires = 0,
                             NbPages = 224,
                             Resume = "",
-                            Titre = "Le Grand Meaulnes"
+                            Titre = "\"Le Grand Meaulnes\""
                         },
                         new
                         {
                             Id = "Excel 33",
-                            Couverture = "/img/Couvertures/Le Journal de Kurt Cobain.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(113),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3465),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540123",
                             MaisonEditionId = "Excel 33",
                             NbExemplaires = 10,
                             NbPages = 304,
                             Resume = "",
-                            Titre = "Le Journal de Kurt Cobain"
+                            Titre = "\"Le Journal de Kurt Cobain\""
                         },
                         new
                         {
                             Id = "Excel 34",
-                            Couverture = "/img/Couvertures/Les Fleurs du Mal.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(137),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3470),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "978-2253004229",
                             MaisonEditionId = "Excel 34",
                             NbExemplaires = 0,
                             NbPages = 288,
                             Resume = "",
-                            Titre = "Les Fleurs du Mal"
+                            Titre = "\"Les Fleurs du Mal\""
                         },
                         new
                         {
                             Id = "Excel 35",
-                            Couverture = "/img/Couvertures/Le Parti pris des choses.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(156),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3475),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "978-2070367980",
                             MaisonEditionId = "Excel 35",
                             NbExemplaires = 30,
                             NbPages = 128,
                             Resume = "",
-                            Titre = "Le Parti pris des choses"
+                            Titre = "\"Le Parti pris des choses\""
                         },
                         new
                         {
                             Id = "Excel 36",
-                            Couverture = "/img/Couvertures/Les Contes de Grimm.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(175),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3479),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140586",
                             MaisonEditionId = "Excel 36",
@@ -1636,8 +1643,8 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "Excel 37",
-                            Couverture = "/img/Couvertures/Contes de Perrault.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(193),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3484),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140589",
                             MaisonEditionId = "Excel 37",
@@ -1649,8 +1656,8 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "Excel 38",
-                            Couverture = "/img/Couvertures/Les Contes d'Andersen.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(213),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3488),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140590",
                             MaisonEditionId = "Excel 38",
@@ -1662,8 +1669,8 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "Excel 39",
-                            Couverture = "/img/Couvertures/Contes des Mille et Une Nuits.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(233),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3493),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140591",
                             MaisonEditionId = "Excel 39",
@@ -1675,8 +1682,8 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "Excel 40",
-                            Couverture = "/img/Couvertures/Contes de la Rue Broca.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(280),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3497),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140592",
                             MaisonEditionId = "Excel 40",
@@ -1688,132 +1695,132 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "Excel 42",
-                            Couverture = "/img/Couvertures/Pédagogie positive.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(299),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3502),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140594",
                             MaisonEditionId = "Excel 42",
                             NbExemplaires = 3,
                             NbPages = 400,
                             Resume = "",
-                            Titre = "Pédagogie positive"
+                            Titre = "\"Pédagogie positive\""
                         },
                         new
                         {
                             Id = "Excel 43",
-                            Couverture = "/img/Couvertures/L'École du Colibri.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(320),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3507),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140595",
                             MaisonEditionId = "Excel 43",
                             NbExemplaires = 23,
                             NbPages = 160,
                             Resume = "",
-                            Titre = "L'École du Colibri"
+                            Titre = "\"L'École du Colibri\""
                         },
                         new
                         {
                             Id = "Excel 44",
-                            Couverture = "/img/Couvertures/Apprendre autrement avec la pédagogie positive.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(340),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3511),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140596",
                             MaisonEditionId = "Excel 44",
                             NbExemplaires = 2,
                             NbPages = 288,
                             Resume = "",
-                            Titre = "Apprendre autrement avec la pédagogie positive"
+                            Titre = "\"Apprendre autrement avec la pédagogie positive\""
                         },
                         new
                         {
                             Id = "Excel 45",
-                            Couverture = "/img/Couvertures/Le guide de survie enseignant suppléant.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(360),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3516),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140597",
                             MaisonEditionId = "Excel 45",
                             NbExemplaires = 150,
                             NbPages = 320,
                             Resume = "",
-                            Titre = "Le guide de survie enseignant suppléant"
+                            Titre = "\"Le guide de survie enseignant suppléant\""
                         },
                         new
                         {
                             Id = "Excel 46",
-                            Couverture = "/img/Couvertures/La pédagogie Montessori à la maison.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(382),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3521),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140598",
                             MaisonEditionId = "Excel 46",
                             NbExemplaires = 3,
                             NbPages = 192,
                             Resume = "",
-                            Titre = "La pédagogie Montessori à la maison"
+                            Titre = "\"La pédagogie Montessori à la maison\""
                         },
                         new
                         {
                             Id = "Excel 48",
-                            Couverture = "/img/Couvertures/Astérix le Gaulois.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(403),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3526),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782012101320",
                             MaisonEditionId = "Excel 48",
                             NbExemplaires = 20,
                             NbPages = 48,
                             Resume = "",
-                            Titre = "Astérix le Gaulois"
+                            Titre = "\"Astérix le Gaulois\""
                         },
                         new
                         {
                             Id = "Excel 49",
-                            Couverture = "/img/Couvertures/Tintin au Tibet.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(424),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3531),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782203001193",
                             MaisonEditionId = "Excel 49",
                             NbExemplaires = 12,
                             NbPages = 62,
                             Resume = "",
-                            Titre = "Tintin au Tibet"
+                            Titre = "\"Tintin au Tibet\""
                         },
                         new
                         {
                             Id = "Excel 50",
-                            Couverture = "/img/Couvertures/Maus.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(445),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3535),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782070540102",
                             MaisonEditionId = "Excel 50",
                             NbExemplaires = 2,
                             NbPages = 296,
                             Resume = "",
-                            Titre = "Maus"
+                            Titre = "\"Maus\""
                         },
                         new
                         {
                             Id = "Excel 51",
-                            Couverture = "/img/Couvertures/Persepolis.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(467),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3540),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "9782844140587",
                             MaisonEditionId = "Excel 51",
                             NbExemplaires = 6,
                             NbPages = 352,
                             Resume = "",
-                            Titre = "Persepolis"
+                            Titre = "\"Persepolis\""
                         },
                         new
                         {
                             Id = "Excel 52",
-                            Couverture = "/img/Couvertures/Watchmen.png",
-                            DateAjout = new DateTime(2023, 10, 17, 14, 7, 41, 540, DateTimeKind.Local).AddTicks(489),
+                            Couverture = "",
+                            DateAjout = new DateTime(2023, 10, 5, 13, 23, 23, 962, DateTimeKind.Local).AddTicks(3545),
                             DatePublication = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ISBN = "978-2-8094-3960-2",
                             MaisonEditionId = "Excel 52",
                             NbExemplaires = 8,
                             NbPages = 416,
                             Resume = "",
-                            Titre = "Watchmen"
+                            Titre = "\"Watchmen\""
                         });
                 });
 
@@ -2369,36 +2376,6 @@ namespace VLISSIDES.Migrations
                     b.HasIndex("CommandeId");
 
                     b.ToTable("LivreCommandes");
-                });
-
-            modelBuilder.Entity("VLISSIDES.Models.LivrePanier", b =>
-                {
-                    b.Property<string>("LivreId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Quantite")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TypeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeLivreId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LivreId", "UserId");
-
-                    b.HasIndex("TypeLivreId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("LivrePanier");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.LivreTypeLivre", b =>
@@ -3120,16 +3097,6 @@ namespace VLISSIDES.Migrations
                         });
                 });
 
-            modelBuilder.Entity("VLISSIDES.Models.Panier", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Paniers");
-                });
-
             modelBuilder.Entity("VLISSIDES.Models.Promotions", b =>
                 {
                     b.Property<string>("Id")
@@ -3699,7 +3666,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "605dc048-dca0-4eb8-9346-6fc7e26b9b04",
+                            ConcurrencyStamp = "8792c120-b5a4-4ecd-8467-55b4b9e94ad1",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -3709,7 +3676,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "26284720-92af-42fb-b350-d6e6323598e7",
+                            SecurityStamp = "e709eb6f-29ad-424f-bc99-c574ecd5d286",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -3741,7 +3708,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "dac07b7f-af91-4a81-b433-018c43a4f51e",
+                            ConcurrencyStamp = "b7ee83f7-272a-4af0-a80a-80078350f030",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -3751,10 +3718,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "48b98222-1b45-402e-946a-d93746c6d230",
+                            SecurityStamp = "ec9edba0-7bf3-43e4-9cbd-28f25d9692c9",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 10, 17, 14, 7, 43, 404, DateTimeKind.Local).AddTicks(4425),
+                            DateAdhesion = new DateTime(2023, 10, 5, 13, 23, 25, 660, DateTimeKind.Local).AddTicks(6636),
                             NoMembre = "123456"
                         });
                 });
@@ -3988,31 +3955,6 @@ namespace VLISSIDES.Migrations
                     b.Navigation("Livre");
                 });
 
-            modelBuilder.Entity("VLISSIDES.Models.LivrePanier", b =>
-                {
-                    b.HasOne("VLISSIDES.Models.Livre", "Livre")
-                        .WithMany("LivrePanier")
-                        .HasForeignKey("LivreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VLISSIDES.Models.TypeLivre", "TypeLivre")
-                        .WithMany()
-                        .HasForeignKey("TypeLivreId");
-
-                    b.HasOne("VLISSIDES.Models.ApplicationUser", "User")
-                        .WithMany("Panier")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Livre");
-
-                    b.Navigation("TypeLivre");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("VLISSIDES.Models.LivreTypeLivre", b =>
                 {
                     b.HasOne("VLISSIDES.Models.Livre", "Livre")
@@ -4056,8 +3998,6 @@ namespace VLISSIDES.Migrations
                     b.Navigation("AdressePrincipale");
 
                     b.Navigation("AdressesLivraison");
-
-                    b.Navigation("Panier");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Auteur", b =>
@@ -4100,8 +4040,6 @@ namespace VLISSIDES.Migrations
                     b.Navigation("LivreAuteurs");
 
                     b.Navigation("LivreCommandes");
-
-                    b.Navigation("LivrePanier");
 
                     b.Navigation("LivreTypeLivres");
                 });
