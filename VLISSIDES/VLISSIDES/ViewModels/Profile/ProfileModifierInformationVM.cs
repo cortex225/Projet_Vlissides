@@ -15,8 +15,8 @@ namespace VLISSIDES.ViewModels.Profile
 
         [Display(Name = "Téléphone")] public string Telephone { get; set; }
 
-        //public string? CoverImageUrl { get; set; }
+        public string? CoverImageUrl { get; set; }
 
-        //[Display(Name = "Image du livre")] public IFormFile? CoverPhoto { get; set; }
+        [Display(Name = "Image du livre")] public IFormFile? CoverPhoto { get; set; }
     }
 }

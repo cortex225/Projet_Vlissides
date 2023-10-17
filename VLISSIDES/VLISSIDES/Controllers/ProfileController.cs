@@ -9,16 +9,25 @@ namespace VLISSIDES.Controllers
 {
     public class ProfileController : Controller
     {
+        private readonly IConfiguration _config;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProfileController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+        public ProfileController(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
+            IConfiguration config,
+            IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _config = config;
+            _webHostEnvironment = webHostEnvironment;
         }
+
         public IActionResult Index()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
@@ -34,11 +43,14 @@ namespace VLISSIDES.Controllers
                     DateNaissance = user.DateNaissance,
                     Courriel = user.Email,
                     Id = user.Id,
-                    Telephone = user.PhoneNumber
+                    Telephone = user.PhoneNumber,
+                    CoverImageUrl = user.CoverImageUrl,
+                    CoverPhoto = user.CoverPhoto
                 }
             };
             return View(vm);
         }
+
         [Route("2167594/Profile/ModifierInformation")]
         [Route("{controller}/{action}")]
         public IActionResult ModifierInformation()
@@ -55,21 +67,24 @@ namespace VLISSIDES.Controllers
                 DateNaissance = user.DateNaissance,
                 Courriel = user.Email,
                 Id = user.Id,
-                Telephone = user.PhoneNumber
+                Telephone = user.PhoneNumber,
+                CoverImageUrl = user.CoverImageUrl,
+                CoverPhoto = user.CoverPhoto
             };
             return PartialView("PartialViews/Profile/_ProfilePartial", vm);
         }
+
         [HttpPost]
         [Route("2167594/Profile/ModifierInformation")]
         [Route("{controller}/{action}")]
-        public IActionResult ModifierInformation(ProfileModifierInformationVM vm)
+        public async Task<IActionResult> ModifierInformation(ProfileModifierInformationVM vm)
         {
             var indexVM = new ProfileIndexVM { ProfileModifierInformationVM = vm };
             var userId = _userManager.GetUserId(HttpContext.User);
-            var userCourant = _userManager.FindByIdAsync(userId).Result;
+            var userCourant = await _userManager.FindByIdAsync(userId);
             if (userCourant.UserName != vm.NomUtilisateur)
             {
-                if (_context.Users.FirstOrDefault(u => u.UserName == vm.NomUtilisateur) != null)
+                if (await _context.Users.FirstOrDefaultAsync(u => u.UserName == vm.NomUtilisateur) != null)
                 {
                     ModelState.AddModelError("NomUtilisateur", "Le nom d'utilisateur est déjà pris");
                 }
@@ -77,8 +92,8 @@ namespace VLISSIDES.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
-                var userM = _userManager.Users.FirstOrDefault(u => u.Id == vm.Id);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == vm.Id);
+                var userM = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == vm.Id);
 
                 if (user != null)
                 {
@@ -92,9 +107,30 @@ namespace VLISSIDES.Controllers
                     user.NormalizedUserName = vm.NomUtilisateur.ToUpper();
                     userM.UserName = vm.NomUtilisateur;
 
+                    // Sauvegarder l'image dans le dossier spécifié
+                    if (vm.CoverPhoto != null)
+                    {
+                        var wwwRootPath = _webHostEnvironment.WebRootPath;
+                        var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                        var extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                        fileName = fileName + "_" + Guid.NewGuid().ToString() +
+                                   extension; // Utilisation de Guid pour un nom de fichier unique
+                        var folderPath =
+                            Path.Combine(wwwRootPath, "img",
+                                "UserPhoto"); // Chemin du dossier où l'image sera sauvegardée
+                        var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
 
-                    _context.SaveChanges();
+                        // Sauvegarder l'image
+                        using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            await vm.CoverPhoto.CopyToAsync(fileStream);
+                        }
 
+                        userCourant.CoverImageUrl =
+                            "/img/UserPhoto/" + fileName; 
+                    }
+
+                    await _context.SaveChangesAsync();
                 }
 
                 return View("Index", indexVM);
@@ -102,6 +138,7 @@ namespace VLISSIDES.Controllers
 
             return View("Index", indexVM);
         }
+
         [Route("2167594/Profile/ModifierPassword")]
         [Route("{controller}/{action}")]
         public IActionResult ModifierPassword()
@@ -112,6 +149,7 @@ namespace VLISSIDES.Controllers
             };
             return PartialView("PartialViews/Profile/_ModifierPasswordPartial", vm);
         }
+
         [HttpPost]
         [Route("2167594/Profile/ModifierPassword")]
         [Route("{controller}/{action}")]
@@ -120,30 +158,34 @@ namespace VLISSIDES.Controllers
             if (ModelState.IsValid)
             {
                 var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
-                var passswordVerificationResult = new PasswordHasher<ApplicationUser>().VerifyHashedPassword(user, user.PasswordHash, vm.Password);
+                var passswordVerificationResult =
+                    new PasswordHasher<ApplicationUser>().VerifyHashedPassword(user, user.PasswordHash, vm.Password);
                 if (passswordVerificationResult == PasswordVerificationResult.Failed)
                 {
                     ModelState.AddModelError("Password", "Mot de passe actuel erroné");
                 }
+
                 if (vm.NewPassword != vm.ConfirmPassword)
                 {
                     ModelState.AddModelError("ConfirmPassword", "La confirmation du mot de passe n'est pas correcte");
                 }
+
                 if (ModelState.IsValid)
                 {
                     user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, vm.NewPassword);
                     _context.SaveChanges();
-
                 }
-
             }
+
             return PartialView("PartialViews/Profile/_ModifierPasswordPartial", vm);
         }
+
         public IActionResult ModifierAdresses()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             //var user = _userManager.FindByIdAsync(userId).Result;
-            var user = _context.Users.Include(x => x.AdressePrincipale).Include(x => x.AdressesLivraison).FirstOrDefault(u => u.Id == userId);
+            var user = _context.Users.Include(x => x.AdressePrincipale).Include(x => x.AdressesLivraison)
+                .FirstOrDefault(u => u.Id == userId);
 
             ProfileModifierAdressesVM vm;
             if (user.AdressePrincipale != null)
@@ -158,8 +200,6 @@ namespace VLISSIDES.Controllers
                     Pays = user.AdressePrincipale.Pays,
                     Province = user.AdressePrincipale.Province,
                     Ville = user.AdressePrincipale.Ville,
-
-
                 };
                 if (user.AdressePrincipale.NoApartement != null)
                 {
@@ -178,6 +218,7 @@ namespace VLISSIDES.Controllers
 
             return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
         }
+
         [HttpPost]
         public IActionResult ModifierAdressePrincipale(ProfileModifierAdressesVM vm)
         {
@@ -190,7 +231,6 @@ namespace VLISSIDES.Controllers
                     var id = Guid.NewGuid().ToString();
                     user.AdressePrincipale = new Adresse
                     {
-
                         Id = id,
                         NoCivique = vm.NoCivique,
                         Rue = vm.Rue,
@@ -199,7 +239,6 @@ namespace VLISSIDES.Controllers
                         Ville = vm.Ville,
                         Province = vm.Province,
                         Pays = vm.Pays,
-
                     };
                     user.AdressePrincipaleId = id;
                     _context.SaveChanges();
@@ -221,6 +260,7 @@ namespace VLISSIDES.Controllers
 
             return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
         }
+
         [HttpPost]
         public IActionResult EnleverAdressesLivraison(string? id)
         {
@@ -235,7 +275,8 @@ namespace VLISSIDES.Controllers
                 _context.SaveChanges();
                 var userId = _userManager.GetUserId(HttpContext.User);
                 //var user = _userManager.FindByIdAsync(userId).Result;
-                var user = _context.Users.Include(x => x.AdressePrincipale).Include(x => x.AdressesLivraison).FirstOrDefault(u => u.Id == userId);
+                var user = _context.Users.Include(x => x.AdressePrincipale).Include(x => x.AdressesLivraison)
+                    .FirstOrDefault(u => u.Id == userId);
 
                 ProfileModifierAdressesVM vm;
                 if (user.AdressePrincipale != null)
@@ -250,8 +291,6 @@ namespace VLISSIDES.Controllers
                         Pays = user.AdressePrincipale.Pays,
                         Province = user.AdressePrincipale.Province,
                         Ville = user.AdressePrincipale.Ville,
-
-
                     };
                     if (user.AdressePrincipale.NoApartement != null)
                     {
@@ -267,9 +306,9 @@ namespace VLISSIDES.Controllers
                 {
                     vm.AdressesDeLivraison = user.AdressesLivraison.ToList();
                 }
+
                 return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
             }
-
         }
     }
 }

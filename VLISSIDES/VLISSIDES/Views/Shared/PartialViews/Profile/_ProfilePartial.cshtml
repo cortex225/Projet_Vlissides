@@ -2,7 +2,7 @@
 @inject SignInManager<ApplicationUser> signInManager
 @model VLISSIDES.ViewModels.Profile.ProfileModifierInformationVM
 <head>
-    <link href="~/assets/css/profile-avatar.css" rel="stylesheet" asp-append-version="true"/>
+    <link href="~/css/profile-avatar.css" rel="stylesheet" asp-append-version="true"/>
 </head>
 <form id="updateProfileForm" method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="ModifierInformation">
     <input type="hidden" asp-for="Id" />
@@ -11,26 +11,24 @@
 
     <div class="card card-body" id="profile">
         <div class="row justify-content-center align-items-center m-4">
-            
+
             @* Upload Image Part *@
-            @* <div class="col-sm col-4 position-relative">
-                <div class="avatar avatar-xxl rounded-circle shadow-sm">
+            <div class="col-sm col-4 position-relative">
+                <div class="avatar avatar-xxl rounded-circle shadow-sm avatar-profile">
                     @{
-                        if (Model.CoverImageUrl == null)
-                        {
-                            <img src="~/assets/img/UserPhoto/DefaultUser.png" alt="User Photo">
-                        }
-                        else
-                        {
-                            <img src="~/@Model.CoverImageUrl" alt="User Photo">
-                        }
+
+                        <img src="@Model.CoverImageUrl" alt="User Photo" class="avatar-image">
+
+                        
+
                     }
                     <div class="avatar-overlay" onclick="triggerFileInput()">
                         <i class="fa fa-pencil"></i> <!-- Vous pouvez utiliser une autre icône ou du texte -->
                     </div>
                     <input asp-for="CoverPhoto" class="avatar-input" id="customFile">
                 </div>
-            </div> *@
+            </div>
+
 
 
 
@@ -165,11 +163,13 @@
                                    onfocus="focused(this)" onfocusout="defocused(this)">
                         </div>
                     } *@
-                    <div class="col-md">
-                        <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="button"  onclick="ProfileInformationEnregistrer()"  >
-                            Enregistrer les changements
-                        </button>
-                    </div>
+                    <div class="row mt-4">
+                                        <div class="col-md">
+                                            <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="button" onclick="ProfileInformationEnregistrer()">
+                                                Enregistrer les changements
+                                            </button>
+                                        </div>
+                                    </div>
                 </div>
             </div>
 
@@ -192,7 +192,7 @@
         });
     }
 </script>  
-@* <script>
+ <script>
   function triggerFileInput() {
       document.getElementById("customFile").click();
   }
@@ -235,31 +235,3 @@
 
 </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var addressInput = document.getElementById('Address');
-        var autocomplete = new google.maps.places.Autocomplete(addressInput, {types: ['address']});
-    
-        // Écoutez l'événement place_changed
-        autocomplete.addListener('place_changed', function() {
-            var place = autocomplete.getPlace();
-            var postalCode = '';
-            
-            // Parcourez les composants d'adresse pour trouver le code postal
-            for (var i = 0; i < place.address_components.length; i++) {
-                var addressType = place.address_components[i].types[0];
-                if (addressType === 'postal_code') {
-                    postalCode = place.address_components[i].long_name;
-                    break;
-                }
-            }
-    
-            // Mettez à jour le champ d'adresse avec le code postal (si ce n'est pas déjà le cas)
-            if (postalCode && !addressInput.value.includes(postalCode)) {
-                addressInput.value += ', ' + postalCode;
-            }
-        });
-    });
-
-</script>
- *@
