@@ -17,4 +17,5 @@ public class ApplicationUser : IdentityUser
 
     // Un utilisateur peut avoir plusieurs adresses de livraison
     [DisplayName("Adresse de livraison")] public ICollection<Adresse>? AdressesLivraison { get; set; }
+    [DisplayName("Date de naissance")] public DateTime? DateNaissance { get; set; }
 }

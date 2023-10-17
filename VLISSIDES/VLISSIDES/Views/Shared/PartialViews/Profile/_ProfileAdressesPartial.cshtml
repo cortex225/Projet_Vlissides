@@ -1,0 +1,121 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model VLISSIDES.ViewModels.Profile.ProfileModifierAdressesVM
+<form method="post" asp-controller="Profile" asp-action="ModifierAdresses" id="AdressesForm">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Adresses</h5>
+        </div>
+        <div class="card-body pt-0">
+            <h6>Adresse ligne 1</h6>
+            <div class="row">
+
+                <div class="col-2">
+                    <div class="form-group form-group-static">
+                        <label asp-for="NoCivique" class="control-label"></label>
+                        <input asp-for="NoCivique" class="form-control" type="text" placeholder="@Html.DisplayFor(model=>model.NoCivique)" />
+                        <span asp-validation-for="NoCivique" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="form-group form-group-static">
+                        <label asp-for="Rue" class="control-label"></label>
+                        <input asp-for="Rue" class="form-control" type="text" placeholder="@Html.DisplayFor(model=>model.Rue)" />
+                        <span asp-validation-for="Rue" class="text-danger"></span>
+                    </div>
+                </div>
+                
+            </div>
+            <h6>Adresse ligne 2</h6>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group form-group-static">
+                        <label asp-for="NoApartement" class="control-label"></label>
+                        <input asp-for="NoApartement" class="form-control" type="text" placeholder="@Html.DisplayFor(model=>model.NoApartement)" />
+                        <span asp-validation-for="NoApartement" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group form-group-static">
+                        <label asp-for="CodePostal" class="control-label"></label>
+                        <input asp-for="CodePostal" class="form-control" type="text" placeholder="@Html.DisplayFor(model=>model.CodePostal)" />
+                        <span asp-validation-for="CodePostal" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group form-group-static">
+                        <label asp-for="Ville" class="control-label"></label>
+                        <input asp-for="Ville" class="form-control" type="text" placeholder="@Html.DisplayFor(model=>model.Ville)" />
+                        <span asp-validation-for="Ville" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group form-group-static">
+                        <label asp-for="Province" class="control-label"></label>
+                        <input asp-for="Province" class="form-control" type="text" placeholder="@Html.DisplayFor(model=>model.Province)" />
+                        <span asp-validation-for="Province" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group form-group-static">
+                        <label asp-for="Pays" class="control-label"></label>
+                        <input asp-for="Pays" class="form-control" type="text" placeholder="@Html.DisplayFor(model=>model.Pays)"/>
+                        <span asp-validation-for="Pays" class="text-danger"></span>
+                    </div>
+                </div>
+                
+            </div>
+            <hr />
+            <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0" onclick="ProfileAdresseEnregistrer()" type="button">Enregistrer l'adresse principale</button>
+        </div>
+    </div>
+</form>
+
+@if(Model.AdressesDeLivraison is not null)
+{
+    <hr />
+    <div>
+    Adresses de livraison
+    <div>
+        
+        @foreach (var item in Model.AdressesDeLivraison)
+        {
+            <div>
+                <span>
+                    @item.NoCivique @item.Rue, @item.NoApartement, @item.CodePostal, @item.Ville, @item.Province, @item.Pays
+                </span>
+                <button class="btn btn-danger" type="button" onclick="EnleverAdressesLivraison(@item.Id.ToString())">
+                    X
+                </button>
+            </div>
+        }
+    </div>
+</div>
+}
+
+<script>
+    // function ProfileAdresseEnregistrer(){
+    //     var form = document.getElementById("AdressesForm");
+    //     var data = new FormData(form);
+    //     fetch(BASE_URL + "/Profile/ModifierAdressePrincipale", {
+    //         method: "POST",
+    //         body: data,
+    //     }).then((response)=>{
+    //         return response.text()
+    //     }).then((result) => {
+    //         document.getElementById("ModifierProfile").innerHTML = result;
+    //     });
+    // }
+
+    
+</script>
