@@ -1,0 +1,39 @@
+﻿@model VLISSIDES.ViewModels.Categories.CategoriesIndexVM
+
+<div id="Liste_@Model.Id" class=" visually-hidden">
+    <h4 class="my-2">Nom : @Model.Nom</h4>
+    <p>
+        <span class="fw-bold">Description :</span> @Model.Description
+    </p>
+    <h4>Les livres de la catégorie</h4>
+    @if (Model.Livres.Any())
+    {
+        <div class="listcolumns">
+            <ul id="ulListeNomLivres">
+                @foreach (var livre in Model.Livres)
+                {
+                    <li>@livre</li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <p>pas de livres</p>
+    }
+    <h4>Sous-catégories</h4>
+    @if (Model.Enfants.Count != 0)
+    {
+        <ul>
+            @foreach (var enfant in Model.Enfants)
+            {
+                <li>@enfant</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <h6>Pas de sous-catégorie</h6>
+    }
+
+</div>
