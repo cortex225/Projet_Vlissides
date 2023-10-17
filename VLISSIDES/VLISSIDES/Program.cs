@@ -19,7 +19,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 if (OperatingSystem.IsMacOS())
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionStringJL));
+        options.UseSqlServer(connectionString));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
