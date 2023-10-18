@@ -139,5 +139,24 @@ namespace VLISSIDES.Controllers
 
             return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
         }
+
+        //Pour montrer la partial view de confirmation de suppression
+        [HttpGet]
+        public async Task<IActionResult> ShowDeleteConfirmation(string id)
+        {
+            if (id == null) return NotFound();
+
+            var livreP = await _context.LivrePanier.FindAsync(id);
+            if (livreP == null) return NotFound();
+
+            SupprPanierConfirmationVM vm = new SupprPanierConfirmationVM() 
+            {
+                Id = livreP.Id,
+                Titre = livreP.
+            };
+
+
+            return PartialView("PartialViews/Modals/Panier/_DeletePanierConfirmation.cshtml", livreP);
+        }
     }
 }

@@ -614,7 +614,7 @@ public class GestionLivresController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    //Pour montrer la la partial view de confirmation de suppression
+    //Pour montrer la partial view de confirmation de suppression
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
