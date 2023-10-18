@@ -48,6 +48,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Panier> Paniers { get; set; }
     public DbSet<LivrePanier> LivrePanier { get; set; }
+    
+    public DbSet<Adresse> Adresses { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)

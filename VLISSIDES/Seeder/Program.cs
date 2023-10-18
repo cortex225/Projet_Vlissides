@@ -54,14 +54,14 @@ public class DatabaseSeeder
 
 
 //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
-_context.Livres.RemoveRange(_context.Livres);
-_context.SaveChanges();
-_context.Auteurs.RemoveRange(_context.Auteurs);
-_context.SaveChanges();
-_context.MaisonEditions.RemoveRange(_context.MaisonEditions);
-_context.SaveChanges();
-_context.Categories.RemoveRange(_context.Categories);
-_context.SaveChanges();
+// _context.Livres.RemoveRange(_context.Livres);
+// _context.SaveChanges();
+// _context.Auteurs.RemoveRange(_context.Auteurs);
+// _context.SaveChanges();
+// _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
+// _context.SaveChanges();
+// _context.Categories.RemoveRange(_context.Categories);
+// _context.SaveChanges();
 
 
 //Générer les auteurs
