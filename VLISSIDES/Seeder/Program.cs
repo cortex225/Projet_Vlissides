@@ -54,14 +54,14 @@ public class DatabaseSeeder
 
 
         //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
-        // _context.Livres.RemoveRange(_context.Livres);
-        // _context.SaveChanges();
-        // _context.Auteurs.RemoveRange(_context.Auteurs);
-        // _context.SaveChanges();
-        // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
-        // _context.SaveChanges();
-        // _context.Categories.RemoveRange(_context.Categories);
-        // _context.SaveChanges();
+        _context.Livres.RemoveRange(_context.Livres);
+        _context.SaveChanges();
+        _context.Auteurs.RemoveRange(_context.Auteurs);
+        _context.SaveChanges();
+        _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
+        _context.SaveChanges();
+        _context.Categories.RemoveRange(_context.Categories);
+        _context.SaveChanges();
 
 
         //Générer les auteurs
@@ -92,7 +92,7 @@ public class DatabaseSeeder
             .With(c => c.ISBN = Identification.UsPassportNumber())
             .With(c => c.Categories = new List<LivreCategorie>())
             .With(c => c.LivreAuteurs = new())
-            .With(c => c.Couverture = "/img/livredefault.png")
+            .With(c => c.Couverture = "/img/CouvertureLivre/livredefault.png")
             .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
             .With(c => c.LivreTypeLivres = new List<LivreTypeLivre>
                 { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
@@ -215,10 +215,23 @@ public class DatabaseSeeder
             #endregion
 
             #region Couverture
-
-            livre.Couverture = reader.GetValue(0) != null
-                ? "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png" : "/img/CouvertureLivre/livredefault.png";
-
+            
+            string titre = reader.GetString(0).Trim().Trim('"').Trim();
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Couvertures",
+                titre + ".png");
+            if(reader.GetValue(0) != null)
+            {
+              
+                if (File.Exists(path.Replace("/bin/Debug/net6.0/","/")))
+                {
+                    livre.Couverture = "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim()+".png";
+                }
+                else
+                {
+                    livre.Couverture = "/img/CouvertureLivre/livredefault.png";
+                }
+            }
+            
             #endregion
 
             #region Catégorie
