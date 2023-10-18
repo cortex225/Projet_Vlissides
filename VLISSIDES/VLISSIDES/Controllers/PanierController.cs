@@ -27,7 +27,6 @@ namespace VLISSIDES.Controllers
 
         public IActionResult Index()
         {
-
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
 
@@ -38,9 +37,34 @@ namespace VLISSIDES.Controllers
                 Prix = (double)_context.LivreTypeLivres.FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
                 UserId = a.UserId,
                 Quantite = a.Quantite,
+                Id = a.Id
             }).ToList();
 
             return View(panier);
+        }
+
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        [Route("/Panier/SupprimerPanier")]
+        public async Task<IActionResult> SupprimerPanier([FromBody] string id)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+
+            await _context.Entry(user)
+                    .Collection(u => u.Panier)
+                    .LoadAsync();
+
+            foreach (LivrePanier p in user.Panier)
+            {
+                if (p.Id == id)
+                {
+                    _context.LivrePanier.Remove(p);
+                    _context.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("/Panier/Index");
         }
 
         [HttpPost]

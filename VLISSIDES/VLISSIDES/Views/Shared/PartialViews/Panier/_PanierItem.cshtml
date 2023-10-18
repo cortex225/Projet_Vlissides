@@ -1,0 +1,76 @@
+﻿@using VLISSIDES.ViewModels.Panier;
+@model AfficherPanierVM
+@{
+}
+
+<div class="card mb-3" style="max-width: 540px;">
+    <input type="hidden" class="vmIdPanier" name="viewModelId" value="@Model.Id" />
+    <div class="row no-gutters">
+        <div class="col-md-4 bg-secondary ">
+            <img src="@Model.Livre.Couverture" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Livre.Titre</h5>
+
+                <div>
+                    @String.Format("{0:#,##0.00}", Model.Prix) $
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <input id="" type="number" class=" form-control formGroupExampleInput" placeholder="@Model.Quantite" onclient onclick="">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row justify-content-end">
+                    <a class="btn btn-danger p-2" id="supprPanier" data-toggle="tooltip" title="Supprimer le livre" onclick="">
+                        <i class="fa-solid fa-xmark fa-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    console.log("Patate Script");
+    document.getElementById("supprPanier").forEach(button => {
+        button.addEventListener("click", supprimerLivre);
+    });
+
+    async function supprimerLivre() {
+        console.log("Patate Supprimée");
+
+        var button = event.target;
+        var viewModelId = button.getAttribute("data-vmIdPanier");
+
+        var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+
+        fetch('/Panier/SupprimerPanier', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': csrfToken
+            },
+            body: JSON.stringify({
+                id: vmIdPanier
+            })
+        })
+        .then(response => {
+            // Vérifier si la réponse est au format JSON
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Traiter les données JSON
+            console.log(data);
+        })
+        .catch(error => {
+            // Gérer les erreurs
+            console.error("Erreur lors de la requête FETCH:", error);
+        });
+    }
+</script>

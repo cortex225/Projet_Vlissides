@@ -4,6 +4,8 @@ namespace VLISSIDES.ViewModels.Panier
 {
     public class AfficherPanierVM
     {
+        public string Id { get; set; }
+
         public Livre Livre { get; set; }
 
         public TypeLivre TypeLivre { get; set; } = default!;
