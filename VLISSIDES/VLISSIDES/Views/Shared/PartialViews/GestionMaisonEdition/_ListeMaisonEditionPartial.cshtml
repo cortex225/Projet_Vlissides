@@ -46,7 +46,7 @@
             @foreach (var item in Model.ListeMaisonEditions)
             {
                 <div id="Liste_@item.Id" class=" visually-hidden">
-                    <h5 class="my-2">@item.Nom</h5>
+                    <h5 class="my-2" id="NomMaison_@item.Id">@item.Nom</h5>
 
 
                     @if (item.Livres.Count != 0)
