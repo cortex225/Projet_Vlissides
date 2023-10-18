@@ -48,6 +48,10 @@ namespace VLISSIDES.Controllers
                 {
                     prixtotal += (double)item.Quantite * item.Prix;
                 }
+                else
+                {
+                    prixtotal += item.Prix;
+                }
 
             }
 
