@@ -37,8 +37,22 @@
         }
 
 
-        <p>Auteur(s): @Model.Auteurs[0] </p>
-        <p>Catégorie(s): @Model.Categories[0] </p>
+        <p>Auteur(s):  </p>
+        <ol>
+            @foreach (var auteur in Model.Auteurs)
+            {
+                <li>@auteur</li>
+            }
+        </ol>
+        
+        <p>Catégorie(s):  </p>
+        <ol>
+            @foreach (var categorie in Model.Categories)
+            {
+                <li>@categorie</li>
+            }
+        </ol>
+
         <p>Date publication: @Model.DatePublication</p>
         <p>Éditeur: @Model.MaisonEdition</p>
         <p>Nombre de pages: @Model.NbPages</p>
