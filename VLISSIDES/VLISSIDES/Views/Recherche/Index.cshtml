@@ -214,8 +214,6 @@
 
 <script>
     function Recherche() {
-        if (event.key == 'Enter') window.location.href = `/index?motCles=`
-            + `${document.getElementById('barreRechercheNavbar').value}`
-            + `&criteres=${document.getElementById('dropdownRechercheNavbar').value}`;
+        if (event.key == 'Enter') window.location.href = `/Recherche/index?motCles=${document.getElementById('rechercheGeneral').value}`;
     }
 </script>

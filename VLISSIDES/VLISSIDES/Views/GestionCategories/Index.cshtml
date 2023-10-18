@@ -5,7 +5,7 @@
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
 }
-@model VLISSIDES.ViewModels.Categories.CategoriesIndexVM
+@model List<VLISSIDES.ViewModels.Categories.CategoriesIndexVM>
 <link rel="stylesheet" href="~/css/ListeLivres.css"/>
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
@@ -59,35 +59,9 @@
 
             <!--Début: Affichage des catégorie-->
             <div class="list-group col-6" id="list-tab" role="tablist">
-                @foreach (var item in Model.ListeCategories)
+                @foreach (var categorie in Model)
                 {
-                    <!--onclick pour afficher livres ici-->
-                    <div id="@item.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@item.Id')">
-                        <div class="card-body row align-items-center p-0">
-                            <div class="col-8 text-center">
-                                <!--Début : Modifier nom d'une maison d'édition-->
-                                <input id="@item.Id @item.Nom" type="text" asp-for="@item.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Nom)"
-                                       onclick="enableButton('@item.Id')">
-                            </div>
-                            <div class="col-4 text-center d-flex flex-row justify-content-around h-40">
-                                <button id="saveButton @item.Id" type="button" class="btn btn-success saveButton"
-                                        onclick="ModifierNomCategorie('@item.Id', '@item.Nom')
-                                        disableButton('@item.Id')">
-                                    <span class="fa-solid fa-check fa-2x"></span>
-                                </button>
-                                <button type="button" class="btn btn-primary p-2"
-                                        onclick="ShowModal('@Url.Action("Modifier", "GestionCategories", new { id = item.Id })')">
-                                    <span class="fa-solid fa-pen fa-2x"></span>
-                                </button>
-                                <!--Fin : Modifier nom d'une maison d'édition-->
-                                <!--Bouton supprimer ici-->
-                                <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionCategories", new { id = item.Id })')">
-                                    <span class="fa-solid fa-trash fa-2x"></span>
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
+                    <partial name="PartialViews/GestionCategories/_CardCategorie" model="categorie" />
                 }
                 <partial name="PartialViews/Utilities/_PaginationIndexPartial"/>
 
@@ -99,45 +73,9 @@
                 <h3 class="text-center my-3">Informations de la catégorie</h3>
 
                 <div class="" id="divListeMaisonEditionLivres">
-                    @foreach (var item in Model.ListeCategories)
+                    @foreach (var Categorie in Model)
                     {
-                        <div id="Liste_@item.Id" class=" visually-hidden">
-                            <h4 class="my-2">Nom : @item.Nom</h4>
-                            <p>
-                                <span class="fw-bold">Description :</span> @item.Description
-                            </p>
-                            <h4>Les livres de la catégorie</h4>
-                            @if (item.Livres.Count != 0)
-                            {
-                                <div class="listcolumns">
-                                    <ul id="ulListeNomLivres">
-                                        @foreach (var livreCategorie in item.Livres)
-                                        {
-                                            <li>@livreCategorie.Livre.Titre</li>
-                                        }
-                                    </ul>
-                                </div>
-                            }
-                            else
-                            {
-                                <p>pas de livres</p>
-                            }
-                            <h4>Sous-catégories</h4>
-                            @if (item.Enfants.Count != 0)
-                            {
-                                <ul>
-                                    @foreach (var enfant in item.Enfants)
-                                    {
-                                        <li>@enfant.Nom</li>
-                                    }
-                                </ul>
-                            }
-                            else
-                            {
-                                <h6>Pas de sous-catégorie</h6>
-                            }
-
-                        </div>
+                        <partial name="PartialViews/GestionCategories/_CategorieDetail" model="Categorie" />
                     }
 
                 </div>
