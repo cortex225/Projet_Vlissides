@@ -31,7 +31,7 @@ namespace VLISSIDES.Controllers
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
 
-            var panier = article.Select(a => new AfficherPanierVM
+            var listeArticleVM = article.Select(a => new AfficherPanierVM
             {
                 Livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId),
                 TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
@@ -39,6 +39,24 @@ namespace VLISSIDES.Controllers
                 UserId = a.UserId,
                 Quantite = a.Quantite,
             }).ToList();
+
+            double prixtotal = 0;
+
+            foreach (var item in listeArticleVM)
+            {
+                if (item.Quantite is not null)
+                {
+                    prixtotal += (double)item.Quantite * item.Prix;
+                }
+
+            }
+
+            var panier = new PanierVM
+            {
+                ListeArticles = listeArticleVM,
+                PrixTotal = prixtotal
+
+            };
 
             return View(panier);
         }
