@@ -1,4 +1,4 @@
-﻿@model List<VLISSIDES.ViewModels.Panier.AfficherPanierVM>
+﻿@model VLISSIDES.ViewModels.Panier.PanierVM
 @{
     ViewData["Title"] = "Panier";
     float prixDonEco = 5;
@@ -14,21 +14,34 @@
         <div class="row">
             <div class="col">
                 <h3 class="text-center">Articles</h3>
-                @foreach(var article in Model)
+                @foreach(var article in Model.ListeArticles)
                 {
                     <partial name="../Shared/PartialViews/Panier/_PanierItem.cshtml" model="@article" />
                 }
                 
             </div>
-            <div class="col">
+            <div id="facture" class="col">
                 <h3 class="text-center">Facture</h3>
                 <div class="bg-white mh-100 p-xl-4">
                     <div id="articlesPrix" class="p-4">
-                        @foreach (var price in numberTestPrice)
+                        @foreach (var article in Model.ListeArticles)
                         {
                             <div class="d-flex justify-content-between">
-                                <div class="">Livre</div>
-                                <div class="">+ @String.Format("{0:#,##0.00}", price)$</div>
+                                <div class="w-75">@article.Livre.Titre - @article.TypeLivre.Nom</div>
+                                <ul class="w-25" style="list-style:none">
+                                    @if (article.Quantite is not null) @* When acrticle type is Papier *@
+                                    {
+                                        @for (var quantite = 0; quantite < article.Quantite; quantite++)
+                                        {
+                                            <li class="float-end">@String.Format("+{0:#,##0.00}$", article.Prix)</li>
+                                        }
+                                    }
+                                    else @* When acrticle type is numérique  *@
+                                    {
+                                        <li class="float-end">@String.Format("+{0:#,##0.00}$", article.Prix)</li>
+                                    }
+
+                                </ul>
                             </div>
                         }
 
@@ -40,28 +53,30 @@
                                 </label>
                             </div>
                             <div id="prixDonEco">
-                                + 5$
+                                @String.Format("{0:#,##0.00}$", prixDonEco)
                             </div>
                         </div>
-                        
-                    </div>   
+
+                    </div>
                     <hr />
                     <div id="total" class="p-2 px-4">
                         <div class="d-flex justify-content-between">
                             <div class="">Total: </div>
                             <div class="d-flex">
-                                <div id="prixTotal" class="">@total </div>
-                                $
+                                <div id="prixTotal" class="">
+                                    @String.Format("{0:#,##0.00}$", @Model.PrixTotal)
+                                </div>
+
                             </div>
-                            
+
                         </div>
                     </div>
-                    
+
+                </div>
+                <div class="d-flex flex-row justify-content-end mt-4">
+                    <button class="btn btn-primary">Passer à la commande</button>
                 </div>
             </div>
-        </div>
-        <div class="d-flex flex-row justify-content-end mt-4">
-            <button class="btn btn-primary">Passer à la commande</button>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -183,17 +184,17 @@ namespace VLISSIDES.Controllers
         {
             if (id == null) return NotFound();
 
-            var livreP = await _context.LivrePanier.FindAsync(id);
+            var livreP = await _context.LivrePanier.Include(lp => lp.Livre).FirstOrDefaultAsync(lp => lp.Id == id);
             if (livreP == null) return NotFound();
 
             SupprPanierConfirmationVM vm = new SupprPanierConfirmationVM() 
             {
                 Id = livreP.Id,
-                Titre = livreP.
+                Titre = livreP.Livre.Titre
             };
 
 
-            return PartialView("PartialViews/Modals/Panier/_DeletePanierConfirmation.cshtml", livreP);
+            return PartialView("PartialViews/Modals/Panier/_DeletePanierConfirmation", vm);
         }
     }
 }
