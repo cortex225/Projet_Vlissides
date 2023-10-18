@@ -9,7 +9,7 @@ public class ApplicationUser : IdentityUser
 {
     [DisplayName("Nom")] public string Nom { get; set; } = default!;
 
-    [DisplayName("Pr�nom")] public string Prenom { get; set; } = default!;
+    [DisplayName("Prénom")] public string Prenom { get; set; } = default!;
 
     // Un utilisateur peut avoir une adresse principale
     [DisplayName("Identifiant de l'adresse principale")]
@@ -23,4 +23,8 @@ public class ApplicationUser : IdentityUser
 
     [Display(Name = "Photo")] [NotMapped] public IFormFile CoverPhoto { get; set; } = default!;
     public string? CoverImageUrl { get; set; }
+
+    [DisplayName("Panier")]
+    public ICollection<LivrePanier>? Panier { get; set; }
+
 }

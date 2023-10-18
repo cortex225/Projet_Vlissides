@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VLISSIDES.Data;
 
@@ -11,9 +12,10 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231018103452_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,21 +69,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "82593ae3-36e9-4585-81fc-8a04bdbafa31",
+                            ConcurrencyStamp = "25d62c45-6d87-41fa-b9a1-c1a6b861a6ab",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "0969f299-b942-4b68-a9a4-1600b3b5f451",
+                            ConcurrencyStamp = "598b5aa3-45f6-4bd3-a3b4-2df50a24dbbc",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "eb640049-f402-4118-b8b7-c7ae4fd40d0e",
+                            ConcurrencyStamp = "2245a312-f4ad-4957-b3e6-8cd090178d36",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -356,7 +358,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ecfb1aba-6b32-45e3-869a-91c779f5c867",
+                            ConcurrencyStamp = "114fc03d-0e58-428a-86a1-15be3e23a2f4",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -366,7 +368,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "8a33d9cf-eee3-4d85-9d67-3d54c11ca325",
+                            SecurityStamp = "9ea9c72b-22ea-462d-8935-529e57f1e42a",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -1049,12 +1051,12 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "1",
-                            Nom = "Papier"
+                            Nom = "Numérique"
                         },
                         new
                         {
                             Id = "2",
-                            Nom = "Numérique"
+                            Nom = "Papier"
                         });
                 });
 
@@ -1074,7 +1076,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "7afcfce1-2b11-4e26-ac75-2f4ff0dc7c0a",
+                            ConcurrencyStamp = "f453ecc6-4d41-44fd-8228-62836a2d6185",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1084,7 +1086,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "e5fce35a-bdb3-4213-8440-514349bb9620",
+                            SecurityStamp = "20780df8-25d0-4d2d-8a91-c0d5c322b4f1",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1116,7 +1118,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "66d7da6d-e585-4cbb-9257-fe98083b5107",
+                            ConcurrencyStamp = "851a8572-502c-466e-ac02-646c9c75eaaa",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1126,10 +1128,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "a9652cb4-671a-4625-b959-d6c9bde8cdbb",
+                            SecurityStamp = "9c1536b7-fcee-4cc4-9148-02bc9a713680",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 10, 18, 10, 0, 0, 960, DateTimeKind.Local).AddTicks(784),
+                            DateAdhesion = new DateTime(2023, 10, 18, 6, 34, 52, 435, DateTimeKind.Local).AddTicks(2320),
                             NoMembre = "123456"
                         });
                 });

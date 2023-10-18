@@ -34,8 +34,8 @@ public class DetailsLivreVM
         foreach (var media in livreTypeLivres)
             switch (media.Nom)
             {
-                case "Papier": Papier = media.Prix; break;
-                case "Numérique": Numerique = media.Prix; break;
+                case "Papier": Papier = (double?)media.TypeLivres.Where(t => t.TypeLivre.Nom.Equals("Papier")).First().Prix; break;
+                case "Numérique": Numerique = (double?)media.TypeLivres.Where(t => t.TypeLivre.Nom.Equals("Numérique")).First().Prix; break;
             }
     }
 }
