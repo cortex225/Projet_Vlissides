@@ -1,8 +1,8 @@
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionLivres;
@@ -125,14 +125,13 @@ public class GestionLivresController : Controller
             .Select(l => new GestionLivresAfficherVM
             {
                 Id = l.Id,
-                Image = l.Couverture,
+                Image = l.Couverture == null ? "/img/CouvertureLivre/livredefault.png" : l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id))
-                    .FirstOrDefault()?.Nom,
-                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre)
-                    .ToList(),
-                Quantite = l.NbExemplaires
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
+                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
+                Quantite = l.NbExemplaires,
             }).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
@@ -141,6 +140,8 @@ public class GestionLivresController : Controller
         ViewBag.CurrentPage = page;
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+
+        ViewBag.Action = "Inventaire";
 
         var vm = new GestionLivresInventaireVM
         {
@@ -256,11 +257,10 @@ public class GestionLivresController : Controller
                 Image = l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
-                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id))
-                    .FirstOrDefault()?.Nom,
-                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre)
-                    .ToList(),
-                Quantite = l.NbExemplaires
+                Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
+                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
+                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
+                Quantite = l.NbExemplaires,
             }).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
@@ -389,9 +389,9 @@ public class GestionLivresController : Controller
                 //TypeLivreId = vm.TypeLivreId
             };
 
-            Console.Write("1");
+            _context.Livres.Add(livre);
             _context.SaveChanges();
-            Console.Write("2");
+
 
             //return RedirectToAction("Inventaire");
             return Ok();

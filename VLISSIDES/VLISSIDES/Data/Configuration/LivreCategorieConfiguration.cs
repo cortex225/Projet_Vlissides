@@ -6,16 +6,16 @@ namespace VLISSIDES.Data;
 
 public class LivreCategorieConfiguration : IEntityTypeConfiguration<LivreCategorie>
 {
-    public LivreCategorieConfiguration(List<Livre> livres, List<IEnumerable<string>> listCategories)
-    {
-        LivreCategories = new List<LivreCategorie>();
-        foreach (var categories in listCategories)
-        foreach (var categorie in categories)
-            LivreCategories.Add(new LivreCategorie
-                { LivreId = livres[listCategories.IndexOf(categories)].Id, CategorieId = categorie });
-    }
+    // public LivreCategorieConfiguration(List<Livre> livres, List<IEnumerable<string>> listCategories)
+    // {
+    //     LivreCategories = new List<LivreCategorie>();
+    //     foreach (var categories in listCategories)
+    //     foreach (var categorie in categories)
+    //         LivreCategories.Add(new LivreCategorie
+    //             { LivreId = livres[listCategories.IndexOf(categories)].Id, CategorieId = categorie });
+    // }
 
-    private List<LivreCategorie> LivreCategories { get; }
+    // private List<LivreCategorie> LivreCategories { get; }
 
     public void Configure(EntityTypeBuilder<LivreCategorie> builder)
     {
@@ -24,6 +24,6 @@ public class LivreCategorieConfiguration : IEntityTypeConfiguration<LivreCategor
         builder.Property(sc => sc.LivreId).ValueGeneratedOnAdd();
         builder.HasKey(sc => sc.CategorieId);
         builder.Property(sc => sc.CategorieId).ValueGeneratedOnAdd();
-        builder.HasData(LivreCategories);
+        // builder.HasData(LivreCategories);
     }
 }

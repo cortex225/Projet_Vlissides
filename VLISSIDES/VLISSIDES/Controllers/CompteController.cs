@@ -1,9 +1,9 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -182,6 +182,8 @@ public class CompteController : Controller
                 PhoneNumber = vm.Phone,
                 DateAdhesion = DateTime.Now
             };
+
+            user.CoverImageUrl = "/img/UserPhoto/DefaultUser.png";
             user.EmailConfirmed = false;
             role = RoleName.MEMBRE;
 

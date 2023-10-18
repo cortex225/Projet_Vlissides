@@ -12,9 +12,9 @@ public class Commande
 
     [DisplayName("Identifiant du membre")] public string MembreId { get; set; } = default!;
 
-    [DisplayName("Membre ayant command�")] public Membre Membre { get; set; } = default!;
+    [DisplayName("Membre ayant commandé")] public Membre Membre { get; set; } = default!;
 
-    [DisplayName("Livres command�s")] public ICollection<Livre> Livres { get; set; } = default!;
+    [DisplayName("Livres commandés")] public ICollection<Livre> Livres { get; set; } = default!;
 
     [DisplayName("Identifiant de l'adresse")]
     public string AdresseId { get; set; } = default!;

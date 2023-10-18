@@ -1,8 +1,8 @@
-﻿using System.Text;
-using ExcelDataReader;
+﻿using ExcelDataReader;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.Data;
@@ -15,6 +15,43 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
 
+    public DbSet<Commande> Commandes { get; set; }
+
+    public DbSet<Employe> Employes { get; set; }
+
+    public DbSet<Auteur> Auteurs { get; set; }
+    public DbSet<Membre> Membres { get; set; }
+
+    public DbSet<Reservation> Reservations { get; set; }
+
+    public DbSet<Evenement> Evenements { get; set; }
+
+    public DbSet<Evaluation> Evaluations { get; set; }
+    public DbSet<Livre> Livres { get; set; }
+
+    public DbSet<Categorie> Categories { get; set; }
+
+    public DbSet<LivreCommande> LivreCommandes { get; set; }
+
+    public DbSet<StatutCommande> StatutCommandes { get; set; }
+
+    public DbSet<TypeLivre> TypeLivres { get; set; }
+
+    public DbSet<Favori> Favoris { get; set; }
+
+    public DbSet<Langue> Langues { get; set; }
+    public DbSet<MaisonEdition> MaisonEditions { get; set; }
+
+    public DbSet<Promotions> Promotions { get; set; }
+
+    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
+
+    public DbSet<Panier> Paniers { get; set; }
+    public DbSet<LivrePanier> LivrePanier { get; set; }
+    
+    public DbSet<Adresse> Adresses { get; set; }
+
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -22,48 +59,36 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #region configuration
 
-        #region Prendre les données de la feuille excel
 
-        List<Livre> livres;
-        List<List<Auteur>> auteurs;
-        List<IEnumerable<string>> auteurIds = new();
-        List<MaisonEdition> maisonEditions;
-        List<List<Categorie>> categories;
-        List<IEnumerable<string>> categorieIds = new();
-        List<List<TypeLivre>> typeLivres;
-        ReadExcel("Data/DonneesLivres.xlsx", out livres, out auteurs, out maisonEditions,
-            out categories, out typeLivres);
-
-        #endregion
-
-        //Ajout des statuts des commandes à la bd
+        // Configuration des entités
         builder.ApplyConfiguration(new StatutCommandeConfiguration());
-
-        //Ajout des types de livres à la bd
-        builder.ApplyConfiguration(new TypeLivreConfiguration(typeLivres));
-
-        //Ajout des catégories des livres à la bd
-        builder.ApplyConfiguration(new CategorieConfiguration(categories, out categorieIds));
-
-        //Ajout des langues des livres à la bd
+        builder.ApplyConfiguration(new TypeLivreConfiguration());
+        builder.ApplyConfiguration(new CategorieConfiguration());
         builder.ApplyConfiguration(new LangueConfiguration());
-        //Ajout des auteurs à la bd
-        builder.ApplyConfiguration(new AuteurConfiguration(auteurs, out auteurIds));
-        //Ajout des maison d'édition à la bd
-        builder.ApplyConfiguration(new MaisonEditionsConfiguration(maisonEditions));
-        //Ajout des livres à la bd
-        builder.ApplyConfiguration(new LivreConfiguration(livres, maisonEditions));
-
-        //Ajout des relations livres auteurs à la bd
-        builder.ApplyConfiguration(new LivreAuteurConfiguration(livres, auteurIds));
-        //Ajout des relations livres catégories à la bd
-        builder.ApplyConfiguration(new LivreCategorieConfiguration(livres, categorieIds));
-        //Ajout des relations livres typeLivres à la bd
-        builder.ApplyConfiguration(new LivreTypeLivreConfiguration(livres, typeLivres));
+        builder.ApplyConfiguration(new AuteurConfiguration());
+        builder.ApplyConfiguration(new MaisonEditionsConfiguration());
+        builder.ApplyConfiguration(new LivreConfiguration());
+        builder.ApplyConfiguration(new LivreAuteurConfiguration());
+        builder.ApplyConfiguration(new LivreCategorieConfiguration());
+        builder.ApplyConfiguration(new LivreTypeLivreConfiguration());
 
         #endregion
 
         #region Favorie
+
+        // Configuration pour les adresses de livraison car un utilisateur peut avoir plusieurs adresses de livraison
+        builder.Entity<ApplicationUser>()
+            .HasMany(a => a.AdressesLivraison)
+            .WithOne(a => a.UtilisateurLivraison)
+            .HasForeignKey(a => a.UtilisateurLivraisonId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Configuration pour le panier car un utilisateur peut avoir plusieurs LivrePanier
+        builder.Entity<ApplicationUser>()
+            .HasMany(a => a.Panier)
+            .WithOne(a => a.User)
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Configuration de la relation entre les favoris les membres et les livres
         builder.Entity<Favori>()
@@ -103,7 +128,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region Livre commendé
+        #region Livre Commandé
 
         // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
         builder.Entity<LivreCommande>()
@@ -120,7 +145,24 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
+        #endregion
 
+        #region Livre Panier
+        // Configuration de la relation entre Livre et Panier et la table de liaison LivrePanier
+        builder.Entity<LivrePanier>()
+            .HasKey(lp => new { lp.LivreId, lp.UserId });
+
+        //Un livre peut être dans plusieurs paniers
+        builder.Entity<LivrePanier>()
+            .HasOne(lp => lp.Livre)
+            .WithMany(l => l.LivrePanier)
+            .HasForeignKey(lp => lp.LivreId);
+
+        //Un user peut avoir plusieurs LivresPaniers
+        builder.Entity<LivrePanier>()
+            .HasOne(lp => lp.User)
+            .WithMany(p => p.Panier)
+            .HasForeignKey(lp => lp.UserId);
         #endregion
 
         #region ApplicationUser
@@ -208,7 +250,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region LivreAuteur
+        #region Livre Auteur
 
         // Configuration des relation de livreAuteur
         builder.Entity<LivreAuteur>()
@@ -216,7 +258,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region LivreCatégorie
+        #region Livre Catégorie
 
         // Configuration des relation de livreCatégorie
         builder.Entity<LivreCategorie>()
@@ -224,7 +266,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region LivreTypeLivre
+        #region Livre TypeLivre
 
         // Configuration des relations de LivreTypeLivre
         builder.Entity<LivreTypeLivre>()
@@ -233,191 +275,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #endregion
     }
 
-    public void ReadExcel(string url, out List<Livre> livres, out List<List<Auteur>> listAuteurs,
-        out List<MaisonEdition> maisonEditions,
-        out List<List<Categorie>> ListCategories, out List<List<TypeLivre>> ListTypeLivres)
-    {
-        #region Donner une valleur initial aux paramettres
-
-        var range = 0;
-        livres = new List<Livre>();
-        listAuteurs = new List<List<Auteur>>();
-        maisonEditions = new List<MaisonEdition>();
-        ListCategories = new List<List<Categorie>>();
-        ListTypeLivres = new List<List<TypeLivre>>();
-
-        #endregion
-
-        //Permet l'encodage pour "encoding 1252."
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-        //Lire la page excel
-        using (var stream = File.Open(url, FileMode.Open, FileAccess.Read))
-        {
-            // Auto-detect format, supports:
-            //  - Binary Excel files (2.0-2003 format; *.xls)
-            //  - OpenXml Excel files (2007 format; *.xlsx, *.xlsb)
-            using (var reader = ExcelReaderFactory.CreateReader(stream))
-            {
-                // Choose one of either 1 or 2:
-
-                // 1. Use the reader methods
-                do
-                {
-                    reader.Read();
-
-                    while (reader.Read())
-                    {
-                        #region variable de l'entré
-
-                        range++;
-                        var id = "Excel " + range;
-                        var livre = new Livre { Id = id };
-                        var auteurs = new List<Auteur>();
-                        var maisonEdition = new MaisonEdition { Id = id };
-                        var categories = new List<Categorie>();
-                        var typeLivres = new List<TypeLivre>();
-
-                        #endregion
-
-                        if (reader.GetValue(0) != null)
-                        {
-                            #region Titre
-
-                            livre.Titre = reader.GetValue(0) != null ? reader.GetString(0).Trim() : "";
-
-                            #endregion
-
-                            #region Auteur
-
-                            if (reader.GetValue(1) != null)
-                                auteurs.Add(new Auteur { Id = id, NomAuteur = reader.GetString(1).Trim() });
-
-                            #endregion
-
-                            #region Edition
-
-                            if (reader.GetValue(2) != null) maisonEdition.Nom = reader.GetString(2);
-
-                            #endregion
-
-                            #region Page
-
-                            livre.NbPages = reader.GetValue(3) != null ? (int)reader.GetDouble(3) : 0;
-
-                            #endregion
-
-                            #region ISBN
-
-                            livre.ISBN = reader.GetValue(4) != null ? reader.GetValue(4).ToString().Trim() : "";
-
-                            #endregion
-
-                            #region Couverture
-
-                            livre.Couverture = "";
-
-                            #endregion
-
-                            #region Catégorie
-
-                            if (reader.GetValue(6) != null)
-                                categories.Add(new Categorie { Id = id, Nom = reader.GetString(6), Description = "" });
-
-                            #endregion
-
-                            #region Quantité
-
-                            livre.NbExemplaires = reader.GetValue(9) != null ? (int)reader.GetDouble(9) : 0;
-
-                            #endregion
-
-                            #region Papier
-
-                            if (reader.GetValue(7) != null)
-                                typeLivres.Add(new TypeLivre
-                                {
-                                    Id = "Papier " + id,
-                                    Nom = "Papier",
-                                    Prix = reader.GetValue(7) != null ? reader.GetDouble(8) : 0
-                                });
-
-                            #endregion
-
-                            #region Numérique
-
-                            if (reader.GetValue(10) != null)
-                                typeLivres.Add(new TypeLivre
-                                {
-                                    Id = "Numérique " + id,
-                                    Nom = "Numérique",
-                                    Prix = reader.GetValue(7) != null ? reader.GetDouble(11) : 0
-                                });
-
-                            #endregion
-
-                            livres.Add(livre);
-                            listAuteurs.Add(auteurs);
-                            maisonEditions.Add(maisonEdition);
-                            ListCategories.Add(categories);
-                            ListTypeLivres.Add(typeLivres);
-                            /*Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
-                            Console.WriteLine("Titre\tAuteur\tEditeur\tPage\tISBN\tCouverture\tCatégorie\tQuantité\tPapier" +
-                                "\tPrix papier\tNumérique\tPrix numérique" +
-                                "\n" + reader.GetString(0) + "\t" + reader.GetString(1) + "\t" + reader.GetString(2)
-                                + "\t" + reader.GetDouble(3).ToString() + "\t" + reader.GetValue(4).ToString()
-                                + "\t" + (reader.GetValue(5) != null ? reader.GetValue(5).ToString() : "")
-                                + "\t" + reader.GetString(6) + "\t" + (reader.GetValue(7) != null ? true : false)
-                                + "\t" + (reader.GetDouble(8) != null ? reader.GetDouble(8).ToString() : "")
-                                + "\t" + reader.GetDouble(9) + "\t" + (reader.GetValue(10) != null ? true : false)
-                                + "\t" + (reader.GetDouble(11) != null ? reader.GetDouble(11).ToString() : null)
-                                );*/
-                        }
-                    }
-                } while (reader.NextResult());
-            }
-        }
-    }
-
-    #region DbSet
-
-    public DbSet<Adresse> Adresses { get; set; }
-
-    public DbSet<Commande> Commandes { get; set; }
-
-    public DbSet<Employe> Employes { get; set; }
-
-    public DbSet<Auteur> Auteurs { get; set; }
-
-    public DbSet<Membre> Membres { get; set; }
-
-    public DbSet<Reservation> Reservations { get; set; }
-
-    public DbSet<Evenement> Evenements { get; set; }
-
-    public DbSet<Evaluation> Evaluations { get; set; }
-
-    public DbSet<Livre> Livres { get; set; }
-
-    public DbSet<Categorie> Categories { get; set; }
-
-    public DbSet<LivreCommande> LivreCommandes { get; set; }
-
-    public DbSet<StatutCommande> StatutCommandes { get; set; }
-
-    public DbSet<TypeLivre> TypeLivres { get; set; }
-
-    public DbSet<Favori> Favoris { get; set; }
-
-    public DbSet<Langue> Langues { get; set; }
-
-    public DbSet<MaisonEdition> MaisonEditions { get; set; }
-
-    public DbSet<Promotions> Promotions { get; set; }
-
-    public DbSet<LivreAuteur> LivreAuteurs { get; set; }
-    public DbSet<LivreCategorie> LivreCategories { get; set; }
-    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
-
-    #endregion
+   
+    
 }
