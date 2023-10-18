@@ -1,7 +1,8 @@
 ﻿@model VLISSIDES.ViewModels.Panier.PanierVM
 @{
     ViewData["Title"] = "Panier";
-    float prixDonEco = 5;
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 
 <div class="m-4">
@@ -11,24 +12,29 @@
         <div class="row">
             <div class="col">
                 <h3 class="text-center">Articles</h3>
-                @foreach(var article in Model.ListeArticles)
+                @foreach(var item in Model.ListeArticles)
                 {
                     <div class="card mb-3" style="max-width: 540px;">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                <img src="@article.Livre.Couverture" class="card-img" alt="...">
+                                <img src="@item.Livre.Couverture" class="card-img" style="height:100%;max-width:100%" alt="...">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">@article.Livre.Titre</h5>
+                                    <h5 class="card-title">@item.Livre.Titre</h5>
 
                                     <div>
-                                        @String.Format("{0:#,##0.00}$", article.Prix)
+                                        @String.Format("{0:#,##0.00}$", item.Prix)
                                     </div>
-                                    <div class="row">
+                                    <div class="d-flex flex-row my-4">
                                         <div class="col-4">
-                                            <input id="" type="number" class=" form-control formGroupExampleInput" placeholder="" value="@article.Quantite" onclient onclick="">
+                                            <input id="@item.Id quantite" type="number" class=" form-control formGroupExampleInput h-100" placeholder="" value="@item.Quantite" onclient onclick="enableButton('@item.Id')">
                                         </div>
+                                        <button id="saveButton @item.Id" type="button" class="btn btn-success saveButton mx-2 p-2"
+                                                onclick="ModifierQuantite('@item.Id', '@item.Quantite')
+                                                disableButton('@item.Id')">
+                                            <span class="fa-solid fa-check fa-2x"></span>
+                                        </button>
                                     </div>
 
                                     <div class="d-flex flex-row justify-content-end">
@@ -45,59 +51,13 @@
                     
                 
             </div>
-            <div id="facture" class="col">
+            <div class="col">
                 <h3 class="text-center">Facture</h3>
-                <div class="bg-white mh-100 p-xl-4">
-                    <div id="articlesPrix" class="p-4">
-                        @foreach (var article in Model.ListeArticles)
-                        {
-                            <div class="d-flex justify-content-between">
-                                <div class="w-75">@article.Livre.Titre - @article.TypeLivre.Nom</div>
-                                <ul class="w-25" style="list-style:none">
-                                    @if (article.Quantite is not null) @* When acrticle type is Papier *@
-                                    {
-                                        @for(var quantite = 0; quantite < article.Quantite; quantite++)
-                                        {
-                                            <li class="float-end">@String.Format("+{0:#,##0.00}$", article.Prix)</li>
-                                        }
-                                    }
-                                    else @* When acrticle type is numérique  *@
-                                    {
-                                        <li class="float-end">@String.Format("+{0:#,##0.00}$", article.Prix)</li>
-                                    }
-                                    
-                                </ul>
-                            </div>
-                        }
-
-                        <div class="d-flex justify-content-between mt-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="cbDonEco" checked onclick="changerPrixDon()">
-                                <label class="form-check-label" for="cbDonEco">
-                                    Don pour écologie
-                                </label>
-                            </div>
-                            <div id="prixDonEco">
-                                @String.Format("{0:#,##0.00}$", prixDonEco)
-                            </div>
-                        </div>
-                        
-                    </div>   
-                    <hr />
-                    <div id="total" class="p-2 px-4">
-                        <div class="d-flex justify-content-between">
-                            <div class="">Total: </div>
-                            <div class="d-flex">
-                                <div id="prixTotal" class="">
-                                    @String.Format("{0:#,##0.00}$", @Model.PrixTotal)
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
+                <div id="facture" class="bg-white mh-100 p-xl-4">
                     
+
                 </div>
+
                 <div class="d-flex flex-row justify-content-end mt-4">
                     <button class="btn btn-primary">Passer à la commande</button>
                 </div>
@@ -106,6 +66,41 @@
     </div>
 </div>
 
+<!--Fonctionalite des boutons *-->
+<style>
+    /*Pour cacher les boutons de sauvegarde --- Ne fonctionne pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js" asp-append-version="true"></script>
+<!--Fin pour Fonctionalite des boutons-->
+
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+
+</script>
+
+<script type="text/javascript">
+    function AfficherFacture() {
+        fetch(BASE_URL + "/Panier/AfficherFacture", {
+            method: "GET"
+        }).then((response) => {
+            // Convertit la réponse en texte
+            return response.text();
+        }).then((result) => {
+            // Met à jour le contenu de la div avec le résultat
+            var div = document.getElementById("facture");
+            div.innerHTML = result;
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la récupération de la liste des maisons d\'édition', error);
+        });
+    }   
+    
+    AfficherFacture();
+</script>
 <script type="text/javascript">
     cbDonEco = document.getElementById("cbDonEco");
     fieldDonEco = document.getElementById("prixDonEco");
@@ -123,4 +118,20 @@
         }
             
 }
+</script>
+
+<script type="text/javascript">
+    function ModifierQuantite(id = "", quantite = "") {
+        fetch(BASE_URL + '/Panier/ModifierQuantite?id=' + id + '&quantite=' + document.getElementById(id + " quantite").value, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => console.error('Échec du fetch pour modifier la quantite'))
+            .then((response) => { 
+                disableButton(id);
+                AfficherFacture();
+            });
+    }
 </script>
