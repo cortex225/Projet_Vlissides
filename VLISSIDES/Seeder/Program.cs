@@ -60,6 +60,8 @@ _context.Auteurs.RemoveRange(_context.Auteurs);
 _context.SaveChanges();
 _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
 _context.SaveChanges();
+_context.Categories.RemoveRange(_context.Categories);
+_context.SaveChanges();
 
 
 //Générer les auteurs
@@ -83,7 +85,6 @@ _context.SaveChanges();
             .All()
             .With(c => c.Titre = Company.Name())
             .With(c => c.Resume = Lorem.Paragraph())
-            .With(c => c.Couverture)
             .With(c => c.NbExemplaires = 1)
             .With(c => c.DateAjout = DateTime.Now)
             .With(c => c.NbPages = 120)
@@ -91,6 +92,7 @@ _context.SaveChanges();
             .With(c => c.ISBN = Identification.UsPassportNumber())
             .With(c => c.Categories = new List<LivreCategorie>())
             .With(c => c.LivreAuteurs = new())
+            .With(c=>c.Couverture = "/img/livredefault.png")
             .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
             .With(c => c.LivreTypeLivres = new List<LivreTypeLivre>
                 { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
@@ -130,8 +132,15 @@ _context.SaveChanges();
 
         using var reader = ExcelReaderFactory.CreateReader(stream);
 
+        bool isFirstRow = true; // Un flag pour identifier la première ligne
+
         while (reader.Read()) // Chaque ligne représente un livre
         {
+            if (isFirstRow) // Si c'est la première ligne, on l'ignore et on continue
+            {
+                isFirstRow = false;
+                continue;
+            }
             var id = Guid.NewGuid().ToString(); // Générer un ID unique pour chaque livre
 
             var livre = new Livre();
@@ -155,13 +164,43 @@ _context.SaveChanges();
 
             #region Edition
 
-            if (reader.GetValue(2) != null) maisonEdition.Nom = reader.GetString(2);
+            if (reader.GetValue(2) != null)
+            {
+                string nomMaisonEdition = reader.GetString(2).Trim();
+
+                // Chercher la maison d'édition dans la base de données
+                var maisonEditionExistante = _context.MaisonEditions
+                    .FirstOrDefault(me => me.Nom == nomMaisonEdition);
+
+                if (maisonEditionExistante != null)
+                {
+                    // Utiliser l'ID de la maison d'édition existante
+                    livre.MaisonEditionId = maisonEditionExistante.Id;
+                }
+                else if (!string.IsNullOrEmpty(nomMaisonEdition)) 
+                {
+                    // Créer une nouvelle maison d'édition et l'ajouter à la base de données
+                    var nouvelleMaisonEdition = new MaisonEdition {Id = Guid.NewGuid()+"new",Nom = nomMaisonEdition };
+                    _context.MaisonEditions.Add(nouvelleMaisonEdition);
+
+                    // Utiliser l'ID de la nouvelle maison d'édition
+                    livre.MaisonEditionId = nouvelleMaisonEdition.Id;
+                }
+            }
 
             #endregion
 
             #region Page
 
-            livre.NbPages = reader.GetValue(3) != null ? (int)reader.GetDouble(3) : 0;
+            if (int.TryParse(reader.GetValue(3)?.ToString(), out int nbPages))
+            {
+                livre.NbPages = nbPages;
+            }
+            else
+            {
+                livre.NbPages = 0; 
+            }
+
 
             #endregion
 
@@ -174,53 +213,127 @@ _context.SaveChanges();
             #region Couverture
 
             livre.Couverture = reader.GetValue(0) != null
-                ? "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png"
-                : "";
+                ? "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png" : "/img/CouvertureLivre/livredefault.png";
 
             #endregion
 
             #region Catégorie
 
             if (reader.GetValue(6) != null)
-                categories.Add(new Categorie { Id = id, Nom = reader.GetString(6), Description = "" });
+            {
+                string categoryName = reader.GetString(6).Trim();
+
+                // Ici je vérifie si la catégorie existe déjà dans la base de données
+                var existingCategory = _context.Categories
+                    .FirstOrDefault(c => c.Nom == categoryName);
+
+                if (existingCategory == null) // Si la catégorie n'existe pas, créez une nouvelle catégorie
+                {
+                    existingCategory = new Categorie
+                        { Id = Guid.NewGuid()+"new", Nom = categoryName, Description = "" };
+                    _context.Categories
+                        .Add(existingCategory); // Ici j'ajoute la nouvelle catégorie à la base de données
+                }
+
+                categories.Add(
+                    existingCategory); // Ici j'ajoute la catégorie (existante ou nouvelle) à la liste de catégories
+            
+            }
 
             #endregion
 
             #region Quantité
 
-            livre.NbExemplaires = reader.GetValue(9) != null ? (int)reader.GetDouble(9) : 0;
+            if (int.TryParse(reader.GetValue(9)?.ToString(), out int nbExemplaires))
+            {
+                livre.NbExemplaires = nbExemplaires;
+            }
+            else
+            {
+                livre.NbExemplaires = 0; 
+            }
 
             #endregion
 
             #region Papier
 
             if (reader.GetValue(7) != null)
-                typeLivres.Add(new LivreTypeLivre
+            {
+                if (decimal.TryParse(reader.GetValue(8)?.ToString(), out decimal prix))
                 {
-                    LivreId = id,
-                    TypeLivreId = "2",
-                    Prix = reader.GetValue(7) != null ? reader.GetDecimal(8) : 0,
-                });
+                    typeLivres.Add(new LivreTypeLivre
+                    {
+                        LivreId = id,
+                        TypeLivreId = "2",
+                        Prix = prix,
+                        
+                    });
+                }
+                else
+                {
+                    typeLivres.Add(new LivreTypeLivre
+                    {
+                        LivreId = id,
+                        TypeLivreId = "2",
+                        Prix = 0,
+                    });
+                }
+
+
+            }
+
+
 
             #endregion
 
             #region Numérique
 
-            if (reader.GetValue(10) != null)
-                typeLivres.Add(new LivreTypeLivre
+            if (reader.GetValue(5) != null)
+            {
+                if (decimal.TryParse(reader.GetValue(5)?.ToString(), out decimal prix))
                 {
-                    TypeLivreId = "1",
-                    Prix = reader.GetValue(7) != null ? reader.GetDecimal(11) : 0
-                });
+                    typeLivres.Add(new LivreTypeLivre
+                    {
+                        LivreId = id,
+                        TypeLivreId = "1",
+                        Prix = prix,
+                    });
+                }
+                else
+                {
+                    typeLivres.Add(new LivreTypeLivre
+                    {
+                        LivreId = id,
+                        TypeLivreId = "1",
+                        Prix = 0,
+                    });
+                }
+
+
+            }
 
             #endregion
-
+            
+            livre.Resume = "bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim sit";
+            livre.DateAjout = DateTime.Now;
+            livre.DatePublication = DateTime.Now;
+            livre.LangueId = "1";
+            
+            
             // Ajouter les objets créés à la base de données
-            _context.Livres.Add(livre);
             _context.Auteurs.AddRange(auteurs);
-            _context.MaisonEditions.Add(maisonEdition);
-            _context.Categories.AddRange(categories);
-            _context.LivreTypeLivres.AddRange(typeLivres);
+            _context.Livres.Add(livre);
+            _context.SaveChanges(); // Sauvegarder les changements
+
+            
+            foreach (var typeLivre in typeLivres)
+            {
+                typeLivre.LivreId = livre.Id; // Assurez-vous que LivreId est correctement défini
+                _context.LivreTypeLivres.Add(typeLivre);
+            }
+
+
+
         }
 
         _context.SaveChanges();

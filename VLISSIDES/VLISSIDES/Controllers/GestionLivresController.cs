@@ -125,7 +125,7 @@ public class GestionLivresController : Controller
             .Select(l => new GestionLivresAfficherVM
             {
                 Id = l.Id,
-                Image = l.Couverture,
+                Image = l.Couverture == null ? "/img/CouvertureLivre/livredefault.png" : l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
                 Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
