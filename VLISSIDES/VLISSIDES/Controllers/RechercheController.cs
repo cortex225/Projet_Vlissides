@@ -54,9 +54,9 @@ public class RechercheController : Controller
             .ToList();
 
         if (criteres.IsEmpty()) //Lorsqu'il n'y a pas de criteres spécifiques
-            for (var i = 0; i <= listMotCles.Count(); ++i)
+            for (var id = 0; id < listMotCles.Count(); ++id)
                 livresRecherches = livresRecherches
-                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + (listMotCles.Any() ? listMotCles[i] : "") + ".*", RegexOptions.IgnoreCase))
+                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + (listMotCles.Any() ? listMotCles[id] : "") + ".*", RegexOptions.IgnoreCase))
                     .ToList();
         else if (listCriteres.Count > 0)
             for (var i = 0; i < listMotCles.Count(); ++i)
