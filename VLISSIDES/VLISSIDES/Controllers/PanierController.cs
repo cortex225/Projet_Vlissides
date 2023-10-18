@@ -34,7 +34,8 @@ namespace VLISSIDES.Controllers
             var panier = article.Select(a => new AfficherPanierVM
             {
                 Livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId),
-                TypeLivre = _context.TypeLivres.FirstOrDefault(l => l.Id == a.TypeId),
+                TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
+                Prix = (double)_context.LivreTypeLivres.FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
                 UserId = a.UserId,
                 Quantite = a.Quantite,
             }).ToList();
