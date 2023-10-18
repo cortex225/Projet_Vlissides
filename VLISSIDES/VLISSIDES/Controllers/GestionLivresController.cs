@@ -141,7 +141,7 @@ public class GestionLivresController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        ViewBag.Action= "Inventaire";
+        ViewBag.Action = "Inventaire";
 
         var vm = new GestionLivresInventaireVM
         {
@@ -389,9 +389,9 @@ public class GestionLivresController : Controller
                 //TypeLivreId = vm.TypeLivreId
             };
 
-            Console.Write("1");
+            _context.Livres.Add(livre);
             _context.SaveChanges();
-            Console.Write("2");
+
 
             //return RedirectToAction("Inventaire");
             return Ok();
