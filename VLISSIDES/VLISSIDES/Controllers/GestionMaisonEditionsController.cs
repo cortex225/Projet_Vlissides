@@ -1,8 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
+using VLISSIDES.ViewModels;
 using VLISSIDES.ViewModels.MaisonEditions;
 
 namespace VLISSIDES.Controllers;
@@ -21,21 +22,21 @@ public class GestionMaisonEditionsController : Controller
         _config = config;
     }
 
-    public async Task<IActionResult>Index (string? motCle, int page = 1)
+    public async Task<IActionResult> Index(string? motCle, int page = 1)
     {
         var itemsPerPage = 10;
         var totalItems = await _context.MaisonEditions.CountAsync();
-        
+
         var vm = new MaisonEditionsIndexVM();
         vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
-        var liste = _context.MaisonEditions.Include(me => me.Livres)
+        var editions = _context.MaisonEditions.Include(me => me.Livres)
             .OrderBy(me => me.Nom)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
             .Take(itemsPerPage)
             .ToList();
 
         if (motCle != null && motCle != "")
-            liste = liste
+            editions = editions
                 .Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
                 .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
                 .Take(itemsPerPage)
@@ -48,7 +49,7 @@ public class GestionMaisonEditionsController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        vm.ListeMaisonEditions = liste;
+        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM() { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
         return View(vm);
     }
 
@@ -56,16 +57,16 @@ public class GestionMaisonEditionsController : Controller
     {
         var itemsPerPage = 10;
         var totalItems = await _context.MaisonEditions.CountAsync();
-        
+
         var vm = new MaisonEditionsIndexVM();
         vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
-        var liste = _context.MaisonEditions.Include(me => me.Livres)
+        var editions = _context.MaisonEditions.Include(me => me.Livres)
             .OrderBy(me => me.Nom)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
             .Take(itemsPerPage)
             .ToList();
         if (motCle != null && motCle != "")
-            liste = liste.Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+            editions = editions.Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
                 .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
                 .Take(itemsPerPage)
                 .ToList();
@@ -76,9 +77,9 @@ public class GestionMaisonEditionsController : Controller
         ViewBag.CurrentPage = page;
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
-        
-        
-        vm.ListeMaisonEditions = liste;
+
+
+        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM() { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
         return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial", vm);
     }
 
