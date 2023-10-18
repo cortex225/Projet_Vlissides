@@ -1,6 +1,6 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionAuteurs;
@@ -25,15 +25,14 @@ public class GestionAuteursController : Controller
     {
         var vm = new AuteursIndexVM();
         vm.AuteursAjouterVM = new AuteursAjouterVM { NomAuteur = "" };
-        List<Auteur> liste = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre)
+        List<Auteur> auteurs = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre)
             .Include(la => la.Livres).ToList();
 
         if (motCle != null && motCle != "")
-            liste = liste
+            auteurs = auteurs
                 .Where(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
                 .ToList();
-
-        vm.ListeAuteurs = liste;
+        vm.AuteursAfficherVM = auteurs.Select(a => new AuteursAfficherVM() { Id = a.Id, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList();
         return View(vm);
     }
 
@@ -44,16 +43,13 @@ public class GestionAuteursController : Controller
 
     public async Task<IActionResult> AfficherListe(string? motCle)
     {
-        var vm = new AuteursIndexVM();
-        vm.AuteursAjouterVM = new AuteursAjouterVM();
-        var liste = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre).Include(la => la.Livres)
+        var auteurs = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre)
             .OrderBy(a => a.NomAuteur).ToList();
         if (motCle != null && motCle != "")
-            liste = liste
+            auteurs = auteurs
                 .Where(auteur => Regex.IsMatch(auteur.NomAuteur, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
                 .ToList();
-        vm.ListeAuteurs = liste;
-        return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial", vm);
+        return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial", auteurs.Select(a => new AuteursAfficherVM() { Id = a.Id, Nom = a.NomAuteur, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList());
     }
 
     //AJOUTER
