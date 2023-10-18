@@ -66,6 +66,20 @@ namespace VLISSIDES.Controllers
         }
 
         [HttpPost]
+        public ActionResult ModifierMaison(string id, int quantite)
+        {
+            if (ModelState.IsValid)
+            {
+                var article = _context.LivrePanier.FirstOrDefault(lp => lp.Id == id);
+                article.Quantite = quantite;
+                _context.SaveChanges();
+                return Ok();
+            }
+
+            return View();
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("/Panier/AjouterPanier")]
         //[Route("{controller}/{action}")]
@@ -86,6 +100,7 @@ namespace VLISSIDES.Controllers
                     .Collection(u => u.Panier)
                     .LoadAsync();
 
+                lp.Id = Guid.NewGuid().ToString();
                 lp.LivreId = livre.Id;
                 lp.TypeId = type.Id;
                 lp.Quantite = vm.quantitee;
