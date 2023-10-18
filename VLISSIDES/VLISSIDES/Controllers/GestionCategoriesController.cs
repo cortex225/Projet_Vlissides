@@ -41,7 +41,7 @@ public class GestionCategoriesController : Controller
             Description = c.Description,
             Enfants = c.Enfants.Select(e => e.Nom).ToList(),
             Livres = c.Livres.Select(l => l.Livre.Titre).ToList()
-        }));
+        }).ToList());
     }
 
     [Route("2167594/GestionCategories/Ajouter")]
