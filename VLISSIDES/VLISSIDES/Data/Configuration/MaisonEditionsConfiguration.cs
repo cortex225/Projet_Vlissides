@@ -15,8 +15,8 @@ public class MaisonEditionsConfiguration : IEntityTypeConfiguration<MaisonEditio
         foreach (var maisonEdition in maisonEditions)
             if (!this.maisonEditions.Any(me => me.Nom.Equals(maisonEdition)))
                 this.maisonEditions.Add(maisonEdition);
-        foreach (var maisonEdition in this.maisonEditions)
-            Console.WriteLine(maisonEdition.Id + " : " + maisonEdition.Nom);
+        //foreach (var maisonEdition in this.maisonEditions)
+        //    Console.WriteLine(maisonEdition.Id + " : " + maisonEdition.Nom);
     }
 
     public void Configure(EntityTypeBuilder<MaisonEdition> builder)

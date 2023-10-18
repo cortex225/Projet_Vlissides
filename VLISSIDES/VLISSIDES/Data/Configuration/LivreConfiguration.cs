@@ -25,8 +25,8 @@ public class LivreConfiguration : IEntityTypeConfiguration<Livre>
                 Couverture = livre.Couverture,
                 NbExemplaires = livre.NbExemplaires
             });
-        foreach (var livre in this.livres)
-            Console.WriteLine(livre.Id + " : " + livre.Titre);
+        //foreach (var livre in this.livres)
+        //    Console.WriteLine(livre.Id + " : " + livre.Titre);
     }
 
     public void Configure(EntityTypeBuilder<Livre> builder)

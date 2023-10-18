@@ -1,11 +1,12 @@
-﻿@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM
+﻿@using VLISSIDES.ViewModels.Recherche;
+@model DetailsLivreVM
 @{
-    ViewData["Title"] = Model.Titre;
 }
 
 
 <link rel="stylesheet" href="~/css/Details.css">
 <div id="detailsDivPrincipal">
+    <input type="hidden" id="viewModelId" name="viewModelId" value="@Model.Id" />
     <div id="DetailsDIV">
         <img id="DetailsIMG" src="@Model.Couverture"/>
     </div>
@@ -16,7 +17,8 @@
         <div id="checkboxTypeLivre">
 
         </div>
-        @if (Model.Papier.Equals(null)&&Model.Numerique.Equals(null))
+
+        @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
         {
             <p>
                 <strong>Aucun Prix</strong>
@@ -25,39 +27,139 @@
         else
         {
             @if (!Model.Papier.Equals(null))
-                {
-                    <p>Prix neuf: @Model.Papier $</p>
-                }
+            {
+                <p>Prix neuf: @Model.Papier $</p>
+            }
             @if (!Model.Numerique.Equals(null))
-                {
-                    <p>Prix numérique: @Model.Numerique $</p>
-                }
+            {
+                <p>Prix numérique: @Model.Numerique $</p>
+            }
         }
-        <div>Auteur(s): @foreach(var auteur in @Model.Auteurs){ <p>@auteur</p> } </div>
-        <div>Catégorie(s): @foreach (var categorie in @Model.Categories){<p>@categorie</p>}</div>
+
+
+        <p>Auteur(s): @Model.Auteurs[0] </p>
+        <p>Catégorie(s): @Model.Categories[0] </p>
         <p>Date publication: @Model.DatePublication</p>
         <p>Éditeur: @Model.MaisonEdition</p>
         <p>Nombre de pages: @Model.NbPages</p>
         <strong>Résumé:</strong>
         <p>@Model.Resume</p>
         <br/>
-        @if (Model.NbExemplaires > 0)
+    </div>
+    <div>
+        @if (!Model.Papier.Equals(null))//1 = "Neuf"
         {
-            <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+            <br />
+            @if (Model.NbExemplaires > 0)
+            {
+                <form>
+                    @Html.AntiForgeryToken()
+                    <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+
+                        <a id="ajouterNeuf" class="btn btn-primary btnPanier">
+                            <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
+                        </a>
+                        <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
+                    </div>
+                </form>
+            }
+            else
+            {
+                <p style="font-weight: bold; color: red;">Livre neuf en rupture de stock</p>
+            }
         }
-        else
+        @if (!Model.Numerique.Equals(null))//2 = "Numérique"
         {
-            <p style="font-weight: bold; color: red;">En rupture de stock</p>
+            <form>
+                @Html.AntiForgeryToken()
+                <a href="#" id="ajouterNumerique" class="btn btn-primary btnPanier">
+                    <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
+                </a>
+            </form>
         }
     </div>
 </div>
+<script type="text/javascript">
+    var ajouterNeuf = document.getElementById("ajouterNeuf");
+    if (ajouterNeuf) {
+        ajouterNeuf.addEventListener("click", ajouterLivreNeufDetails);
+    }
+    var ajouterNumerique = document.getElementById("ajouterNumerique");
 
-<style>
-    #DetailsDIV{
-        max-width: 35%;
+    if (ajouterNumerique) {
+        ajouterNumerique.addEventListener("click", ajouterLivreNumeriqueDetails);
     }
 
-    #DetailsIMG {
-        max-width: 100%;
+    async function ajouterLivreNeufDetails(){
+
+        var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        var quantitee = document.getElementById("quantite").value;
+
+        var viewModelId = document.getElementById("viewModelId").value;
+
+        fetch('/Panier/AjouterPanier', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': csrfToken
+            },
+            body: JSON.stringify({
+                livreAjouteId: viewModelId,
+                quantitee: quantitee,
+                typeId: "1"
+            })
+        })
+        .then(response => {
+            // Vérifier si la réponse est au format JSON
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+                // Traiter les données JSON
+                console.log(data);
+        })
+        .catch(error => {
+            // Gérer les erreurs
+            console.error("Erreur lors de la requête FETCH:", error);
+        });
     }
-</style>
+
+    async function ajouterLivreNumeriqueDetails(){
+
+        var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        var viewModelId = document.getElementById("viewModelId").value;
+
+        fetch('/Panier/AjouterPanier', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': csrfToken
+            },
+            body: JSON.stringify({
+                livreAjouteId: viewModelId,
+                quantitee: null,
+                typeId: "2"
+            })
+        })
+        .then(response => {
+            // Vérifier si la réponse est au format JSON
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+                // Traiter les données JSON
+                console.log(data);
+        })
+        .catch(error => {
+            // Gérer les erreurs
+            console.error("Erreur lors de la requête FETCH:", error);
+        });
+    }
+</script>
