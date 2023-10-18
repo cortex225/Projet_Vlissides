@@ -1,4 +1,11 @@
-﻿namespace VLISSIDES.Controllers
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Panier;
+
+namespace VLISSIDES.Controllers
 {
     public class PanierController : Controller
     {
@@ -20,7 +27,19 @@
 
         public IActionResult Index()
         {
-            return View();
+
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
+
+            var panier = article.Select(a => new AfficherPanierVM
+            {
+                Livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId),
+                TypeLivre = _context.TypeLivres.FirstOrDefault(l => l.Id == a.TypeId),
+                UserId = a.UserId,
+                Quantite = a.Quantite,
+            }).ToList();
+
+            return View(panier);
         }
 
         [HttpPost]
