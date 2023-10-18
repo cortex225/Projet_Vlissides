@@ -8,7 +8,7 @@
                    onclick="enableButton('@Model.Id')">
         </div>
         <div class="col-4 text-center d-flex flex-row justify-content-around h-40">
-            <button id="saveButton categorie.Id" type="button" class="btn btn-success saveButton"
+            <button id="saveButton @Model.Id" type="button" class="btn btn-success saveButton"
                     onclick="ModifierNomCategorie('@Model.Id', '@Model.Nom')
                                         disableButton('@Model.Id')">
                 <span class="fa-solid fa-check fa-2x"></span>
