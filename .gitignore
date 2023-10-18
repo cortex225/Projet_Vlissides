@@ -820,3 +820,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,rider,csharp,dotnetcore,macos,visualstudiocode,visualstudio,windows
 /VLISSIDES/VLISSIDES/wwwroot/img/CouvertureLivre
+/VLISSIDES/Seeder/appsettings.json

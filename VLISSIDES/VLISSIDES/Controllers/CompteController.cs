@@ -182,6 +182,8 @@ public class CompteController : Controller
                 PhoneNumber = vm.Phone,
                 DateAdhesion = DateTime.Now
             };
+
+            user.CoverImageUrl = "/img/UserPhoto/DefaultUser.png";
             user.EmailConfirmed = false;
             role = RoleName.MEMBRE;
 

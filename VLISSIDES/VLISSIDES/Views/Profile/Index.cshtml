@@ -1,0 +1,126 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var username = User.Identity.Name;
+    string myURL = Context.Request.Host.Value;    
+    string BASE_URL_RAZOR = Url.Content("~");
+}
+@model VLISSIDES.ViewModels.Profile.ProfileIndexVM
+
+    <link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true">
+
+
+
+<div class="container-fluid my-3 py-3">
+    <div class="row mb-5">
+        <div class="col-lg-3">
+            <div class="card position-sticky top-1 shadow-sm"> 
+                <ul class="nav flex-column bg-white border-radius p-3">
+                    <h5 class="text-center mb-3">Profile</h5> 
+                    <hr />
+                    <li class="nav-item mb-2"> 
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showProfileInformation()">
+                            <i class="fa-solid fa-user text-lg-center me-2"></i>
+                            <span class="text-sm">Information de base</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2"> 
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showProfilePassword()">
+                            <i class="fa-solid fa-key text-lg-center me-2" ></i>
+                            <span class="text-sm">Modification de mot de passe</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2"> 
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showProfileAdresses()">
+                            <i class="fa-solid fa-address-book text-lg-center me-2"></i>
+                            <span class="text-sm">Adresses</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-9 mt-lg-0 mt-4">
+            <div id="ModifierProfile">
+                <partial name="PartialViews/Profile/_ProfilePartial" model="@Model.ProfileModifierInformationVM" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
+<script>
+    //Le script avec des fonctions pour montrer les vues partiels dépendamment du bouton cliqué.
+    function showProfileInformation(){
+        fetch(BASE_URL+"/Profile/ModifierInformation", {
+            method: "GET",
+        }).then((response) => {
+            return response.text();
+        }).then((result)=>{
+            document.getElementById("ModifierProfile").innerHTML = result;
+        })
+    }
+    function showProfilePassword() {
+        fetch(BASE_URL + "/Profile/ModifierPassword", {
+            method: "GET",
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            document.getElementById("ModifierProfile").innerHTML = result;
+        })
+    }
+    function showProfileAdresses(){
+        fetch(BASE_URL + "/Profile/ModifierAdresses", {
+            method:"GET",
+        }).then((response)=>{
+            return response.text();
+        }).then((result)=>{
+            document.getElementById("ModifierProfile").innerHTML = result;
+        })
+    }
+
+</script>
+<script type="text/javascript">
+    //Script pour Modifier le mot de passe
+    function ProfileModifierPassword() {
+        var form = document.getElementById("PasswordForm");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/Profile/ModifierPassword", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            document.getElementById("ModifierProfile").innerHTML = result;
+        });
+    }
+</script>
+<script>
+    //Script pour Modifier adresse
+    function ProfileAdresseEnregistrer() {
+        var form = document.getElementById("AdressesForm");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/Profile/ModifierAdressePrincipale", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text()
+        }).then((result) => {
+            document.getElementById("ModifierProfile").innerHTML = result;
+        });
+    }
+    function EnleverAdressesLivraison(id = "") {
+        fetch(BASE_URL + "/Profile/EnleverAdressesLivraison?id=" + id, {
+            method: "POST",
+        }).then((response) => {
+            return response.text()
+        }).then((result) => {
+            document.getElementById("ModifierProfile").innerHTML = result;
+        });
+    }
+</script>
+
+@* <script src="~/js/Dashboard/Profile/profileUpdate.js" asp-append-version="true"></script> *@
+@* <script src="~/js/Dashboard/Profile/profilePhoto.js"asp-append-version="true"></script> *@
