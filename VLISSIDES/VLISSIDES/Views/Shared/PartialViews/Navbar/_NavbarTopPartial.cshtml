@@ -20,14 +20,14 @@
                         <option value="categorie">Catégorie</option>
                     </select>
                 </div>
-                <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="Recherche()">
-                <a asp-area="" asp-controller="Recherche" asp-action="Index">
+                <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="if (event.key == 'Enter')Recherche()">
+                <div onclick="Recherche()">
                     <button type="button" class="btn btn-secondary recherche-btn" style="width: 100%; height: 100%; border-radius: 10rem 25rem 25rem 10rem;">
 
                         <i class="fa-solid fa-magnifying-glass fa-sm"></i>
                     </button>
                     
-                </a>
+                </div>
             </div>
         </div>
 
@@ -40,8 +40,8 @@
 </script>
 <script>
     function Recherche() {
-        if (event.key == 'Enter') window.location.href = BASE_URL + `/Recherche/index?motCles=`
-            + `${document.getElementById('barreRechercheNavbar').value}`
-            + `&criteres=${document.getElementById('dropdownRechercheNavbar').value}`;
+         window.location.href = BASE_URL
+            + "/Recherche/index?motCles=" + document.getElementById('barreRechercheNavbar').value
+            + "&criteres=" + document.getElementById('dropdownRechercheNavbar').value;
     }
 </script>
