@@ -27,7 +27,7 @@ public class DetailsLivreVM
         Categories = categories.Select(c => c.Nom).ToList();
         DatePublication = datePublication;
         Couverture = couverture;
-        MaisonEdition = maisonEdition.Nom ?? "";
+        MaisonEdition = maisonEdition != null ? maisonEdition.Nom : "";
         NbPages = nbPages;
         Resume = resume;
         NbExemplaires = nbExemplaires;
