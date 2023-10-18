@@ -46,7 +46,7 @@
             @foreach (var edition in Model.MaisonEditionsAfficherVM)
             {
                 <div id="Liste_@edition.Id" class=" visually-hidden">
-                    <h5 class="my-2">@edition.Nom</h5>
+                    <h5 class="my-2" id="NomMaison_@edition.Id">@edition.Nom</h5>
 
 
                     @if (edition.Livres.Count != 0)
