@@ -257,8 +257,8 @@ public class CategorieConfiguration : IEntityTypeConfiguration<Categorie>
         this.categories.AddRange(sousCategorie);
         foreach (var categories in listCategories)
             listIdfinal.Add(categories.Select(c => c.Id = this.categories.First(thisC => thisC.Nom.Equals(c.Nom)).Id));
-        foreach (var categorie in this.categories)
-            Console.WriteLine(categorie.Id + " : " + categorie.Nom);
+        //foreach (var categorie in this.categories)
+        //    Console.WriteLine(categorie.Id + " : " + categorie.Nom);
     }
 
     public void Configure(EntityTypeBuilder<Categorie> builder)

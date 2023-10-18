@@ -3,11 +3,30 @@
     flex-direction: row;
 }
 
-#detailsDivPrincipal * {
-    margin: 12px;
-}
+    #detailsDivPrincipal * {
+        margin: 12px;
+    }   
 
 #checkboxTypeLivre {
     display: flex;
-    flex-direction: row;
+    flex-direction: row;    
+}
+
+#DetailsInfo {
+    width: 40%;
+}
+
+.btnPanier {
+    width: 100%; 
+    display: flex;
+    align-items: center;
+}
+ 
+#DetailsDIV {
+    max-width: 20%;
+    min-width: 20%;
+}
+
+#DetailsIMG {
+    max-width: 100%;    
 }

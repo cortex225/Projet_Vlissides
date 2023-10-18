@@ -15,6 +15,41 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
 
+    public DbSet<Commande> Commandes { get; set; }
+
+    public DbSet<Employe> Employes { get; set; }
+
+    public DbSet<Auteur> Auteurs { get; set; }
+    public DbSet<Membre> Membres { get; set; }
+
+    public DbSet<Reservation> Reservations { get; set; }
+
+    public DbSet<Evenement> Evenements { get; set; }
+
+    public DbSet<Evaluation> Evaluations { get; set; }
+    public DbSet<Livre> Livres { get; set; }
+
+    public DbSet<Categorie> Categories { get; set; }
+
+    public DbSet<LivreCommande> LivreCommandes { get; set; }
+
+    public DbSet<StatutCommande> StatutCommandes { get; set; }
+
+    public DbSet<TypeLivre> TypeLivres { get; set; }
+
+    public DbSet<Favori> Favoris { get; set; }
+
+    public DbSet<Langue> Langues { get; set; }
+    public DbSet<MaisonEdition> MaisonEditions { get; set; }
+
+    public DbSet<Promotions> Promotions { get; set; }
+
+    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
+
+    public DbSet<Panier> Paniers { get; set; }
+    public DbSet<LivrePanier> LivrePanier { get; set; }
+
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -65,6 +100,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #region Favorie
 
+        // Configuration pour les adresses de livraison car un utilisateur peut avoir plusieurs adresses de livraison
+        builder.Entity<ApplicationUser>()
+            .HasMany(a => a.AdressesLivraison)
+            .WithOne(a => a.UtilisateurLivraison)
+            .HasForeignKey(a => a.UtilisateurLivraisonId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Configuration pour le panier car un utilisateur peut avoir plusieurs LivrePanier
+        builder.Entity<ApplicationUser>()
+            .HasMany(a => a.Panier)
+            .WithOne(a => a.User)
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         // Configuration de la relation entre les favoris les membres et les livres
         builder.Entity<Favori>()
             .HasKey(f => new { f.MembreId, f.LivreId });
@@ -103,7 +152,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region Livre commendé
+        #region Livre Commandé
 
         // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
         builder.Entity<LivreCommande>()
@@ -120,7 +169,24 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
+        #endregion
 
+        #region Livre Panier
+        // Configuration de la relation entre Livre et Panier et la table de liaison LivrePanier
+        builder.Entity<LivrePanier>()
+            .HasKey(lp => new { lp.LivreId, lp.UserId });
+
+        //Un livre peut être dans plusieurs paniers
+        builder.Entity<LivrePanier>()
+            .HasOne(lp => lp.Livre)
+            .WithMany(l => l.LivrePanier)
+            .HasForeignKey(lp => lp.LivreId);
+
+        //Un user peut avoir plusieurs LivresPaniers
+        builder.Entity<LivrePanier>()
+            .HasOne(lp => lp.User)
+            .WithMany(p => p.Panier)
+            .HasForeignKey(lp => lp.UserId);
         #endregion
 
         #region ApplicationUser
@@ -208,7 +274,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region LivreAuteur
+        #region Livre Auteur
 
         // Configuration des relation de livreAuteur
         builder.Entity<LivreAuteur>()
@@ -216,7 +282,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region LivreCatégorie
+        #region Livre Catégorie
 
         // Configuration des relation de livreCatégorie
         builder.Entity<LivreCategorie>()
@@ -224,7 +290,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
 
-        #region LivreTypeLivre
+        #region Livre TypeLivre
 
         // Configuration des relations de LivreTypeLivre
         builder.Entity<LivreTypeLivre>()
@@ -378,46 +444,4 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             }
         }
     }
-
-    #region DbSet
-
-    public DbSet<Adresse> Adresses { get; set; }
-
-    public DbSet<Commande> Commandes { get; set; }
-
-    public DbSet<Employe> Employes { get; set; }
-
-    public DbSet<Auteur> Auteurs { get; set; }
-
-    public DbSet<Membre> Membres { get; set; }
-
-    public DbSet<Reservation> Reservations { get; set; }
-
-    public DbSet<Evenement> Evenements { get; set; }
-
-    public DbSet<Evaluation> Evaluations { get; set; }
-
-    public DbSet<Livre> Livres { get; set; }
-
-    public DbSet<Categorie> Categories { get; set; }
-
-    public DbSet<LivreCommande> LivreCommandes { get; set; }
-
-    public DbSet<StatutCommande> StatutCommandes { get; set; }
-
-    public DbSet<TypeLivre> TypeLivres { get; set; }
-
-    public DbSet<Favori> Favoris { get; set; }
-
-    public DbSet<Langue> Langues { get; set; }
-
-    public DbSet<MaisonEdition> MaisonEditions { get; set; }
-
-    public DbSet<Promotions> Promotions { get; set; }
-
-    public DbSet<LivreAuteur> LivreAuteurs { get; set; }
-    public DbSet<LivreCategorie> LivreCategories { get; set; }
-    public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
-
-    #endregion
 }

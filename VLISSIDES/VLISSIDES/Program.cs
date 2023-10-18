@@ -1,6 +1,6 @@
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using VLISSIDES.Data;
 using VLISSIDES.Helpers;
 using VLISSIDES.Interfaces;
@@ -10,17 +10,14 @@ using VLISSIDES.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//Connection JL
-var connectionStringJL = builder.Configuration.GetConnectionString("JLConnection");
 
-//Connection par Defaut
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
+//Connection pour Jean-Luc
 if (OperatingSystem.IsMacOS())
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionStringJL));
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("JLConnection")));
+else
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
