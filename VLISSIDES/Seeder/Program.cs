@@ -292,9 +292,9 @@ public class DatabaseSeeder
 
             #region Numérique
 
-            if (reader.GetValue(5) != null)
+            if (reader.GetValue(10) != null)
             {
-                if (decimal.TryParse(reader.GetValue(5)?.ToString(), out decimal prix))
+                if (decimal.TryParse(reader.GetValue(11)?.ToString(), out decimal prix))
                 {
                     typeLivres.Add(new LivreTypeLivre
                     {
