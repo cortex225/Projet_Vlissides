@@ -15,12 +15,12 @@ public class TypeLivreConfiguration : IEntityTypeConfiguration<TypeLivre>
             new TypeLivre()
             {
                 Id = "1",
-                Nom = "Numérique",
+                Nom = "Papier",
             },
             new TypeLivre()
             {
                 Id = "2",
-                Nom = "Papier",
+                Nom = "Numérique",
             }
             );
     }
