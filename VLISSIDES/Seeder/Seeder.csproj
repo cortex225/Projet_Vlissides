@@ -24,4 +24,10 @@
         <PackageReference Include="NBuilder" Version="6.1.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Ressources\DonneesLivres.xlsx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

@@ -125,7 +125,7 @@ public class GestionLivresController : Controller
             .Select(l => new GestionLivresAfficherVM
             {
                 Id = l.Id,
-                Image = l.Couverture,
+                Image = l.Couverture == null ? "/img/CouvertureLivre/livredefault.png" : l.Couverture,
                 Titre = l.Titre,
                 ISBN = l.ISBN,
                 Categorie = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).FirstOrDefault()?.Nom,
@@ -140,6 +140,8 @@ public class GestionLivresController : Controller
         ViewBag.CurrentPage = page;
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+
+        ViewBag.Action = "Inventaire";
 
         var vm = new GestionLivresInventaireVM
         {
@@ -387,9 +389,9 @@ public class GestionLivresController : Controller
                 //TypeLivreId = vm.TypeLivreId
             };
 
-            Console.Write("1");
+            _context.Livres.Add(livre);
             _context.SaveChanges();
-            Console.Write("2");
+
 
             //return RedirectToAction("Inventaire");
             return Ok();
