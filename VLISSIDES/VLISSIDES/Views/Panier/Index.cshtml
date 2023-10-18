@@ -97,4 +97,37 @@
             
         }  
     }
+
+    async function supprimerLivre(vmIdPanier) {
+        console.log("Patate " + vmIdPanier);
+
+        //var button = event.target;
+        //var viewModelId = button.getAttribute("data-vmIdPanier");
+
+        var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+
+        fetch(`/Panier/SupprimerPanier?id=${vmIdPanier}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': csrfToken
+            }
+        })
+            .then(response => {
+                // Vérifier si la réponse est au format JSON
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Traiter les données JSON
+                console.log(data);
+            })
+            .catch(error => {
+                // Gérer les erreurs
+                console.error("Erreur lors de la requête FETCH:", error);
+            });
+    }
 </script>

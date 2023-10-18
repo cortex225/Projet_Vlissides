@@ -69,7 +69,7 @@ namespace VLISSIDES.Controllers
         [HttpDelete]
         [ValidateAntiForgeryToken]
         [Route("/Panier/SupprimerPanier")]
-        public async Task<IActionResult> SupprimerPanier([FromBody] string id)
+        public async Task<IActionResult> SupprimerPanier(string id)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             ApplicationUser? user = await _userManager.FindByIdAsync(userId);
@@ -87,7 +87,7 @@ namespace VLISSIDES.Controllers
                 }
             }
 
-            return RedirectToAction("/Panier/Index");
+            return RedirectToAction("/Panier/Index", new { refresh = true });
         }
 
         [HttpPost]
