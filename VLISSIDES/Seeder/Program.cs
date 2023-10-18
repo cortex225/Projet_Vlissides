@@ -97,6 +97,10 @@ _context.SaveChanges();
             .With(c => c.LivreTypeLivres = new List<LivreTypeLivre>
                 { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
             .With(c => c.Langue = Pick<Langue>.RandomItemFrom(langues))
+            .With(c=>c.LivreAuteurs = new List<LivreAuteur>
+                { new() { Auteur = Pick<Auteur>.RandomItemFrom(auteurs) } })
+            .With(c=>c.Categories = new List<LivreCategorie>
+                { new() { Categorie = Pick<Categorie>.RandomItemFrom(categories) } })
             .Build();
         _context.Livres.AddRange(livres);
         _context.SaveChanges();
@@ -325,11 +329,33 @@ _context.SaveChanges();
             _context.Livres.Add(livre);
             _context.SaveChanges(); // Sauvegarder les changements
 
-            
+            //Ici j'ajoute les catégories au livres
             foreach (var typeLivre in typeLivres)
             {
-                typeLivre.LivreId = livre.Id; // Assurez-vous que LivreId est correctement défini
+                typeLivre.LivreId = livre.Id; 
                 _context.LivreTypeLivres.Add(typeLivre);
+            }
+
+            //Assigner un ou plusieurs auteurs à un livre
+            var livreAuteurs = new List<LivreAuteur>();
+            foreach (var auteur in auteurs)
+            {
+                livreAuteurs.Add(new LivreAuteur
+                {
+                    LivreId = livre.Id,
+                    AuteurId = auteur.Id
+                });
+            }
+            
+            //Assigner une catégorie à un livre
+            var livreCategories = new List<LivreCategorie>();
+            foreach (var categorie in categories)
+            {
+                livreCategories.Add(new LivreCategorie
+                {
+                    LivreId = livre.Id,
+                    CategorieId = categorie.Id
+                });
             }
 
 
