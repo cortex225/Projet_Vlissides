@@ -216,8 +216,22 @@ public class DatabaseSeeder
 
             #region Couverture
 
-            livre.Couverture = reader.GetValue(0) != null
-                ? "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png" : "/img/CouvertureLivre/livredefault.png";
+            string titre = reader.GetString(0).Trim().Trim('"').Trim();
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Couvertures",
+                titre + ".png");
+            if (reader.GetValue(0) != null)
+            {
+
+                if (File.Exists(path.Replace("/bin/Debug/net6.0/", "/")))
+                {
+                    livre.Couverture = "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png";
+                }
+                else
+                {
+                    livre.Couverture = "/img/CouvertureLivre/livredefault.png";
+                }
+            }
+
 
             #endregion
 
