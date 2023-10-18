@@ -58,12 +58,12 @@
                                     {
                                         @for(var quantite = 0; quantite < article.Quantite; quantite++)
                                         {
-                                            <li class="float-end">@String.Format("+ {0:#,##0.00}$", article.Prix)</li>
+                                            <li class="float-end">@String.Format("+{0:#,##0.00}$", article.Prix)</li>
                                         }
                                     }
                                     else @* When acrticle type is numérique  *@
                                     {
-                                        <li class="float-end">@String.Format("+ {0:#,##0.00}$", article.Prix)</li>
+                                        <li class="float-end">@String.Format("+{0:#,##0.00}$", article.Prix)</li>
                                     }
                                     
                                 </ul>
