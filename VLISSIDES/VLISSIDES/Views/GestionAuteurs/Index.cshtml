@@ -174,7 +174,10 @@
                     'Content-Type': 'application/json'
                 }
             }).catch(error => console.error('Échec du fetch pour modifier le nom'))
-                .then((response) => disableButton(id));
+            .then((response) => { 
+                disableButton(id);
+                document.getElementById("NomAuteur_" + id).innerText = document.getElementById(id + " " + nom).value;
+            });
         }
     </script>
 
