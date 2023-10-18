@@ -23,8 +23,8 @@ public class RechercheController : Controller
     }
 
     // GET: RechercheController
-    [Route("2147186/Recherche/Index")]
-    [Route("{controller}/{action}")]
+    //[Route("2147186/Recherche/Index")]
+    //[Route("{controller}/{action}")]
     public ActionResult Index(string? motCles, string? criteres)
     {
         var listMotCles = new List<string>();
@@ -137,7 +137,7 @@ public class RechercheController : Controller
     }
 
     // GET: RechercheController
-    [Route("/Recherche/Details")]
+    //[Route("/Recherche/Details")]
     public ActionResult Details(string id)
     {
         //var listTypeLivres = _context.TypeLivres.ToList();
