@@ -1,8 +1,6 @@
-﻿using ExcelDataReader;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.Data;
@@ -48,7 +46,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Panier> Paniers { get; set; }
     public DbSet<LivrePanier> LivrePanier { get; set; }
-    
+
     public DbSet<Adresse> Adresses { get; set; }
 
 
@@ -148,9 +146,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #endregion
 
         #region Livre Panier
-        // Configuration de la relation entre Livre et Panier et la table de liaison LivrePanier
-        builder.Entity<LivrePanier>()
-            .HasKey(lp => new { lp.LivreId, lp.UserId });
 
         //Un livre peut être dans plusieurs paniers
         builder.Entity<LivrePanier>()
@@ -275,6 +270,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #endregion
     }
 
-   
-    
+
+
 }
