@@ -14,7 +14,7 @@
                 <h3 class="text-center">Articles</h3>
                 @foreach(var item in Model.ListeArticles)
                 {
-                    <partial name="../Shared/PartialViews/Panier/_PanierItem.cshtml" model="@article" />
+                    <partial name="../Shared/PartialViews/Panier/_PanierItem.cshtml" model="@item" />
                 }
                 
             </div>
