@@ -12,9 +12,19 @@ public class Evenement
 
     [DisplayName("Image")] public string Image { get; set; } = default!;
 
-    [DisplayName("Date de d�but")] public DateTime DateDebut { get; set; } = default!;
+    [DisplayName("Date de début")] public DateTime DateDebut { get; set; } = default!;
 
     [DisplayName("Date de fin")] public DateTime DateFin { get; set; } = default!;
 
-    [DisplayName("R�servations")] public ICollection<Reservation>? Reservations { get; set; }
+    [DisplayName("Lieu")] public string Lieu { get; set; } = default!;
+
+    [DisplayName("Nombre de places total")]
+    public int NbPlaces { get; set; } = default!;
+
+    [DisplayName("Nombre de places réservé au membre")]
+    public int NbPlacesMembre { get; set; } = default!;
+
+    [DisplayName("Prix")] public decimal? Prix { get; set; } = default!;
+
+    [DisplayName("Réservations")] public ICollection<Reservation>? Reservations { get; set; }
 }

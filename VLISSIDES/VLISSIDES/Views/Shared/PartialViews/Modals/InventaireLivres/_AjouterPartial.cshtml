@@ -1,5 +1,8 @@
 @model VLISSIDES.ViewModels.Livres.AjouterVM
-
+@{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
+}
 <div class="modal-header">
     <h5 class="modal-title" id="ModalEditLabel">Ajouter un nouveau Livre</h5>
 </div>
@@ -7,16 +10,16 @@
     @Html.AntiForgeryToken()
     <div class="modal-body">
 
-       
+
         <div class="container d-flex justify-content-center">
-            
+
             <div class="row">
-                        <input type="hidden" asp-for="CoverImageUrl"/>
-                        <div class="custom-file row">
-                           
-                            <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
-                
-                        </div>
+                <input type="hidden" asp-for="CoverImageUrl"/>
+                <div class="custom-file row">
+
+                    <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
+
+                </div>
                 <div class="col">
                     <div class="form-group ">
                         <label asp-for="Titre" class="control-label"></label>
@@ -38,7 +41,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="NbPages" class="control-label"></label>
-                        <input asp-for="NbPages" class="form-control"/>
+                        <input asp-for="NbPages" type="number" class="form-control" />
                         <span asp-validation-for="NbPages" class="text-danger"></span>
                     </div>
 
@@ -59,12 +62,12 @@
                             <div id="inputsNeuf" class="visually-hidden">
                                 <div class="form-group">
                                     <label asp-for="PrixNeuf" class="control-label"></label>
-                                    <input asp-for="PrixNeuf" class="form-control" />
+                                    <input asp-for="PrixNeuf" type="number" class="form-control" />
                                     <span asp-validation-for="PrixNeuf" class="text-danger"></span>
                                 </div>
                                 <div>
                                     <label asp-for="NbExemplaires" class="control-label"></label>
-                                    <input asp-for="NbExemplaires" class="form-control" />
+                                    <input asp-for="NbExemplaires" type="number" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -74,7 +77,7 @@
                             <div id="inputNumerique" class="visually-hidden">
                                 <div class="form-group">
                                     <label asp-for="PrixNumerique" class="control-label"></label>
-                                    <input asp-for="PrixNumerique" class="form-control" />
+                                    <input asp-for="PrixNumerique" type="number" class="form-control" />
                                     <span asp-validation-for="PrixNumerique" class="text-danger"></span>
                                 </div>
                             </div>
@@ -107,11 +110,15 @@
     <div class="modal-footer">
         <a class="btn btn-danger " href="~/GestionLivres/Inventaire">Annuler</a>
         <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterLivre()"/>
-        
+
     </div>
 
 </form>
-
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+    console.log(BASE_URL);
+</script>
 
 <script type="text/javascript">
     function ShowInputsNeuf() {
@@ -137,16 +144,16 @@
     function AjouterLivre() {
         var form = document.getElementById("FormLivreAjouter");
         var data = new FormData(form);
-
-        //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch('/GestionLivres/Ajouter', {
+        
+        //var csrfToken = form.querySelector(ï¿½'[name="__RequestVerificationToken"]').value;
+        fetch(BASE_URL + '/GestionLivres/Ajouter', {
             method: "POST",
             body: data
             // headers: {
             //    RequestVerificationToken: csrfToken,
             // },
         }).catch(error => {
-            console.error('Échec du fetch pour ajouter maison edition', error);
+            console.error('ï¿½chec du fetch pour ajouter maison edition', error);
         }).then((response) => {
             
                 return response.text();
@@ -164,7 +171,7 @@
         });
     };
     function AfficherLivres() {
-        fetch("/GestionLivres/AfficherLivres", {
+        fetch(BASE_URL+"/GestionLivres/AfficherLivres", {
             method: "GET"
         }).then((response)=>{
             return response.text();

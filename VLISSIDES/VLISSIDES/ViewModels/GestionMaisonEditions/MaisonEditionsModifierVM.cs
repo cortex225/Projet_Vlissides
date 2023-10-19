@@ -1,8 +1,7 @@
-﻿namespace VLISSIDES.ViewModels.MaisonEditions
+﻿namespace VLISSIDES.ViewModels.MaisonEditions;
+
+public class MaisonEditionsModifierVM
 {
-    public class MaisonEditionsModifierVM
-    {
-        public string Id { get; set; }
-        public string Nom { get; set; }
-    }
+    public string Id { get; set; }
+    public string Nom { get; set; }
 }

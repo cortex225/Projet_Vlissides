@@ -1,0 +1,28 @@
+﻿@model VLISSIDES.ViewModels.Categories.CategoriesIndexVM
+<!--onclick pour afficher livres ici-->
+<div id="@Model.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@Model.Id')">
+    <div class="card-body row align-items-center p-0">
+        <div class="col-8 text-center">
+            <!--Début : Modifier nom d'une maison d'édition-->
+            <input id="@Model.Id @Model.Nom" type="text" asp-for="@Model.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => Model.Nom)"
+                   onclick="enableButton('@Model.Id')">
+        </div>
+        <div class="col-4 text-center d-flex flex-row justify-content-around h-40">
+            <button id="saveButton @Model.Id" type="button" class="btn btn-success saveButton"
+                    onclick="ModifierNomCategorie('@Model.Id', '@Model.Nom')
+                                        disableButton('@Model.Id')">
+                <span class="fa-solid fa-check fa-2x"></span>
+            </button>
+            <button type="button" class="btn btn-primary p-2"
+                    onclick="ShowModal('@Url.Action("Modifier", "GestionCategories", new { id = @Model.Id })')">
+                <span class="fa-solid fa-pen fa-2x"></span>
+            </button>
+            <!--Fin : Modifier nom d'une maison d'édition-->
+            <!--Bouton supprimer ici-->
+            <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionCategories", new { id = Model.Id })')">
+                <span class="fa-solid fa-trash fa-2x"></span>
+            </button>
+
+        </div>
+    </div>
+</div>

@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel;
 
-namespace VLISSIDES.Models
+namespace VLISSIDES.Models;
+
+public class LivreTypeLivre
 {
-    public class LivreTypeLivre
-    {
-        [DisplayName("Prix")] public decimal Prix { get; set; } = default!;
-        public string LivreId { get; set; } = default!;
-        public Livre Livre { get; set; } = default!;
-        public string TypeLivreId { get; set; } = default!;
-        public TypeLivre TypeLivre { get; set; } = default!;
-    }
+    [DisplayName("Prix")] public decimal Prix { get; set; } = default!;
+    public string LivreId { get; set; } = default!;
+    public Livre Livre { get; set; } = default!;
+    public string TypeLivreId { get; set; } = default!;
+    public TypeLivre TypeLivre { get; set; } = default!;
 }

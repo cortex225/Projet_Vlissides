@@ -1,16 +1,18 @@
-﻿@using VLISSIDES.ViewModels.Recherche;
-@model IndexRechercheVM;
+﻿@model VLISSIDES.ViewModels.Recherche.IndexRechercheVM;
 @{
     ViewData["Title"] = "Inventaire";
 }
 <link rel="stylesheet" href="~/css/Recherche.css">
 <div class="d-block p-4 p-4">
 
-    @if(Model.ResultatRecherche.Count <= 0){
+    @if (Model.ResultatRecherche.Count <= 0)
+    {
         <div class="mb-4">
             <h1>Aucun résultat pour "@Model.MotRecherche"</h1>
         </div>
-    }else{
+    }
+    else
+    {
         <div class="mb-4">
             <h1>Résultat de recherche pour "@Model.MotRecherche"</h1>
         </div>
@@ -19,91 +21,94 @@
     <div class="container-fluid m-1">
 
         @* Les recherches *@
-            @* Research bar *@
-            <div class="row mb-3">
-                <div class="col-2 ml-4 text-center">
-                    <a asp-controller="Recherche" asp-action="Index" > 
-                        <button id="rechercherBTN" type="button" class="container-fluid btn btn-primary">
-                            Rechercher
-                        </button>
-                    </a>
-                </div>
-
-                <div class="col-10">
-                    <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale">
-                </div>
+        @* Research bar *@
+        <div class="row mb-3">
+            <div class="col-2 ml-4 text-center">
+                <a asp-controller="Recherche" asp-action="Index">
+                    <button id="rechercherBTN" type="button" class="container-fluid btn btn-primary">
+                        Rechercher
+                    </button>
+                </a>
             </div>
 
-            <div class="row">
+            <div class="col-10">
+                <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale" onkeyup="Recherche()">
+            </div>
+        </div>
 
-                <div class="col-2 bg-secondary">
+        <div class="row">
 
-                    @* Recherche précise *@
-                    <div class="my-2">
-                        <h3>Spécifications</h3>
-                        <div class="form-group">
-                            <label for="specificationTitre">Titre:</label>
-                            <input type="text" class="form-control" id="specificationTitre" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationAuteur">Auteur:</label>
-                            <input type="text" class="form-control" id="specificationAuteur" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationMaisonEdition">Maison d'édition:</label>
-                            <input type="text" class="form-control" id="specificationMaisonEdition" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationCategorie">Categorie:</label>
-                            <select class="form-control" id="specificationCategorie" name="categorie">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var categorie in Model.ListeCategories)
-                                {
-                                    <option value="@categorie.Nom">@categorie.Nom</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationLangue">Langue:</label>
-                            <select class="form-control" id="specificationLangue" name="langue">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var langue in Model.ListeLangues)
-                                {
-                                    <option value="@langue.Nom">@langue.Nom</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationPrixMin">Prix minimum:</label>
-                            <input type="text" class="form-control" id="specificationPrixMin" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationPrixMax">Prix maximum:</label>
-                            <input type="text" class="form-control" id="specificationPrixMax" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationTypeLivre">Type de livre:</label>
-                            <select class="form-control" id="specificationTypeLivre" name="typeLivre">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var type in Model.ListeTypeLivres)
-                                {
-                                    <option value="@type.Nom">@type.Nom</option>
-                                }
-                            </select>
-                        </div>
+            <div class="col-2 bg-secondary">
+
+                @* Recherche précise *@
+                <div class="my-2">
+                    <h3>Spécifications</h3>
+                    <div class="form-group">
+                        <label for="specificationTitre">Titre:</label>
+                        <input type="text" class="form-control" id="specificationTitre" placeholder="">
                     </div>
-                </div>
-                @* Body *@
-                <div class="col-10">
-
-                    @* Results *@
-                    <div class="results">
-                        @foreach(Livre livre in Model.ResultatRecherche){
-                            <partial name="_CarteLivreRecherche.cshtml" model="@livre"/>
-                        }
+                    <div class="form-group">
+                        <label for="specificationAuteur">Auteur:</label>
+                        <input type="text" class="form-control" id="specificationAuteur" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationMaisonEdition">Maison d'édition:</label>
+                        <input type="text" class="form-control" id="specificationMaisonEdition" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationCategorie">Categorie:</label>
+                        <select class="form-control" id="specificationCategorie" name="categorie">
+                            <option value="">Sélectionnez...</option>
+                            @foreach (var categorie in Model.ListeCategories)
+                            {
+                                <option value="@categorie">@categorie</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationLangue">Langue:</label>
+                        <select class="form-control" id="specificationLangue" name="langue">
+                            <option value="">Sélectionnez...</option>
+                            @foreach (var langue in Model.ListeLangues)
+                            {
+                                <option value="@langue">@langue</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationPrixMin">Prix minimum:</label>
+                        <input type="text" class="form-control" id="specificationPrixMin" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationPrixMax">Prix maximum:</label>
+                        <input type="text" class="form-control" id="specificationPrixMax" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationTypeLivre">Type de livre:</label>
+                        <select class="form-control" id="specificationTypeLivre" name="typeLivre">
+                            <option value="">Sélectionnez...</option>
+                            @foreach (var type in Model.ListeTypeLivres)
+                            {
+                                <option value="@type">@type</option>
+                            }
+                        </select>
                     </div>
                 </div>
             </div>
+            @* Body *@
+            <div class="col-10">
+
+                @* Results *@
+                <div class="results">
+                    @foreach (var livre in Model.LivrePartials)
+                    {
+                        <a asp-controller="Recherche" asp-action="Details" asp-route-id="@livre.Id">
+                            <partial name="_CarteLivreRecherche.cshtml" model="@livre" />
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -121,7 +126,7 @@
         var partieCriteres = "criteres=";
 
         //Recherche générale
-        var searchGeneral = document.getElementById("rechercheGeneral"); 
+        var searchGeneral = document.getElementById("rechercheGeneral");
         var searchTerm = searchGeneral.value; // Récupérer la valeur de la barre de recherche
 
         if (searchTerm != "") {
@@ -130,7 +135,7 @@
         }
 
         //Titre
-        var titreSpecification = document.getElementById("specificationTitre"); 
+        var titreSpecification = document.getElementById("specificationTitre");
         var titreEntree = titreSpecification.value; // Récupérer la valeur de la barre de recherche
 
         if (titreEntree != "") {
@@ -139,7 +144,7 @@
         }
 
         //Auteur
-        var auteurSpecification = document.getElementById("specificationAuteur"); 
+        var auteurSpecification = document.getElementById("specificationAuteur");
         var auteurEntree = auteurSpecification.value; // Récupérer la valeur de la barre de recherche
 
         if (auteurEntree != "") {
@@ -148,7 +153,7 @@
         }
 
         //MaisonEdition
-        var maisonEditionSpecification = document.getElementById("specificationMaisonEdition"); 
+        var maisonEditionSpecification = document.getElementById("specificationMaisonEdition");
         var maisonEditionEntree = maisonEditionSpecification.value; // Récupérer la valeur de la barre de recherche
 
         if (maisonEditionEntree != "") {
@@ -157,7 +162,7 @@
         }
 
         //Categorie
-        var categorieSpecification = document.getElementById("specificationCategorie"); 
+        var categorieSpecification = document.getElementById("specificationCategorie");
         var categorieEntree = categorieSpecification.value; // Récupérer la valeur de la barre de recherche
 
         if (categorieEntree != "") {
@@ -166,7 +171,7 @@
         }
 
         //Langue
-        var langueSpecification = document.getElementById("specificationLangue"); 
+        var langueSpecification = document.getElementById("specificationLangue");
         var langueEntree = langueSpecification.value; // Récupérer la valeur de la barre de recherche
 
         if (langueEntree != "") {
@@ -175,7 +180,7 @@
         }
 
         //Type livre
-        var typeLivreSpecification = document.getElementById("specificationTypeLivre"); 
+        var typeLivreSpecification = document.getElementById("specificationTypeLivre");
         var typeLivreEntree = typeLivreSpecification.value; // Récupérer la valeur de la barre de recherche
 
         if (typeLivreEntree != "") {
@@ -184,7 +189,7 @@
         }
 
         //Prix minimum
-        var prixMinSpecification = document.getElementById("specificationPrixMin"); 
+        var prixMinSpecification = document.getElementById("specificationPrixMin");
         var prixMinEntree = prixMinSpecification.value; // Récupérer la valeur de la barre de recherche
 
         if (prixMinEntree != "") {
@@ -193,7 +198,7 @@
         }
 
         //Prix maximum
-        var prixMaxSpecification = document.getElementById("specificationPrixMax"); 
+        var prixMaxSpecification = document.getElementById("specificationPrixMax");
         var prixMaxEntree = prixMaxSpecification.value; // Récupérer la valeur de la barre de recherche
 
         if (prixMaxEntree != "") {
@@ -205,4 +210,10 @@
         // Utiliser la valeur dans l'URL pour l'action Index
         window.location.href = `/Recherche/Index?${partieMotCles}&${partieCriteres}`;
     }
-</script> 
+</script>
+
+<script>
+    function Recherche() {
+        if (event.key == 'Enter') window.location.href = `/Recherche/index?motCles=${document.getElementById('rechercheGeneral').value}`;
+    }
+</script>

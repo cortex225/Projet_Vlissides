@@ -11,29 +11,29 @@
     <div class="row">
         <div class="col">
             <form asp-action="Ajouter" enctype="multipart/form-data">
-                
+
                 <div>
                     <label class="control-label" asp-for="Nom"></label>
-                    <input class="form-control" asp-for="Nom" />
+                    <input class="form-control" asp-for="Nom"/>
                     <span asp-validation-for="Nom" class="text-danger"></span>
                 </div>
                 <div>
                     <label class="control-label" asp-for="Description"></label>
-                    <input class="form-control" asp-for="Description" />
+                    <input class="form-control" asp-for="Description"/>
                 </div>
-                
-                    <div>
-                        <label asp-for="ASousCategorie" class="control-label"></label>
-                        <input class="form-check-input" type="checkbox" id="cbSousCategorie" asp-for="ASousCategorie" onclick="ShowSousCategorie()">
-                    </div>
 
-                    <div id="selectSousCategorie" class="visually-hidden">
-                        <label class="control-label" asp-for="ParentId"></label>
-                        <select class="form-control" asp-for="ParentId" asp-items="Model.CategoriesParents">
-                        </select>
-                    </div>
+                <div>
+                    <label asp-for="ASousCategorie" class="control-label"></label>
+                    <input class="form-check-input" type="checkbox" id="cbSousCategorie" asp-for="ASousCategorie" onclick="ShowSousCategorie()">
+                </div>
+
+                <div id="selectSousCategorie" class="visually-hidden">
+                    <label class="control-label" asp-for="ParentId"></label>
+                    <select class="form-control" asp-for="ParentId" asp-items="Model.CategoriesParents">
+                    </select>
+                </div>
                 <div class="modal-footer">
-                    <input type="submit" value="Ajouter" class="btn btn-primary" />
+                    <input type="submit" value="Ajouter" class="btn btn-primary"/>
                     <a class="btn btn-danger " href="~/GestionCategories/Index">Annuler</a>
                 </div>
             </form>
@@ -41,7 +41,7 @@
     </div>
 
 </div>
-<script type="text/javascript">
+<script type="text/javascript" asp-append-version="true">
     function ShowSousCategorie() {
         var cb = document.getElementById("cbSousCategorie");
         var div = document.getElementById("selectSousCategorie");
