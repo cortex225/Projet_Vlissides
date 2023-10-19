@@ -125,9 +125,6 @@ public class DatabaseSeeder
         //Signaler la fin de la lecture du fichier Excel
         Console.WriteLine("************ Succès!************* ");
 
-
-        //Signaler la fin du seeder
-        Console.WriteLine("Fin du seed!");
     }
 
     private void SeedFromExcel(string fileName)
