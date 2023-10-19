@@ -4,6 +4,13 @@
 //Signaler le debut du seeder
 
 
+using ExcelDataReader;
+using Faker;
+using FizzWare.NBuilder;
+using Seeder;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+
 /**
 * Ce seeder sert à créer des donnés pour tester le programme. Ce seeder crée:
 *      -Auteurs
@@ -57,7 +64,7 @@ public class DatabaseSeeder
         _context.Categories.RemoveRange(_context.Categories);
         _context.SaveChanges();
 
-        /*
+        
         //Générer les auteurs
         var auteurs = Builder<Auteur>.CreateListOfSize(99)
             .All()
