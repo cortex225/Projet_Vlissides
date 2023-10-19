@@ -7,6 +7,18 @@
     Array.ForEach(numberTestPrice, value => total += value);
 }
 
+@*********************@
+@* Modals *@
+@*********************@
+
+<div class="modal fade modal-dialog-centered " tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+        </div>
+    </div>
+</div>
+
 <div class="m-4">
     <h1>Votre panier</h1>
 
@@ -119,6 +131,17 @@
             if (!response.ok) {
                 throw new Error(`Erreur HTTP! Statut: ${response.status}`);
             }
+            //remove element article HTML
+            if (response.ok ) {
+                var article = document.getElementById(vmIdPanier);
+                article.remove();
+                $('#ModalId').modal('hide'); // Ferme la modale
+
+                
+                
+                
+            }
+            
             return response.json();
         })
         .then(data => {
@@ -129,6 +152,6 @@
             // Gérer les erreurs
             console.error("Erreur lors de la requête FETCH:", error);
         });
-        location.reload();
+        
     }
 </script>

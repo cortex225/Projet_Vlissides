@@ -3,20 +3,9 @@
 @{
 }
 
-@*********************@
-@* Modals *@
-@*********************@
 
-<div class="modal fade modal-dialog-centered " tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
-     style="display: none;">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content ">
-        </div>
-    </div>
-</div>
-
-<div class="card mb-3" style="max-width: 540px;">
-    <input type="hidden" class="vmIdPanier" name="viewModelId" value="@Model.Id" />
+<div class="card mb-3 " id="@Model.Id" style="max-width: 540px;">
+    <input type="hidden" class="vmIdPanier"  name="viewModelId" value="@Model.Id" />
     <div class="row no-gutters">
         <div class="col-md-4 bg-secondary ">
             <img src="@Model.Livre.Couverture" class="card-img" alt="...">
