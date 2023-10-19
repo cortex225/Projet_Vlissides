@@ -4,8 +4,6 @@
 //Signaler le debut du seeder
 
 using ExcelDataReader;
-using Faker;
-using FizzWare.NBuilder;
 using Seeder;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -49,21 +47,21 @@ public class DatabaseSeeder
         var typeLivres = _context.TypeLivres.ToList();
         var langues = _context.Langues.ToList();
 
-        var generator = new RandomGenerator();
-        Random rand = new Random();
+        //var generator = new RandomGenerator();
+        //Random rand = new Random();
 
 
         //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
-        // _context.Livres.RemoveRange(_context.Livres);
-        // _context.SaveChanges();
-        // _context.Auteurs.RemoveRange(_context.Auteurs);
-        // _context.SaveChanges();
-        // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
-        // _context.SaveChanges();
-        // _context.Categories.RemoveRange(_context.Categories);
-        // _context.SaveChanges();
+        _context.Livres.RemoveRange(_context.Livres);
+        _context.SaveChanges();
+        _context.Auteurs.RemoveRange(_context.Auteurs);
+        _context.SaveChanges();
+        _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
+        _context.SaveChanges();
+        _context.Categories.RemoveRange(_context.Categories);
+        _context.SaveChanges();
 
-
+        /*
         //Générer les auteurs
         var auteurs = Builder<Auteur>.CreateListOfSize(99)
             .All()
@@ -117,7 +115,7 @@ public class DatabaseSeeder
         }
 
         _context.SaveChanges();
-
+        */
         //Signaler le début de la lecture du fichier Excel
         Console.WriteLine("************ Début de la lecture du fichier Excel!************* ");
         string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ressources", "DonneesLivres.xlsx");
@@ -126,8 +124,7 @@ public class DatabaseSeeder
         Console.WriteLine("************ Succès!************* ");
 
 
-        //Signaler la fin du seeder
-        Console.WriteLine("Fin du seed!");
+
     }
 
     private void SeedFromExcel(string fileName)
