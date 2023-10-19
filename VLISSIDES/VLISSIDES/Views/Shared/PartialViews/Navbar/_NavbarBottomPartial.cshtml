@@ -101,7 +101,15 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
                             Consulter le panier
-                            <i class="fa-solid fa-cart-shopping"></i>
+                            <i class="fa-solid fa-cart-shopping">
+                                <span class="badge badge-pill badge-danger">
+                                    @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
+                                    {
+                                         @* <text>@Panier.GetPanier(UserManager.GetUserId(User)).Count</text> *@
+
+                                    }
+                                </span>
+                            </i>
                         </a>
                     </li>
                 </ul>

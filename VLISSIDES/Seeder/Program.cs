@@ -54,69 +54,69 @@ public class DatabaseSeeder
 
 
         //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
-        // _context.Livres.RemoveRange(_context.Livres);
-        // _context.SaveChanges();
-        // _context.Auteurs.RemoveRange(_context.Auteurs);
-        // _context.SaveChanges();
-        // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
-        // _context.SaveChanges();
-        // _context.Categories.RemoveRange(_context.Categories);
-        // _context.SaveChanges();
-
-
-        //Générer les auteurs
-        var auteurs = Builder<Auteur>.CreateListOfSize(99)
-            .All()
-            .With(c => c.NomAuteur = Name.Last())
-            .Build();
-        _context.Auteurs.AddRange(auteurs);
+        _context.Livres.RemoveRange(_context.Livres);
+        _context.SaveChanges();
+        _context.Auteurs.RemoveRange(_context.Auteurs);
+        _context.SaveChanges();
+        _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
+        _context.SaveChanges();
+        _context.Categories.RemoveRange(_context.Categories);
         _context.SaveChanges();
 
-        //Générer les maisons d'édition
-        var maisonsEditions = Builder<MaisonEdition>.CreateListOfSize(99)
-            .All()
-            .With(c => c.Nom = Company.Name())
-            .Build();
-        _context.MaisonEditions.AddRange(maisonsEditions);
-        _context.SaveChanges();
 
-        //Générer les livres
-        var livres = Builder<Livre>.CreateListOfSize(299)
-            .All()
-            .With(c => c.Titre = Company.Name())
-            .With(c => c.Resume = Lorem.Paragraph())
-            .With(c => c.NbExemplaires = 1)
-            .With(c => c.DateAjout = DateTime.Now)
-            .With(c => c.NbPages = 120)
-            .With(c => c.DatePublication = Identification.DateOfBirth())
-            .With(c => c.ISBN = Identification.UsPassportNumber())
-            .With(c => c.Categories = new List<LivreCategorie>())
-            .With(c => c.LivreAuteurs = new())
-            .With(c => c.Couverture = "/img/Couvertures/livredefault.png")
-            .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
-            .With(c => c.LivreTypeLivres = new List<LivreTypeLivre>
-                { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
-            .With(c => c.Langue = Pick<Langue>.RandomItemFrom(langues))
-            .With(c => c.LivreAuteurs = new List<LivreAuteur>
-                { new() { Auteur = Pick<Auteur>.RandomItemFrom(auteurs) } })
-            .With(c => c.Categories = new List<LivreCategorie>
-                { new() { Categorie = Pick<Categorie>.RandomItemFrom(categories) } })
-            .Build();
-        _context.Livres.AddRange(livres);
-        _context.SaveChanges();
-
-        //Générer les prix de chaque livres existant dans la base de donnés 
-        var livreTypeLivres = _context.LivreTypeLivres.ToList();
-        foreach (var livre in livres)
-        {
-            var livreTypeLivre = livreTypeLivres.FirstOrDefault(ltl => ltl.LivreId == livre.Id);
-            if (livreTypeLivre != null)
-            {
-                livreTypeLivre.Prix = rand.Next(10, 100);
-            }
-        }
-
-        _context.SaveChanges();
+        // //Générer les auteurs
+        // var auteurs = Builder<Auteur>.CreateListOfSize(99)
+        //     .All()
+        //     .With(c => c.NomAuteur = Name.Last())
+        //     .Build();
+        // _context.Auteurs.AddRange(auteurs);
+        // _context.SaveChanges();
+        //
+        // //Générer les maisons d'édition
+        // var maisonsEditions = Builder<MaisonEdition>.CreateListOfSize(99)
+        //     .All()
+        //     .With(c => c.Nom = Company.Name())
+        //     .Build();
+        // _context.MaisonEditions.AddRange(maisonsEditions);
+        // _context.SaveChanges();
+        //
+        // //Générer les livres
+        // var livres = Builder<Livre>.CreateListOfSize(299)
+        //     .All()
+        //     .With(c => c.Titre = Company.Name())
+        //     .With(c => c.Resume = Lorem.Paragraph())
+        //     .With(c => c.NbExemplaires = 1)
+        //     .With(c => c.DateAjout = DateTime.Now)
+        //     .With(c => c.NbPages = 120)
+        //     .With(c => c.DatePublication = Identification.DateOfBirth())
+        //     .With(c => c.ISBN = Identification.UsPassportNumber())
+        //     .With(c => c.Categories = new List<LivreCategorie>())
+        //     .With(c => c.LivreAuteurs = new())
+        //     .With(c => c.Couverture = "/img/Couvertures/livredefault.png")
+        //     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
+        //     .With(c => c.LivreTypeLivres = new List<LivreTypeLivre>
+        //         { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
+        //     .With(c => c.Langue = Pick<Langue>.RandomItemFrom(langues))
+        //     .With(c => c.LivreAuteurs = new List<LivreAuteur>
+        //         { new() { Auteur = Pick<Auteur>.RandomItemFrom(auteurs) } })
+        //     .With(c => c.Categories = new List<LivreCategorie>
+        //         { new() { Categorie = Pick<Categorie>.RandomItemFrom(categories) } })
+        //     .Build();
+        // _context.Livres.AddRange(livres);
+        // _context.SaveChanges();
+        //
+        // //Générer les prix de chaque livres existant dans la base de donnés 
+        // var livreTypeLivres = _context.LivreTypeLivres.ToList();
+        // foreach (var livre in livres)
+        // {
+        //     var livreTypeLivre = livreTypeLivres.FirstOrDefault(ltl => ltl.LivreId == livre.Id);
+        //     if (livreTypeLivre != null)
+        //     {
+        //         livreTypeLivre.Prix = rand.Next(10, 100);
+        //     }
+        // }
+        //
+        // _context.SaveChanges();
 
         //Signaler le début de la lecture du fichier Excel
         Console.WriteLine("************ Début de la lecture du fichier Excel!************* ");
