@@ -158,6 +158,6 @@ public class RechercheController : Controller
 
         return View(new DetailsLivreVM(livre.Id, livre.Titre, livre.LivreAuteurs.Select(la => la.Auteur),
             livre.Categories.Select(lc => lc.Categorie), livre.DatePublication, livre.Couverture, livre.MaisonEdition,
-            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres.Select(ltl => ltl.TypeLivre)));
+            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres));
     }
 }

@@ -2,6 +2,10 @@
 @{
     ViewData["Title"] = "Inventaire";
 }
+@{
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+}
 <link rel="stylesheet" href="~/css/Recherche.css">
 <div class="d-block p-4 p-4">
 
@@ -32,7 +36,7 @@
             </div>
 
             <div class="col-10">
-                <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale" onkeyup="Recherche()">
+                <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale" onkeyup="RechercheRapide()">
             </div>
         </div>
 
@@ -103,7 +107,7 @@
                     @foreach (var livre in Model.LivrePartials)
                     {
                         <a asp-controller="Recherche" asp-action="Details" asp-route-id="@livre.Id">
-                            <partial name="_CarteLivreRecherche.cshtml" model="@livre" />
+                            <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre" />
                         </a>
                     }
                 </div>
@@ -113,6 +117,9 @@
     </div>
 
 </div>
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
 <script type="text/javascript">
     //Script pour la recherche
     var btnSearch = document.getElementById("rechercherBTN");
@@ -213,7 +220,7 @@
 </script>
 
 <script>
-    function Recherche() {
+    function RechercheRapide() {
         if (event.key == 'Enter') window.location.href = `/Recherche/index?motCles=${document.getElementById('rechercheGeneral').value}`;
     }
 </script>

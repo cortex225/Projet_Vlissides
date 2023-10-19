@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Panier;
-using VLISSIDES.ViewModels.Livres;
-using System.Security.Claims;
 
 namespace VLISSIDES.Controllers
 {
@@ -16,7 +15,7 @@ namespace VLISSIDES.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PanierController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, 
+        public PanierController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
             IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
@@ -28,6 +27,97 @@ namespace VLISSIDES.Controllers
 
         public IActionResult Index()
         {
+
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
+
+            var listeArticleVM = article.Select(a => new AfficherPanierVM
+            {
+                Id = a.Id,
+                Livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId),
+                TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
+                Prix = (double)_context.LivreTypeLivres.FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
+                UserId = a.UserId,
+                Quantite = a.Quantite,
+            }).ToList();
+
+            double prixtotal = 0;
+
+            foreach (var item in listeArticleVM)
+            {
+                if (item.Quantite is not null)
+                {
+                    prixtotal += (double)item.Quantite * item.Prix;
+                }
+                else
+                {
+                    prixtotal += item.Prix;
+                }
+
+            }
+
+            var panier = new PanierVM
+            {
+                ListeArticles = listeArticleVM,
+                PrixTotal = prixtotal
+
+            };
+
+            return View(panier);
+        }
+
+        public async Task<IActionResult> AfficherFacture()
+        {
+
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
+
+            var listeArticleVM = article.Select(a => new AfficherPanierVM
+            {
+                Id = a.Id,
+                Livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId),
+                TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
+                Prix = (double)_context.LivreTypeLivres.FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
+                UserId = a.UserId,
+                Quantite = a.Quantite,
+            }).ToList();
+
+            double prixtotal = 0;
+
+            foreach (var item in listeArticleVM)
+            {
+                if (item.Quantite is not null)
+                {
+                    prixtotal += (double)item.Quantite * item.Prix;
+                }
+                else
+                {
+                    prixtotal += item.Prix;
+                }
+
+            }
+
+            var panier = new PanierVM
+            {
+                ListeArticles = listeArticleVM,
+                PrixTotal = prixtotal
+
+            };
+
+            return PartialView("PartialViews/Panier/_FacturePartial", panier);
+        }
+
+        [HttpPost]
+        public ActionResult ModifierQuantite(string id, int quantite)
+        {
+            if (ModelState.IsValid)
+            {
+                var article = _context.LivrePanier.FirstOrDefault(lp => lp.Id == id);
+                article.Quantite = quantite;
+                _context.SaveChanges();
+                return Ok();
+            }
+
             return View();
         }
 
@@ -35,7 +125,7 @@ namespace VLISSIDES.Controllers
         [ValidateAntiForgeryToken]
         [Route("/Panier/AjouterPanier")]
         //[Route("{controller}/{action}")]
-        public async Task<IActionResult> AjouterPanier([FromBody]AjouterPanierVM vm)
+        public async Task<IActionResult> AjouterPanier([FromBody] AjouterPanierVM vm)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             ApplicationUser? user = await _userManager.FindByIdAsync(userId);
@@ -52,6 +142,7 @@ namespace VLISSIDES.Controllers
                     .Collection(u => u.Panier)
                     .LoadAsync();
 
+                lp.Id = Guid.NewGuid().ToString();
                 lp.LivreId = livre.Id;
                 lp.TypeId = type.Id;
                 lp.Quantite = vm.quantitee;
