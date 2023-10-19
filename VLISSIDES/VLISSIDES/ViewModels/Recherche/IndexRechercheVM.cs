@@ -29,7 +29,7 @@ public class IndexRechercheVM
         ResultatRecherche = resultatRecherche.Select(rr => rr.Titre).ToList();
         LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr.Id, rr.Titre, rr.LivreAuteurs.Select(la => la.Auteur),
             rr.Categories.Select(lc => lc.Categorie), rr.DatePublication, rr.Couverture, rr.MaisonEdition, rr.NbPages, rr.Resume,
-            rr.NbExemplaires, rr.LivreTypeLivres.Select(ltl => ltl.TypeLivre))).ToList();
+            rr.NbExemplaires, rr.LivreTypeLivres)).ToList();
         ListeCategories = listeCategories.Select(lc => lc.Nom).ToList();
         ListeLangues = listeLangues.Select(lc => lc.Nom).ToList();
         ListeTypeLivres = listeTypeLivres.Select(lc => lc.Nom).ToList();
