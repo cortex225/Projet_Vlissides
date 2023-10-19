@@ -632,7 +632,7 @@ public class GestionLivresController : Controller
         return (_context.Livres?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 
-    //Modifie le nombre du livre selectionn�
+    //Modifie le nombre du livre selectionné
 
     [HttpPost]
     public async Task<IActionResult> ModifierLivreQuantite(string id, int quantite)

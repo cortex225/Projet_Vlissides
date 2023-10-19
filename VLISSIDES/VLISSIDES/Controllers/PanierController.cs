@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -15,6 +16,7 @@ namespace VLISSIDES.Controllers
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private string? IdLivreSupprime = null;
 
         public PanierController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
             IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
@@ -42,6 +44,12 @@ namespace VLISSIDES.Controllers
             }).ToList();
 
             double prixtotal = 0;
+
+            if (IdLivreSupprime != null)
+            {
+                listeArticleVM.RemoveAll(a => a.Id == IdLivreSupprime);
+                IdLivreSupprime = null;
+            }
 
             foreach (var item in listeArticleVM)
             {
@@ -82,12 +90,15 @@ namespace VLISSIDES.Controllers
             {
                 if (p.Id == id)
                 {
+                    IdLivreSupprime = p.Id;
                     _context.LivrePanier.Remove(p);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
+
+                    break;
                 }
             }
 
-            return RedirectToAction("/Panier/Index", new { refresh = true });
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
