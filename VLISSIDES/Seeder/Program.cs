@@ -4,8 +4,6 @@
 //Signaler le debut du seeder
 
 using ExcelDataReader;
-using Faker;
-using FizzWare.NBuilder;
 using Seeder;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -49,21 +47,21 @@ public class DatabaseSeeder
         var typeLivres = _context.TypeLivres.ToList();
         var langues = _context.Langues.ToList();
 
-        var generator = new RandomGenerator();
-        Random rand = new Random();
+        //var generator = new RandomGenerator();
+        //Random rand = new Random();
 
 
         //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
-        // _context.Livres.RemoveRange(_context.Livres);
-        // _context.SaveChanges();
-        // _context.Auteurs.RemoveRange(_context.Auteurs);
-        // _context.SaveChanges();
-        // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
-        // _context.SaveChanges();
-        // _context.Categories.RemoveRange(_context.Categories);
-        // _context.SaveChanges();
+        _context.Livres.RemoveRange(_context.Livres);
+        _context.SaveChanges();
+        _context.Auteurs.RemoveRange(_context.Auteurs);
+        _context.SaveChanges();
+        _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
+        _context.SaveChanges();
+        _context.Categories.RemoveRange(_context.Categories);
+        _context.SaveChanges();
 
-
+        /*
         //Générer les auteurs
         var auteurs = Builder<Auteur>.CreateListOfSize(99)
             .All()
@@ -92,7 +90,7 @@ public class DatabaseSeeder
             .With(c => c.ISBN = Identification.UsPassportNumber())
             .With(c => c.Categories = new List<LivreCategorie>())
             .With(c => c.LivreAuteurs = new())
-            .With(c => c.Couverture = "/img/livredefault.png")
+            .With(c => c.Couverture = "/img/Couvertures/livredefault.png")
             .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
             .With(c => c.LivreTypeLivres = new List<LivreTypeLivre>
                 { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
@@ -117,7 +115,7 @@ public class DatabaseSeeder
         }
 
         _context.SaveChanges();
-
+        */
         //Signaler le début de la lecture du fichier Excel
         Console.WriteLine("************ Début de la lecture du fichier Excel!************* ");
         string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ressources", "DonneesLivres.xlsx");
@@ -126,8 +124,7 @@ public class DatabaseSeeder
         Console.WriteLine("************ Succès!************* ");
 
 
-        //Signaler la fin du seeder
-        Console.WriteLine("Fin du seed!");
+
     }
 
     private void SeedFromExcel(string fileName)
@@ -216,8 +213,22 @@ public class DatabaseSeeder
 
             #region Couverture
 
-            livre.Couverture = reader.GetValue(0) != null
-                ? "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png" : "/img/CouvertureLivre/livredefault.png";
+            string titre = reader.GetString(0).Trim().Trim('"').Trim();
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Couvertures",
+                titre + ".png");
+            if (reader.GetValue(0) != null)
+            {
+
+                if (File.Exists(path.Replace("/bin/Debug/net6.0/", "/")))
+                {
+                    livre.Couverture = "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png";
+                }
+                else
+                {
+                    livre.Couverture = "/img/CouvertureLivre/livredefault.png";
+                }
+            }
+
 
             #endregion
 
@@ -292,9 +303,9 @@ public class DatabaseSeeder
 
             #region Numérique
 
-            if (reader.GetValue(5) != null)
+            if (reader.GetValue(10) != null)
             {
-                if (decimal.TryParse(reader.GetValue(5)?.ToString(), out decimal prix))
+                if (decimal.TryParse(reader.GetValue(11)?.ToString(), out decimal prix))
                 {
                     typeLivres.Add(new LivreTypeLivre
                     {
