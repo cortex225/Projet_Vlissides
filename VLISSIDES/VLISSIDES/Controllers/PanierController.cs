@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -14,6 +15,7 @@ namespace VLISSIDES.Controllers
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private string? IdLivreSupprime = null;
 
         public PanierController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
             IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
@@ -27,7 +29,6 @@ namespace VLISSIDES.Controllers
 
         public IActionResult Index()
         {
-
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
 
@@ -38,11 +39,17 @@ namespace VLISSIDES.Controllers
                 TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
                 Prix = (double)_context.LivreTypeLivres.FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
                 UserId = a.UserId,
-                Quantite = a.Quantite,
+                Quantite = a.Quantite
             }).ToList();
             ViewBag.NbArticles = listeArticleVM.Count;
 
             double prixtotal = 0;
+
+            if (IdLivreSupprime != null)
+            {
+                listeArticleVM.RemoveAll(a => a.Id == IdLivreSupprime);
+                IdLivreSupprime = null;
+            }
 
             foreach (var item in listeArticleVM)
             {
@@ -65,6 +72,33 @@ namespace VLISSIDES.Controllers
             };
 
             return View(panier);
+        }
+
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        [Route("/Panier/SupprimerPanier")]
+        public async Task<IActionResult> SupprimerPanier(string id)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+
+            await _context.Entry(user)
+                    .Collection(u => u.Panier)
+                    .LoadAsync();
+
+            foreach (LivrePanier p in user.Panier)
+            {
+                if (p.Id == id)
+                {
+                    IdLivreSupprime = p.Id;
+                    _context.LivrePanier.Remove(p);
+                    await _context.SaveChangesAsync();
+
+                    break;
+                }
+            }
+
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> AfficherFacture()
@@ -194,6 +228,25 @@ namespace VLISSIDES.Controllers
             }
 
             return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
+        }
+
+        //Pour montrer la partial view de confirmation de suppression
+        [HttpGet]
+        public async Task<IActionResult> ShowDeleteConfirmation(string id)
+        {
+            if (id == null) return NotFound();
+
+            var livreP = await _context.LivrePanier.Include(lp => lp.Livre).FirstOrDefaultAsync(lp => lp.Id == id);
+            if (livreP == null) return NotFound();
+
+            SupprPanierConfirmationVM vm = new SupprPanierConfirmationVM()
+            {
+                Id = livreP.Id,
+                Titre = livreP.Livre.Titre
+            };
+
+
+            return PartialView("PartialViews/Modals/Panier/_DeletePanierConfirmation", vm);
         }
     }
 }
