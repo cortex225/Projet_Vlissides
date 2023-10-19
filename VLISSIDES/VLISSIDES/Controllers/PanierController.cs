@@ -41,7 +41,8 @@ namespace VLISSIDES.Controllers
                 UserId = a.UserId,
                 Quantite = a.Quantite
             }).ToList();
-            ViewBag.NbArticles = listeArticleVM.Count;
+            //Compte le nombre d'articles dans le panier
+            ViewBag.NbArticles =article.Select(a => a.Quantite).Sum( a => a ?? 1) ;
 
             double prixtotal = 0;
 
