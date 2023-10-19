@@ -1,6 +1,6 @@
 ﻿@model int
-<ul class="list-unstyled list-inline mb-0">
-    @for (var compteur = 0; compteur < 5; compteur++)
+<!--ul class="list-unstyled list-inline mb-0">
+    @*@for (var compteur = 0; compteur < 5; compteur++)
     {
         @if (compteur < Model)
         {
@@ -11,8 +11,34 @@
         else
         {
             <li class="list-inline-item me-0">
-                <i class="fa fa-star-o"></i>
+                <i class="fa fa-star-o text-warning fa-xs"></i>
             </li>
         }
+    }*@
+</ul-->
+<!-- Stars -->
+<div class="star-container">
+    <div class="star-icons">
+        <div class="star">
+            <i class="fa-solid fa-star text-warning fa-xs"></i>
+            <i class="fa-solid fa-star text-warning fa-xs"></i>
+            <i class="fa-solid fa-star text-warning fa-xs"></i>
+            <i class="fa-solid fa-star text-warning fa-xs"></i>
+            <i class="fa-solid fa-star text-warning fa-xs"></i>
+        </div>
+    </div>
+</div>
+<style>
+    .star-container {
+      width: 106px;
     }
-</ul>
+
+    .star-icons {
+      width: 64%;
+      overflow: hidden;
+    }
+
+    .star {
+      width: 120px;
+    }
+</style>
