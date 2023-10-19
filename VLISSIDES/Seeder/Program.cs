@@ -237,7 +237,18 @@ public class DatabaseSeeder
             if (reader.GetValue(0) != null)
             {
 
-                if (File.Exists(path.Replace("/bin/Debug/net6.0/", "/")))
+                if (OperatingSystem.IsMacOS())
+                {
+                    if (File.Exists(path.Replace("/bin/Debug/net6.0/", "/")))
+                    {
+                        livre.Couverture = "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png";
+                    }
+                    else
+                    {
+                        livre.Couverture = "/img/CouvertureLivre/livredefault.png";
+                    }
+                }
+                else if (File.Exists(path.Replace("\\bin\\Debug\\net6.0", "")))
                 {
                     livre.Couverture = "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png";
                 }
