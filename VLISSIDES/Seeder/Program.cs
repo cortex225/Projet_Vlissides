@@ -3,12 +3,6 @@
 
 //Signaler le debut du seeder
 
-using ExcelDataReader;
-using Faker;
-using FizzWare.NBuilder;
-using Seeder;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
 
 /**
 * Ce seeder sert à créer des donnés pour tester le programme. Ce seeder crée:
@@ -49,12 +43,27 @@ public class DatabaseSeeder
         var typeLivres = _context.TypeLivres.ToList();
         var langues = _context.Langues.ToList();
 
-        var generator = new RandomGenerator();
-        Random rand = new Random();
+        //var generator = new RandomGenerator();
+        //Random rand = new Random();
 
 
         //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
         _context.Livres.RemoveRange(_context.Livres);
+        _context.SaveChanges();
+        _context.Auteurs.RemoveRange(_context.Auteurs);
+        _context.SaveChanges();
+        _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
+        _context.SaveChanges();
+        _context.Categories.RemoveRange(_context.Categories);
+        _context.SaveChanges();
+
+        /*
+        //Générer les auteurs
+        var auteurs = Builder<Auteur>.CreateListOfSize(99)
+            .All()
+            .With(c => c.NomAuteur = Name.Last())
+            .Build();
+        _context.Auteurs.AddRange(auteurs);
         _context.SaveChanges();
         _context.Auteurs.RemoveRange(_context.Auteurs);
         _context.SaveChanges();
@@ -124,6 +133,8 @@ public class DatabaseSeeder
         SeedFromExcel(fileName);
         //Signaler la fin de la lecture du fichier Excel
         Console.WriteLine("************ Succès!************* ");
+
+
 
     }
 
