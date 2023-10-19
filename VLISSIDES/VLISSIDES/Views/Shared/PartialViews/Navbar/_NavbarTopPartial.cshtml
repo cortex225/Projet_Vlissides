@@ -12,11 +12,11 @@
     <!-- Barre de recherche -->
     <div id="divRecherche" class="navbar-nav flex-grow-1 recherche-container input-group mb-3 recherche-group">
         <div class="category-dropdown dropdown">
-            <label for="dropdownRechercheNavbar" class="selected-category">Trier par :</label>
+            <label id="OptionLabel" for="dropdownRechercheNavbar" class="selected-category">Trier par :</label>
             <select name="dropdownRechercheNavbar" class="form-select recherche-select" id="dropdownRechercheNavbar">
-                <option value="titre" onlick="ShowCategorie(Titre)">Titre</option>
-                <option value="auteur">Auteur</option>
-                <option value="categorie">Catégorie</option>
+                <option value="titre" selected onclick="OptionChoisie('Titre')">Titre</option>
+                <option value="auteur" onclick="OptionChoisie('Auteur')">Auteur</option>
+                <option value="categorie" onclick="OptionChoisie('Catégorie')">Catégorie</option>
             </select>
         </div>
         <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="if (event.key == 'Enter')Recherche()">
@@ -32,6 +32,9 @@
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 </script>
 <script>
+    function OptionChoisie(option) {
+        document.getElementById("OptionLabel").innerHTML = option;
+    }
     function Recherche() {
         window.location.href = BASE_URL
             + "/Recherche/index?motCles=" + document.getElementById('barreRechercheNavbar').value
