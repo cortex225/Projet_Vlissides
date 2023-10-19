@@ -92,7 +92,7 @@ public class DatabaseSeeder
             .With(c => c.ISBN = Identification.UsPassportNumber())
             .With(c => c.Categories = new List<LivreCategorie>())
             .With(c => c.LivreAuteurs = new())
-            .With(c => c.Couverture = "/img/livredefault.png")
+            .With(c => c.Couverture = "/img/Couvertures/livredefault.png")
             .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
             .With(c => c.LivreTypeLivres = new List<LivreTypeLivre>
                 { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
