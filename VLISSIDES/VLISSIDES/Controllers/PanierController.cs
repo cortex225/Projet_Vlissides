@@ -40,6 +40,7 @@ namespace VLISSIDES.Controllers
                 UserId = a.UserId,
                 Quantite = a.Quantite,
             }).ToList();
+            ViewBag.NbArticles = listeArticleVM.Count;
 
             double prixtotal = 0;
 

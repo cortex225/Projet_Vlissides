@@ -2,6 +2,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-0 px-4" id="navBottom">
+    
     <div class="container-fluid">
         <!-- Premier groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
         <div class="navbar-collapse collapse d-sm-inline-flex">
@@ -102,10 +103,10 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
                             Consulter le panier
                             <i class="fa-solid fa-cart-shopping">
-                                <span class="badge badge-pill badge-danger">
+                                <span class=" badge-panier">
                                     @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
                                     {
-                                         @* <text>@Panier.GetPanier(UserManager.GetUserId(User)).Count</text> *@
+                                          <text>@ViewBag.NbArticles</text> 
 
                                     }
                                 </span>
