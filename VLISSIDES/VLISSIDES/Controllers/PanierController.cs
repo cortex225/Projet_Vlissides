@@ -1,4 +1,12 @@
-﻿namespace VLISSIDES.Controllers
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Panier;
+
+namespace VLISSIDES.Controllers
 {
     public class PanierController : Controller
     {
@@ -31,8 +39,7 @@
                 TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
                 Prix = (double)_context.LivreTypeLivres.FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
                 UserId = a.UserId,
-                Quantite = a.Quantite,
-                Id = a.Id
+                Quantite = a.Quantite
             }).ToList();
 
             double prixtotal = 0;
