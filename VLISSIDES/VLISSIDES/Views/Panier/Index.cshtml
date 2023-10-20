@@ -61,21 +61,9 @@
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 </script>
 
-<script type="text/javascript">
-    cbDonEco = document.getElementById("cbDonEco");
-    prixDonEco = document.getElementById("prixDonEco");
-    prixTotal = document.getElementById("prixTotal");
+<script src="~/js/Panier/Index.js" asp-append-version="true">
 
-    function changerPrixDon() {
-        if (cbDonEco.checked) {
-            prixDonEco.innerHTML = "+5$";
-            prixTotal.innerText = (parseFloat((prixTotal.innerText).replace(',', '.')) + 5.0).toFixed(2).toString().replace('.', ',');
-
-        } else {
-            prixDonEco.innerHTML = " ";
-            prixTotal.innerText = (parseFloat((prixTotal.innerText).replace(',', '.')) - 5.0).toFixed(2).toString().replace('.', ',');
-        }
-    }
+    
 </script>
 
 <script type="text/javascript">
