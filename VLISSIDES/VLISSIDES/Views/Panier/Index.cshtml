@@ -84,7 +84,7 @@
     }   
     
     AfficherFacture();
-    //changerPrixDon();
+    changerPrixDon();
 </script>
 
 <script type="text/javascript">
@@ -109,7 +109,7 @@
         var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
 
-        fetch(`/Panier/SupprimerPanier?id=${vmIdPanier}`, {
+        fetch(BASE_URL + `/Panier/SupprimerPanier?id=${vmIdPanier}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
