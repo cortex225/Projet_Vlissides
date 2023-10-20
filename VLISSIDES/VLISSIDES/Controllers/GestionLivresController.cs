@@ -614,7 +614,7 @@ public class GestionLivresController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    //Pour montrer la la partial view de confirmation de suppression
+    //Pour montrer la partial view de confirmation de suppression
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
@@ -632,7 +632,7 @@ public class GestionLivresController : Controller
         return (_context.Livres?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 
-    //Modifie le nombre du livre selectionn�
+    //Modifie le nombre du livre selectionné
 
     [HttpPost]
     public async Task<IActionResult> ModifierLivreQuantite(string id, int quantite)

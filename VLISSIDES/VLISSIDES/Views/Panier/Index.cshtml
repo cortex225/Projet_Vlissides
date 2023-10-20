@@ -5,6 +5,18 @@
     var BASE_URL_RAZOR = Url.Content("~");
 }
 
+@*********************@
+@* Modals *@
+@*********************@
+
+<div class="modal fade modal-dialog-centered " tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+        </div>
+    </div>
+</div>
+
 <div class="m-4">
     <h1>Votre panier</h1>
 
@@ -14,45 +26,16 @@
                 <h3 class="text-center">Articles</h3>
                 @foreach(var item in Model.ListeArticles)
                 {
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row no-gutters">
-                            <div class="col-md-4">
-                                <img src="@item.Livre.Couverture" class="card-img" style="height:100%;max-width:100%" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">@item.Livre.Titre - @item.TypeLivre.Nom</h5>
-
-                                    <div>
-                                        @String.Format("{0:#,##0.00}$", item.Prix)
-                                    </div>
-                                    <div class="d-flex flex-row my-4">
-                                        <div class="col-4">
-                                            <input id="@item.Id quantite" type="number" class=" form-control formGroupExampleInput h-100" placeholder="" value="@item.Quantite" onclient onclick="enableButton('@item.Id')">
-                                        </div>
-                                        <button id="saveButton @item.Id" type="button" class="btn btn-success saveButton mx-2 p-2"
-                                                onclick="ModifierQuantite('@item.Id', '@item.Quantite')
-                                                disableButton('@item.Id')">
-                                            <span class="fa-solid fa-check fa-2x"></span>
-                                        </button>
-                                    </div>
-
-                                    <div class="d-flex flex-row justify-content-end">
-                                        <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="">
-                                            <i class="fa-solid fa-xmark fa-2xl"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }             
+                    <partial name="../Shared/PartialViews/Panier/_PanierItem.cshtml" model="@item" />
+                }
+                
             </div>
 
             <div class="col">
                 <h3 class="text-center">Facture</h3>
                 <div id="facture" class="bg-white mh-100 p-xl-4">
-                    @Html.Partial("PartialViews/Panier/_FacturePartial")
+                    @* @Html.Partial("PartialViews/Panier/_FacturePartial") *@
+                    <partial name="PartialViews/Panier/_FacturePartial"/>
                 </div>
 
                 <div class="d-flex flex-row justify-content-end mt-4">
@@ -117,6 +100,43 @@
                 disableButton(id);
                 AfficherFacture();
             });
+    }
+            
+    async function supprimerLivre(vmIdPanier) {
+        //var button = event.target;
+        //var viewModelId = button.getAttribute("data-vmIdPanier");
+
+        var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+
+        fetch(BASE_URL + `/Panier/SupprimerPanier?id=${vmIdPanier}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': csrfToken
+            }
+        })
+        .then(response => {
+            // Vérifier si la réponse est au format JSON
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+            }
+            //remove element article HTML
+            if (response.ok ) {
+                var article = document.getElementById(vmIdPanier);
+                article.remove();
+                $('#ModalId').modal('hide'); // Ferme la modale     
+            }
+            return response.text();
+        })
+        .then(data => {
+            AfficherFacture();
+        })
+        .catch(error => {
+            // Gérer les erreurs
+            console.error("Erreur lors de la requête FETCH:", error);
+        });
+        
     }
 </script>
 

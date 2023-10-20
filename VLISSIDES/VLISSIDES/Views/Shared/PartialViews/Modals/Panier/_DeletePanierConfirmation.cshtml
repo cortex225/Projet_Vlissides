@@ -1,0 +1,16 @@
+﻿@using VLISSIDES.ViewModels.Panier;
+@model SupprPanierConfirmationVM
+
+<div id="ModalId" class="confPanier">
+    <div class="modal-header">
+        <h5 class="modal-title">Confirmation de suppression</h5>
+    </div>
+    <div class="modal-body">
+        Êtes-vous sûr de vouloir retirer le livre @Model.Titre de votre panier?
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-secondary" href="~/Panier/Index">Annuler</a>
+        <a type="button" class="btn btn-danger" id="confirmDelete" onclick="supprimerLivre('@Model.Id')">Supprimer</a>
+    </div>
+</div>
+
