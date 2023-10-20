@@ -387,6 +387,8 @@ public class DatabaseSeeder
                 });
             }
 
+            _context.Livres.Find(livre.Id).LivreAuteurs = livreAuteurs;
+
             //Assigner une catégorie à un livre
             var livreCategories = new List<LivreCategorie>();
             foreach (var categorie in categories)
