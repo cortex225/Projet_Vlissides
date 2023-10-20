@@ -1,6 +1,8 @@
 ﻿@using VLISSIDES.ViewModels.Panier;
 @model AfficherPanierVM
 @{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 
 
@@ -8,7 +10,10 @@
     <input type="hidden" class="vmIdPanier"  name="viewModelId" value="@Model.Id" />
     <div class="row no-gutters">
         <div class="col-md-4 bg-secondary ">
-            <img src="@Model.Livre.Couverture" class="card-img" alt="...">
+            @{
+                string couverture = string.Concat(BASE_URL_RAZOR, Model.Livre.Couverture);
+            }
+            <img src="@Html.Raw(couverture)" class="card-img" alt="...">
         </div>
         <div class="col-md-8">
             <div class="card-body">
