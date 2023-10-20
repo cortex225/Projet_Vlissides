@@ -10,7 +10,10 @@
 <div id="detailsDivPrincipal">
     <input type="hidden" id="viewModelId" name="viewModelId" value="@Model.Id" />
     <div id="DetailsDIV">
-        <img id="DetailsIMG" src="@Model.Couverture"/>
+        @{
+            string couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
+        }
+        <img id="DetailsIMG" src="@Html.Raw(couverture)" />
     </div>
 
     <div id="DetailsInfo">

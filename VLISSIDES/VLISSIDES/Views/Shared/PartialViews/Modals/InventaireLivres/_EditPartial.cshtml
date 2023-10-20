@@ -18,7 +18,10 @@
                 <input type="hidden" asp-for="CoverImageUrl"/>
                 <div class="custom-file row">
                     <div class="col-6 text-center align-center">
-                        <img src="@Model.CoverImageUrl" alt="..." class="imagesLivre" height="65">
+                        @{
+                            string couverture = string.Concat(BASE_URL_RAZOR, Model.CoverImageUrl);
+                        }
+                        <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="65">
                     </div>
                     <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
 

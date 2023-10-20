@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Inventaire";
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true">
 
@@ -151,7 +153,10 @@
                             <div id="@item.Id" class="card mb-2 mx-3 ">
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="imgDiv col-2 text-center">
-                                        <img src="@item.Image" alt="..." class="imagesLivre" height="50px">
+                                        @{
+                                            string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
+                                        }
+                                        <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                                         <p>@Html.DisplayFor(modelItem => item.Titre)</p>
 
                                     </div>
