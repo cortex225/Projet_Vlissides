@@ -14,12 +14,12 @@ public class DetailsLivreVM
     public int NbPages { get; set; }
     public string Resume { get; set; }
     public int NbExemplaires { get; set; }
-    public double? Papier { get; set; }
-    public double? Numerique { get; set; }
+    public Decimal? Papier { get; set; }
+    public Decimal? Numerique { get; set; }
 
     public DetailsLivreVM(string id, string titre, IEnumerable<Auteur> auteurs, IEnumerable<Categorie> categories, DateTime datePublication,
         string couverture, MaisonEdition? maisonEdition, int nbPages, string resume, int nbExemplaires,
-        IEnumerable<TypeLivre> livreTypeLivres)
+        IEnumerable<LivreTypeLivre> livreTypeLivres)
     {
         Id = id;
         Titre = titre;
@@ -27,15 +27,15 @@ public class DetailsLivreVM
         Categories = categories.Select(c => c.Nom).ToList();
         DatePublication = datePublication;
         Couverture = couverture;
-        MaisonEdition = maisonEdition.Nom ?? "";
+        MaisonEdition = maisonEdition != null ? maisonEdition.Nom : "";
         NbPages = nbPages;
         Resume = resume;
         NbExemplaires = nbExemplaires;
         foreach (var media in livreTypeLivres)
-            switch (media.Nom)
+            switch (media.TypeLivre.Nom)
             {
-                case "Papier": Papier = (double?)media.TypeLivres.Where(t => t.TypeLivre.Nom.Equals("Papier")).First().Prix; break;
-                case "Numérique": Numerique = (double?)media.TypeLivres.Where(t => t.TypeLivre.Nom.Equals("Numérique")).First().Prix; break;
+                case "Papier": Papier = media.Prix; break;
+                case "Numérique": Numerique = media.Prix; break;
             }
     }
 }

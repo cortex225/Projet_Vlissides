@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Categories;
@@ -48,8 +48,14 @@ public class GestionCategoriesController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        vm.ListeCategories = liste;
-        return View(vm);
+        return View(liste.Select(c => new CategoriesIndexVM()
+        {
+            Id = c.Id,
+            Nom = c.Nom,
+            Description = c.Description,
+            Enfants = c.Enfants.Select(e => e.Nom).ToList(),
+            Livres = c.Livres.Select(l => l.Livre.Titre).ToList()
+        }).ToList());
     }
 
     [Route("2167594/GestionCategories/Ajouter")]
