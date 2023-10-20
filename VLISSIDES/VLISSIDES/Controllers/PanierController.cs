@@ -41,8 +41,7 @@ namespace VLISSIDES.Controllers
                 UserId = a.UserId,
                 Quantite = a.Quantite
             }).ToList();
-            //Compte le nombre d'articles dans le panier
-            ViewBag.NbArticles =article.Select(a => a.Quantite).Sum( a => a ?? 1) ;
+            
 
             double prixtotal = 0;
 
@@ -169,6 +168,10 @@ namespace VLISSIDES.Controllers
             TypeLivre? type = await _context.TypeLivres.FindAsync(vm.typeId);
 
             Livre? livre = await _context.Livres.FindAsync(vm.livreAjouteId);
+            
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
+
 
             LivrePanier lp = new LivrePanier();
 
@@ -228,6 +231,10 @@ namespace VLISSIDES.Controllers
                 }
             }
 
+            //Compte le nombre d'articles dans le panier
+            var NbArticles = article.Select(a => a.Quantite).Sum(a => a ?? 1);
+            HttpContext.Session.SetInt32("NbArticles", NbArticles);
+
             return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
         }
 
@@ -249,5 +256,14 @@ namespace VLISSIDES.Controllers
 
             return PartialView("PartialViews/Modals/Panier/_DeletePanierConfirmation", vm);
         }
+
+        [HttpGet]
+        public IActionResult GetNbArticles()
+        {
+            int nbArticles =
+                HttpContext.Session.GetInt32("NbArticles") ?? 0;
+            return Json(nbArticles);
+        }
+
     }
 }

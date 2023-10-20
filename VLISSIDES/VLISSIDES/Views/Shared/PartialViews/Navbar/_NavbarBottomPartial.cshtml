@@ -1,8 +1,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
+@using Microsoft.AspNetCore.Http
+@{
+    var nbArticles = Context.Session.GetInt32("NbArticles");
+}
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-0 px-4" id="navBottom">
-    
+
     <div class="container-fluid">
         <!-- Premier groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
         <div class="navbar-collapse collapse d-sm-inline-flex">
@@ -103,13 +106,16 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
                             Consulter le panier
                             <i class="fa-solid fa-cart-shopping">
-                                <span class=" badge-panier">
-                                    @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
-                                    {
-                                          <text>@ViewBag.NbArticles</text> 
-
-                                    }
-                                </span>
+                                @if (nbArticles != null)
+                                {
+                                    <span class=" badge-panier">
+                                        @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
+                                        {
+                                            <text >@nbArticles</text>
+                                        }
+                                    </span>
+                                }
+<div id="nbArticles"></div>
                             </i>
                         </a>
                     </li>
@@ -118,3 +124,17 @@
         }
     </div>
 </nav>
+
+<script>
+    function updateNbArticles() {
+        fetch('/Panier/GetNbArticles')
+            .then(response => response.json())
+            .then(nbArticles => {
+                document.getElementById('nbArticles').textContent =  nbArticles;
+            });
+    }
+
+    // Appeler la fonction au chargement de la page et à intervalles réguliers
+    updateNbArticles();
+    setInterval(updateNbArticles,1); 
+</script>
