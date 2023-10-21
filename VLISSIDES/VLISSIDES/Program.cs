@@ -1,3 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using VLISSIDES.Data;
+using VLISSIDES.Helpers;
+using VLISSIDES.Interfaces;
+using VLISSIDES.Models;
+using VLISSIDES.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
