@@ -1,17 +1,39 @@
 ﻿using VLISSIDES.Models;
 
-namespace VLISSIDES.ViewModels.Recherche
-{
-    public class IndexRechercheVM
-    {
-        public string? MotRecherche { get; set; } //Juste le mot clé que l'on va afficher dans le message 
-                                                  //"Résultat de recherche pour "MotRecherche"
-        public List<Livre> ResultatRecherche { get; set; } = new List<Livre>();
-        public List<Categorie> ListeCategories { get; set; } = new List<Categorie>();
-        public List<Langue> ListeLangues { get; set; } = new List<Langue>();
-        public List<TypeLivre> ListeTypeLivres { get; set; } = new List<TypeLivre>();
+namespace VLISSIDES.ViewModels.Recherche;
 
-        public double minPrix { get; set; } = 0.0;
-        public double maxPrix { get; set; } = 199.99;
+public class IndexRechercheVM
+{
+    public string MotRecherche { get; set; } //Juste le mot clé que l'on va afficher dans le message 
+
+    //"Résultat de recherche pour "MotRecherche"
+    public List<string> ResultatRecherche { get; set; }
+    public List<DetailsLivreVM> LivrePartials { get; set; }
+    public List<string> ListeCategories { get; set; }
+    public List<string> ListeLangues { get; set; }
+    public List<string> ListeTypeLivres { get; set; }
+
+    public double minPrix { get; set; }
+    public double maxPrix { get; set; }
+
+    public IndexRechercheVM(string motRecherche, List<Livre> resultatRecherche, List<Categorie> listeCategories,
+        List<Langue> listeLangues, List<TypeLivre> listeTypeLivres, double minPrix = 0, double maxPrix = 199.99)
+    {
+        motRecherche ??= "";
+        resultatRecherche ??= new();
+        LivrePartials ??= new();
+        listeCategories ??= new();
+        listeLangues ??= new();
+        listeTypeLivres ??= new();
+        MotRecherche = motRecherche;
+        ResultatRecherche = resultatRecherche.Select(rr => rr.Titre).ToList();
+        LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr.Id, rr.Titre, rr.LivreAuteurs.Select(la => la.Auteur),
+            rr.Categories.Select(lc => lc.Categorie), rr.DatePublication, rr.Couverture, rr.MaisonEdition, rr.NbPages, rr.Resume,
+            rr.NbExemplaires, rr.LivreTypeLivres)).ToList();
+        ListeCategories = listeCategories.Select(lc => lc.Nom).ToList();
+        ListeLangues = listeLangues.Select(lc => lc.Nom).ToList();
+        ListeTypeLivres = listeTypeLivres.Select(lc => lc.Nom).ToList();
+        this.minPrix = minPrix;
+        this.maxPrix = maxPrix;
     }
 }

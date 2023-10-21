@@ -1,5 +1,7 @@
+<link rel="stylesheet" href="~/css/Pagination.css">
+
 <nav aria-label="NavBar Pagination">
-    <ul class="pagination">
+    <ul class="pagination d-flex justify-content-center my-2">
 
         @* Si la page courante est plus petite que 1, on désactive le bouton précédent *@
         <li class="page-item @(ViewBag.CurrentPage <= 1 ? "disabled" : "")">

@@ -1,5 +1,8 @@
 @model VLISSIDES.ViewModels.GestionLivres.ModifierVM
-
+@{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
+}
 <div class="modal-header">
     <h5 class="modal-title" id="ModalEditLabel">Modifier Livre</h5>
 </div>
@@ -7,19 +10,22 @@
     @Html.AntiForgeryToken()
     <div class="modal-body">
 
-       
+
         <div class="container d-flex justify-content-center">
-            
+
             <div class="row">
-                 <input type="hidden" asp-for="Id"/>
-                        <input type="hidden" asp-for="CoverImageUrl"/>
-                        <div class="custom-file row">
-                            <div class="col-6 text-center align-center">
-                                <img src="@Model.CoverImageUrl" alt="..." class="imagesLivre" height="65" >
-                            </div>
-                            <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
-                
-                        </div>
+                <input type="hidden" asp-for="Id"/>
+                <input type="hidden" asp-for="CoverImageUrl"/>
+                <div class="custom-file row">
+                    <div class="col-6 text-center align-center">
+                        @{
+                            string couverture = string.Concat(BASE_URL_RAZOR, Model.CoverImageUrl);
+                        }
+                        <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="65">
+                    </div>
+                    <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
+
+                </div>
                 <div class="col">
                     <div class="form-group ">
                         <label asp-for="Titre" class="control-label"></label>
@@ -41,7 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="NbPages" class="control-label"></label>
-                        <input asp-for="NbPages" class="form-control"/>
+                        <input asp-for="NbPages" type="number" class="form-control" />
                         <span asp-validation-for="NbPages" class="text-danger"></span>
                     </div>
 
@@ -64,24 +70,26 @@
                                 <div id="inputsNeuf" class="">
                                     <div class="form-group">
                                         <label asp-for="PrixNeuf" class="control-label"></label>
-                                        <input asp-for="PrixNeuf" class="form-control" />
+                                        <input asp-for="PrixNeuf" type="number" class="form-control" />
                                         <span asp-validation-for="PrixNeuf" class="text-danger"></span>
                                     </div>
                                     <div>
                                         <label asp-for="NbExemplaires" class="control-label"></label>
-                                        <input asp-for="NbExemplaires" class="form-control" />
+                                        <input asp-for="NbExemplaires" type="number" class="form-control" />
                                     </div>
                                 </div>
-                            }else{
+                            }
+                            else
+                            {
                                 <div id="inputsNeuf" class="visually-hidden">
                                     <div class="form-group">
                                         <label asp-for="PrixNeuf" class="control-label"></label>
-                                        <input asp-for="PrixNeuf" class="form-control" />
+                                        <input asp-for="PrixNeuf" type="number" class="form-control" />
                                         <span asp-validation-for="PrixNeuf" class="text-danger"></span>
                                     </div>
                                     <div>
                                         <label asp-for="NbExemplaires" class="control-label"></label>
-                                        <input asp-for="NbExemplaires" class="form-control" />
+                                        <input asp-for="NbExemplaires" type="number" class="form-control" />
                                     </div>
                                 </div>
                             }
@@ -95,15 +103,17 @@
                                 <div id="inputNumerique" class="">
                                     <div class="form-group">
                                         <label asp-for="PrixNumerique" class="control-label"></label>
-                                        <input asp-for="PrixNumerique" class="form-control" />
+                                        <input asp-for="PrixNumerique" type="number" class="form-control" />
                                         <span asp-validation-for="PrixNumerique" class="text-danger"></span>
                                     </div>
                                 </div>
-                            }else{
+                            }
+                            else
+                            {
                                 <div id="inputNumerique" class="visually-hidden">
                                     <div class="form-group">
                                         <label asp-for="PrixNumerique" class="control-label"></label>
-                                        <input asp-for="PrixNumerique" class="form-control" />
+                                        <input asp-for="PrixNumerique" type="number" class="form-control" />
                                         <span asp-validation-for="PrixNumerique" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -136,13 +146,17 @@
     </div>
 
     <div class="modal-footer">
-        
+
         <a class="btn btn-danger " href="~/GestionLivres/Inventaire">Annuler</a>
-        <input type="button" value="Modifier les changements" class="btn btn-primary" onclick="ModifierLivre()" />
+        <input type="button" value="Modifier les changements" class="btn btn-primary" onclick="ModifierLivre()"/>
     </div>
 
 </form>
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 
+</script>
 <script type="text/javascript">
     function ShowInputsNeuf() {
         console.log("aloo");
@@ -168,15 +182,15 @@
         var form = document.getElementById("FormLivreModifier");
         var data = new FormData(form);
 
-        //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch('/2167594/GestionLivres/Modifier', {
+        //var csrfToken = form.querySelector(ï¿½'[name="__RequestVerificationToken"]').value;
+        fetch(BASE_URL + '/GestionLivres/Modifier', {
             method: "POST",
             body: data
             // headers: {
             //    RequestVerificationToken: csrfToken,
             // },
         }).catch(error => {
-            console.error('Échec du fetch pour ajouter maison edition', error);
+            console.error('ï¿½chec du fetch pour ajouter maison edition', error);
         }).then((response) => {
 
             return response.text();
@@ -194,7 +208,7 @@
         });
     }
     function AfficherLivres() {
-        fetch("/2167594/GestionLivres/AfficherLivres", {
+        fetch(BASE_URL + "/GestionLivres/AfficherLivres", {
             method: "GET"
         }).then((response) => {
             return response.text();

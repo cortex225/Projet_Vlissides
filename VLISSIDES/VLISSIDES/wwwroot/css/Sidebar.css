@@ -1,10 +1,11 @@
 /* Styles pour la barre latérale */
 .offcanvas {
-    font-family: 'Roboto', sans-serif; 
-    background-color:#f8f4f1;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f4f1;
 }
+
 .offcanvas-body {
-    overflow-y: hidden!important;
+    overflow-y: hidden !important;
 }
 
 .offcanvas-header {
@@ -12,25 +13,25 @@
 }
 
 .nav-link-dash {
-    font-size: 1.0rem!important;
-    transition: all 0.3s!important;
-    color: #333!important; 
+    font-size: 1.0rem !important;
+    transition: all 0.3s !important;
+    color: #333 !important;
 }
 
 .nav-link-dash:hover {
-    color: #007BFF!important; /* Couleur de survol */
-    background-color: #ffff!important; /* Fond de survol plus clair */
-    border-radius: 10px!important; /* Bord arrondi pour le fond de survol */
-    padding-left: 25px!important; /* Effet de décalage plus prononcé au survol */
+    color: #007BFF !important; /* Couleur de survol */
+    background-color: #ffff !important; /* Fond de survol plus clair */
+    border-radius: 10px !important; /* Bord arrondi pour le fond de survol */
+    padding-left: 25px !important; /* Effet de décalage plus prononcé au survol */
     transform: scaleX(1.05) !important; /* Effet de "scale" sur la droite */
 }
 
 .nav-link-dash.active {
-    color: #007BFF !important; 
-    font-weight: 600!important; /* Police plus épaisse pour le lien actif */
-    background-color: #e0e0e0!important; /* Fond pour le lien actif */
-    border-radius: 10px!important; /* Bord arrondi pour le fond actif */
-    padding-left: 25px!important; /* Effet de décalage pour le lien actif */
+    color: #007BFF !important;
+    font-weight: 600 !important; /* Police plus épaisse pour le lien actif */
+    background-color: #e0e0e0 !important; /* Fond pour le lien actif */
+    border-radius: 10px !important; /* Bord arrondi pour le fond actif */
+    padding-left: 25px !important; /* Effet de décalage pour le lien actif */
 }
 
 .btn-outline-primary {
@@ -38,8 +39,8 @@
 }
 
 .card-menu-dash {
-    border-radius: 10px!important; /* Bord arrondi pour les "cards" */
-    transition: all 0.3s!important; /* Transition douce pour les effets de survol */
+    border-radius: 10px !important; /* Bord arrondi pour les "cards" */
+    transition: all 0.3s !important; /* Transition douce pour les effets de survol */
 }
 
 .card-menu-dash:hover {
@@ -48,10 +49,10 @@
 }
 
 .dashboard-title {
-    font-size: 1.5rem!important;
-    font-weight: bold!important; 
-    letter-spacing: 1px!important; 
-    text-transform: uppercase!important;
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
 }
 
 hr {
@@ -59,5 +60,5 @@ hr {
     text-align: center;
     font-size: 60px;
     line-height: 1;
-    color: #333!important;
+    color: #333 !important;
 }

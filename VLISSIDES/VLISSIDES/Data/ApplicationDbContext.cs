@@ -12,7 +12,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    public DbSet<Adresse> Adresses { get; set; }
 
     public DbSet<Commande> Commandes { get; set; }
 
@@ -45,40 +44,35 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
 
+    public DbSet<Panier> Paniers { get; set; }
+    public DbSet<LivrePanier> LivrePanier { get; set; }
+
+    public DbSet<Adresse> Adresses { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
 
-        builder.Entity<Employe>().ToTable("Employes");
-        builder.Entity<Membre>().ToTable("Membres");
+        #region configuration
 
-        //Ajout des statuts des commandes à la bd
+
+        // Configuration des entités
         builder.ApplyConfiguration(new StatutCommandeConfiguration());
-
-        //Ajout des types de livres à la bd
         builder.ApplyConfiguration(new TypeLivreConfiguration());
-
-        //Ajout des catégories des livres à la bd
-        builder.ApplyConfiguration(new CategorieLivreConfiguration());
-
-        //Ajout des langues des livres à la bd
+        builder.ApplyConfiguration(new CategorieConfiguration());
         builder.ApplyConfiguration(new LangueConfiguration());
+        builder.ApplyConfiguration(new AuteurConfiguration());
+        builder.ApplyConfiguration(new MaisonEditionsConfiguration());
+        builder.ApplyConfiguration(new LivreConfiguration());
+        builder.ApplyConfiguration(new LivreAuteurConfiguration());
+        builder.ApplyConfiguration(new LivreCategorieConfiguration());
+        builder.ApplyConfiguration(new LivreTypeLivreConfiguration());
 
-        //Roles de l'application
-        var roleEmploye = new IdentityRole { Id = "0", Name = "Employe", NormalizedName = "Employe".ToUpper() };
-        var roleMembre = new IdentityRole { Id = "1", Name = "Membre", NormalizedName = "Membre".ToUpper() };
-        var roleAdmin = new IdentityRole { Id = "2", Name = "Admin", NormalizedName = "Admin".ToUpper() };
-        builder.Entity<IdentityRole>().HasData(roleEmploye, roleMembre, roleAdmin);
+        #endregion
 
-        // Configuration pour l' adresse principale car un utilisateur peut avoir une adresse principale
-        builder.Entity<ApplicationUser>()
-            .HasOne(a => a.AdressePrincipale)
-            .WithOne(a => a.UtilisateurPrincipal)
-            .HasForeignKey<Adresse>(a => a.UtilisateurPrincipalId)
-            .OnDelete(DeleteBehavior.Restrict);
-
+        #region Favorie
 
         // Configuration pour les adresses de livraison car un utilisateur peut avoir plusieurs adresses de livraison
         builder.Entity<ApplicationUser>()
@@ -87,6 +81,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(a => a.UtilisateurLivraisonId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // Configuration pour le panier car un utilisateur peut avoir plusieurs LivrePanier
+        builder.Entity<ApplicationUser>()
+            .HasMany(a => a.Panier)
+            .WithOne(a => a.User)
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Configuration de la relation entre les favoris les membres et les livres
         builder.Entity<Favori>()
@@ -101,6 +101,32 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(f => f.Livre)
             .WithMany(l => l.Favoris)
             .HasForeignKey(f => f.LivreId);
+
+        #endregion
+
+        #region Livre
+
+        //Un livre a un éditeur et un éditeur a plusieurs livres
+        builder.Entity<Livre>()
+            .HasOne(l => l.MaisonEdition)
+            .WithMany(me => me.Livres);
+        //Un livre peut avoir plusiseurs évaluation et une évaluation peut avoir qu'un livre
+        builder.Entity<Livre>()
+            .HasMany(l => l.Evaluations)
+            .WithOne(e => e.Livre)
+            .HasForeignKey(e => e.LivreId);
+        //Un livre peut avoir une langue et une langue peut avoir plusieurs livres
+        builder.Entity<Livre>()
+            .HasOne(l => l.Langue)
+            .WithMany(l => l.Livres);
+        //Un livre peut avoir plusiseurs promotions et une ptomotion peut avoir plusieurs livres
+        builder.Entity<Livre>()
+            .HasMany(l => l.Promotions)
+            .WithMany(c => c.Livres);
+
+        #endregion
+
+        #region Livre Commandé
 
         // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
         builder.Entity<LivreCommande>()
@@ -117,22 +143,24 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
+        #endregion
 
-        // Configuration de la relation entre Livre et TypeLivre
-        builder.Entity<LivreTypeLivre>()
-            .HasKey(ltl => new { ltl.LivreId, ltl.TypeLivreId });
+        #region Livre Panier
 
-        //Un livre peut être dans plusieurs types de livres
-        builder.Entity<LivreTypeLivre>()
-            .HasOne(ltl => ltl.Livre)
-            .WithMany(l => l.LivreTypeLivres)
-            .HasForeignKey(ltl => ltl.LivreId);
+        //Un livre peut être dans plusieurs paniers
+        builder.Entity<LivrePanier>()
+            .HasOne(lp => lp.Livre)
+            .WithMany(l => l.LivrePanier)
+            .HasForeignKey(lp => lp.LivreId);
 
-        //Un type de livre peut avoir plusieurs livres
-        builder.Entity<LivreTypeLivre>()
-            .HasOne(ltl => ltl.TypeLivre)
-            .WithMany(l => l.LivreTypeLivres)
-            .HasForeignKey(ltl => ltl.TypeLivreId);
+        //Un user peut avoir plusieurs LivresPaniers
+        builder.Entity<LivrePanier>()
+            .HasOne(lp => lp.User)
+            .WithMany(p => p.Panier)
+            .HasForeignKey(lp => lp.UserId);
+        #endregion
+
+        #region ApplicationUser
 
         //Création des différent comptes
         //var password = new PasswordHasher<ApplicationUser>();
@@ -188,27 +216,60 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
         builder.Entity<Membre>().HasData(UserMembre);
 
-        var DefaultAuteur = new Auteur
-        {
-            Id = "0",
-            NomAuteur = "Tony"
-
-        };
-        builder.Entity<Auteur>().HasData(DefaultAuteur);
-
-        var DefaultMaisonEdition = new MaisonEdition
-        {
-            Id = "0",
-            Nom = "Maison d'édition par défaut"
-        };
-        builder.Entity<MaisonEdition>().HasData(DefaultMaisonEdition);
-
         //Connecte les rôles aux users pré-créés
+        //Roles de l'application
+        var roleEmploye = new IdentityRole { Id = "0", Name = "Employe", NormalizedName = "Employe".ToUpper() };
+        var roleMembre = new IdentityRole { Id = "1", Name = "Membre", NormalizedName = "Membre".ToUpper() };
+        var roleAdmin = new IdentityRole { Id = "2", Name = "Admin", NormalizedName = "Admin".ToUpper() };
+        builder.Entity<IdentityRole>().HasData(roleEmploye, roleMembre, roleAdmin);
 
         builder.Entity<IdentityUserRole<string>>().HasData(
             new IdentityUserRole<string> { RoleId = roleEmploye.Id, UserId = UserEmploye.Id },
             new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserMembre.Id },
             new IdentityUserRole<string> { RoleId = roleAdmin.Id, UserId = UserAdmin.Id }
         );
+        // Configuration pour l' adresse principale car un utilisateur peut avoir une adresse principale
+        builder.Entity<ApplicationUser>()
+            .HasOne(a => a.AdressePrincipale)
+            .WithOne(a => a.UtilisateurPrincipal)
+            .HasForeignKey<Adresse>(a => a.UtilisateurPrincipalId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
+        // Configuration pour les adresses de livraison car un utilisateur peut avoir plusieurs adresses de livraison
+        builder.Entity<ApplicationUser>()
+            .HasMany(a => a.AdressesLivraison)
+            .WithOne(a => a.UtilisateurLivraison)
+            .HasForeignKey(a => a.UtilisateurLivraisonId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        #endregion
+
+        #region Livre Auteur
+
+        // Configuration des relation de livreAuteur
+        builder.Entity<LivreAuteur>()
+            .HasKey(la => new { la.LivreId, la.AuteurId });
+
+        #endregion
+
+        #region Livre Catégorie
+
+        // Configuration des relation de livreCatégorie
+        builder.Entity<LivreCategorie>()
+            .HasKey(la => new { la.LivreId, la.CategorieId });
+
+        #endregion
+
+        #region Livre TypeLivre
+
+        // Configuration des relations de LivreTypeLivre
+        builder.Entity<LivreTypeLivre>()
+            .HasKey(la => new { la.LivreId, la.TypeLivreId });
+
+        #endregion
     }
+
+
+
 }

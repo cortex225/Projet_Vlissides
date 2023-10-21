@@ -1,9 +1,10 @@
-﻿using VLISSIDES.Models;
+﻿namespace VLISSIDES.ViewModels.Categories;
 
-namespace VLISSIDES.ViewModels.Categories
+public class CategoriesIndexVM
 {
-    public class CategoriesIndexVM
-    {
-        public List<Categorie>? ListeCategories { get; set; }
-    }
+    public string Id { get; set; }
+    public string Nom { get; set; }
+    public string Description { get; set; }
+    public List<string> Livres { get; set; }
+    public List<string> Enfants { get; set; }
 }

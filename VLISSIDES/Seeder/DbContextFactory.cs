@@ -23,7 +23,8 @@ public class DbContextFactory
         var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
 
-        builder.UseSqlServer(connectionString);
+        if (OperatingSystem.IsMacOS()) builder.UseSqlServer(configuration.GetConnectionString("JLConnection"));
+        else builder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
         return new ApplicationDbContext(builder.Options);
     }

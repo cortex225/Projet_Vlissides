@@ -1,0 +1,53 @@
+﻿@{
+}
+@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM;
+@{
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+}
+
+<div class="item livrePetit livre" onclick="window.location.href=`/Recherche/Details?id=@Model.Id`">
+    <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;">
+        @{
+            string couverture =string.Concat(BASE_URL_RAZOR, Model.Couverture);
+        }
+        <img src="@Html.Raw(couverture)"
+             class="card-img-top imgLivre"
+             alt="Couverture du livre" />
+        <div class="card-body">
+            <h6 class="card-title">@Model.Titre</h6>
+
+            @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
+            {
+                <p>
+                    <strong>Aucun médium offert</strong>
+                </p>
+            }
+            else
+            {
+                <p><strong>Prix</strong></p>
+                if (!Model.Papier.Equals(null))
+                {
+                    <p>papier : @Model.Papier $</p>
+                }
+                if (!Model.Numerique.Equals(null))
+                {
+                    <p>numérique :@Model.Numerique $</p>
+                }
+            }
+
+            <h6>Auteurs: </h6>
+            @foreach (var auteur in Model.Auteurs)
+            {
+                <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@auteur" asp-route-criteres="auteur" class="btn btn-secondary btnCategorie">@auteur</a>
+
+            }
+
+            <h6>Catégories reliées: </h6>
+            @foreach (var categorie in @Model.Categories)
+            {
+                <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@categorie" asp-route-criteres="categorie" class="btn btn-secondary btnCategorie">@categorie</a>
+            }
+        </div>
+    </div>
+</div>

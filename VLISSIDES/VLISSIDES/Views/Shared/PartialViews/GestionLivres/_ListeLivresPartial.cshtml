@@ -2,19 +2,20 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
-@using VLISSIDES.ViewModels.GestionLivres;
-@model GestionLivresInventaireVM
+@model VLISSIDES.ViewModels.GestionLivres.GestionLivresInventaireVM
 <div class="mb-3 mx-3">
     <div class="row px-2">
-        <div class="col-1 text-center">
-            Couverture
-        </div>
         <div class="col-2 text-center">
-            Titre
+            Livre
         </div>
         <div class="col-2 text-center">
             ISBN
+        </div>
+        <div class="col-1 text-center">
+            Auteur
         </div>
         <div class="col-2 text-center">
             Catégorie
@@ -34,21 +35,27 @@
 {
     <div id="@item.Id" class="card mb-2 mx-3 ">
         <div class="card-body row p-2 align-items-center">
-            <div class="imgDiv col-1 text-center">
-                <img src="@item.Image" alt="..." class="imagesLivre" height="50px">
+            <div class="imgDiv col-2 text-center">
+                @{
+                    string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
+                }
+                <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
+                <p>@Html.DisplayFor(modelItem => item.Titre)</p>
 
             </div>
-            <div class="col-2 text-center">
-                @Html.DisplayFor(modelItem => item.Titre)
-            </div>
-
             <div class="col-2 text-center">
                 @Html.DisplayFor(modelItem => item.ISBN)
+            </div>
+            <div class="col-1 d-flex flex-column">
+                @foreach (var auteur in item.ListAuteur)
+                {
+                    <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
+                }
             </div>
             <div class="col-2 text-center">
                 @Html.DisplayFor(modelItem => item.Categorie)
             </div>
-            <div class="col-2 d-flex justify-content-start flex-column">
+            <div class="col-2 d-flex flex-column">
                 @foreach (var type in item.LivreTypeLivres)
                 {
                     <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
@@ -94,4 +101,4 @@
     </div>
 }
 
-<partial name="PartialViews/Utilities/_PaginationPartial" />
+<partial name="PartialViews/Utilities/_PaginationPartial"/>

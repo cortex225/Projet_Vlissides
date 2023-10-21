@@ -1,0 +1,236 @@
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> signInManager
+@model VLISSIDES.ViewModels.Profile.ProfileModifierInformationVM
+<head>
+    <link href="~/css/profile-avatar.css" rel="stylesheet" asp-append-version="true"/>
+</head>
+<form id="updateProfileForm" method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="ModifierInformation">
+    <input type="hidden" asp-for="Id" />
+
+    @Html.AntiForgeryToken()
+
+    <div class="card card-body" id="profile">
+        <div class="row justify-content-center align-items-center m-4">
+
+            @* Upload Image Part *@
+            <div class="col-sm col-4 position-relative">
+                <div class="avatar avatar-xxl rounded-circle shadow-sm avatar-profile">
+                    @{
+
+                        <img src="@Model.CoverImageUrl" alt="User Photo" class="avatar-image">
+
+                        
+
+                    }
+                    <div class="avatar-overlay" onclick="triggerFileInput()">
+                        <i class="fa fa-pencil"></i> <!-- Vous pouvez utiliser une autre icône ou du texte -->
+                    </div>
+                    <input asp-for="CoverPhoto" class="avatar-input" id="customFile">
+                </div>
+            </div>
+
+
+
+
+            <div class="col-sm-auto col-8 my-auto">
+                <div class="h-100">
+                    <h5 class="mb-1 font-weight-bolder">
+                        @UserManager.GetUserAsync(User).Result.UserName
+                    </h5>
+                    <p class="mb-0 font-weight-normal text-sm">
+                        
+                    </p>
+                </div>
+            </div>
+
+
+
+        </div>
+        @Html.ValidationSummary(false,"",new{@class="text-danger"})
+
+        <div class="card mt-4" id="basic-info">
+            <div class="card-header">
+                <h5>Information de base</h5>
+            </div>
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group form-group-static">
+                            <label asp-for="Prenom" class="control-label"></label>
+                            <input asp-for="Prenom" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Prenom)"
+                                   onfocus="focused(this)" onfocusout="defocused(this)">
+                            <span asp-validation-for="Prenom" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group form-group-static">
+                            <label asp-for="Nom" class="control-label"></label>
+                            <input asp-for="Nom" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Nom)"
+                                   onfocus="focused(this)" onfocusout="defocused(this)">
+                            <span asp-validation-for="Nom" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @* <div class="col-sm">
+                        <label asp-for="GenderID" class="form-label mt-4 ms-0"></label>
+                        <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list"
+                             aria-haspopup="true" aria-expanded="false">
+                            <div class="choices__inner">
+                                <select asp-for="GenderID" class="form-control choices__input" name="choices-gender"
+                                        id="choices-gender" hidden="" tabindex="-1" data-choice="active" asp-items="@Model.Gender">
+                                    <option value="" disabled="disabled">Choisissez votre genre</option>
+                                    <span asp-validation-for="GenderID" class="text-danger"></span>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+                    </div> *@
+                    <div class="col-sm">
+                        <div class="row">
+                            <div class="col-sm">
+                                <label asp-for="DateNaissance" class="control-label form-label mt-4 ms-0"></label>
+                                <div class="choices__inner">
+
+                                    <input asp-for="DateNaissance" class="form-control datetimepicker" type="datetime-local"
+                                           onfocus="focused(this)" onfocusout="defocused(this)"/>
+                                    <span asp-validation-for="DateNaissance" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <div class="form-group form-group-static">
+                            <label asp-for="NomUtilisateur" class="control-label"></label>
+                            <input asp-for="NomUtilisateur" type="text" class="input-group.input-group-static form-control"
+                                   onfocus="focused(this)" onfocusout="defocused(this)">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group form-group-static">
+                            <label asp-for="Courriel" class="control-label"></label>
+                            <input asp-for="Courriel" type="email" class="input-group.input-group-static form-control" placeholder="example@email.com" readonly="readonly"
+                                   onfocus="focused(this)" onfocusout="defocused(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    @* <div class="col">
+                        <div class="form-group form-group-static">
+                            <label class="form-label" asp-for="@Model.Address" ></label>
+                            <input type="text" asp-for="@Model.Address" class="form-control" autocomplete="on" placeholder="Entrez votre adresse ici...">
+                        </div>
+                    </div> *@
+                    <div class="col">
+                        <div class="form-group form-group-static">
+                            <label asp-for="Telephone" class="form-label"></label>
+                            <input asp-for="Telephone" type="number" class="form-control" placeholder="+1 450 735 6320"
+                                   onfocus="focused(this)" onfocusout="defocused(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @* <div class="col-md">
+                        <label class="form-label mt-4 ms-0">@Html.DisplayNameFor(model => model.Language)</label>
+                        <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list"
+                             aria-haspopup="true" aria-expanded="false">
+                            <div class="choices__inner">
+                                <select asp-for="LanguageID" class="form-control choices__input" name="choices-language"
+                                        id="choices-language" hidden="" tabindex="-1" data-choice="active"
+                                        asp-items="@Model.Language">
+                                    <option value="" disabled="disabled">Choisissez votre langue</option>
+                                    <span asp-validation-for="LanguageID" class="text-danger"></span>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    @if (User.IsInRole(RoleName.Client))
+                    {
+                        <div class="col-md">
+                            <label asp-for="Company" class="form-label mt-4"></label>
+                            <input asp-for="Company" type="text" class="form-control" placeholder="Company Name"
+                                   onfocus="focused(this)" onfocusout="defocused(this)">
+                        </div>
+                    } *@
+                    <div class="row mt-4">
+                                        <div class="col-md">
+                                            <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="button" onclick="ProfileInformationEnregistrer()">
+                                                Enregistrer les changements
+                                            </button>
+                                        </div>
+                                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+   <script>
+    function ProfileInformationEnregistrer(){
+        var form = document.getElementById("updateProfileForm");
+        var data = new FormData(form);
+        fetch(BASE_URL+"/Profile/ModifierInformation", {
+            method: "POST",
+            body: data,
+        }).then((response)=>{
+            return response.text();
+        }).then((result)=>{
+            document.querySelector("body").innerHTML = result;
+            //document.getElementById("ModifierProfile").innerHTML = result;
+            
+        });
+    }
+</script>  
+ <script>
+  function triggerFileInput() {
+      document.getElementById("customFile").click();
+  }
+
+</script>
+<script>function triggerFileInput() {
+            document.getElementById("customFile").click();
+        }
+        
+        document.getElementById('updateProfileForm').addEventListener('submit', function(e) {
+            
+        
+           let formData = new FormData(this);
+           formData.append("id", this.querySelector("[name='Id']").value);
+
+        
+           fetch(this.action, {
+               method: 'POST',
+               body: formData
+           })
+           .then(response => response.json())
+           .then(data => {
+               if (data.success) {
+                   const avatarImage = document.querySelector('.avatar img');
+                   if (avatarImage) {
+                       avatarImage.src = data.newImageUrl;
+                   }
+               } else if (data.validationErrors && data.validationErrors.length > 0) {
+                   // Affichez les erreurs de validation comme vous le souhaitez
+                   alert(data.validationErrors.join('\n'));
+               } else {
+                   alert(data.errorMessage);
+               }
+           })
+           .catch(error => {
+               console.error('Erreur AJAX:', error);
+               alert('Une erreur s\'est produite lors de la mise à jour du profil.');
+           });
+        });
+
+</script>
+

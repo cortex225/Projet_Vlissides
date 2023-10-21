@@ -23,12 +23,12 @@
 
 .btn-outline-secondary {
     background-color: rgba(214, 41, 41, 0);
-    border: 2px solid #e94a47!important;
+    border: 2px solid #e94a47 !important;
     color: #e94a47 !important;
     align-self: center;
 }
 
 .btn-outline-secondary:hover {
-    background-color: #e94a47!important;
+    background-color: #e94a47 !important;
     color: #ffff !important;
 }
