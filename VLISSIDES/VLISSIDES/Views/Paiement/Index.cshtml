@@ -1,4 +1,5 @@
-﻿@*
+﻿@model VLISSIDES.ViewModels.Paiement.PaiementAdresseVM
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 <div class="d-flex justify-content-center">
@@ -25,6 +26,74 @@
 
 <div id="adressePage">
     <h2>Adresse</h2>
+    <div class="card-body ">
+        <h5 class="my-4">Adresse ligne 1</h5>
+        <div class="row">
+
+            <div class="col-2 ">
+                <div class="form-group form-group-static">
+                    <label asp-for="NoCivique" class="control-label mb-2"></label>
+                    <input asp-for="NoCivique" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.NoCivique)" />
+                    <span asp-validation-for="NoCivique" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-10">
+                <div class="form-group form-group-static">
+                    <label asp-for="Rue" class="control-label mb-2"></label>
+                    <input asp-for="Rue" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Rue)" />
+                    <span asp-validation-for="Rue" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <h5 class="my-4">Adresse ligne 2</h5>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group form-group-static">
+                    <label asp-for="NoApartement" class="control-label mb-2"></label>
+                    <input asp-for="NoApartement" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.NoApartement)" />
+                    <span asp-validation-for="NoApartement" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <div class="form-group form-group-static">
+                    <label asp-for="CodePostal" class="control-label mb-2"></label>
+                    <input asp-for="CodePostal" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.CodePostal)" />
+                    <span asp-validation-for="CodePostal" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group form-group-static">
+                    <label asp-for="Ville" class="control-label mb-2"></label>
+                    <input asp-for="Ville" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Ville)" />
+                    <span asp-validation-for="Ville" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group form-group-static">
+                    <label asp-for="Province" class="control-label mb-2"></label>
+                    <input asp-for="Province" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Province)" />
+                    <span asp-validation-for="Province" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group form-group-static">
+                    <label asp-for="Pays" class="control-label mb-2"></label>
+                    <input asp-for="Pays" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Pays)" />
+                    <span asp-validation-for="Pays" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <hr />
+
+        <button class="btn bg-gradient-dark btn-md float-end mt-6 mb-0" onclick="ProfileAdresseEnregistrer()" type="button">Enregistrer l'adresse principale</button>
+    </div>
 </div>
 
 <div id="paiementPage" class="d-none">
