@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Helpers;
 using VLISSIDES.Interfaces;
@@ -8,6 +9,10 @@ using VLISSIDES.Models;
 using VLISSIDES.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe_Test:SecretKey").Value;
+
 
 // Add services to the container.
 
