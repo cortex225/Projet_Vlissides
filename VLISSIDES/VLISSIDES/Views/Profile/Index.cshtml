@@ -31,12 +31,16 @@
                             <span class="text-sm">Modification de mot de passe</span>
                         </a>
                     </li>
-                    <li class="nav-item mb-2"> 
+                    @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+                    {
+                        <li class="nav-item mb-2"> 
                         <a class="nav-link text-dark d-flex profile-btn" onclick="showProfileAdresses()">
                             <i class="fa-solid fa-address-book text-lg-center me-2"></i>
                             <span class="text-sm">Adresses</span>
                         </a>
-                    </li>
+                        </li>
+                    }
+                    
                 </ul>
             </div>
         </div>
