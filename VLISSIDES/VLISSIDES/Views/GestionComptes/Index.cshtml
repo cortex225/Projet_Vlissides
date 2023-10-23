@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true">
 <div class="container-fluid my-3 py-3">
     <div class="row mb-5">
+        <!--Menu-->
         <div class="col-lg-3">
             <div class="card position-sticky top-1 shadow-sm">
                 <ul class="nav flex-column bg-white border-radius p-3">
@@ -35,6 +36,7 @@
                 </ul>
             </div>
         </div>
+        <!--Vue partielle pour liste-->
         <div class="col-lg-9 mt-lg-0 mt-4">
             <div class="card">
                 <div id="ListUser">
@@ -77,101 +79,15 @@
         });
     }
 </script>
-<!--Administrateur-->
-@* <div>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#listAdmin" aria-expanded="false" aria-controls="listAdmin">
-        Administrateur <i class="fa-solid fa-chevron-down"></i>
-    </button>
-    <div id="listAdmin" class="collapse">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Courriel</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.AdminVMs)
-                {
-                    <tr>
-                        <th scope="row">@item.Nom</th>
-                        <td>@item.Courriel</td>
-                        <td>
-                            <button class="btn btn-primary">a</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger">a</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        
-    </div>
-</div>
-<div>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#listEmploye" aria-expanded="false" aria-controls="listEmploye">
-        Employés <i class="fa-solid fa-chevron-down"></i>
-    </button>
-    <div id="listEmploye" class="collapse">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Courriel</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.EmployeVMs)
-                {
-                    <tr>
-                        <th scope="row">@item.Nom</th>
-                        <td>@item.Courriel</td>
-                        <td>
-                            <button class="btn btn-primary">a</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger">a</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-<div>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#listMembre" aria-expanded="false" aria-controls="listMembre">
-        Membre <i class="fa-solid fa-chevron-down"></i>
-    </button>
-    <div id="listMembre" class="collapse">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Courriel</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.MembreVMs)
-                {
-                    <tr>
-                        <th scope="row">@item.Nom</th>
-                        <td>@item.Courriel</td>
-                        <td>
-                            <button class="btn btn-primary">a</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger">a</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div> *@
+<script>
+    //Script pour recherche de membre
+    function RechercherMembre(){
+        fetch(BASE_URL + "/GestionComptes/ShowMembres?motCle=" + document.getElementById("inputRechercherMembre").value,{
+            method:"GET"
+        }).then(response => {
+                return response.text();
+        }).then((results) => {
+            document.getElementById("ListUser").innerHTML = results;
+        });
+    }
+</script>

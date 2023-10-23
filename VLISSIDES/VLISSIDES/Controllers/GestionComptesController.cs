@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionComptes;
@@ -31,7 +32,7 @@ namespace VLISSIDES.Controllers
 
             return View(Membres);
         }
-        public IActionResult ShowMembres()
+        public IActionResult ShowMembres(string? motCle)
         {
             var Membres = _context.Membres.Select(m => new GestionComptesMembreVM
             {
@@ -39,6 +40,13 @@ namespace VLISSIDES.Controllers
                 Nom = m.UserName,
                 Courriel = m.Email
             }).ToList();
+            if (motCle != null && motCle != "")
+            {
+                Membres = Membres
+                    .Where(membre => Regex.IsMatch(membre.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                    .ToList();
+            }
+
             return PartialView("PartialViews/GestionComptes/_ListeMembrePartial", Membres);
         }
         public IActionResult ShowEmployes()

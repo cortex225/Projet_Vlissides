@@ -5,6 +5,21 @@
 }
 @model List<VLISSIDES.ViewModels.GestionComptes.GestionComptesMembreVM>
 <h1 class="text-center">Membres</h1>
+<!--Recherche de membre-->
+<div class="container-fluid">
+    <form id="rechercherCategorie" enctype="multipart/form-data">
+        <br />
+        <div class="input-group">
+            <input class="form-control" id="inputRechercherMembre" placeholder="Rechercher..." />
+            <button class="btn btn-primary p-2" type="button" onclick="RechercherMembre()" data-toggle="tooltip" title="Rechercher la catégorie">
+                Rechercher
+            </button>
+        </div>
+
+    </form>
+
+</div>
+<!--Liste-->
 <table class="table">
     <thead>
         <tr>
