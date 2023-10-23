@@ -1,0 +1,177 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    string myURL = Context.Request.Host.Value;    
+    string BASE_URL_RAZOR = Url.Content("~");
+}
+@model List<VLISSIDES.ViewModels.GestionComptes.GestionComptesMembreVM>
+<link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true">
+<div class="container-fluid my-3 py-3">
+    <div class="row mb-5">
+        <div class="col-lg-3">
+            <div class="card position-sticky top-1 shadow-sm">
+                <ul class="nav flex-column bg-white border-radius p-3">
+                    <h5 class="text-center mb-3">Gestion de comptes</h5>
+                    <hr />
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showMembres()">
+                            <i class="fa-solid fa-user text-lg-center me-2"></i>
+                            <span class="text-sm">Membres</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showEmployes()">
+                            <i class="fa-solid fa-user text-lg-center me-2"></i>
+                            <span class="text-sm">Employes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showAdmins()">
+                            <i class="fa-solid fa-user text-lg-center me-2"></i>
+                            <span class="text-sm">Admins</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-9 mt-lg-0 mt-4">
+            <div class="card">
+                <div id="ListUser">
+                    <partial name="PartialViews/GestionComptes/_ListeMembrePartial" model="@Model" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
+<script>
+    //Le script pour changer la vue partielle de liste d'utilisateur
+    function showMembres() {
+        fetch(BASE_URL + "/GestionComptes/ShowMembres", {
+            method: "GET"
+        }).then(response => {
+            return response.text();
+        }).then((results) => {
+            document.getElementById("ListUser").innerHTML = results;
+        });
+    }
+    function showEmployes() {
+        fetch(BASE_URL + "/GestionComptes/ShowEmployes", {
+            method: "GET"
+        }).then(response => {
+            return response.text();
+        }).then((results) => {
+            document.getElementById("ListUser").innerHTML = results;
+        });
+    }
+    function showAdmins() {
+        fetch(BASE_URL + "/GestionComptes/ShowAdmins", {
+            method: "GET"
+        }).then(response => {
+            return response.text();
+        }).then((results) => {
+            document.getElementById("ListUser").innerHTML = results;
+        });
+    }
+</script>
+<!--Administrateur-->
+@* <div>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#listAdmin" aria-expanded="false" aria-controls="listAdmin">
+        Administrateur <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <div id="listAdmin" class="collapse">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Courriel</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AdminVMs)
+                {
+                    <tr>
+                        <th scope="row">@item.Nom</th>
+                        <td>@item.Courriel</td>
+                        <td>
+                            <button class="btn btn-primary">a</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger">a</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+<div>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#listEmploye" aria-expanded="false" aria-controls="listEmploye">
+        Employés <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <div id="listEmploye" class="collapse">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Courriel</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.EmployeVMs)
+                {
+                    <tr>
+                        <th scope="row">@item.Nom</th>
+                        <td>@item.Courriel</td>
+                        <td>
+                            <button class="btn btn-primary">a</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger">a</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#listMembre" aria-expanded="false" aria-controls="listMembre">
+        Membre <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <div id="listMembre" class="collapse">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Courriel</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.MembreVMs)
+                {
+                    <tr>
+                        <th scope="row">@item.Nom</th>
+                        <td>@item.Courriel</td>
+                        <td>
+                            <button class="btn btn-primary">a</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger">a</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> *@
