@@ -17,10 +17,18 @@ public class DetailsLivreVM
     public Decimal? Papier { get; set; }
     public Decimal? Numerique { get; set; }
 
+    private Random rnd { get; set; }
+    private double rDouble { get; set; }
+    public double cote { get; set; }
+
     public DetailsLivreVM(string id, string titre, IEnumerable<Auteur> auteurs, IEnumerable<Categorie> categories, DateTime datePublication,
         string couverture, MaisonEdition? maisonEdition, int nbPages, string resume, int nbExemplaires,
         IEnumerable<LivreTypeLivre> livreTypeLivres)
     {
+        rnd = new Random();
+        rDouble = rnd.NextDouble();
+        cote = rDouble * (5.0 - 0.0) + 0.0;
+
         Id = id;
         Titre = titre;
         Auteurs = auteurs.Select(a => a.NomAuteur).ToList();

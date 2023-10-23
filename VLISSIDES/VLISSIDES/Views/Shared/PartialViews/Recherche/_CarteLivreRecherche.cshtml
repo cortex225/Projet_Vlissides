@@ -1,6 +1,5 @@
-﻿@{
-}
-@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM;
+﻿@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM;
+
 <div class="item livrePetit livre" onclick="window.location.href=`/Recherche/Details?id=@Model.Id`">
     <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;">
         <img src="@Model.Couverture"
@@ -20,15 +19,15 @@
                 <p><strong>Prix</strong></p>
                 if (!Model.Papier.Equals(null))
                 {
-                    <p>papier : @Model.Papier $</p>
+                    <p>Papier : @Model.Papier $</p>
                 }
                 if (!Model.Numerique.Equals(null))
                 {
-                    <p>numérique :@Model.Numerique $</p>
+                    <p>Numérique :@Model.Numerique $</p>
                 }
             }
 
-            <partial name="../Accueil/_Etoiles.cshtml" model=3/>
+            <partial name="../Accueil/_Etoiles.cshtml" model=@Model.cote />
 
             <h6>Auteurs: </h6>
             @foreach (var auteur in Model.Auteurs)
