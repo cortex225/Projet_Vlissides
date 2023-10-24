@@ -1,7 +1,7 @@
 ﻿@model VLISSIDES.ViewModels.Paiement.PaiementAdresseVM
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@{
+    ViewData["Title"] = "Paiement";
+}
 <div class="d-flex justify-content-center">
     <div class="w-50">
         <div class="stepper d-flex justify-content-between">
@@ -103,7 +103,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group form-group-static">
-                        <label for="exampleFormControlInput1">Card number</label>
+                        <label for="exampleFormControlInput1">Numéro de carte</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="0000 0000 0000 0000">
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                 </div>
                 <div class="col-4">
                     <div class="form-group form-group-static">
-                        <label for="exampleFormControlInput1">Nom sur la carte</label>
+                        <label for="exampleFormControlInput1">Nom du proprirétaire de la carte</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Prénom Nom">
                     </div>
                 </div>
