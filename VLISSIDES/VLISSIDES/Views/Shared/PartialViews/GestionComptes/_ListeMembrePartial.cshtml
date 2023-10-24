@@ -39,7 +39,9 @@
                     <button class="btn btn-primary">a</button>
                 </td>
                 <td>
-                    <button class="btn btn-danger">a</button>
+                    <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationMembre", "GestionComptes" , new { id=item.Id })')">
+                        X
+                    </button>
                 </td>
             </tr>
         }

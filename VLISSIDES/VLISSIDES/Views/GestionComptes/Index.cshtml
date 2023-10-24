@@ -7,6 +7,13 @@
 }
 @model List<VLISSIDES.ViewModels.GestionComptes.GestionComptesMembreVM>
 <link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true">
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
 <div class="container-fluid my-3 py-3">
     <div class="row mb-5">
         <!--Menu-->
@@ -88,6 +95,51 @@
                 return response.text();
         }).then((results) => {
             document.getElementById("ListUser").innerHTML = results;
+        });
+    }
+</script>
+<script>
+    //Script pour montrer le Modal
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+    //Script pour annuler & cacher le modal
+    function Annuler(){
+        $('.modal').modal('hide');
+    }
+    //Script pour enlever des comptes
+    //Multiple fonctions pour reafficher la liste
+    function SupprimerCompteMembre(id=""){
+        fetch(BASE_URL + "/GestionComptes/SupprimerCompte?id=" + id, {
+            method:"POST",
+        }).then(response => {
+            return response.text();
+        }).then((results)=>{
+            showMembres();
+            Annuler();
+        });
+    }
+    function SupprimerCompteEmploye(id=""){
+        fetch(BASE_URL + "/GestionComptes/SupprimerCompte?id=" + id, {
+            method:"POST",
+        }).then(response => {
+            return response.text();
+        }).then((results)=>{
+            showEmployes();
+            Annuler();
+        });
+    }
+    function SupprimerCompteAdmin(id = "") {
+        fetch(BASE_URL + "/GestionComptes/SupprimerCompte?id=" + id, {
+            method: "POST",
+        }).then(response => {
+            return response.text();
+        }).then((results) => {
+            showAdmins();
+            Annuler();
         });
     }
 </script>
