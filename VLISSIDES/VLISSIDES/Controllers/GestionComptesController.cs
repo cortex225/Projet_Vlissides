@@ -34,6 +34,56 @@ namespace VLISSIDES.Controllers
 
             return View(Membres);
         }
+        #region Ajouter Employe
+        public IActionResult ShowAjouterEmploye()
+        {
+            var vm = new GestionComptesAjouterEmployeVM();
+            return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AjouterEmploye(GestionComptesAjouterEmployeVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (vm.Password != vm.PasswordConfirmed)
+                {
+                    ModelState.AddModelError("PasswordConfirmed", "Le mot de passe confirmé ne correspond pas au mot de passe");
+                    return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
+                }
+                var Employe = new Employe()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    NoEmploye = "E" + DateTime.Now.ToString("MM/dd/yyyy") + (_context.Employes.Count() + 1),
+                    Nom = vm.Nom,
+                    Prenom = vm.Prenom,
+                    UserName = vm.Username,
+                    Email = vm.Email,
+                    PhoneNumber = vm.Telephone,
+                    NormalizedUserName = vm.Username.ToUpper(),
+                    NormalizedEmail = vm.Email.ToUpper(),
+
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
+
+
+                };
+                var result = await _userManager.CreateAsync(Employe, vm.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(Employe, RoleName.EMPLOYE);
+                    return Ok();
+                }
+                else
+                {
+                    ModelState.AddModelError("Password", "Mot de passe faible :  Veuillez avoir minimum 6 caractères minuscules et majuscules, au moins un chiffre et un caractère spécial");
+                    return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
+                }
+
+            }
+
+            return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
+        }
+        #endregion
         public IActionResult ShowMembres(string? motCle)
         {
             var Membres = _context.Membres.Select(m => new GestionComptesMembreVM

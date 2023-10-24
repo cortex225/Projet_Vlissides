@@ -5,6 +5,12 @@
 }
 @model List<VLISSIDES.ViewModels.GestionComptes.GestionComptesEmployeVM>
 <h1 class="text-center">Employés</h1>
+<div class="container">
+    <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowAjouterEmploye", "GestionComptes")')">
+        Ajouter un employé
+    </button>
+</div>
+
 <table class="table">
     <thead>
         <tr>
