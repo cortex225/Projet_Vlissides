@@ -176,13 +176,17 @@ namespace VLISSIDES.Controllers
                 {
                     return NotFound();
                 }
-                if (_context.Users.FirstOrDefault(u => u.UserName == vm.Username) != null)
+                if (user.UserName != vm.Username)
                 {
+                    if (_context.Users.FirstOrDefault(u => u.UserName == vm.Username) != null)
+                    {
 
-                    ModelState.AddModelError("Username", "Le nom d'utilisateur existe déjà");
-                    return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial", vm);
+                        ModelState.AddModelError("Username", "Le nom d'utilisateur existe déjà");
+                        return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial", vm);
 
+                    }
                 }
+
                 //Modification du mot de passe si applicable
                 if (vm.Password != null && vm.PasswordConfirmed != null)
                 {
@@ -229,13 +233,18 @@ namespace VLISSIDES.Controllers
                 {
                     return NotFound();
                 }
-                if (_context.Users.FirstOrDefault(u => u.UserName == vm.Username) != null)
+                if (user.UserName != vm.Username)
                 {
+                    if (_context.Users.FirstOrDefault(u => u.UserName == vm.Username) != null)
+                    {
 
-                    ModelState.AddModelError("Username", "Le nom d'utilisateur existe déjà");
-                    return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
+                        ModelState.AddModelError("Username", "Le nom d'utilisateur existe déjà");
+                        return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
 
+                    }
                 }
+
+
                 //Modification du mot de passe si applicable
                 if (vm.Password != null && vm.PasswordConfirmed != null)
                 {
