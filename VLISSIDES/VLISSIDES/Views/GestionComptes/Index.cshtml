@@ -1,0 +1,212 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Gestion de comptes";
+    string myURL = Context.Request.Host.Value;    
+    string BASE_URL_RAZOR = Url.Content("~");
+}
+@model List<VLISSIDES.ViewModels.GestionComptes.GestionComptesMembreVM>
+<link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true">
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<div class="container-fluid my-3 py-3">
+    <div class="row mb-5">
+        <!--Menu-->
+        <div class="col-lg-3">
+            <div class="card position-sticky top-1 shadow-sm">
+                <ul class="nav flex-column bg-white border-radius p-3">
+                    <h5 class="text-center mb-3">Gestion de comptes</h5>
+                    <hr />
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showMembres()">
+                            <i class="fa-solid fa-user text-lg-center me-2"></i>
+                            <span class="text-sm">Membres</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showEmployes()">
+                            <i class="fa-solid fa-user text-lg-center me-2"></i>
+                            <span class="text-sm">Employes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark d-flex profile-btn" onclick="showAdmins()">
+                            <i class="fa-solid fa-user text-lg-center me-2"></i>
+                            <span class="text-sm">Admins</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--Vue partielle pour liste-->
+        <div class="col-lg-9 mt-lg-0 mt-4">
+            <div class="card">
+                <div id="ListUser">
+                    <partial name="PartialViews/GestionComptes/_ListeMembrePartial" model="@Model" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
+<!--Le script pour changer la vue partielle de liste d'utilisateur-->
+<script>
+    
+    function showMembres() {
+        fetch(BASE_URL + "/GestionComptes/ShowMembres", {
+            method: "GET"
+        }).then(response => {
+            return response.text();
+        }).then((results) => {
+            document.getElementById("ListUser").innerHTML = results;
+        });
+    }
+    function showEmployes() {
+        fetch(BASE_URL + "/GestionComptes/ShowEmployes", {
+            method: "GET"
+        }).then(response => {
+            return response.text();
+        }).then((results) => {
+            document.getElementById("ListUser").innerHTML = results;
+        });
+    }
+    function showAdmins() {
+        fetch(BASE_URL + "/GestionComptes/ShowAdmins", {
+            method: "GET"
+        }).then(response => {
+            return response.text();
+        }).then((results) => {
+            document.getElementById("ListUser").innerHTML = results;
+        });
+    }
+</script>
+<!--Script pour recherche de membre-->
+<script>
+    
+    function RechercherMembre(){
+        fetch(BASE_URL + "/GestionComptes/ShowMembres?motCle=" + document.getElementById("inputRechercherMembre").value,{
+            method:"GET"
+        }).then(response => {
+                return response.text();
+        }).then((results) => {
+            document.getElementById("ListUser").innerHTML = results;
+        });
+    }
+</script>
+<!--Script pour le modal et supprimer-->
+<script>
+    //Script pour montrer le Modal
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+    //Script pour annuler & cacher le modal
+    function Annuler(){
+        $('.modal').modal('hide');
+    }
+    //Script pour enlever des comptes
+    //Multiple fonctions pour reafficher la liste
+    function SupprimerCompteMembre(id=""){
+        fetch(BASE_URL + "/GestionComptes/SupprimerCompte?id=" + id, {
+            method:"POST",
+        }).then(response => {
+            return response.text();
+        }).then((results)=>{
+            showMembres();
+            Annuler();
+        });
+    }
+    function SupprimerCompteEmploye(id=""){
+        fetch(BASE_URL + "/GestionComptes/SupprimerCompte?id=" + id, {
+            method:"POST",
+        }).then(response => {
+            return response.text();
+        }).then((results)=>{
+            showEmployes();
+            Annuler();
+        });
+    }
+    function SupprimerCompteAdmin(id = "") {
+        fetch(BASE_URL + "/GestionComptes/SupprimerCompte?id=" + id, {
+            method: "POST",
+        }).then(response => {
+            return response.text();
+        }).then((results) => {
+            showAdmins();
+            Annuler();
+        });
+    }
+</script>
+<!--Script pour l'ajout d'un employé-->
+<script>
+    function AjouterCompteEmploye(){
+        var form = document.getElementById("FormAjouterEmploye");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionComptes/AjouterEmploye", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                showEmployes();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+
+            }
+        });
+    }
+</script>
+<script>
+    function ModifierCompteEmploye() {
+        var form = document.getElementById("FormModifierCompte");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionComptes/ModifierCompteEmploye", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                showEmployes();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+
+            }
+        });
+    }
+    function ModifierCompteMembre() {
+        var form = document.getElementById("FormModifierCompte");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionComptes/ModifierCompteMembre", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                showMembres();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+
+            }
+        });
+    }
+    
+</script>
