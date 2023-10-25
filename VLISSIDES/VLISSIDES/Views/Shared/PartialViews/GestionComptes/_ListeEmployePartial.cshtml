@@ -11,7 +11,7 @@
     </button>
 </div>
 
-<table class="table">
+<table class="table table-responsive">
     <thead>
         <tr>
             <th scope="col">Nom</th>
@@ -26,11 +26,10 @@
             <tr>
                 <th scope="row">@item.Nom</th>
                 <td>@item.Courriel</td>
+                <td ><button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompteEmploye", "GestionComptes" , new { id=item.Id })')">Modifier</button></td>
                 <td>
-                    <button class="btn btn-primary">a</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationEmploye", "GestionComptes" , new { id=item.Id })')">a</button>
+                    
+                    <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationEmploye", "GestionComptes" , new { id=item.Id })')">Supprimer</button>
                 </td>
             </tr>
         }

@@ -146,6 +146,7 @@
         });
     }
 </script>
+<!--Script pour l'ajout d'un employé-->
 <script>
     function AjouterCompteEmploye(){
         var form = document.getElementById("FormAjouterEmploye");
@@ -166,4 +167,45 @@
             }
         });
     }
+</script>
+<script>
+    function ModifierCompteEmploye() {
+        var form = document.getElementById("FormModifierCompte");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionComptes/ModifierCompteEmploye", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                showEmployes();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+
+            }
+        });
+    }
+    function ModifierCompteMembre() {
+        var form = document.getElementById("FormModifierCompte");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionComptes/ModifierCompteMembre", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                showMembres();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+
+            }
+        });
+    }
+    
 </script>

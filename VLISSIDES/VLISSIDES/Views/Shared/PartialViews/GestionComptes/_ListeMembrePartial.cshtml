@@ -36,11 +36,11 @@
                 <th scope="row">@item.Nom</th>
                 <td>@item.Courriel</td>
                 <td>
-                    <button class="btn btn-primary">a</button>
+                    <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompteMembre", "GestionComptes" , new { id=item.Id })')">Modifier</button>
                 </td>
                 <td>
                     <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationMembre", "GestionComptes" , new { id=item.Id })')">
-                        X
+                        Supprimer
                     </button>
                 </td>
             </tr>

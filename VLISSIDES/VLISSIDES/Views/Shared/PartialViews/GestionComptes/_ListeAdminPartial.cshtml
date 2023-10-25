@@ -20,12 +20,17 @@
             <tr>
                 <th scope="row">@item.Nom</th>
                 <td>@item.Courriel</td>
+                @*
                 <td>
-                    <button class="btn btn-primary">a</button>
+                    <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompte", "GestionComptes" , new { id=item.Id })')">a</button>
                 </td>
                 <td>
                     <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationAdmin", "GestionComptes" , new { id=item.Id })')">a</button>
                 </td>
+                *@
+                    
+
+                
             </tr>
         }
     </tbody>

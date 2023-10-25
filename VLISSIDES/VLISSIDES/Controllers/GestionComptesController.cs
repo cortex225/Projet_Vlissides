@@ -34,6 +34,46 @@ namespace VLISSIDES.Controllers
 
             return View(Membres);
         }
+        #region Lister les comptes
+        public IActionResult ShowMembres(string? motCle)
+        {
+            var Membres = _context.Membres.Select(m => new GestionComptesMembreVM
+            {
+                Id = m.Id,
+                Nom = m.UserName,
+                Courriel = m.Email
+            }).ToList();
+            if (motCle != null && motCle != "")
+            {
+                Membres = Membres
+                    .Where(membre => Regex.IsMatch(membre.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+                    .ToList();
+            }
+
+            return PartialView("PartialViews/GestionComptes/_ListeMembrePartial", Membres);
+        }
+        public IActionResult ShowEmployes()
+        {
+            var Employes = _context.Employes.Select(e => new GestionComptesEmployeVM
+            {
+                Id = e.Id,
+                Nom = e.UserName,
+                Courriel = e.Email
+            }).ToList();
+            return PartialView("PartialViews/GestionComptes/_ListeEmployePartial", Employes);
+        }
+        public IActionResult ShowAdmins()
+        {
+            //Il y a seulement un admin
+            var Admin = _context.Users.Where(u => u.Id == "0").Select(u => new GestionComptesAdminVM
+            {
+                Id = u.Id,
+                Nom = u.UserName,
+                Courriel = u.Email
+            }).ToList();
+            return PartialView("PartialViews/GestionComptes/_ListeAdminPartial", Admin);
+        }
+        #endregion
         #region Ajouter Employe
         public IActionResult ShowAjouterEmploye()
         {
@@ -84,43 +124,124 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
         }
         #endregion
-        public IActionResult ShowMembres(string? motCle)
+        public IActionResult ShowModifierCompteMembre(string id)
         {
-            var Membres = _context.Membres.Select(m => new GestionComptesMembreVM
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var vm = new GestionComptesModifierVM
             {
-                Id = m.Id,
-                Nom = m.UserName,
-                Courriel = m.Email
-            }).ToList();
-            if (motCle != null && motCle != "")
+                Id = user.Id,
+                Nom = user.Nom,
+                Prenom = user.Prenom,
+                Telephone = user.PhoneNumber,
+                Email = user.Email,
+                Username = user.UserName
+            };
+            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial", vm);
+        }
+        public IActionResult ShowModifierCompteEmploye(string id)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var vm = new GestionComptesModifierVM
             {
-                Membres = Membres
-                    .Where(membre => Regex.IsMatch(membre.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
-                    .ToList();
-            }
+                Id = user.Id,
+                Nom = user.Nom,
+                Prenom = user.Prenom,
+                Telephone = user.PhoneNumber,
+                Email = user.Email,
+                Username = user.UserName
+            };
+            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ModifierCompteMembre(GestionComptesModifierVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (vm.Password != vm.PasswordConfirmed)
+                {
+                    ModelState.AddModelError("PasswordConfirmed", "Le mot de passe confirmé ne correspond pas au mot de passe");
+                    return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial", vm);
+                }
+                var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                //Modification du mot de passe si applicable
+                if (vm.Password != null && vm.PasswordConfirmed != null)
+                {
+                    if (Regex.Match(vm.Password, "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$").Success)
+                    {
+                        await _userManager.RemovePasswordAsync(user);
+                        await _userManager.AddPasswordAsync(user, vm.Password);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Password", "Mot de passe faible :  Veuillez avoir minimum 6 caractères minuscules et majuscules, au moins un chiffre et un caractère spécial");
+                        return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial", vm);
+                    }
 
-            return PartialView("PartialViews/GestionComptes/_ListeMembrePartial", Membres);
+
+                }
+                //Modification
+                user.Nom = vm.Nom;
+                user.Prenom = vm.Prenom;
+                user.UserName = vm.Username;
+                user.NormalizedUserName = vm.Username.ToUpper();
+                user.NormalizedEmail = vm.Email.ToUpper();
+                user.Email = vm.Email;
+                user.PhoneNumber = vm.Telephone;
+                //Sauvegarde les changements
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial", vm);
         }
-        public IActionResult ShowEmployes()
+        [HttpPost]
+        public async Task<IActionResult> ModifierCompteEmploye(GestionComptesModifierVM vm)
         {
-            var Employes = _context.Employes.Select(e => new GestionComptesEmployeVM
+            if (ModelState.IsValid)
             {
-                Id = e.Id,
-                Nom = e.UserName,
-                Courriel = e.Email
-            }).ToList();
-            return PartialView("PartialViews/GestionComptes/_ListeEmployePartial", Employes);
-        }
-        public IActionResult ShowAdmins()
-        {
-            //Il y a seulement un admin
-            var Admin = _context.Users.Where(u => u.Id == "0").Select(u => new GestionComptesAdminVM
-            {
-                Id = u.Id,
-                Nom = u.UserName,
-                Courriel = u.Email
-            }).ToList();
-            return PartialView("PartialViews/GestionComptes/_ListeAdminPartial", Admin);
+                if (vm.Password != vm.PasswordConfirmed)
+                {
+                    ModelState.AddModelError("PasswordConfirmed", "Le mot de passe confirmé ne correspond pas au mot de passe");
+                    return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
+                }
+                var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                //Modification du mot de passe si applicable
+                if (vm.Password != null && vm.PasswordConfirmed != null)
+                {
+                    if (Regex.Match(vm.Password, "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$").Success)
+                    {
+                        await _userManager.RemovePasswordAsync(user);
+                        await _userManager.AddPasswordAsync(user, vm.Password);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Password", "Mot de passe faible :  Veuillez avoir minimum 6 caractères minuscules et majuscules, au moins un chiffre et un caractère spécial");
+                        return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
+                    }
+
+
+                }
+                //Modification
+                user.Nom = vm.Nom;
+                user.Prenom = vm.Prenom;
+                user.UserName = vm.Username;
+                user.NormalizedUserName = vm.Username.ToUpper();
+                user.NormalizedEmail = vm.Email.ToUpper();
+                user.Email = vm.Email;
+                user.PhoneNumber = vm.Telephone;
+                //Sauvegarde les changements
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
         }
         #region Confirmation de supprimer
         public IActionResult ShowDeleteConfirmationMembre(string id)
