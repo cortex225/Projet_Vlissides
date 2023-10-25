@@ -92,6 +92,13 @@ namespace VLISSIDES.Controllers
                     ModelState.AddModelError("PasswordConfirmed", "Le mot de passe confirmé ne correspond pas au mot de passe");
                     return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
                 }
+                if (_context.Users.FirstOrDefault(u => u.UserName == vm.Username) != null)
+                {
+
+                    ModelState.AddModelError("Username", "Le nom d'utilisateur existe déjà");
+                    return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
+
+                }
                 var Employe = new Employe()
                 {
                     Id = Guid.NewGuid().ToString(),
