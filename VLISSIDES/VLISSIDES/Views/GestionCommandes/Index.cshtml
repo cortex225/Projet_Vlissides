@@ -1,34 +1,43 @@
-﻿@model List<VLISSIDES.ViewModels.GestionCommandes.CommandesVM>
+﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
     ViewData["Title"] = "Gestion de commandes";
 }
 <div class="m-4">
-    @foreach (var commande in @Model)
-    {
-        <div class="card my-2" style="width: 500px;">
-            <div class="row no-gutters">
-                <div class="d-flex justify-content-center">
-                    <h4 class="card-title">#@commande.Id</h4>
-                </div>
-                <div class="col-sm-7">
+    <div class="row">
+        <div class="col-6">
+            @foreach (var commande in @Model.ListCommandes)
+            {
+                <div class="card my-2 p-2" style="">
+                    <div class="row no-gutters">
+                        <div class="d-flex justify-content-center">
+                            <h4 class="card-title">#@commande.Id</h4>
+                        </div>
+                        <div class="col-sm-7">
 
-                    <div class="card-body">
-                        <h5 class="card-title">Article:</h5>
-                        <ul>
-                            @foreach (var item in commande.LivreCommandes)
-                            {
-                                <li>@item.Quantite x @item.Livre.Titre</li>
-                            }
-                        </ul>
+                            <div class="">
+                                <h5 class="card-title">Article:</h5>
+                                <ul>
+                                    @foreach (var item in commande.LivreCommandes)
+                                    {
+                                        <li>@item.Quantite x @item.Livre.Titre</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="">
+                                <p>Nom d'utilisateur: @commande.MembreUserName</p>
+                                <p>Prix: @commande.PrixTotal</p>
+                                <div class="form-group">
+                                    <label asp-for="StatutId" class="control-label"></label>
+                                    <select asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-5">
-                    <div class="card-body">
-                        <p>Prix: @commande.PrixTotal</p>
-                        <p>Statut: @commande.StatutNom</p>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
-    }
+    </div>
+    
 </div>

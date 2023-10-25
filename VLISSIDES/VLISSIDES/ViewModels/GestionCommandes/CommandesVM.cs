@@ -10,7 +10,7 @@ namespace VLISSIDES.ViewModels.GestionCommandes
 
         [DisplayName("Prix total")] public decimal PrixTotal { get; set; } = default!;
 
-        [DisplayName("Identifiant du membre")] public string MembreId { get; set; } = default!;
+        [DisplayName("Nom d'utilisateur du membre")] public string MembreUserName { get; set; } = default!;
 
         [DisplayName("Identifiant de l'adresse")] public string AdresseId { get; set; } = default!;
 

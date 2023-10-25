@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -27,7 +28,9 @@ namespace VLISSIDES.Controllers
         public IActionResult Index()
         {
             //var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var commandes = _context.Commandes.Include(l => l.StatutCommande);
+            var commandes = _context.Commandes
+                .Include(c => c.StatutCommande)
+                .Include(c => c.Membre);
             var livreCommandes = _context.LivreCommandes;
 
             var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
@@ -42,13 +45,24 @@ namespace VLISSIDES.Controllers
                 Id = c.Id.ToString(),
                 DateCommande = c.DateCommande,
                 PrixTotal = c.PrixTotal,
-                MembreId = c.MembreId,
+                MembreUserName = c.Membre.UserName,
                 AdresseId = c.AdresseId,
                 LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
                 StatutNom = c.StatutCommande.Nom
             }).ToList();
 
-            return View(listeCommandeVM);
+            var affichageCommandes = new AffichageCommandeVM
+            {
+                ListCommandes = listeCommandeVM
+            };
+
+            affichageCommandes.SelectListStatut = _context.StatutCommandes.Select(s => new SelectListItem
+            {
+                Text = s.Nom,
+                Value = s.Id
+            }).ToList();
+
+            return View(affichageCommandes);
         }
     }
 }
