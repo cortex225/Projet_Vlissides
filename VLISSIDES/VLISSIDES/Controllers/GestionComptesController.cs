@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using VLISSIDES.Data;
@@ -7,6 +8,7 @@ using VLISSIDES.ViewModels.GestionComptes;
 
 namespace VLISSIDES.Controllers
 {
+    [Authorize(Roles = RoleName.ADMIN)]
     public class GestionComptesController : Controller
     {
         private readonly IConfiguration _config;
