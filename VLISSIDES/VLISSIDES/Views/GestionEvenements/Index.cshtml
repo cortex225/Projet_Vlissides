@@ -14,10 +14,22 @@
         </div>
     </div>
 </div>
+<br />
+<div class="d-block p-4 p-4">
+    <div class="mb-4">
+        <h1>Gestion des événements</h1>
+    </div>
+    <div class="container-fluid">
+        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("AjouterEvenement", "GestionEvenements")')">
+            Ajouter un événement
+        </button>
+    </div>
+    <br />
+</div>
 
-<button class="btn btn-primary" onclick="ShowModal('@Url.Action("AjouterEvenement", "GestionEvenements")')"></button>
 
 <div class="container-fluid d-flex flex-wrap row" id="TabEvenementsListe">
+    
     <partial name="PartialViews/GestionEvenements/_ListeEvenementsPartial" model="@Model" />
 
 </div>
