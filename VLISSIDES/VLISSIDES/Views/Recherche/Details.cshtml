@@ -71,17 +71,25 @@
             <br />
             @if (Model.NbExemplaires > 0)
             {
-                <form>
-                    @Html.AntiForgeryToken()
-                    <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
-                    <div class="btn-group" role="group" aria-label="Basic example">
+                @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+                {
+                    <form>
+                        @Html.AntiForgeryToken()
+                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                        <div class="btn-group" role="group" aria-label="Basic example">
 
-                        <a id="ajouterNeuf" class="btn btn-primary btnPanier">
-                            <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
-                        </a>
-                        <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
-                    </div>
-                </form>
+                            <a id="ajouterNeuf" class="btn btn-primary btnPanier">
+                                <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
+                            </a>
+                            <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
+                        </div>
+                    </form>
+                }
+
+                else
+                {
+                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                }
             }
             else
             {
@@ -90,12 +98,16 @@
         }
         @if (!Model.Numerique.Equals(null))//2 = "Numérique"
         {
-            <form>
+            @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+            {
+               <form>
                 @Html.AntiForgeryToken()
                 <a href="#" id="ajouterNumerique" class="btn btn-primary btnPanier">
                     <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
                 </a>
-            </form>
+            </form> 
+            }
+            
         }
     </div>
 </div>
