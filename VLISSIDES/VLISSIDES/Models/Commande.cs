@@ -24,4 +24,7 @@ public class Commande
 
     [DisplayName("Table association Livre et Commande")]
     public ICollection<LivreCommande> LivreCommandes { get; set; } = default!;
+
+    public string StatutId { get; set; } = default!;
+    public StatutCommande StatutCommande { get; set; } = default!;
 }
