@@ -296,16 +296,15 @@ namespace VLISSIDES.Controllers
         }
         #endregion
         [HttpPost]
-        public IActionResult SupprimerCompte(string id)
+        public async Task<IActionResult> SupprimerCompte(string id)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
             if (user == null)
                 return NotFound();
             else
             {
-                //_context.Users.Remove(user);
-                _userManager.DeleteAsync(user);
-                _context.SaveChanges();
+                await _userManager.DeleteAsync(user);
+                await _context.SaveChangesAsync();
                 return Ok();
             }
         }
