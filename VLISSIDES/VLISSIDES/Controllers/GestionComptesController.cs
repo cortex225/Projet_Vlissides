@@ -99,6 +99,11 @@ namespace VLISSIDES.Controllers
                     return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
 
                 }
+                if (_context.Users.FirstOrDefault(u => u.Email == vm.Email) != null)
+                {
+                    ModelState.AddModelError("Email", "L'adresse courriel existe déjà");
+                    return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
+                }
                 var Employe = new Employe()
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -186,6 +191,15 @@ namespace VLISSIDES.Controllers
 
                     }
                 }
+                if (user.Email != vm.Email)
+                {
+                    if (_context.Users.FirstOrDefault(u => u.Email == vm.Email) != null)
+                    {
+                        ModelState.AddModelError("Email", "L'adresse courriel existe déjà");
+                        return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial", vm);
+                    }
+
+                }
 
                 //Modification du mot de passe si applicable
                 if (vm.Password != null && vm.PasswordConfirmed != null)
@@ -243,7 +257,15 @@ namespace VLISSIDES.Controllers
 
                     }
                 }
+                if (user.Email != vm.Email)
+                {
+                    if (_context.Users.FirstOrDefault(u => u.Email == vm.Email) != null)
+                    {
+                        ModelState.AddModelError("Email", "L'adresse courriel existe déjà");
+                        return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
+                    }
 
+                }
 
                 //Modification du mot de passe si applicable
                 if (vm.Password != null && vm.PasswordConfirmed != null)
