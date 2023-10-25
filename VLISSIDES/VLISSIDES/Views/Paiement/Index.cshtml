@@ -1,0 +1,253 @@
+﻿@model VLISSIDES.ViewModels.Paiement.PaiementAdresseVM
+@{
+    ViewData["Title"] = "Paiement";
+}
+<div class="m-4">
+    <div class="d-flex justify-content-center">
+        <div class="w-50">
+            <div class="stepper d-flex justify-content-between">
+                <button id="step1" type="button" class="btn btn-default btn-circle btnStepper" onclick="stepperAdresse()">
+                    1
+                </button>
+
+                <button id="step2" type="button" class="btn btn-default btn-circle btnStepper" onclick="stepperInfoPaiement()">
+                    2
+                </button>
+
+                <button id="step3" type="button" class="btn btn-default btn-circle btnStepper" onclick="stepperConfirmation()">
+                    3
+                </button>
+            </div>
+
+            <div class="hrDiv">
+                <hr />
+            </div>
+        </div>
+    </div>
+
+    <div class="m-4">
+        <div id="adressePage">
+            <h2>Adresse</h2>
+            <div class="rcorners m-2 p-4 overflow-hidden">
+                <h5 class="my-2">Adresse ligne 1</h5>
+                <div class="row">
+
+                    <div class="col-2 ">
+                        <div class="form-group form-group-static">
+                            <label asp-for="NoCivique" class="control-label mb-2"></label>
+                            <input asp-for="NoCivique" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.NoCivique)" />
+                            <span asp-validation-for="NoCivique" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="form-group form-group-static">
+                            <label asp-for="Rue" class="control-label mb-2"></label>
+                            <input asp-for="Rue" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Rue)" />
+                            <span asp-validation-for="Rue" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <h5 class="my-2">Adresse ligne 2</h5>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group form-group-static">
+                            <label asp-for="NoApartement" class="control-label mb-2"></label>
+                            <input asp-for="NoApartement" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.NoApartement)" />
+                            <span asp-validation-for="NoApartement" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group form-group-static">
+                            <label asp-for="CodePostal" class="control-label mb-2"></label>
+                            <input asp-for="CodePostal" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.CodePostal)" />
+                            <span asp-validation-for="CodePostal" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group form-group-static">
+                            <label asp-for="Ville" class="control-label mb-2"></label>
+                            <input asp-for="Ville" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Ville)" />
+                            <span asp-validation-for="Ville" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group form-group-static">
+                            <label asp-for="Province" class="control-label mb-2"></label>
+                            <input asp-for="Province" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Province)" />
+                            <span asp-validation-for="Province" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group form-group-static">
+                            <label asp-for="Pays" class="control-label mb-2"></label>
+                            <input asp-for="Pays" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Pays)" />
+                            <span asp-validation-for="Pays" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="navigationButtons my-4">
+                    <button class="btn btn-primary btn-md float-end mt-6 mb-0" onclick="stepperInfoPaiement()" type="button">Suivant</button>
+                    <button class="btn btn-primary btn-md float-end mt-6 mb-0" onclick="location.href='@Url.Action("Index", "Panier")'" type="button">Retour au panier</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="paiementPage" class="d-none">
+            <h2>Paiement</h2>
+            <div class="rcorners m-2 p-4 overflow-hidden">
+                <div class="row my-4">
+                    <div class="col-4">
+                        <div class="form-group form-group-static">
+                            <label for="exampleFormControlInput1">Numéro de carte</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="0000 0000 0000 0000">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group form-group-static">
+                            <label for="exampleFormControlInput1">Date d'expiration</label>
+                            <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="mm/jj">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group form-group-static">
+                            <label for="exampleFormControlInput1">CVV</label>
+                            <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="000">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group form-group-static">
+                            <label for="exampleFormControlInput1">Nom du proprirétaire de la carte</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Prénom Nom">
+                        </div>
+                    </div>
+                </div>
+                <div class="navigationButtons my-4">
+                    <button class="btn btn-primary btn-md float-end mt-6 mb-0" onclick="stepperConfirmation()" type="button">Suivant</button>
+                    <button class="btn btn-primary btn-md float-end mt-6 mb-0" onclick="stepperAdresse()" type="button">Précédant</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmationPage" class="d-none">
+            <h2>Confirmation</h2>
+
+            <div class="navigationButtons">
+                <button class="btn btn-primary btn-md float-end mt-6 mb-0" onclick="" type="button">Confirmer</button>
+                <button class="btn btn-primary btn-md float-end mt-6 mb-0" onclick="stepperInfoPaiement()" type="button">Précédant</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+        step1 = document.getElementById("step1");
+        step2 = document.getElementById("step2");
+        step3 = document.getElementById("step3");
+
+        adressePage = document.getElementById("adressePage");
+        paiementPage = document.getElementById("paiementPage");
+        confirmationPage = document.getElementById("confirmationPage");
+
+        step1.style.backgroundColor = "#3B71CA";
+        step1.style.color = "white";
+
+        function stepperAdresse() {
+            step1.style.backgroundColor = "#3B71CA";
+            step1.style.color = "white";
+
+            step2.style.backgroundColor = "white";
+            step2.style.color = "#4F4F4F";
+
+            step3.style.backgroundColor = "white";
+            step3.style.color = "#4F4F4F";
+
+            adressePage.className = "";
+            paiementPage.className = "d-none";
+            confirmationPage.className = "d-none";
+        }
+        function stepperInfoPaiement() {
+            step1.style.backgroundColor = "#14A44D";
+            step1.style.color = "white";
+
+            step2.style.backgroundColor = "#3B71CA";
+            step2.style.color = "white";
+
+            step3.style.backgroundColor = "white";
+            step3.style.color = "#4F4F4F";
+
+            adressePage.className = "d-none";
+            paiementPage.className = "";
+            confirmationPage.className = "d-none";
+        }
+        function stepperConfirmation() {
+            step1.style.backgroundColor = "#14A44D";
+            step1.style.color = "white";
+
+            step2.style.backgroundColor = "#14A44D";
+            step2.style.color = "white";
+
+            step3.style.backgroundColor = "#3B71CA";
+            step3.style.color = "white";
+
+            adressePage.className = "d-none";
+            paiementPage.className = "d-none";
+            confirmationPage.className = "";
+        }
+    </script>
+}
+
+<style>
+    .btn-circle.btnStepper {
+        width: 50px;
+        height: 50px;
+        padding: 10px 16px;
+        border-radius: 35px;
+        font-size: 20px;
+        line-height: 1.33;
+        background-color: white;
+        z-index: 10;
+    }
+
+    .btnStepper:active {
+        background-color: grey !important;
+    }
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        padding: 6px 0px;
+        border-radius: 15px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.42857;
+    }
+
+    .hrDiv{
+        position: relative;
+        top: -40px;
+        z-index: 0;
+    }
+
+    .stepper{
+        z-index: 10;
+    }
+
+    .rcorners {
+        border-radius: 25px;
+        background-color: white;
+    }
+</style>
