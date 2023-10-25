@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model VLISSIDES.ViewModels.GestionEvenements.GestionEvenementsAjouterVM
+<div class="modal-header">
+    <h5 class="modal-title" id="ModalEditLabel">Ajouter un nouveau événement</h5>
+
+</div>
+<form asp-action="AjouterEvenement" asp-controller="GestionEvenements" enctype="multipart/form-data" id="FormAddEvenement">
+    @Html.AntiForgeryToken()
+    <div class="modal-body">
+        <input type="hidden" asp-for="Image" />
+        <div class="custom-file row">
+            <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
+        </div>
+
+        <div class="container d-flex justify-content-center">
+            <div class="row">
+                <div class="col">
+
+                    <div>
+                        <label asp-for="Nom" class="control-label"></label>
+                        <input asp-for="Nom" class="form-control" />
+                        <span asp-validation-for="Nom" class="text-danger"></span>
+                    </div>    
+                    <div>
+                        <label asp-for="DateDebut" class="control-label"></label>
+                        <input asp-for="DateDebut" class="form-control" />
+                        <span asp-validation-for="DateDebut" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="DateFin" class="control-label"></label>
+                        <input asp-for="DateFin" class="form-control" />
+                        <span asp-validation-for="DateFin" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Prix" class="control-label"></label>
+                        <input asp-for="Prix" class="form-control" />
+                        <span asp-validation-for="Prix" class="text-danger"></span>
+                    </div>
+            
+                </div>
+
+                <div class="col">
+                    <div>
+                        <label asp-for="Lieu" class="control-label"></label>
+                        <input asp-for="Lieu" class="form-control" />
+                        <span asp-validation-for="Lieu" class="text-danger"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="NbPlaces" class="control-label"></label>
+                        <input asp-for="NbPlaces" class="form-control" />
+                        <span asp-validation-for="NbPlaces" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="NbPlacesMembre" class="control-label"></label>
+                        <input asp-for="NbPlacesMembre" class="form-control" />
+                        <span asp-validation-for="NbPlacesMembre" class="text-danger"></span>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+            </div>
+        <div>
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" rows="5" style="height:100%" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterEvenement()"/>
+    </div>
+</form>
