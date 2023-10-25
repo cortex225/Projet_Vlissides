@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
@@ -7,7 +8,7 @@ using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Categories;
 
 namespace VLISSIDES.Controllers;
-
+[Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionCategoriesController : Controller
 {
     private readonly IConfiguration _config;
@@ -26,7 +27,7 @@ public class GestionCategoriesController : Controller
     {
         var itemsPerPage = 10;
         var totalItems = await _context.Categories.CountAsync();
-        
+
         var vm = new CategoriesIndexVM();
         var liste = _context.Categories.Include(c => c.Livres).ThenInclude(lc => lc.Livre).Include(c => c.Enfants)
             .OrderBy(c => c.Nom)
