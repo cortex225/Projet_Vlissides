@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System.Collections;
+using System.Security.Claims;
+using System.Security.Policy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -73,7 +75,7 @@ namespace VLISSIDES.Controllers
                 .Where(lp => lp.UserId == userId)
                 .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
                 .ToList();
-
+             var imgLivreUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{panierItems.FirstOrDefault().Livre.Couverture}";
             // Créez les articles de la session de paiement Stripe
             var lineItems = panierItems.Select(item => new SessionLineItemOptions
             {
@@ -84,8 +86,9 @@ namespace VLISSIDES.Controllers
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
                         Name = item.Livre.Titre,
-                        Images = new List<string> { "https://sqlinfocg.cegepgranby.qc.ca/2167594/img/jean-luc.png" }
+                        Images = new List<string> { "https://localhost:7089/img/Couvertures/Contes%20de%20Perrault.png"},
                     },
+
 
                 },
                 Quantity = item.Quantite,
