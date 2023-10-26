@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Livres;
@@ -31,7 +31,7 @@ public class AjouterVM
     public List<SelectListItem>? SelectListCategories { get; set; }
 
     //Auteurs
-    [Display(Name = "Auteur")] public string AuteurId { get; set; }
+    [Display(Name = "Auteur")] public List<string> AuteurIds { get; set; }
 
     public List<SelectListItem>? SelectListAuteurs { get; set; }
 
