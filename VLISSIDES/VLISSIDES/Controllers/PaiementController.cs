@@ -50,6 +50,16 @@ namespace VLISSIDES.Controllers
             return View();
         }
 
+        public IActionResult Cancel()
+        {
+            return RedirectToAction("Index", "Panier");
+        }
+        [Route("Paiement/Success")]
+        public IActionResult Success()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult CreateCheckoutSession(StripePaiementVM model)
         {
