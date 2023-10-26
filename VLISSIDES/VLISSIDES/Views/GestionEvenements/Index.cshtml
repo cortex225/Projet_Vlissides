@@ -83,8 +83,30 @@
         });
     }
 </script>
+<!--Script pour Modifier l'evenement-->
 <script>
-    function SupprimerCategorie(id = "") {
+    function ModifierEvenement() {
+        var form = document.getElementById("FormModifierEvenement");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionEvenements/ModifierEvenement", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                AfficherEvenements();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+
+            }
+        });
+    }
+</script>
+<script>
+    function SupprimerEvenement(id = "") {
         fetch(BASE_URL + "/GestionEvenements/SupprimerEvenement?id="+id, {
             method: "POST",
         }).then((response) => {

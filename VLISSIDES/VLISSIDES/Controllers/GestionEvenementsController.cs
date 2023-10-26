@@ -110,6 +110,72 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial", vm);
         }
 
+        public IActionResult ModifierEvenement(string id)
+        {
+            var evenement = _context.Evenements.FirstOrDefault(e => e.Id == id);
+            var vm = new GestionEvenementsModifierVM()
+            {
+                Id = id,
+                Nom = evenement.Nom,
+                Description = evenement.Description,
+                DateDebut = evenement.DateDebut,
+                DateFin = evenement.DateFin,
+                Image = evenement.Image,
+                Lieu = evenement.Lieu,
+                NbPlaces = evenement.NbPlaces,
+                NbPlacesMembre = evenement.NbPlacesMembre,
+                Prix = evenement.Prix,
+            };
+            return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial", vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ModifierEvenement(GestionEvenementsModifierVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var evenement = _context.Evenements.FirstOrDefault(e => e.Id == vm.Id);
+                if (evenement != null)
+                {
+                    //Modifications
+                    evenement.Nom = vm.Nom;
+                    evenement.Description = vm.Description;
+                    evenement.DateDebut = vm.DateDebut;
+                    evenement.DateFin = vm.DateFin;
+                    evenement.Lieu = vm.Lieu;
+                    evenement.NbPlaces = vm.NbPlaces;
+                    evenement.NbPlacesMembre = vm.NbPlacesMembre;
+                    evenement.Prix = vm.Prix;
+                    //Si nouvelle photo
+                    if (vm.CoverPhoto != null)
+                    {
+                        var wwwRootPath = _webHostEnvironment.WebRootPath;
+                        var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                        var extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                        fileName = fileName + "_" + Guid.NewGuid().ToString() +
+                                   extension; // Utilisation de Guid pour un nom de fichier unique
+                        var folderPath =
+                            Path.Combine(wwwRootPath, "img",
+                                "EvenementImages"); // Chemin du dossier où l'image sera sauvegardée
+                        var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
+
+                        // Sauvegarder l'image
+                        using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            await vm.CoverPhoto.CopyToAsync(fileStream);
+                        }
+
+                        evenement.Image =
+                            "/img/EvenementImages/" + fileName;
+                    }
+                    //Sauvegarder
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+
+
+            }
+            return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial", vm);
+        }
         public IActionResult ShowSupprimerEvenement(string id)
         {
             var evenement = _context.Evenements.FirstOrDefault(e => e.Id == id);
