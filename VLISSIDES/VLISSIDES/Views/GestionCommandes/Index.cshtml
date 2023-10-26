@@ -3,41 +3,77 @@
     ViewData["Title"] = "Gestion de commandes";
 }
 <div class="m-4">
-    <div class="row">
-        <div class="col-6">
-            @foreach (var commande in @Model.ListCommandes)
-            {
-                <div class="card my-2 p-2" style="">
-                    <div class="row no-gutters">
-                        <div class="d-flex justify-content-center">
-                            <h4 class="card-title">#@commande.Id</h4>
-                        </div>
-                        <div class="col-sm-7">
+    <h1>Gestion des commandes</h1>
+    <form class="my-4" id="rechercherCommande" enctype="multipart/form-data">
+        <br />
+        <div class="input-group">
+            <input class="form-control" id="inputRechercherCommande" placeholder="Rechercher..." />
+            <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" onchange="applyFilter()">
+                Rechercher
+            </button>
+        </div>
 
-                            <div class="">
-                                <h5 class="card-title">Article:</h5>
-                                <ul>
-                                    @foreach (var item in commande.LivreCommandes)
-                                    {
-                                        <li>@item.Quantite x @item.Livre.Titre</li>
-                                    }
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="">
-                                <p>Nom d'utilisateur: @commande.MembreUserName</p>
-                                <p>Prix: @commande.PrixTotal</p>
-                                <div class="form-group">
-                                    <label asp-for="StatutId" class="control-label"></label>
-                                    <select asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-control"></select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
+    </form>
+    <div class="d-flex justify-content-around w-50">
+        <div>
+            <h5>Trier par date:</h5>
+            <div class="d-flex">
+                <select id="trierDateSelect"class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
+                    <option value="1">Plus récent</option>
+                    <option value="2">Plus ancien</option>
+                </select>
+            </div>          
+        </div>
+        <div>
+            <h5>Filtrer par statut:</h5>
+            <div class="form-group d-flex">
+                <select id="filtrerStatutSelect" asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-control" onchange="applyFilter(event)">
+                    <option value="0">Tous</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="commandesListe" class="col-6">
+            <partial name="PartialViews/GestionCommandes/_ListeCommandesVM" />
         </div>
     </div>
     
 </div>
+
+
+<script type="text/javascript">
+        async function applyFilter(ev) {
+        ev.preventDefault();
+
+        listeCommandesDiv = document.getElementById("commandesListe");
+        var partieMotCles = "motCles=";
+        var partieCriteres = "criteres=";
+
+        dateTrie = document.getElementById("trierDateSelect").value;
+        partieMotCles = partieMotCles.concat(`${dateTrie}|`);
+        partieCriteres = partieCriteres.concat("trierDate|");
+
+        statutFiltre = document.getElementById("filtrerStatutSelect").value;
+        partieMotCles = partieMotCles.concat(`${statutFiltre}|`);
+        partieCriteres = partieCriteres.concat("filtrerStatut|");
+
+        var apiUrl = BASE_URL + `/GestionCommandes/AfficherCommandes?${partieMotCles}&${partieCriteres}`;
+
+        // Effectue une requête GET à l'API
+        fetch(apiUrl, {
+            method: "GET"
+        }).then((response) => {
+            // Convertit la réponse en texte
+            return response.text();
+        }).then((data) => {
+            listeCommandesDiv.innerHTML = data;
+        })
+        .catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la récupération de la liste des auteurs', error);
+        });
+    }
+</script>
+
