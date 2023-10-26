@@ -198,6 +198,9 @@ public class CompteController : Controller
             // Stocker l'ID de client Stripe dans votre base de données
             ((Membre)user).StripeCustomerId = stripeCustomerId;
 
+            //Stocker l'ID de client Stripe dans un claim pour l'utiliser plus tard
+            var claim = new Claim("StripeCustomerId", stripeCustomerId);
+
             var result = await _userManager.CreateAsync(user, vm.Password);
             // Si l'utilisateur est créé avec succès, connectez-vous.
             if (result.Succeeded)

@@ -45,16 +45,6 @@
         </div>       
     </div>
 </div>
-<form id="payment-form" action="/api/stripe/CompleteOrder" method="post">
-  <div id="card-element">
-    <!-- Un élément Stripe sera inséré ici. -->
-  </div>
-
-  <!-- Affichera les erreurs de carte -->
-  <div id="card-errors" role="alert"></div>
-
-  <button id="submit-button">Soumettre</button>
-</form>
 
 <!--Fonctionalite des boutons *-->
 <style>
@@ -71,10 +61,7 @@
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 </script>
 
-<script src="~/js/Panier/Index.js" asp-append-version="true">
-
-    
-</script>
+<script src="~/js/Panier/Index.js" asp-append-version="true"></script>
 
 <script type="text/javascript">
     function AfficherFacture() {
@@ -148,47 +135,4 @@
         });
         
     }
-</script>
-
-<script>
-// Exemple avec Stripe.js pour créer un token
-var stripe = Stripe('pk_live_51O3gRDAIrJUcHyNniB8jyt0NHebRxEfs1YdsvdjjatTtyvpA9vDdViZbQYO6cdkTyWF9BoLT7H8cARXJqxt7KAl600ExOtKrvT');
-var elements = stripe.elements();
-
-// Créez une instance d'élément de carte
-var card = elements.create('card');
-
-// Ajoutez une instance d'élément de carte à un conteneur HTML vide
-card.mount('#card-element');
-
-// Créez un token ou affichez une erreur lors de la soumission du formulaire
-var form = document.getElementById('payment-form');
-form.addEventListener('submit', async function(event) {
-  event.preventDefault();
-
-  const {token, error} = await stripe.createToken(card);
-
-  if (error) {
-    // Informez l'utilisateur s'il y a eu une erreur
-    var errorElement = document.getElementById('card-errors');
-    errorElement.textContent = error.message;
-  } else {
-    // Envoyez le token à votre serveur
-    stripeTokenHandler(token);
-  }
-});
-
-function stripeTokenHandler(token) {
-  // Insérez le token ID dans le formulaire pour qu'il soit soumis au serveur
-  var form = document.getElementById('payment-form');
-  var hiddenInput = document.createElement('input');
-  hiddenInput.setAttribute('type', 'hidden');
-  hiddenInput.setAttribute('name', 'stripeToken');
-  hiddenInput.setAttribute('value', token.id);
-  form.appendChild(hiddenInput);
-
-  // Soumettez le formulaire
-  form.submit();
-}
-
 </script>

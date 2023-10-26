@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
@@ -7,6 +8,7 @@ using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Paiement;
 using VLISSIDES.ViewModels.Panier;
 using VLISSIDES.ViewModels.Profile;
+using Stripe.Checkout;
 
 namespace VLISSIDES.API.Stripe
 {
@@ -64,70 +66,66 @@ namespace VLISSIDES.API.Stripe
 
              }
 
-        // [HttpPost]
-        // public async Task<IActionResult> SetPaymentInfo(string userId, string cardNumber, string expiryDate, string cvc)
-        // {
-        //     var user = await _context.Users.FindAsync(userId);
-        //
-        //     if (user == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     var paymentInfo = new PaymentInfo
-        //     {
-        //         CardNumber = cardNumber,
-        //         ExpiryDate = expiryDate,
-        //         CVC = cvc,
-        //     };
-        //     user.PaymentInfo = paymentInfo;
-        //     await _context.SaveChangesAsync();
-        //
-        //     return Ok();
-        // }
-
         [HttpPost("CompleteOrder")]
-        public async Task<IActionResult> CompleteOrder(string userId, string stripeToken)
+        public async Task<IActionResult> CompleteOrder([FromBody] StripePaiementVM paymentData)
         {
+            // var stripeCustomerId = paymentData.StripeCustomerId;
+            var stripeCustomerId = "cus_Os2AwQNQdo2umB";
+
+            string userId = paymentData.UserId;
+
+            // Appeler GetUserWithAddress pour obtenir des informations sur l'utilisateur
             var user = await GetUserWithAddress(userId);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("L'utilisateur n'a pas été trouvé.");
             }
 
+            // Appeler GetCartItems pour obtenir les articles dans le panier
             var cartItems = await GetCartItems(userId);
-            var stripePaiement = CreateStripePaymentVM(user, cartItems);
-
-            PaymentMethod paymentMethod;
-            try
+            if (cartItems == null || !cartItems.Any())
             {
-                paymentMethod = await CreatePaymentMethod();
+                return BadRequest("Aucun article trouvé dans le panier.");
             }
-            catch (StripeException ex)
+
+            // Appeler CreateStripePaymentVM pour créer une instance de StripePaiementVM
+            var stripePaymentVM = await CreateStripePaymentVM(user, cartItems);
+            if (stripePaymentVM == null)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("Impossible de créer StripePaiementVM.");
             }
 
             PaymentIntent paymentIntent;
             try
             {
-                paymentIntent = await CreatePaymentIntent(stripePaiement, paymentMethod, stripeToken);
+                paymentIntent = new PaymentIntent();
+
             }
             catch (StripeException ex)
             {
                 return BadRequest(ex.Message);
             }
+
+
+            if (paymentData == null)
+            {
+                return BadRequest("Les données requises sont manquantes ou invalides.");
+            }
+
+
 
             if (paymentIntent.Status != "succeeded")
             {
                 return BadRequest("Le paiement a échoué");
             }
 
-            await UpdateInventory(cartItems);
-            await CreateOrder(paymentIntent.Id, cartItems, user.AdressesLivraison.FirstOrDefault());
+            await UpdateInventory(paymentData.Livres);
+            await CreateOrder(paymentIntent.Id, paymentData.Livres,
+                paymentData.Adresse);
 
             return Ok();
         }
+
 
         private async Task<Membre> GetUserWithAddress(string userId)
         {
@@ -144,51 +142,66 @@ namespace VLISSIDES.API.Stripe
                 .ToListAsync();
         }
 
-        private StripePaiementVM CreateStripePaymentVM(Membre user, List<LivrePanier> cartItems)
+        private async Task<StripePaiementVM> CreateStripePaymentVM(ApplicationUser user, List<LivrePanier> cartItems)
         {
-            return new StripePaiementVM();
-        }
-//Creation de la methode de paiement avec une carte fictive
-        private async Task<PaymentMethod> CreatePaymentMethod()
-        {
-            var paymentMethodOptions = new PaymentMethodCreateOptions
+            var memberId = user.Id;
+            var member = await _context.Membres.FindAsync(memberId);
+            var stripeCustomerId = member.StripeCustomerId;
+
+
+
+            var paymentVM = new StripePaiementVM
             {
-                Type = "card",
-                Card = new PaymentMethodCardOptions
+                StripeCustomerId = stripeCustomerId,
+                UserId = memberId,
+            };
+
+            return paymentVM;
+        }
+
+        private async Task<PaymentIntent> CreatePaymentIntent(StripePaiementVM stripePaiement, string stripeToken)
+        {
+            var options = new SessionCreateOptions
+            {
+                LineItems = new List<SessionLineItemOptions>
                 {
-                    Number = "4242424242424242",
-                    ExpMonth = 12,
-                    ExpYear = 2024,
-                    Cvc = "123"
+                    new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            UnitAmount = 2000,
+                            Currency = "cad",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = "T-shirt"
+                            },
+                        },
+                        Quantity = 1,
+                    },
                 },
-            };
+                Mode = "payment",
 
-            var paymentMethodService = new PaymentMethodService();
-            return await paymentMethodService.CreateAsync(paymentMethodOptions);
+                AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
+            };
+            var service = new SessionService();
+            Session session = service.Create(options);
+            Response.Headers.Add("Location", session.Url);
+            return await Task.FromResult(new PaymentIntent());
         }
 
-        private async Task<PaymentIntent> CreatePaymentIntent(StripePaiementVM stripePaiement,
-            PaymentMethod paymentMethod,
-            string stripeToken)
-        {
-            var options = new PaymentIntentCreateOptions
-            {
-                Amount = Convert.ToInt64(stripePaiement.PrixTotal * 100),
-                Currency = "cad",
-                PaymentMethod = stripeToken, // Utilisez le token au lieu de l'ID de la méthode de paiement
-                Confirm = true,
-            };
-            var service = new PaymentIntentService();
-            return await service.CreateAsync(options);
-        }
 
-        private async Task UpdateInventory(List<LivrePanier> cartItems)
+
+
+
+
+
+        private async Task UpdateInventory(List<AfficherPanierVM>? cartItems)
         {
             // Implémenter la logique pour mettre à jour l'inventaire
             await Task.CompletedTask;
         }
 
-        private async Task CreateOrder(string paymentIntentId, List<LivrePanier> cartItems, Adresse deliveryAddress)
+        private async Task CreateOrder(string paymentIntentId, List<AfficherPanierVM>? cartItems, ProfileModifierAdressesVM deliveryAddress)
         {
             // Implémenter la logique pour créer un enregistrement de commande
             await Task.CompletedTask;
