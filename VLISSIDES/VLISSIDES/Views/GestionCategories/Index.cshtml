@@ -25,7 +25,7 @@
     </div>
 
     <div class="container-fluid">
-        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("Ajouter", "GestionCategories")')">Ajouter une catégorie</button>
+        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowAjouter", "GestionCategories")')">Ajouter une catégorie</button>
     </div>
 
     <br/>
@@ -114,6 +114,7 @@
         liste.className = "";
     }
 </script>
+
 <!--Script pour Modifier nom-->
 <script type="text/javascript">
     function ModifierNomCategorie(id = "", nom = "") {
@@ -167,5 +168,28 @@
         var motCle = document.getElementById("inputRechercherCategorie").value;
         console.log("Mot entré: " + motCle);
         window.location.href = `/GestionCategories/Index?motCle=${motCle}`;
+    }
+</script>
+<!--Script pour Ajouter et modifier-->
+<script>
+    function AjouterCategorie() {
+        var form = document.getElementById("FormAjouterCategorie");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionCategories/Ajouter", {
+            method: "POST",
+            body: data,
+        })
+            .then((response) => {
+                return response.text();
+            }).then((result) => {
+                if (result == "") {
+
+                    $('.modal').modal('hide');
+                    RechercherCategorie();
+                } else {
+                    document.querySelector('.modal-content').innerHTML = result;
+
+                }
+            });
     }
 </script>
