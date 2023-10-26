@@ -136,7 +136,16 @@ namespace VLISSIDES.Controllers
                 Value = s.Id
             }).ToList();
 
-            return PartialView("PartialViews/GestionCommandes/_ListeCommandesVM", affichageCommandes);
+            return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
+        }
+
+        public async Task<IActionResult> ModifierStatut(string id, string statut)
+        {
+            var commande = await _context.Commandes.FindAsync(id);
+            if (commande == null) return BadRequest();
+            commande.StatutId = statut;
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }

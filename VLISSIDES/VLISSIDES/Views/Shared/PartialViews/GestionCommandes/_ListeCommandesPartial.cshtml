@@ -26,7 +26,7 @@
                     <p>Prix: @commande.PrixTotal</p>
                     <div class="form-group">
                         <label asp-for="StatutId" class="control-label"></label>
-                        <select onchange="ModifierStatut()">
+                        <select id="@commande.Id statut" onchange="ModifierStatut(), enableButton()">
                             @foreach(var statut in Model.SelectListStatut)
                             {
                                 if(statut.Value == commande.StatutId)
@@ -37,7 +37,13 @@
                                 {
                                    <option value="@statut.Value">@statut.Text</option> 
                                 }
-                            
+                                <button id="saveButton @commande.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
+                                                saveStatut('@commande.Id', '@commande.StatutId')
+                                                disableButton('@commande.Id')">
+
+                                    <span class="fa-solid fa-check fa-2x"></span>
+
+                                </button>                          
                             }
                         </select>
                     </div>
@@ -47,8 +53,3 @@
     </div>
 }
 
-<script type="text/javascript">
-    function ModifierStatut() {
-
-    }
-</script>
