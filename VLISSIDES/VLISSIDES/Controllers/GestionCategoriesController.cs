@@ -167,7 +167,7 @@ public class GestionCategoriesController : Controller
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return Ok();
             }
         }
 
@@ -175,8 +175,8 @@ public class GestionCategoriesController : Controller
     }
 
     [HttpPost]
-    [Route("2167594/GestionCategories/ModifierNomCategorie")]
-    [Route("{controller}/{action}")]
+    //[Route("2167594/GestionCategories/ModifierNomCategorie")]
+    //[Route("{controller}/{action}")]
     public ActionResult ModifierNomCategorie(string id, string nom)
     {
         if (ModelState.IsValid)
@@ -200,8 +200,8 @@ public class GestionCategoriesController : Controller
     }
 
     [HttpPost]
-    [Route("2167594/GestionCategories/SupprimerCategorie")]
-    [Route("{controller}/{action}")]
+    //[Route("2167594/GestionCategories/SupprimerCategorie")]
+    //[Route("{controller}/{action}")]
     public ActionResult SupprimerCategorie(string id)
     {
         if (_context.Categories == null) return Problem("Entity set 'ApplicationDbContext.Categories' is null.");

@@ -119,7 +119,7 @@
 <script type="text/javascript">
     function ModifierNomCategorie(id = "", nom = "") {
         
-        fetch(BASE_URL + 'GestionCategories/ModifierNomCategorie?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch(BASE_URL + '/GestionCategories/ModifierNomCategorie?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -135,7 +135,7 @@
 <!--Script pour la supprimation et le modal-->
 <script type="text/javascript">
     function SupprimerCategorie(id = "") {
-        fetch(BASE_URL+'GestionCategories/SupprimerCategorie?id=' + id, {
+        fetch(BASE_URL+'/GestionCategories/SupprimerCategorie?id=' + id, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -176,6 +176,26 @@
         var form = document.getElementById("FormAjouterCategorie");
         var data = new FormData(form);
         fetch(BASE_URL + "/GestionCategories/Ajouter", {
+            method: "POST",
+            body: data,
+        })
+            .then((response) => {
+                return response.text();
+            }).then((result) => {
+                if (result == "") {
+
+                    $('.modal').modal('hide');
+                    RechercherCategorie();
+                } else {
+                    document.querySelector('.modal-content').innerHTML = result;
+
+                }
+            });
+    }
+    function ModifierCategorie(){
+        var form = document.getElementById("FormModifierCategorie");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionCategories/Modifier", {
             method: "POST",
             body: data,
         })

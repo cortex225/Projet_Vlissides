@@ -10,7 +10,7 @@
 <div class="container d-flex justify-content-center">
     <div class="row">
         <div class="col">
-            <form asp-action="Modifier" enctype="multipart/form-data">
+            <form asp-action="Modifier" enctype="multipart/form-data" id="FormModifierCategorie">
                 <input type="hidden" asp-for="Id"/>
                 <div>
                     <label class="control-label" asp-for="Nom"></label>
@@ -51,8 +51,8 @@
 
 
                 <div class="modal-footer">
-                    <input type="submit" value="Modifier les changements" class="btn btn-primary"/>
-                    <input type="button" class="btn btn-danger " onclick="Annuler()" value="Annuler"></input>
+                    <input type="button" value="Modifier les changements" class="btn btn-primary" onclick="ModifierCategorie()"/>
+                    <input type="button" class="btn btn-danger " onclick="Annuler()" value="Annuler"/>
                 </div>
             </form>
         </div>
