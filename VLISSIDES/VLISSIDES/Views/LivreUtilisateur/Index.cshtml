@@ -1,0 +1,148 @@
+﻿@using VLISSIDES.ViewModels.LivreUtilisateur;
+@model ListLivreUtilisateurIndexVM
+@{
+    string? livreSelectionne = null;
+
+    ViewData["Title"] = "Mes livres";
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
+}
+
+<div  style="margin: 24px;">
+    <h2 id="titreMesLivres">Mes livres: </h2>
+
+    @* Les recherches *@
+        <form class="row">
+            @* Research bar *@
+            <div class="row mb-3">
+                <div class="col-2 ml-4 text-center">
+                    <a asp-controller="Recherche" asp-action="Index">
+                        <button id="rechercherBTN_LU" type="button" class="container-fluid btn btn-primary">
+                            Rechercher
+                        </button>
+                    </a>
+                </div>
+
+                <div class="col-10">
+                    <input id="rechercheGeneralLU" type="text" class="form-control recherche-input" placeholder="Recherche générale">
+                </div>
+            </div>
+        </form>
+    <div id="LU_Etoiles" class="container">
+        <div class="row mb-1">
+        @foreach (LivreUtilisateurIndexVM l in Model.listVM)
+        {
+            <partial name="PartialViews/LivreUtilisateur/_LivreUtilisateurPartial" model="@l" />
+        }
+        </div>
+        <div class="row mb-2">
+            <div id="divEtoiles" class="col-6 card rounded-xl">
+                @if (Model.livreSelectionneId != null)
+                {
+                    <h3 class="text-center my-3">
+                        Notez @Model.listVM.FirstOrDefault(x => x.Id == Model.livreSelectionneId).Titre !
+                    </h3>
+                    <form>
+                        <div class="" id="divListeMaisonEditionLivres">
+                            <div class="inputStar">
+                                <input type="radio" class="radioStar" id="star5" name="star5" value="5.0">
+                                <label for="star5">
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="5.0" />
+                                </label><br>
+                            </div>
+                            <div class="inputStar">
+                                <input type="radio" class="radioStar" id="star4" name="star4" value="4.0">
+                                <label for="star4">
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="4.0" />
+                                </label><br>
+                            </div>
+                            <div class="inputStar">
+                                <input type="radio" class="radioStar" id="star3" name="star3" value="3.0">
+                                <label for="star3">
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="3.0" />
+                                </label><br>
+                            </div>
+                            <div class="inputStar">
+                                <input type="radio" class="radioStar" id="star2" name="star2" value="2.0">
+                                <label for="star2">
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="2.0" />
+                                </label><br>
+                            </div>
+                            <div class="inputStar">
+                                <input type="radio" class="radioStar" id="star1" name="star1" value="1.0">
+                                <label for="star1">
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="1.0" />
+                                </label><br>
+                            </div>
+                            <div class="inputStar">
+                                <input type="radio" class="radioStar" id="star0" name="star0" value="0.0">
+                                <label for="star0">
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="0.0" />
+                                </label><br>
+                            </div>
+                        </div>
+
+                        <button type="button" class="container-fluid btn btn-primary">Soumettre</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #LU_Etoiles{
+        display: flex;
+    }
+
+    #titreMesLivres{
+    }
+
+    #divEtoiles {
+        position: sticky;
+        width: 40vw;
+        height: auto;
+        max-height: 86vh;
+        margin-left: auto;
+        margin-right: auto;
+        right: 0;
+        top: 10%;
+        background-color: #ffffff;
+        display: block;
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+
+    .imgLU{
+        max-width: 100%;
+        max-height: 136px;
+    }
+    .divIMG_LU{
+        background-color: grey;
+        display: flex;
+        justify-content: center;
+        padding: 12px;
+    }
+    .conteneurLU{
+        max-width: 90%;
+        height: 160px;
+    }
+
+    .inputStar{
+        display: flex;
+        align-items: center;
+    }
+
+    .radioStar{
+        margin: 16px;
+    }
+</style>
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
+<script type="text/javascript">
+    function MontrerBoiteEvaluation(id = "") {
+        console.log(id);
+        window.location.href = `/LivreUtilisateur/Index?id=${id}`;
+    }
+</script>

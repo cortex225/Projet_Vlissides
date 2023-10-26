@@ -1,0 +1,21 @@
+﻿@using VLISSIDES.ViewModels.LivreUtilisateur;
+@model LivreUtilisateurIndexVM
+@{
+}
+<div class="conteneurLU card mb-3">
+    <div class="row g-0">
+        <div class="col-md-3 divIMG_LU">
+            <img src="@Model.Couverture" alt="Couverture de @Model.Titre" class="card-img-left imgLU">
+        </div>
+        <div class="col-md-9">
+            <div class="card-body">
+                <h4>@Model.Titre</h4>
+                <button type="button" id="@Model.Id" onclick="MontrerBoiteEvaluation('@Model.Id')" class="btn btn-primary">Notez ce livre!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    
+</style>
