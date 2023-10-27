@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using VLISSIDES.Data;
@@ -7,7 +8,7 @@ using VLISSIDES.ViewModels;
 using VLISSIDES.ViewModels.MaisonEditions;
 
 namespace VLISSIDES.Controllers;
-
+[Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionMaisonEditionsController : Controller
 {
     private readonly IConfiguration _config;

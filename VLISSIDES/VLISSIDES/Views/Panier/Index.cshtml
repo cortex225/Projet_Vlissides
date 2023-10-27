@@ -103,15 +103,13 @@
     }
             
     async function supprimerLivre(vmIdPanier) {
-        console.log("Patate " + vmIdPanier);
-
         //var button = event.target;
         //var viewModelId = button.getAttribute("data-vmIdPanier");
 
         var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
 
-        fetch(`/Panier/SupprimerPanier?id=${vmIdPanier}`, {
+        fetch(BASE_URL + `/Panier/SupprimerPanier?id=${vmIdPanier}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -127,17 +125,12 @@
             if (response.ok ) {
                 var article = document.getElementById(vmIdPanier);
                 article.remove();
-                $('#ModalId').modal('hide'); // Ferme la modale
-
-                
-                
+                $('#ModalId').modal('hide'); // Ferme la modale     
             }
-            
-            return response.json();
+            return response.text();
         })
         .then(data => {
-            // Traiter les données JSON
-            console.log(data);
+            AfficherFacture();
         })
         .catch(error => {
             // Gérer les erreurs

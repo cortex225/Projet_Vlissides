@@ -388,6 +388,20 @@ public class GestionLivresController : Controller
                 LangueId = vm.LangueId,
                 //TypeLivreId = vm.TypeLivreId
             };
+            if (vm.AuteurIds.Count > 0)
+            {
+                livre.LivreAuteurs = new List<LivreAuteur>();
+                foreach (var auteurId in vm.AuteurIds)
+                {
+                    //livre.LivreAuteurs.Add(_context.Auteurs.FirstOrDefault(a => a.Id == auteurId));
+                    livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
+                    {
+                        LivreId = id,
+                        AuteurId = auteurId
+                    }));
+                }
+            }
+
 
             _context.Livres.Add(livre);
             _context.SaveChanges();
@@ -471,7 +485,9 @@ public class GestionLivresController : Controller
                 vm.Numerique = false;
             }
         }
-
+        //Préselectionner les auteurs
+        vm.AuteurIds = new List<string>();
+        vm.AuteurIds.AddRange(livre.LivreAuteurs.Select(a => a.AuteurId));
         //Populer les selectList
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
@@ -555,6 +571,22 @@ public class GestionLivresController : Controller
             livre.Couverture = vm.CoverImageUrl;
             livre.MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId));
             livre.DatePublication = vm.DatePublication;
+
+
+            //Auteur
+            if (vm.AuteurIds.Count > 0)
+            {
+                livre.LivreAuteurs = new List<LivreAuteur>();
+                foreach (var auteurId in vm.AuteurIds)
+                {
+                    //livre.LivreAuteurs.Add(_context.Auteurs.FirstOrDefault(a => a.Id == auteurId));
+                    livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
+                    {
+                        LivreId = vm.Id,
+                        AuteurId = auteurId
+                    }));
+                }
+            }
 
             await _context.SaveChangesAsync();
             return Ok();

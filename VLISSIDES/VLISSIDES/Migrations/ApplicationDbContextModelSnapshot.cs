@@ -67,21 +67,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "82593ae3-36e9-4585-81fc-8a04bdbafa31",
+                            ConcurrencyStamp = "728f9176-8f48-4eac-89c2-8c8f250c27b4",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "0969f299-b942-4b68-a9a4-1600b3b5f451",
+                            ConcurrencyStamp = "c49f435b-3fa1-4225-84a1-5a66e78313f3",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "eb640049-f402-4118-b8b7-c7ae4fd40d0e",
+                            ConcurrencyStamp = "7bbe98e3-6c60-4957-95af-86b15d2c256e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -356,7 +356,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ecfb1aba-6b32-45e3-869a-91c779f5c867",
+                            ConcurrencyStamp = "a50bbdb6-b04a-4688-94a5-add07ef1ca89",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -366,7 +366,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "8a33d9cf-eee3-4d85-9d67-3d54c11ca325",
+                            SecurityStamp = "7f816b22-1a1e-4367-8925-577b22b3173f",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -390,7 +390,6 @@ namespace VLISSIDES.Migrations
             modelBuilder.Entity("VLISSIDES.Models.Categorie", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
@@ -427,7 +426,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "3",
                             Description = "De colorées bandes dessinées aux histoires captivantes pour les plus jeunes, sans oublier une touche d'humour.",
-                            Nom = "BD, Jeunesse, Humour"
+                            Nom = "BD - Jeunesse - Humour"
                         },
                         new
                         {
@@ -523,7 +522,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "19",
                             Description = "Inspirez-vous pour votre prochaine aventure, qu'elle soit en pleine nature ou dans une métropole animée.",
-                            Nom = "Loisir, Tourisme, Nature"
+                            Nom = "Loisir - Tourisme - Nature"
                         },
                         new
                         {
@@ -596,6 +595,125 @@ namespace VLISSIDES.Migrations
                             Id = "31",
                             Description = "Pour les passionnés de sport et les chercheurs d'activités, des histoires inspirantes aux guides pratiques.",
                             Nom = "Sport - Loisirs"
+                        },
+                        new
+                        {
+                            Id = "3-2",
+                            Description = "",
+                            Nom = "Jeunesse",
+                            ParentId = "3"
+                        },
+                        new
+                        {
+                            Id = "7-2",
+                            Description = "",
+                            Nom = "Vin",
+                            ParentId = "7"
+                        },
+                        new
+                        {
+                            Id = "9-2",
+                            Description = "",
+                            Nom = "Langues",
+                            ParentId = "9"
+                        },
+                        new
+                        {
+                            Id = "9-3",
+                            Description = "",
+                            Nom = "Éducation",
+                            ParentId = "9"
+                        },
+                        new
+                        {
+                            Id = "11-2",
+                            Description = "",
+                            Nom = "Flore",
+                            ParentId = "11"
+                        },
+                        new
+                        {
+                            Id = "12-2",
+                            Description = "",
+                            Nom = "Voyage",
+                            ParentId = "12"
+                        },
+                        new
+                        {
+                            Id = "13-2",
+                            Description = "",
+                            Nom = "Économie",
+                            ParentId = "13"
+                        },
+                        new
+                        {
+                            Id = "13-3",
+                            Description = "",
+                            Nom = "droit",
+                            ParentId = "13"
+                        },
+                        new
+                        {
+                            Id = "15-2",
+                            Description = "",
+                            Nom = "Politique",
+                            ParentId = "15"
+                        },
+                        new
+                        {
+                            Id = "19-2",
+                            Description = "",
+                            Nom = "Tourisme",
+                            ParentId = "19"
+                        },
+                        new
+                        {
+                            Id = "19-3",
+                            Description = "",
+                            Nom = "Nature",
+                            ParentId = "19"
+                        },
+                        new
+                        {
+                            Id = "20-2",
+                            Description = "",
+                            Nom = "Famille",
+                            ParentId = "20"
+                        },
+                        new
+                        {
+                            Id = "21-2",
+                            Description = "",
+                            Nom = "Théâtre",
+                            ParentId = "21"
+                        },
+                        new
+                        {
+                            Id = "21-3",
+                            Description = "",
+                            Nom = "Essais",
+                            ParentId = "21"
+                        },
+                        new
+                        {
+                            Id = "22-2",
+                            Description = "",
+                            Nom = "Santé",
+                            ParentId = "22"
+                        },
+                        new
+                        {
+                            Id = "23-2",
+                            Description = "",
+                            Nom = "Ésotérisme",
+                            ParentId = "23"
+                        },
+                        new
+                        {
+                            Id = "31-2",
+                            Description = "",
+                            Nom = "Loisirs",
+                            ParentId = "31"
                         });
                 });
 
@@ -859,14 +977,12 @@ namespace VLISSIDES.Migrations
 
             modelBuilder.Entity("VLISSIDES.Models.LivrePanier", b =>
                 {
-                    b.Property<string>("LivreId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LivreId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("Quantite")
                         .HasColumnType("int");
@@ -878,7 +994,12 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("TypeLivreId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("LivreId", "UserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivreId");
 
                     b.HasIndex("TypeLivreId");
 
@@ -1074,7 +1195,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "7afcfce1-2b11-4e26-ac75-2f4ff0dc7c0a",
+                            ConcurrencyStamp = "f3c27b90-c8c2-490c-a76c-c8771cd88be5",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1084,7 +1205,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "e5fce35a-bdb3-4213-8440-514349bb9620",
+                            SecurityStamp = "d4121991-a7d5-4178-8f4d-e33a02d65c42",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1116,7 +1237,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "66d7da6d-e585-4cbb-9257-fe98083b5107",
+                            ConcurrencyStamp = "9052c028-6832-4fbb-8f5e-d3791f1caf28",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1126,10 +1247,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "a9652cb4-671a-4625-b959-d6c9bde8cdbb",
+                            SecurityStamp = "88dad382-e8c0-4922-a2d6-68bcb1a46908",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 10, 18, 10, 0, 0, 960, DateTimeKind.Local).AddTicks(784),
+                            DateAdhesion = new DateTime(2023, 10, 20, 15, 38, 5, 303, DateTimeKind.Local).AddTicks(5060),
                             NoMembre = "123456"
                         });
                 });
@@ -1378,8 +1499,7 @@ namespace VLISSIDES.Migrations
                     b.HasOne("VLISSIDES.Models.ApplicationUser", "User")
                         .WithMany("Panier")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Livre");
 

@@ -7,6 +7,7 @@
 using ExcelDataReader;
 using Faker;
 using FizzWare.NBuilder;
+using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 using Seeder;
 using VLISSIDES.Data;
@@ -56,29 +57,17 @@ public class DatabaseSeeder
 
 
         //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
-        _context.Livres.RemoveRange(_context.Livres);
-        _context.SaveChanges();
-        _context.Auteurs.RemoveRange(_context.Auteurs);
-        _context.SaveChanges();
-        _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
-        _context.SaveChanges();
-        _context.Categories.RemoveRange(_context.Categories);
-        _context.SaveChanges();
+        // _context.Livres.RemoveRange(_context.Livres);
+        // _context.SaveChanges();
+        // _context.Auteurs.RemoveRange(_context.Auteurs);
+        // _context.SaveChanges();
+        // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
+        // _context.SaveChanges();
+        // _context.Categories.RemoveRange(_context.Categories);
+        // _context.SaveChanges();
+        // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
+        // _context.SaveChanges();
 
-        
-        //Générer les auteurs
-        var auteurs = Builder<Auteur>.CreateListOfSize(99)
-            .All()
-            .With(c => c.NomAuteur = Name.Last())
-            .Build();
-        _context.Auteurs.AddRange(auteurs);
-        _context.SaveChanges();
-        _context.Auteurs.RemoveRange(_context.Auteurs);
-        _context.SaveChanges();
-        _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
-        _context.SaveChanges();
-        _context.Categories.RemoveRange(_context.Categories);
-        _context.SaveChanges();
 
 
         // //Générer les auteurs
@@ -391,17 +380,22 @@ public class DatabaseSeeder
                 });
             }
 
-            //Mise à jours de la relation dans la bd
             _context.Livres.Find(livre.Id).LivreAuteurs = livreAuteurs;
 
-            //Assigner une catégorie à un livre et vice-versa sans passer par liveCategorie
-            foreach (var categorie in categories)
-            {
-                _context.Livres.Find(livre.Id).Categories.Add(categories.FirstOrDefault().);
-            }
 
+            // Obtenez les livres et les catégories de la base de données
+            var livres = _context.Livres.ToList();
 
-            _context.SaveChanges();
+            var NouvelleAssociation = from book in livres
+                from category in categories
+                where !_context.LivreCategories.Any(lc => lc.LivreId == book.Id && lc.CategorieId == category.Id)
+                select new LivreCategorie { LivreId = book.Id, CategorieId = category.Id };
+
+            _context.LivreCategories.AddRange(NouvelleAssociation);_context.SaveChanges();
         }
+
     }
+
+
+
 }

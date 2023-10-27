@@ -1,6 +1,8 @@
 ﻿@using VLISSIDES.ViewModels.Recherche;
 @model DetailsLivreVM
 @{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 
 
@@ -8,7 +10,10 @@
 <div id="detailsDivPrincipal">
     <input type="hidden" id="viewModelId" name="viewModelId" value="@Model.Id" />
     <div id="DetailsDIV">
-        <img id="DetailsIMG" src="@Model.Couverture"/>
+        @{
+            string couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
+        }
+        <img id="DetailsIMG" src="@Html.Raw(couverture)" />
     </div>
 
     <div id="DetailsInfo">
@@ -66,10 +71,12 @@
             <br />
             @if (Model.NbExemplaires > 0)
             {
-                <form>
-                    @Html.AntiForgeryToken()
-                    <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
-                    <div class="btn-group" role="group" aria-label="Basic example">
+                @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+                {
+                    <form>
+                        @Html.AntiForgeryToken()
+                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                        <div class="btn-group" role="group" aria-label="Basic example">
 
                         <a id="ajouterNeuf" class="btn btn-primary btnPanier">
                             <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
@@ -81,7 +88,12 @@
                             <button id="preorder-confirm" class="btn btn-primary btn-sm">Précommander le surplus</button>
                         </div>
                     </div>
-                </form>
+                </form>}
+
+                else
+                {
+                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                }
             }
             else
             {
@@ -90,12 +102,16 @@
         }
         @if (!Model.Numerique.Equals(null))//2 = "Numérique"
         {
-            <form>
+            @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+            {
+               <form>
                 @Html.AntiForgeryToken()
                 <a href="#" id="ajouterNumerique" class="btn btn-primary btnPanier">
                     <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
                 </a>
             </form>
+            }
+
         }
     </div>
 </div>
@@ -133,6 +149,10 @@ $(document).ready(function () {
 );
 }
 </script>
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
 <script type="text/javascript">
     var ajouterNeuf = document.getElementById("ajouterNeuf");
     if (ajouterNeuf) {
@@ -152,7 +172,7 @@ $(document).ready(function () {
 
         var viewModelId = document.getElementById("viewModelId").value;
 
-        fetch('/Panier/AjouterPanier', {
+        fetch(BASE_URL + '/Panier/AjouterPanier', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -190,7 +210,7 @@ $(document).ready(function () {
 
         var viewModelId = document.getElementById("viewModelId").value;
 
-        fetch('/Panier/AjouterPanier', {
+        fetch(BASE_URL + '/Panier/AjouterPanier', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
