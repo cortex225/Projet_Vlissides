@@ -27,13 +27,6 @@ namespace VLISSIDES.Controllers
         }
         public IActionResult Index(string? motCles, string? criteres)
         {
-            //var listCriteresValue = new List<string>();
-            //if (motCles != null) listCriteresValue = motCles.Split('|').ToList();
-
-            //var listCriteres = new List<string>();
-            //if (criteres != null) listCriteres = criteres.Split('|').ToList();
-
-            //var currentUserId = _userManager.GetUserId(HttpContext.User);
             var commandes = _context.Commandes
                 .Include(c => c.StatutCommande)
                 .Include(c => c.Membre);
@@ -105,6 +98,12 @@ namespace VLISSIDES.Controllers
                 StatutNom = c.StatutCommande.Nom
             }).OrderBy(c => c.DateCommande).ToList();
 
+            if (listCriteres.Any(c => c == "rechercherCommande"))
+            {
+                if (listCriteresValue[2] != "")
+                    listeCommandeVM = listeCommandeVM.Where(c => c.Id == listCriteresValue[2]).ToList();
+            }
+
             if (listCriteres.Any(c => c == "trierDate"))
             {
                 if (listCriteresValue[0] == "2")
@@ -139,11 +138,12 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
         }
 
+        [HttpPost]
         public async Task<IActionResult> ModifierStatut(string id, string statut)
         {
             var commande = await _context.Commandes.FindAsync(id);
             if (commande == null) return BadRequest();
-            commande.StatutId = statut;
+            commande.StatutCommandeId = statut;
             await _context.SaveChangesAsync();
             return Ok();
         }

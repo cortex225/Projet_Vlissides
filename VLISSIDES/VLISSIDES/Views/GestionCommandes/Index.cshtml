@@ -7,8 +7,8 @@
     <form class="my-4" id="rechercherCommande" enctype="multipart/form-data">
         <br />
         <div class="input-group">
-            <input class="form-control" id="inputRechercherCommande" placeholder="Rechercher..." />
-            <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" onchange="applyFilter()">
+            <input class="form-control" id="inputRechercherCommande" placeholder='Numéro de la commande sans le "#"' />
+            <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" onclick="applyFilter(event)">
                 Rechercher
             </button>
         </div>
@@ -18,7 +18,7 @@
         <div>
             <h5>Trier par date:</h5>
             <div class="d-flex">
-                <select id="trierDateSelect"class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
+                <select id="trierDateSelect" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
                     <option value="1">Plus récent</option>
                     <option value="2">Plus ancien</option>
                 </select>
@@ -50,17 +50,17 @@
 </style>
 
 <script type="text/javascript">
-    function ModifierStatut() {
-        function saveStatut(id = "") {
-            fetch(`ModifierStatut?id=${id}&statut=${document.getElementById(id + ' statut').value}`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).catch(error => console.error('Échec du fetch pour modifier le statut de la commande', error));
+    function saveStatut(id = "") {
+        
+        var statutVal = document.getElementById(id + ' statutSelectList').value;
 
-        }
+        fetch(`/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => console.error('Échec du fetch pour modifier le statut de la commande', error));
     }
 </script>
 
@@ -79,6 +79,12 @@
         statutFiltre = document.getElementById("filtrerStatutSelect").value;
         partieMotCles = partieMotCles.concat(`${statutFiltre}|`);
         partieCriteres = partieCriteres.concat("filtrerStatut|");
+
+        rechercheValue = document.getElementById("inputRechercherCommande").value;
+        if (rechercheValue != null) {
+            partieMotCles = partieMotCles.concat(`${rechercheValue}|`);
+            partieCriteres = partieCriteres.concat("rechercherCommande|");
+        }
 
         var apiUrl = BASE_URL + `/GestionCommandes/AfficherCommandes?${partieMotCles}&${partieCriteres}`;
 
