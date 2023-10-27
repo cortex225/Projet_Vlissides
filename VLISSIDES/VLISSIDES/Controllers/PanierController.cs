@@ -27,7 +27,7 @@ namespace VLISSIDES.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
@@ -70,6 +70,7 @@ namespace VLISSIDES.Controllers
                 PrixTotal = prixtotal
 
             };
+            await NbArticles();
 
             return View(panier);
         }
@@ -145,16 +146,22 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         public ActionResult ModifierQuantite(string id, int quantite)
         {
-            if (ModelState.IsValid)
+            var article = _context.LivrePanier.FirstOrDefault(lp => lp.Id == id);
+            var livre = _context.Livres.Find(article.LivreId);
+
+            if (quantite > livre.NbExemplaires)
             {
-                var article = _context.LivrePanier.FirstOrDefault(lp => lp.Id == id);
-                article.Quantite = quantite;
-                _context.SaveChanges();
-                return Ok();
+                // Informez l'utilisateur qu'il précommandera le surplus
+                // Vous pouvez également enregistrer la quantité précommandée dans la base de données
+                return Content(
+                    "La quantité demandée n'est pas disponible en stock. Voulez-vous précommander le surplus ?");
             }
 
-            return View();
+            article.Quantite = quantite;
+            _context.SaveChanges();
+            return Ok();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -168,6 +175,15 @@ namespace VLISSIDES.Controllers
             TypeLivre? type = await _context.TypeLivres.FindAsync(vm.typeId);
 
             Livre? livre = await _context.Livres.FindAsync(vm.livreAjouteId);
+
+            if (vm.quantitee > livre.NbExemplaires)
+            {
+                // Informez l'utilisateur qu'il précommandera le surplus
+                // Vous pouvez également enregistrer la quantité précommandée dans la base de données
+                return Content(
+                    "La quantité demandée n'est pas disponible en stock. Voulez-vous précommander le surplus ?");
+            }
+
             
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
@@ -184,6 +200,7 @@ namespace VLISSIDES.Controllers
                 lp.Id = Guid.NewGuid().ToString();
                 lp.LivreId = livre.Id;
                 lp.TypeId = type.Id;
+                lp.TypeLivre = type;
                 lp.Quantite = vm.quantitee;
                 lp.UserId = user.Id;
 
@@ -231,11 +248,10 @@ namespace VLISSIDES.Controllers
                 }
             }
 
-            //Compte le nombre d'articles dans le panier
-            var NbArticles = article.Select(a => a.Quantite).Sum(a => a ?? 1);
-            HttpContext.Session.SetInt32("NbArticles", NbArticles);
+            //Set le nombre d'articles dans le panier
+            await NbArticles();
 
-            return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
+                return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
         }
 
         //Pour montrer la partial view de confirmation de suppression
@@ -258,11 +274,13 @@ namespace VLISSIDES.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetNbArticles()
+        public async Task<int> NbArticles()
         {
-            int nbArticles =
-                HttpContext.Session.GetInt32("NbArticles") ?? 0;
-            return Json(nbArticles);
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var NbArticles = await _context.LivrePanier
+                .Where(a => a.UserId == currentUserId)
+                .SumAsync(a => a.Quantite ?? 1);
+            return NbArticles;
         }
 
     }

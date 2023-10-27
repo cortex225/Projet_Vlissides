@@ -2,7 +2,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @using Microsoft.AspNetCore.Http
 @{
-    var nbArticles = Context.Session.GetInt32("NbArticles");
+    var nbArticles = Context.Session.GetInt32("NbArticles") ?? 0;
 }
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-0 px-4" id="navBottom">
 
@@ -106,17 +106,14 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
                             Consulter le panier
                             <i class="fa-solid fa-cart-shopping">
-                                @if (nbArticles != null)
-                                {
-                                    <span class=" badge-panier">
-                                        @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
-                                        {
-                                            <text >@nbArticles</text>
-                                        }
-                                    </span>
-                                }
-<div id="nbArticles"></div>
+                                <span class="badge-panier" id="nbArticles">
+                                    @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
+                                    {
+                                        <span id="nbArticlesText">@nbArticles</span>
+                                    }
+                                </span>
                             </i>
+
                         </a>
                     </li>
                 </ul>
@@ -125,16 +122,3 @@
     </div>
 </nav>
 
-<script>
-    function updateNbArticles() {
-        fetch('/Panier/GetNbArticles')
-            .then(response => response.json())
-            .then(nbArticles => {
-                document.getElementById('nbArticles').textContent =  nbArticles;
-            });
-    }
-
-    // Appeler la fonction au chargement de la page et à intervalles réguliers
-    updateNbArticles();
-    setInterval(updateNbArticles,1); 
-</script>
