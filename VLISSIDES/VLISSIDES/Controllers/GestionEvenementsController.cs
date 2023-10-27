@@ -166,6 +166,16 @@ namespace VLISSIDES.Controllers
 
             if (ModelState.IsValid)
             {
+                if (vm.DateDebut < DateTime.Now)
+                {
+                    ModelState.AddModelError("DateDebut", "La date de début est invalide");
+                    return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial", vm);
+                }
+                if (vm.DateFin < vm.DateDebut)
+                {
+                    ModelState.AddModelError("DateFin", "La date de fin est invalide");
+                    return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial", vm);
+                }
                 var evenement = _context.Evenements.FirstOrDefault(e => e.Id == vm.Id);
                 if (evenement != null)
                 {
