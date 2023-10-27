@@ -21,6 +21,11 @@ namespace VLISSIDES.Controllers
         }
         public IActionResult Index()
         {
+            //Supprimer automatiquement les evenements trop vieux
+            var evenementsSupprime = _context.Evenements.Where(e => e.DateFin.AddDays(7) < DateTime.Now);
+            _context.Evenements.RemoveRange(evenementsSupprime);
+            _context.SaveChanges();
+            //La liste à afficher
             var evenements = _context.Evenements.Select(e => new GestionEvenementsIndexVM
             {
                 Id = e.Id,
@@ -62,14 +67,27 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> AjouterEvenement(GestionEvenementsAjouterVM vm)
         {
             decimal prix = 0;
-            if (!decimal.TryParse(vm.Prix, out prix))
+            if (vm.Prix != null)
             {
-                ModelState.AddModelError("Prix", "Le prix est invalide");
+                if (!decimal.TryParse(vm.Prix, out prix))
+                {
+                    ModelState.AddModelError("Prix", "Le prix est invalide");
+                }
             }
+
 
             if (ModelState.IsValid)
             {
-
+                if (vm.DateDebut < DateTime.Now)
+                {
+                    ModelState.AddModelError("DateDebut", "La date de début est invalide");
+                    return PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial", vm);
+                }
+                if (vm.DateFin < vm.DateDebut)
+                {
+                    ModelState.AddModelError("DateFin", "La date de fin est invalide");
+                    return PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial", vm);
+                }
                 var evenement = new Evenement()
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -138,10 +156,14 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> ModifierEvenement(GestionEvenementsModifierVM vm)
         {
             decimal prix = 0;
-            if (!decimal.TryParse(vm.Prix, out prix))
+            if (vm.Prix != null)
             {
-                ModelState.AddModelError("Prix", "Le prix est invalide");
+                if (!decimal.TryParse(vm.Prix, out prix))
+                {
+                    ModelState.AddModelError("Prix", "Le prix est invalide");
+                }
             }
+
             if (ModelState.IsValid)
             {
                 var evenement = _context.Evenements.FirstOrDefault(e => e.Id == vm.Id);
