@@ -7,9 +7,9 @@ namespace VLISSIDES.ViewModels.GestionLivres;
 public class ModifierVM
 {
     public string Id { get; set; }
-
+    [Required(ErrorMessage = "Le titre est obligatoire")]
     [Display(Name = "Nom du livre")] public string Titre { get; set; }
-
+    [Required(ErrorMessage = "La description est obligatoire")]
     [Display(Name = "Description")] public string Resume { get; set; }
 
     public string? Couverture { get; set; }
@@ -20,7 +20,7 @@ public class ModifierVM
 
     public decimal Prix { get; set; }
     public DateTime DatePublication { get; set; }
-
+    [Required(ErrorMessage = "L'ISBN est obligatoire")]
     public string ISBN { get; set; }
 
     //Categories
@@ -29,7 +29,7 @@ public class ModifierVM
     public List<SelectListItem>? SelectListCategories { get; set; }
 
     //Auteurs
-    [Display(Name = "Auteur")] public List<string> AuteurIds { get; set; }
+    [Display(Name = "Auteur")] public List<string>? AuteurIds { get; set; }
 
     public List<SelectListItem>? SelectListAuteurs { get; set; }
 
