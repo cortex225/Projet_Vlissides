@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using VLISSIDES.ViewModels.GestionCommandes;
 
 namespace VLISSIDES.Controllers
 {
+    [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
     public class GestionCommandesController : Controller
     {
         private readonly ApplicationDbContext _context;
