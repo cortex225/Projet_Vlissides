@@ -43,44 +43,44 @@
                         Notez @Model.listVM.FirstOrDefault(x => x.Id == Model.livreSelectionneId).Titre !
                     </h3>
                     <form>
-                        <div class="" id="divListeMaisonEditionLivres">
+                        <fieldset class="" id="divListeMaisonEditionLivres">
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star5" name="star5" value="5.0">
+                                <input type="radio" class="radioStar" id="star5" name="divListeMaisonEditionLivres" value="5.0">
                                 <label for="star5">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="5.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star4" name="star4" value="4.0">
+                                <input type="radio" class="radioStar" id="star4" name="divListeMaisonEditionLivres" value="4.0">
                                 <label for="star4">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="4.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star3" name="star3" value="3.0">
+                                <input type="radio" class="radioStar" id="star3" name="divListeMaisonEditionLivres" value="3.0">
                                 <label for="star3">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="3.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star2" name="star2" value="2.0">
+                                <input type="radio" class="radioStar" id="star2" name="divListeMaisonEditionLivres" value="2.0">
                                 <label for="star2">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="2.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star1" name="star1" value="1.0">
+                                <input type="radio" class="radioStar" id="star1" name="divListeMaisonEditionLivres" value="1.0">
                                 <label for="star1">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="1.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star0" name="star0" value="0.0">
+                                <input type="radio" class="radioStar" id="star0" name="divListeMaisonEditionLivres" value="0.0">
                                 <label for="star0">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="0.0" />
                                 </label><br>
                             </div>
-                        </div>
+                        </fieldset>
 
                         <button type="button" class="container-fluid btn btn-primary">Soumettre</button>
                     </form>
