@@ -61,6 +61,12 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         public async Task<IActionResult> AjouterEvenement(GestionEvenementsAjouterVM vm)
         {
+            decimal prix = 0;
+            if (!decimal.TryParse(vm.Prix, out prix))
+            {
+                ModelState.AddModelError("Prix", "Le prix est invalide");
+            }
+
             if (ModelState.IsValid)
             {
 
@@ -75,7 +81,7 @@ namespace VLISSIDES.Controllers
                     Lieu = vm.Lieu,
                     NbPlaces = vm.NbPlaces,
                     NbPlacesMembre = vm.NbPlacesMembre,
-                    Prix = vm.Prix,
+                    Prix = prix,
 
                 };
                 if (vm.CoverPhoto != null)
@@ -124,13 +130,18 @@ namespace VLISSIDES.Controllers
                 Lieu = evenement.Lieu,
                 NbPlaces = evenement.NbPlaces,
                 NbPlacesMembre = evenement.NbPlacesMembre,
-                Prix = evenement.Prix,
+                Prix = evenement.Prix.ToString(),
             };
             return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial", vm);
         }
         [HttpPost]
         public async Task<IActionResult> ModifierEvenement(GestionEvenementsModifierVM vm)
         {
+            decimal prix = 0;
+            if (!decimal.TryParse(vm.Prix, out prix))
+            {
+                ModelState.AddModelError("Prix", "Le prix est invalide");
+            }
             if (ModelState.IsValid)
             {
                 var evenement = _context.Evenements.FirstOrDefault(e => e.Id == vm.Id);
@@ -144,7 +155,7 @@ namespace VLISSIDES.Controllers
                     evenement.Lieu = vm.Lieu;
                     evenement.NbPlaces = vm.NbPlaces;
                     evenement.NbPlacesMembre = vm.NbPlacesMembre;
-                    evenement.Prix = vm.Prix;
+                    evenement.Prix = prix;
                     //Si nouvelle photo
                     if (vm.CoverPhoto != null)
                     {

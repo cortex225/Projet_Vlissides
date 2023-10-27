@@ -26,8 +26,9 @@ namespace VLISSIDES.ViewModels.GestionEvenements
         [Required(ErrorMessage = "Le nombre de place réservé au membre est obligatoire")]
         [DisplayName("Nombre de places réservé au membre")]
         public int NbPlacesMembre { get; set; } = default!;
-        [Required(ErrorMessage = "Le prix est obligatoire")]
-        [DisplayName("Prix")] public decimal? Prix { get; set; } = default!;
+
+
+        [DisplayName("Prix")] public string? Prix { get; set; } = default!;
         [Display(Name = "Image du livre")] public IFormFile? CoverPhoto { get; set; }
     }
 }

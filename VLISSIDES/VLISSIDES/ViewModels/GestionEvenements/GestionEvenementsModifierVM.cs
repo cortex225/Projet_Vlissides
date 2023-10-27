@@ -24,7 +24,7 @@ namespace VLISSIDES.ViewModels.GestionEvenements
         [DisplayName("Nombre de places réservé au membre")]
         public int NbPlacesMembre { get; set; } = default!;
 
-        [DisplayName("Prix")] public decimal? Prix { get; set; } = default!;
+        [DisplayName("Prix")] public string? Prix { get; set; } = default!;
         [Display(Name = "Image du livre")] public IFormFile? CoverPhoto { get; set; }
     }
 }

@@ -47,7 +47,7 @@
                     </div>
                     <div>
                         <label asp-for="Prix" class="control-label"></label>
-                        <input asp-for="Prix" class="form-control" type="number"/>
+                        <input asp-for="Prix" class="form-control" type="text" placeholder="0,00" />
                         <span asp-validation-for="Prix" class="text-danger"></span>
                     </div>
             
@@ -86,6 +86,7 @@
         </div>
     </div>
     <div class="modal-footer">
+        <input type="button" value="Annuler" class="btn btn-secondary" onclick="Annuler()" />
         <input type="button" value="Modifier" class="btn btn-primary" onclick="ModifierEvenement()"/>
     </div>
 </form>
