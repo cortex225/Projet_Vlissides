@@ -76,6 +76,7 @@
         <Folder Include="wwwroot\img\icons_Services\" />
         <Folder Include="wwwroot\img\Images_Livre\" />
         <Folder Include="wwwroot\img\CouvertureLivre\" />
+        <Folder Include="wwwroot\img\EvenementImages\" />
         <Folder Include="wwwroot\js\Panier\" />
     </ItemGroup>
 
