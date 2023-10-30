@@ -92,10 +92,14 @@
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
+
+
         }).catch(error => console.error('Échec du fetch pour modifier la quantite'))
             .then((response) => { 
                 disableButton(id);
                 AfficherFacture();
+                getNbArticles();
+
             });
     }
             
@@ -122,7 +126,9 @@
             if (response.ok ) {
                 var article = document.getElementById(vmIdPanier);
                 article.remove();
-                $('#ModalId').modal('hide'); // Ferme la modale     
+                $('#ModalId').modal('hide'); // Ferme la modale
+                getNbArticles();
+
             }
             return response.text();
         })
@@ -135,4 +141,20 @@
         });
         
     }
+</script>
+<script>
+function getNbArticles() {
+$(document).ready(function () {
+        $.ajax({
+            url: "/Panier/NbArticles",
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                $("#nbArticles").html(data).animate({fontSize: "30px"}, 1000);
+            }
+        });
+
+    }
+);
+}
 </script>
