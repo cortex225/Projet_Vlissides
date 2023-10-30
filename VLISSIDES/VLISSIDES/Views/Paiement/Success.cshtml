@@ -1,0 +1,160 @@
+﻿@model VLISSIDES.ViewModels.Paiement.StripePaiementVM
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Success";
+}
+
+
+<div class="m-4">
+    <div class="d-flex justify-content-center">
+        <div class="w-50">
+            <div class="stepper d-flex justify-content-between">
+                <button id="step1" type="button" class="btn btn-default btn-circle btnStepper bg-primary text-light" onclick="stepperAdresse()">
+                    1
+                </button>
+
+                <button id="step2" type="button" class="btn btn-default btn-circle btnStepper bg-primary text-light" onclick="stepperInfoPaiement()">
+                    2
+                </button>
+
+                <button id="step3" type="button" class="btn btn-default btn-circle btnStepper bg-primary text-light" onclick="stepperConfirmation()">
+                    3
+                </button>
+            </div>
+
+            <div class="hrDiv">
+                <hr/>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="confirmationPage" >
+        <h2 class="mx-auto">Confirmation de commande</h2>
+        <div class="rcorners m-2 p-4 overflow-hidden d-flex justify-content-center mx-auto  mt-4" style="width: fit-content">
+            <div class=" my-4">
+                        <h2 class="d-flex justify-content-center text-center ">Génial !</h2>
+                        <p class="d-flex justify-content-center text-center " style="font-size: 1.5em">Votre commande à été effectuée avec succès. <br/> Retournez au catalogue de livres en appuyant sur le ci-dessous. </p>
+                        @* //Creation d'un loader *@
+                        <div class=" text-primary d-flex justify-content-center mx-auto my-auto" role="status" >
+                            <a asp-controller="Recherche" asp-action="Index">
+                                <i class="fa-solid fa-circle-check"style="font-size: 5em;"></i>
+
+                            </a>
+                        </div>
+                    </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@* *@
+@* @section Scripts { *@
+@*     <script type="text/javascript"> *@
+@*         step1 = document.getElementById("step1"); *@
+@*         step2 = document.getElementById("step2"); *@
+@*         step3 = document.getElementById("step3"); *@
+@* *@
+@*         adressePage = document.getElementById("adressePage"); *@
+@*         paiementPage = document.getElementById("paiementPage"); *@
+@*         confirmationPage = document.getElementById("confirmationPage"); *@
+@* *@
+@*         step1.style.backgroundColor = "#3B71CA"; *@
+@*         step1.style.color = "white"; *@
+@* *@
+@*         function stepperAdresse() { *@
+@*             step1.style.backgroundColor = "#3B71CA"; *@
+@*             step1.style.color = "white"; *@
+@* *@
+@*             step2.style.backgroundColor = "white"; *@
+@*             step2.style.color = "#4F4F4F"; *@
+@* *@
+@*             step3.style.backgroundColor = "white"; *@
+@*             step3.style.color = "#4F4F4F"; *@
+@* *@
+@*             adressePage.className = ""; *@
+@*             paiementPage.className = "d-none"; *@
+@*             confirmationPage.className = "d-none"; *@
+@* *@
+@*         } *@
+@*         function stepperInfoPaiement() { *@
+@*             step1.style.backgroundColor = "#14A44D"; *@
+@*             step1.style.color = "white"; *@
+@* *@
+@*             step2.style.backgroundColor = "#3B71CA"; *@
+@*             step2.style.color = "white"; *@
+@* *@
+@*             step3.style.backgroundColor = "white"; *@
+@*             step3.style.color = "#4F4F4F"; *@
+@* *@
+@*             adressePage.className = "d-none"; *@
+@*             paiementPage.className = ""; *@
+@*             confirmationPage.className = "d-none"; *@
+@*             createCheckoutSession(); *@
+@*         } *@
+@*         function stepperConfirmation() { *@
+@*             step1.style.backgroundColor = "#14A44D"; *@
+@*             step1.style.color = "white"; *@
+@* *@
+@*             step2.style.backgroundColor = "#14A44D"; *@
+@*             step2.style.color = "white"; *@
+@* *@
+@*             step3.style.backgroundColor = "#3B71CA"; *@
+@*             step3.style.color = "white"; *@
+@* *@
+@*             adressePage.className = "d-none"; *@
+@*             paiementPage.className = "d-none"; *@
+@*             confirmationPage.className = ""; *@
+@* *@
+@* *@
+@*         } *@
+@*     </script> *@
+@* } *@
+
+<style>
+    .btn-circle.btnStepper {
+        width: 50px;
+        height: 50px;
+        padding: 10px 16px;
+        border-radius: 35px;
+        font-size: 20px;
+        line-height: 1.33;
+        background-color: white;
+        z-index: 10;
+    }
+
+    .btnStepper:active {
+        background-color: grey !important;
+    }
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        padding: 6px 0px;
+        border-radius: 15px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.42857;
+    }
+
+    .hrDiv{
+        position: relative;
+        top: -40px;
+        z-index: 0;
+    }
+
+    .stepper{
+        z-index: 10;
+    }
+
+    .rcorners {
+        border-radius: 25px;
+        background-color: white;
+
+    }
+
+</style>
