@@ -43,46 +43,46 @@
                         Notez @Model.listVM.FirstOrDefault(x => x.Id == Model.livreSelectionneId).Titre !
                     </h3>
                     <form>
-                        <fieldset class="" id="divListeMaisonEditionLivres">
+                        <fieldset class="" id="starsRadioGroup">
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star5" name="divListeMaisonEditionLivres" value="5.0">
+                                <input type="radio" class="radioStar" id="star5" name="starsRadioGroup" value="5">
                                 <label for="star5">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="5.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star4" name="divListeMaisonEditionLivres" value="4.0">
+                                <input type="radio" class="radioStar" id="star4" name="starsRadioGroup" value="4">
                                 <label for="star4">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="4.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star3" name="divListeMaisonEditionLivres" value="3.0">
+                                <input type="radio" class="radioStar" id="star3" name="starsRadioGroup" value="3">
                                 <label for="star3">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="3.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star2" name="divListeMaisonEditionLivres" value="2.0">
+                                <input type="radio" class="radioStar" id="star2" name="starsRadioGroup" value="2">
                                 <label for="star2">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="2.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star1" name="divListeMaisonEditionLivres" value="1.0">
+                                <input type="radio" class="radioStar" id="star1" name="starsRadioGroup" value="1">
                                 <label for="star1">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="1.0" />
                                 </label><br>
                             </div>
                             <div class="inputStar">
-                                <input type="radio" class="radioStar" id="star0" name="divListeMaisonEditionLivres" value="0.0">
+                                <input type="radio" class="radioStar" id="star0" name="starsRadioGroup" value="0">
                                 <label for="star0">
                                     <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="0.0" />
                                 </label><br>
                             </div>
                         </fieldset>
 
-                        <button type="button" class="container-fluid btn btn-primary">Soumettre</button>
+                        <button type="button" class="container-fluid btn btn-primary" onclick="NoterLivre('@Model.livreSelectionneId')">Soumettre</button>
                     </form>
                 }
             </div>
@@ -144,5 +144,30 @@
     function MontrerBoiteEvaluation(id = "") {
         console.log(id);
         window.location.href = `/LivreUtilisateur/Index?id=${id}`;
+    }
+
+    async function NoterLivre(id = "") {
+        console.log("Patate Tomate NOTE");
+        var boutonsRadio = document.getElementsByName("starsRadioGroup");
+        var noteValeur;
+
+        //Chercher quel bouton radio est coché
+        for(var i = 0; i < boutonsRadio.length; ++i){
+            if(boutonsRadio[i].checked == true){
+                noteValeur = boutonsRadio[i].value;
+                break;
+            }
+        }
+
+        fetch(BASE_URL + '/LivreUtilisateur/Noter?id=' + id + '&note=' + noteValeur, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => console.error('Échec du fetch pour noter le livre'))
+            .then((response) => {
+
+            });
     }
 </script>

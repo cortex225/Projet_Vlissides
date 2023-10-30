@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.LivreUtilisateur;
@@ -25,15 +27,20 @@ namespace VLISSIDES.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public IActionResult Index(string? id)
+        public async Task<IActionResult> Index(string? id)
         {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+
+            List<Commande> userCommandes = _context.Commandes.Where(c => c.MembreId == userId).ToList();
+
             List<LivreUtilisateurIndexVM> vm = new List<LivreUtilisateurIndexVM>();
+
 
             Random random = new Random();
             List<string> idsLivres = _context.Livres
                 .Select(l => l.Id)
                 .AsEnumerable()
-                .OrderBy(x => random.Next())
                 .Take(12)
                 .ToList();
 
@@ -68,6 +75,27 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> SelectLivre(string? id)
         {
             return RedirectToAction("/LivreUtilisateur/Index?id=" + id);
+        }
+
+        [HttpPost]
+        [Route("/LivreUtilisateur/Noter")]
+        public async Task<IActionResult> Noter(string id, int note)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Evaluation e = new Evaluation()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Note = note,
+                DateEvaluation = DateTime.Now,
+                LivreId = id,
+                MembreId = userId
+            };
+
+            await _context.Evaluations.AddAsync(e);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("/LivreUtilisateur/Index");
         }
     }
 }
