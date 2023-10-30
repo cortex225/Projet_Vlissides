@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
@@ -7,7 +8,7 @@ using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Categories;
 
 namespace VLISSIDES.Controllers;
-
+[Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionCategoriesController : Controller
 {
     private readonly IConfiguration _config;
@@ -26,7 +27,7 @@ public class GestionCategoriesController : Controller
     {
         var itemsPerPage = 10;
         var totalItems = await _context.Categories.CountAsync();
-        
+
         var vm = new CategoriesIndexVM();
         var liste = _context.Categories.Include(c => c.Livres).ThenInclude(lc => lc.Livre).Include(c => c.Enfants)
             .OrderBy(c => c.Nom)
@@ -58,9 +59,9 @@ public class GestionCategoriesController : Controller
         }).ToList());
     }
 
-    [Route("2167594/GestionCategories/Ajouter")]
-    [Route("{controller}/{action}")]
-    public ActionResult Ajouter()
+    //[Route("2167594/GestionCategories/Ajouter")]
+    //[Route("{controller}/{action}")]
+    public ActionResult ShowAjouter()
     {
         var vm = new CategoriesAjouterVM();
         vm.CategoriesParents = _context.Categories.Select(c => new SelectListItem
@@ -73,8 +74,8 @@ public class GestionCategoriesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2167594/GestionCategories/Ajouter")]
-    [Route("{controller}/{action}")]
+    //[Route("2167594/GestionCategories/Ajouter")]
+    //[Route("{controller}/{action}")]
     public async Task<IActionResult> Ajouter(CategoriesAjouterVM vm)
     {
         if (ModelState.IsValid)
@@ -94,14 +95,14 @@ public class GestionCategoriesController : Controller
 
             _context.Categories.Add(categorie);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return Ok();
         }
 
-        return View(vm);
+        return PartialView("PartialViews/Modals/Categories/_AjouterCategoriesPartial", vm);
     }
 
-    [Route("2167594/GestionCategories/Modifier")]
-    [Route("{controller}/{action}")]
+    //[Route("2167594/GestionCategories/Modifier")]
+    //[Route("{controller}/{action}")]
     public IActionResult Modifier(string id)
     {
         var categorie = _context.Categories.Include(c => c.Parent).FirstOrDefault(c => c.Id == id);
@@ -135,8 +136,8 @@ public class GestionCategoriesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2167594/GestionCategories/Modifier")]
-    [Route("{controller}/{action}")]
+    //[Route("2167594/GestionCategories/Modifier")]
+    //[Route("{controller}/{action}")]
     public async Task<IActionResult> Modifier(CategoriesModifierVM vm)
     {
         if (ModelState.IsValid)
@@ -167,16 +168,16 @@ public class GestionCategoriesController : Controller
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return Ok();
             }
         }
 
-        return View(vm);
+        return PartialView("PartialViews/Modals/Categories/_ModifierCategoriesPartial", vm);
     }
 
     [HttpPost]
-    [Route("2167594/GestionCategories/ModifierNomCategorie")]
-    [Route("{controller}/{action}")]
+    //[Route("2167594/GestionCategories/ModifierNomCategorie")]
+    //[Route("{controller}/{action}")]
     public ActionResult ModifierNomCategorie(string id, string nom)
     {
         if (ModelState.IsValid)
@@ -200,8 +201,8 @@ public class GestionCategoriesController : Controller
     }
 
     [HttpPost]
-    [Route("2167594/GestionCategories/SupprimerCategorie")]
-    [Route("{controller}/{action}")]
+    //[Route("2167594/GestionCategories/SupprimerCategorie")]
+    //[Route("{controller}/{action}")]
     public ActionResult SupprimerCategorie(string id)
     {
         if (_context.Categories == null) return Problem("Entity set 'ApplicationDbContext.Categories' is null.");

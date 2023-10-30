@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<VLISSIDES.ViewModels.GestionComptes.GestionComptesMembreVM>
+<h1 class="text-center">Membres</h1>
+<!--Recherche de membre-->
+<div class="container-fluid">
+    <form id="rechercherCategorie" enctype="multipart/form-data">
+        <br />
+        <div class="input-group">
+            <input class="form-control" id="inputRechercherMembre" placeholder="Rechercher..." />
+            <button class="btn btn-primary p-2" type="button" onclick="RechercherMembre()" data-toggle="tooltip" title="Rechercher la catégorie">
+                Rechercher
+            </button>
+        </div>
+
+    </form>
+
+</div>
+<!--Liste-->
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Courriel</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.Nom</th>
+                <td>@item.Courriel</td>
+                <td>
+                    <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompteMembre", "GestionComptes" , new { id=item.Id })')">Modifier</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationMembre", "GestionComptes" , new { id=item.Id })')">
+                        Supprimer
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

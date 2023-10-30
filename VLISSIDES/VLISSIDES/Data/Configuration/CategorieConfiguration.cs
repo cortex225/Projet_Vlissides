@@ -7,10 +7,21 @@ namespace VLISSIDES.Data;
 public class CategorieConfiguration : IEntityTypeConfiguration<Categorie>
 {
     private readonly List<Categorie> categories;
-
-    private readonly List<Categorie> categoriesDeBase = new()
+    
+    public void Configure(EntityTypeBuilder<Categorie> builder)
     {
-        new Categorie
+        builder.ToTable("Categories");
+        builder.HasKey(sc => sc.Id);
+        builder.Property(sc => sc.Id).ValueGeneratedNever();
+
+        builder.HasMany(c => c.Enfants)
+            .WithOne(c => c.Parent)
+            .HasForeignKey(c => c.ParentId);
+
+        // Catégories par défaut
+        var categoriesDeBase = new List<Categorie>
+        {
+            new Categorie
         {
             Id = "1",
             Nom = "Art",
@@ -27,7 +38,7 @@ public class CategorieConfiguration : IEntityTypeConfiguration<Categorie>
         new Categorie
         {
             Id = "3",
-            Nom = "BD, Jeunesse, Humour",
+            Nom = "BD - Jeunesse - Humour",
             Description =
                 "De colorées bandes dessinées aux histoires captivantes pour les plus jeunes, sans oublier une touche d'humour."
         },
@@ -134,7 +145,7 @@ public class CategorieConfiguration : IEntityTypeConfiguration<Categorie>
         new Categorie
         {
             Id = "19",
-            Nom = "Loisir, Tourisme, Nature",
+            Nom = "Loisir - Tourisme - Nature",
             Description =
                 "Inspirez-vous pour votre prochaine aventure, qu'elle soit en pleine nature ou dans une métropole animée."
         },
@@ -218,54 +229,37 @@ public class CategorieConfiguration : IEntityTypeConfiguration<Categorie>
             Description =
                 "Pour les passionnés de sport et les chercheurs d'activités, des histoires inspirantes aux guides pratiques."
         }
-    };
+        };
 
-    // public CategorieConfiguration(List<List<Categorie>> listCategories, out List<IEnumerable<string>> listIdfinal)
-    // {
-    //     this.categories = new List<Categorie>();
-    //     listIdfinal = new List<IEnumerable<string>>();
-    //     foreach (var categories in listCategories)
-    //     foreach (var categorie in categories)
-    //         if (!this.categories.Any(c => c.Nom.Equals(categorie.Nom)))
-    //             this.categories.Add(categorie);
-    //     foreach (var categorie in categoriesDeBase)
-    //         if (this.categories.Any(c => categorie.Nom.Equals(c.Nom)))
-    //             this.categories.Remove(this.categories.Find(c => c.Nom.Equals(categorie.Nom)));
-    //     this.categories.AddRange(categoriesDeBase);
-    //     List<Categorie> sousCategorie = new();
-    //     foreach (var categorie in this.categories)
-    //     {
-    //         for (var souscategorieId = 1; souscategorieId < categorie.Nom.Split(" – ").Length; souscategorieId++)
-    //             sousCategorie.Add(new Categorie
-    //             {
-    //                 Id = "Sous-Catégorie " + categorie.Id + "-" + souscategorieId,
-    //                 Nom = categorie.Nom.Split(" – ").ToList()[souscategorieId],
-    //                 Description = "",
-    //                 ParentId = categorie.Id
-    //             });
-    //         for (var souscategorieId = 1; souscategorieId < categorie.Nom.Split(" - ").Length; souscategorieId++)
-    //             sousCategorie.Add(new Categorie
-    //             {
-    //                 Id = "Sous-Catégorie " + categorie.Id + "-" + souscategorieId,
-    //                 Nom = categorie.Nom.Split(" - ").ToList()[souscategorieId],
-    //                 Description = "",
-    //                 ParentId = categorie.Id
-    //             });
-    //         categorie.Nom = categorie.Nom.Split(" - ")[0];
-    //     }
-    //
-    //     this.categories.AddRange(sousCategorie);
-    //     foreach (var categories in listCategories)
-    //         listIdfinal.Add(categories.Select(c => c.Id = this.categories.First(thisC => thisC.Nom.Equals(c.Nom)).Id));
-    //     //foreach (var categorie in this.categories)
-    //     //    Console.WriteLine(categorie.Id + " : " + categorie.Nom);
-    // }
+        var allCategories = new List<Categorie>(categoriesDeBase);
 
-    public void Configure(EntityTypeBuilder<Categorie> builder)
-    {
-        builder.ToTable("Categories");
-        builder.HasKey(sc => sc.Id);
-        builder.Property(sc => sc.Id).ValueGeneratedOnAdd();
-        builder.HasData(categoriesDeBase);
+        foreach (var categorie in categoriesDeBase)
+        {
+            var sousCategoriesNom = categorie.Nom.Split(new[] { " – ", " - " }, StringSplitOptions.None);
+            string parentId = null;
+            for (int i = 1; i < sousCategoriesNom.Length; i++)
+            {
+                // Vérifier si la catégorie existe déjà
+                var categorieExistante = allCategories.FirstOrDefault(c => c.Nom == sousCategoriesNom[i].Trim());
+                if (categorieExistante != null)
+                {
+                    parentId = categorieExistante.Id; // l'ID de la catégorie existante comme parentId
+                    continue; 
+                }
+
+                var sousCategorieId = $"{categorie.Id}-{i+1}";
+                var sousCategorie = new Categorie
+                {
+                    Id = sousCategorieId,
+                    Nom = sousCategoriesNom[i].Trim(),
+                    Description = "",
+                    ParentId = categorie.Id
+                };
+                allCategories.Add(sousCategorie);
+                parentId = sousCategorieId;
+            }
+        }
+
+        builder.HasData(allCategories);
     }
 }

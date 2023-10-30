@@ -39,6 +39,7 @@ namespace VLISSIDES.Migrations
                     DateAdhesion = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CommandeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReservationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StripeCustomerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -551,16 +552,16 @@ namespace VLISSIDES.Migrations
                 name: "LivrePanier",
                 columns: table => new
                 {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LivreId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TypeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TypeLivreId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Quantite = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LivrePanier", x => new { x.LivreId, x.UserId });
+                    table.PrimaryKey("PK_LivrePanier", x => x.Id);
                     table.ForeignKey(
                         name: "FK_LivrePanier_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -634,25 +635,25 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0", "25d62c45-6d87-41fa-b9a1-c1a6b861a6ab", "Employe", "EMPLOYE" },
-                    { "1", "598b5aa3-45f6-4bd3-a3b4-2df50a24dbbc", "Membre", "MEMBRE" },
-                    { "2", "2245a312-f4ad-4957-b3e6-8cd090178d36", "Admin", "ADMIN" }
+                    { "0", "8790a61e-b7b2-477f-b285-60f04659c010", "Employe", "EMPLOYE" },
+                    { "1", "1f7a99e3-d183-44ca-8068-d41ef2708f2d", "Membre", "MEMBRE" },
+                    { "2", "04e9b305-3fca-400f-ae3b-3bf146fdefd6", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "0", 0, null, "114fc03d-0e58-428a-86a1-15be3e23a2f4", null, null, "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "9ea9c72b-22ea-462d-8935-529e57f1e42a", false, "admin@admin.com" });
+                values: new object[] { "0", 0, null, "6b75ec80-e88f-4e92-b6f1-11c10fda91b7", null, null, "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "6fa5d831-bf5a-4268-8ee8-f66fe7808359", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NoEmploye", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "", "f453ecc6-4d41-44fd-8228-62836a2d6185", null, null, "Employe", "employe@employe.com", true, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "20780df8-25d0-4d2d-8a91-c0d5c322b4f1", false, "employe@employe.com" });
+                values: new object[] { "1", 0, "", "4cfb72b4-3f1b-4a34-bdef-845b7c0f8eb4", null, null, "Employe", "employe@employe.com", true, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "7bc15b22-81b6-4557-82b7-89080dc007f8", false, "employe@employe.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "CommandeId", "ConcurrencyStamp", "CoverImageUrl", "DateAdhesion", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NoMembre", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "ReservationId", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "", null, "851a8572-502c-466e-ac02-646c9c75eaaa", null, new DateTime(2023, 10, 18, 6, 34, 52, 435, DateTimeKind.Local).AddTicks(2320), null, "Membre", "membre@membre.com", true, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "9c1536b7-fcee-4cc4-9148-02bc9a713680", false, "membre@membre.com" });
+                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "CommandeId", "ConcurrencyStamp", "CoverImageUrl", "DateAdhesion", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NoMembre", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "ReservationId", "SecurityStamp", "StripeCustomerId", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "2", 0, "", null, "23889b21-b548-4f52-98e7-346ece87235f", null, new DateTime(2023, 10, 22, 15, 2, 35, 383, DateTimeKind.Local).AddTicks(8970), null, "Membre", "membre@membre.com", true, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "019a9ff0-2d5e-4be0-bd1d-f49a3e4ce381", null, false, "membre@membre.com" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -669,7 +670,7 @@ namespace VLISSIDES.Migrations
                     { "16", "Pour un moment de détente, une collection de recueils drôles et de satires.", "Humour", null },
                     { "17", "Restez à la pointe de la technologie avec des guides sur les logiciels, le codage et les innovations numériques.", "Informatique", null },
                     { "18", "Une riche collection de classiques et de nouvelles œuvres, pour les amateurs de belle lettre.", "Littérature", null },
-                    { "19", "Inspirez-vous pour votre prochaine aventure, qu'elle soit en pleine nature ou dans une métropole animée.", "Loisir, Tourisme, Nature", null },
+                    { "19", "Inspirez-vous pour votre prochaine aventure, qu'elle soit en pleine nature ou dans une métropole animée.", "Loisir - Tourisme - Nature", null },
                     { "2", "Plongez dans un monde de bien-être, d'esthétique et d'équilibre pour enrichir votre quotidien.", "Art de vivre", null },
                     { "20", "Des ressources pour les parents et ceux qui aspirent à le devenir, pour une vie familiale épanouie.", "Maternité – Famille", null },
                     { "21", "Laissez-vous emporter par le rythme des vers, l'intensité du théâtre et la profondeur des essais.", "Poésie – Théâtre – Essais", null },
@@ -681,7 +682,7 @@ namespace VLISSIDES.Migrations
                     { "27", "Découvrez la richesse de la littérature québécoise, avec ses voix uniques et ses paysages envoûtants.", "Roman québécois", null },
                     { "28", "Éclairez votre curiosité avec des textes scientifiques accessibles et informatifs.", "Savoir Sciences", null },
                     { "29", "De la biologie à la physique, découvrez les dernières découvertes et théories.", "Sciences", null },
-                    { "3", "De colorées bandes dessinées aux histoires captivantes pour les plus jeunes, sans oublier une touche d'humour.", "BD, Jeunesse, Humour", null },
+                    { "3", "De colorées bandes dessinées aux histoires captivantes pour les plus jeunes, sans oublier une touche d'humour.", "BD - Jeunesse - Humour", null },
                     { "30", "Des textes éclairants pour comprendre et explorer la diversité de la sexualité humaine.", "Sexualité", null },
                     { "31", "Pour les passionnés de sport et les chercheurs d'activités, des histoires inspirantes aux guides pratiques.", "Sport - Loisirs", null },
                     { "4", "Un vaste choix de narrations graphiques, des super-héros aux récits autobiographiques.", "Bandes dessinées", null },
@@ -725,24 +726,43 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "Nom" },
                 values: new object[,]
                 {
-                    { "1", "Numérique" },
-                    { "2", "Papier" }
+                    { "1", "Papier" },
+                    { "2", "Numérique" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "2", "0" });
+                values: new object[,]
+                {
+                    { "2", "0" },
+                    { "0", "1" },
+                    { "1", "2" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "0", "1" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "1", "2" });
+                table: "Categories",
+                columns: new[] { "Id", "Description", "Nom", "ParentId" },
+                values: new object[,]
+                {
+                    { "11-2", "", "Flore", "11" },
+                    { "12-2", "", "Voyage", "12" },
+                    { "13-2", "", "Économie", "13" },
+                    { "13-3", "", "droit", "13" },
+                    { "15-2", "", "Politique", "15" },
+                    { "19-2", "", "Tourisme", "19" },
+                    { "19-3", "", "Nature", "19" },
+                    { "20-2", "", "Famille", "20" },
+                    { "21-2", "", "Théâtre", "21" },
+                    { "21-3", "", "Essais", "21" },
+                    { "22-2", "", "Santé", "22" },
+                    { "23-2", "", "Ésotérisme", "23" },
+                    { "3-2", "", "Jeunesse", "3" },
+                    { "31-2", "", "Loisirs", "31" },
+                    { "7-2", "", "Vin", "7" },
+                    { "9-2", "", "Langues", "9" },
+                    { "9-3", "", "Éducation", "9" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_UtilisateurLivraisonId",
@@ -844,6 +864,11 @@ namespace VLISSIDES.Migrations
                 name: "IX_LivreCommandes_CommandeId",
                 table: "LivreCommandes",
                 column: "CommandeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LivrePanier_LivreId",
+                table: "LivrePanier",
+                column: "LivreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LivrePanier_TypeLivreId",

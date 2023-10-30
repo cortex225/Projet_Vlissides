@@ -3,9 +3,11 @@
 
 //Signaler le debut du seeder
 
+
 using ExcelDataReader;
 using Faker;
 using FizzWare.NBuilder;
+using Microsoft.EntityFrameworkCore;
 using Seeder;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -49,8 +51,8 @@ public class DatabaseSeeder
         var typeLivres = _context.TypeLivres.ToList();
         var langues = _context.Langues.ToList();
 
-        var generator = new RandomGenerator();
-        Random rand = new Random();
+        //var generator = new RandomGenerator();
+        //Random rand = new Random();
 
 
         //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
@@ -62,61 +64,64 @@ public class DatabaseSeeder
         // _context.SaveChanges();
         // _context.Categories.RemoveRange(_context.Categories);
         // _context.SaveChanges();
+        // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
+        // _context.SaveChanges();
 
 
-        //Générer les auteurs
-        var auteurs = Builder<Auteur>.CreateListOfSize(99)
-            .All()
-            .With(c => c.NomAuteur = Name.Last())
-            .Build();
-        _context.Auteurs.AddRange(auteurs);
-        _context.SaveChanges();
 
-        //Générer les maisons d'édition
-        var maisonsEditions = Builder<MaisonEdition>.CreateListOfSize(99)
-            .All()
-            .With(c => c.Nom = Company.Name())
-            .Build();
-        _context.MaisonEditions.AddRange(maisonsEditions);
-        _context.SaveChanges();
-
-        //Générer les livres
-        var livres = Builder<Livre>.CreateListOfSize(299)
-            .All()
-            .With(c => c.Titre = Company.Name())
-            .With(c => c.Resume = Lorem.Paragraph())
-            .With(c => c.NbExemplaires = 1)
-            .With(c => c.DateAjout = DateTime.Now)
-            .With(c => c.NbPages = 120)
-            .With(c => c.DatePublication = Identification.DateOfBirth())
-            .With(c => c.ISBN = Identification.UsPassportNumber())
-            .With(c => c.Categories = new List<LivreCategorie>())
-            .With(c => c.LivreAuteurs = new())
-            .With(c => c.Couverture = "/img/Couvertures/livredefault.png")
-            .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
-            .With(c => c.LivreTypeLivres = new List<LivreTypeLivre>
-                { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
-            .With(c => c.Langue = Pick<Langue>.RandomItemFrom(langues))
-            .With(c => c.LivreAuteurs = new List<LivreAuteur>
-                { new() { Auteur = Pick<Auteur>.RandomItemFrom(auteurs) } })
-            .With(c => c.Categories = new List<LivreCategorie>
-                { new() { Categorie = Pick<Categorie>.RandomItemFrom(categories) } })
-            .Build();
-        _context.Livres.AddRange(livres);
-        _context.SaveChanges();
-
-        //Générer les prix de chaque livres existant dans la base de donnés 
-        var livreTypeLivres = _context.LivreTypeLivres.ToList();
-        foreach (var livre in livres)
-        {
-            var livreTypeLivre = livreTypeLivres.FirstOrDefault(ltl => ltl.LivreId == livre.Id);
-            if (livreTypeLivre != null)
-            {
-                livreTypeLivre.Prix = rand.Next(10, 100);
-            }
-        }
-
-        _context.SaveChanges();
+        // //Générer les auteurs
+        // var auteurs = Builder<Auteur>.CreateListOfSize(99)
+        //     .All()
+        //     .With(c => c.NomAuteur = Name.Last())
+        //     .Build();
+        // _context.Auteurs.AddRange(auteurs);
+        // _context.SaveChanges();
+        //
+        // //Générer les maisons d'édition
+        // var maisonsEditions = Builder<MaisonEdition>.CreateListOfSize(99)
+        //     .All()
+        //     .With(c => c.Nom = Company.Name())
+        //     .Build();
+        // _context.MaisonEditions.AddRange(maisonsEditions);
+        // _context.SaveChanges();
+        //
+        // //Générer les livres
+        // var livres = Builder<Livre>.CreateListOfSize(299)
+        //     .All()
+        //     .With(c => c.Titre = Company.Name())
+        //     .With(c => c.Resume = Lorem.Paragraph())
+        //     .With(c => c.NbExemplaires = 1)
+        //     .With(c => c.DateAjout = DateTime.Now)
+        //     .With(c => c.NbPages = 120)
+        //     .With(c => c.DatePublication = Identification.DateOfBirth())
+        //     .With(c => c.ISBN = Identification.UsPassportNumber())
+        //     .With(c => c.Categories = new List<LivreCategorie>())
+        //     .With(c => c.LivreAuteurs = new())
+        //     .With(c => c.Couverture = "/img/Couvertures/livredefault.png")
+        //     .With(c => c.MaisonEdition = Pick<MaisonEdition>.RandomItemFrom(maisonsEditions))
+        //     .With(c => c.LivreTypeLivres = new List<LivreTypeLivre>
+        //         { new() { TypeLivre = Pick<TypeLivre>.RandomItemFrom(typeLivres) } })
+        //     .With(c => c.Langue = Pick<Langue>.RandomItemFrom(langues))
+        //     .With(c => c.LivreAuteurs = new List<LivreAuteur>
+        //         { new() { Auteur = Pick<Auteur>.RandomItemFrom(auteurs) } })
+        //     .With(c => c.Categories = new List<LivreCategorie>
+        //         { new() { Categorie = Pick<Categorie>.RandomItemFrom(categories) } })
+        //     .Build();
+        // _context.Livres.AddRange(livres);
+        // _context.SaveChanges();
+        //
+        // //Générer les prix de chaque livres existant dans la base de donnés 
+        // var livreTypeLivres = _context.LivreTypeLivres.ToList();
+        // foreach (var livre in livres)
+        // {
+        //     var livreTypeLivre = livreTypeLivres.FirstOrDefault(ltl => ltl.LivreId == livre.Id);
+        //     if (livreTypeLivre != null)
+        //     {
+        //         livreTypeLivre.Prix = rand.Next(10, 100);
+        //     }
+        // }
+        //
+        // _context.SaveChanges();
 
         //Signaler le début de la lecture du fichier Excel
         Console.WriteLine("************ Début de la lecture du fichier Excel!************* ");
@@ -126,8 +131,7 @@ public class DatabaseSeeder
         Console.WriteLine("************ Succès!************* ");
 
 
-        //Signaler la fin du seeder
-        Console.WriteLine("Fin du seed!");
+
     }
 
     private void SeedFromExcel(string fileName)
@@ -145,6 +149,7 @@ public class DatabaseSeeder
                 isFirstRow = false;
                 continue;
             }
+
             var id = Guid.NewGuid().ToString(); // Générer un ID unique pour chaque livre
 
             var livre = new Livre();
@@ -184,7 +189,8 @@ public class DatabaseSeeder
                 else if (!string.IsNullOrEmpty(nomMaisonEdition))
                 {
                     // Créer une nouvelle maison d'édition et l'ajouter à la base de données
-                    var nouvelleMaisonEdition = new MaisonEdition { Id = Guid.NewGuid() + "new", Nom = nomMaisonEdition };
+                    var nouvelleMaisonEdition = new MaisonEdition
+                        { Id = Guid.NewGuid() + "new", Nom = nomMaisonEdition };
                     _context.MaisonEditions.Add(nouvelleMaisonEdition);
 
                     // Utiliser l'ID de la nouvelle maison d'édition
@@ -222,7 +228,18 @@ public class DatabaseSeeder
             if (reader.GetValue(0) != null)
             {
 
-                if (File.Exists(path.Replace("/bin/Debug/net6.0/", "/")))
+                if (OperatingSystem.IsMacOS())
+                {
+                    if (File.Exists(path.Replace("/bin/Debug/net6.0/", "/")))
+                    {
+                        livre.Couverture = "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png";
+                    }
+                    else
+                    {
+                        livre.Couverture = "/img/CouvertureLivre/livredefault.png";
+                    }
+                }
+                else if (File.Exists(path.Replace("\\bin\\Debug\\net6.0", "")))
                 {
                     livre.Couverture = "/img/Couvertures/" + reader.GetString(0).Trim().Trim('"').Trim() + ".png";
                 }
@@ -248,7 +265,7 @@ public class DatabaseSeeder
                 if (existingCategory == null) // Si la catégorie n'existe pas, créez une nouvelle catégorie
                 {
                     existingCategory = new Categorie
-                    { Id = Guid.NewGuid() + "new", Nom = categoryName, Description = "" };
+                        { Id = Guid.NewGuid() + "new", Nom = categoryName, Description = "" };
                     _context.Categories
                         .Add(existingCategory); // Ici j'ajoute la nouvelle catégorie à la base de données
                 }
@@ -332,7 +349,8 @@ public class DatabaseSeeder
 
             #endregion
 
-            livre.Resume = "bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim sit";
+            livre.Resume =
+                "bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim sit";
             livre.DateAjout = DateTime.Now;
             livre.DatePublication = DateTime.Now;
             livre.LangueId = "1";
@@ -361,21 +379,25 @@ public class DatabaseSeeder
                 });
             }
 
-            //Assigner une catégorie à un livre
-            var livreCategories = new List<LivreCategorie>();
-            foreach (var categorie in categories)
-            {
-                livreCategories.Add(new LivreCategorie
-                {
-                    LivreId = livre.Id,
-                    CategorieId = categorie.Id
-                });
-            }
+            _context.Livres.Find(livre.Id).LivreAuteurs = livreAuteurs;
 
 
+            // Obtenez les livres et les catégories de la base de données
+            var livres = _context.Livres.ToList();
+
+            var NouvelleAssociation = from book in livres
+                from category in categories
+                where !_context.LivreCategories.Any(lc => lc.LivreId == book.Id && lc.CategorieId == category.Id)
+                select new LivreCategorie { LivreId = book.Id, CategorieId = category.Id };
+
+            _context.LivreCategories.AddRange(NouvelleAssociation);
+            
+            _context.SaveChanges();
 
         }
-
-        _context.SaveChanges();
+        
     }
+
+
+
 }

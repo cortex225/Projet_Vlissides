@@ -1,10 +1,17 @@
 ﻿@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM;
+@{
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+}
 
 <div class="item livrePetit livre" onclick="window.location.href=`/Recherche/Details?id=@Model.Id`">
-    <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;">
-        <img src="@Model.Couverture"
+    <div class="card cardLivreSearch" style="width: 15.5rem; height: 33rem;">
+        @{
+            string couverture =string.Concat(BASE_URL_RAZOR, Model.Couverture);
+        }
+        <img src="@Html.Raw(couverture)"
              class="card-img-top imgLivre"
-             alt="Couverture du livre" />
+             alt="Couverture du livre" height="10"/>
         <div class="card-body">
             <h6 class="card-title">@Model.Titre</h6>
 

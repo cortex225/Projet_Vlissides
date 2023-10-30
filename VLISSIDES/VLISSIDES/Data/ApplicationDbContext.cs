@@ -48,6 +48,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<LivrePanier> LivrePanier { get; set; }
 
     public DbSet<Adresse> Adresses { get; set; }
+    public DbSet<LivreCategorie> LivreCategories { get; set; }
+    
+    public DbSet<LivreAuteur> LivreAuteurs { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -57,6 +60,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #region configuration
 
+     
+
+       
 
         // Configuration des entités
         builder.ApplyConfiguration(new StatutCommandeConfiguration());
@@ -269,7 +275,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #endregion
     }
-
 
 
 }

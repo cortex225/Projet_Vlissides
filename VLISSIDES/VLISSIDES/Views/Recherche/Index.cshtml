@@ -1,6 +1,10 @@
 ﻿@model VLISSIDES.ViewModels.Recherche.IndexRechercheVM;
 @{
-    ViewData["Title"] = "Inventaire";
+    ViewData["Title"] = "Libraire";
+}
+@{
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Recherche.css">
 <div class="d-block p-4 p-4">
@@ -113,6 +117,9 @@
     </div>
 
 </div>
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
 <script type="text/javascript">
     //Script pour la recherche
     var btnSearch = document.getElementById("rechercherBTN");

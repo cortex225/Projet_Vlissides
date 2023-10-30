@@ -11,7 +11,7 @@ public class LoginVM
     public string EmailOrUserName { get; set; } = default!;
 
 
-    [Required]
+    [Required(ErrorMessage = "Veuillez entrer votre mot de passe")]
     [DataType(DataType.Password)]
     [StringLength(100, ErrorMessage = "Le {0} doit contenir au moins {2} et au maximum {1} caractères.",
         MinimumLength = 6)]
