@@ -385,7 +385,7 @@ public class GestionLivresController : Controller
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
                 //CategorieId = vm.CategorieId,
-                LangueId = vm.LangueId
+                LangueId = vm.LangueId,
                 //TypeLivreId = vm.TypeLivreId
             };
             if (vm.AuteurIds != null)

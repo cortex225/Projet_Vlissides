@@ -56,7 +56,6 @@ public class CompteController : Controller
         return View(vm);
     }
 
-    //
     // POST: /Compte/Login
     [HttpPost]
     [AllowAnonymous]
