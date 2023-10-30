@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VLISSIDES.Data;
+using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionPromotions;
 
 namespace VLISSIDES.Controllers
+
 {
+    [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
     public class GestionPromotionsController : Controller
     {
         private readonly IConfiguration _config;
