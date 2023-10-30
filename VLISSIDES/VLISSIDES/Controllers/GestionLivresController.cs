@@ -388,19 +388,23 @@ public class GestionLivresController : Controller
                 LangueId = vm.LangueId
                 //TypeLivreId = vm.TypeLivreId
             };
-            if (vm.AuteurIds.Count > 0)
+            if (vm.AuteurIds != null)
             {
-                livre.LivreAuteurs = new List<LivreAuteur>();
-                foreach (var auteurId in vm.AuteurIds)
+                if (vm.AuteurIds.Count > 0)
                 {
-                    //livre.LivreAuteurs.Add(_context.Auteurs.FirstOrDefault(a => a.Id == auteurId));
-                    livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
+                    livre.LivreAuteurs = new List<LivreAuteur>();
+                    foreach (var auteurId in vm.AuteurIds)
                     {
-                        LivreId = id,
-                        AuteurId = auteurId
-                    }));
+                        //livre.LivreAuteurs.Add(_context.Auteurs.FirstOrDefault(a => a.Id == auteurId));
+                        livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
+                        {
+                            LivreId = id,
+                            AuteurId = auteurId
+                        }));
+                    }
                 }
             }
+
 
 
             _context.Livres.Add(livre);
@@ -574,19 +578,23 @@ public class GestionLivresController : Controller
 
 
             //Auteur
-            if (vm.AuteurIds.Count > 0)
+            if (vm.AuteurIds != null)
             {
-                livre.LivreAuteurs = new List<LivreAuteur>();
-                foreach (var auteurId in vm.AuteurIds)
+                if (vm.AuteurIds.Count > 0)
                 {
-                    //livre.LivreAuteurs.Add(_context.Auteurs.FirstOrDefault(a => a.Id == auteurId));
-                    livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
+                    livre.LivreAuteurs = new List<LivreAuteur>();
+                    foreach (var auteurId in vm.AuteurIds)
                     {
-                        LivreId = vm.Id,
-                        AuteurId = auteurId
-                    }));
+                        //livre.LivreAuteurs.Add(_context.Auteurs.FirstOrDefault(a => a.Id == auteurId));
+                        livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
+                        {
+                            LivreId = vm.Id,
+                            AuteurId = auteurId
+                        }));
+                    }
                 }
             }
+
 
             await _context.SaveChangesAsync();
             return Ok();
