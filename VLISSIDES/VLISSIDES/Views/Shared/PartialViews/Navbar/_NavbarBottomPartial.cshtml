@@ -1,5 +1,9 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@using Microsoft.AspNetCore.Http
+@{
+    var nbArticles = Context.Session.GetInt32("NbArticles") ?? 0;
+}
 <link rel="stylesheet" href="~/css/NavBar/NavBarBottom.css" />
 
 <nav id="navBottom" class="navbar">
@@ -57,14 +61,11 @@
             {
                 <li>
                     <a class="nav-link" asp-area="" asp-controller="Panier" asp-action="Index">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        Consulter le panier
-                            <span class="badge badge-pill badge-danger">
-                                @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
-                                {
-                                    @* <text>@Panier.GetPanier(UserManager.GetUserId(User)).Count</text> *@
-                                }
+                                                    <span class="badge badge-pill badge-danger">
+                                                                                <i class="fa-solid fa-cart-shopping"><span id="nbArticlesText">@nbArticles</span></i>
                             </span>
+
+                        Consulter le panier
                     </a>
                 </li>
             }

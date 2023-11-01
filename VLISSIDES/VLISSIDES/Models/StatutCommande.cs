@@ -8,5 +8,5 @@ public class StatutCommande
 
     [DisplayName("Nom")] public string Nom { get; set; } = default!;
 
-    [DisplayName("Commandes")] public ICollection<Commande> Commandes { get; set; } = default!;
+    //[DisplayName("Commandes")] public ICollection<Commande> Commandes { get; set; } = default!;
 }

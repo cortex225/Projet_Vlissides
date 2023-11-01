@@ -1,0 +1,114 @@
+﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
+@{
+    ViewData["Title"] = "Gestion de commandes";
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+}
+<div class="m-4">
+    <h1>Gestion des commandes</h1>
+    <form class="my-4" id="rechercherCommande" enctype="multipart/form-data">
+        <br />
+        <div class="input-group">
+            <input class="form-control" id="inputRechercherCommande" placeholder='Numéro de la commande sans le "#"' />
+            <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" onclick="applyFilter(event)">
+                Rechercher
+            </button>
+        </div>
+
+    </form>
+    <div class="d-flex justify-content-around w-50">
+        <div>
+            <h5>Trier par date:</h5>
+            <div class="d-flex">
+                <select id="trierDateSelect" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
+                    <option value="1">Plus récent</option>
+                    <option value="2">Plus ancien</option>
+                </select>
+            </div>          
+        </div>
+        <div>
+            <h5>Filtrer par statut:</h5>
+            <div class="form-group d-flex">
+                <select id="filtrerStatutSelect" asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-control" onchange="applyFilter(event)">
+                    <option value="0">Tous</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="commandesListe" class="col-6">
+            <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial" />
+        </div>
+    </div>
+    
+</div>
+
+<style>
+    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
+
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+
+</script>
+<script type="text/javascript">
+    function saveStatut(id = "") {
+        
+        var statutVal = document.getElementById(id + ' statutSelectList').value;
+
+        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => console.error('Échec du fetch pour modifier le statut de la commande', error));
+    }
+</script>
+
+<script type="text/javascript">
+        async function applyFilter(ev) {
+        ev.preventDefault();
+
+        listeCommandesDiv = document.getElementById("commandesListe");
+        var partieMotCles = "motCles=";
+        var partieCriteres = "criteres=";
+
+        dateTrie = document.getElementById("trierDateSelect").value;
+        partieMotCles = partieMotCles.concat(`${dateTrie}|`);
+        partieCriteres = partieCriteres.concat("trierDate|");
+
+        statutFiltre = document.getElementById("filtrerStatutSelect").value;
+        partieMotCles = partieMotCles.concat(`${statutFiltre}|`);
+        partieCriteres = partieCriteres.concat("filtrerStatut|");
+
+        rechercheValue = document.getElementById("inputRechercherCommande").value;
+        if (rechercheValue != null) {
+            partieMotCles = partieMotCles.concat(`${rechercheValue}|`);
+            partieCriteres = partieCriteres.concat("rechercherCommande|");
+        }
+
+        var apiUrl = BASE_URL + `/GestionCommandes/AfficherCommandes?${partieMotCles}&${partieCriteres}`;
+
+        // Effectue une requête GET à l'API
+        fetch(apiUrl, {
+            method: "GET"
+        }).then((response) => {
+            // Convertit la réponse en texte
+            return response.text();
+        }).then((data) => {
+            listeCommandesDiv.innerHTML = data;
+        })
+        .catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la récupération de la liste des auteurs', error);
+        });
+    }
+</script>
+
+<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>

@@ -1,9 +1,10 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -55,7 +56,6 @@ public class CompteController : Controller
         return View(vm);
     }
 
-    //
     // POST: /Compte/Login
     [HttpPost]
     [AllowAnonymous]
@@ -180,12 +180,25 @@ public class CompteController : Controller
                 Nom = vm.FirstName,
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
-                DateAdhesion = DateTime.Now
+                DateAdhesion = DateTime.Now,
+
             };
 
             user.CoverImageUrl = "/img/UserPhoto/DefaultUser.png";
             user.EmailConfirmed = false;
             role = RoleName.MEMBRE;
+
+            //user.AdressePrincipale.Rue = "RueTest";
+            //user.AdressePrincipale.Ville = "VilleTest";
+            //user.AdressePrincipale.Province = "ProvinceTest";
+            //user.AdressePrincipale.Pays = "PaysTest";
+            //user.AdressePrincipale.CodePostal = "CodePostalTest";
+            var stripeCustomerId = await CreateStripeCustomer(user.Email, $"{user.Prenom} {user.Nom}" /*, user.AdressePrincipale.Rue, user.AdressePrincipale.Ville, user.AdressePrincipale.Province, user.AdressePrincipale.CodePostal, user.AdressePrincipale.Pays*/);
+            // Stocker l'ID de client Stripe dans votre base de données
+            ((Membre)user).StripeCustomerId = stripeCustomerId;
+
+            //Stocker l'ID de client Stripe dans un claim pour l'utiliser plus tard
+            var claim = new Claim("StripeCustomerId", stripeCustomerId);
 
             var result = await _userManager.CreateAsync(user, vm.Password);
             // Si l'utilisateur est créé avec succès, connectez-vous.
@@ -464,5 +477,26 @@ public class CompteController : Controller
 
         ViewData["ReturnUrl"] = returnurl;
         return View(vm);
+    }
+
+    public async Task<string> CreateStripeCustomer(string email, string name)
+    {
+        var options = new CustomerCreateOptions
+        {
+            Email = email,
+            Name = name,
+            //Address = new AddressOptions
+            //{
+            //    Line1 = line1,
+            //    City = city,
+            //    State = state,
+            //    PostalCode = postalCode,
+            //    Country = country
+            //}
+        };
+
+        var service = new CustomerService();
+        var customer = await service.CreateAsync(options);
+        return customer.Id;
     }
 }
