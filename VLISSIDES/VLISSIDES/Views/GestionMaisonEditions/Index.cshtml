@@ -1,10 +1,10 @@
-﻿@{
+﻿@model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
+@{
     ViewData["Title"] = "Maison d'édition";
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
 }
-@model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
-<link rel="stylesheet" href="~/css/ListeLivres.css"/>
+<link rel="stylesheet" href="~/css/Gestion/Gestion.css"/>
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
     <div class="modal-dialog" role="document">
@@ -16,8 +16,8 @@
 <!-- Barre latérale coulissante -->
 <partial name="PartialViews/Dashboard/_SideBarPartial"/>
 
-<div class="d-block p-4 p-4">
-    <div class="mb-4">
+<div class="d-block">
+    <div class="">
         <h1>Gestion des maisons d'éditions</h1>
     </div>
     <!--Début : Ajouter maison edition-->
@@ -34,7 +34,7 @@
             <div class="input-group">
                 <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" placeholder="Nom"/>
                 <span asp-validation-for="MaisonEditionsAjouterVM.Nom" class="text-danger"></span>
-                <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter la maison d'édition">
+                <button class="btn btn-primary" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter la maison d'édition">
                     Ajouter
                 </button>
             </div>
@@ -65,7 +65,7 @@
     </div>
     <br/>
     <!--Fin : Rechercher maison edition-->
-    <div class="mb-4">
+    <div class="">
         <h3>Liste des maisons d'éditions</h3>
         <div class="row" id="ListeMaisonPartial">
 
@@ -74,25 +74,13 @@
                             
     </div>
 </div>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js" asp-append-version="true"></script>
+<!--Fin pour Fonctionalite des boutons-->
 <script>
     //Script pour URL
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 
-</script>
-<!--Fonctionalite des boutons *-->
-<style>
-    /*Pour cacher les boutons de sauvegarde --- Ne fonctionne pas dans un fichier css*/
-    .saveButton {
-        visibility: hidden;
-    }
-</style>
-<script type="text/javascript" src="~/js/DynamicSaveButton.js" asp-append-version="true"></script>
-<!--Fin pour Fonctionalite des boutons-->
-
-
-
-<!--Script pour liste-->
-<script type="text/javascript">
+/*Script pour liste*/
 
 /**
  * Fonction pour afficher la liste des maisons d'édition en fonction du numéro de page et du mot-clé de recherche.
@@ -125,11 +113,7 @@ function AfficherListe(page = @ViewBag.CurrentPage) {
 // Appelle la fonction AfficherListe au chargement de la page avec la première page
 AfficherListe();
 
-</script>
-
-
-<!--Script pour Ajouter-->
-<script type="text/javascript">
+/*Script pour Ajouter*/
     function AjouterMaisonEdition() {
         var form = document.getElementById("champAjouter");
         var data = new FormData(form);
@@ -148,9 +132,7 @@ AfficherListe();
         });
         form.reset();
     }
-</script>
-<!--Script pour la liste de livres d'une maison d'édition-->
-<script type="text/javascript">
+/*Script pour la liste de livres d'une maison d'édition*/
     function hideall() {
         divListes = document.getElementById("divListeMaisonEditionLivres").childNodes;
         divListes.forEach((element) => { element.className = "visually-hidden" });
@@ -162,9 +144,7 @@ AfficherListe();
         var liste = document.getElementById("Liste_"+id);
         liste.className= "";        
     }
-</script>
-<!--Script pour Modifier-->
-<script type="text/javascript">
+/*Script pour Modifier*/
     function ModifierMaison(id = "",nom = "")
     {
         fetch(BASE_URL+'/GestionMaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
@@ -179,9 +159,7 @@ AfficherListe();
                 document.getElementById("NomMaison_" + id).innerText = document.getElementById(id + " " + nom).value;
             });
     }
-</script>
-<!--Script pour la suppression-->
-<script type="text/javascript">
+/*Script pour la suppression*/
     function SupprimerMaisonEdition(id = "") {
         fetch(BASE_URL+`/GestionMaisonEditions/SupprimerMaison?id=${id}`, {
             method: 'POST',
@@ -207,16 +185,3 @@ AfficherListe();
         });
     }
 </script>
-
-<!--Script pour la recherche-->
-@* <script type="text/javascript">
-    // ModalScript
-    function RechercherMaisonEdition() {
-        console.log("Recherche commencée");
-        var motCle = document.getElementById("inputRechercherMaison").value;
-        console.log("Mot entré: " + motCle);
-        window.location.href = `/GestionMaisonEditions/Index?motCle=${motCle}`;
-        
-    }
-</script>
- *@
