@@ -8,48 +8,48 @@
 }
 
 
-<div class="star-et-nombre-container">
-    <div class="star-container">
-        <div class="Stars" style="--rating: @rating;"></div>
-        <div class="Stars-o"></div>
+<div class="star-et-nombre-container-lu">
+    <div class="star-container-lu">
+        <div class="Stars-lu" style="--rating-lu: @rating;"></div>
+        <div class="Stars-o-lu"></div>
     </div>
-    <p class="rating-number">(@Math.Round(Model, 1))</p>
+    <p class="rating-number-lu">(@Math.Round(Model, 1))</p>
 </div>
 <style>
     :root {
-        --star-size: 37px;
-        --star-size-o: 43px;
-        --star-color: #fff;
-        --star-background: #fc0;
-        --star-background-o: #000;
+        --star-size-lu: 37px;
+        --star-size-o-lu: 43px;
+        --star-color-lu: #fff;
+        --star-background-lu: #fc0;
+        --star-background-o-lu: #000;
     }
 
-    .rating-number{
+    .rating-number-lu {
         font-size: 28px;
         align-self: center;
     }
 
-    .star-et-nombre-container {
+    .star-et-nombre-container-lu {
         display: flex;
         align-self: center;
     }
 
-    .star-container {
+    .star-container-lu {
         width: 288px;
         position: relative;
     }
 
-    .Stars, .Stars-o {
+    .Stars-lu, .Stars-o-lu {
         display: inline-block;
         font-family: mono;
         width: 100%;
         position: absolute;
     }
 
-    .Stars {
-        --percent: calc((var(--rating) / 5) * 100%);
+    .Stars-lu {
+        --percent: calc((var(--rating-lu) / 5) * 100%);
         z-index: 10;
-        font-size: var(--star-size);
+        font-size: var(--star-size-lu);
         top: 5.2px;
         left: 2.5px;
         &::before
@@ -57,7 +57,7 @@
     {
         content: '★★★★★';
         letter-spacing: 26px;
-        background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+        background: linear-gradient(90deg, var(--star-background-lu) var(--percent), var(--star-color-lu) var(--percent));
         background-clip: text;
         -webkit-background-clip: text;
         text-fill-color: transparent;
@@ -66,8 +66,8 @@
 
     }
 
-    .Stars-o {
-        font-size: var(--star-size-o);
+    .Stars-o-lu {
+        font-size: var(--star-size-o-lu);
         top: 0;
         left: 0;
         &::before
@@ -76,7 +76,7 @@
         /*content: '☆☆☆☆☆';*/
         content: '★★★★★';
         letter-spacing: 21px;
-        background: var(--star-background);
+        background: var(--star-background-lu);
         background-clip: text;
         -webkit-background-clip: text;
         text-fill-color: transparent;

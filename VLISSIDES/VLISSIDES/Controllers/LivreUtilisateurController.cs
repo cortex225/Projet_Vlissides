@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Contracts;
 using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -45,21 +46,26 @@ namespace VLISSIDES.Controllers
                 .ToList();
 
             List<Livre> listLivres = _context.Livres
+                .Include(l => l.Evaluations)
                 .Where(l => idsLivres.Contains(l.Id))
                 .ToList();
 
             foreach (Livre l in listLivres)
             {
-                vm.Add(new LivreUtilisateurIndexVM { Id = l.Id, Titre = l.Titre, Couverture = l.Couverture });
+                double? eval = null;
+                if (l.Evaluations != null)
+                {
+                    foreach (Evaluation e in l.Evaluations)
+                    {
+                        if (e.MembreId == userId)
+                        {
+                            eval = (double)e.Note;
+                            break;
+                        }
+                    }
+                }
+                vm.Add(new LivreUtilisateurIndexVM { Id = l.Id, Titre = l.Titre, Couverture = l.Couverture, monEvaluation = eval });
             }
-
-            /*
-            vm.Add(new LivreUtilisateurIndexVM { Id = "id1", Titre = "Mathématiques pour l'informatique", Couverture = "https://img.chasse-aux-livres.fr/v7/_am1_/51MiRkVHPQL.jpg?w=170&h=200&func=bound&org_if_sml=1" });
-            vm.Add(new LivreUtilisateurIndexVM { Id = "id2", Titre = "Les superpouvoirs des livres", Couverture = "https://images.renaud-bray.com/images/PG/4041/4041312-gf.jpg?404=404RB.gif" });
-            vm.Add(new LivreUtilisateurIndexVM { Id = "id3", Titre = "The language of fire", Couverture = "https://i.pinimg.com/236x/37/a9/98/37a99839a447357ee6d3d4b9c991d864.jpg" });
-            vm.Add(new LivreUtilisateurIndexVM { Id = "id4", Titre = "Maria Chapdelaine", Couverture = "https://images.renaud-bray.com/images/PG/1490/1490368-gf.jpg?404=404RB.gif" });
-            vm.Add(new LivreUtilisateurIndexVM { Id = "id5", Titre = "Jamais plus", Couverture = "https://bettierosebooks.files.wordpress.com/2017/05/jamais-plus-893786.jpg" });
-            */
 
             ListLivreUtilisateurIndexVM VM = new ListLivreUtilisateurIndexVM()
             {
@@ -79,23 +85,80 @@ namespace VLISSIDES.Controllers
 
         [HttpPost]
         [Route("/LivreUtilisateur/Noter")]
-        public async Task<IActionResult> Noter(string id, int note)
+        public async Task<IActionResult> Noter(string id, int? note)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Evaluation e = new Evaluation()
+            Livre? l = await _context.Livres
+                .Include(l => l.Evaluations)
+                .FirstOrDefaultAsync(livre => livre.Id == id);
+            Evaluation? eval = null;
+
+            //Chercher si il y a déja une évaluation
+            if (l != null)
             {
-                Id = Guid.NewGuid().ToString(),
-                Note = note,
-                DateEvaluation = DateTime.Now,
-                LivreId = id,
-                MembreId = userId
-            };
+                if (l.Evaluations != null)
+                {
+                    foreach (Evaluation evaluation in l.Evaluations)
+                    {
+                        if (evaluation.MembreId == userId)
+                        {
+                            eval = evaluation;
+                            break;
+                        }
+                    }
+                }
+            }
 
-            await _context.Evaluations.AddAsync(e);
-            await _context.SaveChangesAsync();
+            if (note == null)//Supprimer évaluation
+            {
+                if (eval != null)
+                {
+                    _context.Evaluations.Remove(eval);
+                    await _context.SaveChangesAsync();
+                }
 
-            return RedirectToAction("/LivreUtilisateur/Index");
+                return RedirectToAction("/LivreUtilisateur/Index");
+            }
+            else
+            {
+
+                if (eval != null)//Modifier évaluation
+                {
+                    //eval.DateEvaluation = DateTime.Now;
+                    //eval.Note = (int)note;
+
+                    _context.Evaluations.Remove(eval);
+
+                    Evaluation e = new Evaluation()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Note = (int)note,
+                        DateEvaluation = DateTime.Now,
+                        LivreId = id,
+                        MembreId = userId
+                    };
+                    await _context.Evaluations.AddAsync(e);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("/LivreUtilisateur/Index");
+                }
+                else//Créer une nouvelle évaluation
+                {
+
+                    Evaluation e = new Evaluation()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Note = (int)note,
+                        DateEvaluation = DateTime.Now,
+                        LivreId = id,
+                        MembreId = userId
+                    };
+                    await _context.Evaluations.AddAsync(e);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("/LivreUtilisateur/Index");
+                }
+            }
         }
     }
 }

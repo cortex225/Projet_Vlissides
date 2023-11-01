@@ -8,6 +8,6 @@
         public List<string> Auteurs { get; set; }
         public List<string> Categories { get; set; }
         public string MaisonEdition { get; set; }
-        public double monEvaluation { get; set; }
+        public double? monEvaluation { get; set; }
     }
 }

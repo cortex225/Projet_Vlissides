@@ -146,7 +146,7 @@
         window.location.href = `/LivreUtilisateur/Index?id=${id}`;
     }
 
-    async function NoterLivre(id = "") {
+    async function NoterLivre(id = "") {//Sert aussi pour modifier
         console.log("Patate Tomate NOTE");
         var boutonsRadio = document.getElementsByName("starsRadioGroup");
         var noteValeur;
@@ -160,6 +160,19 @@
         }
 
         fetch(BASE_URL + '/LivreUtilisateur/Noter?id=' + id + '&note=' + noteValeur, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => console.error('Échec du fetch pour noter le livre'))
+            .then((response) => {
+
+            });
+    }
+
+    async function SupprimerEvaluation(id = "") {
+        fetch(BASE_URL + '/LivreUtilisateur/Noter?id=' + id + '&note=null', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
