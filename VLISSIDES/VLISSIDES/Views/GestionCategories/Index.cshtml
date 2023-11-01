@@ -1,7 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Catégorie";
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
 }
@@ -25,7 +23,7 @@
     </div>
 
     <div class="container-fluid">
-        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("Ajouter", "GestionCategories")')">Ajouter une catégorie</button>
+        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowAjouter", "GestionCategories")')">Ajouter une catégorie</button>
     </div>
 
     <br/>
@@ -114,11 +112,12 @@
         liste.className = "";
     }
 </script>
+
 <!--Script pour Modifier nom-->
 <script type="text/javascript">
     function ModifierNomCategorie(id = "", nom = "") {
         
-        fetch(BASE_URL + 'GestionCategories/ModifierNomCategorie?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+        fetch(BASE_URL + '/GestionCategories/ModifierNomCategorie?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -134,7 +133,7 @@
 <!--Script pour la supprimation et le modal-->
 <script type="text/javascript">
     function SupprimerCategorie(id = "") {
-        fetch(BASE_URL+'GestionCategories/SupprimerCategorie?id=' + id, {
+        fetch(BASE_URL+'/GestionCategories/SupprimerCategorie?id=' + id, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -167,5 +166,48 @@
         var motCle = document.getElementById("inputRechercherCategorie").value;
         console.log("Mot entré: " + motCle);
         window.location.href = `/GestionCategories/Index?motCle=${motCle}`;
+    }
+</script>
+<!--Script pour Ajouter et modifier-->
+<script>
+    function AjouterCategorie() {
+        var form = document.getElementById("FormAjouterCategorie");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionCategories/Ajouter", {
+            method: "POST",
+            body: data,
+        })
+            .then((response) => {
+                return response.text();
+            }).then((result) => {
+                if (result == "") {
+
+                    $('.modal').modal('hide');
+                    RechercherCategorie();
+                } else {
+                    document.querySelector('.modal-content').innerHTML = result;
+
+                }
+            });
+    }
+    function ModifierCategorie(){
+        var form = document.getElementById("FormModifierCategorie");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionCategories/Modifier", {
+            method: "POST",
+            body: data,
+        })
+            .then((response) => {
+                return response.text();
+            }).then((result) => {
+                if (result == "") {
+
+                    $('.modal').modal('hide');
+                    RechercherCategorie();
+                } else {
+                    document.querySelector('.modal-content').innerHTML = result;
+
+                }
+            });
     }
 </script>

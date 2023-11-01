@@ -53,11 +53,11 @@
             <!--
             Gérer panier
             -->
-            @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+            @if (User.IsInRole(RoleName.MEMBRE)))
             {
                 <li>
                     <a class="nav-link" asp-area="" asp-controller="Panier" asp-action="Index">
-                        <i class="fa-solid fa-cart-shopping"></i>
+                        <i class="fa-solid fa-cart-shopping"><span id="nbArticlesText">@nbArticles</span></i>
                         Consulter le panier
                             <span class="badge badge-pill badge-danger">
                                 @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
