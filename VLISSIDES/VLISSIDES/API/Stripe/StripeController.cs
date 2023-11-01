@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -16,6 +18,7 @@ namespace VLISSIDES.API.Stripe
     [Route("api/[controller]")]
     public class StripeController : Controller
     {
+        private const string WebhookSecretApi = "whsec_duqdVrYBhqWnDL9kgYnoFE4rzByAE3Rk";
         private readonly IConfiguration _config;
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -48,163 +51,67 @@ namespace VLISSIDES.API.Stripe
             _webHostEnvironment = webHostEnvironment;
             _config = config;
         }
-        // [HttpPost]
-        public async Task<IActionResult> SetDeliveryAddress(string userId, string addressId)
+
+        [HttpPost("confirmation-paiement")]
+        public async Task<IActionResult> Index()
         {
-            var user = await _context.Users.FindAsync(userId);
-            var address = await _context.Adresses.FindAsync(addressId);
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
-            if (user == null || address == null)
-            {
-                return NotFound();
-            }
-
-            user.AdressesLivraison.FirstOrDefault().Id = addressId;
-            await _context.SaveChangesAsync();
-
-            return Ok();
-
-             }
-
-        [HttpPost("CompleteOrder")]
-        public async Task<IActionResult> CompleteOrder([FromBody] StripePaiementVM paymentData)
-        {
-            // var stripeCustomerId = paymentData.StripeCustomerId;
-            var stripeCustomerId = "cus_Os2AwQNQdo2umB";
-
-            string userId = paymentData.UserId;
-
-            // Appeler GetUserWithAddress pour obtenir des informations sur l'utilisateur
-            var user = await GetUserWithAddress(userId);
-            if (user == null)
-            {
-                return NotFound("L'utilisateur n'a pas été trouvé.");
-            }
-
-            // Appeler GetCartItems pour obtenir les articles dans le panier
-            var cartItems = await GetCartItems(userId);
-            if (cartItems == null || !cartItems.Any())
-            {
-                return BadRequest("Aucun article trouvé dans le panier.");
-            }
-
-            // Appeler CreateStripePaymentVM pour créer une instance de StripePaiementVM
-            var stripePaymentVM = await CreateStripePaymentVM(user, cartItems);
-            if (stripePaymentVM == null)
-            {
-                return BadRequest("Impossible de créer StripePaiementVM.");
-            }
-
-            PaymentIntent paymentIntent;
             try
             {
-                paymentIntent = new PaymentIntent();
+                var stripeEvent =
+                    EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WebhookSecretApi,throwOnApiVersionMismatch:false);
 
-            }
-            catch (StripeException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                var session=stripeEvent.Data.Object as Session;
+                // Handle the event
 
-
-            if (paymentData == null)
-            {
-                return BadRequest("Les données requises sont manquantes ou invalides.");
-            }
-
-
-
-            if (paymentIntent.Status != "succeeded")
-            {
-                return BadRequest("Le paiement a échoué");
-            }
-
-            await UpdateInventory(paymentData.Livres);
-            await CreateOrder(paymentIntent.Id, paymentData.Livres,
-                paymentData.Adresse);
-
-            return Ok();
-        }
-
-
-        private async Task<Membre> GetUserWithAddress(string userId)
-        {
-            return await _context.Membres
-                .Include(x => x.AdressesLivraison).FirstOrDefaultAsync(u => u.Id == userId);
-        }
-
-        private async Task<List<LivrePanier>> GetCartItems(string userId)
-        {
-            return await _context.LivrePanier
-                .Where(ci => ci.UserId == userId)
-                .Include(ci => ci.Livre)
-                .Include(ci => ci.TypeLivre)
-                .ToListAsync();
-        }
-
-        private async Task<StripePaiementVM> CreateStripePaymentVM(ApplicationUser user, List<LivrePanier> cartItems)
-        {
-            var memberId = user.Id;
-            var member = await _context.Membres.FindAsync(memberId);
-            var stripeCustomerId = member.StripeCustomerId;
-
-
-
-            var paymentVM = new StripePaiementVM
-            {
-                StripeCustomerId = stripeCustomerId,
-                UserId = memberId,
-            };
-
-            return paymentVM;
-        }
-
-        private async Task<PaymentIntent> CreatePaymentIntent(StripePaiementVM stripePaiement, string stripeToken)
-        {
-            var options = new SessionCreateOptions
-            {
-                LineItems = new List<SessionLineItemOptions>
+                if (stripeEvent.Type == Events.CheckoutSessionAsyncPaymentFailed)
                 {
-                    new SessionLineItemOptions
+                }
+                else if (stripeEvent.Type == Events.CheckoutSessionAsyncPaymentSucceeded)
+                {
+                }
+                else if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+                {
+
+                    var customer =
+                        await _context.Membres.FirstOrDefaultAsync(c => c.StripeCustomerId == session.CustomerId);
+                    var panier = await _context.Paniers.FirstOrDefaultAsync(p => p.Id == customer.Id);
+                    var panierItems = await _context.Paniers.Where(pi => pi.Id == panier.Id).ToListAsync();
+                    var user = await _userManager.FindByIdAsync(customer.StripeCustomerId);
+                    var userClaims = await _userManager.GetClaimsAsync(user);
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    var userClaimsList = new List<string>();
+                    var userRolesList = new List<string>();
+                    foreach (var claim in userClaims)
                     {
-                        PriceData = new SessionLineItemPriceDataOptions
-                        {
-                            UnitAmount = 2000,
-                            Currency = "cad",
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name = "T-shirt"
-                            },
-                        },
-                        Quantity = 1,
-                    },
-                },
-                Mode = "payment",
+                        userClaimsList.Add(claim.Value);
+                    }
 
-                AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
-            };
-            var service = new SessionService();
-            Session session = service.Create(options);
-            Response.Headers.Add("Location", session.Url);
-            return await Task.FromResult(new PaymentIntent());
-        }
+                    foreach (var role in userRoles)
+                    {
+                        userRolesList.Add(role);
+                    }
 
+                }
+                else if (stripeEvent.Type == Events.CheckoutSessionExpired)
+                {
+                }
+                else if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+                {
+                }
+                else
+                {
+                    // Unexpected event type
+                    Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
+                }
 
-
-
-
-
-
-        private async Task UpdateInventory(List<AfficherPanierVM>? cartItems)
-        {
-            // Implémenter la logique pour mettre à jour l'inventaire
-            await Task.CompletedTask;
-        }
-
-        private async Task CreateOrder(string paymentIntentId, List<AfficherPanierVM>? cartItems, ProfileModifierAdressesVM deliveryAddress)
-        {
-            // Implémenter la logique pour créer un enregistrement de commande
-            await Task.CompletedTask;
+                return Ok();
+            }
+            catch (StripeException e)
+            {
+                return BadRequest();
+            }
         }
     }
 }

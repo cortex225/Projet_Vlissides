@@ -75,18 +75,20 @@ namespace VLISSIDES.Controllers
                 .Where(lp => lp.UserId == userId)
                 .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
                 .ToList();
-             var imgLivreUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{panierItems.FirstOrDefault().Livre.Couverture}";
+            var imgLivreUrl =
+                $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{panierItems.FirstOrDefault().Livre.Couverture}";
             // Créez les articles de la session de paiement Stripe
             var lineItems = panierItems.Select(item => new SessionLineItemOptions
             {
                 PriceData = new SessionLineItemPriceDataOptions
                 {
-                    UnitAmount = (long)(item.Livre.LivreTypeLivres.FirstOrDefault().Prix)*100,
+                    UnitAmount = (long)(item.Livre.LivreTypeLivres.FirstOrDefault().Prix) * 100,
                     Currency = "cad",
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
                         Name = item.Livre.Titre,
-                        Images = new List<string> { "https://localhost:7089/img/Couvertures/Contes%20de%20Perrault.png"},
+                        Images = new List<string>
+                            { "https://localhost:7089/img/Couvertures/Contes%20de%20Perrault.png" },
                     },
 
 
@@ -94,17 +96,33 @@ namespace VLISSIDES.Controllers
                 Quantity = item.Quantite,
             }).ToList();
 
+
+
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string> { "card" },
                 LineItems = lineItems,
                 Mode = "payment",
-                CustomerEmail = _context.Users.Find(userId).Email,
+                // CustomerEmail = _context.Users.Find(userId).Email,
+                Customer = StripeCustomerId,
                 AllowPromotionCodes = true,
+
                 BillingAddressCollection = "required",
                 ShippingAddressCollection = new SessionShippingAddressCollectionOptions
                 {
                     AllowedCountries = new List<string> { "CA", "US" },
+
+                },
+                CustomerUpdate = new SessionCustomerUpdateOptions
+                {
+                    Address = "auto",
+                    Name = "auto",
+                    Shipping = "auto",
+
+                },
+                InvoiceCreation = new SessionInvoiceCreationOptions
+                {
+                    Enabled = true,
                 },
                 AutomaticTax = new SessionAutomaticTaxOptions
                 {
@@ -115,7 +133,10 @@ namespace VLISSIDES.Controllers
                 CancelUrl = Url.Action("Cancel", "Paiement", null, Request.Scheme),
             };
 
-            var service = new SessionService();
+
+
+
+        var service = new SessionService();
             Session session = service.Create(options);
 
             return Json(new { id = session.Id });
