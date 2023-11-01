@@ -145,7 +145,7 @@ namespace VLISSIDES.Controllers
                 }
                 else
                 {
-                    vm.Image = "/2147186/img/CouvertureLivre/livredefault.png";
+                    vm.Image = "/img/CouvertureLivre/livredefault.png";
                 }
                 evenement.Image = vm.Image;
                 _context.Evenements.Add(evenement);
