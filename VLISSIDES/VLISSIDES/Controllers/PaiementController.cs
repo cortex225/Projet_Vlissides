@@ -137,5 +137,31 @@ namespace VLISSIDES.Controllers
 
             return adresse;
         }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult EnregistrerAdresse(StripePaiementVM vm)
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var adresseVm = vm.Adresse;
+            if (ModelState.IsValid)
+            {
+                var adresse = new Adresse
+                {
+                    UtilisateurLivraisonId = currentUserId,
+                    NoApartement = adresseVm.NoApartement,
+                    NoCivique = adresseVm.NoCivique,
+                    Rue = adresseVm.Rue,
+                    Ville = adresseVm.Ville,
+                    Province = adresseVm.Province,
+                    Pays = adresseVm.Pays,
+                    CodePostal = adresseVm.CodePostal,
+                };
+                _context.Adresses.Add(adresse);
+                _context.SaveChanges();
+                return Ok();
+            }
+            return View(vm);
+        }
     }
 }
