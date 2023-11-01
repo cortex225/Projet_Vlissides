@@ -34,6 +34,20 @@
     <div class="m-4">
         <div id="adressePage">
             <h2>Adresse</h2>
+            <div class="">
+                <h4>Adresses enregistrées</h4>
+                <ul class="list-group list-group-horizontal d-flex flex-wrap" id="list-tab" role="tablist">
+                    @foreach(var adresse in Model.Adresse.AdressesDeLivraison)
+                    {
+                        <li id="adresse @adresse.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclick="selectAdresse('@adresse.Id', event)">
+                            <p>@adresse.NoCivique @adresse.Rue @adresse.Ville @adresse.Province @adresse.Pays - @adresse.CodePostal</p>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <hr />
+
             <div class="rcorners m-2 p-4 overflow-hidden">
                 <h5 class="my-2">Adresse ligne 1</h5>
                 <div class="row">
@@ -41,14 +55,14 @@
                     <div class="col-2 ">
                         <div class="form-group form-group-static">
                             <label asp-for="Adresse.NoCivique" class="control-label mb-2"></label>
-                            <input asp-for="Adresse.NoCivique" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.NoCivique)"/>
+                            <input id="inputNoCiv" asp-for="Adresse.NoCivique" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.NoCivique)"/>
                             <span asp-validation-for="Adresse.NoCivique" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-10">
                         <div class="form-group form-group-static">
                             <label asp-for="Adresse.Rue" class="control-label mb-2"></label>
-                            <input asp-for="Adresse.Rue" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.Rue)"/>
+                            <input id="inputRue" asp-for="Adresse.Rue" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.Rue)" />
                             <span asp-validation-for="Adresse.Rue" class="text-danger"></span>
                         </div>
                     </div>
@@ -59,7 +73,7 @@
                     <div class="col-12">
                         <div class="form-group form-group-static">
                             <label asp-for="Adresse.NoApartement" class="control-label mb-2"></label>
-                            <input asp-for="Adresse.NoApartement" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.NoApartement)"/>
+                            <input id="inputNoApp" asp-for="Adresse.NoApartement" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.NoApartement)" />
                             <span asp-validation-for="Adresse.NoApartement" class="text-danger"></span>
                         </div>
                     </div>
@@ -69,7 +83,7 @@
                     <div class="col-2">
                         <div class="form-group form-group-static">
                             <label asp-for="Adresse.CodePostal" class="control-label mb-2"></label>
-                            <input asp-for="Adresse.CodePostal" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.CodePostal)"/>
+                            <input id="inputCodePost" asp-for="Adresse.CodePostal" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.CodePostal)" />
                             <span asp-validation-for="Adresse.CodePostal" class="text-danger"></span>
                         </div>
                     </div>
@@ -79,21 +93,21 @@
                     <div class="col">
                         <div class="form-group form-group-static">
                             <label asp-for="Adresse.Ville" class="control-label mb-2"></label>
-                            <input asp-for="Adresse.Ville" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.Ville)"/>
+                            <input id="inputVille" asp-for="Adresse.Ville" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.Ville)" />
                             <span asp-validation-for="Adresse.Ville" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group form-group-static">
                             <label asp-for="Adresse.Province" class="control-label mb-2"></label>
-                            <input asp-for="Adresse.Province" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.Province)"/>
+                            <input id="inputProvince" asp-for="Adresse.Province" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.Province)" />
                             <span asp-validation-for="Adresse.Province" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group form-group-static">
                             <label asp-for="Adresse.Pays" class="control-label mb-2"></label>
-                            <input asp-for="Adresse.Pays" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.Pays)"/>
+                            <input id="inputPays" asp-for="Adresse.Pays" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Adresse.Pays)" />
                             <span asp-validation-for="Adresse.Pays" class="text-danger"></span>
                         </div>
                     </div>
@@ -129,6 +143,16 @@
     </div>
 </div>
 
+<style>
+    .li{
+        flex-basis: 33%;
+    }
+    #list-tab{
+        /* flex: auto; !important
+        display: inline-block; !important
+        flex-wrap: wrap; !important  */
+    }
+</style>
 <script type="text/javascript">
     var checkoutButton = document.getElementById('checkout-button');
     function createCheckoutSession() {
@@ -216,6 +240,45 @@
             confirmationPage.className = "";
 
 
+        }
+    </script>
+
+    <script>
+        function selectAdresse(id = "", ev) {
+            ev.preventDefault();
+
+            //var divAdresse = document.getElementById("adresse " + id);
+            //divAdresse.style.borderColor = blue;
+
+            var noApp = document.getElementById("inputNoApp");
+            var noCiv = document.getElementById("inputNoCiv");
+            var rue = document.getElementById("inputRue");
+            var codePost = document.getElementById("inputCodePost");
+            var ville = document.getElementById("inputVille");
+            var province = document.getElementById("inputProvince");
+            var pays = document.getElementById("inputPays");
+
+            var apiUrl = BASE_URL + '/Paiement/AdresseSelection?id=' + id;
+
+            // Effectue une requête GET à l'API
+            fetch(apiUrl, {
+                method: "GET"
+            }).then((response) => {
+                // Convertit la réponse en texte
+                return response.json();
+            }).then((result) => {
+                // Met à jour le contenu de la div avec le résultat
+                noApp.value = result.noApartement;
+                noCiv.value = result.noCivique;
+                rue.value = result.rue;
+                codePost.value = result.codePostal;
+                ville.value = result.ville;
+                province.value = result.province;
+                pays.value = result.pays;
+            }).catch(error => {
+                // Affiche une erreur dans la console en cas d'échec de la requête
+                console.error('Erreur lors de la récupération de la liste des auteurs', error);
+            });
         }
     </script>
 }
