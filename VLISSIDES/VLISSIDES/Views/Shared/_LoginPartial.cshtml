@@ -18,14 +18,12 @@
 <div id="boutonseconection">
     @if (SignInManager.IsSignedIn(User))
     {
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Salut @UserManager.GetUserAsync(User).Result.UserName!👋</a>
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Accueil", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link rounded-pill  bg-secondary  text-white px-4">Se déconnecter <i class="fa-solid fa-arrow-right-from-bracket px-2"></i></button>
-            </form>
+        <button class="nav-link flex-nowrap"><a class=" text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">👋 Salut @UserManager.GetUserAsync(User).Result.UserName!</a></button>
+        <button type="submit" class="nav-link  btn btn-link flex-nowrap rounded-pill  bg-secondary  flex-nowrap"><i class="fa-solid fa-arrow-right-from-bracket text-white"></i><a class="text-white" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Accueil", new { area = "" })">Se déconnecter</a></button>
     }
     else
     {
-            <a class="nav-link rounded-pill btn btn-outline-secondary mx-2 " asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a>
-            <a class="nav-link rounded-pill btn bg-primary  text-white px-4" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a>
+        <button class="nav-link btn btn-outline-secondary flex-nowrap rounded-pill"><a asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a></button>
+        <button class="nav-link btn bg-primary flex-nowrap rounded-pill"><a id="btnRegister" class="text-white" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a></button>
     }
 </div>
