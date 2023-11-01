@@ -25,7 +25,8 @@ public class AjouterVM
     [Display(Name = "ISBN")] public string ISBN { get; set; }
 
     //Categories
-    [Display(Name = "Catégorie")] public string CategorieId { get; set; }
+    [Required(ErrorMessage = "Les catégories sont obligatoires")]
+    [Display(Name = "Catégorie")] public List<string> CategorieIds { get; set; }
 
     public ICollection<Categorie>? Categories { get; set; }
 

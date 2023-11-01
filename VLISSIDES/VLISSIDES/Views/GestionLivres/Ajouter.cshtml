@@ -45,10 +45,10 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label asp-for="CategorieId" class="control-label"></label>
-                                        <select asp-for="CategorieId" asp-items="Model.SelectListCategories" class="form-control">
+                                        <label asp-for="CategorieIds" class="control-label"></label>
+                                        <select asp-for="CategorieIds" asp-items="Model.SelectListCategories" class="form-control" id="sCategories" multiple>
                                         </select>
-                                        <span asp-validation-for="CategorieId" class="text-danger"></span>
+                                        <span asp-validation-for="CategorieIds" class="text-danger"></span>
                                     </div>
                                     <fieldset>
                                         @*  <legend>Type de livre</legend> *@
@@ -115,6 +115,7 @@
 </div>
 <script>
     new MultiSelectTag('sAuteurs');
+    new MultiSelectTag("sCategorie");
 </script>
 <script type="text/javascript">
     function ShowInputsNeuf() {

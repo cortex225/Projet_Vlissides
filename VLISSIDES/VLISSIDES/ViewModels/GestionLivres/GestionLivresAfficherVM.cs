@@ -9,7 +9,7 @@ public class GestionLivresAfficherVM
     public string Titre { get; set; }
     public string ISBN { get; set; }
 
-    public string Categorie { get; set; }
+    public ICollection<Categorie> Categories { get; set; }
     public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; }
 
     //public ICollection<Auteur>? Auteur { get; set; }

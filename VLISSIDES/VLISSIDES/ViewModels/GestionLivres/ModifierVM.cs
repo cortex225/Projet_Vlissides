@@ -24,7 +24,8 @@ public class ModifierVM
     public string ISBN { get; set; }
 
     //Categories
-    [Display(Name = "Catégorie")] public string CategorieId { get; set; }
+    [Required(ErrorMessage = "Les catégories sont obligatoires")]
+    [Display(Name = "Catégorie")] public List<string> CategorieIds { get; set; }
 
     public List<SelectListItem>? SelectListCategories { get; set; }
 
