@@ -155,9 +155,18 @@
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 </script>
 <script type="text/javascript">
-    function MontrerBoiteEvaluation(id = "") {
-        console.log(id);
-        window.location.href = `/LivreUtilisateur/Index?id=${id}`;
+    async function MontrerBoiteEvaluation(id = "") {
+        fetch(BASE_URL + `/LivreUtilisateur/Index?id=${id}`, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => console.error('Échec du fetch pour noter le livre'))
+        .then((response) => {
+            return response.text();
+        }).then((result) => { 
+            document.querySelector("body").innerHTML = result;
+        });
     }
 
     async function NoterLivre(id = "") {//Sert aussi pour modifier
