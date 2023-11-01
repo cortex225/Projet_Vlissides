@@ -108,27 +108,40 @@ namespace VLISSIDES.Controllers
                     userM.UserName = vm.NomUtilisateur;
 
                     // Sauvegarder l'image dans le dossier spécifié
+                    //if (vm.CoverPhoto != null)
+                    //{
+                    //    var wwwRootPath = _webHostEnvironment.WebRootPath;
+                    //    var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                    //    var extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                    //    fileName = fileName + "_" + Guid.NewGuid().ToString() +
+                    //               extension; // Utilisation de Guid pour un nom de fichier unique
+                    //    var folderPath =
+                    //        Path.Combine(wwwRootPath, _config.GetValue<string>("ImageUrl")); // Chemin du dossier où l'image sera sauvegardée
+                    //    var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
+
+                    //    // Sauvegarder l'image
+                    //    using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                    //    {
+                    //        await vm.CoverPhoto.CopyToAsync(fileStream);
+                    //    }
+
+                    //    userCourant.CoverImageUrl =
+                    //        "/img/UserPhoto/" + fileName; 
+                    //}
                     if (vm.CoverPhoto != null)
                     {
                         var wwwRootPath = _webHostEnvironment.WebRootPath;
                         var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
                         var extension = Path.GetExtension(vm.CoverPhoto.FileName);
-                        fileName = fileName + "_" + Guid.NewGuid().ToString() +
-                                   extension; // Utilisation de Guid pour un nom de fichier unique
-                        var folderPath =
-                            Path.Combine(wwwRootPath, "img",
-                                "UserPhoto"); // Chemin du dossier où l'image sera sauvegardée
-                        var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
-
-                        // Sauvegarder l'image
-                        using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                        fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+                        vm.CoverImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                        var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
+                        using (var fileStream = new FileStream(path, FileMode.Create))
                         {
                             await vm.CoverPhoto.CopyToAsync(fileStream);
                         }
-
-                        userCourant.CoverImageUrl =
-                            "/img/UserPhoto/" + fileName; 
                     }
+                    userM.CoverImageUrl = vm.CoverImageUrl;
 
                     await _context.SaveChangesAsync();
                 }
