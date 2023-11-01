@@ -60,7 +60,11 @@ namespace VLISSIDES.Controllers
         }
         public IActionResult AjouterEvenement()
         {
-            var vm = new GestionEvenementsAjouterVM();
+            var vm = new GestionEvenementsAjouterVM()
+            {
+                DateDebut = DateTime.Now,
+                DateFin = DateTime.Now,
+            };
             return PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial", vm);
         }
         [HttpPost]
