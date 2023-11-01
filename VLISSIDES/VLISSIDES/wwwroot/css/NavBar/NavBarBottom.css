@@ -15,14 +15,16 @@
 
     #navLeft li {
     }
-
-    #navLeft li, #navRight li {
-        width: fit-content;
-        height: 100%;
-        display: flex;
-        margin: 10px;
-        padding: 0px 1px;
-    }
+#navLeft li, #navRight li {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    margin: 10px;
+    padding: 0px 1px;
+}
+#navRight li {
+    margin: 10px 0;
+}
 
         #navLeft li *, #navRight li * {
             width: fit-content;
@@ -49,7 +51,7 @@
 
 @media only screen and (max-width: 911px) {
     #navRight {
-        width: 170px;
+        width: 150px;
     }
 }
 

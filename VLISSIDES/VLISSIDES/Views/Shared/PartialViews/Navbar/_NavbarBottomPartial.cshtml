@@ -57,14 +57,16 @@
             <!--
             Gérer panier
             -->
-            @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+            @if (User.IsInRole(RoleName.MEMBRE))
             {
                 <li>
                     <a class="nav-link" asp-area="" asp-controller="Panier" asp-action="Index">
-                                                    <span class="badge badge-pill badge-danger">
-                                                                                <i class="fa-solid fa-cart-shopping"><span id="nbArticlesText">@nbArticles</span></i>
-                            </span>
-
+                        <span class="badge-panier" id="nbArticles">
+                                <span id="nbArticlesText">@nbArticles</span>
+                        </span>
+                    </a>
+                    <a class="nav-link" asp-area="" asp-controller="Panier" asp-action="Index">
+                        <i class="fa-solid fa-cart-shopping"></i>
                         Consulter le panier
                     </a>
                 </li>
@@ -73,4 +75,7 @@
 </ul>
 </nav>
 <!-- Barre latérale coulissante -->
-<partial name="PartialViews/Dashboard/_SideBarPartial" />
+@if (!User.Identity.IsAuthenticated || User.IsInRole(RoleName.MEMBRE))
+{
+    <partial name="PartialViews/Dashboard/_SideBarPartial" />
+}
