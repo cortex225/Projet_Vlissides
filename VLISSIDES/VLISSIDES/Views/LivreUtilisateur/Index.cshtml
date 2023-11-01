@@ -1,6 +1,8 @@
 ﻿@using VLISSIDES.ViewModels.LivreUtilisateur;
 @model ListLivreUtilisateurIndexVM
 @{
+    //LU est une abbréviation pour Livre Utilisateur
+
     string? livreSelectionne = null;
 
     ViewData["Title"] = "Mes livres";
@@ -134,6 +136,14 @@
 
     .radioStar{
         margin: 16px;
+    }
+
+    .card-lu{
+        display: flex;
+    }
+
+    .card-lu > * {
+        margin: 12px;
     }
 </style>
 <script>

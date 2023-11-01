@@ -10,20 +10,22 @@
         <div class="col-md-9">
             <div class="card-body">
                 <h4>@Model.Titre</h4>
-                @if(Model.monEvaluation == null){
-                    <button type="button" id="@Model.Id" onclick="MontrerBoiteEvaluation('@Model.Id')" class="btn btn-primary">Notez ce livre!</button>
-                }else{
-                    <span>Votre évaluation: </span>
+                <div class="card-lu">
+                    @if(Model.monEvaluation == null){
+                        <button type="button" id="@Model.Id" onclick="MontrerBoiteEvaluation('@Model.Id')" class="btn btn-primary">Notez ce livre!</button>
+                    }else{
+                        <span>Votre évaluation: </span>
 
-                    <partial name="../Accueil/_Etoiles.cshtml" model=@Model.monEvaluation />
+                        <partial name="../Accueil/_Etoiles.cshtml" model=@Model.monEvaluation />
 
-                    <a class="btn btn-primary p-2" onclick="MontrerBoiteEvaluation('@Model.Id')" data-toggle="tooltip" title="Modifier le livre">
-                        <span class="fa-solid fa-pen fa-2x"></span>
-                    </a>
-                    <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="SupprimerEvaluation('@Model.Id')">
-                        <span class="fa-solid fa-trash fa-2x"></span>
-                    </a>
-                }
+                        <a class="btn btn-primary p-2" onclick="MontrerBoiteEvaluation('@Model.Id')" data-toggle="tooltip" title="Modifier le livre">
+                            <span class="fa-solid fa-pen fa-2x"></span>
+                        </a>
+                        <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="SupprimerEvaluation('@Model.Id')">
+                            <span class="fa-solid fa-trash fa-2x"></span>
+                        </a>
+                    }
+                </div>
             </div>
         </div>
     </div>
