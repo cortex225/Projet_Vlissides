@@ -9,8 +9,11 @@
         </div>
         <div class="col-md-9">
             <div class="card-body">
-                <h4>@Model.Titre</h4>
-                <div class="card-lu">
+                <div class="card-lu card-lu-download-titre">
+                    <h4>@Model.Titre</h4>
+                    <i class="fa-solid fa-file-arrow-down fa-2x" style="color: #358bff;"></i>
+                </div>
+                <div class="card-lu card-lu-btn-rating">
                     @if(Model.monEvaluation == null){
                         <button type="button" id="@Model.Id" onclick="MontrerBoiteEvaluation('@Model.Id')" class="btn btn-primary">Notez ce livre!</button>
                     }else{
