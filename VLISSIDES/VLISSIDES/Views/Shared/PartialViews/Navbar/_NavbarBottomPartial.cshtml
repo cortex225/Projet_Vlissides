@@ -75,7 +75,7 @@
 </ul>
 </nav>
 <!-- Barre latérale coulissante -->
-@if (!User.Identity.IsAuthenticated || User.IsInRole(RoleName.MEMBRE))
+@if (User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN))
 {
     <partial name="PartialViews/Dashboard/_SideBarPartial" />
 }
