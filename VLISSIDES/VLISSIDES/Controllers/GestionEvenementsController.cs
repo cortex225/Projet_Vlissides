@@ -102,31 +102,48 @@ namespace VLISSIDES.Controllers
                     Prix = prix,
 
                 };
+                //if (vm.CoverPhoto != null)
+                //{
+                //    var wwwRootPath = _webHostEnvironment.WebRootPath;
+                //    var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                //    var extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                //    fileName = fileName + "_" + Guid.NewGuid().ToString() +
+                //               extension; // Utilisation de Guid pour un nom de fichier unique
+                //    var folderPath =
+                //        Path.Combine(wwwRootPath, _config.GetValue<string>("ImageUrl")); // Chemin du dossier où l'image sera sauvegardée
+                //    var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
+
+                //    // Sauvegarder l'image
+                //    using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                //    {
+                //        await vm.CoverPhoto.CopyToAsync(fileStream);
+                //    }
+
+                //    evenement.Image =
+                //        "/img/EvenementImages/" + fileName;
+                //}
+                //else
+                //{
+                //    evenement.Image = "/img/Couvertures/livredefault.png";
+                //}
                 if (vm.CoverPhoto != null)
                 {
                     var wwwRootPath = _webHostEnvironment.WebRootPath;
                     var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
                     var extension = Path.GetExtension(vm.CoverPhoto.FileName);
-                    fileName = fileName + "_" + Guid.NewGuid().ToString() +
-                               extension; // Utilisation de Guid pour un nom de fichier unique
-                    var folderPath =
-                        Path.Combine(wwwRootPath, "img",
-                            "EvenementImages"); // Chemin du dossier où l'image sera sauvegardée
-                    var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
-
-                    // Sauvegarder l'image
-                    using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                    fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+                    vm.Image = _config.GetValue<string>("ImageUrl") + fileName;
+                    var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
                     {
                         await vm.CoverPhoto.CopyToAsync(fileStream);
                     }
-
-                    evenement.Image =
-                        "/img/EvenementImages/" + fileName;
                 }
                 else
                 {
-                    evenement.Image = "/img/Couvertures/livredefault.png";
+                    vm.Image = "/2147186/img/CouvertureLivre/livredefault.png";
                 }
+                evenement.Image = vm.Image;
                 _context.Evenements.Add(evenement);
                 await _context.SaveChangesAsync();
                 return Ok();
@@ -189,27 +206,42 @@ namespace VLISSIDES.Controllers
                     evenement.NbPlacesMembre = vm.NbPlacesMembre;
                     evenement.Prix = prix;
                     //Si nouvelle photo
+                    //if (vm.CoverPhoto != null)
+                    //{
+                    //    var wwwRootPath = _webHostEnvironment.WebRootPath;
+                    //    var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                    //    var extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                    //    fileName = fileName + "_" + Guid.NewGuid().ToString() +
+                    //               extension; // Utilisation de Guid pour un nom de fichier unique
+                    //    var folderPath =
+                    //        Path.Combine(wwwRootPath, "img",
+                    //            "EvenementImages"); // Chemin du dossier où l'image sera sauvegardée
+                    //    var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
+
+                    //    // Sauvegarder l'image
+                    //    using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                    //    {
+                    //        await vm.CoverPhoto.CopyToAsync(fileStream);
+                    //    }
+
+                    //    evenement.Image =
+                    //        "/img/EvenementImages/" + fileName;
+                    //}
                     if (vm.CoverPhoto != null)
                     {
                         var wwwRootPath = _webHostEnvironment.WebRootPath;
                         var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
                         var extension = Path.GetExtension(vm.CoverPhoto.FileName);
-                        fileName = fileName + "_" + Guid.NewGuid().ToString() +
-                                   extension; // Utilisation de Guid pour un nom de fichier unique
-                        var folderPath =
-                            Path.Combine(wwwRootPath, "img",
-                                "EvenementImages"); // Chemin du dossier où l'image sera sauvegardée
-                        var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
-
-                        // Sauvegarder l'image
-                        using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                        fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+                        vm.Image = _config.GetValue<string>("ImageUrl") + fileName;
+                        var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
+                        using (var fileStream = new FileStream(path, FileMode.Create))
                         {
                             await vm.CoverPhoto.CopyToAsync(fileStream);
                         }
-
-                        evenement.Image =
-                            "/img/EvenementImages/" + fileName;
+                        evenement.Image = vm.Image;
                     }
+
                     //Sauvegarder
                     await _context.SaveChangesAsync();
                     return Ok();

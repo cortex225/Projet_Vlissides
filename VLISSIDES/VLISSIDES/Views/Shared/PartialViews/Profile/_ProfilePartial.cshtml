@@ -1,6 +1,10 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> signInManager
 @model VLISSIDES.ViewModels.Profile.ProfileModifierInformationVM
+@{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
+}
 <head>
     <link href="~/css/profile-avatar.css" rel="stylesheet" asp-append-version="true"/>
 </head>
@@ -16,8 +20,10 @@
             <div class="col-sm col-4 position-relative">
                 <div class="avatar avatar-xxl rounded-circle shadow-sm avatar-profile">
                     @{
-
-                        <img src="@Model.CoverImageUrl" alt="User Photo" class="avatar-image">
+                        
+                    string couverture = string.Concat(BASE_URL_RAZOR, Model.CoverImageUrl);
+                
+                        <img src="@Html.Raw(couverture)" alt="User Photo" class="avatar-image">
 
                         
 
