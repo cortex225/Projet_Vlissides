@@ -98,7 +98,7 @@ namespace VLISSIDES.Controllers
                 LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
                 StatutId = c.StatutCommande.Id,
                 StatutNom = c.StatutCommande.Nom
-            }).OrderBy(c => c.DateCommande).ToList();
+            }).OrderByDescending(c => c.DateCommande).ToList();
 
             if (listCriteres.Any(c => c == "rechercherCommande"))
             {
@@ -110,11 +110,11 @@ namespace VLISSIDES.Controllers
             {
                 if (listCriteresValue[0] == "2")
                 {
-                    listeCommandeVM = listeCommandeVM.OrderByDescending(c => c.DateCommande).ToList();
+                    listeCommandeVM = listeCommandeVM.OrderBy(c => c.DateCommande).ToList();
                 }
                 else
                 {
-                    listeCommandeVM = listeCommandeVM.OrderBy(c => c.DateCommande).ToList();
+                    listeCommandeVM = listeCommandeVM.OrderByDescending(c => c.DateCommande).ToList();
                 }
             }
 
