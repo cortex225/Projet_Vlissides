@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionCommandes;
 using VLISSIDES.ViewModels.LivreUtilisateur;
 using VLISSIDES.ViewModels.Panier;
 
@@ -33,38 +34,46 @@ namespace VLISSIDES.Controllers
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             ApplicationUser? user = await _userManager.FindByIdAsync(userId);
 
-            List<Commande> userCommandes = _context.Commandes.Where(c => c.MembreId == userId).ToList();
+            List<Commande> userCommandes = _context.Commandes
+                .Include(c => c.LivreCommandes)
+                    .ThenInclude(lc => lc.Livre)
+                        .ThenInclude(l => l.Evaluations)
+                .Where(c => c.MembreId == userId)
+                .ToList();
 
             List<LivreUtilisateurIndexVM> vm = new List<LivreUtilisateurIndexVM>();
 
-
-            Random random = new Random();
-            List<string> idsLivres = _context.Livres
-                .Select(l => l.Id)
-                .AsEnumerable()
-                .Take(12)
-                .ToList();
-
-            List<Livre> listLivres = _context.Livres
-                .Include(l => l.Evaluations)
-                .Where(l => idsLivres.Contains(l.Id))
-                .ToList();
-
-            foreach (Livre l in listLivres)
+            foreach (Commande c in userCommandes)
             {
-                double? eval = null;
-                if (l.Evaluations != null)
+                foreach (LivreCommande l in c.LivreCommandes)
                 {
-                    foreach (Evaluation e in l.Evaluations)
+                    bool siDejaDansListe = false;
+
+                    foreach (LivreUtilisateurIndexVM lu_vm in vm)
                     {
-                        if (e.MembreId == userId)
+                        if (lu_vm.Id == l.Livre.Id)
                         {
-                            eval = (double)e.Note;
-                            break;
+                            siDejaDansListe = true;
                         }
                     }
+
+                    if (!siDejaDansListe)
+                    {
+                        double? eval = null;
+                        if (l.Livre.Evaluations != null)
+                        {
+                            foreach (Evaluation e in l.Livre.Evaluations)
+                            {
+                                if (e.MembreId == userId)
+                                {
+                                    eval = e.Note;
+                                    break;
+                                }
+                            }
+                        }
+                        vm.Add(new LivreUtilisateurIndexVM { Id = l.Livre.Id, Titre = l.Livre.Titre, Couverture = l.Livre.Couverture, monEvaluation = eval });
+                    }
                 }
-                vm.Add(new LivreUtilisateurIndexVM { Id = l.Id, Titre = l.Titre, Couverture = l.Couverture, monEvaluation = eval });
             }
 
             ListLivreUtilisateurIndexVM VM = new ListLivreUtilisateurIndexVM()
