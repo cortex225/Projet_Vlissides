@@ -90,7 +90,9 @@
     //Script pour URL
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 
-    /*Script pour la liste de livres d'une categorie*/
+</script>
+<!--Script pour la liste de livres d'une categorie-->
+<script type="text/javascript">
     function hideall() {
         divListes = document.getElementById("divListeMaisonEditionLivres").childNodes;
         divListes.forEach((element) => { element.className = "visually-hidden" });
@@ -101,8 +103,10 @@
         var liste = document.getElementById("Liste_" + id);
         liste.className = "";
     }
+</script>
 
-    /*Script pour Modifier nom*/
+<!--Script pour Modifier nom-->
+<script type="text/javascript">
     function ModifierNomCategorie(id = "", nom = "") {
 
         fetch(BASE_URL + '/GestionCategories/ModifierNomCategorie?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
@@ -117,7 +121,9 @@
                 document.getElementById("NomCategorie_" + id).innerText = document.getElementById(id + " " + nom).value;
             });
     }
-    /*Script pour la supprimation et le modal*/
+</script>
+<!--Script pour la supprimation et le modal-->
+<script type="text/javascript">
     function SupprimerCategorie(id = "") {
         fetch(BASE_URL + '/GestionCategories/SupprimerCategorie?id=' + id, {
             method: 'POST',
@@ -142,7 +148,10 @@
             $('.modal').modal('show');
         });
     }
-    /*Script pour la recherche*/
+</script>
+
+<!--Script pour la recherche-->
+<script type="text/javascript">
     // ModalScript
     function RechercherCategorie() {
         console.log("Recherche commencée");
@@ -150,7 +159,9 @@
         console.log("Mot entré: " + motCle);
         window.location.href = `/GestionCategories/Index?motCle=${motCle}`;
     }
-    /*Script pour Ajouter et modifier*/
+</script>
+<!--Script pour Ajouter et modifier-->
+<script>
     function AjouterCategorie() {
         var form = document.getElementById("FormAjouterCategorie");
         var data = new FormData(form);
