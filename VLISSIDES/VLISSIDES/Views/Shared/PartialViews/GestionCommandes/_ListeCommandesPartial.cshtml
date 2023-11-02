@@ -4,36 +4,37 @@
 <div id="accordion">
     @foreach (var commande in @Model.ListCommandes)
     {
-        <div id="Commande_@commande.Id" class="card my-2 p-2" style="">
+        <div id="Commande_@commande.Id" class="card my-2 p-2">
             <div class="row d-flex p-2">
                 <div class="col-sm-3 d-flex justify-content-center">
-                    <h4 class="card-title">#@commande.Id</h4>
+                    <h4 class="card-title my-auto">#@commande.Id</h4>
                 </div>
                 <div class="col-sm-2 d-flex justify-content-center">
-                        <p>@commande.MembreUserName</p>
+                    <p class="my-auto">@commande.MembreUserName</p>
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center">
-                        <p>@commande.PrixTotal $</p>
+                    <p class="my-auto">@commande.PrixTotal $</p>
                 </div>
                 <div class="col-sm-2 d-flex justify-content-center">
-                        <p>@commande.DateCommande</p>
+                    <p class="my-auto">@commande.DateCommande</p>
                 </div>
                 <div class="col-sm-3 form-group d-flex justify-content-center">
-                    <label asp-for="StatutId" class="control-label"></label>
-                    <select id="@commande.Id statutSelectList" class="form-select mx-4" style="width:auto;" onchange="enableButton('@commande.Id')" name="StatutId">
-                        @foreach (var statut in Model.SelectListStatut)
-                        {
-                            if (statut.Value == commande.StatutId)
+                    <div>
+                        <select id="@commande.Id statutSelectList" class="form-select my-auto" style="width:auto;" onchange="enableButton('@commande.Id')" name="StatutId">
+                            @foreach (var statut in Model.SelectListStatut)
                             {
-                                <option value="@statut.Value" selected="true">@statut.Text</option>
+                                if (statut.Value == commande.StatutId)
+                                {
+                                    <option value="@statut.Value" selected="true">@statut.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@statut.Value">@statut.Text</option>
+                                }
                             }
-                            else
-                            {
-                                <option value="@statut.Value">@statut.Text</option>
-                            }
-                        }
-                    </select>
-                    <button id="saveButton @commande.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
+                        </select>
+                    </div>
+                    <button id="saveButton @commande.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton mx-2 px-3" onclick="
                                                     saveStatut('@commande.Id')
                                                     disableButton('@commande.Id')">
 
