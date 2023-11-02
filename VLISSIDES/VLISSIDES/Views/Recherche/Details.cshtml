@@ -132,12 +132,16 @@
     </div>
   </div>
 </div>
-
 <script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
+<script>
+
 function getNbArticles() {
 $(document).ready(function () {
         $.ajax({
-            url: "/Panier/NbArticles",
+            url: BASE_URL+"/Panier/NbArticles",
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -149,10 +153,7 @@ $(document).ready(function () {
 );
 }
 </script>
-<script>
-    //Script pour URL
-    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
-</script>
+
 <script type="text/javascript">
     var ajouterNeuf = document.getElementById("ajouterNeuf");
     if (ajouterNeuf) {
