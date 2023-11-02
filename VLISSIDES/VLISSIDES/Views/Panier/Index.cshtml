@@ -146,7 +146,7 @@
 function getNbArticles() {
 $(document).ready(function () {
         $.ajax({
-            url: "/Panier/NbArticles",
+            url: BASE_URL +"/Panier/NbArticles",
             type: "GET",
             dataType: "json",
             success: function (data) {
