@@ -95,7 +95,7 @@ namespace VLISSIDES.API.Stripe
                         nouvelleCommande.PrixTotal = session.AmountTotal.Value/100m;
                         nouvelleCommande.MembreUserName = customer.UserName;
                         nouvelleCommande.AdresseId = customer?.AdressePrincipaleId;
-                        nouvelleCommande.StatutId = "1";
+                        nouvelleCommande.StatutId = "2";
                         nouvelleCommande.LivreCommandes = panierItems.Select(lc => new LivreCommandeVM
                         {
                             Livre = lc.Livre,
@@ -146,7 +146,7 @@ namespace VLISSIDES.API.Stripe
 
 
                 }
-              
+
                 else
                 {
                     // Unexpected event type
