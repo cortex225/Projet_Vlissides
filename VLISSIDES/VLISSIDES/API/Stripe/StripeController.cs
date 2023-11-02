@@ -21,7 +21,9 @@ namespace VLISSIDES.API.Stripe
     [Route("api/[controller]")]
     public class StripeController : Controller
     {
-        private const string WebhookSecretApi = "whsec_duqdVrYBhqWnDL9kgYnoFE4rzByAE3Rk";
+        private const string WebhookSecretApiLocal = "whsec_duqdVrYBhqWnDL9kgYnoFE4rzByAE3Rk";
+        private const string WebhookSecretApiRemote = "whsec_xlmZe964PLoEvfcTcwOsHgb5YMCYDXaV";
+
         private readonly IConfiguration _config;
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -67,7 +69,7 @@ namespace VLISSIDES.API.Stripe
             try
             {
                 var stripeEvent =
-                    EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WebhookSecretApi,throwOnApiVersionMismatch:false);
+                    EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WebhookSecretApiRemote,throwOnApiVersionMismatch:false);
 
                 var session=stripeEvent.Data.Object as Session;
                 // Handle the event
