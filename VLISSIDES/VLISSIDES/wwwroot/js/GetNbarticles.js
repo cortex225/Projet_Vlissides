@@ -1,10 +1,11 @@
+
 $(document).ready(function () {
     updateCartCounter();
 });
 
 function updateCartCounter() {
     $.ajax({
-        url: "/Panier/NbArticles",
+        url: BASE_URL+"/Panier/NbArticles",
         type: "GET",
         dataType: "json",
         success: function (data) {
