@@ -1,19 +1,17 @@
-﻿@{
-}
-@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM;
+﻿@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM;
 @{
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
 
 <div class="item livrePetit livre" onclick="window.location.href=`/Recherche/Details?id=@Model.Id`">
-    <div class="card cardLivreSearch" style="width: 12rem; height: 26rem;">
+    <div class="card cardLivreSearch" style="width: 15.5rem; height: 33rem;">
         @{
             string couverture =string.Concat(BASE_URL_RAZOR, Model.Couverture);
         }
         <img src="@Html.Raw(couverture)"
              class="card-img-top imgLivre"
-             alt="Couverture du livre" />
+             alt="Couverture du livre" height="10"/>
         <div class="card-body">
             <h6 class="card-title">@Model.Titre</h6>
 
@@ -28,13 +26,15 @@
                 <p><strong>Prix</strong></p>
                 if (!Model.Papier.Equals(null))
                 {
-                    <p>papier : @Model.Papier $</p>
+                    <p>Papier : @Model.Papier $</p>
                 }
                 if (!Model.Numerique.Equals(null))
                 {
-                    <p>numérique :@Model.Numerique $</p>
+                    <p>Numérique :@Model.Numerique $</p>
                 }
             }
+
+            <partial name="../Accueil/_Etoiles.cshtml" model=@Model.Note />
 
             <h6>Auteurs: </h6>
             @foreach (var auteur in Model.Auteurs)

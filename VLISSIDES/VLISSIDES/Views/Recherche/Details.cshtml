@@ -71,17 +71,29 @@
             <br />
             @if (Model.NbExemplaires > 0)
             {
-                <form>
-                    @Html.AntiForgeryToken()
-                    <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
-                    <div class="btn-group" role="group" aria-label="Basic example">
+                @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+                {
+                    <form>
+                        @Html.AntiForgeryToken()
+                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                        <div class="btn-group" role="group" aria-label="Basic example">
 
                         <a id="ajouterNeuf" class="btn btn-primary btnPanier">
                             <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
                         </a>
                         <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
+
+                        <div id="preorder-alert" class="alert alert-warning d-none">
+                            Vous avez atteint la quantité maximale disponible en inventaire.
+                            <button id="preorder-confirm" class="btn btn-primary btn-sm">Précommander le surplus</button>
+                        </div>
                     </div>
-                </form>
+                </form>}
+
+                else
+                {
+                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                }
             }
             else
             {
@@ -90,15 +102,53 @@
         }
         @if (!Model.Numerique.Equals(null))//2 = "Numérique"
         {
-            <form>
+            @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+            {
+               <form>
                 @Html.AntiForgeryToken()
                 <a href="#" id="ajouterNumerique" class="btn btn-primary btnPanier">
                     <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
                 </a>
             </form>
+            }
+
         }
     </div>
 </div>
+<div class="modal" tabindex="-1" id="preorderModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Précommande</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>La quantité demandée n'est pas disponible en stock. Voulez-vous précommander le surplus ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary" id="confirmPreorder">Confirmer la précommande</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function getNbArticles() {
+$(document).ready(function () {
+        $.ajax({
+            url: "/Panier/NbArticles",
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                $("#nbArticles").html(data).animate({fontSize: "30px"}, 1000);
+            }
+        });
+
+    }
+);
+}
+</script>
 <script>
     //Script pour URL
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
@@ -137,8 +187,11 @@
         .then(response => {
             // Vérifier si la réponse est au format JSON
             if (!response.ok) {
+                           getNbArticles();
+
                 throw new Error(`Erreur HTTP! Statut: ${response.status}`);
             }
+
             return response.json();
         })
         .then(data => {
@@ -172,8 +225,11 @@
         .then(response => {
             // Vérifier si la réponse est au format JSON
             if (!response.ok) {
+                                getNbArticles();
+
                 throw new Error(`Erreur HTTP! Statut: ${response.status}`);
             }
+
             return response.json();
         })
         .then(data => {
@@ -185,4 +241,26 @@
             console.error("Erreur lors de la requête FETCH:", error);
         });
     }
+</script>
+
+<script>
+$(document).ready(function () {
+    $('#quantite').on('input', function () {
+        var maxQuantity = parseInt($(this).attr('max'));
+        var currentQuantity = parseInt($(this).val());
+
+        if (currentQuantity > maxQuantity) {
+            $('#preorderModal').modal('show');
+        }
+    });
+
+    $('#confirmPreorder').on('click', function () {
+        // Ici, vous pouvez ajouter une requête AJAX pour envoyer la confirmation de précommande au serveur
+        $('#preorderModal').modal('hide');
+        alert('Votre précommande a été confirmée.');
+    });
+
+                                getNbArticles();
+});
+
 </script>

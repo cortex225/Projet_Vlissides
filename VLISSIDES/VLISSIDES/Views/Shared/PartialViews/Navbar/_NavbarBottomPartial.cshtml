@@ -1,7 +1,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
+@using Microsoft.AspNetCore.Http
+@{
+    var nbArticles = Context.Session.GetInt32("NbArticles") ?? 0;
+}
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-0 px-4" id="navBottom">
+
     <div class="container-fluid">
         <!-- Premier groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
         <div class="navbar-collapse collapse d-sm-inline-flex">
@@ -31,6 +35,9 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Commandes" asp-action="Index">Mes commandes</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="LivreUtilisateur" asp-action="Index">Mes livres</a>
+                    </li>
                 }
                 @if (User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN))
                 {
@@ -51,7 +58,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="GestionCommandes" asp-action="Index">Commandes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionEvenments" asp-action="Index">Évènements</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionEvenements" asp-action="Index">Évènements</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="GestionPromotions" asp-action="Index">Promotions</a>
@@ -61,7 +68,7 @@
                 {
                     <li class="nav-link text-dark"> - </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Compte" asp-action="Liste">Gestion des comptes</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionComptes" asp-action="Index">Gestion des comptes</a>
                     </li>
                 }
             </ul>
@@ -93,27 +100,32 @@
                     Gérer son profil
                     -->
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="index">Profile</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="index">Profil</a>
                     </li>
                     <!--
                     Gérer panier
                     -->
+                    @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+                    {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
                             Consulter le panier
                             <i class="fa-solid fa-cart-shopping">
-                                <span class="badge badge-pill badge-danger">
+                                <span class="badge-panier" id="nbArticles">
                                     @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
                                     {
-                                         @* <text>@Panier.GetPanier(UserManager.GetUserId(User)).Count</text> *@
-
+                                        <span id="nbArticlesText">@nbArticles</span>
                                     }
                                 </span>
                             </i>
+
                         </a>
                     </li>
+                    }
+
                 </ul>
             </div>
         }
     </div>
 </nav>
+

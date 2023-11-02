@@ -1,0 +1,34 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+}
+@model List<VLISSIDES.ViewModels.GestionPromotions.GestionPromotionsIndexVM>
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<br />
+<div class="d-block p-4 p-4">
+    <div class="mb-4">
+        <h1>Gestion des promotions</h1>
+    </div>
+    <div class="container-fluid">
+        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("AjouterPromotion", "GestionPromotions")')">
+            Ajouter un promotion
+        </button>
+    </div>
+    <br />
+</div>
+
+
+<div class="container-fluid d-flex flex-wrap row" id="TabEvenementsListe">
+
+    <partial name="PartialViews/GestionPromotions/_ListePromotionsPartial" model="@Model" />
+
+</div>

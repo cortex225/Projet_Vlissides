@@ -13,7 +13,6 @@
                         <div class="custom-file">
                             <label class="custom-file-label" asp-for="CoverPhoto"></label>
                             <input asp-for="CoverPhoto" type="file" class="custom-file-input" id="customFile">
-
                         </div>
                         <div class="container d-flex justify-content-center">
                             <div class="row">
@@ -29,8 +28,8 @@
                                         <span asp-validation-for="ISBN" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="AuteurId" class="control-label"></label>
-                                        <select asp-for="AuteurId" asp-items="Model.SelectListAuteurs" class="form-control"></select>
+                                        <label asp-for="AuteurIds" class="control-label"></label>
+                                        <select asp-for="AuteurIds" asp-items="Model.SelectListAuteurs" id="sAuteurs" multiple></select>
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="MaisonEditionId" class="control-label"></label>
@@ -46,10 +45,10 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label asp-for="CategorieId" class="control-label"></label>
-                                        <select asp-for="CategorieId" asp-items="Model.SelectListCategories" class="form-control">
+                                        <label asp-for="CategorieIds" class="control-label"></label>
+                                        <select asp-for="CategorieIds" asp-items="Model.SelectListCategories" class="form-control" id="sCategories" multiple>
                                         </select>
-                                        <span asp-validation-for="CategorieId" class="text-danger"></span>
+                                        <span asp-validation-for="CategorieIds" class="text-danger"></span>
                                     </div>
                                     <fieldset>
                                         @*  <legend>Type de livre</legend> *@
@@ -114,7 +113,10 @@
         </div>
     </div>
 </div>
-
+<script>
+    new MultiSelectTag('sAuteurs');
+    new MultiSelectTag("sCategorie");
+</script>
 <script type="text/javascript">
     function ShowInputsNeuf() {
         console.log("aloo");

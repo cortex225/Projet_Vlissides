@@ -38,8 +38,8 @@
                         <span asp-validation-for="ISBN" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="AuteurId" class="control-label"></label>
-                        <select asp-for="AuteurId" asp-items="Model.SelectListAuteurs" class="form-control"></select>
+                        <label asp-for="AuteurIds" class="control-label"></label>
+                        <select asp-for="AuteurIds" asp-items="Model.SelectListAuteurs" id="sAuteurs" multiple></select>
                     </div>
                     <div class="form-group">
                         <label asp-for="MaisonEditionId" class="control-label"></label>
@@ -55,10 +55,9 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label asp-for="CategorieId" class="control-label"></label>
-                        <select asp-for="CategorieId" asp-items="Model.SelectListCategories" class="form-control">
-                        </select>
-                        <span asp-validation-for="CategorieId" class="text-danger"></span>
+                        <label asp-for="CategorieIds" class="control-label"></label>
+                        <select asp-for="CategorieIds" asp-items="Model.SelectListCategories" id="sCategories" multiple></select>
+                        <span asp-validation-for="CategorieIds" class="text-danger"></span>
                     </div>
                     <fieldset>
                         @*  <legend>Type de livre</legend> *@
@@ -157,6 +156,10 @@
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 
 </script>
+<script>
+    new MultiSelectTag('sAuteurs');
+    new MultiSelectTag('sCategories');
+</script>
 <script type="text/javascript">
     function ShowInputsNeuf() {
         console.log("aloo");
@@ -202,7 +205,8 @@
                 AfficherLivres();
             } else {
                 document.querySelector('.modal-content').innerHTML = result;
-
+                new MultiSelectTag('sAuteurs');
+                new MultiSelectTag('sCategories');
             }
 
         });
@@ -214,6 +218,7 @@
             return response.text();
         }).then((result) => {
             document.getElementById("TabLivreListes").innerHTML = result;
+
         });
     }
 </script>

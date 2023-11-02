@@ -1,0 +1,119 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Gestion d'événements";
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+}
+@model List<VLISSIDES.ViewModels.GestionEvenements.GestionEvenementsIndexVM>
+<div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<br />
+<div class="d-block p-4 p-4">
+    <div class="mb-4">
+        <h1>Gestion des événements</h1>
+    </div>
+    <div class="container-fluid">
+        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("AjouterEvenement", "GestionEvenements")')">
+            Ajouter un événement
+        </button>
+    </div>
+    <br />
+</div>
+
+
+<div class="container-fluid d-flex flex-wrap row" id="TabEvenementsListe">
+    
+    <partial name="PartialViews/GestionEvenements/_ListeEvenementsPartial" model="@Model" />
+
+</div>
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
+<!--Script pour le modal-->
+<script>
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+    //Script pour annuler & cacher le modal
+    function Annuler() {
+        $('.modal').modal('hide');
+    }
+</script>
+<!--Script pour lister les événements-->
+<script>
+    function AfficherEvenements() {
+        fetch(BASE_URL + "/GestionEvenements/AfficherEvenements", {
+            method:"GET",
+        }).then((response) => {
+            return response.text();
+        }).then((result)=>{
+            document.getElementById("TabEvenementsListe").innerHTML = result;
+        });
+    }
+</script>
+<!--Script pour lister les événements-->
+<script>
+    function AjouterEvenement() {
+        var form = document.getElementById("FormAddEvenement");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionEvenements/AjouterEvenement", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                AfficherEvenements();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+
+            }
+        });
+    }
+</script>
+<!--Script pour Modifier l'evenement-->
+<script>
+    function ModifierEvenement() {
+        var form = document.getElementById("FormModifierEvenement");
+        var data = new FormData(form);
+        fetch(BASE_URL + "/GestionEvenements/ModifierEvenement", {
+            method: "POST",
+            body: data,
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                AfficherEvenements();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+
+            }
+        });
+    }
+</script>
+<script>
+    function SupprimerEvenement(id = "") {
+        fetch(BASE_URL + "/GestionEvenements/SupprimerEvenement?id="+id, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            $('.modal').modal('hide');
+            AfficherEvenements();
+        });
+    }
+</script>

@@ -1,0 +1,35 @@
+﻿@using VLISSIDES.ViewModels.LivreUtilisateur;
+@model LivreUtilisateurIndexVM
+@{
+}
+<div class="conteneurLU card mb-3">
+    <div class="row g-0">
+        <div class="col-md-3 divIMG_LU">
+            <img src="@Model.Couverture" alt="Couverture de @Model.Titre" class="card-img-left imgLU">
+        </div>
+        <div class="col-md-9">
+            <div class="card-body">
+                <div class="card-lu card-lu-download-titre">
+                    <h4>@Model.Titre</h4>
+                    <i class="fa-solid fa-file-arrow-down fa-2x" style="color: #358bff;"></i>
+                </div>
+                <div class="card-lu card-lu-btn-rating">
+                    @if(Model.monEvaluation == null){
+                        <button type="button" id="@Model.Id" onclick="MontrerBoiteEvaluation('@Model.Id')" class="btn btn-primary">Notez ce livre!</button>
+                    }else{
+                        <span>Votre évaluation: </span>
+
+                        <partial name="../Accueil/_Etoiles.cshtml" model=@Model.monEvaluation />
+
+                        <a class="btn btn-primary p-2" onclick="MontrerBoiteEvaluation('@Model.Id')" data-toggle="tooltip" title="Modifier le livre">
+                            <span class="fa-solid fa-pen fa-2x"></span>
+                        </a>
+                        <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="SupprimerEvaluation('@Model.Id')">
+                            <span class="fa-solid fa-trash fa-2x"></span>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

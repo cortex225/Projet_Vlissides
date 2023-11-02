@@ -42,7 +42,7 @@ public class LivreCardVM
 
     [DisplayName("Auteurs")] public string Auteurs { get; set; }
 
-    [DisplayName("Score")] public int Score { get; set; }
+    [DisplayName("Score")] public double Score { get; set; }
 
     [DisplayName("Catégories associés")] public string Categorie { get; set; }
 }
