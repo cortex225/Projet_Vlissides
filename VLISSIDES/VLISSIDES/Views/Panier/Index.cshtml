@@ -84,7 +84,7 @@
     changerPrixDon();
 </script>
 
-<script type="text/javascript">
+<script type="text/javascript" asp-append-version="true">
     function ModifierQuantite(id = "", quantite = "") {
         fetch(BASE_URL + '/Panier/ModifierQuantite?id=' + id + '&quantite=' + document.getElementById(id + " quantite").value, {
             method: 'POST',
@@ -96,7 +96,7 @@
                 disableButton(id);
                 AfficherFacture();
                 getNbArticles();
-        }).catch(error => console.error('Échec du fetch pour modifier la quantite'));
+        }).catch(error => { console.error('Échec du fetch pour modifier la quantite'); });
     }
             
     async function supprimerLivre(vmIdPanier) {
