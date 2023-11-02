@@ -74,52 +74,58 @@
                             
     </div>
 </div>
-<script type="text/javascript" src="~/js/DynamicSaveButton.js" asp-append-version="true"></script>
-<!--Fin pour Fonctionalite des boutons-->
 <script>
     //Script pour URL
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 
-/*Script pour liste*/
+</script>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js" asp-append-version="true"></script>
+<!--Fin pour Fonctionalite des boutons-->
+<!--Script pour liste-->
+<script type="text/javascript">
 
-/**
- * Fonction pour afficher la liste des maisons d'édition en fonction du numéro de page et du mot-clé de recherche.
- */
+    /**
+     * Fonction pour afficher la liste des maisons d'édition en fonction du numéro de page et du mot-clé de recherche.
+     */
 
 
-function AfficherListe(page = @ViewBag.CurrentPage) {
-    // Récupère la valeur du mot-clé de recherche à partir de l'élément d'entrée
-    var motCle = document.getElementById("inputRechercherMaison").value || "";
-    
-    // Construit l'URL pour la requête API en utilisant le mot-clé et le numéro de page
-    var apiUrl = BASE_URL + '/GestionMaisonEditions/AfficherListe?motCle=' + motCle + '&page=' + page;
-    
-    // Effectue une requête GET à l'API
-    fetch(apiUrl, {
-        method: "GET"
-    }).then((response) => {
-        // Convertit la réponse en texte
-        return response.text();
-    }).then((result) => {
-        // Met à jour le contenu de la div avec le résultat
-        var div = document.getElementById("ListeMaisonPartial");
-        div.innerHTML = result;
-    }).catch(error => {
-        // Affiche une erreur dans la console en cas d'échec de la requête
-        console.error('Erreur lors de la récupération de la liste des maisons d\'édition', error);
-    });
-}
+    function AfficherListe(page = @ViewBag.CurrentPage) {
+        // Récupère la valeur du mot-clé de recherche à partir de l'élément d'entrée
+        var motCle = document.getElementById("inputRechercherMaison").value || "";
 
-// Appelle la fonction AfficherListe au chargement de la page avec la première page
-AfficherListe();
+        // Construit l'URL pour la requête API en utilisant le mot-clé et le numéro de page
+        var apiUrl = BASE_URL + '/GestionMaisonEditions/AfficherListe?motCle=' + motCle + '&page=' + page;
 
-/*Script pour Ajouter*/
+        // Effectue une requête GET à l'API
+        fetch(apiUrl, {
+            method: "GET"
+        }).then((response) => {
+            // Convertit la réponse en texte
+            return response.text();
+        }).then((result) => {
+            // Met à jour le contenu de la div avec le résultat
+            var div = document.getElementById("ListeMaisonPartial");
+            div.innerHTML = result;
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la récupération de la liste des maisons d\'édition', error);
+        });
+    }
+
+    // Appelle la fonction AfficherListe au chargement de la page avec la première page
+    AfficherListe();
+
+</script>
+
+
+<!--Script pour Ajouter-->
+<script type="text/javascript">
     function AjouterMaisonEdition() {
         var form = document.getElementById("champAjouter");
         var data = new FormData(form);
-        
+
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
-        fetch(BASE_URL+'/GestionMaisonEditions/Ajouter', {
+        fetch(BASE_URL + '/GestionMaisonEditions/Ajouter', {
             method: "POST",
             body: data
             // headers: {
@@ -132,22 +138,24 @@ AfficherListe();
         });
         form.reset();
     }
-/*Script pour la liste de livres d'une maison d'édition*/
+</script>
+<!--Script pour la liste de livres d'une maison d'édition-->
+<script type="text/javascript">
     function hideall() {
         divListes = document.getElementById("divListeMaisonEditionLivres").childNodes;
         divListes.forEach((element) => { element.className = "visually-hidden" });
     }
-    function AfficherMaisonsEditionsLivres(id="") 
-    {
+    function AfficherMaisonsEditionsLivres(id = "") {
         hideall();
-        
-        var liste = document.getElementById("Liste_"+id);
-        liste.className= "";        
+
+        var liste = document.getElementById("Liste_" + id);
+        liste.className = "";
     }
-/*Script pour Modifier*/
-    function ModifierMaison(id = "",nom = "")
-    {
-        fetch(BASE_URL+'/GestionMaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+</script>
+<!--Script pour Modifier-->
+<script type="text/javascript">
+    function ModifierMaison(id = "", nom = "") {
+        fetch(BASE_URL + '/GestionMaisonEditions/ModifierMaison?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -159,9 +167,11 @@ AfficherListe();
                 document.getElementById("NomMaison_" + id).innerText = document.getElementById(id + " " + nom).value;
             });
     }
-/*Script pour la suppression*/
+</script>
+<!--Script pour la suppression-->
+<script type="text/javascript">
     function SupprimerMaisonEdition(id = "") {
-        fetch(BASE_URL+`/GestionMaisonEditions/SupprimerMaison?id=${id}`, {
+        fetch(BASE_URL + `/GestionMaisonEditions/SupprimerMaison?id=${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
