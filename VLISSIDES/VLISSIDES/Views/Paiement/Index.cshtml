@@ -4,6 +4,8 @@
 
 @{
     ViewData["Title"] = "Paiement";
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 
 
@@ -129,12 +131,16 @@
     </div>
 </div>
 
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
 <script type="text/javascript">
     var checkoutButton = document.getElementById('checkout-button');
     function createCheckoutSession() {
         var stripe = Stripe('pk_test_51O3gRDAIrJUcHyNnVbRxxrTEmN0ndzgrocNP008WZgRBHCFJNXhNXnXYyfxU1im6XjmLPKmJT1Tq64eNf5vIysOu00LWHU5Ohx');
 
-        return fetch('/Paiement/CreateCheckoutSession', {
+        return fetch(BASE_URL + '/Paiement/CreateCheckoutSession', {
             method: 'POST',
         }).then(function (response) {
             return response.json();
