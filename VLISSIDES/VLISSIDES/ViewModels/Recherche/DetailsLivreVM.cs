@@ -17,14 +17,13 @@ public class DetailsLivreVM
     public int NbExemplaires { get; set; }
     public Decimal? Papier { get; set; }
     public Decimal? Numerique { get; set; }
+    public int Quantite { get; set; }
 
-    private Random rnd { get; set; }
-    private double rDouble { get; set; }
     public double Note { get; set; }
 
     public DetailsLivreVM(string id, string titre, IEnumerable<Auteur> auteurs, IEnumerable<Categorie> categories, IEnumerable<int> notes,
         DateTime datePublication, string couverture, MaisonEdition? maisonEdition, int nbPages, string resume, int nbExemplaires,
-        IEnumerable<LivreTypeLivre> livreTypeLivres)
+        IEnumerable<LivreTypeLivre> livreTypeLivres, int quantite)
     {
         Id = id;
         Titre = titre;
@@ -44,6 +43,7 @@ public class DetailsLivreVM
                 case "Numérique": Numerique = media.Prix; break;
             }
         CalculerNote();
+        Quantite = quantite;
     }
 
     public void CalculerNote()
