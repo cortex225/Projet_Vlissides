@@ -76,37 +76,6 @@ namespace VLISSIDES.Controllers
                 }
             }
 
-            /*
-            Random random = new Random();
-            List<string> idsLivres = _context.Livres
-                .Select(l => l.Id)
-                .AsEnumerable()
-                .Take(12)
-                .ToList();
-
-            List<Livre> listLivres = _context.Livres
-                .Include(l => l.Evaluations)
-                .Where(l => idsLivres.Contains(l.Id))
-                .ToList();
-
-            foreach (Livre l in listLivres)
-            {
-                double? eval = null;
-                if (l.Evaluations != null)
-                {
-                    foreach (Evaluation e in l.Evaluations)
-                    {
-                        if (e.MembreId == userId)
-                        {
-                            eval = (double)e.Note;
-                            break;
-                        }
-                    }
-                }
-                vm.Add(new LivreUtilisateurIndexVM { Id = l.Id, Titre = l.Titre, Couverture = l.Couverture, monEvaluation = eval });
-            }
-            */
-
             ListLivreUtilisateurIndexVM VM = new ListLivreUtilisateurIndexVM()
             {
                 listVM = vm,
