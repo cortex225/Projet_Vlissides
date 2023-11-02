@@ -52,7 +52,7 @@
 <!--Script pour lister les événements-->
 <script>
     function AfficherEvenements() {
-        fetch(BASE_URL + "GestionEvenements/AfficherEvenements", {
+        fetch(BASE_URL + "/GestionEvenements/AfficherEvenements", {
             method:"GET",
         }).then((response) => {
             return response.text();

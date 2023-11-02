@@ -8,6 +8,7 @@ using ExcelDataReader;
 using Faker;
 using FizzWare.NBuilder;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 using Seeder;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -390,12 +391,9 @@ public class DatabaseSeeder
                 where !_context.LivreCategories.Any(lc => lc.LivreId == book.Id && lc.CategorieId == category.Id)
                 select new LivreCategorie { LivreId = book.Id, CategorieId = category.Id };
 
-            _context.LivreCategories.AddRange(NouvelleAssociation);
-            
-            _context.SaveChanges();
-
+            _context.LivreCategories.AddRange(NouvelleAssociation);_context.SaveChanges();
         }
-        
+
     }
 
 

@@ -4,5 +4,7 @@
     {
         public List<AfficherPanierVM> ListeArticles { get; set; }
         public double PrixTotal { get; set; }
+
+        
     }
 }

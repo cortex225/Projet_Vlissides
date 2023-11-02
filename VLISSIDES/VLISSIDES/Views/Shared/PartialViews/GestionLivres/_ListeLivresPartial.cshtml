@@ -53,7 +53,11 @@
                 }
             </div>
             <div class="col-2 text-center">
-                @Html.DisplayFor(modelItem => item.Categorie)
+                @foreach(var categorie in item.Categories)
+                {
+                    <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
+                }
+                @*Html.DisplayFor(modelItem => item.Categorie)*@
             </div>
             <div class="col-2 d-flex flex-column">
                 @foreach (var type in item.LivreTypeLivres)

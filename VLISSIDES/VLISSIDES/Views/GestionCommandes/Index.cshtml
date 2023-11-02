@@ -1,6 +1,8 @@
 ﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
     ViewData["Title"] = "Gestion de commandes";
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
 }
 <div class="m-4">
     <h1>Gestion des commandes</h1>
@@ -49,12 +51,17 @@
     }
 </style>
 
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+
+</script>
 <script type="text/javascript">
     function saveStatut(id = "") {
         
         var statutVal = document.getElementById(id + ' statutSelectList').value;
 
-        fetch(`/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
+        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
