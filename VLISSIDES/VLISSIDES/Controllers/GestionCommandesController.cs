@@ -108,7 +108,7 @@ namespace VLISSIDES.Controllers
 
             if (listCriteres.Any(c => c == "trierDate"))
             {
-                if (listCriteresValue[0] == "1")
+                if (listCriteresValue[0] == "2")
                 {
                     listeCommandeVM = listeCommandeVM.OrderBy(c => c.DateCommande).ToList();
                 }
