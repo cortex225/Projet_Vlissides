@@ -8,9 +8,15 @@
 <div class="container-fluid">
     
     <div class="row">
-        @foreach (var item in Model)
-        {
-            <partial name="PartialViews/Evenements/_EvenementCardPartial" model="@item" />
-        }
+        <div class="d-flex flex-wrap justify-content-around">
+            @foreach (var item in Model)
+            {
+                <div style="width:40%; ">
+                    <partial name="PartialViews/Evenements/_EvenementCardPartial" model="@item" />
+                </div>
+                
+            }
+        </div>
+        
     </div>
 </div>
