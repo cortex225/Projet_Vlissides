@@ -18,7 +18,7 @@ using VLISSIDES.ViewModels.GestionCommandes;
 namespace VLISSIDES.API.Stripe
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     public class StripeController : Controller
     {
         private const string WebhookSecretApiLocal = "whsec_duqdVrYBhqWnDL9kgYnoFE4rzByAE3Rk";
@@ -61,17 +61,18 @@ namespace VLISSIDES.API.Stripe
             _sendGridEmail = sendGridEmail;
         }
 
-        [HttpPost("confirmation-paiement")]
-        public async Task<IActionResult> Index()
+        [HttpPost]
+        public async Task<IActionResult> ConfirmationPaiement()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
             try
             {
                 var stripeEvent =
-                    EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WebhookSecretApiRemote,throwOnApiVersionMismatch:false);
+                    EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WebhookSecretApiRemote,
+                        throwOnApiVersionMismatch: false);
 
-                var session=stripeEvent.Data.Object as Session;
+                var session = stripeEvent.Data.Object as Session;
                 // Handle the event
 
                 if (stripeEvent.Type == Events.CheckoutSessionAsyncPaymentFailed)
@@ -94,7 +95,7 @@ namespace VLISSIDES.API.Stripe
 
                         var nouvelleCommande = new CommandesVM();
                         nouvelleCommande.DateCommande = DateTime.Now;
-                        nouvelleCommande.PrixTotal = session.AmountTotal.Value/100m;
+                        nouvelleCommande.PrixTotal = session.AmountTotal.Value / 100m;
                         nouvelleCommande.MembreUserName = customer.UserName;
                         nouvelleCommande.AdresseId = customer?.AdressePrincipaleId;
                         nouvelleCommande.StatutId = "2";
@@ -108,7 +109,7 @@ namespace VLISSIDES.API.Stripe
                         var nbCommandes = _context.Commandes.Count().ToString();
                         var commande = new Commande
                         {
-                            Id = "Commande-"+nbCommandes+"-"+ DateTime.Now.ToString("yyyyMMddHH"),
+                            Id = "Commande-" + nbCommandes + "-" + DateTime.Now.ToString("yyyyMMddHH"),
                             DateCommande = nouvelleCommande.DateCommande,
                             PrixTotal = nouvelleCommande.PrixTotal,
                             MembreId = customer.Id,
@@ -120,33 +121,27 @@ namespace VLISSIDES.API.Stripe
                                 CommandeId = nouvelleCommande.Id,
                                 Quantite = lc.Quantite
                             }).ToList()
-
                         };
 
-                         _context.Commandes.Add(commande);
-                         await _context.SaveChangesAsync();
+                        _context.Commandes.Add(commande);
+                        await _context.SaveChangesAsync();
 
                         // Récupérer l'URL complète du logo à partir de l'application
-                         var logoUrl =
-                             Url.Content(
-                                 "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
-                         // Envoi du mail de confirmation de commande
-                            await SendConfirmationEmail(customer, nouvelleCommande, logoUrl, session.Id);
+                        var logoUrl =
+                            Url.Content(
+                                "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
+                        // Envoi du mail de confirmation de commande
+                        await SendConfirmationEmail(customer, nouvelleCommande, logoUrl, session.Id);
 
                         //Suppression du panier actuel de la bd
                         _context.LivrePanier.RemoveRange(panierItems);
                         await _context.SaveChangesAsync();
-
-
-
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
                         throw;
                     }
-
-
                 }
 
                 else
@@ -179,8 +174,6 @@ namespace VLISSIDES.API.Stripe
         }
 
 
-
-
         private string BuildEmailBody(Membre customer, CommandesVM nouvelleCommande, string logoUrl)
         {
             StringBuilder body = new StringBuilder();
@@ -202,11 +195,11 @@ namespace VLISSIDES.API.Stripe
 
             foreach (var item in nouvelleCommande.LivreCommandes)
             {
-
                 body.Append("<tr>");
                 body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
                 body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Quantite}</td>");
-                body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault().Prix}$</td>");
+                body.Append(
+                    $"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault().Prix}$</td>");
                 body.Append("</tr>");
             }
 
