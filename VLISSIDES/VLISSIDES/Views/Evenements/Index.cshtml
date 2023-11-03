@@ -6,11 +6,11 @@
 @model List<VLISSIDES.ViewModels.Evenements.EvenementsIndexVM>
 
 <div class="container-fluid">
-    @foreach(var item in Model)
-    {
-        <partial ></partial>
-    }
+    
     <div class="row">
-
+        @foreach (var item in Model)
+        {
+            <partial name="PartialViews/Evenements/_EvenementCardPartial" model="@item" />
+        }
     </div>
 </div>
