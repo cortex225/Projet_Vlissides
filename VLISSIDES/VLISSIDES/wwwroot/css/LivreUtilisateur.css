@@ -59,7 +59,8 @@
 
     .conteneurLU {
         max-width: 90%;
-        height: 190px;
+        min-height: 190px;
+        max-height: 300px;
     }
 
     #divEtoiles {
@@ -103,7 +104,8 @@
     }
 
     .conteneurLU {
-        height: 210px;
+        min-height: 210px;
+        max-height: 300px;
     }
 
     .listLivresLU {
@@ -130,7 +132,8 @@
 
     .conteneurLU {
         max-width: 90%;
-        height: 190px;
+        min-height: 190px;
+        max-height: 300px;
     }
 
     .card-lu-btn-rating > * {
