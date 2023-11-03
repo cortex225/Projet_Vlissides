@@ -3,58 +3,53 @@
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
-
-<div class="item livrePetit livre" onclick="window.location.href=`/Recherche/Details?id=@Model.Id`">
-    <div class="card cardLivreSearch" style="width: 15.5rem; height: 33rem;">
-        @{
-            string couverture =string.Concat(BASE_URL_RAZOR, Model.Couverture);
-        }
-        <img src="@Html.Raw(couverture)" class="card-img-top imgLivre" alt="Couverture du livre" height="10"/>
-        <div class="card-body">
-            <h6 class="card-title">@Model.Titre</h6>
-
-
-            <partial name="../Accueil/_Etoiles.cshtml" model=@Model.Note />
-            
-            <h6>Auteur(es) : </h6>
+<div class="card divLivre" onclick="window.location.href=`/Recherche/Details?id=@Model.Id`">
+    <img src="@Model.Couverture" class="card-img-top imgLivre" alt="Couverture du livre" />
+    <div class="card-body">
+        <h6 class="card-title">@Model.Titre</h6>
+        <!--<partial name="../Accueil/_Etoiles.cshtml" model=@Model.Note />-->
+        <h6>Auteur(es) : </h6>
+        <div class=" d-flex justify-content-around">
             @foreach (var auteur in Model.Auteurs)
             {
-                <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@auteur" asp-route-criteres="auteur" class="btn btn-secondary btnCategorie">@auteur</a>
-
+                <p class="btn btn-secondary btnCategorie">
+                    <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@auteur" asp-route-criteres="auteur">@auteur</a>
+                </p>
             }
-
-            <h6>Catégorie(s) : </h6>
-            <div>
-                @foreach (var categorie in @Model.Categories)
-                {
-                    <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@categorie" asp-route-criteres="categorie" class="btn btn-secondary btnCategorie">@categorie</a>
-                }
-            </div>
-            <h6>Maison d'édition : </h6>
-            <div>
-                <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@Model.MaisonEdition" asp-route-criteres="maisonEdition" class="btn btn-secondary btnCategorie">@Model.MaisonEdition</a>
-            </div>
-            <div>
-                @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
-                {
-                    <p>
-                        <strong>Aucun médium offert</strong>
-                    </p>
-                }
-                else
-                {
-                    <p><strong>Prix</strong></p>
-                    if (!Model.Papier.Equals(null))
-                    {
-                        <div>Papier : @Model.Papier $</div>
-                    }
-                    if (!Model.Numerique.Equals(null))
-                    {
-                        <div>Numérique :@Model.Numerique $</div>
-                    }
-                }
-            </div>
-            <p>@Model.Quantite en stock</p>
         </div>
+
+        <h6>Catégorie(s) : </h6>
+        <div class=" d-flex justify-content-around">
+            @foreach (var categorie in @Model.Categories)
+            {
+                <p class="btn btn-secondary btnCategorie">
+                    <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@categorie" asp-route-criteres="categorie">@categorie</a>
+                </p>
+            }
+        </div>
+        <h6>Maison d'édition : </h6>
+        <div class="maisonEdition d-flex justify-content-around">
+            <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@Model.MaisonEdition" asp-route-criteres="maisonEdition" class="btn btn-secondary btnCategorie">@Model.MaisonEdition</a>
+        </div>
+        <div class="type d-flex justify-content-around">
+            @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
+            {
+                <p>
+                    <strong>Aucun médium offert</strong>
+                </p>
+            }
+            else
+            {
+                if (!Model.Papier.Equals(null))
+                {
+                    <div>Papier : @Model.Papier $</div>
+                }
+                if (!Model.Numerique.Equals(null))
+                {
+                    <div>Numérique :@Model.Numerique $</div>
+                }
+            }
+        </div>
+        <p class="quantite">@Model.Quantite disponible</p>
     </div>
 </div>

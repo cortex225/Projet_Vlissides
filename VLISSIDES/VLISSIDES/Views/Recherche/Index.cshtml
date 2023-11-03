@@ -1,4 +1,5 @@
-﻿@model VLISSIDES.ViewModels.Recherche.IndexRechercheVM;
+﻿@using System.Web.WebPages;
+@model VLISSIDES.ViewModels.Recherche.IndexRechercheVM;
 @{
     ViewData["Title"] = "Libraire";
 }
@@ -7,14 +8,13 @@
     string BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Recherche.css">
-<div class="d-block p-4 p-4">
-    @if (!Model.ResultatRecherche.Count.Equals(0))
+<div class="d-block">
+    @if (!Model.MotRecherche.IsEmpty())
     {
-        <div class="mb-4">
-            <h1>Résultat de recherche pour "@Model.MotRecherche"</h1>
+        <div>
+            <h1>Résultat de recherche pour "@Model.MotRecherche"" dans "@Model.Criteres"</h1>
         </div>
     }
-
     <div class="container-fluid">
 
         @* Les recherches *@
@@ -114,7 +114,7 @@
             <div class="col-10">
 
                 @* Results *@
-                <div class="results">
+                <div id="results" class="d-flex justify-content-between flex-wrap">
                     @foreach (var livre in Model.LivrePartials)
                     {
                         <a asp-controller="Recherche" asp-action="Details" asp-route-id="@livre.Id">
