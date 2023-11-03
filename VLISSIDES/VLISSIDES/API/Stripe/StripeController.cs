@@ -21,21 +21,22 @@ namespace VLISSIDES.API.Stripe
     [Route("[controller]/[action]")]
     public class StripeController : Controller
     {
-        private const string WebhookSecretApiLocal = "whsec_duqdVrYBhqWnDL9kgYnoFE4rzByAE3Rk";
-        private const string WebhookSecretApiRemote = "whsec_xlmZe964PLoEvfcTcwOsHgb5YMCYDXaV";
 
-        private readonly IConfiguration _config;
+
+
+        private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<ApplicationUser> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
-
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ISendGridEmail _sendGridEmail;
 
+        // Variable pour stocker le webhook secret de Stripe
+        private readonly string _webhookSecretApi;
 
         public StripeController(
             SignInManager<ApplicationUser> signInManager,
@@ -47,7 +48,8 @@ namespace VLISSIDES.API.Stripe
             IHttpContextAccessor httpContextAccessor,
             IWebHostEnvironment webHostEnvironment,
             ISendGridEmail sendGridEmail,
-            IConfiguration config)
+            IConfiguration configuration // Une seule instance de IConfiguration
+        )
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -57,9 +59,13 @@ namespace VLISSIDES.API.Stripe
             _context = context;
             _httpContextAccessor = httpContextAccessor;
             _webHostEnvironment = webHostEnvironment;
-            _config = config;
             _sendGridEmail = sendGridEmail;
+            _configuration = configuration;
+
+            // Récupérer le webhook secret de Stripe depuis la configuration
+            _webhookSecretApi = _configuration["WebhookSecretApi"];
         }
+
 
         [HttpPost]
         public async Task<IActionResult> ConfirmationPaiement()
@@ -69,7 +75,7 @@ namespace VLISSIDES.API.Stripe
             try
             {
                 var stripeEvent =
-                    EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WebhookSecretApiRemote,
+                    EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], _webhookSecretApi,
                         throwOnApiVersionMismatch: false);
 
                 var session = stripeEvent.Data.Object as Session;
