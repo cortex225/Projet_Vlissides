@@ -17,7 +17,14 @@
             @{
                 string couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
             }
+
             <img id="DetailsIMG" src="@Html.Raw(couverture)"/>
+            <div class="Container-Evaluation px-4">
+                <p > Évaluation de nos lecteurs</p>
+                <partial name="PartialViews/Accueil/_Etoiles" model=@Model.Note />
+
+            </div>
+
         </div>
 
         <div id="DetailsInfo">
@@ -316,8 +323,8 @@ function toggleActive(button, type) {
     if (button.classList.contains('active')) {
         selector.style.display = 'flex';
         button.style.backgroundColor = '#386bc0';
-        button.classList.add('btn-primary');
         button.style.color = 'white';
+
     } else {
         selector.style.display = 'none';
         button.style.backgroundColor = '#ffffff';
