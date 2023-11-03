@@ -231,3 +231,23 @@
     margin-bottom: 20px;
     margin-top: 20px;
 }
+
+.Container-Evaluation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: #E2EBF7;
+    border-radius: 8px;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.Container-Evaluation >p {
+    margin-bottom: -25px!important;
+    font-size: 1.2em;
+    font-weight: bold;
+    width: 100%!important;
+}
+
