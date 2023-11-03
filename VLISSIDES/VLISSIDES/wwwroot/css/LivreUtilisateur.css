@@ -1,0 +1,180 @@
+﻿@media screen and (min-width: 1200px) {
+    #divEtoiles {
+        position: sticky;
+        width: 40vw;
+        height: auto;
+        max-height: 86vh;
+        margin-left: auto;
+        margin-right: auto;
+        right: 0;
+        top: 10%;
+        background-color: #ffffff;
+        display: block;
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+
+    .imgLU {
+        max-width: 100%;
+    }
+
+    .divIMG_LU {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        max-width: 30%;
+        max-height: 90%;
+    }
+
+    .conteneurLU {
+        max-width: 90%;
+        height: 170px;
+    }
+
+    .radioStar {
+        margin: 16px;
+    }
+
+    .card-lu-btn-rating > * {
+        margin: 4px;
+    }
+
+    .petiteEtoile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1199px) and (min-width: 768px) {
+    .imgLU {
+        max-width: 100%;
+    }
+
+    .divIMG_LU {
+        display: flex;
+        justify-content: center;
+        padding: 8px;
+        max-width: 50%;
+        max-height: 90%;
+    }
+
+    .conteneurLU {
+        max-width: 90%;
+        height: 190px;
+    }
+
+    #divEtoiles {
+        position: sticky;
+        width: 42vw;
+        height: auto;
+        max-height: 80vh;
+        margin-left: auto;
+        margin-right: auto;
+        right: 0;
+        top: 10%;
+        background-color: #ffffff;
+        display: block;
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+
+    .card-lu-btn-rating {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .card-lu-btn-rating > * {
+        margin: 4px;
+    }
+
+    .listLivresLU {
+        width: 65%;
+    }
+}
+
+@media screen and (max-width: 1199px) and (min-width: 991px) {
+    .petiteEtoile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 991px) and (min-width: 768px) {
+    .divIMG_LU {
+        display: none;
+    }
+
+    .conteneurLU {
+        height: 210px;
+    }
+
+    .listLivresLU {
+        width: 95%;
+    }
+
+    #divEtoiles {
+        width: 36vw;
+    }
+
+    .grosEtoile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .divIMG_LU {
+        display: none;
+    }
+
+    .listLivresLU {
+        width: 65%;
+    }
+
+    .conteneurLU {
+        max-width: 90%;
+        height: 190px;
+    }
+
+    .card-lu-btn-rating > * {
+        margin: 4px;
+    }
+
+    .card-lu-btn-rating {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #divEtoiles {
+        position: sticky;
+        width: 40vw;
+        height: auto;
+        max-height: 86vh;
+        margin-left: auto;
+        margin-right: auto;
+        right: 0;
+        top: 10%;
+        background-color: #ffffff;
+        display: block;
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+
+    .grosEtoile {
+        display: none;
+    }
+}
+
+.card-lu {
+    display: flex;
+}
+
+#LU_Etoiles {
+    display: flex;
+}
+
+.card-lu-download-titre {
+    justify-content: space-between;
+}
+
+.inputStar {
+    display: flex;
+    align-items: center;
+}
