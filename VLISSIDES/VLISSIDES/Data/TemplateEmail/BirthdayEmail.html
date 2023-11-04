@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email  Birthday</title>
+        <link rel="stylesheet" href="css/BirthdayEmail.css">
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h2>Joyeux Anniversaire, {{UserName}}!</h2>
+    </div>
+    <img src='http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png' alt='Logo Fourmie Aillée'
+         style='width:250px;height:auto; display: block; margin: 10px auto;'>
+    <div class="email-content">
+        <h1>🎉 C'est le temps de célébrer! 🎉</h1>
+        <p>Nous espérons que votre journée est remplie de joie et de rires. Pour rendre cette journée encore plus
+            spéciale, nous vous offrons un code promo exclusif pour votre prochain achat.</p>
+        <div class="promo-code">{{PromoCode}}</div>
+        <p>Utilisez ce code lors de votre prochaine commande et profitez d'une réduction spéciale. Merci de faire partie
+            de notre communauté!</p>
+    </div>
+    <div class="footer">
+        <p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+        <p>La Fourmie Aillée - Tous droits réservés</p>
+    </div>
+</div>
+</body>
+</html>
