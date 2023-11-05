@@ -45,5 +45,5 @@ public class RegisterVM
     public bool Conditions { get; set; }
 
     public string? ReturnUrl { get; set; }
-    
+
 }

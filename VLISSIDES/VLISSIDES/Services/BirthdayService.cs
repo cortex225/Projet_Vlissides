@@ -24,7 +24,7 @@ public class BirthdayService : BackgroundService // Service qui peut tourner en 
         {
             _logger.LogInformation("Birthday Service running at: {time}", DateTimeOffset.Now);
             await CheckBirthdaysAndSendEmails(stoppingToken);
-            await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken); // Attendre 24 heures
+            await Task.Delay(TimeSpan.FromDays(1), stoppingToken); // Attendre 24 heures
         }
     }
 
