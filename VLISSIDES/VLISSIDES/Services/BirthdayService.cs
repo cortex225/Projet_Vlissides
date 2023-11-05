@@ -48,7 +48,7 @@ public class BirthdayService : BackgroundService // Service qui peut tourner en 
                 // Générer le contenu de l'e-mail
                 var emailContent = GenerateBirthdayEmailContent(user);
 
-                // Envoyer un courriel HTML sans pièces jointes
+                // Envoye un courriel HTML sans pièces jointes
                 await _sendGridEmailAdvance.SendEmailAsync(user.Email, "Joyeux Anniversaire", emailContent, true,
                     null); // Ajout de 'null' pour les pièces jointes
                 _logger.LogInformation("Sent birthday email to: {Email}", user.Email);

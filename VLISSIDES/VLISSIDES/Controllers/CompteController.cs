@@ -181,7 +181,6 @@ public class CompteController : Controller
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
                 DateAdhesion = DateTime.Now,
-                DateNaissance = vm.DateNaissance,
 
             };
 
