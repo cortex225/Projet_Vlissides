@@ -1,0 +1,30 @@
+﻿@media (max-width: 885px) {
+    .cacher-1 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media (max-width: 885px) {
+    .cacher-2 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media (max-width: 1px) {
+    .cacher-3 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media (max-width: 1px) {
+    .cacher-4 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media (max-width: 1px) {
+    .cacher-5 {
+        position: absolute;
+        visibility: hidden;
+    }
+}

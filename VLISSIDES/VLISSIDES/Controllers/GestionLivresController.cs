@@ -144,14 +144,8 @@ public class GestionLivresController : Controller
 
         ViewBag.Action = "Inventaire";
 
-        var vm = new GestionLivresInventaireVM
-        {
-            ListeLivres = livresVM,
-            ListeCategories = categories,
-            ListeLangue = langues,
-            ListeTypeLivres = typesLivres
-        };
-        return View(vm);
+        return View(new GestionLivresInventaireVM(livres, _context.Livres.ToList(), _context.Auteurs.ToList(),
+            _context.MaisonEditions.ToList(), _context.Categories.ToList(), _context.Langues.ToList(), _context.TypeLivres.ToList()));
     }
 
     [Route("2147186/GestionLivres/{action}")]
@@ -271,14 +265,8 @@ public class GestionLivresController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        var vm = new GestionLivresInventaireVM
-        {
-            ListeLivres = livresVM,
-            ListeCategories = categories,
-            ListeLangue = langues,
-            ListeTypeLivres = typesLivres
-        };
-        return PartialView("PartialViews/GestionLivres/_ListeLivresPartial", vm);
+        return View(new GestionLivresInventaireVM(livres, _context.Livres.ToList(), _context.Auteurs.ToList(),
+            _context.MaisonEditions.ToList(), _context.Categories.ToList(), _context.Langues.ToList(), _context.TypeLivres.ToList()));
     }
 
     // GET: Livre/Details/5
