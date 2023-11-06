@@ -9,5 +9,7 @@ namespace VLISSIDES.ViewModels.GestionCommandes
         public string CommandeId { get; set; } = default!;
 
         public int Quantite { get; set; } = default!;
+
+        public double PrixAchat { get; set; } = default!;
     }
 }

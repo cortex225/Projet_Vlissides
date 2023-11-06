@@ -8,6 +8,7 @@ public class DetailsLivreVM
     public string Titre { get; set; }
     public List<string> Auteurs { get; set; }
     public List<string> Categories { get; set; }
+    public List<int> Notes { get; set; }
     public DateTime DatePublication { get; set; }
     public string Couverture { get; set; }
     public string MaisonEdition { get; set; }
@@ -17,19 +18,30 @@ public class DetailsLivreVM
     public Decimal? Papier { get; set; }
     public Decimal? Numerique { get; set; }
 
-    public DetailsLivreVM(string id, string titre, IEnumerable<Auteur> auteurs, IEnumerable<Categorie> categories, DateTime datePublication,
-        string couverture, MaisonEdition? maisonEdition, int nbPages, string resume, int nbExemplaires,
-        IEnumerable<LivreTypeLivre> livreTypeLivres)
+    private Random rnd { get; set; }
+    private double rDouble { get; set; }
+    public double Note { get; set; }
+
+    public string ISBN { get; set; }
+
+    public string Langue { get; set; }
+
+    public DetailsLivreVM(string id, string titre, IEnumerable<Auteur> auteurs, IEnumerable<Categorie> categories, IEnumerable<int> notes,
+        DateTime datePublication, string couverture, MaisonEdition? maisonEdition, int nbPages, string resume, int nbExemplaires,
+        IEnumerable<LivreTypeLivre> livreTypeLivres, string isbn, string langue)
     {
         Id = id;
         Titre = titre;
         Auteurs = auteurs.Select(a => a.NomAuteur).ToList();
         Categories = categories.Select(c => c.Nom).ToList();
+        Notes = notes.ToList();
         DatePublication = datePublication;
         Couverture = couverture;
         MaisonEdition = maisonEdition != null ? maisonEdition.Nom : "";
         NbPages = nbPages;
         Resume = resume;
+        ISBN = isbn;
+        Langue = langue;
         NbExemplaires = nbExemplaires;
         foreach (var media in livreTypeLivres)
             switch (media.TypeLivre.Nom)
@@ -37,5 +49,25 @@ public class DetailsLivreVM
                 case "Papier": Papier = media.Prix; break;
                 case "Numérique": Numerique = media.Prix; break;
             }
+        CalculerNote();
+    }
+
+    public void CalculerNote()
+    {
+        double total = 0.0;
+        double nbNotes = Notes.Count();
+        foreach (int n in Notes)
+        {
+            total += Convert.ToDouble(n);
+        }
+
+        if (nbNotes == 0.0)
+        {
+            Note = 0.0;
+        }
+        else
+        {
+            Note = total / nbNotes;
+        }
     }
 }

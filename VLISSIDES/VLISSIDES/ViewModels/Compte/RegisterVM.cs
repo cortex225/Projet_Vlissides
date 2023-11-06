@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace VLISSIDES.ViewModels.Compte;
@@ -44,4 +45,7 @@ public class RegisterVM
     public bool Conditions { get; set; }
 
     public string? ReturnUrl { get; set; }
+
+    [DisplayName("Date de naissance")] public DateTime? DateNaissance { get; set; }
+
 }
