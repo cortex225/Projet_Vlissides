@@ -17,8 +17,6 @@ public class DetailsLivreVM
     public Decimal? Papier { get; set; }
     public Decimal? Numerique { get; set; }
 
-    public double Note { get; set; }
-
     public string ISBN { get; set; }
 
     public string Langue { get; set; }
@@ -28,8 +26,7 @@ public class DetailsLivreVM
         Id = livre.Id;
         Titre = livre.Titre;
         Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
-        Categories = livre.Categories.Select(c => c.Nom).ToList();
-        Note = livre.Note;
+        Categories = livre.Categories.Select(c => c.Categorie.Nom).ToList();
         DatePublication = livre.DatePublication;
         Couverture = livre.Couverture;
         MaisonEdition = livre.Couverture;
