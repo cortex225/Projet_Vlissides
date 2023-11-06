@@ -1,5 +1,5 @@
 ﻿#navBottom {
-    padding: 0px;
+    padding: 0 10px;
     height: 50px;
 }
 
@@ -48,6 +48,16 @@
         #navRight li * i {
             align-self: center;
         }
+/*Sidebar*/
+#sidebarButton {
+    position:fixed;
+    z-index:10;
+    box-shadow:0 0 2px black;
+}
+
+#sidebar {
+    width: min-content;
+}
 
 @media only screen and (max-width: 911px) {
     #navRight {

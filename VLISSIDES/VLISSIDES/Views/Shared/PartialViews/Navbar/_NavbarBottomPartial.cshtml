@@ -10,7 +10,10 @@
     <ul id="navLeft" class=" d-flex  align-items-end">
         <li class="cacherPetit">
             <a class="nav-link" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
+            @if (!User.IsInRole(RoleName.EMPLOYE))
+            {
             <pre> - </pre>
+            }
         </li>
         @if (!User.Identity.IsAuthenticated || User.IsInRole(RoleName.MEMBRE))
         {
