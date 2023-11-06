@@ -3,11 +3,7 @@
 @{
     ViewData["Title"] = "Libraire";
 }
-@{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
-}
-<link rel="stylesheet" href="~/css/Recherche.css">
+<link rel="stylesheet" href="~/css/Rechercher/Recherche.css">
 <div class="d-block">
     @if (!Model.MotRecherche.IsEmpty())
     {
@@ -19,27 +15,25 @@
 
         @* Les recherches *@
         @* Research bar *@
-        <div class="row">
-            <div class="col-2 text-center">
-                <a asp-controller="Recherche" asp-action="Index">
-                    <button id="rechercherBTN" type="button" class="container-fluid btn btn-primary">
-                        Rechercher
-                    </button>
-                </a>
-            </div>
-
-            <div class="col-10">
-                <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale" onkeyup="RechercheRapide()">
-            </div>
+        <div class="row text-center">
+            <a id="rechercherBTN" class="container-fluid btn btn-primary" asp-controller="Recherche" asp-action="Index">
+                Rechercher
+            </a>
+            <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale" onkeyup="RechercheRapide()">
         </div>
-
+        <button class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="filtre">
+            Filtre
+        </button>
         <div class="row">
 
-            <div class="col-2 bg-secondary">
+            <div id="filtre" class="offcanvas offcanvas-start card col-2 bg-secondary" tabindex="-1">
 
                 @* Recherche précise *@
                 <div>
-                    <h3>Spécifications</h3>
+                    <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary">
+                        Rechercher
+                    </button>
+                    <h3>Filtre</h3>
                     <div class="form-group">
                         <label for="specificationTitre">Titre:</label>
                         <input id="specificationTitre" class="form-control" name="specificationTitre" type="text" list="ListeLivres">
@@ -111,32 +105,29 @@
                 </div>
             </div>
             @* Body *@
-            <div class="col-10">
 
                 @* Results *@
-                <div id="results" class="d-flex justify-content-between flex-wrap">
+                <div id="results" class="d-flex justify-content-around flex-wrap">
                     @foreach (var livre in Model.LivrePartials)
                     {
-                        <a asp-controller="Recherche" asp-action="Details" asp-route-id="@livre.Id">
+                    <a asp-controller="Recherche" asp-action="Details" asp-route-id="@livre.Id">
                             <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre" />
                         </a>
                     }
                 </div>
                 <partial name="PartialViews/Utilities/_PaginationRecherchePartial" />
-            </div>
         </div>
 
     </div>
 
 </div>
-<script>
-    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
-</script>
 <script type="text/javascript">
     //Script pour la recherche
     var btnSearch = document.getElementById("rechercherBTN");
+    var btnFiltreSearch = document.getElementById("rechercherBTNFiltre");
 
     btnSearch.addEventListener("click", RechercheGenerale);
+    btnFiltreSearch.addEventListener("click", RechercheGenerale);
 
     async function RechercheGenerale(ev) {
         ev.preventDefault();

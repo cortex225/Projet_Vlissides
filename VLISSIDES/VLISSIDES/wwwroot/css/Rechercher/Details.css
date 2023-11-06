@@ -1,10 +1,9 @@
 ﻿#detailsDivPrincipal {
-    display: flex;
-    flex-direction: row;
+    max-width:100%;
 }
 
     #detailsDivPrincipal * {
-        margin: 12px;
+        margin: 2px;
     }   
 
 #checkboxTypeLivre {
@@ -29,4 +28,14 @@
 
 #DetailsIMG {
     max-width: 100%;    
+}
+#commande {
+}
+#commande * {
+    width: min-content;
+}
+@media (max-width: 835px){
+
+    #commande {
+    }
 }

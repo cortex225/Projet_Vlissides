@@ -134,7 +134,7 @@ public class RechercheController : Controller
             livresRecherches = livresRecherches
                 .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                 .ToList();
-        var itemsPerPage = 9;
+        var itemsPerPage = 12;
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
         // ReSharper disable once HeapView.BoxingAllocation

@@ -2,6 +2,7 @@
     width: 300px;
     height:fit-content;
     max-height: 750px;
+    margin-bottom:20px;
 }
 
     .divLivre img {
@@ -12,7 +13,6 @@
 .card-body {
     padding: 0;
 }
-
 
     .card-body div {
         width: 415px;
@@ -35,13 +35,18 @@
             display:flex;
         }
             .card-body div p a {
-                height:100%;
+                width:100%;
+                max-height:100%;
                 padding:1px;
                 align-self: center;
                 overflow:auto;
             }
-
-    .card-body h6 {
+    .card-body h1 {
+        height: 52px;
+        max-height: 52px;
+        overflow-y: auto;
+    }
+    .card-body h1, .card-body h2 {
         width: 100%;
         text-align: center;
         color: black;
@@ -65,6 +70,22 @@
 .quantite{
     position:relative;
     right:0;
+    bottom:30px;
     margin-right:10px;
     text-align: right;
+}
+.auteur a, .auteur p a:first-of-type, #results > a{
+    position: absolute;
+}
+.auteur p a {
+    position: inherit;
+}
+#rechercherBTN, #rechercheGeneral {
+    width: fit-content;
+}
+#filtre{
+    width:fit-content;
+    margin:5px;
+    padding:5px;
+    overflow-y:auto;
 }
