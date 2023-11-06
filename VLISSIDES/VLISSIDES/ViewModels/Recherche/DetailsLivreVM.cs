@@ -8,7 +8,6 @@ public class DetailsLivreVM
     public string Titre { get; set; }
     public List<string> Auteurs { get; set; }
     public List<string> Categories { get; set; }
-    public List<int> Notes { get; set; }
     public DateTime DatePublication { get; set; }
     public string Couverture { get; set; }
     public string MaisonEdition { get; set; }
@@ -18,56 +17,32 @@ public class DetailsLivreVM
     public Decimal? Papier { get; set; }
     public Decimal? Numerique { get; set; }
 
-    private Random rnd { get; set; }
-    private double rDouble { get; set; }
     public double Note { get; set; }
 
     public string ISBN { get; set; }
 
     public string Langue { get; set; }
 
-    public DetailsLivreVM(string id, string titre, IEnumerable<Auteur> auteurs, IEnumerable<Categorie> categories, IEnumerable<int> notes,
-        DateTime datePublication, string couverture, MaisonEdition? maisonEdition, int nbPages, string resume, int nbExemplaires,
-        IEnumerable<LivreTypeLivre> livreTypeLivres, string isbn, string langue)
+    public DetailsLivreVM(Livre livre)
     {
-        Id = id;
-        Titre = titre;
-        Auteurs = auteurs.Select(a => a.NomAuteur).ToList();
-        Categories = categories.Select(c => c.Nom).ToList();
-        Notes = notes.ToList();
-        DatePublication = datePublication;
-        Couverture = couverture;
-        MaisonEdition = maisonEdition != null ? maisonEdition.Nom : "";
-        NbPages = nbPages;
-        Resume = resume;
-        ISBN = isbn;
-        Langue = langue;
-        NbExemplaires = nbExemplaires;
-        foreach (var media in livreTypeLivres)
+        Id = livre.Id;
+        Titre = livre.Titre;
+        Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
+        Categories = livre.Categories.Select(c => c.Nom).ToList();
+        Note = livre.Note;
+        DatePublication = livre.DatePublication;
+        Couverture = livre.Couverture;
+        MaisonEdition = livre.Couverture;
+        NbPages = livre.NbPages;
+        Resume = livre.Resume;
+        ISBN = livre.ISBN;
+        Langue = livre.Langue.Nom;
+        NbExemplaires = livre.NbExemplaires;
+        foreach (var media in livre.LivreTypeLivres)
             switch (media.TypeLivre.Nom)
             {
                 case "Papier": Papier = media.Prix; break;
                 case "Numérique": Numerique = media.Prix; break;
             }
-        CalculerNote();
-    }
-
-    public void CalculerNote()
-    {
-        double total = 0.0;
-        double nbNotes = Notes.Count();
-        foreach (int n in Notes)
-        {
-            total += Convert.ToDouble(n);
-        }
-
-        if (nbNotes == 0.0)
-        {
-            Note = 0.0;
-        }
-        else
-        {
-            Note = total / nbNotes;
-        }
     }
 }
