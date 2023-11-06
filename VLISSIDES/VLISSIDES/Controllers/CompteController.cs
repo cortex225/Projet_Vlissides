@@ -181,6 +181,7 @@ public class CompteController : Controller
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
                 DateAdhesion = DateTime.Now,
+                DateNaissance = vm.DateNaissance,
 
             };
 
@@ -220,7 +221,7 @@ public class CompteController : Controller
                     "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>" +
                     "<img src='" + logoUrl +
                     "' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>\n" +
-                    "<h2 style='color: #444;'>Cher utilisateur,</h2>\n" +
+                    "<h2 style='color: #444;'>Cher membre,</h2>\n" +
                     "<p>Nous avons reçu une demande d'inscription. Pour continuer ce processus, veuillez cliquer sur le bouton ci-dessous.</p>\n" +
                     "<p style='text-align: center; margin: 20px 0;'><a href='" + callbackUrl +
                     "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 3px;'>Confirmer l'inscription</a></p>\n" +

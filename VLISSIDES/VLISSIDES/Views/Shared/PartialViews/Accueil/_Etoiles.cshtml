@@ -1,18 +1,74 @@
-﻿@model int
-<ul class="list-unstyled list-inline mb-0">
-    @for (var compteur = 0; compteur < 5; compteur++)
-    {
-        @if (compteur < Model)
-        {
-            <li class="list-inline-item me-0" onclic="DonneNote(@compteur+1)">
-                <i class="fas fa-star text-warning fa-xs"></i>
-            </li>
-        }
-        else
-        {
-            <li class="list-inline-item me-0">
-                <i class="fa fa-star-o"></i>
-            </li>
+﻿@using System.Globalization;
+@model double
+@{
+    //Ajouter de la valeur plus qu'il va avoir d'espace entre les étoiles
+    double ratingAvantModif = Model;
+
+    var rating = ratingAvantModif.ToString("0.0", CultureInfo.InvariantCulture);
+}
+
+
+<div class="star-et-nombre-container">
+    <div class="star-container">
+        <div class="Stars" style="--rating: @rating;"></div>
+        <div class="Stars-o"></div>
+    </div>
+    <p class="rating-number">(@Math.Round(Model, 1))</p>
+</div>
+<style >
+    :root {
+        --star-size: 17px;
+        --star-size-o: 23px;
+        --star-color: #fff;
+        --star-background: #fc0;
+        --star-background-o: #000;
+    }
+
+    .star-et-nombre-container {
+        display: flex;
+    }
+
+    .star-container {
+        width: 108px;
+        position: relative;
+    }
+
+    .Stars, .Stars-o{
+        display: inline-block;
+        font-family: mono;
+        width: 100%;
+        position: absolute;
+    }
+    
+    .Stars {
+        --percent: calc((var(--rating) / 5) * 100%);
+        z-index: 10;
+        font-size: var(--star-size);
+        top: 5.2px;
+        left: 2.5px;
+        &::before {
+            content: '★★★★★';
+            letter-spacing: 6px;
+            background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            text-fill-color: transparent;
+            -webkit-text-fill-color: transparent;
         }
     }
-</ul>
+
+    .Stars-o{
+        font-size: var(--star-size-o);
+        top: 0;
+        left: 0;
+        &::before{
+            content: '★★★★★';
+            letter-spacing: 1px;
+            background: var(--star-background);
+            background-clip: text;
+            -webkit-background-clip: text;
+            text-fill-color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+</style>
