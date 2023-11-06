@@ -11,9 +11,6 @@
                 <div class="col-sm-3 d-flex justify-content-center">
                     <h4 class="card-title my-auto">#@commande.Id</h4>
                 </div>
-                <div class="col-sm-2 d-flex justify-content-center">
-                    <p class="my-auto">@commande.MembreUserName</p>
-                </div>
                 <div class="col-sm-1 d-flex justify-content-center">
                     <p class="my-auto">@commande.PrixTotal $</p>
                 </div>
@@ -21,27 +18,7 @@
                     <p class="my-auto">@commande.DateCommande</p>
                 </div>
                 <div class="col-sm-3 form-group d-flex justify-content-center">
-                    <div>
-                        <select id="@commande.Id statutSelectList" class="form-select my-auto" style="width:auto;" onchange="enableButton('@commande.Id')" name="StatutId">
-                            @foreach (var statut in Model.SelectListStatut)
-                            {
-                                if (statut.Value == commande.StatutId)
-                                {
-                                    <option value="@statut.Value" selected="true">@statut.Text</option>
-                                }
-                                else
-                                {
-                                    <option value="@statut.Value">@statut.Text</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                    <button id="saveButton @commande.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton mx-2 px-3" onclick="
-                                                    saveStatut('@commande.Id')
-                                                    disableButton('@commande.Id')">
-
-                        <span class="fa-solid fa-check fa-2x"></span>
-                    </button>
+                    <p class="my-auto">@commande.StatutNom</p>
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center align-self-md-center">
 

@@ -1,11 +1,11 @@
 ﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
-    ViewData["Title"] = "Gestion de commandes";
+    ViewData["Title"] = "Historique des commandes";
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
 <div class="m-4">
-    <h1>Gestion des commandes</h1>
+    <h1>Historique des commandes</h1>
     <div class="row">
         <div class="col-6">
             <form id="rechercherCommande" enctype="multipart/form-data">
@@ -50,9 +50,6 @@
             <div class="col-sm-3 d-flex justify-content-center">
                 <h5>Identifiant</h5>
             </div>
-            <div class="col-sm-2 d-flex justify-content-center">
-                <h5>Utilisateur</h5>
-            </div>
             <div class="col-sm-1 d-flex justify-content-center">
                 <h5>Prix</h5>
             </div>
@@ -67,7 +64,7 @@
 
     <div class="row">
         <div id="commandesListe" class="col-12 ">
-            <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial" />
+            <partial name="PartialViews/HistoriqueCommandes/_ListeHistoriqueCommandesPartial" />
         </div>
     </div>
 
