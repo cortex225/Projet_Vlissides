@@ -1,5 +1,7 @@
 ﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 
 <link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
@@ -17,8 +19,22 @@
                 <div class="col-sm-2 d-flex justify-content-center">
                     <p class="my-auto">@commande.DateCommande</p>
                 </div>
-                <div class="col-sm-3 form-group d-flex justify-content-center">
+                <div class="col-sm-3 d-flex justify-content-center">
                     <p class="my-auto">@commande.StatutNom</p>
+                </div>
+                <div class="col-sm-2">
+                    @foreach(var article in commande.LivreCommandes.Take(3))
+                    {
+                        string couverture = string.Concat(BASE_URL_RAZOR, article.Livre.Couverture);                 
+                        <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
+                    }
+                    @if (commande.LivreCommandes.Count > 3)
+                    {
+
+                        var amountMore = commande.LivreCommandes.Count - 3;
+
+                        <i class="fa-solid fa-plus">@amountMore</i>
+                    }
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center align-self-md-center">
 
