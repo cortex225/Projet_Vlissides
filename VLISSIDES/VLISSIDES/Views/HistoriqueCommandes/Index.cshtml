@@ -83,21 +83,6 @@
 
 </script>
 <script type="text/javascript">
-    function saveStatut(id = "") {
-
-        var statutVal = document.getElementById(id + ' statutSelectList').value;
-
-        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).catch(error => console.error('Échec du fetch pour modifier le statut de la commande', error));
-    }
-</script>
-
-<script type="text/javascript">
     async function applyFilter(ev) {
         ev.preventDefault();
 
@@ -119,7 +104,7 @@
             partieCriteres = partieCriteres.concat("rechercherCommande|");
         }
 
-        var apiUrl = BASE_URL + `/GestionCommandes/AfficherCommandes?${partieMotCles}&${partieCriteres}`;
+        var apiUrl = BASE_URL + `/HistoriqueCommandes/AfficherCommandes?${partieMotCles}&${partieCriteres}`;
 
         // Effectue une requête GET à l'API
         fetch(apiUrl, {
