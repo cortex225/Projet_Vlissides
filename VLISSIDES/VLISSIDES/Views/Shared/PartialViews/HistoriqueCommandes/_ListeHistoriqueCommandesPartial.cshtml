@@ -49,7 +49,7 @@
                     <div>
                         @foreach (var item in commande.LivreCommandes)
                         {
-                            <div class="row">
+                            <div class="row py-1">
                                 <div class="col-sm-3 px-4">
                                     @item.Quantite x @item.Livre.Titre
                                 </div>
@@ -61,7 +61,10 @@
                                     }
                                     @prix $
                                 </div>
-                            </div>
+                                <div class="col-sm-1">
+                                    <button class="btn btn-primary">Retourner</button>
+                                </div>                              
+                            </div>       
                         }
                     </div>
                 </div>
