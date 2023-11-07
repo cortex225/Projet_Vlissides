@@ -1,0 +1,5 @@
+﻿.element-hoverable:hover {
+    transform: scale(1.02);
+    transition: transform 0.4s;
+    background-color: #E2EBF7;
+}
