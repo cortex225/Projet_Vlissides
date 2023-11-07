@@ -1,4 +1,6 @@
 ﻿@model VLISSIDES.ViewModels.GestionLivres.GestionLivresInventaireVM
+<link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
+
 
 @{
     ViewData["Title"] = "Inventaire";
@@ -150,7 +152,7 @@
                         @* Results *@
                         @foreach (var item in Model.ListeLivres)
                         {
-                            <div id="@item.Id" class="card mb-2 mx-3 ">
+                            <div id="@item.Id" class="card mb-2 mx-3 element-hoverable">
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="imgDiv col-2 text-center">
                                         @{

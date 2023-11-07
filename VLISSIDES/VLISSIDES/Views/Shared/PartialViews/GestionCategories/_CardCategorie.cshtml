@@ -1,6 +1,10 @@
 ﻿@model VLISSIDES.ViewModels.Categories.CategoriesIndexVM
+
+<link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
+
+
 <!--onclick pour afficher livres ici-->
-<div id="@Model.Id" class="card list-group-item list-group-item-action mb-2 mx-3" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@Model.Id')">
+<div id="@Model.Id" class="card list-group-item list-group-item-action mb-2 mx-3 element-hoverable" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@Model.Id')">
     <div class="card-body row align-items-center p-0">
         <div class="col-8 text-center">
             <!--Début : Modifier nom d'une maison d'édition-->
