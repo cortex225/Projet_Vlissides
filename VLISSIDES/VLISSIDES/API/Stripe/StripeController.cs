@@ -1,7 +1,10 @@
 ﻿using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -9,13 +12,18 @@ using VLISSIDES.ViewModels.Paiement;
 using VLISSIDES.ViewModels.Panier;
 using VLISSIDES.ViewModels.Profile;
 using Stripe.Checkout;
+using VLISSIDES.Interfaces;
+using VLISSIDES.ViewModels.GestionCommandes;
 
 namespace VLISSIDES.API.Stripe
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     public class StripeController : Controller
     {
+        private const string WebhookSecretApiLocal = "whsec_duqdVrYBhqWnDL9kgYnoFE4rzByAE3Rk";
+        private const string WebhookSecretApiRemote = "whsec_xlmZe964PLoEvfcTcwOsHgb5YMCYDXaV";
+
         private readonly IConfiguration _config;
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -26,6 +34,8 @@ namespace VLISSIDES.API.Stripe
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ISendGridEmail _sendGridEmail;
+
 
         public StripeController(
             SignInManager<ApplicationUser> signInManager,
@@ -36,6 +46,7 @@ namespace VLISSIDES.API.Stripe
             ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor,
             IWebHostEnvironment webHostEnvironment,
+            ISendGridEmail sendGridEmail,
             IConfiguration config)
         {
             _signInManager = signInManager;
@@ -47,164 +58,160 @@ namespace VLISSIDES.API.Stripe
             _httpContextAccessor = httpContextAccessor;
             _webHostEnvironment = webHostEnvironment;
             _config = config;
+            _sendGridEmail = sendGridEmail;
         }
-        // [HttpPost]
-        public async Task<IActionResult> SetDeliveryAddress(string userId, string addressId)
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmationPaiement()
         {
-            var user = await _context.Users.FindAsync(userId);
-            var address = await _context.Adresses.FindAsync(addressId);
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
-            if (user == null || address == null)
-            {
-                return NotFound();
-            }
-
-            user.AdressesLivraison.FirstOrDefault().Id = addressId;
-            await _context.SaveChangesAsync();
-
-            return Ok();
-
-             }
-
-        [HttpPost("CompleteOrder")]
-        public async Task<IActionResult> CompleteOrder([FromBody] StripePaiementVM paymentData)
-        {
-            // var stripeCustomerId = paymentData.StripeCustomerId;
-            var stripeCustomerId = "cus_Os2AwQNQdo2umB";
-
-            string userId = paymentData.UserId;
-
-            // Appeler GetUserWithAddress pour obtenir des informations sur l'utilisateur
-            var user = await GetUserWithAddress(userId);
-            if (user == null)
-            {
-                return NotFound("L'utilisateur n'a pas été trouvé.");
-            }
-
-            // Appeler GetCartItems pour obtenir les articles dans le panier
-            var cartItems = await GetCartItems(userId);
-            if (cartItems == null || !cartItems.Any())
-            {
-                return BadRequest("Aucun article trouvé dans le panier.");
-            }
-
-            // Appeler CreateStripePaymentVM pour créer une instance de StripePaiementVM
-            var stripePaymentVM = await CreateStripePaymentVM(user, cartItems);
-            if (stripePaymentVM == null)
-            {
-                return BadRequest("Impossible de créer StripePaiementVM.");
-            }
-
-            PaymentIntent paymentIntent;
             try
             {
-                paymentIntent = new PaymentIntent();
+                var stripeEvent =
+                    EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WebhookSecretApiRemote,
+                        throwOnApiVersionMismatch: false);
 
-            }
-            catch (StripeException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                var session = stripeEvent.Data.Object as Session;
+                // Handle the event
 
-
-            if (paymentData == null)
-            {
-                return BadRequest("Les données requises sont manquantes ou invalides.");
-            }
-
-
-
-            if (paymentIntent.Status != "succeeded")
-            {
-                return BadRequest("Le paiement a échoué");
-            }
-
-            await UpdateInventory(paymentData.Livres);
-            await CreateOrder(paymentIntent.Id, paymentData.Livres,
-                paymentData.Adresse);
-
-            return Ok();
-        }
-
-
-        private async Task<Membre> GetUserWithAddress(string userId)
-        {
-            return await _context.Membres
-                .Include(x => x.AdressesLivraison).FirstOrDefaultAsync(u => u.Id == userId);
-        }
-
-        private async Task<List<LivrePanier>> GetCartItems(string userId)
-        {
-            return await _context.LivrePanier
-                .Where(ci => ci.UserId == userId)
-                .Include(ci => ci.Livre)
-                .Include(ci => ci.TypeLivre)
-                .ToListAsync();
-        }
-
-        private async Task<StripePaiementVM> CreateStripePaymentVM(ApplicationUser user, List<LivrePanier> cartItems)
-        {
-            var memberId = user.Id;
-            var member = await _context.Membres.FindAsync(memberId);
-            var stripeCustomerId = member.StripeCustomerId;
-
-
-
-            var paymentVM = new StripePaiementVM
-            {
-                StripeCustomerId = stripeCustomerId,
-                UserId = memberId,
-            };
-
-            return paymentVM;
-        }
-
-        private async Task<PaymentIntent> CreatePaymentIntent(StripePaiementVM stripePaiement, string stripeToken)
-        {
-            var options = new SessionCreateOptions
-            {
-                LineItems = new List<SessionLineItemOptions>
+                if (stripeEvent.Type == Events.CheckoutSessionAsyncPaymentFailed)
                 {
-                    new SessionLineItemOptions
+                }
+                else if (stripeEvent.Type == Events.CheckoutSessionAsyncPaymentSucceeded)
+                {
+                }
+                else if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+                {
+                    try
                     {
-                        PriceData = new SessionLineItemPriceDataOptions
+                        var customer =
+                            await _context.Membres.FirstOrDefaultAsync(c => c.StripeCustomerId == session.CustomerId);
+                        var panierItems = _context.LivrePanier
+                            .Where(lp => lp.UserId == customer.Id)
+                            .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+                            .ToList();
+
+
+                        var nouvelleCommande = new CommandesVM();
+                        nouvelleCommande.DateCommande = DateTime.Now;
+                        nouvelleCommande.PrixTotal = session.AmountTotal.Value / 100m;
+                        nouvelleCommande.MembreUserName = customer.UserName;
+                        nouvelleCommande.AdresseId = customer?.AdressePrincipaleId;
+                        nouvelleCommande.StatutId = "2";
+                        nouvelleCommande.LivreCommandes = panierItems.Select(lc => new LivreCommandeVM
                         {
-                            UnitAmount = 2000,
-                            Currency = "cad",
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            Livre = lc.Livre,
+                            CommandeId = nouvelleCommande.Id,
+                            Quantite = (int)lc.Quantite
+                        }).ToList();
+
+                        var nbCommandes = _context.Commandes.Count().ToString();
+                        var commande = new Commande
+                        {
+                            Id = "Commande-" + nbCommandes + "-" + DateTime.Now.ToString("yyyyMMddHH"),
+                            DateCommande = nouvelleCommande.DateCommande,
+                            PrixTotal = nouvelleCommande.PrixTotal,
+                            MembreId = customer.Id,
+                            AdresseId = customer.AdressePrincipaleId,
+                            StatutCommandeId = nouvelleCommande.StatutId,
+                            LivreCommandes = nouvelleCommande.LivreCommandes.Select(lc => new LivreCommande
                             {
-                                Name = "T-shirt"
-                            },
-                        },
-                        Quantity = 1,
-                    },
-                },
-                Mode = "payment",
+                                LivreId = lc.Livre.Id,
+                                CommandeId = nouvelleCommande.Id,
+                                Quantite = lc.Quantite
+                            }).ToList()
+                        };
 
-                AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
-            };
-            var service = new SessionService();
-            Session session = service.Create(options);
-            Response.Headers.Add("Location", session.Url);
-            return await Task.FromResult(new PaymentIntent());
+                        _context.Commandes.Add(commande);
+                        await _context.SaveChangesAsync();
+
+                        // Récupérer l'URL complète du logo à partir de l'application
+                        var logoUrl =
+                            Url.Content(
+                                "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
+                        // Envoi du mail de confirmation de commande
+                        await SendConfirmationEmail(customer, nouvelleCommande, logoUrl, session.Id);
+
+                        //Suppression du panier actuel de la bd
+                        _context.LivrePanier.RemoveRange(panierItems);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+
+                else
+                {
+                    // Unexpected event type
+                    Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
+                }
+
+                return Ok();
+            }
+            catch (StripeException e)
+            {
+                return BadRequest();
+            }
+        }
+
+        private async Task SendConfirmationEmail(Membre customer, CommandesVM nouvelleCommande, string logoUrl,
+            string sessionId)
+        {
+            var subject = "Confirmation de commande";
+
+            // Récupérer la facture de Stripe
+            // var invoice = await GetInvoiceFromStripe(sessionId);
+
+            // Construire le corps du courriel
+            var body = BuildEmailBody(customer, nouvelleCommande, logoUrl);
+
+            // Envoyer le courriel avec la facture en pièce jointe
+            await _sendGridEmail.SendEmailAsync(customer.Email, subject, body);
         }
 
 
-
-
-
-
-
-        private async Task UpdateInventory(List<AfficherPanierVM>? cartItems)
+        private string BuildEmailBody(Membre customer, CommandesVM nouvelleCommande, string logoUrl)
         {
-            // Implémenter la logique pour mettre à jour l'inventaire
-            await Task.CompletedTask;
-        }
+            StringBuilder body = new StringBuilder();
 
-        private async Task CreateOrder(string paymentIntentId, List<AfficherPanierVM>? cartItems, ProfileModifierAdressesVM deliveryAddress)
-        {
-            // Implémenter la logique pour créer un enregistrement de commande
-            await Task.CompletedTask;
+            body.Append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>");
+            body.Append(
+                $"<img src='{logoUrl}' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>");
+            body.Append($"<h2 style='color: #444;'>Cher(e) {customer.UserName},</h2>");
+            body.Append("<p>Merci pour votre commande ! Voici le récapitulatif :</p>");
+            body.Append("<table style='width: 100%; border-collapse: collapse;'>");
+            body.Append("<thead>");
+            body.Append("<tr style='background-color: #f2f2f2;'>");
+            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Produit</th>");
+            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Quantité</th>");
+            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Prix</th>");
+            body.Append("</tr>");
+            body.Append("</thead>");
+            body.Append("<tbody>");
+
+            foreach (var item in nouvelleCommande.LivreCommandes)
+            {
+                body.Append("<tr>");
+                body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
+                body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Quantite}</td>");
+                body.Append(
+                    $"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault().Prix}$</td>");
+                body.Append("</tr>");
+            }
+
+            body.Append("</tbody>");
+            body.Append("</table>");
+            body.Append($"<p><strong>Total : {nouvelleCommande.PrixTotal.ToString("C")}</strong></p>");
+            body.Append(
+                "<p>Votre commande sera traitée rapidement et vous recevrez une notification dès qu'elle sera expédiée.</p>");
+            body.Append("<p>Merci de faire confiance à La Fourmie Aillée !</p>");
+            body.Append("</div>");
+
+            return body.ToString();
         }
     }
 }

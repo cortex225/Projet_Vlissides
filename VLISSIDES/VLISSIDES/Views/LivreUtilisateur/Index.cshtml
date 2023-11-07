@@ -12,24 +12,6 @@
 
 <div  style="margin: 24px;">
     <h2 id="titreMesLivres">Mes livres: </h2>
-
-    @* Les recherches *@
-        <form class="row">
-            @* Research bar *@
-            <div class="row mb-3">
-                <div class="col-2 ml-4 text-center">
-                    <a asp-controller="Recherche" asp-action="Index">
-                        <button id="rechercherBTN_LU" type="button" class="container-fluid btn btn-primary">
-                            Rechercher
-                        </button>
-                    </a>
-                </div>
-
-                <div class="col-10">
-                    <input id="rechercheGeneralLU" type="text" class="form-control recherche-input" placeholder="Recherche générale">
-                </div>
-            </div>
-        </form>
     <div id="LU_Etoiles" class="container">
         <div class="row mb-1">
         @foreach (LivreUtilisateurIndexVM l in Model.listVM)
@@ -170,7 +152,6 @@
     }
 
     async function NoterLivre(id = "") {//Sert aussi pour modifier
-        console.log("Patate Tomate NOTE");
         var boutonsRadio = document.getElementsByName("starsRadioGroup");
         var noteValeur;
 

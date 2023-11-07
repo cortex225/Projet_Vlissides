@@ -11,4 +11,6 @@ public class LivreCommande
     public Commande Commande { get; set; } = default!;
 
     public int Quantite { get; set; } = default!;
+
+    public double PrixAchat { get; set; } = default!;
 }

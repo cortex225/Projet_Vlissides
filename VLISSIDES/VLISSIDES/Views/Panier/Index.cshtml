@@ -84,23 +84,19 @@
     changerPrixDon();
 </script>
 
-<script type="text/javascript">
+<script type="text/javascript" asp-append-version="true">
     function ModifierQuantite(id = "", quantite = "") {
         fetch(BASE_URL + '/Panier/ModifierQuantite?id=' + id + '&quantite=' + document.getElementById(id + " quantite").value, {
             method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-
-
-        }).catch(error => console.error('Échec du fetch pour modifier la quantite'))
-            .then((response) => { 
+            // headers: {
+            //     'Accept': 'application/json',
+            //     'Content-Type': 'application/json'
+            // }
+        }).then((response) => { 
                 disableButton(id);
                 AfficherFacture();
                 getNbArticles();
-
-            });
+        }).catch(error => { console.error('Échec du fetch pour modifier la quantite'); });
     }
             
     async function supprimerLivre(vmIdPanier) {
@@ -146,7 +142,7 @@
 function getNbArticles() {
 $(document).ready(function () {
         $.ajax({
-            url: "/Panier/NbArticles",
+            url: BASE_URL +"/Panier/NbArticles",
             type: "GET",
             dataType: "json",
             success: function (data) {
