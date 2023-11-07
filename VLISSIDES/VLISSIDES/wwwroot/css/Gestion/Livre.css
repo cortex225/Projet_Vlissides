@@ -1,10 +1,33 @@
-﻿@media (max-width: 885px) {
+﻿table * {
+    align-content:center;
+    text-align:center;
+}
+tr {
+    border-bottom: 1px solid black;
+}
+.groupeBoutton{
+    min-width:140px;
+}
+#rechercheRapide > *, #filtreBTN {
+    width: fit-content;
+}
+#filtre {
+    overflow-y: auto;
+}
+#filtre *{margin:0;
+}
+#fermeFiltre{
+    position:absolute;
+    top:35px;
+    right:10px;
+}
+@media (max-width: 500px) {
     .cacher-1 {
-        position: absolute;
-        visibility: hidden;
+        position: absolute!important;
+        visibility: hidden!important;
     }
 }
-@media (max-width: 885px) {
+@media (max-width: 880px) {
     .cacher-2 {
         position: absolute;
         visibility: hidden;
@@ -22,7 +45,7 @@
         visibility: hidden;
     }
 }
-@media (max-width: 1px) {
+@media (max-width: 590px) {
     .cacher-5 {
         position: absolute;
         visibility: hidden;

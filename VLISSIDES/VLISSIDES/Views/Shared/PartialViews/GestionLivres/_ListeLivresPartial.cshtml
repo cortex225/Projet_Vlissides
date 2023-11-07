@@ -1,4 +1,4 @@
-﻿@model VLISSIDES.ViewModels.GestionLivres.GestionLivresInventaireVM
+@model List<VLISSIDES.ViewModels.GestionLivres.DetailsLivreVM>
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -6,73 +6,74 @@
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
 }
+
 <table>
     <tr>
         <th>Livre</th>
-        <th>ISBN</th>
-        <th>Auteur</th>
-        <th>Catégorie</th>
-        <th>Prix par type</th>
-        <th>Quantité</th>
+        <th class="cacher-5">ISBN</th>
+        <th class="cacher-4">Auteur</th>
+        <th class="cacher-3">Catégorie</th>
+        <th class="cacher-2">Prix par type</th>
+        <th class="cacher-1">Quantité</th>
         <th></th>
     </tr>
-    @foreach (var livre in Model.ListeLivres)
+    @foreach (var livre in Model)
     {
         <tr id="@livre.Id">
             <td>
                 @{
-                    string couverture = string.Concat(BASE_URL_RAZOR, livre.Image);
+                    string couverture = string.Concat(BASE_URL_RAZOR, livre.Couverture);
                 }
                 <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                 <p>@Html.DisplayFor(modelItem => livre.Titre)</p>
             </td>
-            <td>@Html.DisplayFor(modelItem => livre.ISBN)</td>
-            <td>
-                @foreach (var auteur in livre.ListAuteur)
+            <td class="cacher-5">@Html.DisplayFor(modelItem => livre.ISBN)</td>
+            <td class="cacher-4">
+                @foreach (var auteur in livre.Auteurs)
                 {
-                    <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
+                    <p>@Html.DisplayFor(modelItem => auteur)</p>
                 }
             </td>
-            <td>
+            <td class="cacher-3">
                 @foreach (var categorie in livre.Categories)
                 {
-                    <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
+                    <p>@Html.DisplayFor(modelItem=>categorie)</p>
                 }
             </td>
-            <td>
-                @foreach (var type in livre.LivreTypeLivres.Where(ltl => ltl.TypeLivre.Nom.Equals("Papier")))
+            <td class="cacher-2">
+                @if (!livre.Papier.Equals(null))
                 {
-                    <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
+                    <p>@livre.Papier $</p>
                 }
-                @foreach (var type in livre.LivreTypeLivres.Where(ltl => ltl.TypeLivre.Nom.Equals("Numérique")))
-                {
-                    <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
+                    @if (!livre.Numerique.Equals(null))
+                    {
+                    <p>@livre.Numerique $</p>
                 }
             </td>
-            <td>
-                @if (livre.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Papier"))
+            <td class="cacher-1">
+                @if (livre.NbExemplaires>0)
                 {
-                    <input id="@livre.Id quantite" type="number" asp-for="@livre.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => livre.Quantite)" onclient onclick="enableButton('@livre.Id')">
+                    <input id="@livre.Id quantite" type="number" asp-for="@livre.NbExemplaires" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => livre.NbExemplaires)" onclient onclick="enableButton('@livre.Id')">
                 }
                 else
                 {
                     <span>N/A</span>
                 }
             </td>
-            <td>
-                @if (livre.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Papier"))
+            <td class="groupeBoutton">
+                @if (!livre.Papier.Equals(null))
                 {
-                    <button id="saveButton @livre.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
-                                                saveQuantite('@livre.Id', '@livre.Quantite')
+                    <button id="saveButton @livre.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3 cacher-1" onclick="
+                                                saveQuantite('@livre.Id', '@livre.NbExemplaires')
                                                 disableButton('@livre.Id')">
 
-                    <span class="fa-solid fa-check fa-2x"></span>
+                        <span class="fa-solid fa-check fa-2x"></span>
 
                     </button>
                 }
                 else
                 {
-                    <button class="btn btn-success saveButton px-3">
+                    <button class="btn btn-success saveButton px-3 cacher-1">
                         <span class="fa-solid fa-check fa-2x"></span>
                     </button>
                 }

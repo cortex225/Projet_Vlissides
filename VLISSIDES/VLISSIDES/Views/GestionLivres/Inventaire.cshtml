@@ -5,6 +5,7 @@
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
+<link rel="stylesheet" href="~/css/Gestion/Gestion.css" asp-append-version="true">
 <link rel="stylesheet" href="~/css/Gestion/Livre.css" asp-append-version="true">
 
 
@@ -16,167 +17,116 @@
      style="display: none;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
-
         </div>
     </div>
 </div>
 
-<div class="d-block p-3 col">
+<h1 class="text-center mb-4">Inventaire des livres</h1>
 
-    <div class="text-center mb-4">
-        <h1>Inventaire des livres</h1>
+@* Les recherches *@
+<form class="row">
+    @* Research bar *@
+    <div id="rechercheRapide" class="text-center d-flex flex-wrap">
+        <a id="rechercherBTN_GL" class="container-fluid btn btn-primary" asp-controller="Recherche" asp-action="Index">
+            Rechercher
+        </a>
+        <input id="rechercheGeneralGL" type="text" class="form-control recherche-input" placeholder="Recherche générale">
     </div>
+    <button id="filtreBTN" class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="sidebar">
+        Filtre
+    </button>
+    @* Recherche précise *@
+    <div id="filtre" class="offcanvas offcanvas-start card col-2 bg-secondary" tabindex="-1">
 
-    <div class="container-fluid m-1">
-
-        @* Les recherches *@
-        <form class="row">
-            <div>
-                @* Research bar *@
-                <div class="row">
-                    <div class="text-center">
-                        <a id="rechercherBTN_GL" class="container-fluid btn btn-primary" asp-controller="Recherche" asp-action="Index">
-                            Rechercher
-                        </a>
-                    </div>
-
-                    <div class="">
-                        <input id="rechercheGeneralGL" type="text" class="form-control recherche-input" placeholder="Recherche générale">
-                    </div>
-                </div>
-                <button class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="sidebar">
-                    Filtre
-                </button>
-        </div>
-            <div class="row">
-                    @* Recherche précise *@
-                    <div id="filtre" class="offcanvas offcanvas-start card col-2 bg-secondary" tabindex="-1">
-
-                        @* Recherche précise *@
-                        <div>
-                            <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary">
-                                Rechercher
-                            </button>
-                            <h3>Filtre</h3>
-                            <div class="form-group">
-                                <label for="specificationTitre">Titre:</label>
-                                <input id="specificationTitre" class="form-control" name="specificationTitre" type="text" list="ListeLivres">
-                                <datalist id="ListeLivres">
-                                    @foreach (var livre in Model.Livres)
-                                    {
-                                        <option value="@livre" />
-                                    }
-                                </datalist>
-                            </div>
-                            <div class="form-group">
-                                <label for="specificationAuteur">Auteur:</label>
-                                <input id="specificationAuteur" class="form-control" name="specificationAuteur" type="text" list="ListeAuteurs">
-                                <datalist id="ListeAuteurs">
-                                    @foreach (var auteur in Model.Auteurs)
-                                    {
-                                        <option value="@auteur" />
-                                    }
-                                </datalist>
-                            </div>
-                            <div class="form-group">
-                                <label for="specificationMaisonEdition">Maison d'édition:</label>
-                                <input id="specificationMaisonEdition" class="form-control" type="text" list="specificationMaisonEditions">
-                                <datalist id="specificationMaisonEditions">
-                                    @foreach (var maisonEdition in Model.MaisonEditions)
-                                    {
-                                        <option value="@maisonEdition" />
-                                    }
-                                </datalist>
-                            </div>
-                            <div class="form-group">
-                                <label for="specificationCategorie">Categorie:</label>
-                                <input id="specificationCategorie" class="form-control" name="specificationCategorie" type="text" list="specificationCategories">
-                                <datalist id="specificationCategories">
-                                    @foreach (var categorie in Model.Categories)
-                                    {
-                                        <option value="@categorie" />
-                                    }
-                                </datalist>
-                            </div>
-                            <div class="form-group">
-                                <label for="specificationLangue">Langue:</label>
-                                <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues" />
-                                <datalist id="ListeLangues">
-                                    @foreach (var langue in Model.Langues)
-                                    {
-                                        <option value="@langue" />
-                                    }
-                                </datalist>
-                            </div>
-                            <div class="form-group">
-                                <label for="specificationPrixMin">Prix minimum:</label>
-                                <input id="specificationPrixMin" class="form-control" type="number" min="0">
-                            </div>
-                            <div class="form-group">
-                                <label for="specificationPrixMax">Prix maximum:</label>
-                                <input id="specificationPrixMax" class="form-control" type="number" min="0">
-                            </div>
-                            <div class="form-group">
-                                <label for="specificationTypeLivre">Type de livre:</label>
-                                <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres" />
-                                <datalist id="ListeTypeLivres">
-                                    @foreach (var typeLivre in Model.TypeLivres)
-                                    {
-                                        <option value="@typeLivre" />
-                                    }
-                                </datalist>
-                            </div>
-                        </div>
-                    </div>
-                @* Body *@
-                <div class="">
-                    @* Add button *@
-                    <div class="m-4">
-                        <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
-                    </div>
-                    @* Table *@
-                    <div class="container-fluid d-flex flex-wrap row" id="TabLivreListes">
-                        <div class="mb-3 mx-3">
-                            <div class="row px-2">
-                                <div class="col-2 text-center">
-                                    Livre
-                                </div>
-                                <div class="col-2 text-center cacher-5">
-                                    ISBN
-                                </div>
-                                <div class="col-2 text-center cacher-4">
-                                    Auteur
-                                </div>
-                                <div class="col-1 text-center cacher-3">
-                                    Catégorie
-                                </div>
-                                <div class="col-2 text-center cacher-2">
-                                    Prix par type
-                                </div>
-                                <div class="col-1 text-center cacher-1">
-                                    Quantité
-                                </div>
-                            </div>
-
-                        </div>
-
-                        @* Results *@
-                        @foreach (var livre in Model.LivrePartials)
-                        {
-                            <partial model="livre" name="PartialViews/GestionLivres/_ListeLivresPartial" />
-                        }
-
-                    </div>
-                    <partial name="PartialViews/Utilities/_PaginationPartial" />
-                </div>
+        @* Recherche précise *@
+        <div>
+            <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary">
+                Rechercher
+            </button>
+            <h3>Filtre</h3>
+            <button id="fermeFiltre" type="button" class="btn-close btn-close-black text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <div class="form-group">
+                <label for="specificationTitre">Titre:</label>
+                <input id="specificationTitre" class="form-control" name="specificationTitre" type="text" list="ListeLivres">
+                <datalist id="ListeLivres">
+                    @foreach (var livre in Model.Livres)
+                    {
+                        <option value="@livre" />
+                    }
+                </datalist>
             </div>
-        </form>
-
+            <div class="form-group">
+                <label for="specificationAuteur">Auteur:</label>
+                <input id="specificationAuteur" class="form-control" name="specificationAuteur" type="text" list="ListeAuteurs">
+                <datalist id="ListeAuteurs">
+                    @foreach (var auteur in Model.Auteurs)
+                    {
+                        <option value="@auteur" />
+                    }
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="specificationMaisonEdition">Maison d'édition:</label>
+                <input id="specificationMaisonEdition" class="form-control" type="text" list="specificationMaisonEditions">
+                <datalist id="specificationMaisonEditions">
+                    @foreach (var maisonEdition in Model.MaisonEditions)
+                    {
+                        <option value="@maisonEdition" />
+                    }
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="specificationCategorie">Categorie:</label>
+                <input id="specificationCategorie" class="form-control" name="specificationCategorie" type="text" list="specificationCategories">
+                <datalist id="specificationCategories">
+                    @foreach (var categorie in Model.Categories)
+                    {
+                        <option value="@categorie" />
+                    }
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="specificationLangue">Langue:</label>
+                <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues" />
+                <datalist id="ListeLangues">
+                    @foreach (var langue in Model.Langues)
+                    {
+                        <option value="@langue" />
+                    }
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="specificationPrixMin">Prix minimum:</label>
+                <input id="specificationPrixMin" class="form-control" type="number" min="0">
+            </div>
+            <div class="form-group">
+                <label for="specificationPrixMax">Prix maximum:</label>
+                <input id="specificationPrixMax" class="form-control" type="number" min="0">
+            </div>
+            <div class="form-group">
+                <label for="specificationTypeLivre">Type de livre:</label>
+                <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres" />
+                <datalist id="ListeTypeLivres">
+                    @foreach (var typeLivre in Model.TypeLivres)
+                    {
+                        <option value="@typeLivre" />
+                    }
+                </datalist>
+            </div>
+        </div>
     </div>
+    @* Body *@
+    @* Add button *@
+    <div class="m-4">
+        <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
+    </div>
+    @* Table *@
+    <partial model="Model.LivrePartials" name="PartialViews/GestionLivres/_ListeLivresPartial" />
+    <partial name="PartialViews/Utilities/_PaginationPartial" />
+</form>
 
-</div>
 
-<style> 
+<style>
     /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
     .saveButton {
         visibility: hidden;
@@ -289,6 +239,6 @@
 
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
 
 }
