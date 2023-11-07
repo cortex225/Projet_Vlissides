@@ -1,4 +1,4 @@
-﻿@model VLISSIDES.ViewModels.GestionLivres.DetailsLivreVM
+﻿@model VLISSIDES.ViewModels.GestionLivres.GestionLivresInventaireVM
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -6,74 +6,84 @@
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
 }
-<div id="Model.Id" class="card mb-2 mx-3 ">
-    <div class="card-body row p-2 align-items-center">
-        <div class="imgDiv col-2 text-center">
-            @{
-                string couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
-            }
-            <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" width="50px" height="50px">
-            <p>@Model.Titre</p>
-
-        </div>
-        <div class="col-2 text-center cacher-5">
-            @Model.ISBN
-        </div>
-        <div class="col-1 d-flex flex-column cacher-4">
-            @foreach (var auteur in Model.Auteurs)
-            {
-                <p>@auteur</p>
-            }
-        </div>
-        <div class="col-2 text-center cacher-3">
-            @foreach (var categorie in Model.Categories)
-            {
-                <p>@categorie</p>
-            }
-        </div>
-        <div class="col-2 d-flex flex-column cacher-2">
-            @if (!Model.Papier.Equals(null))
-            {
-                <p> Papier : @Model.Papier $</p>
-            }
-            @if (!Model.Numerique.Equals(null))
-            {
-                <p> Numérique : @Model.Numerique $</p>
-            }
-        </div>
-        <div class="col-1 text-center cacher-1">
-            @if (Model.NbExemplaires>0)
-            {
-                <input id="Model.Id quantite" type="number" asp-for="@Model.NbExemplaires" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => Model.NbExemplaires)" onclient onclick="enableButton('@Model.Id')">
-            }
-            else
-            {
-                <span>N/A</span>
-            }
-        </div>
-        <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
-            @if (Model.NbExemplaires > 0)
-            {
-                <button id="saveButton Model.Id" class="cacher-1" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
-                                                saveQuantite('@Model.Id', '@Model.NbExemplaires')
-                                                disableButton('@Model.Id')">
+<table>
+    <tr>
+        <th>Livre</th>
+        <th>ISBN</th>
+        <th>Auteur</th>
+        <th>Catégorie</th>
+        <th>Prix par type</th>
+        <th>Quantité</th>
+        <th></th>
+    </tr>
+    @foreach (var livre in Model.ListeLivres)
+    {
+        <tr id="@livre.Id">
+            <td>
+                @{
+                    string couverture = string.Concat(BASE_URL_RAZOR, livre.Image);
+                }
+                <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
+                <p>@Html.DisplayFor(modelItem => livre.Titre)</p>
+            </td>
+            <td>@Html.DisplayFor(modelItem => livre.ISBN)</td>
+            <td>
+                @foreach (var auteur in livre.ListAuteur)
+                {
+                    <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
+                }
+            </td>
+            <td>
+                @foreach (var categorie in livre.Categories)
+                {
+                    <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
+                }
+            </td>
+            <td>
+                @foreach (var type in livre.LivreTypeLivres.Where(ltl => ltl.TypeLivre.Nom.Equals("Papier")))
+                {
+                    <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
+                }
+                @foreach (var type in livre.LivreTypeLivres.Where(ltl => ltl.TypeLivre.Nom.Equals("Numérique")))
+                {
+                    <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
+                }
+            </td>
+            <td>
+                @if (livre.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Papier"))
+                {
+                    <input id="@livre.Id quantite" type="number" asp-for="@livre.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => livre.Quantite)" onclient onclick="enableButton('@livre.Id')">
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </td>
+            <td>
+                @if (livre.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Papier"))
+                {
+                    <button id="saveButton @livre.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
+                                                saveQuantite('@livre.Id', '@livre.Quantite')
+                                                disableButton('@livre.Id')">
 
                     <span class="fa-solid fa-check fa-2x"></span>
 
-                </button>
-            }
-            else
-            {
-                <button class="btn btn-success saveButton px-3">
-                    <span class="fa-solid fa-check fa-2x"></span>
-                </button>
-            }
-            <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = Model.Id })')" data-toggle="tooltip" title="Modifier le livre">
-                <span class="fa-solid fa-pen fa-2x"></span>
-            </a>
-            <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = Model.Id })')">
-                <span class="fa-solid fa-trash fa-2x"></span>
-            </a>
-        </div>
-    </div>
-</div>
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-success saveButton px-3">
+                        <span class="fa-solid fa-check fa-2x"></span>
+                    </button>
+                }
+                <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = livre.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                    <span class="fa-solid fa-pen fa-2x"></span>
+                </a>
+                <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = livre.Id })')">
+                    <span class="fa-solid fa-trash fa-2x"></span>
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+<partial name="PartialViews/Utilities/_PaginationPartial" />
