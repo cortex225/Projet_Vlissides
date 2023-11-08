@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VLISSIDES.Models;
 
@@ -35,6 +36,7 @@ public class Livre
     [DisplayName("Type(s) de livre")] public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; } = default!;
 
     [DisplayName("Évaluations")] public ICollection<Evaluation>? Evaluations { get; set; }
+    [NotMapped] public decimal Note => (Evaluations ?? new List<Evaluation>()).Any() ? (decimal)Evaluations.Select(e => e.Note).Average() : 0;
 
     [DisplayName("Identifiant de la langue")]
     public string? LangueId { get; set; } = default!;
