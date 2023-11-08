@@ -20,7 +20,7 @@ public class IndexRechercheVM
     public double minPrix { get; set; }
     public double maxPrix { get; set; }
 
-    public IndexRechercheVM(string motRecherche,string criteres, List<Livre> resultatRecherche, List<Livre> livres, List<Auteur> auteurs, List<MaisonEdition> maisonEditions, List<Categorie> categories,
+    public IndexRechercheVM(string motRecherche, string criteres, List<Livre> resultatRecherche, List<Livre> livres, List<Auteur> auteurs, List<MaisonEdition> maisonEditions, List<Categorie> categories,
         List<Langue> langues, List<TypeLivre> typeLivres, double minPrix = 0, double maxPrix = 199.99)
     {
         motRecherche ??= "";
@@ -33,8 +33,8 @@ public class IndexRechercheVM
         categories ??= new();
         langues ??= new();
         typeLivres ??= new();
-        MotRecherche = motRecherche;
-        Criteres = criteres;
+        MotRecherche = motRecherche.Replace("|", ", ");
+        Criteres = criteres.Replace("|", ", ");
         ResultatRecherche = resultatRecherche.Select(rr => rr.Titre).ToList();
         LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr.Id, rr.Titre, rr.LivreAuteurs.Select(la => la.Auteur),
             rr.Categories.Select(lc => lc.Categorie), rr.Evaluations.Select(le => le.Note),

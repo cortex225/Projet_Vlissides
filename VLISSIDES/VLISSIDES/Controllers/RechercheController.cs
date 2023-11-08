@@ -1,4 +1,12 @@
-﻿namespace VLISSIDES.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+using System.Web.WebPages;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Recherche;
+
+namespace VLISSIDES.Controllers;
 
 public class RechercheController : Controller
 {
