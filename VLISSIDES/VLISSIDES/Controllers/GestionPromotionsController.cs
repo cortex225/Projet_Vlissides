@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.WebPages.Html;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionPromotions;
+using VLISSIDES.ViewModels.Livres;
 
 namespace VLISSIDES.Controllers
 
@@ -37,6 +39,33 @@ namespace VLISSIDES.Controllers
 
         [Route("2147186/GestionPromotions/AjouterPromotion")]
         public IActionResult AjouterPromotion()
+        {
+            var vm = new AjouterPromotionVM();
+            //Populer les listes déroulantes
+            vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+            {
+                Text = x.NomAuteur,
+                Value = x.Id
+            }).ToList();
+            vm.SelectListMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("2147186/GestionPromotions/AjouterPromotion")]
+        [Route("{controller}/{action}")]
+        public async Task<IActionResult> AjouterPromotion(AjouterPromotionVM vm)
         {
             return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial");
         }

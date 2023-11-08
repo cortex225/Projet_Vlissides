@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.WebPages.Html;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.GestionPromotions
@@ -31,5 +32,18 @@ namespace VLISSIDES.ViewModels.GestionPromotions
         [Display(Name = "Livres gratuits")] public int? LivresGratuits { get; set; }
 
         [Display(Name = "Pourcentage du rabais")] public int? PourcentageRabais { get; set; }
+
+        //Select lists
+        public ICollection<Auteur>? Auteurs { get; set; }
+
+        public List<SelectListItem>? SelectListAuteurs { get; set; }
+
+        public ICollection<MaisonEdition>? MaisonEditions { get; set; }
+
+        public List<SelectListItem>? SelectListMaisonEditions { get; set; }
+
+        public ICollection<Categorie>? Categories { get; set; }
+
+        public List<SelectListItem>? SelectListCategories { get; set; }
     }
 }
