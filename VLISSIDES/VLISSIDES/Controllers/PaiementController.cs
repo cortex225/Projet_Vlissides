@@ -95,8 +95,10 @@ namespace VLISSIDES.Controllers
                             Name = item.Livre.Titre,
                             Images = new List<string> { encodedImgLivreUrl },
                         },
+
                     },
                     Quantity = item.Quantite,
+
                 };
             }).ToList();
 
@@ -109,26 +111,31 @@ namespace VLISSIDES.Controllers
                 Customer = StripeCustomerId,
                 AllowPromotionCodes = true,
 
-                BillingAddressCollection = "required",
+                BillingAddressCollection = "required",// Demande à Stripe de collecter l'adresse de facturation du client
                 ShippingAddressCollection = new SessionShippingAddressCollectionOptions
                 {
-                    AllowedCountries = new List<string> { "CA", "US" },
+                    AllowedCountries = new List<string> { "CA", "US" }, // Limite les adresses de livraison aux États-Unis et au Canada
 
                 },
                 CustomerUpdate = new SessionCustomerUpdateOptions
                 {
-                    Address = "auto",
-                    Name = "auto",
-                    Shipping = "auto",
+                    Address = "auto", // Met à jour l'adresse du client lorsqu'il passe une commande
+                    Name = "auto", // Met à jour le nom du client lorsqu'il passe une commande
+                    Shipping = "auto", // Met à jour les informations d'expédition du client lorsqu'il passe une commande
+
+                },
+                Metadata = new Dictionary<string, string>
+                {
+                    { "type", "livre" }, // Ici, vous indiquez que le type d'achat est "livre"
 
                 },
                 InvoiceCreation = new SessionInvoiceCreationOptions
                 {
-                    Enabled = true,
+                    Enabled = true,// Créez une facture pour chaque session de paiement
                 },
                 AutomaticTax = new SessionAutomaticTaxOptions
                 {
-                    Enabled = true,
+                    Enabled = true, // Activez le calcul automatique des taxes
                 },
 
                 SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),

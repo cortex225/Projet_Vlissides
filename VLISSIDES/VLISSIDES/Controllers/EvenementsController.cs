@@ -178,6 +178,12 @@ namespace VLISSIDES.Controllers
                     Shipping = "auto",
 
                 },
+                Metadata = new Dictionary<string, string>
+                {
+                    { "type", "evenement" }, // Ici, vous indiquez que le type d'achat est "evenement"
+                    { "evenementId", evenement.Id }, // Vous pouvez également ajouter d'autres informations utiles, comme l'ID de l'événement
+
+                },
                 InvoiceCreation = new SessionInvoiceCreationOptions
                 {
                     Enabled = true,

@@ -475,6 +475,9 @@ public class CompteController : Controller
             ModelState.AddModelError("Email", "Cet utilisateur existe déjà.");
         }
 
+
+
+
         ViewData["ReturnUrl"] = returnurl;
         return View(vm);
     }
@@ -499,4 +502,5 @@ public class CompteController : Controller
         var customer = await service.CreateAsync(options);
         return customer.Id;
     }
+
 }
