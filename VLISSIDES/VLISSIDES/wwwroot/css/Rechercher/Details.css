@@ -1,0 +1,41 @@
+﻿#detailsDivPrincipal {
+    max-width:100%;
+}
+
+    #detailsDivPrincipal * {
+        margin: 2px;
+    }   
+
+#checkboxTypeLivre {
+    display: flex;
+    flex-direction: row;    
+}
+
+#DetailsInfo {
+    width: 40%;
+}
+
+.btnPanier {
+    width: 100%; 
+    display: flex;
+    align-items: center;
+}
+ 
+#DetailsDIV {
+    max-width: 20%;
+    min-width: 20%;
+}
+
+#DetailsIMG {
+    max-width: 100%;    
+}
+#commande {
+}
+#commande * {
+    width: min-content;
+}
+@media (max-width: 835px){
+
+    #commande {
+    }
+}
