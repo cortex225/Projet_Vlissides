@@ -2,43 +2,17 @@
 @{
     ViewData["Title"] = "Accueil Page";
 }
-<link rel="stylesheet" href="~/css/Accueil.css">
-<link rel="stylesheet" href="~/css/event-card.css">
-<link rel="stylesheet" href="~/css/promo-card.css">
+<link rel="stylesheet" href="~/css/Accueil/Accueil.css">
+<link rel="stylesheet" href="~/css/Accueil/event-card.css">
+<link rel="stylesheet" href="~/css/Accueil/promo-card.css">
 
-<!--
-Ceci est le div qui contient une image large avec le titre
--->
-@* <div id="photoPageAccueilDiv" class="col-md-12 mb-6 img-fluid justify-content-center text-center d-flex flex-row container-fluid"> *@
-@*     <div class="container-fluid "> *@
-@*         <div class="row justify-content-around d-flex"> *@
-@*             <h1 id="Titre" class="d-block"> *@
-@*                 La fourmi ailée *@
-@*             </h1> *@
-@*         </div> *@
-@*         <!-- *@
-@*         Un div pour le Slogan de l'entreprise. *@
-@*         --> *@
-@*         <div class="row my-4"> *@
-@*             <h3 class="slogan"> *@
-@*                 Découvrez de nouveaux horizons littéraires *@
-@*             </h3> *@
-@*         </div> *@
-@*         <a href="#" type="btn" class="acheter btn btn-lg "> *@
-@*             Achetez maintenant *@
-@*         </a> *@
-@* *@
-@*     </div> *@
-@* *@
-@* </div> *@
-@* <!-- Hero --> *@
 <div class="col-md-12">
-    <div class="p-5 text-center bg-image col-md-12 img-fluid" id="photoPageAccueilDiv">
+    <div class="text-center bg-image col-md-12 img-fluid" id="photoPageAccueilDiv">
         <div class="d-flex justify-content-center align-items-center h-100">
             <div class="text-dark">
-                <h1 class="mb-3 " id="Titre">La fourmi ailée</h1>
+                <h1 class="mb-3" id="Titre">La fourmi ailée</h1>
                 <h4 class="mb-3 slogan ">Découvrez de nouveaux horizons littéraires</h4>
-                <a class=" acheter btn btn-lg" href="#" role="button"> Achetez maintenant</a>
+                <a class=" acheter btn btn-lg" asp-controller="Recherche" asp-action="Index" role="button"> Achetez maintenant</a>
             </div>
         </div>
     </div>
@@ -98,12 +72,15 @@ Un bouton pour cacher/montrer les services de l'entreprises'
         <h2 class="titreSections mb-1">Nos Activités Et Évenements: </h2>
         <p class="m-2">Immergez-vous dans nos événements et partagez des moments d'exception.</p>
         <div id="carouselEvenements" class="carousel slide container-fluid">
-            <a href="#" class="voirPlus">Voir plus ->: </a>
+            <a class="voirPlus" asp-controller="Evenements" asp-action="Index">Voir plus -></a>
             <div class="carousel-inner">
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
                 @for (var indexEvenement = 0; indexEvenement < Model.Evenements.Count; indexEvenement++)
                 {
-                    <div class="carousel-item @(indexEvenement == 0 ? "active" : "")">
-                        <div class="row mb-4">
+                    <div class="carousel-item row d-flex justify-content-around @(indexEvenement == 0 ? "active" : "")">
                             <div class="col-md-6 col-12">
                                 <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement]"/>
                             </div>
@@ -113,18 +90,13 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                                     <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement]"/>
                                 </div>
                             }
-                        </div>
                     </div>
                 }
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
     }
 
@@ -136,18 +108,18 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             <h2 class="titreSections">Offres spéciales juste pour vous!</h2>
             <p>Découvrez nos offres du moment et enrichissez votre collection.</p>
             <div id="carouselPromotions" class="carousel slide">
-                <a href="#" class="voirPlus">Voir plus -></a>
+                <a class="voirPlus" asp-controller="Promotions" asp-action="Index">Voir plus -></a>
                 <div class="carousel-inner">
                     @for (var indexPromotion = 0; indexPromotion < Model.Promotions.Count; indexPromotion++)
                     {
                         <div class="carousel-item @(indexPromotion == 0 ? "active" : "")">
-                            <div class="row mb-4">
+                            <div class="row mb-4 d-flex justify-content-around">
                                 <div class="col-md-6 col-12">
                                     <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion]"/>
                                 </div>
                                 @if (++indexPromotion < Model.Promotions.Count)
                                 {
-                                    <div class="col-md-6 d-none d-md-block">
+                                    <div class="col-md-6 d-none d-md-block cacher-3">
                                         <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion]"/>
                                     </div>
                                 }
@@ -181,34 +153,44 @@ Un bouton pour cacher/montrer les services de l'entreprises'
         <h2 class="titreSections mb-1">Nos Livres en vedette: </h2>
         <p class="m-2">Nos sélections du moment, des œuvres qui font parler d'elles.</p>
         <div id="carouselLivresVedette" class="carousel slide container">
-            <a href="#" class="voirPlus">Voir plus ->: </a>
+            <a class="voirPlus" asp-controller="Recherche" asp-action="Index">Voir plus -></a>
             <div class="carousel-inner">
-                <div class="carousel-item">
-                    <div class="cards-wrapper">
-                        <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[0]"/>
+                <div class="carousel-item active">
+                    <div class="cards-wrapper d-flex justify-content-around">
+                        <div class="cacher-0">
+                            <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[0]" />
+                        </div>
                         @if (Model.Vedettes.Count > 2)
                         {
-                            <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[1]"/>
+                            <div class="cacher-1">
+                                <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[1]" />
+                            </div>
                         }
                         @if (Model.Vedettes.Count > 3)
                         {
-                            <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[2]"/>
+                            <div class="cacher-2">
+                                <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[2]" />
+                            </div>
                         }
                         @if (Model.Vedettes.Count > 4)
                         {
-                            <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[3]"/>
+                            <div class="cacher-3">
+                                <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[3]" />
+                            </div>
                         }
                     </div>
                 </div>
                 @for (var indexLivre = 1; indexLivre < (float)Model.Vedettes.Count / 4; indexLivre++)
                 {
-                    <div class="carousel-item active">
-                        <div class="cards-wrapper">
+                    <div class="carousel-item">
+                        <div class="cards-wrapper d-flex justify-content-around">
                             @for (var indexLivre2 = 0; indexLivre2 < 4; indexLivre2++)
                             {
                                 @if (Model.Vedettes.Count > indexLivre * 4 + indexLivre2)
                                 {
+                                    <div class="cacher-@indexLivre2">
                                     <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[indexLivre * 4 + indexLivre2]"/>
+                                    </div>
                                 }
                                 else
                                 {
@@ -229,122 +211,6 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             </button>
         </div>
     }
-    <!--
-    Un carousel contenant les recommendations pour l'utilisateur. Nous désirons y ajouter un algorithme qui détermine quel livres l'utiisateur
-    serait interessé en se basant sur les livres qu'il a consulté ou acheté.
-    Pour le moment, nous avons des donnés test.
-
-    Les slides sont par 4, et lorsqu'on clique sur les flèches pour transitionner, le carousel glisse par 4 au lieu de 1
-
-    Les cartes sont toutes des vues partielles.
-    -->
-    @* @if (Model.Recommendations.Count > 1)
-    {
-        <h3 class="titreSections">Recommendations pour vous: </h3>
-        <div id="carouselRecommendations" class="carousel slide">
-            <a href="#" class="voirPlus">Voir plus ->: </a>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="cards-wrapper">
-                        <partial name="_CarteLivre.cshtml" model="Model.Recommendations[0]"/>
-                        @if (Model.Recommendations.Count > 2)
-                        {
-                            <partial name="_CarteLivre.cshtml" model="Model.Recommendations[1]"/>
-                        }
-                        @if (Model.Recommendations.Count > 3)
-                        {
-                            <partial name="_CarteLivre.cshtml" model="Model.Recommendations[2]"/>
-                        }
-                        @if (Model.Recommendations.Count > 4)
-                        {
-                            <partial name="_CarteLivre.cshtml" model="Model.Recommendations[3]"/>
-                        }
-                    </div>
-                </div>
-                @for (var indexLivre = 1; indexLivre < (float)Model.Recommendations.Count / 4; indexLivre++)
-                {
-                    <div class="carousel-item">
-                        <div class="cards-wrapper">
-                            @for (var indexLivre2 = 0; indexLivre2 < 4; indexLivre2++)
-                            {
-                                @if (Model.Recommendations.Count > indexLivre * 4 + indexLivre2)
-                                {
-                                    <partial name="_CarteLivre.cshtml" model="Model.Recommendations[indexLivre * 4 + indexLivre2]"/>
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        </div>
-                    </div>
-                }
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselRecommendations" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    } *@
-</div>
-
-<div class="livresGrille container">
-
-    <!--
-    Ce conteneur contient une liste de 10 livres fesant partie d'une catégorie en vedette.
-
-    On a 5 catégories en vedette. Pour le moment ce ne sont que des donnés test.
-
-    Ces catégories sont représentés sous la forme d'un groupe de boutons.
-
-    (PAS ENCORE IMPLÉMENTÉ)
-    Lorsqu'on clique sur l'un des boutons, le programme change les livres selon la catégorie sélectionnée.
-
-    L'utilisateur aura aussi l'option de "Voir plus".
-    -->
-    @if (Model.Categories.Count > 1)
-    {
-        <div class="titreBoutonsDeGrille">
-            <h3 class="titreSections titreCategories mb-1">Nos Catégories en vedette:</h3>
-            <p class="mt-2 mb-4">Plongez dans nos collections et explorez de nouveaux horizons littéraires.</p>
-
-            <div class="btn-group" role="group" aria-label="Basic example">
-                @foreach (var categorie in Model.Categories)
-                {
-                    <button type="button" class="btn btn-secondary @categorie" onclic="ChangerCategorie(@categorie)">@categorie</button>
-                }
-            </div>
-        </div>
-
-        <noscript>
-            <p>Cette section utilise JavaScript pour fonctionner.</p>
-        </noscript>
-        <a href="#" class="voirPlus">Voir plus ->: </a>
-        <div class="livresGrillesListeLivres">
-            @foreach (var livre in Model.LivreCategories)
-            {
-                <partial name="PartialViews/Accueil/_CarteLivrePetit" model="livre"/>
-            }
-        </div>
-    }
-</div>
-<script>/*
-    if (@Model.Categories.Count > 1)
-        ChangerCategorie(@Model.Categories[0]);
-
-    function ChangerCategorie(string categorieChoisie) {
-        for (var categorie in @Model.Categories)
-            for (var livre in document.getElementsByClassName(categorie))
-                livre.hidden = true;
-        for (var livre in document.getElementsByClassName(categorieChoisie))
-            livre.hidden = false;
-
-    }*/
-</script>
 <script>
 function toggleDescription(buttonElement) {
     var descriptionElement = buttonElement.previousElementSibling;
