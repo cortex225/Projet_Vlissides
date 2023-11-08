@@ -22,7 +22,6 @@ namespace VLISSIDES.Controllers
 
         public IActionResult Index()
         {
-
             var vm = _context.Promotions.Select(p => new GestionPromotionsIndexVM
             {
                 Id = p.Id,
@@ -34,6 +33,12 @@ namespace VLISSIDES.Controllers
                 Image = p.Image,
             }).ToList();
             return View(vm);
+        }
+
+        [Route("2147186/GestionPromotions/AjouterPromotion")]
+        public IActionResult AjouterPromotion()
+        {
+            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial");
         }
     }
 }
