@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Web.WebPages;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionLivres;
 using VLISSIDES.ViewModels.Recherche;
 
 namespace VLISSIDES.Controllers;
@@ -156,8 +157,6 @@ public class RechercheController : Controller
 
         if (livre == null) return NotFound();
 
-        return View(new DetailsLivreVM(livre.Id, livre.Titre, livre.LivreAuteurs.Select(la => la.Auteur),
-            livre.Categories.Select(lc => lc.Categorie), livre.Evaluations.Select(lc => lc.Note), livre.DatePublication, livre.Couverture, livre.MaisonEdition,
-            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres, livre.ISBN, livre.Langue.Nom));
+        return View(new DetailsLivreVM(livre));
     }
 }

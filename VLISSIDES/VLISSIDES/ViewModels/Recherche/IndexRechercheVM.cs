@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using VLISSIDES.Models;
+﻿using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionLivres;
 
 namespace VLISSIDES.ViewModels.Recherche;
 
@@ -28,11 +28,7 @@ public class IndexRechercheVM
         listeTypeLivres ??= new();
         MotRecherche = motRecherche;
         ResultatRecherche = resultatRecherche.Select(rr => rr.Titre).ToList();
-        LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr.Id, rr.Titre, rr.LivreAuteurs.Select(la => la.Auteur),
-            rr.Categories.Select(lc => lc.Categorie), rr.Evaluations.Select(le => le.Note),
-            rr.DatePublication, rr.Couverture, rr.MaisonEdition, rr.NbPages, rr.Resume,
-            rr.NbExemplaires, rr.LivreTypeLivres,rr.ISBN,rr.Langue.Nom)).ToList();
-        ListeCategories = listeCategories.Select(lc => lc.Nom).ToList();
+        LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr)).ToList();
         ListeLangues = listeLangues.Select(lc => lc.Nom).ToList();
         ListeTypeLivres = listeTypeLivres.Select(lc => lc.Nom).ToList();
         this.minPrix = minPrix;
