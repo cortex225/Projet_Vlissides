@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Checkout;
 using System.Security.Claims;
+using System.Text;
 using VLISSIDES.Data;
+using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Evenements;
+using VLISSIDES.ViewModels.GestionCommandes;
 
 namespace VLISSIDES.Controllers
 {
@@ -21,6 +24,8 @@ namespace VLISSIDES.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ISendGridEmail _sendGridEmail;
+
 
         public EvenementsController(
             SignInManager<ApplicationUser> signInManager,
@@ -31,7 +36,8 @@ namespace VLISSIDES.Controllers
             ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor,
             IWebHostEnvironment webHostEnvironment,
-            IConfiguration config)
+            IConfiguration config,
+            ISendGridEmail sendGridEmail)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -42,6 +48,7 @@ namespace VLISSIDES.Controllers
             _httpContextAccessor = httpContextAccessor;
             _webHostEnvironment = webHostEnvironment;
             _config = config;
+            _sendGridEmail = sendGridEmail;
         }
         public IActionResult Index()
         {
@@ -189,6 +196,8 @@ namespace VLISSIDES.Controllers
 
             return Json(new { id = session.Id });
         }
+
+
 
     }
 }
