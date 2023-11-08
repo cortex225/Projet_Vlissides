@@ -5,11 +5,11 @@
 
     #detailsDivPrincipal * {
         margin: 12px;
-    }   
+    }
 
 #checkboxTypeLivre {
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;
 }
 
 #DetailsInfo {
@@ -17,16 +17,238 @@
 }
 
 .btnPanier {
-    width: 100%; 
+    width: 100%;
     display: flex;
     align-items: center;
 }
- 
+
 #DetailsDIV {
     max-width: 20%;
     min-width: 20%;
 }
 
 #DetailsIMG {
-    max-width: 100%;    
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
+    border-radius: 8px;
 }
+
+.stock-restant {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+.Detail-Auteurs {
+    font-size: 1.1em;
+    font-style: italic;
+
+}
+
+/* Stock indicator styles */
+.stock-indicator {
+    display: inline-block;
+    width: 10px; /* Adjust size as needed */
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+/* In-stock indicator color */
+.in-stock {
+    background-color: #1D8514; /* Green color */
+}
+
+/* Out-of-stock indicator color */
+.out-of-stock {
+    background-color: #FF0000; /* Red color */
+}
+
+/* Button group styles */
+.btn-group {
+    /* Your button group styles here */
+}
+
+
+.price-options {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.price-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-button {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.price-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.price-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-button {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 100%;
+}
+
+.price-button.active {
+    background-color: #386bc0;
+    color: white!important;
+}
+
+.price-button:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.price-info {
+    text-align: center; /* Center the text */
+}
+
+.type-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+.quantity-btn {
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.no-price {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .price-options {
+        flex-direction: column;
+    }
+}
+
+.Details-More-Info.card {
+    background: #f8f8f8;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    margin-top: 20px;
+}
+
+
+.info-item {
+    padding: 3px 0;
+    line-height: 0.5;
+    color: #333;
+}
+
+.info-title {
+    font-weight: bold;
+    display: inline-block;
+    width: 150px;
+}
+
+.categories-list {
+    display: inline-block;
+    padding-left: 0;
+    list-style-type: none;
+    font-size: 1.2em;
+}
+
+.categories-list li {
+    display: inline;
+    margin-right: 5px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+}
+
+.Titre-Page {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.Container-Evaluation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: #E2EBF7;
+    border-radius: 8px;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.Container-Evaluation >p {
+    margin-bottom: -25px!important;
+    font-size: 1.2em;
+    font-weight: bold;
+    width: 100%!important;
+}
+

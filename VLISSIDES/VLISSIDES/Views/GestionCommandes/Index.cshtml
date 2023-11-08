@@ -6,38 +6,67 @@
 }
 <div class="m-4">
     <h1>Gestion des commandes</h1>
-    <form class="my-4" id="rechercherCommande" enctype="multipart/form-data">
-        <br />
-        <div class="input-group">
-            <input class="form-control" id="inputRechercherCommande" placeholder='Numéro de la commande sans le "#"' />
-            <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" onclick="applyFilter(event)">
-                Rechercher
-            </button>
+    <div class="row">
+        <div class="col-6">
+            <form id="rechercherCommande" enctype="multipart/form-data">
+                <br />
+                <div class="input-group">
+                    <input class="form-control" id="inputRechercherCommande" placeholder='Numéro de la commande sans le "#"' />
+                    <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" onclick="applyFilter(event)">
+                        Rechercher
+                    </button>
+                </div>
+            </form>
         </div>
+        <div class="col-6">
+            <div class="d-flex justify-content-around">
+                <div>
+                    <h5>Trier par date:</h5>
+                    <div class="d-flex">
+                        <select id="trierDateSelect" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
+                            <option value="1">Plus récent</option>
+                            <option value="2">Plus ancien</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <h5>Filtrer par statut:</h5>
+                    <div class="form-group d-flex">
+                        <select id="filtrerStatutSelect" asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-control" onchange="applyFilter(event)">
+                            <option value="0">Tous</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
 
-    </form>
-    <div class="d-flex justify-content-around w-50">
-        <div>
-            <h5>Trier par date:</h5>
-            <div class="d-flex">
-                <select id="trierDateSelect" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
-                    <option value="1">Plus récent</option>
-                    <option value="2">Plus ancien</option>
-                </select>
-            </div>          
-        </div>
-        <div>
-            <h5>Filtrer par statut:</h5>
-            <div class="form-group d-flex">
-                <select id="filtrerStatutSelect" asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-control" onchange="applyFilter(event)">
-                    <option value="0">Tous</option>
-                </select>
+    <hr />
+
+    <div class="my-2 p-2">
+        <div class="row">
+            <div class="col-sm-3 d-flex justify-content-center">
+                <h5>Identifiant</h5>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-center">
+                <h5>Utilisateur</h5>
+            </div>
+            <div class="col-sm-1 d-flex justify-content-center">
+                <h5>Prix</h5>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-center">
+                <h5>Date</h5>
+            </div>
+            <div class="col-sm-3 d-flex justify-content-center">
+                <h5>Statut</h5>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div id="commandesListe" class="col-6">
+        <div id="commandesListe" class="col-12 ">
             <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial" />
         </div>
     </div>

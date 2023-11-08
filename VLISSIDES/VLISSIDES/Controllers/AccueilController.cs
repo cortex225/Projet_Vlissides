@@ -126,8 +126,10 @@ public class AccueilController : Controller
             new PromotionCardVM("Promotion éclair sur 2 jours\r\nLes 15 et 16 janvier 2024\r\n", 20, DateTime.MinValue,
                 DateTime.MaxValue, "/img/images_Promo/promo3.png")
         };
+        var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+
         return View(new IndexAccueilVM(services, evenements, vedettes, recommandations, categories, livreCategories,
-            promotionCards));
+            promotionCards, user));
     }
 
     public IActionResult Message(string titre, string message)

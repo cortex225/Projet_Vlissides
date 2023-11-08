@@ -1,58 +1,76 @@
 ﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
 }
-@foreach (var commande in @Model.ListCommandes)
-{
-    <div id="Commande_@commande.Id" class="card my-2 p-2" style="">
-        <div class="row no-gutters">
-            <div class="d-flex justify-content-center">
-                <h4 class="card-title">#@commande.Id</h4>
-            </div>
-            <div class="col-sm-7">
 
-                <div class="">
-                    <h5 class="card-title">Article:</h5>
-                    <ul>
+<link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
+<div id="accordion">
+    @foreach (var commande in @Model.ListCommandes)
+    {
+        <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable">
+            <div class="row d-flex p-2">
+                <div class="col-sm-3 d-flex justify-content-center">
+                    <h4 class="card-title my-auto">#@commande.Id</h4>
+                </div>
+                <div class="col-sm-2 d-flex justify-content-center">
+                    <p class="my-auto">@commande.MembreUserName</p>
+                </div>
+                <div class="col-sm-1 d-flex justify-content-center">
+                    <p class="my-auto">@commande.PrixTotal $</p>
+                </div>
+                <div class="col-sm-2 d-flex justify-content-center">
+                    <p class="my-auto">@commande.DateCommande</p>
+                </div>
+                <div class="col-sm-3 form-group d-flex justify-content-center">
+                    <div>
+                        <select id="@commande.Id statutSelectList" class="form-select my-auto" style="width:auto;" onchange="enableButton('@commande.Id')" name="StatutId">
+                            @foreach (var statut in Model.SelectListStatut)
+                            {
+                                if (statut.Value == commande.StatutId)
+                                {
+                                    <option value="@statut.Value" selected="true">@statut.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@statut.Value">@statut.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <button id="saveButton @commande.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton mx-2 px-3" onclick="
+                                                    saveStatut('@commande.Id')
+                                                    disableButton('@commande.Id')">
+
+                        <span class="fa-solid fa-check fa-2x" ></span>
+                    </button>
+                </div>
+                <div class="col-sm-1 d-flex justify-content-center align-self-md-center">
+                    
+                        <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" data-toggle="collapse" data-target="#collapseCommandeLivres_@commande.Id"></i>
+      
+                </div>
+            </div>
+            <div class="collapse" id="collapseCommandeLivres_@commande.Id">
+                <hr>
+                <div class="p-2">
+                    <h5 class="">Articles:</h5>
+                    <div>
                         @foreach (var item in commande.LivreCommandes)
                         {
-                            <li>@item.Quantite x @item.Livre.Titre</li>
+                            <div class="row">
+                                <div class="col-sm-3 px-4">
+                                    @item.Quantite x @item.Livre.Titre
+                                </div>
+                                <div class="col-sm-2">
+                                </div>
+                                <div class="col-sm-1 d-flex justify-content-center">
+                                    @{var prix = item.PrixAchat * item.Quantite;} 
+                                    @prix $
+                                </div>
+                            </div>
                         }
-                    </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-5">
-                <div class="">
-                    <p>Nom d'utilisateur: @commande.MembreUserName</p>
-                    <p>Prix: @commande.PrixTotal</p>
-                    <p>Date: @commande.DateCommande</p>
-                </div>
-            </div>
-            <div class="form-group d-flex align-items-center">
-                <div class="">
-                    <label asp-for="StatutId" class="control-label"></label>
-                </div>
-
-                <select id="@commande.Id statutSelectList" class="form-select mx-4" style="width:auto;" onchange="enableButton('@commande.Id')" name="StatutId">
-                    @foreach (var statut in Model.SelectListStatut)
-                    {
-                        if (statut.Value == commande.StatutId)
-                        {
-                            <option value="@statut.Value" selected="true">@statut.Text</option>
-                        }
-                        else
-                        {
-                            <option value="@statut.Value">@statut.Text</option>
-                        }
-                    }
-                </select>
-                <button id="saveButton @commande.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
-                                                saveStatut('@commande.Id')
-                                                disableButton('@commande.Id')">
-
-                    <span class="fa-solid fa-check fa-2x"></span>
-                </button>
             </div>
         </div>
-    </div>
-}
-
+    }
+</div>
