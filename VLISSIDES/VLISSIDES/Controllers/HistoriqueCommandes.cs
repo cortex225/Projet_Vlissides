@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 using System.Security.Claims;
+using System.Text;
 using VLISSIDES.Data;
+using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionCommandes;
-using VLISSIDES.ViewModels.HistoriqueCommandes;
 
 namespace VLISSIDES.Controllers
 {
+    [ApiController]
+    [Route("[controller]/[action]")]
     public class HistoriqueCommandes : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -18,15 +21,31 @@ namespace VLISSIDES.Controllers
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ISendGridEmail _sendGridEmail;
+        private readonly IConfiguration _configuration;
 
-        public HistoriqueCommandes(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
-            IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+
+        // Variable pour stocker le webhook secret de Stripe
+        private readonly string _webhookSecretApi;
+        public HistoriqueCommandes(ApplicationDbContext context,
+            IWebHostEnvironment webHostEnvironment,
+            IConfiguration config,
+            UserManager<ApplicationUser> userManager,
+            IHttpContextAccessor httpContextAccessor,
+            ISendGridEmail sendGridEmail,
+            IConfiguration configuration // Une seule instance de IConfiguration
+        )
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _config = config;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
+            _sendGridEmail = sendGridEmail;
+
+            // Récupérer le webhook secret de Stripe depuis la configuration
+            _webhookSecretApi = _configuration["WebhookSecretApi"];
         }
         public IActionResult Index(string? motCles, string? criteres)
         {
@@ -148,105 +167,137 @@ namespace VLISSIDES.Controllers
         }
 
         [HttpPost]
-        public ActionResult RefundCreateCheckoutSession(string commandeId, string livreId)
+        public async Task<StatusCodeResult> RefundCreateCheckoutSession(string commandeId, string livreId)
         {
 
             // Récupère l'identifiant de l'utilisateur connecté
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
 
-            var vm = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+            var lc = _context.LivreCommandes.Include(lc => lc.Livre).FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
-            var model = new StripeRefundVM
+            var model = new LivreCommandeVM
             {
-                Prix = vm.PrixAchat,
-                Quantite = vm.Quantite
+                Livre = lc.Livre,
+                CommandeId = lc.CommandeId,
+                PrixAchat = lc.PrixAchat,
+                Quantite = lc.Quantite
             };
-            // Récupere les données de LivrePanier basées sur l'identifiant de l'utilisateur
-            //var panierItems = _context.LivrePanier
-            //    .Where(lp => lp.UserId == userId)
-            //    .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
-            //    .ToList();
-
-
-
-            //var lineItems = panierItems.Select(item =>
-            //{
-            //    // Récupére l'URL de l'image du livre
-            //    var imgLivreUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{item.Livre.Couverture}";
-            //    var encodedImgLivreUrl = Uri.EscapeUriString(imgLivreUrl); // Encodez l'URL de l'image du livre pour qu'elle soit utilisable dans Stripe
-
-            //    ViewBag.encodedImgLivreUrl = encodedImgLivreUrl;
-
-
-            //    // Crée et retourne un SessionLineItemOptions pour chaque livre dans le panier
-            //    return new SessionLineItemOptions
-            //    {
-            //        PriceData = new SessionLineItemPriceDataOptions
-            //        {
-            //            UnitAmount = (long)(item.Livre.LivreTypeLivres.FirstOrDefault().Prix) * 100,
-            //            Currency = "cad",
-            //            ProductData = new SessionLineItemPriceDataProductDataOptions
-            //            {
-            //                Name = item.Livre.Titre,
-            //                Images = new List<string> { encodedImgLivreUrl },
-            //            },
-            //        },
-            //        Quantity = item.Quantite,
-            //    };
-            //}).ToList();
 
             StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
 
             var options = new RefundCreateOptions
             {
                 //Charge = "ch_3OADrI2eZvKYlo2C0W9LzCya",
-                Amount = (long?)(model.Quantite * (double)model.Prix),
+                //PaymentIntent
+                Amount = (long?)(model.Quantite * (double)model.PrixAchat),
                 Currency = "cad"
             };
 
-            //var options = new SessionCreateOptions
-            //{
-            //    PaymentMethodTypes = new List<string> { "card" },
-            //    LineItems = lineItems,
-            //    Mode = "payment",
-            //    Customer = StripeCustomerId,
-            //    AllowPromotionCodes = true,
-
-            //    BillingAddressCollection = "required",
-            //    ShippingAddressCollection = new SessionShippingAddressCollectionOptions
-            //    {
-            //        AllowedCountries = new List<string> { "CA", "US" },
-
-            //    },
-            //    CustomerUpdate = new SessionCustomerUpdateOptions
-            //    {
-            //        Address = "auto",
-            //        Name = "auto",
-            //        Shipping = "auto",
-
-            //    },
-            //    InvoiceCreation = new SessionInvoiceCreationOptions
-            //    {
-            //        Enabled = true,
-            //    },
-            //    AutomaticTax = new SessionAutomaticTaxOptions
-            //    {
-            //        Enabled = true,
-            //    },
-
-            //    SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),
-            //    CancelUrl = Url.Action("Cancel", "Paiement", null, Request.Scheme),
-            //};
-
-
             var service = new RefundService();
-            service.Create(options);
+            //service.Create(options);
 
-            //var service = new SessionService();
-            //Session session = service.Create(options);
+
+            //Send email
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+            try
+            {
+                var customer =
+                    await _context.Membres.FirstOrDefaultAsync(m => m.Id == userId);
+                var panierItems = _context.LivrePanier
+                    .Where(lp => lp.UserId == customer.Id)
+                    .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+                    .ToList();
+
+                // Récupérer l'URL complète du logo à partir de l'application
+                var logoUrl =
+                    Url.Content(
+                        "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
+                // Envoi du mail de confirmation de commande
+                await SendConfirmationEmail(customer, model, logoUrl);
+
+                //Suppression du panier actuel de la bd
+                _context.LivrePanier.RemoveRange(panierItems);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
             return Ok(); /*Json(new { id = session.Id });*/
+        }
+
+        private async Task SendConfirmationEmail(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+        {
+            var subject = "Retour de livres";
+
+            // Récupérer la facture de Stripe
+            // var invoice = await GetInvoiceFromStripe(sessionId);
+
+            // Construire le corps du courriel
+            var body = BuildEmailBody(customer, livreCommande, logoUrl);
+
+            // Envoyer le courriel avec la facture en pièce jointe
+            //var admin = _userManager.
+
+            var admin = _context.Users.FirstOrDefault(u => u.Id == "0");
+
+            await _sendGridEmail.SendEmailAsync(admin.Email, subject, body);
+
+            //var employes = _context.Employes.ToList();
+            //foreach (var employe in employes)
+            //{
+            //    await _sendGridEmail.SendEmailAsync(employe.Email, subject, body);
+            //}
+        }
+
+        private string BuildEmailBody(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+        {
+            StringBuilder body = new StringBuilder();
+
+            body.Append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>");
+            body.Append(
+                $"<img src='{logoUrl}' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>");
+            body.Append($"<h2 style='color: #444;'>Cher(e) {customer.UserName},</h2>");
+            body.Append("<p>Merci pour votre commande ! Voici le récapitulatif :</p>");
+            body.Append("<table style='width: 100%; border-collapse: collapse;'>");
+            body.Append("<thead>");
+            body.Append("<tr style='background-color: #f2f2f2;'>");
+            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Produit</th>");
+            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Quantité</th>");
+            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Prix</th>");
+            body.Append("</tr>");
+            body.Append("</thead>");
+            body.Append("<tbody>");
+
+            body.Append("<tr>");
+            body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{livreCommande.Livre.Titre}</td>");
+            body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{livreCommande.Quantite}</td>");
+            body.Append(
+                $"<td style='padding: 8px; border: 1px solid #ddd;'>{livreCommande.PrixAchat}$</td>");
+            body.Append("</tr>");
+
+            //foreach (var item in nouvelleCommande.LivreCommandes)
+            //{
+            //    body.Append("<tr>");
+            //    body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
+            //    body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Quantite}</td>");
+            //    body.Append(
+            //        $"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault().Prix}$</td>");
+            //    body.Append("</tr>");
+            //}
+
+            body.Append("</tbody>");
+            body.Append("</table>");
+            body.Append($"<p><strong>Total : {(livreCommande.PrixAchat * livreCommande.Quantite).ToString("C")}</strong></p>");
+            body.Append(
+                "<p>Votre commande sera traitée rapidement et vous recevrez une notification dès qu'elle sera expédiée.</p>");
+            body.Append("<p>Merci de faire confiance à La Fourmie Aillée !</p>");
+            body.Append("</div>");
+
+            return body.ToString();
         }
     }
 }
