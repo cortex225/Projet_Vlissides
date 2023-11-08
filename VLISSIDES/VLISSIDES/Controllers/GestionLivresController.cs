@@ -330,6 +330,14 @@ public class GestionLivresController : Controller
     [Route("{controller}/{action}")]
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
+        if (vm.Numerique)
+        {
+            if (vm.NumeriqueFile == null)
+            {
+                ModelState.AddModelError("NumeriqueFile", "Un fichier numérique est obligatoire pour un livre numérique");
+
+            }
+        }
         if (ModelState.IsValid)
         {
             //Sauvegarder l'image dans root
@@ -349,6 +357,20 @@ public class GestionLivresController : Controller
             else
             {
                 vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
+            }
+            //Fichier numérique
+            if (vm.Numerique)
+            {
+                var wwwRootPath = _webHostEnvironment.WebRootPath;
+                var fileName = Path.GetFileNameWithoutExtension(vm.NumeriqueFile.FileName);
+                var extension = Path.GetExtension(vm.NumeriqueFile.FileName);
+                fileName += Guid.NewGuid() + "-" + DateTime.Now.ToString("yyyymmssfff") + extension;
+                vm.NumeriqueUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await vm.NumeriqueFile.CopyToAsync(fileStream);
+                }
             }
 
             var id = Guid.NewGuid().ToString();
@@ -382,6 +404,7 @@ public class GestionLivresController : Controller
                 //AuteurId = vm.AuteurId,
                 MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId)),
                 Couverture = vm.CoverImageUrl,
+                UrlNumerique = vm.NumeriqueUrl,
                 LivreTypeLivres = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
