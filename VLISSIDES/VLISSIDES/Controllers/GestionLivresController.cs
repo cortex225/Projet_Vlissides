@@ -510,7 +510,7 @@ public class GestionLivresController : Controller
         }
         else
         {
-            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1")))
+            if (livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1") != null)
             {
                 vm.Neuf = true;
                 vm.PrixNeuf = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1").Prix;
@@ -520,7 +520,7 @@ public class GestionLivresController : Controller
                 vm.Neuf = false;
             }
 
-            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2")))
+            if (livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2") != null)
             {
                 vm.Numerique = true;
                 vm.PrixNumerique = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2").Prix;
@@ -566,6 +566,14 @@ public class GestionLivresController : Controller
     [Route("{controller}/{action}")]
     public async Task<IActionResult> Modifier(ModifierVM vm)
     {
+        if (vm.Numerique)
+        {
+            if (vm.NumeriqueFile == null)
+            {
+                ModelState.AddModelError("NumeriqueFile", "Un fichier numérique est obligatoire pour un livre numérique");
+
+            }
+        }
         if (ModelState.IsValid)
         {
             //Si nouvelle photo
@@ -582,7 +590,21 @@ public class GestionLivresController : Controller
                     await vm.CoverPhoto.CopyToAsync(fileStream);
                 }
             }
+            //Fichier numérique
+            if (vm.Numerique)
+            {
 
+                var wwwRootPath = _webHostEnvironment.WebRootPath;
+                var fileName = Path.GetFileNameWithoutExtension(vm.NumeriqueFile.FileName);
+                var extension = Path.GetExtension(vm.NumeriqueFile.FileName);
+                fileName += Guid.NewGuid() + "-" + DateTime.Now.ToString("yyyymmssfff") + extension;
+                vm.NumeriqueUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await vm.NumeriqueFile.CopyToAsync(fileStream);
+                }
+            }
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
             if (vm.Neuf)
