@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionCommandes;
+using VLISSIDES.ViewModels.HistoriqueCommandes;
 
 namespace VLISSIDES.Controllers
 {
@@ -68,6 +70,7 @@ namespace VLISSIDES.Controllers
 
             return View(affichageCommandes);
         }
+
         public IActionResult AfficherCommandes(string? motCles, string? criteres)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -142,6 +145,108 @@ namespace VLISSIDES.Controllers
             }).ToList();
 
             return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
+        }
+
+        [HttpPost]
+        public ActionResult RefundCreateCheckoutSession(string commandeId, string livreId)
+        {
+
+            // Récupère l'identifiant de l'utilisateur connecté
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
+
+            var vm = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+
+            var model = new StripeRefundVM
+            {
+                Prix = vm.PrixAchat,
+                Quantite = vm.Quantite
+            };
+            // Récupere les données de LivrePanier basées sur l'identifiant de l'utilisateur
+            //var panierItems = _context.LivrePanier
+            //    .Where(lp => lp.UserId == userId)
+            //    .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+            //    .ToList();
+
+
+
+            //var lineItems = panierItems.Select(item =>
+            //{
+            //    // Récupére l'URL de l'image du livre
+            //    var imgLivreUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{item.Livre.Couverture}";
+            //    var encodedImgLivreUrl = Uri.EscapeUriString(imgLivreUrl); // Encodez l'URL de l'image du livre pour qu'elle soit utilisable dans Stripe
+
+            //    ViewBag.encodedImgLivreUrl = encodedImgLivreUrl;
+
+
+            //    // Crée et retourne un SessionLineItemOptions pour chaque livre dans le panier
+            //    return new SessionLineItemOptions
+            //    {
+            //        PriceData = new SessionLineItemPriceDataOptions
+            //        {
+            //            UnitAmount = (long)(item.Livre.LivreTypeLivres.FirstOrDefault().Prix) * 100,
+            //            Currency = "cad",
+            //            ProductData = new SessionLineItemPriceDataProductDataOptions
+            //            {
+            //                Name = item.Livre.Titre,
+            //                Images = new List<string> { encodedImgLivreUrl },
+            //            },
+            //        },
+            //        Quantity = item.Quantite,
+            //    };
+            //}).ToList();
+
+            StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
+
+            var options = new RefundCreateOptions
+            {
+                //Charge = "ch_3OADrI2eZvKYlo2C0W9LzCya",
+                Amount = (long?)(model.Quantite * (double)model.Prix),
+                Currency = "cad"
+            };
+
+            //var options = new SessionCreateOptions
+            //{
+            //    PaymentMethodTypes = new List<string> { "card" },
+            //    LineItems = lineItems,
+            //    Mode = "payment",
+            //    Customer = StripeCustomerId,
+            //    AllowPromotionCodes = true,
+
+            //    BillingAddressCollection = "required",
+            //    ShippingAddressCollection = new SessionShippingAddressCollectionOptions
+            //    {
+            //        AllowedCountries = new List<string> { "CA", "US" },
+
+            //    },
+            //    CustomerUpdate = new SessionCustomerUpdateOptions
+            //    {
+            //        Address = "auto",
+            //        Name = "auto",
+            //        Shipping = "auto",
+
+            //    },
+            //    InvoiceCreation = new SessionInvoiceCreationOptions
+            //    {
+            //        Enabled = true,
+            //    },
+            //    AutomaticTax = new SessionAutomaticTaxOptions
+            //    {
+            //        Enabled = true,
+            //    },
+
+            //    SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),
+            //    CancelUrl = Url.Action("Cancel", "Paiement", null, Request.Scheme),
+            //};
+
+
+            var service = new RefundService();
+            service.Create(options);
+
+            //var service = new SessionService();
+            //Session session = service.Create(options);
+
+            return Ok(); /*Json(new { id = session.Id });*/
         }
     }
 }

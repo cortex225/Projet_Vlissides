@@ -41,9 +41,19 @@
                     <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" data-toggle="collapse" data-target="#collapseCommandeLivres_@commande.Id"></i>
 
                 </div>
-                <div class="col-sm-1 d-flex justify-content-center">
-                    <button class="btn btn-primary">Annuler</button>
-                </div>
+                @if(commande.StatutId != "1")
+                {
+                    <div class="col-sm-1 d-flex justify-content-center">
+
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-1 d-flex justify-content-center">
+                        <button class="btn btn-primary" onclick="annulerCommande('@commande.Id')">Annuler</button>
+                    </div>
+                }
+                
             </div>
             <div class="collapse" id="collapseCommandeLivres_@commande.Id">
                 <hr>
@@ -62,9 +72,12 @@
                                     }
                                     @prix $
                                 </div>
-                                <div class="col-sm-1">
-                                    <button class="btn btn-primary">Retourner</button>
-                                </div>                              
+                                @if(commande.StatutId == "4")
+                                {
+                                    <div class="col-sm-1">
+                                        <button class="btn btn-primary" onclick="rembourserLivre('@item.CommandeId', '@item.Livre.Id')">Retourner</button>
+                                    </div> 
+                                }                             
                             </div>       
                         }
                     </div>
