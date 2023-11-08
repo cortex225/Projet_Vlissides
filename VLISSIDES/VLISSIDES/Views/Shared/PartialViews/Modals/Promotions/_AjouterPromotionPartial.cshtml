@@ -51,19 +51,19 @@
             <div class="row rowAjoutPromotion" id="row2">
                 <div class="form-group">
                     <label asp-for="AuteurId"></label>
-                    <select asp-for="AuteurId" class="form-control">
+                    <select asp-for="AuteurId" asp-items="Model.SelectListAuteurs" class="form-control">
                         <option value="">Sélectionnez...</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label asp-for="MaisonEditionId"></label>
-                    <select asp-for="MaisonEditionId" class="form-control">
+                    <select asp-for="MaisonEditionId" asp-items="Model.SelectListMaisonEditions" class="form-control">
                         <option value="">Sélectionnez...</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label asp-for="CategorieId"></label>
-                    <select asp-for="CategorieId" class="form-control">
+                    <select asp-for="CategorieId" asp-items="Model.SelectListCategories" class="form-control">
                         <option value="">Sélectionnez...</option>
                     </select>
                 </div>

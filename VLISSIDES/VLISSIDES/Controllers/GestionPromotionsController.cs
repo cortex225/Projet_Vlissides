@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Web.WebPages.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionPromotions;
@@ -57,7 +57,7 @@ namespace VLISSIDES.Controllers
                 Text = x.Nom,
                 Value = x.Id
             }).ToList();
-            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial");
+            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
         }
 
 
@@ -67,6 +67,8 @@ namespace VLISSIDES.Controllers
         [Route("{controller}/{action}")]
         public async Task<IActionResult> AjouterPromotion(AjouterPromotionVM vm)
         {
+
+
             return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial");
         }
     }
