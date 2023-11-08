@@ -9,6 +9,7 @@ using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionCommandes;
+using VLISSIDES.ViewModels.HistoriqueCommandes;
 
 namespace VLISSIDES.Controllers
 {
@@ -166,8 +167,22 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
         }
 
+        public async Task<IActionResult> ShowRetournerConfirmation(string commandeId, string livreId, int quantite)
+        {
+            var livreCommande = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+
+            var vm = new StripeRefundVM
+            {
+                Commande = livreCommande.Commande,
+                Livre = livreCommande.Livre,
+                Prix = livreCommande.PrixAchat,
+                Quantite = quantite
+            };
+
+            return PartialView("PartialViews/HistoriqueCommandes/_ConfirmerRetournerPartial", vm);
+        }
         [HttpPost]
-        public async Task<StatusCodeResult> RefundCreateCheckoutSession(string commandeId, string livreId)
+        public async Task<StatusCodeResult> RefundStripe(string commandeId, string livreId, string quantite)
         {
 
             // Récupère l'identifiant de l'utilisateur connecté
@@ -255,13 +270,17 @@ namespace VLISSIDES.Controllers
 
         private string BuildEmailBody(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
         {
+            string myURL = _httpContextAccessor.HttpContext.Request.Host.Value;//_httpContextAccessor.Request.Host.Value;
+            string BASE_URL_RAZOR = Url.Content("~");
+
             StringBuilder body = new StringBuilder();
 
             body.Append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>");
             body.Append(
                 $"<img src='{logoUrl}' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>");
-            body.Append($"<h2 style='color: #444;'>Cher(e) {customer.UserName},</h2>");
-            body.Append("<p>Merci pour votre commande ! Voici le récapitulatif :</p>");
+            body.Append($"<h2 style='color: #444;'>Demande de remboursement de : {customer.UserName},</h2>");
+            body.Append($"<h2 style='color: #444;'>Article(s) de la commande : {livreCommande.CommandeId},</h2>");
+            body.Append("<p>Voici le récapitulatif :</p>");
             body.Append("<table style='width: 100%; border-collapse: collapse;'>");
             body.Append("<thead>");
             body.Append("<tr style='background-color: #f2f2f2;'>");
@@ -293,8 +312,8 @@ namespace VLISSIDES.Controllers
             body.Append("</table>");
             body.Append($"<p><strong>Total : {(livreCommande.PrixAchat * livreCommande.Quantite).ToString("C")}</strong></p>");
             body.Append(
-                "<p>Votre commande sera traitée rapidement et vous recevrez une notification dès qu'elle sera expédiée.</p>");
-            body.Append("<p>Merci de faire confiance à La Fourmie Aillée !</p>");
+                "<a href=" + "https://dashboard.stripe.com/test/payments?status[0]=refunded&status[1]=refund_pending&status[2]=partially_refunded" + ">Aller sur stripe pour confirmer le remboursement</a>");
+            body.Append("<a href=" + (BASE_URL_RAZOR + "/GestionCommandes").ToString() + ">Aller à la page de gestion des commandes</a>");
             body.Append("</div>");
 
             return body.ToString();
