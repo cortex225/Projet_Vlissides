@@ -49,7 +49,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Adresse> Adresses { get; set; }
     public DbSet<LivreCategorie> LivreCategories { get; set; }
-    
+
     public DbSet<LivreAuteur> LivreAuteurs { get; set; }
 
 
@@ -60,9 +60,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #region configuration
 
-     
 
-       
+
+
 
         // Configuration des entités
         builder.ApplyConfiguration(new StatutCommandeConfiguration());
@@ -175,10 +175,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Id = "0",
             Nom = "ADMIN",
             Prenom = "Admin",
-            Email = "admin@admin.com",
-            UserName = "admin@admin.com",
-            NormalizedEmail = "admin@admin.com".ToUpper(),
-            NormalizedUserName = "admin@admin.com".ToUpper(),
+            Email = "vlissides2023@gmail.com",
+            UserName = "admin1",
+            NormalizedEmail = "vlissides2023@gmail.com".ToUpper(),
+            NormalizedUserName = "vlissides2023@gmail.com".ToUpper(),
             EmailConfirmed = true
         };
         //var adminHasher = password.HashPassword(UserAdmin, "Jaimelaprog1!");
