@@ -161,4 +161,19 @@
             console.error('Erreur lors de la confirmation du remboursement.', error);
         });
     }
+
+    function verifierQuantite(commandeId = "", livreId = "", max = "") {
+        var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`);
+
+        if (event.key == "Backspace") {
+            return;
+        }
+
+        if (quantite.value > parseInt(max)) {
+            quantite.value = max;
+        }
+        if (quantite.value < 1) {
+            quantite.value = 1;
+        }
+    }
 </script>

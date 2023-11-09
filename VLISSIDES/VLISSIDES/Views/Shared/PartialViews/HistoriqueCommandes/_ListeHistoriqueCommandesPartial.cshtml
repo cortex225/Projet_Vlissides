@@ -78,8 +78,8 @@
                                         @if (item.EnDemandeRetourner == false)
                                         {
                                             var inputId = $"quantite-{item.CommandeId}-{item.Livre.Id}";
-                                        
-                                            <input id="@inputId" type="number" class="form-control w-auto" min="1" max="@item.Quantite" value="1">
+
+                                            <input id="@inputId" type="number" class="form-control w-auto" min="1" max="@item.Quantite" value="1" onkeyup="verifierQuantite('@item.CommandeId', '@item.Livre.Id', '@item.Quantite')">
                                             <button class="btn btn-primary mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Retourner</button>
                                         
                                         }
