@@ -33,6 +33,8 @@ namespace VLISSIDES.ViewModels.GestionPromotions
 
         [Display(Name = "Pourcentage du rabais")] public int? PourcentageRabais { get; set; }
 
+        [Display(Name = "Code promo")] public string CodePromo { get; set; }
+
         //Select lists
         public ICollection<Auteur>? Auteurs { get; set; }
 

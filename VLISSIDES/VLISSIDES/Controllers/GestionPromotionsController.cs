@@ -91,8 +91,10 @@ namespace VLISSIDES.Controllers
                 Promotions promo = new Promotions
                 {
                     Id = id,
+                    Image = vm.CoverImageUrl,
                     Nom = vm.Nom,
                     Description = vm.Description,
+                    CodePromo = vm.CodePromo,
                     DateDebut = vm.DateDebut,
                     DateFin = vm.DateFin,
                     AuteurId = vm.AuteurId,

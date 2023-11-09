@@ -31,4 +31,6 @@ public class Promotions
     [Display(Name = "Livres gratuits")] public int? LivresGratuits { get; set; }
 
     [Display(Name = "Pourcentage du rabais")] public int? PourcentageRabais { get; set; }
+
+    [Display(Name = "Code promo")] public string CodePromo { get; set; }
 }
