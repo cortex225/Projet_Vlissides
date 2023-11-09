@@ -192,6 +192,7 @@ namespace VLISSIDES.Controllers
             var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
 
             var lc = _context.LivreCommandes.Include(lc => lc.Livre).FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+            if (lc == null) return BadRequest();
 
             var model = new LivreCommandeVM
             {
@@ -242,6 +243,9 @@ namespace VLISSIDES.Controllers
             {
                 Console.WriteLine(e);
             }
+
+            lc.EnDemandeRetourner = true;
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
@@ -299,8 +303,10 @@ namespace VLISSIDES.Controllers
             body.Append("</tbody>");
             body.Append("</table>");
             body.Append($"<p><strong>Total : {(livreCommande.PrixAchat * livreCommande.Quantite).ToString("C")}</strong></p>");
+            body.Append($"<p><strong>Remboursement Stripe : </strong></p>");
             body.Append(
                 "<a href=" + "https://dashboard.stripe.com/test/payments?status[0]=refunded&status[1]=refund_pending&status[2]=partially_refunded" + ">Aller sur stripe pour confirmer le remboursement</a>");
+            body.Append($"<p><strong>Gestion des commandes : </strong></p>");
             body.Append("<a href=" + (BASE_URL_RAZOR + "/GestionCommandes").ToString() + ">Aller à la page de gestion des commandes</a>");
             body.Append("</div>");
 
