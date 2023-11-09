@@ -24,7 +24,7 @@
     <thead>
         <tr>
             <th scope="col">Nom</th>
-            <th scope="col">Courriel</th>
+            <th class="cacher" scope="col">Courriel</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -34,7 +34,7 @@
         {
             <tr>
                 <th scope="row">@item.Nom</th>
-                <td>@item.Courriel</td>
+                <td class="cacher">@item.Courriel</td>
                 <td>
                     <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompteMembre", "GestionComptes" , new { id=item.Id })')">Modifier</button>
                 </td>

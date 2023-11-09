@@ -34,7 +34,7 @@ namespace VLISSIDES.ViewModels.GestionLivres
             NbPages = livre.NbPages;
             Resume = livre.Resume;
             if (!livre.Evaluations.Equals(null))
-                Note = 0;//livre.Note
+                Note = (int)livre.Note;
             else Note = 0;
             ISBN = livre.ISBN;
             Langue = livre.Langue.Nom;
