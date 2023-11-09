@@ -7,6 +7,7 @@ using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Paiement;
+using VLISSIDES.ViewModels.Profile;
 
 namespace VLISSIDES.Controllers
 {
@@ -46,7 +47,20 @@ namespace VLISSIDES.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var adresse = _context.Adresses.Where(a => a.UtilisateurPrincipalId == currentUserId || a.UtilisateurLivraisonId == currentUserId);
+
+            var listAdresse = new ProfileModifierAdressesVM
+            {
+                AdressesDeLivraison = adresse.ToList()
+            };
+
+            var adresseVM = new StripePaiementVM
+            {
+                Adresse = listAdresse
+            };
+
+            return View(adresseVM);
         }
 
         public IActionResult Cancel()
@@ -150,6 +164,39 @@ namespace VLISSIDES.Controllers
             Session session = service.Create(options);
 
             return Json(new { id = session.Id });
+        }
+
+        public Adresse AdresseSelection(string id)
+        {
+            var adresse = _context.Adresses.FirstOrDefault(a => a.Id == id);
+
+            return adresse;
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult EnregistrerAdresse(StripePaiementVM vm)
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var adresseVm = vm.Adresse;
+            if (ModelState.IsValid)
+            {
+                var adresse = new Adresse
+                {
+                    UtilisateurLivraisonId = currentUserId,
+                    NoApartement = adresseVm.NoApartement,
+                    NoCivique = adresseVm.NoCivique,
+                    Rue = adresseVm.Rue,
+                    Ville = adresseVm.Ville,
+                    Province = adresseVm.Province,
+                    Pays = adresseVm.Pays,
+                    CodePostal = adresseVm.CodePostal,
+                };
+                _context.Adresses.Add(adresse);
+                _context.SaveChanges();
+                return Ok();
+            }
+            return View(vm);
         }
     }
 }
