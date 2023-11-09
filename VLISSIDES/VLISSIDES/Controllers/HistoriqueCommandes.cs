@@ -141,7 +141,7 @@ namespace VLISSIDES.Controllers
                 Value = s.Id
             }).ToList();
 
-            return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
+            return PartialView("PartialViews/HistoriqueCommandes/_ListeHistoriqueCommandesPartial", affichageCommandes);
         }
     }
 }
