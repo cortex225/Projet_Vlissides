@@ -210,3 +210,18 @@
     }
     
 </script>
+<script>
+    function BanMembre(id = "") {
+
+        fetch(BASE_URL + "GestionComptes/BanMembre?id=" + id, {
+            method:"POST",
+
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            showMembres();
+        });
+            
+        
+    }
+</script>

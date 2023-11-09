@@ -12,8 +12,8 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231027132241_statutMig2")]
-    partial class statutMig2
+    [Migration("20231108223200_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,21 +69,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "89d85ed6-3c2a-4fe5-8abf-0bc68312ae66",
+                            ConcurrencyStamp = "7e362391-92d8-4a7f-b497-064fd199aad1",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "0041dad0-8e0c-43ff-b2dc-fb6138fc620b",
+                            ConcurrencyStamp = "d12947bd-b779-4533-8f36-fc0a7242ac5e",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "179633e9-7990-4053-87bb-ef373a00bec6",
+                            ConcurrencyStamp = "ad538040-3467-4eac-ab94-3ad1138f5686",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -298,6 +298,9 @@ namespace VLISSIDES.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -358,9 +361,10 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "00a1a65a-e9dd-4065-bbb0-7bf7dbdaa281",
+                            ConcurrencyStamp = "f55bb9cb-a1fb-440c-9af0-e16a5c0104b2",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
+                            IsBanned = false,
                             LockoutEnabled = false,
                             Nom = "ADMIN",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
@@ -368,7 +372,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "a6296e15-ff00-4fd2-8cc3-145f0dd8443f",
+                            SecurityStamp = "e5c013d9-08ca-4f12-aa5d-8b62c86b2e36",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -739,11 +743,8 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("StatutCommandeId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StatutId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -760,9 +761,6 @@ namespace VLISSIDES.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Commentaire")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateEvaluation")
                         .HasColumnType("datetime2");
@@ -970,6 +968,9 @@ namespace VLISSIDES.Migrations
 
                     b.Property<string>("CommandeId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("PrixAchat")
+                        .HasColumnType("float");
 
                     b.Property<int>("Quantite")
                         .HasColumnType("int");
@@ -1201,9 +1202,10 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "2a4c327f-4b52-4d56-aae7-6855cd490b6c",
+                            ConcurrencyStamp = "dedc2cab-6e54-48b6-9dd7-5fb3d5f8c02a",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
+                            IsBanned = false,
                             LockoutEnabled = false,
                             Nom = "EMPLOYE",
                             NormalizedEmail = "EMPLOYE@EMPLOYE.COM",
@@ -1211,7 +1213,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "897b72e7-e25d-4504-81ea-960d7fe04c49",
+                            SecurityStamp = "1741a6c1-5506-41ad-b65a-135d834b957c",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1235,6 +1237,9 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("ReservationId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("StripeCustomerId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasDiscriminator().HasValue("Membre");
 
                     b.HasData(
@@ -1243,9 +1248,10 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "e503fc1b-43eb-4140-8191-385c20df6f1c",
+                            ConcurrencyStamp = "977b12d3-5ba9-467f-ac82-c6432aa40385",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
+                            IsBanned = false,
                             LockoutEnabled = false,
                             Nom = "MEMBRE",
                             NormalizedEmail = "MEMBRE@MEMBRE.COM",
@@ -1253,10 +1259,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "4fb62727-33ac-4bfa-9bec-882c2fdad2b1",
+                            SecurityStamp = "c3581726-52d7-4e24-9eda-bcef98befb29",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 10, 27, 9, 22, 41, 320, DateTimeKind.Local).AddTicks(7775),
+                            DateAdhesion = new DateTime(2023, 11, 8, 17, 31, 59, 835, DateTimeKind.Local).AddTicks(9407),
                             NoMembre = "123456"
                         });
                 });
@@ -1369,7 +1375,9 @@ namespace VLISSIDES.Migrations
 
                     b.HasOne("VLISSIDES.Models.StatutCommande", "StatutCommande")
                         .WithMany()
-                        .HasForeignKey("StatutCommandeId");
+                        .HasForeignKey("StatutCommandeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AdresseLivraison");
 
