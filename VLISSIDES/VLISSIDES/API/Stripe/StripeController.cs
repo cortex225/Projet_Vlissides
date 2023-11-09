@@ -212,7 +212,8 @@ namespace VLISSIDES.API.Stripe
                 DateReservation = DateTime.Now,
                 Membre = customer,
                 Evenement = evenement,
-                Description = evenement.Description
+                Description = evenement.Description,
+
             };
             // Ajouter la réservation au contexte
             _context.Reservations.Add(reservation);
@@ -229,15 +230,22 @@ namespace VLISSIDES.API.Stripe
                 DateDebut = evenement.DateDebut,
                 DateFin = evenement.DateFin,
                 Lieu = evenement.Lieu,
-                NombreDePlaces = 1, // Supposons 1 place réservée, ajustez selon la logique de votre application
+                NombreDePlaces = evenement.NbPlaces,
                 PrixTotal = session.AmountTotal.Value /
                             100m // Ajuste la division si vous n'utilisez pas les centimes dans Stripe
             };
             // Construire l'URL du logo
             var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
 
-            // Envoyer l'email de confirmation
+            // Envoye l'email de confirmation
             await SendConfirmationEmailReservation(customer, reservationVM, logoUrl, session.Id);
+
+
+            var nbPlacesReservees = _context.Reservations.Count(r => r.EvenementId == evenement.Id);
+            evenement.NbPlacesReservees = nbPlacesReservees;
+            _context.Evenements.Update(evenement);
+            await _context.SaveChangesAsync();
+
         }
 
         private async Task SendConfirmationEmailReservation(Membre customer, ReservationVM reservationVM,

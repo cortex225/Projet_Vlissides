@@ -190,7 +190,7 @@ namespace VLISSIDES.Controllers
                 },
                 AutomaticTax = new SessionAutomaticTaxOptions
                 {
-                    Enabled = true,
+                    Enabled = false,
                 },
 
                 SuccessUrl = Url.Action("Success", "Evenements", null, Request.Scheme),
