@@ -1,11 +1,11 @@
 ﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
-    ViewData["Title"] = "Gestion de commandes";
+    ViewData["Title"] = "Historique des commandes";
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
 <div class="m-4">
-    <h1>Gestion des commandes</h1>
+    <h1>Historique des commandes</h1>
     <div class="row">
         <div class="col-6">
             <form id="rechercherCommande" enctype="multipart/form-data">
@@ -40,8 +40,8 @@
             </div>
         </div>
     </div>
-    
-    
+
+
 
     <hr />
 
@@ -50,16 +50,13 @@
             <div class="col-sm-3 d-flex justify-content-center">
                 <h5>Identifiant</h5>
             </div>
-            <div class="col-sm-2 d-flex justify-content-center">
-                <h5>Utilisateur</h5>
-            </div>
             <div class="col-sm-1 d-flex justify-content-center">
                 <h5>Prix</h5>
             </div>
             <div class="col-sm-2 d-flex justify-content-center">
                 <h5>Date</h5>
             </div>
-            <div class="col-sm-3 d-flex justify-content-center">
+            <div class="col-sm-2 d-flex justify-content-center">
                 <h5>Statut</h5>
             </div>
         </div>
@@ -67,10 +64,10 @@
 
     <div class="row">
         <div id="commandesListe" class="col-12 ">
-            <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial" />
+            <partial name="PartialViews/HistoriqueCommandes/_ListeHistoriqueCommandesPartial" />
         </div>
     </div>
-  
+
 </div>
 
 <style>
@@ -86,22 +83,7 @@
 
 </script>
 <script type="text/javascript">
-    function saveStatut(id = "") {
-        
-        var statutVal = document.getElementById(id + ' statutSelectList').value;
-
-        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).catch(error => console.error('Échec du fetch pour modifier le statut de la commande', error));
-    }
-</script>
-
-<script type="text/javascript">
-        async function applyFilter(ev) {
+    async function applyFilter(ev) {
         ev.preventDefault();
 
         listeCommandesDiv = document.getElementById("commandesListe");
@@ -122,7 +104,7 @@
             partieCriteres = partieCriteres.concat("rechercherCommande|");
         }
 
-        var apiUrl = BASE_URL + `/GestionCommandes/AfficherCommandes?${partieMotCles}&${partieCriteres}`;
+        var apiUrl = BASE_URL + `/HistoriqueCommandes/AfficherCommandes?${partieMotCles}&${partieCriteres}`;
 
         // Effectue une requête GET à l'API
         fetch(apiUrl, {
@@ -133,10 +115,10 @@
         }).then((data) => {
             listeCommandesDiv.innerHTML = data;
         })
-        .catch(error => {
-            // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la récupération de la liste des auteurs', error);
-        });
+            .catch(error => {
+                // Affiche une erreur dans la console en cas d'échec de la requête
+                console.error('Erreur lors de la récupération de la liste des auteurs', error);
+            });
     }
 </script>
 
