@@ -110,22 +110,21 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             <div id="carouselPromotions" class="carousel slide">
                 <a class="voirPlus" asp-controller="Promotions" asp-action="Index">Voir plus -></a>
                 <div class="carousel-inner">
-                    @for (var indexPromotion = 0; indexPromotion < Model.Promotions.Count; indexPromotion++)
-                    {
-                        <div class="carousel-item @(indexPromotion == 0 ? "active" : "")">
-                            <div class="row mb-4 d-flex justify-content-around">
-                                <div class="col-md-6 col-12">
-                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion]"/>
-                                </div>
-                                @if (++indexPromotion < Model.Promotions.Count)
-                                {
-                                    <div class="col-md-6 d-none d-md-block cacher-3">
-                                        <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexPromotion]"/>
+                    <div class="carousel-item">
+                        <div class="row mb-4 d-flex justify-content-around">
+                            <div class="carousel-item active">
+                                <div class="row mb-4 d-flex justify-content-around">
+                                    <div class="col-md-6 col-12">
+                                        <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]" />
                                     </div>
-                                }
+                                    @if (1 < Model.Promotions.Count)
+                                    {
+                                        <div class="col-md-6 d-none d-md-block cacher-3">
+                                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]" />
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                        </div>
-                    }
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotions" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

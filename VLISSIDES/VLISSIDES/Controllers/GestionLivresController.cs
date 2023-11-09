@@ -120,20 +120,9 @@ public class GestionLivresController : Controller
                         break;
                 }
 
-        var livresVM = livres
+        livres = livres
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
-            .Take(itemsPerPage)
-            .Select(l => new GestionLivresAfficherVM
-            {
-                Id = l.Id,
-                Image = l.Couverture == null ? "/img/CouvertureLivre/livredefault.png" : l.Couverture,
-                Titre = l.Titre,
-                ISBN = l.ISBN,
-                Categories = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).ToList(),
-                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
-                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
-                Quantite = l.NbExemplaires,
-            }).ToList();
+            .Take(itemsPerPage).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur

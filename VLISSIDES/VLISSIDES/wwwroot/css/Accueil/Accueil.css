@@ -270,7 +270,7 @@
         right: 0;
     }
 
-@media (max-width: 1010px) {
+@media only screen and (max-width: 1010px) {
     .cardServiceOffert {
         flex: 1 2 100%; /* Prendre toute la largeur disponible */
         max-width: 100%;
@@ -278,20 +278,21 @@
     }
 }
 
-@media (max-width: 1360px){
+@media only screen and (max-width: 1360px) {
     .cacher {
-        position: absolute!important;
+        position: absolute !important;
         visibility: hidden;
-        top:inherit;
-        right:inherit;
+        top: inherit;
+        right: inherit;
     }
 }
 
-@media (max-width: 1010px){
+@media only screen and (max-width: 1010px) {
     .cacher {
-        position: inherit!important;
+        position: inherit !important;
         visibility: inherit;
     }
+
     .cacher-3 {
         position: absolute !important;
         visibility: hidden;

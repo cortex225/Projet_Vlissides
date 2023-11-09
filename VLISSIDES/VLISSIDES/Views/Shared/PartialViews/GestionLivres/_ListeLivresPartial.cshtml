@@ -19,7 +19,7 @@
     </tr>
     @foreach (var livre in Model)
     {
-        <tr id="@livre.Id">
+        <tr id="@livre.Id" class="card">
             <td>
                 @{
                     string couverture = string.Concat(BASE_URL_RAZOR, livre.Couverture);
@@ -29,16 +29,20 @@
             </td>
             <td class="cacher-5">@Html.DisplayFor(modelItem => livre.ISBN)</td>
             <td class="cacher-4">
-                @foreach (var auteur in livre.Auteurs)
-                {
-                    <p>@Html.DisplayFor(modelItem => auteur)</p>
-                }
+                <div>
+                    @foreach (var auteur in livre.Auteurs)
+                    {
+                        <p>@Html.DisplayFor(modelItem => auteur)</p>
+                    }
+                </div>
             </td>
             <td class="cacher-3">
-                @foreach (var categorie in livre.Categories)
-                {
-                    <p>@Html.DisplayFor(modelItem=>categorie)</p>
-                }
+                <div>
+                    @foreach (var categorie in livre.Categories)
+                    {
+                        <p>@Html.DisplayFor(modelItem=>categorie)</p>
+                    }
+                </div>
             </td>
             <td class="cacher-2">
                 @if (!livre.Papier.Equals(null))
@@ -87,4 +91,3 @@
         </tr>
     }
 </table>
-<partial name="PartialViews/Utilities/_PaginationPartial" />

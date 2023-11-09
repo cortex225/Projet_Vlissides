@@ -12,6 +12,7 @@
 
 .card{
     margin: 15px 30px;
+    min-width:300px;
 }
 .card-body {
     padding: 0;

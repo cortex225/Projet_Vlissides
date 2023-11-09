@@ -23,6 +23,7 @@ namespace VLISSIDES.ViewModels.GestionEvenements
 
         [DisplayName("Nombre de places réservé au membre")]
         public int NbPlacesMembre { get; set; } = default!;
+        public int NbPlacesMembreReserve { get; set; } = default!;
 
         [DisplayName("Prix")] public decimal? Prix { get; set; } = default!;
     }

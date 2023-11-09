@@ -1,18 +1,49 @@
-﻿
-/*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
+﻿table{
+}
+table * {
+    align-content: center;
+    text-align: center;
+}
+
+tr {
+    position: inherit !important;
+    display: table-row !important;
+    border: 1px solid var(--mdb-border-color-translucent);
+    box-shadow: 0 0 15px var(--mdb-border-color-translucent);
+}
+td {
+    border-bottom: 2.5px solid var(--mdb-border-color-translucent);
+    max-height:100px;
+    overflow:auto;
+}
+.card{
+    padding-bottom: 15px!important;
+}
+.groupeBoutton {
+    min-width: 140px;
+    align-self:center;
+}
+td div{
+    max-height:100px;
+    overflow-y:auto;
+}
 .saveButton {
     visibility: hidden;
 }
-
+.modal{
+    overflow-y: auto;
+    max-height: 100%;
+}
 #divListeLivres {
 }
 
 #pagination {
     width: 100%;
+    max-width: 100%;
     align-self: center;
 }
 
-@media (max-width: 880px) {
+@media only screen and (max-width: 880px) {
 
     .page-item {
         margin: 0 !important;
@@ -22,6 +53,7 @@
     .page-link {
         padding: 12px !important;
     }
+
     #list-tab {
         width: 100%;
     }
@@ -31,7 +63,7 @@
         height: 30%;
         position: fixed;
         bottom: 0px;
-        overflow:auto;
+        overflow: auto;
         z-index: 10;
     }
 }

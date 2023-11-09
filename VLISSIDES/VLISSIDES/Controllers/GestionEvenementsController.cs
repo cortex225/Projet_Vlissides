@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionEvenements;
@@ -22,7 +23,7 @@ namespace VLISSIDES.Controllers
         public IActionResult Index()
         {
             //Supprimer automatiquement les evenements trop vieux
-            var evenementsSupprime = _context.Evenements.Where(e => e.DateFin.AddDays(7) < DateTime.Now);
+            var evenementsSupprime = _context.Evenements.Include(e => e.Reservations).Where(e => e.DateFin.AddDays(7) < DateTime.Now);
             _context.Evenements.RemoveRange(evenementsSupprime);
             _context.SaveChanges();
             //La liste à afficher
@@ -37,6 +38,7 @@ namespace VLISSIDES.Controllers
                 Lieu = e.Lieu,
                 NbPlaces = e.NbPlaces,
                 NbPlacesMembre = e.NbPlacesMembre,
+                NbPlacesMembreReserve = e.Reservations.Count(),
                 Prix = e.Prix,
             }).ToList();
             return View(evenements);

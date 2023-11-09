@@ -34,7 +34,7 @@
 #commande * {
     width: min-content;
 }
-@media (max-width: 835px){
+@media only screen and (max-width: 835px) {
 
     #commande {
     }
