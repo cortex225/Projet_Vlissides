@@ -8,7 +8,7 @@ public class Promotions
 
     [Display(Name = "Nom de la promotion")] public string Nom { get; set; }
     [Display(Name = "Description")] public string Description { get; set; }
-     
+    
     [Display(Name = "Début de la promotion")] public DateTime DateDebut { get; set; }
     [Display(Name = "Fin de la promotion")] public DateTime DateFin { get; set; }
 
