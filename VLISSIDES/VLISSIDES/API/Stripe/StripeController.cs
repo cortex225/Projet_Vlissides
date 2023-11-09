@@ -79,13 +79,7 @@ namespace VLISSIDES.API.Stripe
                 var session = stripeEvent.Data.Object as Session;
                 // Handle the event
 
-                if (stripeEvent.Type == Events.CheckoutSessionAsyncPaymentFailed)
-                {
-                }
-                else if (stripeEvent.Type == Events.CheckoutSessionAsyncPaymentSucceeded)
-                {
-                }
-                else if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+                 if (stripeEvent.Type == Events.CheckoutSessionCompleted)
                 {
                     try
                     {
@@ -94,6 +88,7 @@ namespace VLISSIDES.API.Stripe
                         {
                             // Traiter comme un achat de livre
                             await TraiterAchatLivre(session);
+
                         }
                         else if (EstUnAchatEvenement(session))
                         {
@@ -141,8 +136,11 @@ namespace VLISSIDES.API.Stripe
 
         private async Task TraiterAchatLivre(Session session)
         {
+
             var customer =
                 await _context.Membres.FirstOrDefaultAsync(c => c.StripeCustomerId == session.CustomerId);
+
+
 
             // Récupérer les items du panier de l'utilisateur
             var panierItems = await _context.LivrePanier
@@ -175,6 +173,7 @@ namespace VLISSIDES.API.Stripe
                 MembreId = customer.Id,
                 AdresseId = customer.AdressePrincipaleId,
                 StatutCommandeId = nouvelleCommande.StatutId,
+                PaymentIntentId = session.PaymentIntentId, //Récupérer le paiement intent id de la session
                 LivreCommandes = nouvelleCommande.LivreCommandes.Select(lc => new LivreCommande
                 {
                     LivreId = lc.Livre.Id,

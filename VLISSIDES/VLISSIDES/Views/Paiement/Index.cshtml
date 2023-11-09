@@ -65,7 +65,7 @@
 
             <hr />
             <form enctype="multipart/form-data" method="post" id="adressePaiement">
-                @* @Html.AntiForgeryToken() *@
+                 @Html.AntiForgeryToken() 
                 <div class="rcorners m-2 p-4 overflow-hidden">
                     <h5 class="my-2">Adresse ligne 1</h5>
                     <div class="row" onclick="selectAjouterAdresse()">
@@ -170,26 +170,46 @@
 
     <script>
         function enregistrerAdresse() {
-            var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            // Prévenir la soumission par défaut si cette fonction est appelée à partir d'un événement 'onsubmit'
+            event.preventDefault();
 
+            // Récupérer le formulaire et le token anti-falsification
             var form = document.getElementById("adressePaiement");
             var data = new FormData(form);
-            console.log(data);
-            fetch(BASE_URL + '/Paiement/EnregistrerAdresse', {
+            var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            // Ajouter le token CSRF au header de la requête
+            var headers = new Headers();
+            headers.append('RequestVerificationToken', csrfToken);
+
+            // Effectuer la requête POST pour enregistrer l'adresse
+            fetch('@Url.Action("EnregistrerAdresse", "Paiement")', {
                 method: 'POST',
-                headers: { 'RequestVerificationToken': csrfToken },
-                body: data,
-            }).then(function (response) {
-                console.log(response);
-                return response.text();
+                headers: headers,
+                body: data
             })
-            // .then((result) => {
-            //     document.querySelector("body").innerHTML = result;
-            // })
-            .catch(function (error) {
-                console.error('Error:', error);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La réponse du réseau n\'était pas ok.');
+                }
+                return response.json(); // Supposons que le serveur renvoie une réponse JSON
+            })
+            .then(result => {
+                if (result.success) {
+                    // Traitement en cas de succès
+                    console.log(result.message);
+                    // Autres actions après succès, comme la redirection ou la mise à jour de l'interface utilisateur
+                } else {
+                    // Afficher le message d'erreur du serveur
+                    alert(result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'enregistrement de l\'adresse:', error);
+                alert('Une erreur est survenue lors de l\'enregistrement de l\'adresse.');
             });
         }
+
     </script>
 
     <script type="text/javascript">

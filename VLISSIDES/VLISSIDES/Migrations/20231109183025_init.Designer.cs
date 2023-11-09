@@ -12,8 +12,8 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231109143657_MigrPromotions")]
-    partial class MigrPromotions
+    [Migration("20231109183025_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,21 +54,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "37b2b2a8-ac3b-4253-a713-5b4e6da85b34",
+                            ConcurrencyStamp = "41e7af36-44ea-4136-ae49-963cb47cbe13",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "0f4e8eb7-d6d7-487a-b948-efd52199023d",
+                            ConcurrencyStamp = "a091bfec-14ec-4905-ba7f-72f7107c8d47",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "3582259b-5e9c-4cbc-8b00-84a943dba516",
+                            ConcurrencyStamp = "b37844cd-6e36-435e-a599-6f611b0413ba",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -343,19 +343,19 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4b45efeb-e21e-4bd4-9bf4-b57bd39ed0e2",
-                            Email = "admin@admin.com",
+                            ConcurrencyStamp = "62b9671c-9d54-42bb-94ec-775739650bcb",
+                            Email = "vlissides2023@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Nom = "ADMIN",
-                            NormalizedEmail = "ADMIN@ADMIN.COM",
-                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            NormalizedEmail = "VLISSIDES2023@GMAIL.COM",
+                            NormalizedUserName = "VLISSIDES2023@GMAIL.COM",
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "82e9b8d2-c1b1-4860-9739-06768eb51e85",
+                            SecurityStamp = "d288c407-9ad4-43cd-b297-fe987b4707de",
                             TwoFactorEnabled = false,
-                            UserName = "admin@admin.com"
+                            UserName = "admin1"
                         });
                 });
 
@@ -720,6 +720,9 @@ namespace VLISSIDES.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("PrixTotal")
                         .HasColumnType("decimal(18,2)");
 
@@ -793,6 +796,9 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("NbPlacesMembre")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NbPlacesReservees")
                         .HasColumnType("int");
 
                     b.Property<string>("Nom")
@@ -1212,7 +1218,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "69403e05-c522-432a-bb9f-7bca369c297d",
+                            ConcurrencyStamp = "1ec27f69-e118-484b-9226-73f67e181376",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1222,7 +1228,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "f1b59554-21d2-421f-b3b2-7fe196148dfe",
+                            SecurityStamp = "949f3324-4e21-40f0-8559-ce2916dfeda2",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1257,7 +1263,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "71c6cb8b-dac6-422c-8b6d-73bfa87c6de4",
+                            ConcurrencyStamp = "e644dcd7-3ccd-45ee-bb61-5a679132fcd9",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1267,10 +1273,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "df738dec-0970-4b8f-9bf0-db480dc0c734",
+                            SecurityStamp = "ae7e274d-df22-40da-89dd-b674339cdf15",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 11, 9, 9, 36, 55, 752, DateTimeKind.Local).AddTicks(7041),
+                            DateAdhesion = new DateTime(2023, 11, 9, 13, 30, 25, 636, DateTimeKind.Local).AddTicks(670),
                             NoMembre = "123456"
                         });
                 });

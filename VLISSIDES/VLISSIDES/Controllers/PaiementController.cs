@@ -174,29 +174,33 @@ namespace VLISSIDES.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult EnregistrerAdresse(StripePaiementVM vm)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EnregistrerAdresse(ProfileModifierAdressesVM vm)
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var adresseVm = vm.Adresse;
             if (ModelState.IsValid)
             {
                 var adresse = new Adresse
                 {
                     UtilisateurLivraisonId = currentUserId,
-                    NoApartement = adresseVm.NoApartement,
-                    NoCivique = adresseVm.NoCivique,
-                    Rue = adresseVm.Rue,
-                    Ville = adresseVm.Ville,
-                    Province = adresseVm.Province,
-                    Pays = adresseVm.Pays,
-                    CodePostal = adresseVm.CodePostal,
+                    NoApartement = vm.NoApartement,
+                    NoCivique = vm.NoCivique,
+                    Rue = vm.Rue,
+                    Ville = vm.Ville,
+                    Province = vm.Province,
+                    Pays = vm.Pays,
+                    CodePostal = vm.CodePostal,
                 };
                 _context.Adresses.Add(adresse);
-                _context.SaveChanges();
-                return Ok();
+                await _context.SaveChangesAsync(); // Utiliser la version asynchrone pour sauvegarder les changements
+                return Json(new
+                    { success = true, message = "Adresse enregistrée avec succès." }); // Renvoyer une réponse JSON
             }
-            return View(vm);
+
+            // Si le modèle n'est pas valide, renvoyer les erreurs de validation
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            return Json(new { success = false, message = "Erreur de validation.", errors = errors });
         }
+
     }
 }
