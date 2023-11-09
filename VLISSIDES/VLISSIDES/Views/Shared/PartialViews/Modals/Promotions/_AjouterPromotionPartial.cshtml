@@ -13,6 +13,7 @@
     <div class="modal-body" id="modalBodyPromo">
         <div class="container d-flex justify-content-center">
             <div class="row rowAjoutPromotion" id="row1">
+                <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="CoverImageUrl"/>
                 <div class="custom-file row">
 
@@ -84,7 +85,14 @@
     </div>
     <div class="modal-footer">
         <a class="btn btn-danger " href="~/GestionPromotions/Index">Annuler</a>
-        <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterPromo()" />
+        @if (Model.action == "Ajouter")
+        {
+            <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterPromo()" />
+        }
+        else if (Model.action == "Modifier")
+        {
+            <input type="button" value="Modifier" class="btn btn-primary" onclick="ModifierPromo()" />
+        }
     </div>
 
 </form>
@@ -131,6 +139,35 @@
             // },
         }).catch(error => {
             console.error('Échec du fetch pour ajouter promotion', error);
+        }).then((response) => {
+
+            return response.text();
+        }).then((result) => {
+            console.log(result);
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                AfficherLivres();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+            }
+
+        });
+    };
+
+    function ModifierPromo() {
+        var form = document.getElementById("FormAjouterPromo");
+        var data = new FormData(form);
+
+        //var csrfToken = form.querySelector(�'[name="__RequestVerificationToken"]').value;
+        fetch(BASE_URL + '/GestionPromotions/ModifierPromotion', {
+            method: "POST",
+            body: data
+            // headers: {
+            //    RequestVerificationToken: csrfToken,
+            // },
+        }).catch(error => {
+            console.error('Échec du fetch pour modifier promotion', error);
         }).then((response) => {
 
             return response.text();
