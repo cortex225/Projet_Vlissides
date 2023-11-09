@@ -194,6 +194,25 @@ namespace VLISSIDES.API.Stripe
             //Suppression du panier actuel de la bd
             _context.LivrePanier.RemoveRange(panierItems);
             await _context.SaveChangesAsync();
+
+            //Mise à jour des stocks des livres
+            foreach (var item in nouvelleCommande.LivreCommandes)
+            {
+                // Récupérez le livre correspondant de manière asynchrone.
+                var livre = await _context.Livres
+                    .Include(l => l.LivreTypeLivres)
+                    .ThenInclude(lt => lt.TypeLivre)
+                    .SingleOrDefaultAsync(l => l.Id == item.Livre.Id);
+
+                // Vérifiez si le livre est de type papier.
+                if (livre != null && livre.LivreTypeLivres.Any(lt => lt.TypeLivre.Nom == "Papier"))
+                {
+                    // Déduisez la quantité pour les livres papier.
+                    livre.NbExemplaires -= item.Quantite;
+                    _context.Livres.Update(livre);
+                }
+            }
+            await _context.SaveChangesAsync();
         }
 
         private async Task TraiterReservationEvenement(Session session)

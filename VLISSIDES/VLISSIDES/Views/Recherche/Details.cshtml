@@ -60,7 +60,7 @@
                @if (!Model.Numerique.Equals(null))
                {
                    <div class="price-container">
-                       <button class="price-button digital" onclick="toggleActive(this, 'digital')">
+                       <button  class="price-button digital" onclick="toggleActive(this, 'digital')">
                            <i class="fas fa-tablet-alt icon"></i>
                            <div class="price-info">
                                <span class="type-name">Numérique</span>
@@ -102,26 +102,10 @@
                 {
                     @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
                     {
-                        <form>
-                            @Html.AntiForgeryToken()
                             <p class="stock-restant">
                                 <span class="stock-indicator"></span>
                                 En stock (<span id="stock-count">@Model.NbExemplaires</span>restants )
                             </p>
-
-                            <div class="btn-group" role="group" aria-label="Basic example">
-
-                                <a id="ajouterNeuf" class="btn btn-primary btnPanier">
-                                    <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
-                                </a>
-                                <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
-
-                                <div id="preorder-alert" class="alert alert-warning d-none">
-                                    Vous avez atteint la quantité maximale disponible en inventaire.
-                                    <button id="preorder-confirm" class="btn btn-primary btn-sm">Précommander le surplus</button>
-                                </div>
-                            </div>
-                        </form>
                     }
 
                     else
@@ -131,41 +115,24 @@
                 }
                 else
                 {
-                    <p style="font-weight: bold; color: red;">Livre neuf en rupture de stock</p>
+                    <p class="stock-restant">
+                        <span class="stock-indicator"></span>
+                        En rupture de stock
+                    </p>
+                    //boutton pour envoyer un courriel lorsque le livre est de retour en stock
+                    <a class="btn btn-primary ">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Recevoir un courriel lorsque le livre sera disponible ?
+                    </a>
                 }
             }
-            @if (!Model.Numerique.Equals(null)) //2 = "Numérique"
-            {
-                @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
-                {
-                    <form>
-                        @Html.AntiForgeryToken()
-                        <a href="#" id="ajouterNumerique" class="btn btn-primary btnPanier">
-                            <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Numérique)
-                        </a>
-                    </form>
-                }
-            }
+            <button id="ajouterAuPanier" class="btn btn-primary">Ajouter au panier</button>
+
+
+
         </div>
     </div>
 
-</div>
-<div class="modal" tabindex="-1" id="preorderModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Précommande</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>La quantité demandée n'est pas disponible en stock. Voulez-vous précommander le surplus ?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary" id="confirmPreorder">Confirmer la précommande</button>
-            </div>
-        </div>
-    </div>
 </div>
 </div>
 <script>
@@ -281,31 +248,9 @@ $(document).ready(function () {
 </script>
 
 <script>
-$(document).ready(function () {
-    $('#quantite').on('input', function () {
-        var maxQuantity = parseInt($(this).attr('max'));
-        var currentQuantity = parseInt($(this).val());
-
-        if (currentQuantity > maxQuantity) {
-            $('#preorderModal').modal('show');
-        }
-    });
-
-    $('#confirmPreorder').on('click', function () {
-        // Ici, vous pouvez ajouter une requête AJAX pour envoyer la confirmation de précommande au serveur
-        $('#preorderModal').modal('hide');
-        alert('Votre précommande a été confirmée.');
-    });
-
-                                getNbArticles();
-});
-
-</script>
-
-<script>
 document.addEventListener('DOMContentLoaded', (event) => {
-  var stockCount = parseInt(document.getElementById('stock-count').textContent);
-  var stockIndicator = document.querySelector('.stock-indicator');
+  var stockCount = @Model.NbExemplaires;
+  var stockIndicator = document.getElementsByClassName('stock-indicator')[0];
 
   if (stockCount > 0) {
     stockIndicator.classList.add('in-stock');
@@ -344,5 +289,65 @@ function changeQuantity(action, type) {
 
     quantityInput.value = currentQuantity;
 }
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('ajouterAuPanier').addEventListener('click', () => {
+                var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                var viewModelId = document.getElementById('viewModelId').value;
+
+                // Vérifie si le livre papier est actif (sélectionné)
+                var isPaperActive = document.querySelector('.price-button.paper.active') !== null;
+                // Vérifie si le livre numérique est actif (sélectionné)
+                var isDigitalActive = document.querySelector('.price-button.digital.active') !== null;
+
+                // Si le livre papier est actif, obtenez la quantité et ajoutez au panier
+                if (isPaperActive) {
+                    var quantity = document.getElementById('quantity-paper').value;
+                    addToCart(viewModelId, quantity, '1', csrfToken); // '1' pour le livre papier
+                }
+
+                // Si le livre numérique est actif, ajoutez un seul exemplaire au panier
+                if (isDigitalActive) {
+                    addToCart(viewModelId, '1', '2', csrfToken); // '2' pour le livre numérique
+                }
+            });
+        });
+
+        // Fonction pour ajouter des articles au panier
+        function addToCart(bookId, quantity, typeId, csrfToken) {
+            // Envoie une requête pour ajouter un article au panier
+            fetch(BASE_URL + '/Panier/AjouterPanier', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': csrfToken
+                },
+                body: JSON.stringify({
+                    livreAjouteId: bookId,
+                    quantitee: quantity,
+                    typeId: typeId
+                })
+            })
+            .then(response => {
+                // Gérez les erreurs de réponse non-OK
+                if (!response.ok) {
+                              getNbArticles();
+
+                    throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Met à jour l'interface utilisateur pour refléter que l'article a été ajouté au panier
+                console.log(data);
+            })
+            .catch(error => {
+                // Gére les erreurs de la requête fetch
+                console.error("Erreur lors de la requête FETCH:", error);
+            });
+        }
 
 </script>
