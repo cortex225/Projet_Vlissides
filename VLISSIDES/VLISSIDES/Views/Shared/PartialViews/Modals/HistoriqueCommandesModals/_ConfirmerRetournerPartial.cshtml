@@ -3,10 +3,10 @@
         <h5 class="modal-title">Confirmation de suppression</h5>
     </div>
     <div class="modal-body">
-        Êtes-vous sûr de vouloir retourner @Model.Quantite x @Model.Livre.Titre ?
+        Êtes-vous sûr de vouloir retourner @Model.Livre.Titre ?
     </div>
     <div class="modal-footer">
         <a class="btn btn-secondary" href="~/HistoriqueCommandes/Index">Annuler</a>
-        <button type="button" class="btn btn-danger" id="confirmDelete" onclick="rembourserLivre('@Model.CommandeId', '@Model.Livre.Id')">Supprimer</button>
+        <button type="button" class="btn btn-danger" id="confirmDelete" onclick="retournerLivre('@Model.Commande.Id', '@Model.Livre.Id')">Retourner</button>
     </div>
 </div>
