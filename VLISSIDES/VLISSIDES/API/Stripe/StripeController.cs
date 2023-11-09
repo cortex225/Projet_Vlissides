@@ -1,18 +1,12 @@
-﻿using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using Stripe;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Paiement;
-using VLISSIDES.ViewModels.Panier;
-using VLISSIDES.ViewModels.Profile;
 using Stripe.Checkout;
+using System.Text;
+using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
+using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionCommandes;
 
 namespace VLISSIDES.API.Stripe
@@ -78,6 +72,7 @@ namespace VLISSIDES.API.Stripe
                     EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], _webhookSecretApi,
                         throwOnApiVersionMismatch: false);
 
+
                 var session = stripeEvent.Data.Object as Session;
                 // Handle the event
 
@@ -86,6 +81,7 @@ namespace VLISSIDES.API.Stripe
                 }
                 else if (stripeEvent.Type == Events.CheckoutSessionAsyncPaymentSucceeded)
                 {
+
                 }
                 else if (stripeEvent.Type == Events.CheckoutSessionCompleted)
                 {
