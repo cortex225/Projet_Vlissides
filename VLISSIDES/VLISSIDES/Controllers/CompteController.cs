@@ -132,7 +132,6 @@ public class CompteController : Controller
     {
         var vm = new RegisterVM();
         vm.ReturnUrl = returnUrl;
-        // Populate Department list
         return View(vm);
     }
 

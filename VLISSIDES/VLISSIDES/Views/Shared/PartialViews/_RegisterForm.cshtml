@@ -2,45 +2,45 @@
 
 <div class="row mb-3">
     <div class="col-md-6">
-        <label class="form-label" asp-for="@Model.FirstName">Prénom</label>
+        <label class="form-label" asp-for="@Model.FirstName"></label>
         <input asp-for="@Model.FirstName" class="form-control" autocomplete="off"/>
     </div>
     <div class="col-md-6">
-        <label class="form-label" asp-for="@Model.LastName">Nom de famille</label>
+        <label class="form-label" asp-for="@Model.LastName"></label>
         <input asp-for="@Model.LastName" class="form-control" autocomplete="off"/>
     </div>
 </div>
 
 <div class="row mb-3">
     <div class="col-md-6">
-        <label class="form-label" asp-for="@Model.UserName">Nom d'utilisateur</label>
+        <label class="form-label" asp-for="@Model.UserName"></label>
         <input asp-for="@Model.UserName" class="form-control" autocomplete="off"/>
     </div>
     <div class="col-md-6">
-        <label class="form-label" asp-for="@Model.Phone">Téléphone</label>
+        <label class="form-label" asp-for="@Model.Phone"></label>
         <input asp-for="@Model.Phone" class="form-control" autocomplete="off"/>
     </div>
 </div>
 
 <div class="mb-3">
-    <label class="form-label" asp-for="@Model.Email">Adresse Courriel</label>
+    <label class="form-label" asp-for="@Model.Email"></label>
     <input type="email" asp-for="@Model.Email" class="form-control" autocomplete="off"/>
 </div>
 
 <div class="mb-3">
-    <label class="form-label" asp-for="@Model.Password">Mot de passe</label>
+    <label class="form-label" asp-for="@Model.Password"></label>
     <input asp-for="@Model.Password" class="form-control" autocomplete="off"/>
 </div>
 
 <div class="mb-3">
-    <label class="form-label" asp-for="@Model.ConfirmPassword">Confirmer le mot de passe</label>
+    <label class="form-label" asp-for="@Model.ConfirmPassword"></label>
     <input asp-for="@Model.ConfirmPassword" class="form-control" autocomplete="off"/>
 </div>
 
 <div class="mb-3 form-check">
     <input class="form-check-input" type="checkbox" id="flexCheckDefault" asp-for="@Model.Conditions">
     <label class="form-check-label" for="flexCheckDefault">
-        J'accepte les <a href="javascript:" class="text-dark font-weight-bolder">conditions générales d'utilisation</a>
+        J'accepte les <a href="javascript:" class="text-dark font-weight-bolder">conditions générales d'utilisation (*)</a>
     </label>
 </div>
 
