@@ -208,12 +208,11 @@ namespace VLISSIDES.API.Stripe
             var nbReservations = _context.Reservations.Count().ToString();
             var reservation = new Reservation
             {
-                Id = "R_" + evenement.Nom + "#"+ nbReservations + "-" + DateTime.Now.ToString("yyyyMMddHH"),
+                Id = "R_" + evenement.Nom + "#" + nbReservations + "-" + DateTime.Now.ToString("yyyyMMddHH"),
                 DateReservation = DateTime.Now,
                 Membre = customer,
                 Evenement = evenement,
                 Description = evenement.Description,
-
             };
             // Ajouter la réservation au contexte
             _context.Reservations.Add(reservation);
@@ -245,7 +244,6 @@ namespace VLISSIDES.API.Stripe
             evenement.NbPlacesReservees = nbPlacesReservees;
             _context.Evenements.Update(evenement);
             await _context.SaveChangesAsync();
-
         }
 
         private async Task SendConfirmationEmailReservation(Membre customer, ReservationVM reservationVM,
@@ -282,41 +280,53 @@ namespace VLISSIDES.API.Stripe
         {
             var body = new StringBuilder();
 
-            body.Append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>");
             body.Append(
-                $"<img src='{logoUrl}' alt='Logo' style='width:250px;height:auto; display: block; margin: 0 auto;'>");
-            body.Append($"<h2 style='color: #444;'>Bonjour {customer.UserName},</h2>");
-            body.Append("<p>Nous confirmons votre réservation pour l'événement suivant :</p>");
-            body.Append("<table style='width: 100%; border-collapse: collapse;'>");
+                "<div style='font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; max-width: 680px; margin: 20px auto; padding: 40px; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);'>");
+            body.Append(
+                $"<img src='{logoUrl}' alt='Logo' style='max-width: 200px; display: block; margin: 0 auto 20px;'>");
+            body.Append(
+                $"<h1 style='color: #146ec3; text-align: center; font-size: 28px; margin-bottom: 10px;'>Confirmation de Réservation</h1>");
+            body.Append(
+                $"<h2 style='color: #333; text-align: center; margin-top: 0;'>Bonjour {customer.UserName},</h2>");
+            body.Append(
+                "<p style='color: #555; font-size: 16px; text-align: center;'>Votre réservation a été effectuée avec succès. Voici les détails :</p>");
+            body.Append(
+                "<hr style='border: 0; height: 1px; background-image: linear-gradient(to right, #146ec3, #146ec3, #fff); margin: 20px 0;'>");
+            body.Append("<table style='width: 100%; margin-top: 30px; border-collapse: collapse;'>");
             body.Append("<thead>");
-            body.Append("<tr style='background-color: #f2f2f2;'>");
-            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Événement</th>");
-            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Date</th>");
-            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Lieu</th>");
-            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Prix</th>");
+            body.Append("<tr style='background-color: #146ec3; color: #ffffff;'>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Événement</th>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Date</th>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Lieu</th>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Prix</th>");
             body.Append("</tr>");
             body.Append("</thead>");
             body.Append("<tbody>");
             body.Append("<tr>");
-            body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{reservationVM.EvenementNom}</td>");
+            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{reservationVM.EvenementNom}</td>");
             body.Append(
-                $"<td style='padding: 8px; border: 1px solid #ddd;'>{reservationVM.DateDebut:dd/MM/yyyy} - {reservationVM.DateFin:dd/MM/yyyy}</td>");
-            body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{reservationVM.Lieu}</td>");
-            body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{reservationVM.PrixTotal:C}</td>");
+                $"<td style='padding: 15px; border: 1px solid #ddd;'>Du {reservationVM.DateDebut:U} au {reservationVM.DateFin:U}</td>");
+            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{reservationVM.Lieu}</td>");
+            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{reservationVM.PrixTotal:C}</td>");
             body.Append("</tr>");
             body.Append("</tbody>");
             body.Append("</table>");
-            body.Append("<p>Voici les détails de votre réservation :</p>");
-            body.Append($"<p style='font-size:1.5em;'><strong>Numéro de réservation :</strong> {reservationVM.Id}</p>");
-            body.Append($"<p><strong>Description :</strong> {reservationVM.Description}</p>");
-            body.Append($"<p><strong>Nombre de places :</strong> {reservationVM.NombreDePlaces}</p>");
-            body.Append($"<p><strong>Total payé :</strong> {reservationVM.PrixTotal:C}</p>");
-
             body.Append(
-                "<p>Nous vous remercions pour votre réservation et avons hâte de vous accueillir à l'événement.</p>");
-            body.Append("<p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>");
-            body.Append("<p>Cordialement,</p>");
-            body.Append("<p>L'équipe de La Fourmi Aillée</p>");
+                $"<p style='color: #555; font-size: 16px;'><strong>Numéro de réservation :</strong> {reservationVM.Id}</p>");
+            body.Append(
+                $"<p style='color: #555; font-size: 16px;'><strong>Description :</strong> {reservationVM.Description}</p>");
+            body.Append(
+                $"<p style='color: #555; font-size: 16px;'><strong>Nombre de places :</strong> {reservationVM.NombreDePlaces}</p>");
+            body.Append(
+                $"<p style='color: #555; font-size: 16px;'><strong>Total payé :</strong> {reservationVM.PrixTotal:C}</p>");
+            body.Append(
+                "<p style='color: #555; font-size: 16px;'>Si vous avez des questions ou si vous avez besoin d'informations supplémentaires, veuillez ne pas hésiter à nous contacter.</p>");
+            body.Append(
+                "<p style='text-align: center; margin-top: 40px;'><a href='https://votresite.com' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
+            body.Append("<footer style='text-align: center; color: #888; margin-top: 40px; font-size: 14px;'>");
+            body.Append("<p>Merci de faire confiance à La Fourmi Aillée.</p>");
+            body.Append("<p style='color: #146ec3;'>La Fourmi Aillée, 235 Rue Saint-Jacques, Granby, QC J2G 3N1</p>");
+            body.Append("</footer>");
             body.Append("</div>");
 
             return body.ToString();
@@ -324,19 +334,30 @@ namespace VLISSIDES.API.Stripe
 
         private string BuildEmailBodyCommande(Membre customer, CommandesVM nouvelleCommande, string logoUrl)
         {
-            StringBuilder body = new StringBuilder();
+            var body = new StringBuilder();
 
-            body.Append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>");
+            // Calculer le sous-total avant taxe
+            var sousTotal = nouvelleCommande.PrixTotal / 1.05m;
+            var taxe = nouvelleCommande.PrixTotal - sousTotal;
+
             body.Append(
-                $"<img src='{logoUrl}' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>");
-            body.Append($"<h2 style='color: #444;'>Cher(e) {customer.UserName},</h2>");
-            body.Append("<p>Merci pour votre commande ! Voici le récapitulatif :</p>");
-            body.Append("<table style='width: 100%; border-collapse: collapse;'>");
+                "<div style='font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; max-width: 680px; margin: 20px auto; padding: 40px; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);'>");
+            body.Append(
+                $"<img src='{logoUrl}' alt='Logo' style='max-width: 200px; display: block; margin: 0 auto 20px;'>");
+            body.Append(
+                $"<h1 style='color: #146ec3; text-align: center; font-size: 28px; margin-bottom: 10px;'>Confirmation de Commande</h1>");
+            body.Append(
+                $"<h2 style='color: #333; text-align: center; margin-top: 0;'>Cher(e) {customer.UserName},</h2>");
+            body.Append(
+                "<p style='color: #555; font-size: 16px; text-align: center;'>Merci pour votre commande ! Voici le récapitulatif :</p>");
+            body.Append(
+                "<hr style='border: 0; height: 1px; background-image: linear-gradient(to right, #146ec3, #146ec3, #fff); margin: 20px 0;'>");
+            body.Append("<table style='width: 100%; margin-top: 30px; border-collapse: collapse;'>");
             body.Append("<thead>");
-            body.Append("<tr style='background-color: #f2f2f2;'>");
-            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Produit</th>");
-            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Quantité</th>");
-            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Prix</th>");
+            body.Append("<tr style='background-color: #146ec3; color: #ffffff;'>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Produit</th>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Quantité</th>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Prix</th>");
             body.Append("</tr>");
             body.Append("</thead>");
             body.Append("<tbody>");
@@ -344,19 +365,26 @@ namespace VLISSIDES.API.Stripe
             foreach (var item in nouvelleCommande.LivreCommandes)
             {
                 body.Append("<tr>");
-                body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
-                body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Quantite}</td>");
+                body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
+                body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Quantite}</td>");
                 body.Append(
-                    $"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault().Prix}$</td>");
+                    $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault()?.Prix:C}</td>");
                 body.Append("</tr>");
             }
 
             body.Append("</tbody>");
             body.Append("</table>");
-            body.Append($"<p><strong>Total : {nouvelleCommande.PrixTotal.ToString("C")}</strong></p>");
+            body.Append($"<p style='color: #555; font-size: 15px;'>Sous-total : {sousTotal:C}</p>");
+            body.Append($"<p style='color: #555; font-size: 15px;'>Taxe (5%) : {taxe:C}</p>");
+            body.Append($"<p style='color: #555; font-size: 16px;'><strong>Prix Total:</strong> {nouvelleCommande.PrixTotal:C}</p>");
             body.Append(
-                "<p>Votre commande sera traitée rapidement et vous recevrez une notification dès qu'elle sera expédiée.</p>");
-            body.Append("<p>Merci de faire confiance à La Fourmie Aillée !</p>");
+                "<p style='color: #555; font-size: 16px;'>Votre commande sera traitée rapidement et vous recevrez une notification dès qu'elle sera expédiée.</p>");
+            body.Append(
+                "<p style='text-align: center; margin-top: 40px;'><a href='https://votresite.com' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
+            body.Append("<footer style='text-align: center; color: #888; margin-top: 40px; font-size: 14px;'>");
+            body.Append("<p>Merci de faire confiance à La Fourmie Aillée.</p>");
+            body.Append("<p>La Fourmie Aillée, 235 Rue Saint-Jacques, Granby, QC J2G 3N1</p>");
+            body.Append("</footer>");
             body.Append("</div>");
 
             return body.ToString();
