@@ -39,7 +39,8 @@ namespace VLISSIDES.Controllers
                 Livre = lc.Livre,
                 CommandeId = lc.CommandeId,
                 Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
             }).ToList();
 
             var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM
@@ -87,7 +88,8 @@ namespace VLISSIDES.Controllers
                 Livre = lc.Livre,
                 CommandeId = lc.CommandeId,
                 Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
             }).ToList();
 
             var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM

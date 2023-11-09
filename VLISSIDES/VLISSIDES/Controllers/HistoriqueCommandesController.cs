@@ -62,7 +62,8 @@ namespace VLISSIDES.Controllers
                 Livre = lc.Livre,
                 CommandeId = lc.CommandeId,
                 Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
             }).ToList();
 
             var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
@@ -112,7 +113,8 @@ namespace VLISSIDES.Controllers
                 Livre = lc.Livre,
                 CommandeId = lc.CommandeId,
                 Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
             }).ToList();
 
             var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
@@ -176,7 +178,7 @@ namespace VLISSIDES.Controllers
                 Commande = livreCommande.Commande,
                 Livre = livreCommande.Livre,
                 Prix = livreCommande.PrixAchat,
-                Quantite = 0
+                Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
             };
 
             return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
