@@ -28,10 +28,8 @@ namespace VLISSIDES.Controllers
             {
                 Id = p.Id,
                 Description = p.Description,
-                Rabais = p.Rabais,
                 DateDebut = p.DateDebut,
                 DateFin = p.DateFin,
-                Livres = p.Livres,
                 Image = p.Image,
             }).ToList();
             return View(vm);
@@ -67,9 +65,69 @@ namespace VLISSIDES.Controllers
         [Route("{controller}/{action}")]
         public async Task<IActionResult> AjouterPromotion(AjouterPromotionVM vm)
         {
+            if (ModelState.IsValid)
+            {
+                //Sauvegarder l'image dans root
+                if (vm.CoverPhoto != null)
+                {
+                    var wwwRootPath = _webHostEnvironment.WebRootPath;
+                    var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
+                    var extension = Path.GetExtension(vm.CoverPhoto.FileName);
+                    fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+                    vm.CoverImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                    var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await vm.CoverPhoto.CopyToAsync(fileStream);
+                    }
+                }
+                else
+                {
+                    vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
+                }
 
+                var id = Guid.NewGuid().ToString();
 
-            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial");
+                Promotions promo = new Promotions
+                {
+                    Id = id,
+                    Nom = vm.Nom,
+                    Description = vm.Description,
+                    DateDebut = vm.DateDebut,
+                    DateFin = vm.DateFin,
+                    AuteurId = vm.AuteurId,
+                    MaisonEditionId = vm.MaisonEditionId,
+                    CategorieId = vm.CategorieId,
+                    TypePromotion = vm.TypePromotion,
+                    LivresAcheter = vm.LivresAcheter,
+                    LivresGratuits = vm.LivresGratuits,
+                    PourcentageRabais = vm.PourcentageRabais
+                };
+
+                _context.Promotions.Add(promo);
+                _context.SaveChanges();
+
+                return Ok();
+            }
+
+            var VM = new AjouterPromotionVM();
+            //Populer les listes déroulantes
+            VM.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+            {
+                Text = x.NomAuteur,
+                Value = x.Id
+            }).ToList();
+            VM.SelectListMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            VM.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
         }
     }
 }

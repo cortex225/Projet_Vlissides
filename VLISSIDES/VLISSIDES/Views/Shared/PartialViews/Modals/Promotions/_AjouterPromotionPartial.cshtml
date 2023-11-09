@@ -80,6 +80,7 @@
     </div>
     <div class="modal-footer">
         <a class="btn btn-danger " href="~/GestionPromotions/Index">Annuler</a>
+        <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterPromo()" />
     </div>
 
 </form>
@@ -91,32 +92,54 @@
 
 <script>
     function changerTypePromotion() {
-        console.log("patate typePromo")
-
         var dropDown = document.getElementById("typeDePromotion");
         var value = dropDown.value;
 
         var formPourcentage = document.getElementById("formPourcentage");
         var form2pour1 = document.getElementById("form2pour1");
-        console.log(formPourcentage);
-        console.log(form2pour1);
 
         switch (value) {
             case "pourcentage":
-                console.log("patate pourcentage")
                 form2pour1.hidden = true;
                 formPourcentage.hidden = false;
             break;
             case "2pour1":
-                console.log("patate 2pour1")
                 form2pour1.hidden = false;
                 formPourcentage.hidden = true;
             break;
             default:
-                console.log("patate")
                 form2pour1.hidden = true;
                 formPourcentage.hidden = true;
             break;
         }
     }
+
+    function AjouterPromo() {
+        var form = document.getElementById("FormAjouterPromo");
+        var data = new FormData(form);
+
+        //var csrfToken = form.querySelector(�'[name="__RequestVerificationToken"]').value;
+        fetch(BASE_URL + '/GestionPromotions/AjouterPromotion', {
+            method: "POST",
+            body: data
+            // headers: {
+            //    RequestVerificationToken: csrfToken,
+            // },
+        }).catch(error => {
+            console.error('Échec du fetch pour ajouter promotion', error);
+        }).then((response) => {
+
+            return response.text();
+        }).then((result) => {
+            console.log(result);
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                AfficherLivres();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+            }
+
+        });
+    };
 </script>
