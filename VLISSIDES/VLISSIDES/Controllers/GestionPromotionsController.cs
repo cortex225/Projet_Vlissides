@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionPromotions;
@@ -270,6 +271,39 @@ namespace VLISSIDES.Controllers
                 Value = x.Id
             }).ToList();
             return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
+        }
+
+        // POST: Livre/Delete/5
+        [HttpDelete]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            if (_context.Promotions == null) return Problem("Entity set 'ApplicationDbContext.Promotions'  is null.");
+            var promo = await _context.Promotions.FindAsync(id);
+            if (promo != null) _context.Promotions.Remove(promo);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+            /*
+            if (id == null || _context.Promotions == null) return NotFound();
+
+            var promo = _context.Promotions.FirstOrDefault(m => m.Id == id);
+            if (promo == null) return NotFound();
+            _context.Promotions.Remove(promo);
+            _context.SaveChanges();
+            */
+        }
+
+        //Pour montrer la partial view de confirmation de suppression
+        [HttpGet]
+        public async Task<IActionResult> ShowDeleteConfirmation(string id)
+        {
+            if (id == null) return NotFound();
+
+            var promo = await _context.Promotions.FindAsync(id);
+            if (promo == null) return NotFound();
+
+            return PartialView("PartialViews/Modals/Promotions/_SupprimerPromotionPartial", promo);
         }
     }
 }
