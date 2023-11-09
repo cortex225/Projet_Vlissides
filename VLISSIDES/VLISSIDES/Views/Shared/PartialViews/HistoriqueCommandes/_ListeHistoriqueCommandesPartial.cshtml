@@ -74,11 +74,20 @@
                                 </div>
                                 @if(commande.StatutId == "4")
                                 {
-                                    var inputId = $"quantite-{item.CommandeId}-{item.Livre.Id}";
-                                    <input id="@inputId" type="number" class="form-control" min="1" max="@item.Quantite" value="1">
-                                    <div class="col-sm-1">
-                                        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Retourner</button>
-                                    </div> 
+                                    <div class="col-sm-2 d-inline-flex">
+                                        @if (item.EnDemandeRetourner == false)
+                                        {
+                                            var inputId = $"quantite-{item.CommandeId}-{item.Livre.Id}";
+                                        
+                                            <input id="@inputId" type="number" class="form-control w-auto" min="1" max="@item.Quantite" value="1">
+                                            <button class="btn btn-primary mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Retourner</button>
+                                        
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">En demande de remboursement </span>
+                                        }
+                                    </div>
                                 }                             
                             </div>       
                         }
