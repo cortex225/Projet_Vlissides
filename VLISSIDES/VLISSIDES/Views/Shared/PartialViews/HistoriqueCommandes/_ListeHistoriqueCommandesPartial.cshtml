@@ -78,7 +78,7 @@
                                     <input id="@inputId (@item.CommandeId)+((@item.Livre)" type="number" class="form-control" min="1" max="@item.Quantite" placeholder="1">
                                     <div class="col-sm-1">
                                         @* rembourserLivre('@item.CommandeId', '@item.Livre.Id') *@
-                                        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { CommandeId=item.CommandeId, LivreId=item.Livre.Id, Quantite=})')">Retourner</button>
+                                        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { CommandeId=item.CommandeId, LivreId=item.Livre.Id, Quantite= item.Quantite })')">Retourner</button>
                                     </div> 
                                 }                             
                             </div>       
