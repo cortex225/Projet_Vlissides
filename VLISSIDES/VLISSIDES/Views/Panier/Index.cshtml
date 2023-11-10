@@ -156,13 +156,17 @@ $(document).ready(function () {
 </script>
 <script>
     function PasserAuPaiement() {
+        var cbDonEco = document.getElementById("cbDonEco");
         var radioButtons = document.querySelectorAll('input[name="flexRadioDefault"]');
         var selectedValue;
-        for(var radioButton of radioButtons){
-            if (radioButton.checked) {
-                selectedValue = radioButton.value;
+        if (cbDonEco.checked){
+            for(var radioButton of radioButtons){
+                if (radioButton.checked) {
+                    selectedValue = radioButton.value;
+                }
             }
         }
+        
         console.log(selectedValue);
         fetch(BASE_URL + "/Panier/PasserAuPaiement?numero=" + selectedValue, {
             method: "GET",
@@ -170,7 +174,7 @@ $(document).ready(function () {
         }).then((response) => {
             return response.text();
         }).then((result)=>{
-            window.location = '/Paiement'
+            window.location = BASE_URL+'/Paiement'
             //document.querySelector("body").innerHTML = result;
         });
     }
