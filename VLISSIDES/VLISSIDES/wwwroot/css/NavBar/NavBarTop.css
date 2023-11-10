@@ -114,7 +114,7 @@
             margin: 0px;
             padding: 0;
         }
-        #boutonseconection button:first-of-type {
+        #boutonsconection button:first-of-type {
             border-radius: inherit !important;
         }
         #boutonseconection button:last-of-type {

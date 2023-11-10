@@ -1,22 +1,24 @@
 ﻿@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM;
 
 <div class="card divLivre mr-auto" onclick="window.location.href=`/Recherche/Details?id=@Model.Id`">
-    <img src="@Model.Couverture" class="card-img-top imgLivre" alt="Couverture du livre" width="300" height="300" />
+    <div class="divIMG">
+        <img src="@Model.Couverture" class="card-img-top imgLivre" alt="Couverture du livre"  />
+    </div>
     <div class="card-body">
         <h1 class="card-title">@Model.Titre</h1>
         <!--<partial name="../Accueil/_Etoiles.cshtml" model=@Model.Note />-->
         <h2>Auteur(es) : </h2>
-        <div class=" d-flex justify-content-around auteur">
+        <div class=" d-flex justify-content-around auteur divAuteurs">
             @foreach (var auteur in Model.Auteurs)
             {
-                <p class="btn btn-secondary btnCategorie">
-                    <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@auteur" asp-route-criteres="auteur">@auteur</a>
-                </p>
+                <a class="btn btn-secondary btnCategorie" asp-controller="Recherche" asp-action="Index" asp-route-motCles="@auteur" asp-route-criteres="auteur">
+                    @auteur
+                </a>
             }
         </div>
 
         <h2>Catégorie(s) : </h2>
-        <div class=" d-flex justify-content-around">
+        <div class=" d-flex justify-content-around divCategories">
             @foreach (var categorie in @Model.Categories)
             {
                 <p class="btn btn-secondary btnCategorie">
@@ -25,10 +27,10 @@
             }
         </div>
         <h2>Maison d'édition : </h2>
-        <div class="maisonEdition d-flex justify-content-around">
+        <div class="maisonEdition d-flex justify-content-around divMaison">
             <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@Model.MaisonEdition" asp-route-criteres="maisonEdition" class="btn btn-secondary btnCategorie">@Model.MaisonEdition</a>
         </div>
-        <div class="type d-flex justify-content-around">
+        <div class="type d-flex justify-content-around divMedium">
             @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
             {
                 <p>

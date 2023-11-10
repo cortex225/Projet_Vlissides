@@ -110,9 +110,7 @@
                 <div id="results" class="d-flex justify-content-around flex-wrap">
                     @foreach (var livre in Model.LivrePartials)
                     {
-                    <a asp-controller="Recherche" asp-action="Details" asp-route-id="@livre.Id">
-                            <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre" />
-                        </a>
+                        <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre" />
                     }
                 </div>
                 <partial name="PartialViews/Utilities/_PaginationRecherchePartial" />

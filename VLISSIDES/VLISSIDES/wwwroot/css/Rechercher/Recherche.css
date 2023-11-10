@@ -1,18 +1,39 @@
 ﻿.divLivre {
     width: 300px;
-    height:fit-content;
-    max-height: 750px;
-    margin-bottom:20px;
+    height: 702px;
+    margin-bottom: 26px;
 }
 
-    .divLivre img {
-        width: 300px;
-        height: 200px;
-    }
+.divIMG {
+    display: flex;
+    justify-content: center;
+    height: 30%;
+    background-color: #E1E1E1;
+}
+
+.divIMG img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
 .card{
     margin: 15px 30px;
 }
+
+.divAuteurs {
+    height: 50px;
+}
+.divCategories {
+    height: 120px;
+}
+.divMaison {
+    height: 60px;
+}
+.divMedium {
+    height: 100px;
+}
+
 .card-body {
     padding: 0;
 }
@@ -20,10 +41,7 @@
     .card-body div {
         width: 415px;
         max-width: 415px;
-        height: 112.5px;
         width:100%;
-        max-height: fit-content;
-        max-height: min-content;
         margin:5px 0;
         overflow-y: auto;
         display: flex;
