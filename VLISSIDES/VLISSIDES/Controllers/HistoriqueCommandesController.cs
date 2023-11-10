@@ -62,7 +62,8 @@ namespace VLISSIDES.Controllers
                 Livre = lc.Livre,
                 CommandeId = lc.CommandeId,
                 Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
             }).ToList();
 
             var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
@@ -112,7 +113,8 @@ namespace VLISSIDES.Controllers
                 Livre = lc.Livre,
                 CommandeId = lc.CommandeId,
                 Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
             }).ToList();
 
             var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
@@ -167,22 +169,22 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
         }
 
-        public async Task<IActionResult> ShowRetournerConfirmation(string commandeId, string livreId, int quantite)
+        public async Task<IActionResult> ShowRetournerConfirmation(string commandeId, string livreId)
         {
-            var livreCommande = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+            var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
             var vm = new StripeRefundVM
             {
                 Commande = livreCommande.Commande,
                 Livre = livreCommande.Livre,
                 Prix = livreCommande.PrixAchat,
-                Quantite = quantite
+                Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
             };
 
-            return PartialView("PartialViews/HistoriqueCommandes/_ConfirmerRetournerPartial", vm);
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
         }
         [HttpPost]
-        public async Task<StatusCodeResult> RefundStripe(string commandeId, string livreId, string quantite)
+        public async Task<StatusCodeResult> RefundStripe(string commandeId, string livreId, int quantite)
         {
 
             // Récupère l'identifiant de l'utilisateur connecté
@@ -190,14 +192,17 @@ namespace VLISSIDES.Controllers
             var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
 
             var lc = _context.LivreCommandes.Include(lc => lc.Livre).FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+            if (lc == null) return BadRequest();
 
             var model = new LivreCommandeVM
             {
                 Livre = lc.Livre,
                 CommandeId = lc.CommandeId,
                 PrixAchat = lc.PrixAchat,
-                Quantite = lc.Quantite
+                Quantite = quantite
             };
+
+            //PaymentIntent paymentIntent = _context.Commandes.FirstOrDefault(c=>c.Id == model.CommandeId).;
 
             StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
 
@@ -241,26 +246,26 @@ namespace VLISSIDES.Controllers
                 Console.WriteLine(e);
             }
 
-            return Ok(); /*Json(new { id = session.Id });*/
+            lc.EnDemandeRetourner = true;
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         private async Task SendConfirmationEmail(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
         {
             var subject = "Retour de livres";
 
-            // Récupérer la facture de Stripe
-            // var invoice = await GetInvoiceFromStripe(sessionId);
-
             // Construire le corps du courriel
             var body = BuildEmailBody(customer, livreCommande, logoUrl);
 
-            // Envoyer le courriel avec la facture en pièce jointe
-            //var admin = _userManager.
 
             var admin = _context.Users.FirstOrDefault(u => u.Id == "0");
 
+            // Envoyer le courriel avec la facture en pièce jointe
             await _sendGridEmail.SendEmailAsync(admin.Email, subject, body);
 
+            //Pouvoir envoyer un courriel à tous les employés
             //var employes = _context.Employes.ToList();
             //foreach (var employe in employes)
             //{
@@ -278,8 +283,8 @@ namespace VLISSIDES.Controllers
             body.Append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>");
             body.Append(
                 $"<img src='{logoUrl}' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>");
-            body.Append($"<h2 style='color: #444;'>Demande de remboursement de : {customer.UserName},</h2>");
-            body.Append($"<h2 style='color: #444;'>Article(s) de la commande : {livreCommande.CommandeId},</h2>");
+            body.Append($"<h2 style='color: #444;'>Demande de remboursement de : {customer.UserName}</h2>");
+            body.Append($"<h2 style='color: #444;'>Numéro de la commande : {livreCommande.CommandeId}</h2>");
             body.Append("<p>Voici le récapitulatif :</p>");
             body.Append("<table style='width: 100%; border-collapse: collapse;'>");
             body.Append("<thead>");
@@ -297,22 +302,13 @@ namespace VLISSIDES.Controllers
             body.Append(
                 $"<td style='padding: 8px; border: 1px solid #ddd;'>{livreCommande.PrixAchat}$</td>");
             body.Append("</tr>");
-
-            //foreach (var item in nouvelleCommande.LivreCommandes)
-            //{
-            //    body.Append("<tr>");
-            //    body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
-            //    body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Quantite}</td>");
-            //    body.Append(
-            //        $"<td style='padding: 8px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault().Prix}$</td>");
-            //    body.Append("</tr>");
-            //}
-
             body.Append("</tbody>");
             body.Append("</table>");
             body.Append($"<p><strong>Total : {(livreCommande.PrixAchat * livreCommande.Quantite).ToString("C")}</strong></p>");
+            body.Append($"<p><strong>Remboursement Stripe : </strong></p>");
             body.Append(
                 "<a href=" + "https://dashboard.stripe.com/test/payments?status[0]=refunded&status[1]=refund_pending&status[2]=partially_refunded" + ">Aller sur stripe pour confirmer le remboursement</a>");
+            body.Append($"<p><strong>Gestion des commandes : </strong></p>");
             body.Append("<a href=" + (BASE_URL_RAZOR + "/GestionCommandes").ToString() + ">Aller à la page de gestion des commandes</a>");
             body.Append("</div>");
 
