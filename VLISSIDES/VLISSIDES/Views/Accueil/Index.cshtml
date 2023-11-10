@@ -40,13 +40,13 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     Les cartes sont toutes des vues partielles.
     
     -->
-    <div class="collapse" id="serviceCollapse">
+    <div id="serviceCollapse" class="collapse">
 
         <h2 class="container-fluid titreSections mb-1">Nos Services offerts: </h2>
         <p class="m-2">Des services adaptés à chaque passionné de lecture."</p>
         @if (Model.Services.Count > 0)
         {
-            <div class="cards-wrapper ">
+            <div class="cards-wrapper d-flex flex-wrap">
                 @foreach (var service in Model.Services)
                 {
                     <partial name="PartialViews/Accueil/_ServiceOffert" model="service"/>

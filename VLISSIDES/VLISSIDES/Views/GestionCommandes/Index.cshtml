@@ -40,37 +40,12 @@
             </div>
         </div>
     </div>
-    
-    
 
     <hr />
 
-    <div class="my-2 p-2">
-        <div class="row">
-            <div class="col-sm-3 d-flex justify-content-center">
-                <h5>Identifiant</h5>
-            </div>
-            <div class="col-sm-2 d-flex justify-content-center">
-                <h5>Utilisateur</h5>
-            </div>
-            <div class="col-sm-1 d-flex justify-content-center">
-                <h5>Prix</h5>
-            </div>
-            <div class="col-sm-2 d-flex justify-content-center">
-                <h5>Date</h5>
-            </div>
-            <div class="col-sm-3 d-flex justify-content-center">
-                <h5>Statut</h5>
-            </div>
-        </div>
-    </div>
+    <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial" />
+</div>
 
-    <div class="row">
-        <div id="commandesListe" class="col-12 ">
-            <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial" />
-        </div>
-    </div>
-    
 </div>
 
 <style>
@@ -87,7 +62,7 @@
 </script>
 <script type="text/javascript">
     function saveStatut(id = "") {
-        
+
         var statutVal = document.getElementById(id + ' statutSelectList').value;
 
         fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
@@ -101,7 +76,7 @@
 </script>
 
 <script type="text/javascript">
-        async function applyFilter(ev) {
+    async function applyFilter(ev) {
         ev.preventDefault();
 
         listeCommandesDiv = document.getElementById("commandesListe");
@@ -133,10 +108,10 @@
         }).then((data) => {
             listeCommandesDiv.innerHTML = data;
         })
-        .catch(error => {
-            // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la récupération de la liste des auteurs', error);
-        });
+            .catch(error => {
+                // Affiche une erreur dans la console en cas d'échec de la requête
+                console.error('Erreur lors de la récupération de la liste des auteurs', error);
+            });
     }
 </script>
 
