@@ -580,7 +580,7 @@ public class GestionLivresController : Controller
             livre.NbExemplaires = vm.NbExemplaires;
             livre.NbPages = vm.NbPages;
             livre.LangueId = vm.LangueId;
-            livre.LivreTypeLivres = listeType;
+            livre.LivreTypeLivres = listeType; 
             livre.Couverture = vm.CoverImageUrl;
             livre.MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId));
             livre.DatePublication = vm.DatePublication;
