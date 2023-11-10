@@ -202,6 +202,8 @@ namespace VLISSIDES.Controllers
                 Quantite = quantite
             };
 
+            //PaymentIntent paymentIntent = _context.Commandes.FirstOrDefault(c=>c.Id == model.CommandeId).;
+
             StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
 
             var options = new RefundCreateOptions
