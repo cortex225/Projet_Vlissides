@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VLISSIDES.Data;
 
@@ -11,9 +12,10 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231109154658_don")]
+    partial class don
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -296,9 +298,6 @@ namespace VLISSIDES.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsBanned")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -362,7 +361,6 @@ namespace VLISSIDES.Migrations
                             ConcurrencyStamp = "283efc7c-f13f-4622-8633-03f1b1b3730b",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
-                            IsBanned = false,
                             LockoutEnabled = false,
                             Nom = "ADMIN",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
@@ -1216,7 +1214,6 @@ namespace VLISSIDES.Migrations
                             ConcurrencyStamp = "b4b03bb5-a7d7-411a-b583-a4c6bb3db08a",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
-                            IsBanned = false,
                             LockoutEnabled = false,
                             Nom = "EMPLOYE",
                             NormalizedEmail = "EMPLOYE@EMPLOYE.COM",
@@ -1262,7 +1259,6 @@ namespace VLISSIDES.Migrations
                             ConcurrencyStamp = "9a96f9a5-41de-4b0f-b289-25ca4efc3291",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
-                            IsBanned = false,
                             LockoutEnabled = false,
                             Nom = "MEMBRE",
                             NormalizedEmail = "MEMBRE@MEMBRE.COM",

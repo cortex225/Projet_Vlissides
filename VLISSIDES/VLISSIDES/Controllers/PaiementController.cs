@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Stripe.Checkout;
-using System.Security.Claims;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Paiement;
-
-namespace VLISSIDES.Controllers
+﻿namespace VLISSIDES.Controllers
 {
     public class PaiementController : Controller
     {
@@ -71,7 +62,16 @@ namespace VLISSIDES.Controllers
                 .Where(lp => lp.UserId == userId)
                 .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres).ThenInclude(livretypelivre => livretypelivre.TypeLivre)
                 .ToList();
+            //Tax livre
 
+            var taxLivreOptions = new TaxRateCreateOptions
+            {
+                DisplayName = "TPS",
+                Inclusive = false,
+                Percentage = 5,
+            };
+            var taxLivreService = new TaxRateService();
+            var taxLivreRate = taxLivreService.Create(taxLivreOptions);
 
 
             var lineItems = panierItems.Select(item =>
@@ -97,8 +97,37 @@ namespace VLISSIDES.Controllers
                         },
                     },
                     Quantity = item.TypeLivre.Id == "2" ? 1 : item.Quantite,
+                    TaxRates = new List<string> { taxLivreRate.Id }
                 };
             }).ToList();
+            var don = _context.Dons.FirstOrDefault(d => d.UserId == userId);
+            var taxDonOptions = new TaxRateCreateOptions
+            {
+                DisplayName = "Don",
+                Inclusive = true,
+                Percentage = 0,
+            };
+            var taxDonService = new TaxRateService();
+            var taxDonRate = taxDonService.Create(taxDonOptions);
+            if (don != null)
+            {
+                lineItems.Add(new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmount = (long)(don.Montant) * 100,
+                        Currency = "cad",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = don.Nom,
+
+                        }
+                    },
+                    Quantity = 1,
+                    TaxRates = new List<string> { taxDonRate.Id }
+
+                });
+            }
 
 
             var options = new SessionCreateOptions
@@ -126,10 +155,10 @@ namespace VLISSIDES.Controllers
                 {
                     Enabled = true,
                 },
-                AutomaticTax = new SessionAutomaticTaxOptions
-                {
-                    Enabled = true,
-                },
+                //AutomaticTax = new SessionAutomaticTaxOptions
+                //{
+                //    Enabled = true,
+                //},
 
                 SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),
                 CancelUrl = Url.Action("Cancel", "Paiement", null, Request.Scheme),

@@ -44,7 +44,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
 
-    public DbSet<Panier> Paniers { get; set; }
+    public DbSet<Don> Dons { get; set; }
     public DbSet<LivrePanier> LivrePanier { get; set; }
 
     public DbSet<Adresse> Adresses { get; set; }
