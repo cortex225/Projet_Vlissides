@@ -38,7 +38,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     Les slides sont par 3, et lorsqu'on clique sur les flèches pour transitionner, le carousel glisse par 3 au lieu de 1
 
     Les cartes sont toutes des vues partielles.
-    
+
     -->
     <div id="serviceCollapse" class="collapse">
 
@@ -225,3 +225,34 @@ function toggleDescription(buttonElement) {
 
 
 </script>
+@section Scripts {
+    @if (isIncompleteBirthday) {
+        <script>
+            setTimeout(function() {
+                Swal.fire({
+                    title: 'Complétez votre profil',
+                    text: 'Ajoutez votre date de naissance pour recevoir un code promo spécial le jour de votre anniversaire! 🙂',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#146ec3',
+                    cancelButtonColor: '#ff4b5c',
+                    confirmButtonText: 'Ajouter maintenant',
+                    cancelButtonText: 'Plus tard',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown' // Utilisation de animate.css pour une animation plus lente
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        },
+                        timer: 15000, // Le modal restera ouvert pendant 10 secondes
+                        timerProgressBar: true // Affiche une barre de progression pour le timer
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '@Url.Action("Index", "Profile")'; // Redirigez vers la page de profil
+                    }
+                });
+            }, 5000); // 5 secondes après que la page a chargé
+        </script>
+    }
+}

@@ -1,0 +1,99 @@
+﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
+@{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
+}
+
+<link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
+<div id="accordion">
+    @foreach (var commande in @Model.ListCommandes)
+    {
+        <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable">
+            <div class="row d-flex p-2">
+                <div class="col-sm-3 d-flex justify-content-center">
+                    <h4 class="card-title my-auto">#@commande.Id</h4>
+                </div>
+                <div class="col-sm-1 d-flex justify-content-center">
+                    <p class="my-auto">@commande.PrixTotal $</p>
+                </div>
+                <div class="col-sm-2 d-flex justify-content-center">
+                    <p class="my-auto">@commande.DateCommande</p>
+                </div>
+                <div class="col-sm-2 d-flex justify-content-center">
+                    <p class="my-auto">@commande.StatutNom</p>
+                </div>
+                <div class="col-sm-2 d-flex justify-content-center">
+                    @foreach(var article in commande.LivreCommandes.Take(3))
+                    {
+                        string couverture = string.Concat(BASE_URL_RAZOR, article.Livre.Couverture);                 
+                        <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
+                    }
+                    @if (commande.LivreCommandes.Count > 3)
+                    {
+
+                        var amountMore = commande.LivreCommandes.Count - 3;
+
+                        <i class="fa-solid fa-plus">@amountMore</i>
+                    }
+                </div>
+                <div class="col-sm-1 d-flex justify-content-center align-self-md-center">
+
+                    <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" data-toggle="collapse" data-target="#collapseCommandeLivres_@commande.Id"></i>
+
+                </div>
+                @if(commande.StatutId != "1")
+                {
+                    <div class="col-sm-1 d-flex justify-content-center">
+
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-1 d-flex justify-content-center">
+                        <button class="btn btn-primary" onclick="annulerCommande('@commande.Id')">Annuler</button>
+                    </div>
+                }
+                
+            </div>
+            <div class="collapse" id="collapseCommandeLivres_@commande.Id">
+                <hr>
+                <div class="p-2">
+                    <h5 class="">Articles:</h5>
+                    <div>
+                        @foreach (var item in commande.LivreCommandes)
+                        {
+                            <div class="row py-1">
+                                <div class="col-sm-3 px-4">
+                                    @item.Quantite x @item.Livre.Titre
+                                </div>
+                                <div class="col-sm-1 d-flex justify-content-center">
+                                    @{
+                                        var prix = item.PrixAchat * item.Quantite;
+                                    }
+                                    @prix $
+                                </div>
+                                @if(commande.StatutId == "4")
+                                {
+                                    <div class="col-sm-2 d-inline-flex">
+                                        @if (item.EnDemandeRetourner == false)
+                                        {
+                                            var inputId = $"quantite-{item.CommandeId}-{item.Livre.Id}";
+
+                                            <input id="@inputId" type="number" class="form-control w-auto" min="1" max="@item.Quantite" value="1" onkeyup="verifierQuantite('@item.CommandeId', '@item.Livre.Id', '@item.Quantite')">
+                                            <button class="btn btn-primary mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Retourner</button>
+
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">En demande de remboursement </span>
+                                        }
+                                    </div>
+                                }                             
+                            </div>       
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,14 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Stripe;
-using Stripe.Checkout;
-using System.Security.Claims;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Paiement;
-
-namespace VLISSIDES.Controllers
+﻿namespace VLISSIDES.Controllers
 {
     public class PaiementController : Controller
     {
@@ -46,7 +36,20 @@ namespace VLISSIDES.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var adresse = _context.Adresses.Where(a => a.UtilisateurPrincipalId == currentUserId || a.UtilisateurLivraisonId == currentUserId);
+
+            var listAdresse = new ProfileModifierAdressesVM
+            {
+                AdressesDeLivraison = adresse.ToList()
+            };
+
+            var adresseVM = new StripePaiementVM
+            {
+                Adresse = listAdresse
+            };
+
+            return View(adresseVM);
         }
 
         public IActionResult Cancel()
@@ -105,9 +108,10 @@ namespace VLISSIDES.Controllers
                             Name = item.Livre.Titre,
                             Images = new List<string> { encodedImgLivreUrl },
                         },
+
                     },
-                    Quantity = item.TypeLivre.Id == "2" ? 1 : item.Quantite,
-                    TaxRates = new List<string> { taxLivreRate.Id }
+                    Quantity = item.Quantite,
+
                 };
             }).ToList();
             var don = _context.Dons.FirstOrDefault(d => d.UserId == userId);
@@ -148,27 +152,32 @@ namespace VLISSIDES.Controllers
                 Customer = StripeCustomerId,
                 AllowPromotionCodes = true,
 
-                BillingAddressCollection = "required",
+                BillingAddressCollection = "required",// Demande à Stripe de collecter l'adresse de facturation du client
                 ShippingAddressCollection = new SessionShippingAddressCollectionOptions
                 {
-                    AllowedCountries = new List<string> { "CA", "US" },
+                    AllowedCountries = new List<string> { "CA", "US" }, // Limite les adresses de livraison aux États-Unis et au Canada
 
                 },
                 CustomerUpdate = new SessionCustomerUpdateOptions
                 {
-                    Address = "auto",
-                    Name = "auto",
-                    Shipping = "auto",
+                    Address = "auto", // Met à jour l'adresse du client lorsqu'il passe une commande
+                    Name = "auto", // Met à jour le nom du client lorsqu'il passe une commande
+                    Shipping = "auto", // Met à jour les informations d'expédition du client lorsqu'il passe une commande
+
+                },
+                Metadata = new Dictionary<string, string>
+                {
+                    { "type", "livre" }, // Ici, vous indiquez que le type d'achat est "livre"
 
                 },
                 InvoiceCreation = new SessionInvoiceCreationOptions
                 {
-                    Enabled = true,
+                    Enabled = true,// Créez une facture pour chaque session de paiement
                 },
-                //AutomaticTax = new SessionAutomaticTaxOptions
-                //{
-                //    Enabled = true,
-                //},
+                AutomaticTax = new SessionAutomaticTaxOptions
+                {
+                    Enabled = true, // Activez le calcul automatique des taxes
+                },
 
                 SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),
                 CancelUrl = Url.Action("Cancel", "Paiement", null, Request.Scheme),
@@ -182,5 +191,42 @@ namespace VLISSIDES.Controllers
 
             return Json(new { id = session.Id });
         }
+
+        public Adresse AdresseSelection(string id)
+        {
+            var adresse = _context.Adresses.FirstOrDefault(a => a.Id == id);
+
+            return adresse;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EnregistrerAdresse(ProfileModifierAdressesVM vm)
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            if (ModelState.IsValid)
+            {
+                var adresse = new Adresse
+                {
+                    UtilisateurLivraisonId = currentUserId,
+                    NoApartement = vm.NoApartement,
+                    NoCivique = vm.NoCivique,
+                    Rue = vm.Rue,
+                    Ville = vm.Ville,
+                    Province = vm.Province,
+                    Pays = vm.Pays,
+                    CodePostal = vm.CodePostal,
+                };
+                _context.Adresses.Add(adresse);
+                await _context.SaveChangesAsync(); // Utiliser la version asynchrone pour sauvegarder les changements
+                return Json(new
+                { success = true, message = "Adresse enregistrée avec succès." }); // Renvoyer une réponse JSON
+            }
+
+            // Si le modèle n'est pas valide, renvoyer les erreurs de validation
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            return Json(new { success = false, message = "Erreur de validation.", errors = errors });
+        }
+
     }
 }

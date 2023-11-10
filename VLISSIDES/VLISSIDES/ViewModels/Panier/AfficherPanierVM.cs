@@ -15,5 +15,6 @@ namespace VLISSIDES.ViewModels.Panier
         public string? UserId { get; set; }
 
         public int? Quantite { get; set; } = default!;
+        public List<LivreAuteur>? LivreAuteurs { get; set; }
     }
 }

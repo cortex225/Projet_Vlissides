@@ -1,16 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Stripe;
-using System.Security.Claims;
-using VLISSIDES.Data;
-using VLISSIDES.Interfaces;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Accueil;
-using VLISSIDES.ViewModels.Compte;
-
 namespace VLISSIDES.Controllers;
 
 public class CompteController : Controller
@@ -136,7 +123,6 @@ public class CompteController : Controller
     {
         var vm = new RegisterVM();
         vm.ReturnUrl = returnUrl;
-        // Populate Department list
         return View(vm);
     }
 
@@ -481,6 +467,9 @@ public class CompteController : Controller
             ModelState.AddModelError("Email", "Cet utilisateur existe déjà.");
         }
 
+
+
+
         ViewData["ReturnUrl"] = returnurl;
         return View(vm);
     }
@@ -505,4 +494,5 @@ public class CompteController : Controller
         var customer = await service.CreateAsync(options);
         return customer.Id;
     }
+
 }

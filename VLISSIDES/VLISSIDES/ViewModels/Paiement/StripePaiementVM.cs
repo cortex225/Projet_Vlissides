@@ -16,6 +16,7 @@ public class StripePaiementVM
     public double PrixTotal { get; set; }
 
     public ProfileModifierAdressesVM Adresse { get; set; }
+    public PaiementAdresseVM PaiementAdresseVM { get; set; }
 
     public string DonEcologie { get; set; }
 

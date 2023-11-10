@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using VLISSIDES.Models;
-
-namespace VLISSIDES.ViewModels.Accueil;
+﻿namespace VLISSIDES.ViewModels.Accueil;
 
 public class IndexAccueilVM
 {
@@ -9,6 +6,16 @@ public class IndexAccueilVM
     [DisplayName("Évenements")] public List<EventCardVM> Evenements { get; set; }
     [DisplayName("Promotions")] public List<PromotionCardVM> Promotions { get; set; }
     [DisplayName("Livres en vedette")] public List<LivreCardVM> Vedettes { get; set; }
+
+    [DisplayName("Recommendation pour vous")]
+    public List<LivreCardVM> Recommendations { get; set; }
+
+    [DisplayName("Catégories")] public List<string> Categories { get; set; }
+
+    [DisplayName("Livres catégories")] public List<LivreCardVM> LivreCategories { get; set; }
+    [DisplayName("Promotions")] public List<PromotionCardVM> Promotions { get; set; }
+
+    public ApplicationUser? user { get; set; }
     public IndexAccueilVM(IEnumerable<ServiceCardVM> services = default, IEnumerable<Evenement> evenement = default, IEnumerable<Promotions> promotions = default,
         IEnumerable<Livre> vedettes = default)
     {

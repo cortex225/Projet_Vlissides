@@ -26,5 +26,9 @@ public class Evenement
 
     [DisplayName("Prix")] public decimal? Prix { get; set; } = default!;
 
+    [DisplayName("Nombre de places réservées")]
+    public int? NbPlacesReservees { get; set; } = default!;
+
+
     [DisplayName("Réservations")] public ICollection<Reservation>? Reservations { get; set; }
 }
