@@ -166,7 +166,7 @@ namespace VLISSIDES.Controllers
                 Value = s.Id
             }).ToList();
 
-            return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
+            return PartialView("PartialViews/HistorieueCommandes/_ListeHistoriqueCommandesPartial", affichageCommandes);
         }
 
         public async Task<IActionResult> ShowRetournerConfirmation(string commandeId, string livreId)
