@@ -10,8 +10,6 @@
 <form asp-action="Ajouter" asp-controller="GestionLivres" enctype="multipart/form-data" id="FormLivreAjouter">
     @Html.AntiForgeryToken()
     <div class="modal-body">
-
-
         <div class="container d-flex justify-content-center">
 
             <div class="row">
@@ -157,7 +155,7 @@
             //    RequestVerificationToken: csrfToken,
             // },
         }).catch(error => {
-            console.error('�chec du fetch pour ajouter maison edition', error);
+            console.error('Échec du fetch pour ajouter maison edition', error);
         }).then((response) => {
             
                 return response.text();

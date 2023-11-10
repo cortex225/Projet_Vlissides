@@ -68,7 +68,7 @@ namespace VLISSIDES.Controllers
             return View(affichageCommandes);
         }
 
-        public IActionResult AfficherCommandes(string? motCles, string? criteres)
+        public IActionResult AfficherCommandes(string? motCles, string? criteres) 
         {
             var listCriteresValue = new List<string>();
             if (motCles != null) listCriteresValue = motCles.Split('|').ToList();

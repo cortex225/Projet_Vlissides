@@ -47,7 +47,5 @@ public class Livre
 
     [DisplayName("Livres commande")] public ICollection<LivreCommande>? LivreCommandes { get; set; }
 
-    [DisplayName("Promotions")] public ICollection<Promotions>? Promotions { get; set; }
-
     [DisplayName("Livres panier")] public ICollection<LivrePanier>? LivrePanier { get; set; }
 }
