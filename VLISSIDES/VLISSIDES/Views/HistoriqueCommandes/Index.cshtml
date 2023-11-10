@@ -176,4 +176,16 @@
             quantite.value = 1;
         }
     }
+
+    function collapse(commandeId = "") {
+        var div = document.getElementById(`collapseCommandeLivres_${commandeId}`);
+
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+        
+    }
 </script>
