@@ -12,6 +12,7 @@ public class Livre
     [DisplayName("Résumé")] public string Resume { get; set; } = default!;
 
     [DisplayName("Page couverture")] public string Couverture { get; set; } = default!;
+    [DisplayName("PDF")] public string? UrlNumerique { get; set; } = default!;
 
     [DisplayName("Nombre d'exemplaires disponibles")]
     public int NbExemplaires { get; set; } = default!;
