@@ -1,4 +1,14 @@
-﻿namespace VLISSIDES.Controllers
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Stripe;
+using Stripe.Checkout;
+using System.Security.Claims;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Paiement;
+
+namespace VLISSIDES.Controllers
 {
     public class PaiementController : Controller
     {
