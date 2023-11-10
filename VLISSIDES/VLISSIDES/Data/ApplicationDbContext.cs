@@ -174,7 +174,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Email = "vlissides2023@gmail.com",
             UserName = "admin1",
             NormalizedEmail = "vlissides2023@gmail.com".ToUpper(),
-            NormalizedUserName = "admin1".ToUpper(),
+            NormalizedUserName = "vlissides2023@gmail.com".ToUpper(),
             EmailConfirmed = true
         };
         //var adminHasher = password.HashPassword(UserAdmin, "Jaimelaprog1!");
