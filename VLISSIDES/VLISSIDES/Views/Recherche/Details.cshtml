@@ -1,4 +1,4 @@
-﻿@using VLISSIDES.ViewModels.Recherche;
+﻿@using VLISSIDES.ViewModels.GestionLivres;
 @model DetailsLivreVM
 @{
     var myURL = Context.Request.Host.Value;
@@ -6,135 +6,92 @@
 }
 
 
-<link rel="stylesheet" href="~/css/Details.css">
-<div class="container-fluid">
-
-<h1 class=" Titre-Page mx-auto">Détails du livre</h1>
-<div>
-    <div id="detailsDivPrincipal">
-        <input type="hidden" id="viewModelId" name="viewModelId" value="@Model.Id"/>
-        <div id="DetailsDIV">
-            @{
-                string couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
-            }
-
-            <img id="DetailsIMG" src="@Html.Raw(couverture)"/>
+<link rel="stylesheet" href="~/css/Rechercher/Details.css">
+<div id="detailsDivPrincipal" class="d-flex justify-content-around flex-wrap">
+    <div id="DetailsDIV">
+        @{
+            string couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
+        }
+        <img id="DetailsIMG" src="@Html.Raw(couverture)" />
             <div class="Container-Evaluation px-4">
                 <p > Évaluation de nos lecteurs</p>
                 <partial name="PartialViews/Accueil/_Etoiles" model=@Model.Note />
-
             </div>
+    </div>
 
+    <div id="DetailsInfo">
+        <h2>@Model.Titre</h2>
+
+        <div id="checkboxTypeLivre">
         </div>
 
-        <div id="DetailsInfo">
-            <h2 class="Details-Titre">@Model.Titre</h2>
+        @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
+        {
+            <p>
+                <strong>Aucun Prix</strong>
+            </p>
+        }
+        else
+        {
+            @if (!Model.Papier.Equals(null))
+            {
+                <p>Prix neuf: @Model.Papier $</p>
+            }
+            @if (!Model.Numerique.Equals(null))
+            {
+                <p>Prix numérique: @Model.Numerique $</p>
+            }
+        }
+
+
+        <p>Auteur(s):  </p>
+        <ol>
             @foreach (var auteur in Model.Auteurs)
             {
-                <p class="Detail-Auteurs">Auteur(s): @auteur</p>
+                <li>@auteur</li>
             }
+        </ol>
 
-            <p class="Details-Resume">
-                @Model.Resume
-            </p>
-
-
-           <div class="price-options">
-               @if (!Model.Papier.Equals(null))
-               {
-                   <div class="price-container">
-                       <button class="price-button paper" onclick="toggleActive(this, 'paper')">
-                           <i class="fas fa-book icon"></i>
-                           <div class="price-info">
-                               <span class="type-name">Papier</span>
-                               <span class="price">@Model.Papier $</span>
-                           </div>
-                       </button>
-                       <div id="quantity-selector-paper" class="quantity-selector" style="display: none;">
-                           <button class="quantity-btn" onclick="changeQuantity('decrease', 'paper')">-</button>
-                           <input type="number" id="quantity-paper" class="quantity-input" value="1" min="1">
-                           <button class="quantity-btn" onclick="changeQuantity('increase', 'paper')">+</button>
-                       </div>
-                   </div>
-               }
-               @if (!Model.Numerique.Equals(null))
-               {
-                   <div class="price-container">
-                       <button class="price-button digital" onclick="toggleActive(this, 'digital')">
-                           <i class="fas fa-tablet-alt icon"></i>
-                           <div class="price-info">
-                               <span class="type-name">Numérique</span>
-                               <span class="price">@Model.Numerique $</span>
-                           </div>
-                       </button>
-                   </div>
-               }
-           </div>
-
-
-          <div class="Details-More-Info card">
-
-              <div class="card-body">
-                  <p class="info-item"><span class="info-title">ISBN:</span> @Model.ISBN</p>
-                  <p class="info-item"><span class="info-title">Date de publication:</span> @Model.DatePublication</p>
-                  <p class="info-item"><span class="info-title">Langue:</span> @Model.Langue</p>
-                  <p class="info-item"><span class="info-title">Catégorie(s):</span>
-                      <ul class="categories-list">
-                          @foreach (var categorie in Model.Categories)
-                          {
-                              <li class="badge badge-primary">@categorie</li>
-                          }
-                      </ul>
-                  </p>
-                  <p class="info-item"><span class="info-title">Éditeur:</span> @Model.MaisonEdition</p>
-                  <p class="info-item"><span class="info-title">Nombre de pages:</span> @Model.NbPages</p>
-              </div>
-          </div>
-
-
-
-        </div>
-        <div>
-            @if (!Model.Papier.Equals(null)) //1 = "Neuf"
+        <p>Catégorie(s):  </p>
+        <ol>
+            @foreach (var categorie in Model.Categories)
             {
-                <br/>
-                @if (Model.NbExemplaires > 0)
-                {
-                    @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
-                    {
-                        <form>
-                            @Html.AntiForgeryToken()
-                            <p class="stock-restant">
-                                <span class="stock-indicator"></span>
-                                En stock (<span id="stock-count">@Model.NbExemplaires</span>restants )
-                            </p>
-
-                            <div class="btn-group" role="group" aria-label="Basic example">
-
-                                <a id="ajouterNeuf" class="btn btn-primary btnPanier">
-                                    <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
-                                </a>
-                                <input type="number" id="quantite" name="quantite" min="1" max="@Model.NbExemplaires" step="1" value="1">
-
-                                <div id="preorder-alert" class="alert alert-warning d-none">
-                                    Vous avez atteint la quantité maximale disponible en inventaire.
-                                    <button id="preorder-confirm" class="btn btn-primary btn-sm">Précommander le surplus</button>
-                                </div>
-                            </div>
-                        </form>
-                    }
-
-                    else
-                    {
-                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
-                    }
-                }
-                else
-                {
-                    <p style="font-weight: bold; color: red;">Livre neuf en rupture de stock</p>
-                }
+                <li>@categorie</li>
             }
-            @if (!Model.Numerique.Equals(null)) //2 = "Numérique"
+        </ol>
+
+        <p>Date publication: @Model.DatePublication</p>
+        <p>Éditeur: @Model.MaisonEdition</p>
+        <p>Nombre de pages: @Model.NbPages</p>
+        <strong>Résumé:</strong>
+        <p>@Model.Resume</p>
+        <br />
+    </div>
+    @if (!Model.Papier.Equals(null) && User.IsInRole(RoleName.MEMBRE))//1 = "Neuf"
+    {
+        <div id="commande" class="btn-group" role="group" aria-label="Basic example">
+            @if (Model.NbExemplaires > 0)
+            {
+                <form>
+                    @Html.AntiForgeryToken()
+                    <a id="ajouterNeuf" class="btn btn-primary btnPanier">
+                        <i class="fa-solid fa-basket-shopping"></i>Ajouter au panier (Neuf)
+                    </a>
+                    <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+
+                    <input type="number" id="quantite" name="quantite" min="1" max="1000" step="1" value="1">
+
+                    <div id="preorder-alert" class="alert alert-warning d-none">
+                        Vous avez atteint la quantité maximale disponible en inventaire.
+                        <button id="preorder-confirm" class="btn btn-primary btn-sm">Précommander le surplus</button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <p style="font-weight: bold; color: red;">Livre neuf en rupture de stock</p>
+            }
+            @if (!Model.Numerique.Equals(null) && User.IsInRole(RoleName.MEMBRE))//2 = "Numérique"
             {
                 @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
                 {
@@ -145,10 +102,10 @@
                         </a>
                     </form>
                 }
+
             }
         </div>
-    </div>
-
+    }
 </div>
 <div class="modal" tabindex="-1" id="preorderModal">
     <div class="modal-dialog">
@@ -167,29 +124,27 @@
         </div>
     </div>
 </div>
-</div>
+
+<script>
+    function getNbArticles() {
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Panier/NbArticles",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    $("#nbArticles").html(data).animate({ fontSize: "30px" }, 1000);
+                }
+            });
+
+        }
+        );
+    }
+</script>
 <script>
     //Script pour URL
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 </script>
-<script>
-
-function getNbArticles() {
-$(document).ready(function () {
-        $.ajax({
-            url: BASE_URL+"/Panier/NbArticles",
-            type: "GET",
-            dataType: "json",
-            success: function (data) {
-                $("#nbArticles").html(data).animate({fontSize: "30px"}, 1000);
-            }
-        });
-
-    }
-);
-}
-</script>
-
 <script type="text/javascript">
     var ajouterNeuf = document.getElementById("ajouterNeuf");
     if (ajouterNeuf) {
@@ -201,13 +156,13 @@ $(document).ready(function () {
         ajouterNumerique.addEventListener("click", ajouterLivreNumeriqueDetails);
     }
 
-    async function ajouterLivreNeufDetails(){
+    async function ajouterLivreNeufDetails() {
 
         var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
         var quantitee = document.getElementById("quantite").value;
 
-        var viewModelId = document.getElementById("viewModelId").value;
+        var viewModelId = @Model.Id;
 
         fetch(BASE_URL + '/Panier/AjouterPanier', {
             method: 'POST',
@@ -216,36 +171,36 @@ $(document).ready(function () {
                 'RequestVerificationToken': csrfToken
             },
             body: JSON.stringify({
-                livreAjouteId: viewModelId,
+                livreAjouteId: @Model.Id,
                 quantitee: quantitee,
                 typeId: "1"
             })
         })
-        .then(response => {
-            // Vérifier si la réponse est au format JSON
-            if (!response.ok) {
-                           getNbArticles();
+            .then(response => {
+                // Vérifier si la réponse est au format JSON
+                if (!response.ok) {
+                    getNbArticles();
 
-                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
-            }
+                    throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+                }
 
-            return response.json();
-        })
-        .then(data => {
+                return response.json();
+            })
+            .then(data => {
                 // Traiter les données JSON
                 console.log(data);
-        })
-        .catch(error => {
-            // Gérer les erreurs
-            console.error("Erreur lors de la requête FETCH:", error);
-        });
+            })
+            .catch(error => {
+                // Gérer les erreurs
+                console.error("Erreur lors de la requête FETCH:", error);
+            });
     }
 
-    async function ajouterLivreNumeriqueDetails(){
+    async function ajouterLivreNumeriqueDetails() {
 
         var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
-        var viewModelId = document.getElementById("viewModelId").value;
+        var viewModelId = @Model.Id;
 
         fetch(BASE_URL + '/Panier/AjouterPanier', {
             method: 'POST',
@@ -254,65 +209,51 @@ $(document).ready(function () {
                 'RequestVerificationToken': csrfToken
             },
             body: JSON.stringify({
-                livreAjouteId: viewModelId,
+                livreAjouteId: @Model.Id,
                 quantitee: null,
                 typeId: "2"
             })
         })
-        .then(response => {
-            // Vérifier si la réponse est au format JSON
-            if (!response.ok) {
-                                getNbArticles();
+            .then(response => {
+                // Vérifier si la réponse est au format JSON
+                if (!response.ok) {
+                    getNbArticles();
 
-                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
-            }
+                    throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+                }
 
-            return response.json();
-        })
-        .then(data => {
+                return response.json();
+            })
+            .then(data => {
                 // Traiter les données JSON
                 console.log(data);
-        })
-        .catch(error => {
-            // Gérer les erreurs
-            console.error("Erreur lors de la requête FETCH:", error);
-        });
+            })
+            .catch(error => {
+                // Gérer les erreurs
+                console.error("Erreur lors de la requête FETCH:", error);
+            });
     }
 </script>
 
 <script>
-$(document).ready(function () {
-    $('#quantite').on('input', function () {
-        var maxQuantity = parseInt($(this).attr('max'));
-        var currentQuantity = parseInt($(this).val());
+    $(document).ready(function () {
+        $('#quantite').on('input', function () {
+            var maxQuantity = parseInt($(this).attr('max'));
+            var currentQuantity = parseInt($(this).val());
 
-        if (currentQuantity > maxQuantity) {
-            $('#preorderModal').modal('show');
-        }
+            if (currentQuantity > maxQuantity) {
+                $('#preorderModal').modal('show');
+            }
+        });
+
+        $('#confirmPreorder').on('click', function () {
+            // Ici, vous pouvez ajouter une requête AJAX pour envoyer la confirmation de précommande au serveur
+            $('#preorderModal').modal('hide');
+            alert('Votre précommande a été confirmée.');
+        });
+
+        getNbArticles();
     });
-
-    $('#confirmPreorder').on('click', function () {
-        // Ici, vous pouvez ajouter une requête AJAX pour envoyer la confirmation de précommande au serveur
-        $('#preorderModal').modal('hide');
-        alert('Votre précommande a été confirmée.');
-    });
-
-                                getNbArticles();
-});
-
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', (event) => {
-  var stockCount = parseInt(document.getElementById('stock-count').textContent);
-  var stockIndicator = document.querySelector('.stock-indicator');
-
-  if (stockCount > 0) {
-    stockIndicator.classList.add('in-stock');
-  } else {
-    stockIndicator.classList.add('out-of-stock');
-  }
-});
 
 </script>
 
@@ -323,8 +264,8 @@ function toggleActive(button, type) {
     if (button.classList.contains('active')) {
         selector.style.display = 'flex';
         button.style.backgroundColor = '#386bc0';
+        button.classList.add('btn-primary');
         button.style.color = 'white';
-
     } else {
         selector.style.display = 'none';
         button.style.backgroundColor = '#ffffff';
