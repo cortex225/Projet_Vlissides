@@ -175,7 +175,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             UserName = "admin@admin.com",
             NormalizedEmail = "admin@admin.com".ToUpper(),
             NormalizedUserName = "admin@admin.com".ToUpper(),
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            IsBanned = false
         };
         //var adminHasher = password.HashPassword(UserAdmin, "Jaimelaprog1!");
         UserAdmin.PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
@@ -192,7 +193,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             NormalizedEmail = "employe@employe.com".ToUpper(),
             NormalizedUserName = "employe@employe.com".ToUpper(),
             EmailConfirmed = true,
-            AdressePrincipaleId = ""
+            AdressePrincipaleId = "",
+            IsBanned = false
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserEmploye.PasswordHash =
@@ -211,7 +213,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             NormalizedUserName = "membre@membre.com".ToUpper(),
             EmailConfirmed = true,
             DateAdhesion = DateTime.Now,
-            AdressePrincipaleId = ""
+            AdressePrincipaleId = "",
+            IsBanned = false
+
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserMembre.PasswordHash =

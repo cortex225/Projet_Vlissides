@@ -1,14 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Stripe;
-using Stripe.Checkout;
-using System.Security.Claims;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Paiement;
-
-namespace VLISSIDES.Controllers
+﻿namespace VLISSIDES.Controllers
 {
     public class PaiementController : Controller
     {
@@ -70,7 +60,7 @@ namespace VLISSIDES.Controllers
             // Récupere les données de LivrePanier basées sur l'identifiant de l'utilisateur
             var panierItems = _context.LivrePanier
                 .Where(lp => lp.UserId == userId)
-                .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+                .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres).ThenInclude(livretypelivre => livretypelivre.TypeLivre)
                 .ToList();
             //Tax livre
 
@@ -106,7 +96,7 @@ namespace VLISSIDES.Controllers
                             Images = new List<string> { encodedImgLivreUrl },
                         },
                     },
-                    Quantity = item.Quantite,
+                    Quantity = item.TypeLivre.Id == "2" ? 1 : item.Quantite,
                     TaxRates = new List<string> { taxLivreRate.Id }
                 };
             }).ToList();
