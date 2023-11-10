@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    
+    ViewData["Title"] = "Événements";
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+
+}
+@model VLISSIDES.ViewModels.Evenements.EvenementsIndexVM
+
+<link rel="stylesheet" href="~/css/event-card.css"asp-append-version="true">
+
+<div class="container-fluid">
+    <h1>Les événements</h1>
+    <div class="row">
+        <div class="d-flex flex-wrap justify-content-around">
+            @foreach (var item in Model.Evenements)
+            {
+                <div style="width:40%; ">
+                    <partial name="PartialViews/Evenements/_EvenementCardPartial" model="@item" />
+                </div>
+                
+            }
+        </div>
+        
+    </div>
+</div>
+<script>const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);</script>
+<script type="text/javascript">
+    function Reserver(id="") {
+        var stripe = Stripe('pk_test_51O3gRDAIrJUcHyNnVbRxxrTEmN0ndzgrocNP008WZgRBHCFJNXhNXnXYyfxU1im6XjmLPKmJT1Tq64eNf5vIysOu00LWHU5Ohx');
+
+        return fetch(BASE_URL + '/Evenements/CreateCheckoutSessionEvenement?id='+id, {
+            method: 'POST',
+        }).then(function (response) {
+            return response.json();
+        }).then(function (session) {
+            return stripe.redirectToCheckout({ sessionId: session.id });
+        }).then(function (result) {
+
+            if (result.error) {
+                alert(result.error.message);
+            }
+        }).catch(function (error) {
+            console.error('Error:', error);
+        });
+    }
+
+</script>
+
+
+<script src="https://js.stripe.com/v3/"></script>
+

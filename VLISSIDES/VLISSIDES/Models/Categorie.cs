@@ -18,4 +18,6 @@ public class Categorie
     [DisplayName("Enfants")] public ICollection<Categorie>? Enfants { get; set; } = default!;
 
     [DisplayName("Livres")] public ICollection<LivreCategorie>? Livres { get; set; }
+
+    [DisplayName("Promotions reliées")] public ICollection<Promotions> Promotions { get; set; } = default!;
 }

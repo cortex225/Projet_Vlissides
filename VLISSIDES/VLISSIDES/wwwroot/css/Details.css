@@ -47,8 +47,8 @@
 /* Stock indicator styles */
 .stock-indicator {
     display: inline-block;
-    width: 10px; /* Adjust size as needed */
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     margin-right: 5px;
     vertical-align: middle;
@@ -56,12 +56,12 @@
 
 /* In-stock indicator color */
 .in-stock {
-    background-color: #1D8514; /* Green color */
+    background-color: #1D8514!important;
 }
 
 /* Out-of-stock indicator color */
 .out-of-stock {
-    background-color: #FF0000; /* Red color */
+    background-color: #FF0000!important;
 }
 
 /* Button group styles */
@@ -198,12 +198,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: none;
     margin-top: 20px;
+    width: 150%;
 }
 
 
 .info-item {
-    padding: 3px 0;
-    line-height: 0.5;
+    line-height: 0;
     color: #333;
 }
 

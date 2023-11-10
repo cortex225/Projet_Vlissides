@@ -22,21 +22,6 @@ namespace VLISSIDES.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("LivrePromotions", b =>
-                {
-                    b.Property<string>("LivresId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PromotionsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LivresId", "PromotionsId");
-
-                    b.HasIndex("PromotionsId");
-
-                    b.ToTable("LivrePromotions");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -733,6 +718,9 @@ namespace VLISSIDES.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("PrixTotal")
                         .HasColumnType("decimal(18,2)");
 
@@ -806,6 +794,9 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("NbPlacesMembre")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NbPlacesReservees")
                         .HasColumnType("int");
 
                     b.Property<string>("Nom")
@@ -1060,6 +1051,16 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AuteurId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CategorieId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CodePromo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateDebut")
                         .HasColumnType("datetime2");
 
@@ -1073,14 +1074,33 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LivreId")
+                    b.Property<int?>("LivresAcheter")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LivresGratuits")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MaisonEditionId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Nom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Rabais")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("PourcentageRabais")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypePromotion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuteurId");
+
+                    b.HasIndex("CategorieId");
+
+                    b.HasIndex("MaisonEditionId");
 
                     b.ToTable("Promotions");
                 });
@@ -1260,21 +1280,6 @@ namespace VLISSIDES.Migrations
                             DateAdhesion = new DateTime(2023, 11, 9, 10, 24, 37, 397, DateTimeKind.Local).AddTicks(4633),
                             NoMembre = "123456"
                         });
-                });
-
-            modelBuilder.Entity("LivrePromotions", b =>
-                {
-                    b.HasOne("VLISSIDES.Models.Livre", null)
-                        .WithMany()
-                        .HasForeignKey("LivresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VLISSIDES.Models.Promotions", null)
-                        .WithMany()
-                        .HasForeignKey("PromotionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1538,6 +1543,27 @@ namespace VLISSIDES.Migrations
                     b.Navigation("TypeLivre");
                 });
 
+            modelBuilder.Entity("VLISSIDES.Models.Promotions", b =>
+                {
+                    b.HasOne("VLISSIDES.Models.Auteur", "Auteur")
+                        .WithMany("Promotions")
+                        .HasForeignKey("AuteurId");
+
+                    b.HasOne("VLISSIDES.Models.Categorie", "Categorie")
+                        .WithMany("Promotions")
+                        .HasForeignKey("CategorieId");
+
+                    b.HasOne("VLISSIDES.Models.MaisonEdition", "MaisonEdition")
+                        .WithMany("Promotions")
+                        .HasForeignKey("MaisonEditionId");
+
+                    b.Navigation("Auteur");
+
+                    b.Navigation("Categorie");
+
+                    b.Navigation("MaisonEdition");
+                });
+
             modelBuilder.Entity("VLISSIDES.Models.Reservation", b =>
                 {
                     b.HasOne("VLISSIDES.Models.Evenement", "Evenement")
@@ -1569,6 +1595,8 @@ namespace VLISSIDES.Migrations
             modelBuilder.Entity("VLISSIDES.Models.Auteur", b =>
                 {
                     b.Navigation("Livres");
+
+                    b.Navigation("Promotions");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Categorie", b =>
@@ -1576,6 +1604,8 @@ namespace VLISSIDES.Migrations
                     b.Navigation("Enfants");
 
                     b.Navigation("Livres");
+
+                    b.Navigation("Promotions");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Commande", b =>
@@ -1615,6 +1645,8 @@ namespace VLISSIDES.Migrations
             modelBuilder.Entity("VLISSIDES.Models.MaisonEdition", b =>
                 {
                     b.Navigation("Livres");
+
+                    b.Navigation("Promotions");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.TypeLivre", b =>

@@ -104,7 +104,8 @@ namespace VLISSIDES.Migrations
                     Lieu = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NbPlaces = table.Column<int>(type: "int", nullable: false),
                     NbPlacesMembre = table.Column<int>(type: "int", nullable: false),
-                    Prix = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                    Prix = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    NbPlacesReservees = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -145,23 +146,6 @@ namespace VLISSIDES.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Paniers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Promotions",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rabais = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DateDebut = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateFin = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LivreId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Promotions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -354,6 +338,45 @@ namespace VLISSIDES.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Promotions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateDebut = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateFin = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AuteurId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CategorieId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MaisonEditionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TypePromotion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LivresAcheter = table.Column<int>(type: "int", nullable: true),
+                    LivresGratuits = table.Column<int>(type: "int", nullable: true),
+                    PourcentageRabais = table.Column<int>(type: "int", nullable: true),
+                    CodePromo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Promotions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Promotions_Auteurs_AuteurId",
+                        column: x => x.AuteurId,
+                        principalTable: "Auteurs",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Promotions_Categories_CategorieId",
+                        column: x => x.CategorieId,
+                        principalTable: "Categories",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Promotions_MaisonEditions_MaisonEditionId",
+                        column: x => x.MaisonEditionId,
+                        principalTable: "MaisonEditions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Commandes",
                 columns: table => new
                 {
@@ -362,7 +385,8 @@ namespace VLISSIDES.Migrations
                     PrixTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     MembreId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AdresseId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StatutCommandeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    StatutCommandeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -383,7 +407,8 @@ namespace VLISSIDES.Migrations
                         name: "FK_Commandes_StatutCommande_StatutCommandeId",
                         column: x => x.StatutCommandeId,
                         principalTable: "StatutCommande",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -428,7 +453,6 @@ namespace VLISSIDES.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Commentaire = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Note = table.Column<int>(type: "int", nullable: false),
                     DateEvaluation = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MembreId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -529,7 +553,8 @@ namespace VLISSIDES.Migrations
                 {
                     LivreId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CommandeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Quantite = table.Column<int>(type: "int", nullable: false)
+                    Quantite = table.Column<int>(type: "int", nullable: false),
+                    PrixAchat = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -582,30 +607,6 @@ namespace VLISSIDES.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LivrePromotions",
-                columns: table => new
-                {
-                    LivresId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PromotionsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LivrePromotions", x => new { x.LivresId, x.PromotionsId });
-                    table.ForeignKey(
-                        name: "FK_LivrePromotions_Livres_LivresId",
-                        column: x => x.LivresId,
-                        principalTable: "Livres",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LivrePromotions_Promotions_PromotionsId",
-                        column: x => x.PromotionsId,
-                        principalTable: "Promotions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LivreTypeLivres",
                 columns: table => new
                 {
@@ -635,25 +636,25 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0", "8790a61e-b7b2-477f-b285-60f04659c010", "Employe", "EMPLOYE" },
-                    { "1", "1f7a99e3-d183-44ca-8068-d41ef2708f2d", "Membre", "MEMBRE" },
-                    { "2", "04e9b305-3fca-400f-ae3b-3bf146fdefd6", "Admin", "ADMIN" }
+                    { "0", "41e7af36-44ea-4136-ae49-963cb47cbe13", "Employe", "EMPLOYE" },
+                    { "1", "a091bfec-14ec-4905-ba7f-72f7107c8d47", "Membre", "MEMBRE" },
+                    { "2", "b37844cd-6e36-435e-a599-6f611b0413ba", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "0", 0, null, "6b75ec80-e88f-4e92-b6f1-11c10fda91b7", null, null, "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "6fa5d831-bf5a-4268-8ee8-f66fe7808359", false, "admin@admin.com" });
+                values: new object[] { "0", 0, null, "62b9671c-9d54-42bb-94ec-775739650bcb", null, null, "ApplicationUser", "vlissides2023@gmail.com", true, false, null, "ADMIN", "VLISSIDES2023@GMAIL.COM", "VLISSIDES2023@GMAIL.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "d288c407-9ad4-43cd-b297-fe987b4707de", false, "admin1" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NoEmploye", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "", "4cfb72b4-3f1b-4a34-bdef-845b7c0f8eb4", null, null, "Employe", "employe@employe.com", true, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "7bc15b22-81b6-4557-82b7-89080dc007f8", false, "employe@employe.com" });
+                values: new object[] { "1", 0, "", "1ec27f69-e118-484b-9226-73f67e181376", null, null, "Employe", "employe@employe.com", true, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "949f3324-4e21-40f0-8559-ce2916dfeda2", false, "employe@employe.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "CommandeId", "ConcurrencyStamp", "CoverImageUrl", "DateAdhesion", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NoMembre", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "ReservationId", "SecurityStamp", "StripeCustomerId", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "", null, "23889b21-b548-4f52-98e7-346ece87235f", null, new DateTime(2023, 10, 22, 15, 2, 35, 383, DateTimeKind.Local).AddTicks(8970), null, "Membre", "membre@membre.com", true, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "019a9ff0-2d5e-4be0-bd1d-f49a3e4ce381", null, false, "membre@membre.com" });
+                values: new object[] { "2", 0, "", null, "e644dcd7-3ccd-45ee-bb61-5a679132fcd9", null, new DateTime(2023, 11, 9, 13, 30, 25, 636, DateTimeKind.Local).AddTicks(670), null, "Membre", "membre@membre.com", true, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "ae7e274d-df22-40da-89dd-b674339cdf15", null, false, "membre@membre.com" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -881,11 +882,6 @@ namespace VLISSIDES.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LivrePromotions_PromotionsId",
-                table: "LivrePromotions",
-                column: "PromotionsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Livres_CommandeId",
                 table: "Livres",
                 column: "CommandeId");
@@ -904,6 +900,21 @@ namespace VLISSIDES.Migrations
                 name: "IX_LivreTypeLivres_TypeLivreId",
                 table: "LivreTypeLivres",
                 column: "TypeLivreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Promotions_AuteurId",
+                table: "Promotions",
+                column: "AuteurId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Promotions_CategorieId",
+                table: "Promotions",
+                column: "CategorieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Promotions_MaisonEditionId",
+                table: "Promotions",
+                column: "MaisonEditionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_EvenementId",
@@ -952,13 +963,13 @@ namespace VLISSIDES.Migrations
                 name: "LivrePanier");
 
             migrationBuilder.DropTable(
-                name: "LivrePromotions");
-
-            migrationBuilder.DropTable(
                 name: "LivreTypeLivres");
 
             migrationBuilder.DropTable(
                 name: "Paniers");
+
+            migrationBuilder.DropTable(
+                name: "Promotions");
 
             migrationBuilder.DropTable(
                 name: "Reservations");
@@ -967,19 +978,16 @@ namespace VLISSIDES.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Auteurs");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Promotions");
-
-            migrationBuilder.DropTable(
                 name: "Livres");
 
             migrationBuilder.DropTable(
                 name: "TypeLivres");
+
+            migrationBuilder.DropTable(
+                name: "Auteurs");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Evenements");
