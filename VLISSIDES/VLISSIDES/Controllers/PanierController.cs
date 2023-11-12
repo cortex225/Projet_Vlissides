@@ -30,7 +30,9 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
+            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId)
+                .Include(a => a.Livre.LivreAuteurs)
+                .ToList();
 
             var listeArticleVM = article.Select(a => new AfficherPanierVM
             {
@@ -39,7 +41,9 @@ namespace VLISSIDES.Controllers
                 TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
                 Prix = (double)_context.LivreTypeLivres.FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
                 UserId = a.UserId,
-                Quantite = a.Quantite
+                Quantite = a.Quantite,
+                LivreAuteurs = _context.LivreAuteurs.Where(la => la.LivreId == a.LivreId).ToList()
+
             }).ToList();
             
 

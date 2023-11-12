@@ -60,4 +60,7 @@ public class EventCardVM
 
     [DisplayName("Date de fin de l'evenement")]
     public DateTime? DateFin { get; set; }
+
+    public int NbPlacesReservees { get; set; }
+    public string Id { get; set; }
 }
