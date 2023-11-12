@@ -202,14 +202,18 @@ namespace VLISSIDES.Controllers
                 Quantite = quantite
             };
 
-            //PaymentIntent paymentIntent = _context.Commandes.FirstOrDefault(c=>c.Id == model.CommandeId).;
+            //recupperer l'objet payment intent grace à l'id payment intent de la commande en bd
+            PaymentIntentService servicePaymentIntent = new PaymentIntentService();
+            var paymentIntent = servicePaymentIntent.Get(lc.Commande.PaymentIntentId);
+
+
 
             StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
 
             var options = new RefundCreateOptions
             {
-                //Charge = "ch_3OADrI2eZvKYlo2C0W9LzCya",
-                //PaymentIntent
+
+                PaymentIntent = paymentIntent.Id,
                 Amount = (long?)(model.Quantite * (double)model.PrixAchat),
                 Currency = "cad"
             };
