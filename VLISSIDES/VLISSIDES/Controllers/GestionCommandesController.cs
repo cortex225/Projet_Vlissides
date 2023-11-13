@@ -52,7 +52,8 @@ namespace VLISSIDES.Controllers
                 AdresseId = c.AdresseId,
                 LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
                 StatutId = c.StatutCommande.Id,
-                StatutNom = c.StatutCommande.Nom
+                StatutNom = c.StatutCommande.Nom,
+                EnDemandeAnnulation = c.EnDemandeAnnulation
             }).OrderBy(c => c.DateCommande).ToList();
 
             var affichageCommandes = new AffichageCommandeVM
@@ -69,7 +70,7 @@ namespace VLISSIDES.Controllers
             return View(affichageCommandes);
         }
 
-        public IActionResult AfficherCommandes(string? motCles, string? criteres) 
+        public IActionResult AfficherCommandes(string? motCles, string? criteres)
         {
             var listCriteresValue = new List<string>();
             if (motCles != null) listCriteresValue = motCles.Split('|').ToList();
@@ -101,12 +102,13 @@ namespace VLISSIDES.Controllers
                 AdresseId = c.AdresseId,
                 LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
                 StatutId = c.StatutCommande.Id,
-                StatutNom = c.StatutCommande.Nom
+                StatutNom = c.StatutCommande.Nom,
+                EnDemandeAnnulation = c.EnDemandeAnnulation
             }).OrderByDescending(c => c.DateCommande).ToList();
 
             if (listCriteres.Any(c => c == "rechercherCommande"))
             {
-                if (listCriteresValue[2] != "")
+                if (listCriteresValue[3] != "")
                     listeCommandeVM = listeCommandeVM.Where(c => c.Id == listCriteresValue[2]).ToList();
             }
 
@@ -127,6 +129,18 @@ namespace VLISSIDES.Controllers
                 if (listCriteresValue[1] != "0")
                 {
                     listeCommandeVM = listeCommandeVM.Where(c => c.StatutId == listCriteresValue[1].ToString()).ToList();
+                }
+            }
+
+            if (listCriteres.Any(c => c == "demandeRemboursement"))
+            {
+                if (listCriteresValue[2] == "2")
+                {
+                    listeCommandeVM = listeCommandeVM.Where(c => c.EnDemandeAnnulation == true).ToList();
+                }
+                if (listCriteresValue[2] == "3")
+                {
+                    listeCommandeVM = listeCommandeVM.Where(c => c.LivreCommandes.Any(lc => lc.EnDemandeRetourner == true)).ToList();
                 }
             }
 

@@ -19,5 +19,7 @@ namespace VLISSIDES.ViewModels.GestionCommandes
         [DisplayName("Id du statut de la commande")] public string StatutId { get; set; } = default!;
 
         [DisplayName("Statut de la commande")] public string StatutNom { get; set; } = default!;
+
+        [DisplayName("Demande d'annulation")] public bool EnDemandeAnnulation { get; set; } = default!;
     }
 }

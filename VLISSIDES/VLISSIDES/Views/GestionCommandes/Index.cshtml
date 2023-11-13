@@ -22,7 +22,7 @@
             <div class="d-flex justify-content-around">
                 <div>
                     <h5>Trier par date:</h5>
-                    <div class="d-flex">
+                    <div class="form-group d-flex">
                         <select id="trierDateSelect" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
                             <option value="1">Plus récent</option>
                             <option value="2">Plus ancien</option>
@@ -32,8 +32,18 @@
                 <div>
                     <h5>Filtrer par statut:</h5>
                     <div class="form-group d-flex">
-                        <select id="filtrerStatutSelect" asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-control" onchange="applyFilter(event)">
+                        <select id="filtrerStatutSelect" asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-select" onchange="applyFilter(event)">
                             <option value="0">Tous</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <h5>En attente de rembourssement:</h5>
+                    <div class="form-group d-flex">
+                        <select id="filtrerDemandeRemboursement" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
+                            <option value="1">Non appliqué</option>
+                            <option value="2">Demandes d'annulation de commande</option>
+                            <option value="3">Demandes de retour de livre(s)</option>
                         </select>
                     </div>
                 </div>
@@ -59,7 +69,7 @@
             <div class="col-sm-2 d-flex justify-content-center">
                 <h5>Date</h5>
             </div>
-            <div class="col-sm-3 d-flex justify-content-center">
+            <div class="col-sm-2 d-flex justify-content-center">
                 <h5>Statut</h5>
             </div>
         </div>
@@ -88,9 +98,12 @@
 <script type="text/javascript">
     function saveStatut(id = "") {
         
-        var statutVal = document.getElementById(id + ' statutSelectList').value;
+        console.log(id.toString());
 
-        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
+        var idString = `${id}`.toString();
+        var statutVal = document.getElementById(idString + ' statutSelectList').value;
+
+        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${idString}&statut=${statutVal}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -115,6 +128,10 @@
         statutFiltre = document.getElementById("filtrerStatutSelect").value;
         partieMotCles = partieMotCles.concat(`${statutFiltre}|`);
         partieCriteres = partieCriteres.concat("filtrerStatut|");
+
+        demandeRemboursement = document.getElementById("filtrerDemandeRemboursement").value;
+        partieMotCles = partieMotCles.concat(`${demandeRemboursement}|`);
+        partieCriteres = partieCriteres.concat("demandeRemboursement|");
 
         rechercheValue = document.getElementById("inputRechercherCommande").value;
         if (rechercheValue != null) {
