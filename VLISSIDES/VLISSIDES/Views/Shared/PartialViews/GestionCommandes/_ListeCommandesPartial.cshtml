@@ -21,7 +21,7 @@
                 <div class="col-sm-2 d-flex justify-content-center">
                     <p class="my-auto">@commande.DateCommande</p>
                 </div>
-                <div class="col-sm-3 form-group d-flex justify-content-center">
+                <div class="col-sm-2 form-group d-flex justify-content-center">
                     <div>
                         <select id="@commande.Id statutSelectList" class="form-select my-auto" style="width:auto;" onchange="enableButton('@commande.Id')" name="StatutId">
                             @foreach (var statut in Model.SelectListStatut)
@@ -49,6 +49,19 @@
                         <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" data-toggle="collapse" data-target="#collapseCommandeLivres_@commande.Id"></i>
       
                 </div>
+                <div class="col-sm-1 d-flex flex-row justify-content-center align-self-md-center">
+
+                    @if(commande.EnDemandeAnnulation == true)
+                    {
+                        <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Annulation</span>
+                    }
+                    @if(commande.LivreCommandes.Any(lc => lc.EnDemandeRetourner == true))
+                    {
+                        <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Retour</span>
+                    }
+
+                </div>
+
             </div>
             <div class="collapse" id="collapseCommandeLivres_@commande.Id">
                 <hr>
@@ -57,7 +70,7 @@
                     <div>
                         @foreach (var item in commande.LivreCommandes)
                         {
-                            <div class="row">
+                            <div class="row my-2">
                                 <div class="col-sm-3 px-4">
                                     @item.Quantite x @item.Livre.Titre
                                 </div>
@@ -67,9 +80,23 @@
                                     @{var prix = item.PrixAchat * item.Quantite;}
                                     @prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))
                                 </div>
+                                @if(item.EnDemandeRetourner == true)
+                                {
+                                    <div class="col-sm-3 d-flex justify-content-center my-auto">
+                                        <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Accepter</button>
+                                        <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Refuser</button>
+                                    </div>                               
+                                }                             
                             </div>
                         }
                     </div>
+                    @if(commande.EnDemandeAnnulation == true)
+                    {
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=commande.Id })')">Accepter l'annulation</button>
+                            <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=commande.Id })')">Refuser l'annulation</button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
