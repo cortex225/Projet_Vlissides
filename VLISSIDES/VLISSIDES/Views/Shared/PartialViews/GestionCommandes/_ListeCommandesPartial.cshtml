@@ -1,4 +1,5 @@
-﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
+﻿@using System.Globalization;
+@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
 }
 
@@ -15,7 +16,7 @@
                     <p class="my-auto">@commande.MembreUserName</p>
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center">
-                    <p class="my-auto">@commande.PrixTotal $</p>
+                    <p class="my-auto">@commande.PrixTotal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</p>
                 </div>
                 <div class="col-sm-2 d-flex justify-content-center">
                     <p class="my-auto">@commande.DateCommande</p>
@@ -63,8 +64,8 @@
                                 <div class="col-sm-2">
                                 </div>
                                 <div class="col-sm-1 d-flex justify-content-center">
-                                    @{var prix = item.PrixAchat * item.Quantite;} 
-                                    @prix $
+                                    @{var prix = item.PrixAchat * item.Quantite;}
+                                    @prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))
                                 </div>
                             </div>
                         }
