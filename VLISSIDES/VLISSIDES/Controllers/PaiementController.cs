@@ -105,7 +105,7 @@ namespace VLISSIDES.Controllers
             {
                 // Récupére l'URL de l'image du livre
                 var imgLivreUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{item.Livre.Couverture}";
-                var encodedImgLivreUrl = Uri.EscapeUriString(imgLivreUrl); // Encodez l'URL de l'image du livre pour qu'elle soit utilisable dans Stripe
+                var encodedImgLivreUrl = Uri.EscapeUriString(imgLivreUrl); // Encode l'URL de l'image du livre pour qu'elle soit utilisable dans Stripe
 
                 ViewBag.encodedImgLivreUrl = encodedImgLivreUrl;
 
@@ -115,13 +115,14 @@ namespace VLISSIDES.Controllers
                 {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        UnitAmount = (long)(item.Livre.LivreTypeLivres.FirstOrDefault().Prix) * 100,
+                        UnitAmountDecimal = (item.Livre.LivreTypeLivres.FirstOrDefault().Prix) * 100,
                         Currency = "cad",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = item.Livre.Titre,
                             Images = new List<string> { encodedImgLivreUrl },
                         },
+
 
                     },
                     Quantity = item.Quantite,
@@ -158,11 +159,11 @@ namespace VLISSIDES.Controllers
                 AllowPromotionCodes = true,
 
                 BillingAddressCollection = "required",// Demande à Stripe de collecter l'adresse de facturation du client
-                // ShippingAddressCollection = new SessionShippingAddressCollectionOptions
-                // {
-                //     AllowedCountries = new List<string> { "CA", "US" }, // Limite les adresses de livraison aux États-Unis et au Canada
-                //
-                // },
+                ShippingAddressCollection = new SessionShippingAddressCollectionOptions
+                {
+                    AllowedCountries = new List<string> { "CA", "US" }, // Limite les adresses de livraison aux États-Unis et au Canada
+
+                },
                 CustomerUpdate = new SessionCustomerUpdateOptions
                 {
                     Address = "auto", // Met à jour l'adresse du client lorsqu'il passe une commande
@@ -173,7 +174,7 @@ namespace VLISSIDES.Controllers
                 Metadata = metadata,
                 InvoiceCreation = new SessionInvoiceCreationOptions
                 {
-                    Enabled = true,// Créez une facture pour chaque session de paiement
+                    Enabled = true,// Crée une facture pour chaque session de paiement
                 },
                 AutomaticTax = new SessionAutomaticTaxOptions
                 {
@@ -183,8 +184,6 @@ namespace VLISSIDES.Controllers
                 SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),
                 CancelUrl = Url.Action("Cancel", "Paiement", null, Request.Scheme),
             };
-
-
 
 
             var service = new SessionService();
