@@ -107,9 +107,19 @@
 #rechercherBTN, #rechercheGeneral {
     width: fit-content;
 }
+
+#rechercheDIV {
+    margin: 16px;
+    margin-top: 42px;
+}
+
 #filtre{
     width:fit-content;
-    margin:5px;
-    padding:5px;
+    margin:18px;
+    padding:12px;
     overflow-y:auto;
+}
+
+#filtre > *{
+    margin: 6px;
 }
