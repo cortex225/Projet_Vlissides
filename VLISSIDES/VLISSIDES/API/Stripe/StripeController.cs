@@ -1,18 +1,12 @@
-﻿using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using Stripe;
-using VLISSIDES.Data;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Paiement;
-using VLISSIDES.ViewModels.Panier;
-using VLISSIDES.ViewModels.Profile;
 using Stripe.Checkout;
+using System.Text;
+using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
+using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionCommandes;
 using VLISSIDES.ViewModels.Reservations;
 
@@ -79,7 +73,7 @@ namespace VLISSIDES.API.Stripe
                 var session = stripeEvent.Data.Object as Session;
                 // Handle the event
 
-                 if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+                if (stripeEvent.Type == Events.CheckoutSessionCompleted)
                 {
                     try
                     {
@@ -167,7 +161,7 @@ namespace VLISSIDES.API.Stripe
             var nbCommandes = _context.Commandes.Count().ToString();
             var commande = new Commande
             {
-                Id = "Commande-#" + nbCommandes + "-" + DateTime.Now.ToString("yyyyMMddHH"),
+                Id = "Commande" + nbCommandes + "-" + DateTime.Now.ToString("yyyyMMddHH"),
                 DateCommande = nouvelleCommande.DateCommande,
                 PrixTotal = nouvelleCommande.PrixTotal,
                 MembreId = customer.Id,

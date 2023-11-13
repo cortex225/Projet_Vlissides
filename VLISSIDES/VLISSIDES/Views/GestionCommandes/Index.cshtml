@@ -88,9 +88,12 @@
 <script type="text/javascript">
     function saveStatut(id = "") {
         
-        var statutVal = document.getElementById(id + ' statutSelectList').value;
+        console.log(id.toString());
 
-        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
+        var idString = `${id}`.toString();
+        var statutVal = document.getElementById(idString + ' statutSelectList').value;
+
+        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${idString}&statut=${statutVal}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

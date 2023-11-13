@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Stripe;
 using System.Security.Claims;
 using System.Text;
 using VLISSIDES.Data;
@@ -75,7 +74,8 @@ namespace VLISSIDES.Controllers
                 AdresseId = c.AdresseId,
                 LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
                 StatutId = c.StatutCommande.Id,
-                StatutNom = c.StatutCommande.Nom
+                StatutNom = c.StatutCommande.Nom,
+                EnDemandeAnnulation = c.EnDemandeAnnulation
             }).OrderBy(c => c.DateCommande).ToList();
 
             var affichageCommandes = new AffichageCommandeVM
@@ -126,7 +126,8 @@ namespace VLISSIDES.Controllers
                 AdresseId = c.AdresseId,
                 LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
                 StatutId = c.StatutCommande.Id,
-                StatutNom = c.StatutCommande.Nom
+                StatutNom = c.StatutCommande.Nom,
+                EnDemandeAnnulation = c.EnDemandeAnnulation
             }).OrderByDescending(c => c.DateCommande).ToList();
 
             if (listCriteres.Any(c => c == "rechercherCommande"))
@@ -183,8 +184,22 @@ namespace VLISSIDES.Controllers
 
             return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
         }
+
+        public async Task<IActionResult> ShowAnnuleConfirmation(string commandeId)
+        {
+            var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
+
+            var vm = new StripeCancelVM
+            {
+                Id = commandeId,
+                Livres = livresList,
+            };
+
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerAnnulePartial", vm);
+        }
+
         [HttpPost]
-        public async Task<StatusCodeResult> RefundStripe(string commandeId, string livreId, int quantite)
+        public async Task<IActionResult> RefundStripe(string commandeId, string livreId, int quantite)
         {
 
             // Récupère l'identifiant de l'utilisateur connecté
@@ -201,26 +216,6 @@ namespace VLISSIDES.Controllers
                 PrixAchat = lc.PrixAchat,
                 Quantite = quantite
             };
-
-            //recupperer l'objet payment intent grace à l'id payment intent de la commande en bd
-            PaymentIntentService servicePaymentIntent = new PaymentIntentService();
-            var paymentIntent = servicePaymentIntent.Get(lc.Commande.PaymentIntentId);
-
-
-
-            StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
-
-            var options = new RefundCreateOptions
-            {
-
-                PaymentIntent = paymentIntent.Id,
-                Amount = (long?)(model.Quantite * (double)model.PrixAchat),
-                Currency = "cad"
-            };
-
-            var service = new RefundService();
-            //service.Create(options);
-
 
             //Send email
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
@@ -239,7 +234,7 @@ namespace VLISSIDES.Controllers
                     Url.Content(
                         "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
                 // Envoi du mail de confirmation de commande
-                await SendConfirmationEmail(customer, model, logoUrl);
+                await SendConfirmationEmailRetour(customer, model, logoUrl);
 
                 //Suppression du panier actuel de la bd
                 _context.LivrePanier.RemoveRange(panierItems);
@@ -253,15 +248,72 @@ namespace VLISSIDES.Controllers
             lc.EnDemandeRetourner = true;
             await _context.SaveChangesAsync();
 
+            return View("HistoriqueCommandes /Index.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<StatusCodeResult> CancelStripe(string commandeId)
+        {
+
+            // Récupère l'identifiant de l'utilisateur connecté
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
+
+            var commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
+            var lc = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId);
+            if (lc == null || commande == null) return BadRequest();
+
+
+            var livresCommandes = lc.Select(lc => new LivreCommandeVM
+            {
+                Livre = lc.Livre,
+                CommandeId = lc.CommandeId,
+                Quantite = lc.Quantite,
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
+            }).ToList();
+
+            //Send email
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+            try
+            {
+                var customer =
+                    await _context.Membres.FirstOrDefaultAsync(m => m.Id == userId);
+                var panierItems = _context.LivrePanier
+                    .Where(lp => lp.UserId == customer.Id)
+                    .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+                    .ToList();
+
+                // Récupérer l'URL complète du logo à partir de l'application
+                var logoUrl =
+                    Url.Content(
+                        "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
+                // Envoi du mail de confirmation de commande
+                await SendConfirmationEmailAnnule(customer, commandeId, livresCommandes, logoUrl);
+
+                //Suppression du panier actuel de la bd
+                _context.LivrePanier.RemoveRange(panierItems);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            commande.EnDemandeAnnulation = true;
+
+            await _context.SaveChangesAsync();
+
             return Ok();
         }
 
-        private async Task SendConfirmationEmail(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+        private async Task SendConfirmationEmailRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
         {
             var subject = "Retour de livres";
 
             // Construire le corps du courriel
-            var body = BuildEmailBody(customer, livreCommande, logoUrl);
+            var body = BuildEmailBodyRetour(customer, livreCommande, logoUrl);
 
 
             var admin = _context.Users.FirstOrDefault(u => u.Id == "0");
@@ -277,10 +329,29 @@ namespace VLISSIDES.Controllers
             //}
         }
 
-        private string BuildEmailBody(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+        private async Task SendConfirmationEmailAnnule(Membre customer, string commandeId, List<LivreCommandeVM> livreCommande, string logoUrl)
         {
-            string myURL = _httpContextAccessor.HttpContext.Request.Host.Value;//_httpContextAccessor.Request.Host.Value;
-            string BASE_URL_RAZOR = Url.Content("~");
+            var subject = "Retour de livres";
+
+            // Construire le corps du courriel
+            var body = BuildEmailBodyAnnule(customer, commandeId, livreCommande, logoUrl);
+
+
+            var admin = _context.Users.FirstOrDefault(u => u.Id == "0");
+
+            // Envoyer le courriel avec la facture en pièce jointe
+            await _sendGridEmail.SendEmailAsync(admin.Email, subject, body);
+
+            //Pouvoir envoyer un courriel à tous les employés
+            //var employes = _context.Employes.ToList();
+            //foreach (var employe in employes)
+            //{
+            //    await _sendGridEmail.SendEmailAsync(employe.Email, subject, body);
+            //}
+        }
+
+        private string BuildEmailBodyRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+        {
 
             StringBuilder body = new StringBuilder();
 
@@ -313,7 +384,61 @@ namespace VLISSIDES.Controllers
             body.Append(
                 "<a href=" + "https://dashboard.stripe.com/test/payments?status[0]=refunded&status[1]=refund_pending&status[2]=partially_refunded" + ">Aller sur stripe pour confirmer le remboursement</a>");
             body.Append($"<p><strong>Gestion des commandes : </strong></p>");
-            body.Append("<a href=" + (BASE_URL_RAZOR + "/GestionCommandes").ToString() + ">Aller à la page de gestion des commandes</a>");
+            body.Append("<a href=" + "https://sqlinfocg.cegepgranby.qc.ca/2147186" + ">Aller à la page de gestion des commandes</a>");
+            body.Append("</div>");
+
+            return body.ToString();
+        }
+
+        private string BuildEmailBodyAnnule(Membre customer, string commandeId, List<LivreCommandeVM> livreCommande, string logoUrl)
+        {
+            var body = new StringBuilder();
+
+            body.Append(
+                "<div style='font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; max-width: 680px; margin: 20px auto; padding: 40px; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);'>");
+            body.Append(
+                $"<img src='{logoUrl}' alt='Logo' style='max-width: 200px; display: block; margin: 0 auto 20px;'>");
+            body.Append(
+                $"<h2 style='color: #333; text-align: center; margin-top: 0;'>Cher(e) {customer.UserName},</h2>");
+            body.Append($"<h2 style='color: #444;'>Demande d'annulation de : {customer.UserName}</h2>");
+            body.Append($"<h2 style='color: #444;'>Numéro de la commande : {commandeId}</h2>");
+            body.Append(
+                "<p style='color: #555; font-size: 16px; text-align: center;'>Voici le récapitulatif :</p>");
+            body.Append(
+                "<hr style='border: 0; height: 1px; background-image: linear-gradient(to right, #146ec3, #146ec3, #fff); margin: 20px 0;'>");
+            body.Append("<table style='width: 100%; margin-top: 30px; border-collapse: collapse;'>");
+            body.Append("<thead>");
+            body.Append("<tr style='background-color: #146ec3; color: #ffffff;'>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Produit</th>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Quantité</th>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Prix</th>");
+            body.Append("</tr>");
+            body.Append("</thead>");
+            body.Append("<tbody>");
+
+            foreach (var item in livreCommande)
+            {
+                body.Append("<tr>");
+                body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
+                body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Quantite}</td>");
+                body.Append(
+                    $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault()?.Prix:C}</td>");
+                body.Append("</tr>");
+            }
+
+            body.Append("</tbody>");
+            body.Append("</table>");
+            double prixTotal = 0;
+            foreach (var livcom in livreCommande)
+            {
+                prixTotal += (livcom.Quantite * livcom.PrixAchat);
+            }
+            body.Append($"<p style='color: #555; font-size: 16px;'><strong>Prix Total:</strong> {prixTotal:C}</p>");
+            body.Append($"<p><strong>Remboursement Stripe : </strong></p>");
+            body.Append(
+                "<a href=" + "https://dashboard.stripe.com/test/payments?status[0]=refunded&status[1]=refund_pending&status[2]=partially_refunded" + ">Aller sur stripe pour confirmer le remboursement</a>");
+            body.Append($"<p><strong>Gestion des commandes : </strong></p>");
+            body.Append("<a href=" + "https://sqlinfocg.cegepgranby.qc.ca/2147186" + ">Aller à la page de gestion des commandes</a>");
             body.Append("</div>");
 
             return body.ToString();

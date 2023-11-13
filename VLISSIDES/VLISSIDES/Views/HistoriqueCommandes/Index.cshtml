@@ -190,6 +190,15 @@
     }
 
     function annulerCommande(commandeId = "") {
-
+        fetch(BASE_URL + `/HistoriqueCommandes/CancelStripe?commandeId=${commandeId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la confirmation du remboursement.', error);
+        });
     }
 </script>
