@@ -6,9 +6,9 @@
 <link rel="stylesheet" href="~/css/Accueil/event-card.css">
 <link rel="stylesheet" href="~/css/Accueil/promo-card.css">
 
-@{
-    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.user?.DateNaissance == null;
-}
+@* @{
+    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.?.DateNaissance == null;
+}  *@
 <!--
 Ceci est le div qui contient une image large avec le titre
 -->
@@ -255,7 +255,7 @@ function toggleDescription(buttonElement) {
 
 
 </script>
-@section Scripts {
+@* @section Scripts {
     @if (isIncompleteBirthday) {
         <script>
             setTimeout(function() {
@@ -285,4 +285,4 @@ function toggleDescription(buttonElement) {
             }, 5000); // 5 secondes après que la page a chargé
         </script>
     }
-}
+} *@
