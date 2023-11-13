@@ -1,4 +1,16 @@
-﻿namespace VLISSIDES.Controllers
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Text;
+using VLISSIDES.Data;
+using VLISSIDES.Interfaces;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionCommandes;
+using VLISSIDES.ViewModels.HistoriqueCommandes;
+
+namespace VLISSIDES.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
@@ -250,9 +262,6 @@
             var commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
             var lc = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId);
             if (lc == null || commande == null) return BadRequest();
-
-            var service = new RefundService();
-            //service.Create(options);
 
             var livresCommandes = lc.Select(lc => new LivreCommandeVM
             {
