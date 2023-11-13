@@ -1,4 +1,16 @@
-﻿namespace VLISSIDES.API.Stripe
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Stripe;
+using Stripe.Checkout;
+using System.Text;
+using VLISSIDES.Data;
+using VLISSIDES.Interfaces;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionCommandes;
+using VLISSIDES.ViewModels.Reservations;
+
+namespace VLISSIDES.API.Stripe
 {
     [ApiController]
     [Route("[controller]/[action]")]
