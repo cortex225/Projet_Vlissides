@@ -37,6 +37,16 @@
                         </select>
                     </div>
                 </div>
+                <div>
+                    <h5>En attente de rembourssement:</h5>
+                    <div class="form-group d-flex">
+                        <select id="filtrerDemandeRemboursement" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
+                            <option value="1">Non appliqué</option>
+                            <option value="2">Demandes d'annulation de commande</option>
+                            <option value="3">Demandes de retour de livre(s)</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -118,6 +128,10 @@
         statutFiltre = document.getElementById("filtrerStatutSelect").value;
         partieMotCles = partieMotCles.concat(`${statutFiltre}|`);
         partieCriteres = partieCriteres.concat("filtrerStatut|");
+
+        demandeRemboursement = document.getElementById("filtrerDemandeRemboursement").value;
+        partieMotCles = partieMotCles.concat(`${demandeRemboursement}|`);
+        partieCriteres = partieCriteres.concat("demandeRemboursement|");
 
         rechercheValue = document.getElementById("inputRechercherCommande").value;
         if (rechercheValue != null) {
