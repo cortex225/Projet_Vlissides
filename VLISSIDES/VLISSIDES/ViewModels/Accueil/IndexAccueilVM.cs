@@ -1,4 +1,7 @@
-﻿namespace VLISSIDES.ViewModels.Accueil;
+﻿using System.ComponentModel;
+using VLISSIDES.Models;
+
+namespace VLISSIDES.ViewModels.Accueil;
 
 public class IndexAccueilVM
 {
