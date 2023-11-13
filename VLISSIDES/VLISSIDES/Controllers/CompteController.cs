@@ -132,7 +132,6 @@ public class CompteController : Controller
     {
         var vm = new RegisterVM();
         vm.ReturnUrl = returnUrl;
-        // Populate Department list
         return View(vm);
     }
 
@@ -181,7 +180,6 @@ public class CompteController : Controller
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
                 DateAdhesion = DateTime.Now,
-                DateNaissance = vm.DateNaissance,
 
             };
 
@@ -476,6 +474,9 @@ public class CompteController : Controller
             ModelState.AddModelError("Email", "Cet utilisateur existe déjà.");
         }
 
+
+
+
         ViewData["ReturnUrl"] = returnurl;
         return View(vm);
     }
@@ -500,4 +501,5 @@ public class CompteController : Controller
         var customer = await service.CreateAsync(options);
         return customer.Id;
     }
+
 }

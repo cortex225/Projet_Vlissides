@@ -35,12 +35,16 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //Implementation du service SendGridEmail par l'interface ISendGridEmail
 builder.Services.AddTransient<ISendGridEmail, SendGridEmail>();
+builder.Services.AddTransient<ISendGridEmailAdvance, SendGridEmailAdvance>();
 //Permet de ne pas utiliser la configuration de base mais plutot de configurer les option de recupération de AuthMessageSenderOptions
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSection("SendGrid"));
 
 //Permet de ne pas utiliser la configuration de base mais plutot de configurer les option de recupération de AuthMessageSenderOptions
 builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
+//Service qui permet d'envoyer un mail d'anniversaire
+builder.Services.AddHostedService<BirthdayService>();
 
 
 var app = builder.Build();

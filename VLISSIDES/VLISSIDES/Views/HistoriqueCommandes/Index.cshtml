@@ -1,0 +1,191 @@
+﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
+@{
+    ViewData["Title"] = "Historique des commandes";
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
+}
+@*********************@
+@* Modals *@
+@*********************@
+
+<div class="modal fade modal-dialog-centered " tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+
+        </div>
+    </div>
+</div>
+
+<div class="m-4">
+    <h1>Historique des commandes</h1>
+    <div class="row">
+        <div class="col-6">
+            <form id="rechercherCommande" enctype="multipart/form-data">
+                <br />
+                <div class="input-group">
+                    <input class="form-control" id="inputRechercherCommande" placeholder='Numéro de la commande sans le "#"' />
+                    <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" onclick="applyFilter(event)">
+                        Rechercher
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-6">
+            <div class="d-flex justify-content-around">
+                <div>
+                    <h5>Trier par date:</h5>
+                    <div class="d-flex">
+                        <select id="trierDateSelect" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
+                            <option value="1">Plus récent</option>
+                            <option value="2">Plus ancien</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <h5>Filtrer par statut:</h5>
+                    <div class="form-group d-flex">
+                        <select id="filtrerStatutSelect" asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-control" onchange="applyFilter(event)">
+                            <option value="0">Tous</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <hr />
+
+    <div class="my-2 p-2">
+        <div class="row">
+            <div class="col-sm-3 d-flex justify-content-center">
+                <h5>Identifiant</h5>
+            </div>
+            <div class="col-sm-1 d-flex justify-content-center">
+                <h5>Prix</h5>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-center">
+                <h5>Date</h5>
+            </div>
+            <div class="col-sm-2 d-flex justify-content-center">
+                <h5>Statut</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="commandesListe" class="col-12 ">
+            <partial name="PartialViews/HistoriqueCommandes/_ListeHistoriqueCommandesPartial" />
+        </div>
+    </div>
+
+</div>
+
+<style>
+    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
+
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+
+</script>
+<script type="text/javascript">
+    async function applyFilter(ev) {
+        ev.preventDefault();
+
+        listeCommandesDiv = document.getElementById("commandesListe");
+        var partieMotCles = "motCles=";
+        var partieCriteres = "criteres=";
+
+        dateTrie = document.getElementById("trierDateSelect").value;
+        partieMotCles = partieMotCles.concat(`${dateTrie}|`);
+        partieCriteres = partieCriteres.concat("trierDate|");
+
+        statutFiltre = document.getElementById("filtrerStatutSelect").value;
+        partieMotCles = partieMotCles.concat(`${statutFiltre}|`);
+        partieCriteres = partieCriteres.concat("filtrerStatut|");
+
+        rechercheValue = document.getElementById("inputRechercherCommande").value;
+        if (rechercheValue != null) {
+            partieMotCles = partieMotCles.concat(`${rechercheValue}|`);
+            partieCriteres = partieCriteres.concat("rechercherCommande|");
+        }
+
+        var apiUrl = BASE_URL + `/HistoriqueCommandes/AfficherCommandes?${partieMotCles}&${partieCriteres}`;
+
+        // Effectue une requête GET à l'API
+        fetch(apiUrl, {
+            method: "GET"
+        }).then((response) => {
+            // Convertit la réponse en texte
+            return response.text();
+        }).then((data) => {
+            listeCommandesDiv.innerHTML = data;
+        })
+            .catch(error => {
+                // Affiche une erreur dans la console en cas d'échec de la requête
+                console.error('Erreur lors de la récupération de la liste des auteurs', error);
+            });
+    }
+</script>
+
+<script>
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+
+    function HideModal() {
+        $('.modal').modal('hide');
+    }
+
+    function retournerLivre(commandeId = "", livreId = "") {
+        var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`).value;
+
+        fetch(BASE_URL + `/HistoriqueCommandes/RefundStripe?commandeId=${commandeId}&livreId=${livreId}&quantite=${quantite}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la confirmation du remboursement.', error);
+        });
+    }
+
+    function verifierQuantite(commandeId = "", livreId = "", max = "") {
+        var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`);
+
+        if (event.key == "Backspace") {
+            return;
+        }
+
+        if (quantite.value > parseInt(max)) {
+            quantite.value = max;
+        }
+        if (quantite.value < 1) {
+            quantite.value = 1;
+        }
+    }
+
+    function collapse(commandeId = "") {
+        var div = document.getElementById(`collapseCommandeLivres_${commandeId}`);
+
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+        
+    }
+</script>

@@ -11,5 +11,7 @@ namespace VLISSIDES.ViewModels.GestionCommandes
         public int Quantite { get; set; } = default!;
 
         public double PrixAchat { get; set; } = default!;
+
+        public bool EnDemandeRetourner { get; set; } = default!;
     }
 }
