@@ -70,7 +70,6 @@ namespace VLISSIDES.API.Stripe
                     EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], _webhookSecretApi,
                         throwOnApiVersionMismatch: false);
 
-
                 var session = stripeEvent.Data.Object as Session;
                 // Handle the event
 
@@ -96,28 +95,20 @@ namespace VLISSIDES.API.Stripe
                         }
                     }
                     catch (Exception e)
-                }
-                else if (stripeEvent.Type == Events.CheckoutSessionAsyncPaymentSucceeded)
                     {
-
+                        Console.WriteLine(e);
+                        throw;
                     }
-                    else if (stripeEvent.Type == Events.CheckoutSessionCompleted)
-                    {
-                        try
-                        {
-                            Console.WriteLine(e);
-                            throw;
-                        }
                 }
 
-                    else
-                    {
-                        // Unexpected event type
-                        Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
-                    }
-
-                    return Ok();
+                else
+                {
+                    // Unexpected event type
+                    Console.WriteLine("Unhandled event type: {0}", stripeEvent.Type);
                 }
+
+                return Ok();
+            }
             catch (StripeException e)
             {
                 return BadRequest();
