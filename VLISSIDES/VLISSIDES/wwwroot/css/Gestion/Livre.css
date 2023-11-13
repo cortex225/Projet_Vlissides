@@ -11,15 +11,25 @@ tr {
 #rechercheRapide > *, #filtreBTN {
     width: fit-content;
 }
+#rechercheRapide, #filtreBTN, #btnAjouterLivre {
+    margin: 16px;
+}
+
 #filtre {
+    width: fit-content;
+    margin: 18px;
+    padding: 12px;
     overflow-y: auto;
 }
-#filtre *{margin:0;
+
+#filtre > * {
+    margin: 6px;
 }
+
 #fermeFiltre{
     position:absolute;
-    top:35px;
-    right:10px;
+    top:12px;
+    right:12px;
 }
 @media (max-width: 500px) {
     .cacher-1 {

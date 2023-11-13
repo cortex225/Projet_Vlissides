@@ -25,13 +25,9 @@
             Filtres
         </button>
         <div class="row">
-
             <div id="filtre" class="offcanvas offcanvas-start card col-2" tabindex="-1">
-
                 @* Recherche précise *@
-                <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary">
-                    Rechercher
-                </button>
+                <button id="fermeFiltre" type="button" class="btn-close btn-close-black text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 <h3>Filtres</h3>
                 <div class="form-group">
                     <label for="specificationTitre">Titre:</label>
@@ -101,6 +97,9 @@
                         }
                     </datalist>
                 </div>
+                <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary">
+                    Rechercher
+                </button>
             </div>
             @* Body *@
 

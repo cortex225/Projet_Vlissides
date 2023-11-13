@@ -123,3 +123,9 @@
 #filtre > *{
     margin: 6px;
 }
+
+#fermeFiltre {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
