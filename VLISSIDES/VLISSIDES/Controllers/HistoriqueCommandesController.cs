@@ -1,16 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using System.Text;
-using VLISSIDES.Data;
-using VLISSIDES.Interfaces;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.GestionCommandes;
-using VLISSIDES.ViewModels.HistoriqueCommandes;
-
-namespace VLISSIDES.Controllers
+﻿namespace VLISSIDES.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
@@ -263,6 +251,8 @@ namespace VLISSIDES.Controllers
             var lc = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId);
             if (lc == null || commande == null) return BadRequest();
 
+            var service = new RefundService();
+            //service.Create(options);
 
             var livresCommandes = lc.Select(lc => new LivreCommandeVM
             {
@@ -352,6 +342,8 @@ namespace VLISSIDES.Controllers
 
         private string BuildEmailBodyRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
         {
+            string myURL = _httpContextAccessor.HttpContext.Request.Host.Value;//_httpContextAccessor.Request.Host.Value;
+            string BASE_URL_RAZOR = Url.Content("~");
 
             StringBuilder body = new StringBuilder();
 
