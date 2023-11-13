@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Contracts;
 using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
-using VLISSIDES.ViewModels.GestionCommandes;
 using VLISSIDES.ViewModels.LivreUtilisateur;
-using VLISSIDES.ViewModels.Panier;
 
 namespace VLISSIDES.Controllers
 {
@@ -71,7 +68,15 @@ namespace VLISSIDES.Controllers
                                 }
                             }
                         }
-                        vm.Add(new LivreUtilisateurIndexVM { Id = l.Livre.Id, Titre = l.Livre.Titre, Couverture = l.Livre.Couverture, monEvaluation = eval });
+                        vm.Add(new LivreUtilisateurIndexVM
+                        {
+                            Id = l.Livre.Id,
+                            Titre = l.Livre.Titre,
+                            Couverture = l.Livre.Couverture,
+                            monEvaluation = eval,
+                            NumeriqueURL = l.Livre.UrlNumerique,
+                            DateCommande = c.DateCommande
+                        });
                     }
                 }
             }
