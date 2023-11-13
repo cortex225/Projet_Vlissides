@@ -6,9 +6,9 @@ namespace VLISSIDES.ViewModels.GestionPromotions
 {
     public class AjouterPromotionVM
     {
-        [Key]
-        public string? Id { get; set; }
         public string action { get; set; }
+        
+        public string? Id { get; set; }
 
         [Display(Name = "Nom de la promotion")] public string Nom { get; set; }
         [Display(Name = "Description")] public string Description { get; set; }
