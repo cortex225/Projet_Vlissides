@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using Stripe.Checkout;
 using System.Security.Claims;
-using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Evenements;
-using VLISSIDES.ViewModels.GestionCommandes;
 
 namespace VLISSIDES.Controllers
 {
@@ -53,12 +52,12 @@ namespace VLISSIDES.Controllers
         public IActionResult Index()
         {
             EvenementsIndexVM vm = new EvenementsIndexVM();
-            /*
+
             if (User.Identity.IsAuthenticated)
             {
                 //Pour trouver les reservations du membres
                 var userId = _userManager.GetUserId(HttpContext.User);
-                var reservations = _context.Reservations.Where(r => r.MembreId == userId).ToList();
+                var reservations = _context.Reservations.Include(r => r.Evenement).Where(r => r.MembreId == userId).ToList();
                 //Transformer les evenements réservé en vm
                 List<EvenementsVM> mesEvenements = new List<EvenementsVM>();
                 foreach (var reservation in reservations)
@@ -80,8 +79,12 @@ namespace VLISSIDES.Controllers
                 vm.MesEvenements = mesEvenements;
 
                 //Evenements non reservés
-                vm.Evenements = _context.Evenements.Include(e => e.Reservations)
-                    .Where(e => e.Reservations.Where(r => r.MembreId == userId) == null)
+                var evenements = _context.Evenements.Include(e => e.Reservations).ThenInclude(r => r.Membre).ToList();
+
+                var nonReserve = evenements.Where(e => e.Reservations.Where(r => r.MembreId == userId) == null).ToList();
+
+                vm.Evenements = _context.Evenements.Include(e => e.Reservations).ThenInclude(r => r.Membre).ToList()
+                    .Where(e => e.Reservations.Where(r => r.MembreId == userId) != null)
                     .Select(e => new EvenementsVM
                     {
                         Id = e.Id,
@@ -98,21 +101,21 @@ namespace VLISSIDES.Controllers
 
             }
             else
-            {*/
-            vm.Evenements = _context.Evenements.Include(e => e.Reservations).Select(e => new EvenementsVM
             {
-                Id = e.Id,
-                Nom = e.Nom,
-                Description = e.Description,
-                DateDebut = e.DateDebut,
-                DateFin = e.DateFin,
-                Image = e.Image,
-                Lieu = e.Lieu,
-                NbPlaces = e.Reservations == null ? e.NbPlaces.ToString() + "/" + e.NbPlaces.ToString() : (e.NbPlaces - e.Reservations.Count).ToString() + "/" + e.NbPlaces.ToString(),
-                NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Count()).ToString() + "/" + e.NbPlacesMembre.ToString(),
-                Prix = e.Prix,
-            }).ToList();
-            //}
+                vm.Evenements = _context.Evenements.Include(e => e.Reservations).Select(e => new EvenementsVM
+                {
+                    Id = e.Id,
+                    Nom = e.Nom,
+                    Description = e.Description,
+                    DateDebut = e.DateDebut,
+                    DateFin = e.DateFin,
+                    Image = e.Image,
+                    Lieu = e.Lieu,
+                    NbPlaces = e.Reservations == null ? e.NbPlaces.ToString() + "/" + e.NbPlaces.ToString() : (e.NbPlaces - e.Reservations.Count).ToString() + "/" + e.NbPlaces.ToString(),
+                    NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Count()).ToString() + "/" + e.NbPlacesMembre.ToString(),
+                    Prix = e.Prix,
+                }).ToList();
+            }
 
             return View(vm);
         }
@@ -203,7 +206,37 @@ namespace VLISSIDES.Controllers
             return Json(new { id = session.Id });
         }
 
+        //public IActionResult ShowRetournerConfirmation(string id)
+        //{
+        //    var userId = _userManager.GetUserId(HttpContext.User);
 
+        //}
+        [HttpPost]
+        public async Task<StatusCodeResult> RefundStripe(string evenementId)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var StripeCustomerId = _context.Membres.FirstOrDefault(m => m.Id == userId).StripeCustomerId;
+
+            var reservation = _context.Reservations.Include(r => r.Evenement).FirstOrDefault(r => r.EvenementId == evenementId && r.MembreId == userId);
+
+            //Récupérer le paiement intent grâce au PaymentIntentId
+            PaymentIntentService servicePaymentIntent = new PaymentIntentService();
+            var paymentIntent = servicePaymentIntent.Get(reservation.PaymentIntentId);
+
+            StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
+
+            var options = new RefundCreateOptions
+            {
+                PaymentIntent = paymentIntent.Id,
+                Amount = (long?)(reservation.Evenement.Prix),
+                Currency = "cad"
+            };
+
+            var service = new RefundService();
+            service.Create(options);
+
+            return Ok();
+        }
 
     }
 }

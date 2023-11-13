@@ -20,4 +20,5 @@ public class Reservation
 
     [DisplayName("Membre r�servateur")] public Membre Membre { get; set; } = default!;
 
+    public string? PaymentIntentId { get; set; } = default!;
 }
