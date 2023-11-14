@@ -199,7 +199,7 @@ namespace VLISSIDES.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RefundStripe(string commandeId, string livreId, int quantite)
+        public async Task<IActionResult> Return(string commandeId, string livreId, int quantite)
         {
 
             // Récupère l'identifiant de l'utilisateur connecté
@@ -248,11 +248,11 @@ namespace VLISSIDES.Controllers
             lc.EnDemandeRetourner = true;
             await _context.SaveChangesAsync();
 
-            return View("HistoriqueCommandes /Index.cshtml");
+            return View("HistoriqueCommandes/Index.cshtml");
         }
 
         [HttpPost]
-        public async Task<StatusCodeResult> CancelStripe(string commandeId)
+        public async Task<IActionResult> Cancel(string commandeId)
         {
 
             // Récupère l'identifiant de l'utilisateur connecté
@@ -304,7 +304,7 @@ namespace VLISSIDES.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return View("HistoriqueCommandes/Index.cshtml");
         }
 
         private async Task SendConfirmationEmailRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)

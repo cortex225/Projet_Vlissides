@@ -9,7 +9,7 @@
 <div id="accordion">
     @foreach (var commande in @Model.ListCommandes)
     {
-        <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable" data-toggle="collapse" data-target="#collapseCommandeLivres_@commande.Id">
+        <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable">
             <div class="row d-flex p-2">
                 <div class="col-sm-3 d-flex justify-content-center">
                     <h4 class="card-title my-auto">#@commande.Id</h4>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center align-self-md-center">
 
-                    <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" data-toggle="" aria-expanded="false" aria-controls="collapseCommandeLivres_@commande.Id" data-target="#collapseCommandeLivres_@commande.Id" onclick="collapse('@commande.Id')"></i>
+                    <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" onclick="collapse('@commande.Id')"></i>
 
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center">

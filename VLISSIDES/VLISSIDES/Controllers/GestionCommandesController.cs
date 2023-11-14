@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionCommandes;
+using VLISSIDES.ViewModels.HistoriqueCommandes;
 
 namespace VLISSIDES.Controllers
 {
@@ -166,6 +167,90 @@ namespace VLISSIDES.Controllers
             commande.StatutCommandeId = statut;
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        public async Task<IActionResult> ShowAccepterRetourConfirmation(string commandeId, string livreId)
+        {
+            var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+
+            var vm = new StripeRefundVM
+            {
+                Commande = livreCommande.Commande,
+                Livre = livreCommande.Livre,
+                Prix = livreCommande.PrixAchat,
+                Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
+            };
+
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
+        }
+
+        public async Task<IActionResult> ShowRefuserRetourConfirmation(string commandeId, string livreId)
+        {
+            var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+
+            var vm = new StripeRefundVM
+            {
+                Commande = livreCommande.Commande,
+                Livre = livreCommande.Livre,
+                Prix = livreCommande.PrixAchat,
+                Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
+            };
+
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
+        }
+
+        public async Task<IActionResult> ShowAccepterAnnulationConfirmation(string commandeId)
+        {
+            var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
+
+            var vm = new StripeCancelVM
+            {
+                Id = commandeId,
+                Livres = livresList,
+            };
+
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerAnnulePartial", vm);
+        }
+
+        public async Task<IActionResult> ShowRefuserAnnulationConfirmation(string commandeId)
+        {
+            var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
+
+            var vm = new StripeCancelVM
+            {
+                Id = commandeId,
+                Livres = livresList,
+            };
+
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerAnnulePartial", vm);
+        }
+
+        [HttpPost]
+        public IActionResult AccepterDemandeRetour(string livreCommandeId)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AccepterDemandeAnnulation(string livreCommandeId)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RefuserDemandeRetour(string commandeId)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RefuserDemandeAnnulation(string commandeId)
+        {
+
+            return View();
         }
     }
 }

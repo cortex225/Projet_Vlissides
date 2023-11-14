@@ -150,7 +150,7 @@
     function retournerLivre(commandeId = "", livreId = "") {
         var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`).value;
 
-        fetch(BASE_URL + `/HistoriqueCommandes/RefundStripe?commandeId=${commandeId}&livreId=${livreId}&quantite=${quantite}`, {
+        fetch(BASE_URL + `/HistoriqueCommandes/Return?commandeId=${commandeId}&livreId=${livreId}&quantite=${quantite}`, {
             method: "POST",
         }).then((response) => {
             return response.text();
@@ -190,7 +190,7 @@
     }
 
     function annulerCommande(commandeId = "") {
-        fetch(BASE_URL + `/HistoriqueCommandes/CancelStripe?commandeId=${commandeId}`, {
+        fetch(BASE_URL + `/HistoriqueCommandes/Cancel?commandeId=${commandeId}`, {
             method: "POST",
         }).then((response) => {
             return response.text();

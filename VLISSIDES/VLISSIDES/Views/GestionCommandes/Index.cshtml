@@ -155,6 +155,82 @@
             console.error('Erreur lors de la récupération de la liste des auteurs', error);
         });
     }
+
+    function collapse(commandeId = "") {
+        var div = document.getElementById(`collapseCommandeLivres_${commandeId}`);
+
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+
+    }
+
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+
+    function HideModal() {
+        $('.modal').modal('hide');
+    }
+
+    function accepterAnnulation() {
+        fetch(BASE_URL + `/GestionCommandes/ShowAccepterAnnulationConfirmation?commandeId=${commandeId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la confirmation du remboursement.', error);
+        });
+    }
+    function refuserAnnulation() {
+        fetch(BASE_URL + `/GestionCommandes/ShowRefuserAnnulationConfirmation?commandeId=${commandeId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la confirmation du remboursement.', error);
+        });
+    }
+    function accepterRetour(commandeId = "", livreId = "") {
+        var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`).value;
+
+        fetch(BASE_URL + `/GestionCommandes/ShowAccepterRetourConfirmation?commandeId=${commandeId}&livreId=${livreId}&quantite=${quantite}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la confirmation du remboursement.', error);
+        });
+    }
+    function refuserRetour(commandeId = "", livreId = "") {
+        var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`).value;
+
+        fetch(BASE_URL + `/GestionCommandes/ShowRefuserRetourConfirmation?commandeId=${commandeId}&livreId=${livreId}&quantite=${quantite}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la confirmation du remboursement.', error);
+        });
+    }
 </script>
 
 <script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
