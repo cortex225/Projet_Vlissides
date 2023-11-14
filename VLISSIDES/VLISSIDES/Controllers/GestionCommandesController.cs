@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionCommandes;
+using VLISSIDES.ViewModels.HistoriqueCommandes;
 
 namespace VLISSIDES.Controllers
 {
@@ -39,7 +40,8 @@ namespace VLISSIDES.Controllers
                 Livre = lc.Livre,
                 CommandeId = lc.CommandeId,
                 Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
             }).ToList();
 
             var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM
@@ -51,7 +53,8 @@ namespace VLISSIDES.Controllers
                 AdresseId = c.AdresseId,
                 LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
                 StatutId = c.StatutCommande.Id,
-                StatutNom = c.StatutCommande.Nom
+                StatutNom = c.StatutCommande.Nom,
+                EnDemandeAnnulation = c.EnDemandeAnnulation
             }).OrderBy(c => c.DateCommande).ToList();
 
             var affichageCommandes = new AffichageCommandeVM
@@ -87,7 +90,8 @@ namespace VLISSIDES.Controllers
                 Livre = lc.Livre,
                 CommandeId = lc.CommandeId,
                 Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
             }).ToList();
 
             var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM
@@ -99,12 +103,13 @@ namespace VLISSIDES.Controllers
                 AdresseId = c.AdresseId,
                 LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
                 StatutId = c.StatutCommande.Id,
-                StatutNom = c.StatutCommande.Nom
+                StatutNom = c.StatutCommande.Nom,
+                EnDemandeAnnulation = c.EnDemandeAnnulation
             }).OrderByDescending(c => c.DateCommande).ToList();
 
             if (listCriteres.Any(c => c == "rechercherCommande"))
             {
-                if (listCriteresValue[2] != "")
+                if (listCriteresValue[3] != "")
                     listeCommandeVM = listeCommandeVM.Where(c => c.Id == listCriteresValue[2]).ToList();
             }
 
@@ -125,6 +130,18 @@ namespace VLISSIDES.Controllers
                 if (listCriteresValue[1] != "0")
                 {
                     listeCommandeVM = listeCommandeVM.Where(c => c.StatutId == listCriteresValue[1].ToString()).ToList();
+                }
+            }
+
+            if (listCriteres.Any(c => c == "demandeRemboursement"))
+            {
+                if (listCriteresValue[2] == "2")
+                {
+                    listeCommandeVM = listeCommandeVM.Where(c => c.EnDemandeAnnulation == true).ToList();
+                }
+                if (listCriteresValue[2] == "3")
+                {
+                    listeCommandeVM = listeCommandeVM.Where(c => c.LivreCommandes.Any(lc => lc.EnDemandeRetourner == true)).ToList();
                 }
             }
 
@@ -150,6 +167,90 @@ namespace VLISSIDES.Controllers
             commande.StatutCommandeId = statut;
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        public async Task<IActionResult> ShowAccepterRetourConfirmation(string commandeId, string livreId)
+        {
+            var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+
+            var vm = new StripeRefundVM
+            {
+                Commande = livreCommande.Commande,
+                Livre = livreCommande.Livre,
+                Prix = livreCommande.PrixAchat,
+                Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
+            };
+
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
+        }
+
+        public async Task<IActionResult> ShowRefuserRetourConfirmation(string commandeId, string livreId)
+        {
+            var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+
+            var vm = new StripeRefundVM
+            {
+                Commande = livreCommande.Commande,
+                Livre = livreCommande.Livre,
+                Prix = livreCommande.PrixAchat,
+                Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
+            };
+
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
+        }
+
+        public async Task<IActionResult> ShowAccepterAnnulationConfirmation(string commandeId)
+        {
+            var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
+
+            var vm = new StripeCancelVM
+            {
+                Id = commandeId,
+                Livres = livresList,
+            };
+
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerAnnulePartial", vm);
+        }
+
+        public async Task<IActionResult> ShowRefuserAnnulationConfirmation(string commandeId)
+        {
+            var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
+
+            var vm = new StripeCancelVM
+            {
+                Id = commandeId,
+                Livres = livresList,
+            };
+
+            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerAnnulePartial", vm);
+        }
+
+        [HttpPost]
+        public IActionResult AccepterDemandeRetour(string livreCommandeId)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AccepterDemandeAnnulation(string livreCommandeId)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RefuserDemandeRetour(string commandeId)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RefuserDemandeAnnulation(string commandeId)
+        {
+
+            return View();
         }
     }
 }

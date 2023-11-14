@@ -1,4 +1,5 @@
-﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
+﻿@using System.Globalization;
+@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
@@ -8,13 +9,13 @@
 <div id="accordion">
     @foreach (var commande in @Model.ListCommandes)
     {
-        <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable" data-toggle="collapse" data-target="#collapseCommandeLivres_@commande.Id">
+        <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable">
             <div class="row d-flex p-2">
                 <div class="col-sm-3 d-flex justify-content-center">
                     <h4 class="card-title my-auto">#@commande.Id</h4>
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center">
-                    <p class="my-auto">@commande.PrixTotal $</p>
+                    <p class="my-auto">@commande.PrixTotal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</p>
                 </div>
                 <div class="col-sm-2 d-flex justify-content-center">
                     <p class="my-auto">@commande.DateCommande</p>
@@ -38,14 +39,25 @@
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center align-self-md-center">
 
-                    <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" data-toggle="collapse" data-target="#collapseCommandeLivres_@commande.Id"></i>
+                    <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" onclick="collapse('@commande.Id')"></i>
 
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center">
-                    <button class="btn btn-primary">Annuler</button>
+                    @if (commande.StatutId == "1" || commande.StatutId == "2")
+                    {
+                        @if(commande.EnDemandeAnnulation == true)
+                        {                    
+                                <span class="text-danger">En attente d'annulation</span>
+                        }
+                        else
+                        {
+                                <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowAnnuleConfirmation", "HistoriqueCommandes" , new { commandeId=commande.Id})')">Annuler</button>                    
+                        }
+                    }
+                    
                 </div>
             </div>
-            <div class="collapse" id="collapseCommandeLivres_@commande.Id">
+            <div class="" id="collapseCommandeLivres_@commande.Id" style="display:none">
                 <hr>
                 <div class="p-2">
                     <h5 class="">Articles:</h5>
@@ -60,11 +72,25 @@
                                     @{
                                         var prix = item.PrixAchat * item.Quantite;
                                     }
-                                    @prix $
+                                    @prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))
                                 </div>
-                                <div class="col-sm-1">
-                                    <button class="btn btn-primary">Retourner</button>
-                                </div>                              
+                                @if(commande.StatutId == "4")
+                                {
+                                    <div class="col-sm-2 d-inline-flex">
+                                        @if (item.EnDemandeRetourner == false)
+                                        {
+                                            var inputId = $"quantite-{item.CommandeId}-{item.Livre.Id}";
+
+                                            <input id="@inputId" type="number" class="form-control w-auto" min="1" max="@item.Quantite" value="1" onkeyup="verifierQuantite('@item.CommandeId', '@item.Livre.Id', '@item.Quantite')">
+                                            <button class="btn btn-primary mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Retourner</button>
+                                        
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">En attente de remboursement </span>
+                                        }
+                                    </div>
+                                }                             
                             </div>       
                         }
                     </div>
