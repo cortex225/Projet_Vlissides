@@ -188,7 +188,7 @@
             HideModal();
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la confirmation du remboursement.', error);
+            console.error("Erreur lors de l'acceptation de l'annulation.", error);
         });
     }
     function refuserAnnulation() {
@@ -200,7 +200,7 @@
             HideModal();
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la confirmation du remboursement.', error);
+            console.error("Erreur lors du refus de l'annulation.", error);
         });
     }
     function accepterRetour(commandeId = "", livreId = "") {
@@ -214,7 +214,7 @@
             HideModal();
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la confirmation du remboursement.', error);
+            console.error("Erreur lors de l'acceptation du retour.", error);
         });
     }
     function refuserRetour(commandeId = "", livreId = "") {
@@ -228,7 +228,7 @@
             HideModal();
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la confirmation du remboursement.', error);
+            console.error('Erreur lors du refus du retour.', error);
         });
     }
 </script>

@@ -173,6 +173,7 @@ namespace VLISSIDES.Controllers
         {
             var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             var vm = new StripeRefundVM
             {
                 Commande = livreCommande.Commande,
@@ -180,14 +181,16 @@ namespace VLISSIDES.Controllers
                 Prix = livreCommande.PrixAchat,
                 Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
             };
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
+            return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerAccepterRetourPartial", vm);
         }
 
         public async Task<IActionResult> ShowRefuserRetourConfirmation(string commandeId, string livreId)
         {
             var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             var vm = new StripeRefundVM
             {
                 Commande = livreCommande.Commande,
@@ -195,11 +198,12 @@ namespace VLISSIDES.Controllers
                 Prix = livreCommande.PrixAchat,
                 Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
             };
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
+            return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerRefuserRetourPartial", vm);
         }
 
-        public async Task<IActionResult> ShowAccepterAnnulationConfirmation(string commandeId)
+        public IActionResult ShowAccepterAnnulationConfirmation(string commandeId)
         {
             var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
 
@@ -209,10 +213,10 @@ namespace VLISSIDES.Controllers
                 Livres = livresList,
             };
 
-            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerAnnulePartial", vm);
+            return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerAccepterAnnulationPartial", vm);
         }
 
-        public async Task<IActionResult> ShowRefuserAnnulationConfirmation(string commandeId)
+        public IActionResult ShowRefuserAnnulationConfirmation(string commandeId)
         {
             var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
 
@@ -222,26 +226,61 @@ namespace VLISSIDES.Controllers
                 Livres = livresList,
             };
 
-            return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerAnnulePartial", vm);
+            return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerAccepterAnnulationPartial", vm);
         }
 
         [HttpPost]
-        public IActionResult AccepterDemandeRetour(string livreCommandeId)
+        public IActionResult AccepterDemandeRetour(string commandeId, string livreId, string quantite)
         {
+            LivreCommande? livreCommande = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+
+
+
+            int quantiteInt;
+            if (int.TryParse(quantite, out quantiteInt) && livreCommande is not null)
+            {
+                //if (livreCommande.Quantite == quantiteInt)
+                //{
+                //    //Soit qu'on supprime la commande ou on affiche le nombre de livre retournés
+                //}
+                //else
+                //{
+                livreCommande.Quantite -= quantiteInt;
+                //}
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+            livreCommande.EnDemandeRetourner = false;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AccepterDemandeAnnulation(string commandeId)
+        {
+            Commande? commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
+
+            if (commande is not null)
+            {
+                commande.StatutCommandeId = "5";
+
+                commande.EnDemandeAnnulation = false;
+            }
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult AccepterDemandeAnnulation(string livreCommandeId)
+        public IActionResult RefuserDemandeRetour(string commandeId, string livreId, string quantite)
         {
+            LivreCommande? livreCommande = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult RefuserDemandeRetour(string commandeId)
-        {
+            if (livreCommande is not null)
+            {
+                livreCommande.EnDemandeRetourner = false;
+            }
 
             return View();
         }
@@ -249,6 +288,12 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         public IActionResult RefuserDemandeAnnulation(string commandeId)
         {
+            Commande? commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
+
+            if (commande is not null)
+            {
+                commande.EnDemandeAnnulation = false;
+            }
 
             return View();
         }
