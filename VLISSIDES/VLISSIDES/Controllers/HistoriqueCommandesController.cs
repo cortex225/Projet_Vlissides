@@ -224,21 +224,12 @@ namespace VLISSIDES.Controllers
             {
                 var customer =
                     await _context.Membres.FirstOrDefaultAsync(m => m.Id == userId);
-                var panierItems = _context.LivrePanier
-                    .Where(lp => lp.UserId == customer.Id)
-                    .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
-                    .ToList();
-
                 // Récupérer l'URL complète du logo à partir de l'application
                 var logoUrl =
                     Url.Content(
                         "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
                 // Envoi du mail de confirmation de commande
                 await SendConfirmationEmailRetour(customer, model, logoUrl);
-
-                //Suppression du panier actuel de la bd
-                _context.LivrePanier.RemoveRange(panierItems);
-                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -248,7 +239,7 @@ namespace VLISSIDES.Controllers
             lc.EnDemandeRetourner = true;
             await _context.SaveChangesAsync();
 
-            return View("HistoriqueCommandes/Index.cshtml");
+            return View();
         }
 
         [HttpPost]
@@ -279,10 +270,6 @@ namespace VLISSIDES.Controllers
             {
                 var customer =
                     await _context.Membres.FirstOrDefaultAsync(m => m.Id == userId);
-                var panierItems = _context.LivrePanier
-                    .Where(lp => lp.UserId == customer.Id)
-                    .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
-                    .ToList();
 
                 // Récupérer l'URL complète du logo à partir de l'application
                 var logoUrl =
@@ -290,10 +277,6 @@ namespace VLISSIDES.Controllers
                         "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
                 // Envoi du mail de confirmation de commande
                 await SendConfirmationEmailAnnule(customer, commandeId, livresCommandes, logoUrl);
-
-                //Suppression du panier actuel de la bd
-                _context.LivrePanier.RemoveRange(panierItems);
-                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -304,7 +287,7 @@ namespace VLISSIDES.Controllers
 
             await _context.SaveChangesAsync();
 
-            return View("HistoriqueCommandes/Index.cshtml");
+            return View();
         }
 
         private async Task SendConfirmationEmailRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
@@ -423,7 +406,7 @@ namespace VLISSIDES.Controllers
                 body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
                 body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Quantite}</td>");
                 body.Append(
-                    $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault()?.Prix:C}</td>");
+                    $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.PrixAchat:C}</td>");
                 body.Append("</tr>");
             }
 

@@ -351,7 +351,7 @@ namespace VLISSIDES.Controllers
             var subject = "Retour de livres";
 
             // Construire le corps du courriel
-            var body = SendConfirmationEmailRefuserAnnulation(customer, commandeId, livreCommande, logoUrl);
+            var body = BuildEmailBodyAccepterAnnulation(customer, commandeId, livreCommande, logoUrl);
 
             // Envoyer le courriel avec la facture en pièce jointe
             await _sendGridEmail.SendEmailAsync(customer.Email, subject, body);
@@ -414,7 +414,7 @@ namespace VLISSIDES.Controllers
                 body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
                 body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Quantite}</td>");
                 body.Append(
-                    $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault()?.Prix:C}</td>");
+                    $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.PrixAchat:C}</td>");
                 body.Append("</tr>");
             }
 
@@ -470,7 +470,7 @@ namespace VLISSIDES.Controllers
                 body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
                 body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Quantite}</td>");
                 body.Append(
-                    $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault()?.Prix:C}</td>");
+                    $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.PrixAchat:C}</td>");
                 body.Append("</tr>");
             }
 
