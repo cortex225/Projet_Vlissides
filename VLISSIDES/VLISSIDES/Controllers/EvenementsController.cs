@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Stripe;
 using Stripe.Checkout;
 using System.Security.Claims;
+using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -74,6 +74,7 @@ namespace VLISSIDES.Controllers
                         NbPlaces = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlaces.ToString() + "/" + reservation.Evenement.NbPlaces.ToString() : (reservation.Evenement.NbPlaces - reservation.Evenement.Reservations.Count).ToString() + "/" + reservation.Evenement.NbPlaces.ToString(),
                         NbPlacesMembre = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlacesMembre.ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString() : (reservation.Evenement.NbPlacesMembre - reservation.Evenement.Reservations.Count()).ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString(),
                         Prix = reservation.Evenement.Prix,
+                        EstEnDemandeAnnuler = (bool)reservation.EnDemandeAnnuler
                     });
                 }
                 vm.MesEvenements = mesEvenements;
@@ -97,6 +98,7 @@ namespace VLISSIDES.Controllers
                         NbPlaces = e.Reservations == null ? e.NbPlaces.ToString() + "/" + e.NbPlaces.ToString() : (e.NbPlaces - e.Reservations.Count).ToString() + "/" + e.NbPlaces.ToString(),
                         NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Count()).ToString() + "/" + e.NbPlacesMembre.ToString(),
                         Prix = e.Prix,
+                        EstEnDemandeAnnuler = false
                     }).ToList();
 
             }
@@ -127,6 +129,88 @@ namespace VLISSIDES.Controllers
         public IActionResult Success()
         {
             return View();
+        }
+        public IActionResult SuccessAnnuler()
+        {
+            return View();
+        }
+        public IActionResult SuccessDemandeAnnuler()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AnnulerEvenement(string id)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var reservation = _context.Reservations.Include(r => r.Evenement).FirstOrDefault(r => r.EvenementId == id && r.MembreId == userId);
+
+            if (reservation != null)
+            {
+                if (reservation.Evenement.Prix == (decimal?)0.00)
+                {
+                    _context.Remove(reservation);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("SuccessAnnuler", "Evenements");
+                }
+                else
+                {
+                    reservation.EnDemandeAnnuler = true;
+                    await _context.SaveChangesAsync();
+                    //Logo fourmi ailé
+                    var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
+                    //Nom de l'utilisateur
+                    var username = _context.Users.FirstOrDefault(u => u.Id == userId).UserName;
+                    await SendConfirmationEmailAdminAnnuler(username, reservation, logoUrl);
+                    return RedirectToAction("SuccessDemandeAnnuler", "Evenements");
+                }
+            }
+            return NotFound();
+        }
+        private async Task SendConfirmationEmailAdminAnnuler(string? username, Reservation reservation, string logoUrl)
+        {
+            var subject = "Confirmation de commande";
+
+            // Construire le corps du courriel
+            var body = BuildEmailAdminAnnulerBody(username, reservation, logoUrl);
+            var emailAddress = _context.Users.FirstOrDefault(u => u.Id == "0").Email;
+            // Envoyer le courriel avec la facture en pièce jointe
+            await _sendGridEmail.SendEmailAsync(emailAddress, subject, body);
+        }
+        private string BuildEmailAdminAnnulerBody(string username, Reservation reservation, string logoUrl)
+        {
+            var body = new StringBuilder();
+            body.Append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>");
+            body.Append(
+                $"<img src='{logoUrl}' alt='Logo Fourmie Aillée' style='width:250px;height:auto; display: block; margin: 0 auto;'>");
+            body.Append($"<h2 style='color: #444;'>Demande de remboursement de : {username}</h2>");
+            body.Append($"<h2 style='color: #444;'>Numéro de la réservation : {reservation.Id}</h2>");
+            body.Append("<p>Voici le récapitulatif :</p>");
+            body.Append("<table style='width: 100%; border-collapse: collapse;'>");
+            body.Append("<thead>");
+            body.Append("<tr style='background-color: #f2f2f2;'>");
+            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Évenement</th>");
+
+            body.Append("<th style='padding: 8px; border: 1px solid #ddd;'>Prix</th>");
+            body.Append("</tr>");
+            body.Append("</thead>");
+            body.Append("<tbody>");
+
+            body.Append("<tr>");
+            body.Append($"<td style='padding: 8px; border: 1px solid #ddd;'>{reservation.Evenement.Nom}</td>");
+
+            body.Append(
+                $"<td style='padding: 8px; border: 1px solid #ddd;'>{reservation.Evenement.Prix.ToString()}$</td>");
+            body.Append("</tr>");
+            body.Append("</tbody>");
+            body.Append("</table>");
+            body.Append($"<p><strong>Total : {reservation.Evenement.Prix.ToString()}</strong></p>");
+            body.Append($"<p><strong>Remboursement Stripe : </strong></p>");
+            body.Append(
+                "<a href=" + "https://dashboard.stripe.com/test/payments?status[0]=refunded&status[1]=refund_pending&status[2]=partially_refunded" + ">Aller sur stripe pour confirmer le remboursement</a>");
+            body.Append($"<p><strong>Gestion des commandes : </strong></p>");
+            body.Append("<a href=" + "https://sqlinfocg.cegepgranby.qc.ca/2147186" + ">Aller à la page de gestion de réservations</a>");
+            body.Append("</div>");
+            return body.ToString();
         }
         [HttpPost]
         public ActionResult CreateCheckoutSessionEvenement(string id)
@@ -202,7 +286,14 @@ namespace VLISSIDES.Controllers
 
             var service = new SessionService();
             Session session = service.Create(options);
-
+            //var pi_options = new PaymentIntentCreateOptions()
+            //{
+            //    Amount = (long?)evenement.Prix * 100,
+            //    Currency = "cad",
+            //    PaymentMethodTypes = new List<string> { "card" },
+            //};
+            //var pi_service = new PaymentIntentService();
+            //pi_service.Create(pi_options);
             return Json(new { id = session.Id });
         }
 
@@ -211,32 +302,32 @@ namespace VLISSIDES.Controllers
         //    var userId = _userManager.GetUserId(HttpContext.User);
 
         //}
-        [HttpPost]
-        public async Task<StatusCodeResult> RefundStripe(string evenementId)
-        {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            var StripeCustomerId = _context.Membres.FirstOrDefault(m => m.Id == userId).StripeCustomerId;
+        //[HttpPost]
+        //public async Task<StatusCodeResult> RefundStripe(string evenementId)
+        //{
+        //    var userId = _userManager.GetUserId(HttpContext.User);
+        //    var StripeCustomerId = _context.Membres.FirstOrDefault(m => m.Id == userId).StripeCustomerId;
 
-            var reservation = _context.Reservations.Include(r => r.Evenement).FirstOrDefault(r => r.EvenementId == evenementId && r.MembreId == userId);
+        //    var reservation = _context.Reservations.Include(r => r.Evenement).FirstOrDefault(r => r.EvenementId == evenementId && r.MembreId == userId);
 
-            //Récupérer le paiement intent grâce au PaymentIntentId
-            PaymentIntentService servicePaymentIntent = new PaymentIntentService();
-            var paymentIntent = servicePaymentIntent.Get(reservation.PaymentIntentId);
+        //    //Récupérer le paiement intent grâce au PaymentIntentId
+        //    PaymentIntentService servicePaymentIntent = new PaymentIntentService();
+        //    var paymentIntent = servicePaymentIntent.Get(reservation.PaymentIntentId);
 
-            StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
+        //    StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
 
-            var options = new RefundCreateOptions
-            {
-                PaymentIntent = paymentIntent.Id,
-                Amount = (long?)(reservation.Evenement.Prix),
-                Currency = "cad"
-            };
+        //    var options = new RefundCreateOptions
+        //    {
+        //        PaymentIntent = paymentIntent.Id,
+        //        Amount = (long?)(reservation.Evenement.Prix),
+        //        Currency = "cad"
+        //    };
 
-            var service = new RefundService();
-            service.Create(options);
+        //    var service = new RefundService();
+        //    service.Create(options);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
     }
 }

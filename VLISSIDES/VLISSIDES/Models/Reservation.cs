@@ -19,6 +19,10 @@ public class Reservation
     public string MembreId { get; set; } = default!;
 
     [DisplayName("Membre r�servateur")] public Membre Membre { get; set; } = default!;
+    public decimal? prixAchat { get; set; } = default!;
 
     public string? PaymentIntentId { get; set; } = default!;
+
+    public bool? EnDemandeAnnuler { get; set; } = default!;
+
 }

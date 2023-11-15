@@ -20,11 +20,17 @@
             <h2 class="font-weight-bold mb-3">@Model.Nom</h2>
             <p class="text-muted">@Model.Description</p>
             @{
-                if (Model.NbPlacesReservees != Model.NbPlaces)
+                if (!Model.EstEnDemandeAnnuler)
                 {
                     <button class="reserve-btn btn btn-danger" onclick="AnnulerReservation('@Model.Id')">Annuler</button>
-
                 }
+                else
+                {
+                    <button class="reserve-btn btn btn-danger " onclick="AnnulerReservation('@Model.Id')" disabled>En attente d'être annulé</button>
+                }
+
+                
+                
 
             }
 
@@ -38,9 +44,9 @@
             </div>
             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                 <i class="fas fa-chair mr-2 mx-2"></i>
-                <p>Membres : @Model.NbPlacesMembre 
+                <p>Membre : @Model.NbPlacesMembre 
                     <br />
-                    Totales : @Model.NbPlaces</p>
+                    Totale : @Model.NbPlaces</p>
             </div>
             <div class="mb-2 d-flex align-items-center justify-content-center justify-content-md-start">
                 Prix: @Model.Prix
