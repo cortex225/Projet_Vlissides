@@ -1,7 +1,7 @@
 ﻿@using System.Globalization;
 @{
     float prixDonEco = 5;
-    string prixtotal = (Model.PrixTotal + 5).ToString("n",new CultureInfo("fr-CA"));
+    string prixtotal = (Model.PrixTotal + 5).ToString("n", new CultureInfo("fr-CA"));
 
 }
 
@@ -52,7 +52,7 @@
                         Un arbre à la fois
                     </label>
                 </div>
-                
+
             </div>
         </div>
         <div id="prixDonEco">
@@ -61,7 +61,20 @@
     </div>
 </div>
 
-<hr />
+@* Rajout de l'input pour le code promo *@
+
+<div class="d-flex justify-content-between mt-4">
+    <div class="form-group">
+        <label for="codePromo">Code promo</label>
+        <input type="text" class="form-control" id="codePromo" placeholder="Entrez votre code promo">
+        @* Rajout du bouton pour applique le code *@
+        <button type="button" class="btn btn-primary mt-2" id="btnAppliquerCodePromo" onclick="appliquerCodePromo()">Appliquer</button>
+    </div>
+    <div id="prixCodePromo">
+        -0,00$
+    </div>
+</div>
+<hr/>
 <div id="total" class="p-2 px-4">
     <div class="d-flex justify-content-between">
         <div class="">Total <span class="text-danger">(sans taxe)</span>: </div>
@@ -74,3 +87,19 @@
 
     </div>
 </div>
+
+@section Scripts
+{
+   <script>
+           var codePromo = document.getElementById("codePromo").value;
+           if (codePromo.length >= 5) {
+               document.getElementById("btnAppliquerCodePromo").style.display = "block";
+           }
+           else {
+               document.getElementById("btnAppliquerCodePromo").style.display = "none";
+           }
+
+   </script>
+}
+
+

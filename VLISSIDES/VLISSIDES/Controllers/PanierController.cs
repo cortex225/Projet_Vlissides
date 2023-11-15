@@ -143,6 +143,7 @@ namespace VLISSIDES.Controllers
                 PrixTotal = prixtotal
 
             };
+            AppliquerPromotionsSurPanier(panier.ListeArticles, "PROMO");
 
             return PartialView("PartialViews/Panier/_FacturePartial", panier);
         }
@@ -278,7 +279,7 @@ namespace VLISSIDES.Controllers
         }
 
 
-        private void AppliquerPromotionsSurPanier(List<LivrePanier> panierItems, string codePromo)
+        private void AppliquerPromotionsSurPanier(List<AfficherPanierVM> panierItems, string codePromo)
         {
             var promotion = TrouverPromotionParCode(codePromo);
 
@@ -288,7 +289,7 @@ namespace VLISSIDES.Controllers
                 {
                     if (EstEligiblePourPromotion(item, promotion))
                     {
-                        // item.Prix = item.Prix * (1 - promotion.PourcentagePromotion);
+                        item.Prix = (double)(item.Prix * (1 - promotion.PourcentageRabais / 100))!;
                     }
                 }
             }
@@ -300,7 +301,7 @@ namespace VLISSIDES.Controllers
             return _context.Promotions.FirstOrDefault(p => p.CodePromo == codePromo);
         }
 
-        private bool EstEligiblePourPromotion(LivrePanier item, Promotions promotion)
+        private bool EstEligiblePourPromotion(AfficherPanierVM item, Promotions promotion)
         {
 
             return (promotion.CategorieId == null ||

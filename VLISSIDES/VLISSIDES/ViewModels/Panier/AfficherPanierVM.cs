@@ -16,5 +16,8 @@ namespace VLISSIDES.ViewModels.Panier
 
         public int? Quantite { get; set; } = default!;
         public List<LivreAuteur>? LivreAuteurs { get; set; }
+
+        public decimal? PrixAvecPromotion { get; set; } = default!;
+
     }
 }
