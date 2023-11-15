@@ -13,7 +13,7 @@
     <div class="modal-body" id="modalBodyPromo">
         <div class="container d-flex justify-content-center">
             <div class="row rowAjoutPromotion" id="row1">
-                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Id" value="" />
                 <input type="hidden" asp-for="CoverImageUrl"/>
                 <div class="custom-file row">
 
@@ -130,13 +130,13 @@
         var form = document.getElementById("FormAjouterPromo");
         var data = new FormData(form);
 
-        //var csrfToken = form.querySelector(�'[name="__RequestVerificationToken"]').value;
+        var csrfToken = form.querySelector('[name="__RequestVerificationToken"]').value;
         fetch(BASE_URL + '/GestionPromotions/AjouterPromotion', {
             method: "POST",
-            body: data
-            // headers: {
-            //    RequestVerificationToken: csrfToken,
-            // },
+            body: data,
+            headers: {
+               RequestVerificationToken: csrfToken,
+            },
         }).catch(error => {
             console.error('Échec du fetch pour ajouter promotion', error);
         }).then((response) => {

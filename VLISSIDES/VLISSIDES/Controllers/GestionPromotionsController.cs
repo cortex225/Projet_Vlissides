@@ -7,6 +7,7 @@ using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionPromotions;
 using VLISSIDES.ViewModels.Livres;
+using Stripe;
 
 namespace VLISSIDES.Controllers
 
@@ -117,6 +118,18 @@ namespace VLISSIDES.Controllers
 
                 _context.Promotions.Add(promo);
                 _context.SaveChanges();
+
+                // Création de la promotion dans Stripe
+                var options = new CouponCreateOptions
+                {
+                    PercentOff = promo.PourcentageRabais,
+                    Duration = "once",
+                    Id = promo.Id,
+                    Currency = "cad"
+                };
+                var service = new CouponService();
+                Coupon coupon = service.Create(options);
+
 
                 return Ok();
             }
