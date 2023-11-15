@@ -156,7 +156,6 @@ namespace VLISSIDES.Controllers
                 LineItems = lineItems,
                 Mode = "payment",
                 Customer = StripeCustomerId,
-                AllowPromotionCodes = true,
 
                 BillingAddressCollection = "required",// Demande à Stripe de collecter l'adresse de facturation du client
                 ShippingAddressCollection = new SessionShippingAddressCollectionOptions
@@ -180,6 +179,15 @@ namespace VLISSIDES.Controllers
                 {
                     Enabled = false, // Activez le calcul automatique des taxes
                 },
+                // Discounts = new List<SessionDiscountOptions>
+                // {
+                //     new SessionDiscountOptions
+                //     {
+                //         PromotionCode = "PATATE2"
+                //     }
+                // },
+                AllowPromotionCodes = true,
+
 
                 SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),
                 CancelUrl = Url.Action("Cancel", "Paiement", null, Request.Scheme),
@@ -191,6 +199,37 @@ namespace VLISSIDES.Controllers
 
             return Json(new { id = session.Id });
         }
+
+        private void AppliquerPromotionsSurPanier(List<LivrePanier> panierItems, string codePromo)
+        {
+            var promotion = TrouverPromotionParCode(codePromo);
+
+            if (promotion != null)
+            {
+                foreach (var item in panierItems)
+                {
+                    if (EstEligiblePourPromotion(item, promotion))
+                    {
+                        // item.Prix = item.Prix * (1 - promotion.PourcentagePromotion);
+                    }
+                }
+            }
+        }
+
+        private Promotions TrouverPromotionParCode(string codePromo)
+        {
+
+            return _context.Promotions.FirstOrDefault(p => p.CodePromo == codePromo);
+        }
+
+        private bool EstEligiblePourPromotion(LivrePanier item, Promotions promotion)
+        {
+
+            return (promotion.CategorieId == null || promotion.CategorieId == item.Livre.Categories.FirstOrDefault()?.CategorieId) &&
+                   (promotion.AuteurId == null || promotion.AuteurId == item.Livre.LivreAuteurs.FirstOrDefault()?.AuteurId) &&
+                   (promotion.MaisonEditionId == null || promotion.MaisonEditionId == item.Livre.MaisonEditionId);
+        }
+
 
         [HttpGet]
         public Adresse AdresseSelection(string id)
