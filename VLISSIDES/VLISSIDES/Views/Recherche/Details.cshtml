@@ -104,6 +104,10 @@
                 }
 
             }
+            <button id="ajouterAuPanier" class="btn btn-primary">Ajouter au panier</button>
+
+
+
         </div>
     }
 </div>
@@ -285,5 +289,65 @@ function changeQuantity(action, type) {
 
     quantityInput.value = currentQuantity;
 }
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('ajouterAuPanier').addEventListener('click', () => {
+                var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                var viewModelId = document.getElementById('viewModelId').value;
+
+                // Vérifie si le livre papier est actif (sélectionné)
+                var isPaperActive = document.querySelector('.price-button.paper.active') !== null;
+                // Vérifie si le livre numérique est actif (sélectionné)
+                var isDigitalActive = document.querySelector('.price-button.digital.active') !== null;
+
+                // Si le livre papier est actif, obtenez la quantité et ajoutez au panier
+                if (isPaperActive) {
+                    var quantity = document.getElementById('quantity-paper').value;
+                    addToCart(viewModelId, quantity, '1', csrfToken); // '1' pour le livre papier
+                }
+
+                // Si le livre numérique est actif, ajoutez un seul exemplaire au panier
+                if (isDigitalActive) {
+                    addToCart(viewModelId, '1', '2', csrfToken); // '2' pour le livre numérique
+                }
+            });
+        });
+
+        // Fonction pour ajouter des articles au panier
+        function addToCart(bookId, quantity, typeId, csrfToken) {
+            // Envoie une requête pour ajouter un article au panier
+            fetch(BASE_URL + '/Panier/AjouterPanier', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': csrfToken
+                },
+                body: JSON.stringify({
+                    livreAjouteId: bookId,
+                    quantitee: quantity,
+                    typeId: typeId
+                })
+            })
+            .then(response => {
+                // Gérez les erreurs de réponse non-OK
+                if (!response.ok) {
+                              getNbArticles();
+
+                    throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Met à jour l'interface utilisateur pour refléter que l'article a été ajouté au panier
+                console.log(data);
+            })
+            .catch(error => {
+                // Gére les erreurs de la requête fetch
+                console.error("Erreur lors de la requête FETCH:", error);
+            });
+        }
 
 </script>

@@ -639,7 +639,6 @@ public class GestionLivresController : Controller
                     livre.LivreAuteurs = new List<LivreAuteur>();
                     foreach (var auteurId in vm.AuteurIds)
                     {
-                        //livre.LivreAuteurs.Add(_context.Auteurs.FirstOrDefault(a => a.Id == auteurId));
                         livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
                         {
                             LivreId = vm.Id,
@@ -657,13 +656,6 @@ public class GestionLivresController : Controller
                     await _context.SaveChangesAsync();
                     foreach (var categorieId in vm.CategorieIds)
                     {
-
-
-                        //livre.Categories.AddRange(_context.Categories.Where(c => c.Id == categorieId).Select(c => new LivreCategorie
-                        //{
-                        //    LivreId = vm.Id,
-                        //    CategorieId = categorieId
-                        //}));
                         _context.LivreCategories.Add(new LivreCategorie
                         {
                             LivreId = vm.Id,

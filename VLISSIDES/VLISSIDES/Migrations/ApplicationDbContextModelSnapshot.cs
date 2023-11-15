@@ -52,21 +52,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "f68828c8-652d-42f1-ab15-a7958d756b08",
+                            ConcurrencyStamp = "b7f87a8e-6916-44d0-a937-e7c9a76a0278",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "d57205b5-bb54-4ccd-90e7-e03b66510064",
+                            ConcurrencyStamp = "c22ed457-e496-4f5a-b6f5-a760072d840e",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "0c8bda03-108c-4261-83d4-75397a7d18a2",
+                            ConcurrencyStamp = "85473b71-b45c-42b4-af8d-bb2975eaad02",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -209,7 +209,6 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NoApartement")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NoCivique")
@@ -344,7 +343,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d3a9ecee-bfe1-44a1-a0ab-36205f09bc2c",
+                            ConcurrencyStamp = "fa11982a-635f-4812-aba7-3749b7fe833b",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -355,7 +354,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "5c0c5238-d187-4f68-bb25-75e1d793c9c9",
+                            SecurityStamp = "e30d4f1d-e4fd-45f5-a6b4-73874b45842b",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -712,7 +711,6 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AdresseId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateCommande")
@@ -721,6 +719,9 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("MembreId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PrixTotal")
                         .HasColumnType("decimal(18,2)");
@@ -818,6 +819,9 @@ namespace VLISSIDES.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("NbPlacesMembre")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NbPlacesReservees")
                         .HasColumnType("int");
 
                     b.Property<string>("Nom")
@@ -978,6 +982,9 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("CommandeId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("EnDemandeRetourner")
+                        .HasColumnType("bit");
+
                     b.Property<double>("PrixAchat")
                         .HasColumnType("float");
 
@@ -1128,6 +1135,9 @@ namespace VLISSIDES.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("EnDemandeAnnuler")
+                        .HasColumnType("bit");
+
                     b.Property<string>("EvenementId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -1135,6 +1145,12 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("MembreId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("prixAchat")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -1230,7 +1246,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "a8f2aeba-7b81-4f2a-959a-c1581bf1f25d",
+                            ConcurrencyStamp = "e1ecf811-1c35-4fd5-9739-cbd6eed79eb1",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -1241,7 +1257,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "1e6258a3-45d3-48ba-83e5-ad3a61d5988f",
+                            SecurityStamp = "0d7b29d3-59a0-42bd-931c-f095cf50178f",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1276,7 +1292,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "9bf49615-bfe4-4ffa-9616-da86cfe6439b",
+                            ConcurrencyStamp = "250367df-b775-4efb-9539-29e66229212f",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -1287,10 +1303,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "e112c65a-b9f2-42ac-8ffa-441fccccadec",
+                            SecurityStamp = "39a45146-2e10-45b9-85a4-904376fedcee",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 11, 10, 9, 27, 52, 649, DateTimeKind.Local).AddTicks(1963),
+                            DateAdhesion = new DateTime(2023, 11, 15, 10, 59, 7, 72, DateTimeKind.Local).AddTicks(7231),
                             NoMembre = "123456"
                         });
                 });
@@ -1376,9 +1392,7 @@ namespace VLISSIDES.Migrations
                 {
                     b.HasOne("VLISSIDES.Models.Adresse", "AdresseLivraison")
                         .WithMany()
-                        .HasForeignKey("AdresseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AdresseId");
 
                     b.HasOne("VLISSIDES.Models.Membre", "Membre")
                         .WithMany("Commandes")

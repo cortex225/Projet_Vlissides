@@ -12,7 +12,7 @@ namespace VLISSIDES.ViewModels.GestionCommandes
 
         [DisplayName("Nom d'utilisateur du membre")] public string MembreUserName { get; set; } = default!;
 
-        [DisplayName("Identifiant de l'adresse")] public string AdresseId { get; set; } = default!;
+        [DisplayName("Identifiant de l'adresse")] public string? AdresseId { get; set; } = default!;
 
         [DisplayName("Table association Livre et Commande")] public List<LivreCommandeVM> LivreCommandes { get; set; } = default!;
 
