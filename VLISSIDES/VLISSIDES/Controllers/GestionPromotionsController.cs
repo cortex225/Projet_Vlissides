@@ -214,6 +214,8 @@ namespace VLISSIDES.Controllers
             {
                 Name = vm.Nom,
                 Metadata = metadata,
+                AmountOff = 100,
+                Currency = "cad"
 
 
             };
