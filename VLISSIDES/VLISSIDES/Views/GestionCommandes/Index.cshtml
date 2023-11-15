@@ -188,54 +188,58 @@
         $('.modal').modal('hide');
     }
 
-    function accepterAnnulation(commandeId = "") {
+    function accepterAnnulation(commandeId = "", ev) {
         fetch(BASE_URL + `/GestionCommandes/AccepterDemandeAnnulation?commandeId=${commandeId}`, {
             method: "POST",
         }).then((response) => {
             return response.text();
         }).then(() => {
             HideModal();
+        }).then(() => {
+            applyFilter(ev);
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
             console.error("Erreur lors de l'acceptation de l'annulation.", error);
         });
     }
 
-    function refuserAnnulation(commandeId = "") {
+    function refuserAnnulation(commandeId = "", ev) {
         fetch(BASE_URL + `/GestionCommandes/RefuserDemandeAnnulation?commandeId=${commandeId}`, {
             method: "POST",
         }).then((response) => {
             return response.text();
         }).then(() => {
             HideModal();
+        }).then(() => {
+            applyFilter(ev);
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
             console.error("Erreur lors du refus de l'annulation.", error);
         });
     }
-    function accepterRetour(commandeId = "", livreId = "") {
-        var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`).value;
-
-        fetch(BASE_URL + `/GestionCommandes/AccepterDemandeRetour?commandeId=${commandeId}&livreId=${livreId}&quantite=${quantite}`, {
+    function accepterRetour(commandeId = "", livreId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/AccepterDemandeRetour?commandeId=${commandeId}&livreId=${livreId}`, {
             method: "POST",
         }).then((response) => {
             return response.text();
         }).then(() => {
             HideModal();
+        }).then(() => {
+            applyFilter(ev);
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
             console.error("Erreur lors de l'acceptation du retour.", error);
         });
     }
-    function refuserRetour(commandeId = "", livreId = "") {
-        var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`).value;
-
-        fetch(BASE_URL + `/GestionCommandes/RefuserDemandeRetour?commandeId=${commandeId}&livreId=${livreId}&quantite=${quantite}`, {
+    function refuserRetour(commandeId = "", livreId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/RefuserDemandeRetour?commandeId=${commandeId}&livreId=${livreId}`, {
             method: "POST",
         }).then((response) => {
             return response.text();
         }).then(() => {
             HideModal();
+        }).then(() => {
+            applyFilter(ev);
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
             console.error('Erreur lors du refus du retour.', error);

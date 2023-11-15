@@ -1,12 +1,12 @@
 ﻿<div id="ModalId">
     <div class="modal-header">
-        <h5 class="modal-title">Confirmation de suppression</h5>
+        <h5 class="modal-title">Confirmation de retour</h5>
     </div>
     <div class="modal-body">
         Êtes-vous sûr de vouloir retourner @Model.Livre.Titre ?
     </div>
     <div class="modal-footer">
         <a class="btn btn-secondary" href="~/HistoriqueCommandes/Index">Annuler</a>
-        <button type="button" class="btn btn-danger" id="confirmDelete" onclick="retournerLivre('@Model.Commande.Id', '@Model.Livre.Id')">Retourner</button>
+        <button type="button" class="btn btn-danger" id="confirmDelete" onclick="retournerLivre('@Model.Commande.Id', '@Model.Livre.Id', event)">Retourner</button>
     </div>
 </div>

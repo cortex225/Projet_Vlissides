@@ -3,17 +3,20 @@
         <h5 class="modal-title">Refuser la demande de retour</h5>
     </div>
     <div class="modal-body">
-        Êtes-vous sûr de refuser la demande de remboursement?
+        <p>Êtes-vous sûr de refuser la demande de retour?</p>
+        <p>Id de la commande: @Model.Commande.Id</p>
+        <p>Membre: @Model.Commande.MembreId</p>
         <ul>
-            @foreach (var item in Model.Livres)
-            {
-                <li>@item.Quantite x @item.Livre.Titre</li>
-
-            }
+            <li>@Model.Quantite x @Model.Livre.Titre</li>
         </ul>
+        <p>Lire les courriels pour plus d'information.</p>
+        @{
+            var urlStripe = $"https://dashboard.stripe.com/test/payments/{Model.PaymentIntent}";
+        }
+        <a href=@urlStripe target="_blank">Allez voir la commande sur stripe</a>
     </div>
     <div class="modal-footer">
         <a class="btn btn-secondary" href="~/GestionCommandes/Index">Annuler</a>
-        <button type="button" class="btn btn-danger" id="confirmDelete" onclick="refuserRetour('@Model.Id')">Confirmer</button>
+        <button type="button" class="btn btn-danger" id="confirmDelete" onclick="refuserRetour('@Model.Commande.Id','@Model.Livre.Id', event)">Confirmer</button>
     </div>
 </div>

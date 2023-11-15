@@ -174,7 +174,7 @@ namespace VLISSIDES.Controllers
         {
             var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
-            var vm = new StripeRefundVM
+            var vm = new RefundVM
             {
                 Commande = livreCommande.Commande,
                 Livre = livreCommande.Livre,
@@ -187,11 +187,12 @@ namespace VLISSIDES.Controllers
 
         public async Task<IActionResult> ShowAnnuleConfirmation(string commandeId)
         {
+            var commande = _context.Commandes.FirstOrDefault(c => c.Id == commandeId);
             var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
 
-            var vm = new StripeCancelVM
+            var vm = new CancelVM
             {
-                Id = commandeId,
+                Commande = commande,
                 Livres = livresList,
             };
 
@@ -199,7 +200,7 @@ namespace VLISSIDES.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Return(string commandeId, string livreId, int quantite)
+        public async Task<StatusCodeResult> Return(string commandeId, string livreId, int quantite)
         {
 
             // Récupère l'identifiant de l'utilisateur connecté
@@ -237,13 +238,14 @@ namespace VLISSIDES.Controllers
             }
 
             lc.EnDemandeRetourner = true;
+            lc.QuantiteARetourner = quantite;
             await _context.SaveChangesAsync();
 
-            return View();
+            return Ok();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Cancel(string commandeId)
+        public async Task<StatusCodeResult> Cancel(string commandeId)
         {
             try
             {
@@ -287,7 +289,8 @@ namespace VLISSIDES.Controllers
             {
                 Console.WriteLine(e);
             }
-            return View("~/HistoriqueCommandes/Index.cshtml");
+
+            return Ok();
         }
 
         private async Task SendConfirmationEmailRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)

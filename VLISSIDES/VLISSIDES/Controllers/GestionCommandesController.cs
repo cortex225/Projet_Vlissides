@@ -182,12 +182,17 @@ namespace VLISSIDES.Controllers
             var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            var vm = new StripeRefundVM
+            if (livreCommande.QuantiteARetourner == null)
+            {
+                return BadRequest();
+            }
+            var vm = new RefundVM
             {
                 Commande = livreCommande.Commande,
                 Livre = livreCommande.Livre,
                 Prix = livreCommande.PrixAchat,
-                Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
+                Quantite = (int)livreCommande.QuantiteARetourner,
+                PaymentIntent = livreCommande.Commande.PaymentIntentId
             };
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
@@ -196,15 +201,20 @@ namespace VLISSIDES.Controllers
 
         public async Task<IActionResult> ShowRefuserRetourConfirmation(string commandeId, string livreId)
         {
-            var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+            var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).Include(lc => lc.Commande.Membre).FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            var vm = new StripeRefundVM
+            if (livreCommande.QuantiteARetourner == null)
+            {
+                return BadRequest();
+            }
+            var vm = new RefundVM
             {
                 Commande = livreCommande.Commande,
                 Livre = livreCommande.Livre,
                 Prix = livreCommande.PrixAchat,
-                Quantite = 0 //Valeur non nécessaire(À voir si on l'utilise ou pas)
+                Quantite = (int)livreCommande.QuantiteARetourner,
+                PaymentIntent = livreCommande.Commande.PaymentIntentId
             };
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
@@ -213,12 +223,14 @@ namespace VLISSIDES.Controllers
 
         public IActionResult ShowAccepterAnnulationConfirmation(string commandeId)
         {
+            var commande = _context.Commandes.FirstOrDefault(c => c.Id == commandeId);
             var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
 
-            var vm = new StripeCancelVM
+            var vm = new CancelVM
             {
-                Id = commandeId,
+                Commande = commande,
                 Livres = livresList,
+                PaymentIntent = commande.PaymentIntentId
             };
 
             return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerAccepterAnnulationPartial", vm);
@@ -226,40 +238,38 @@ namespace VLISSIDES.Controllers
 
         public IActionResult ShowRefuserAnnulationConfirmation(string commandeId)
         {
+            var commande = _context.Commandes.FirstOrDefault(c => c.Id == commandeId);
             var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId).ToList();
 
-            var vm = new StripeCancelVM
+            var vm = new CancelVM
             {
-                Id = commandeId,
+                Commande = commande,
                 Livres = livresList,
+                PaymentIntent = commande.PaymentIntentId
             };
 
             return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerRefuserAnnulationPartial", vm);
         }
 
         [HttpPost]
-        public IActionResult AccepterDemandeRetour(string? commandeId, string? livreId, string? quantite)
+        public StatusCodeResult AccepterDemandeRetour(string? commandeId, string? livreId)
         {
             LivreCommande? livreCommande = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
-            int quantiteInt;
-            if (int.TryParse(quantite, out quantiteInt) && livreCommande is not null)
+            int? quantite = livreCommande.QuantiteARetourner;
+            if (quantite is not null)
             {
-                livreCommande.Quantite -= quantiteInt;
+                livreCommande.Quantite -= (int)quantite;
                 livreCommande.EnDemandeRetourner = false;
+                livreCommande.QuantiteARetourner = null;
                 _context.SaveChanges();
             }
-            else
-            {
-                return BadRequest();
-            }
 
-
-            return View();
+            return Ok();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AccepterDemandeAnnulation(string? commandeId)
+        public async Task<StatusCodeResult> AccepterDemandeAnnulation(string? commandeId)
         {
             Commande? commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
 
@@ -296,25 +306,26 @@ namespace VLISSIDES.Controllers
 #pragma warning restore CS8604 // Possible null reference argument.
             }
 
-            return View();
+            return Ok();
         }
 
         [HttpPost]
-        public IActionResult RefuserDemandeRetour(string? commandeId, string? livreId, string? quantite)
+        public StatusCodeResult RefuserDemandeRetour(string? commandeId, string? livreId)
         {
             LivreCommande? livreCommande = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
             if (livreCommande is not null)
             {
                 livreCommande.EnDemandeRetourner = false;
+                livreCommande.QuantiteARetourner = null;
                 _context.SaveChanges();
             }
 
-            return View();
+            return Ok();
         }
 
         [HttpPost]
-        public IActionResult RefuserDemandeAnnulation(string? commandeId)
+        public StatusCodeResult RefuserDemandeAnnulation(string? commandeId)
         {
             Commande? commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
 
@@ -343,7 +354,7 @@ namespace VLISSIDES.Controllers
                 SendConfirmationEmailRefuserAnnulation(customer, commandeId, livresCommandes, logoUrl);
             }
 
-            return View();
+            return Ok();
         }
 
         //===================================================================
