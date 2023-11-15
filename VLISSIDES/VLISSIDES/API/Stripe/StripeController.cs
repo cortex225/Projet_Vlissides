@@ -154,31 +154,33 @@ namespace VLISSIDES.API.Stripe
                 AdresseId = customer?.AdressePrincipaleId,
                 StatutId = "1"
             };
+
             nouvelleCommande.LivreCommandes = panierItems.Select(lc => new LivreCommandeVM
             {
                 Livre = lc.Livre,
                 CommandeId = nouvelleCommande.Id,
                 Quantite = (int)lc.Quantite,
-                //Prix à l'achat de chaque livre dans la session
-                // PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix
+                PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
 
             }).ToList();
 
             var nbCommandes = _context.Commandes.Count().ToString();
             var commande = new Commande
             {
-                Id = "Commande" + nbCommandes + "-" + DateTime.Now.ToString("yyyyMMddHH"),
+                Id = nbCommandes,
                 DateCommande = nouvelleCommande.DateCommande,
                 PrixTotal = nouvelleCommande.PrixTotal,
                 MembreId = customer.Id,
                 AdresseId = customer.AdressePrincipaleId,
                 StatutCommandeId = nouvelleCommande.StatutId,
                 PaymentIntentId = session.PaymentIntentId, //Récupérer le paiement intent id de la session
+                EnDemandeAnnulation = false,
                 LivreCommandes = nouvelleCommande.LivreCommandes.Select(lc => new LivreCommande
                 {
                     LivreId = lc.Livre.Id,
                     CommandeId = nouvelleCommande.Id,
-                    Quantite = lc.Quantite
+                    Quantite = lc.Quantite,
+                    PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
                 }).ToList()
             };
 
