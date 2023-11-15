@@ -23,6 +23,9 @@
         <button class="btn btn-primary" onclick="ShowModal('@Url.Action("AjouterEvenement", "GestionEvenements")')">
             Ajouter un événement
         </button>
+        <button class="btn btn-primary" onclick="AfficherEvenements()"> Afficher les évenements</button>
+        <button class="btn btn-primary" onclick="AfficherReservation()"> Afficher les réservations</button>
+        
     </div>
     <br />
 </div>
@@ -58,6 +61,40 @@
             return response.text();
         }).then((result)=>{
             document.getElementById("TabEvenementsListe").innerHTML = result;
+        });
+    }
+</script>
+<!--Script pour les réservations-->
+<script>
+    function AfficherReservation() {
+        fetch(BASE_URL + "/GestionEvenements/AfficherReservations", {
+            method: "GET",
+
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            document.getElementById("TabEvenementsListe").innerHTML = result;
+        });
+    }
+    function ConfirmerAnnuler(id=""){
+        fetch(BASE_URL + "/GestionEvenements/ConfirmerDemande?id=" + id, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            $('.modal').modal('hide');
+            AfficherReservation();
+        });
+    }
+    function AnnulerDemande(id=""){
+        fetch(BASE_URL + "/GestionEvenements/AnnulerDemande?id=" + id, {
+            method: "POST",
+
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            $('.modal').modal('hide');
+            AfficherReservation();
         });
     }
 </script>

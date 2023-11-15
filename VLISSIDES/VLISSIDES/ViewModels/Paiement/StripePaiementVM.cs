@@ -18,4 +18,6 @@ public class StripePaiementVM
     public ProfileModifierAdressesVM Adresse { get; set; }
     public PaiementAdresseVM PaiementAdresseVM { get; set; }
 
+    public string DonEcologie { get; set; }
+
 }

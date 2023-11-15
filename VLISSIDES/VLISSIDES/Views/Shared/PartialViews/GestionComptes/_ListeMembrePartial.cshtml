@@ -38,6 +38,18 @@
                 <td>
                     <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompteMembre", "GestionComptes" , new { id=item.Id })')">Modifier</button>
                 </td>
+                @if (item.IsBanned)
+                {
+                    <td>
+                        <button class="btn btn-primary" onclick="BanMembre('@item.Id')">Débloquer</button>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <button class="btn btn-danger" onclick="BanMembre('@item.Id')">Bloquer</button>
+                    </td>
+                }
                 <td>
                     <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationMembre", "GestionComptes" , new { id=item.Id })')">
                         Supprimer

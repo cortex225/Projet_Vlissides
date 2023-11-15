@@ -4,6 +4,7 @@
 @{
 }
 @model VLISSIDES.ViewModels.Evenements.EvenementsVM
+
 <div class="event-card card shadow-sm p-3 my-4 bg-white event-card " style="height:250px">
 
 
@@ -14,7 +15,7 @@
                       {
                           <div class=" stickerIndisponible  badge " style="top: 10px; right: 10px;">Complet</div>
                       }
-                      <div class=" stickerDisponible  badge  " style="top: 10px; right: 10px;">Dispinible</div>
+                      <div class=" stickerDisponible  badge  " style="top: 10px; right: 10px;">Disponible</div>
 
                   }
             </div>
@@ -42,7 +43,10 @@
                 <i class="fas fa-clock mr-2 mx-2"></i> @Model.DateDebut.Hour : @Model.DateDebut.Minute
             </div>
             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                <i class="fas fa-chair mr-2 mx-2"></i> Places : @Model.NbPlacesMembre @Model.NbPlaces
+                <i class="fas fa-chair mr-2 mx-2"></i>
+                <p>Membres : @Model.NbPlacesMembre 
+                    <br />
+                    Totales : @Model.NbPlaces</p>
             </div>
             <div class="mb-2 d-flex align-items-center justify-content-center justify-content-md-start">
                 Prix: @Model.Prix

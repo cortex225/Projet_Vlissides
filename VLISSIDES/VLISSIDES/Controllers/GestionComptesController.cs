@@ -11,14 +11,16 @@ namespace VLISSIDES.Controllers
     [Authorize(Roles = RoleName.ADMIN)]
     public class GestionComptesController : Controller
     {
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _config;
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public GestionComptesController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
+        public GestionComptesController(SignInManager<ApplicationUser> signInManager, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
         IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
+            _signInManager = signInManager;
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _config = config;
@@ -31,7 +33,8 @@ namespace VLISSIDES.Controllers
             {
                 Id = m.Id,
                 Nom = m.UserName,
-                Courriel = m.Email
+                Courriel = m.Email,
+                IsBanned = m.IsBanned,
             }).ToList();
 
             return View(Membres);
@@ -43,7 +46,8 @@ namespace VLISSIDES.Controllers
             {
                 Id = m.Id,
                 Nom = m.UserName,
-                Courriel = m.Email
+                Courriel = m.Email,
+                IsBanned = m.IsBanned
             }).ToList();
             if (motCle != null && motCle != "")
             {
@@ -338,6 +342,47 @@ namespace VLISSIDES.Controllers
                 await _context.SaveChangesAsync();
                 return Ok();
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BanMembre(string id)
+        {
+            var user = _context.Membres.FirstOrDefault(x => x.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+
+            }
+            else
+            {
+                if (user.IsBanned)
+                {
+                    user.IsBanned = false;
+
+                }
+                else
+                {
+                    user.IsBanned = true;
+
+                    Console.WriteLine(await _userManager.GetSecurityStampAsync(user));
+
+
+                    await _userManager.UpdateSecurityStampAsync(user);
+
+
+
+                    //services.Configure<SecurityStampValidatorOptions>(options =>
+                    //{
+                    // enables immediate logout, after updating the user's stat.
+                    //    options.ValidationInterval = TimeSpan.Zero;
+                    //});
+
+
+                }
+            }
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }

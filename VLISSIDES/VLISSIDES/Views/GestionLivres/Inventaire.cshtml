@@ -7,7 +7,8 @@
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
-<link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Gestion/Gestion.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Gestion/Livre.css" asp-append-version="true">
 
 
 @*********************@
@@ -18,223 +19,113 @@
      style="display: none;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
-
         </div>
     </div>
 </div>
 
-<!-- Barre latérale coulissante -->
-<partial name="PartialViews/Dashboard/_SideBarPartial"/>
+<h1 class="text-center mb-4">Inventaire des livres</h1>
 
-
-<div class="d-block p-3 col">
-
-    <div class="text-center mb-4">
-        <h1>Inventaire des livres</h1>
+@* Les recherches *@
+<form class="row">
+    @* Research bar *@
+    <div id="rechercheRapide" class="text-center d-flex flex-wrap">
+        <a id="rechercherBTN_GL" class="btn btn-primary">
+            Rechercher
+        </a>
+        <input id="rechercheGeneralGL" type="text" class="form-control recherche-input" placeholder="Recherche générale">
     </div>
-
-    <div class="container-fluid m-1">
-
-        @* Les recherches *@
-        <form class="row">
-            @* Research bar *@
-            <div class="row mb-3">
-                <div class="col-2 ml-4 text-center">
-                    <a asp-controller="Recherche" asp-action="Index">
-                        <button id="rechercherBTN_GL" type="button" class="container-fluid btn btn-primary">
-                            Rechercher
-                        </button>
-                    </a>
-                </div>
-
-                <div class="col-10">
-                    <input id="rechercheGeneralGL" type="text" class="form-control recherche-input" placeholder="Recherche générale">
-                </div>
-            </div>
-
-            <div class="row">
-
-                <div class="col-2 bg-secondary">
-
-                    @* Recherche précise *@
-                    <div class="my-2">
-                        <h3>Spécifications</h3>
-                        <div class="form-group">
-                            <label for="specificationTitre">Titre:</label>
-                            <input type="text" class="form-control" id="specificationTitreGL" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationAuteur">Auteur:</label>
-                            <input type="text" class="form-control" id="specificationAuteurGL" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationMaisonEdition">Maison d'édition:</label>
-                            <input type="text" class="form-control" id="specificationMaisonEditionGL" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationCategorie">Categorie:</label>
-                            <select class="form-control" id="specificationCategorieGL" name="categorie">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var categorie in Model.ListeCategories)
-                                {
-                                    <option value="@categorie.Nom">@categorie.Nom</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationLangue">Langue:</label>
-                            <select class="form-control" id="specificationLangueGL" name="langue">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var langue in Model.ListeLangue)
-                                {
-                                    <option value="@langue.Nom">@langue.Nom</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationPrixMin">Prix minimum:</label>
-                            <input type="text" class="form-control" id="specificationPrixMinGL" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationPrixMax">Prix maximum:</label>
-                            <input type="text" class="form-control" id="specificationPrixMaxGL" placeholder="">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="specificationTypeLivre">Type de livre:</label>
-                            <select class="form-control" id="specificationTypeLivreGL" name="typeLivre">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var type in Model.ListeTypeLivres)
-                                {
-                                    <option value="@type.Nom">@type.Nom</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                @* Body *@
-                <div class="col-10">
-
-
-                    @* Add button *@
-                    <div class="m-4">
-                        <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
-                    </div>
-
-
-                    @* Table *@
-                    <div class="container-fluid d-flex flex-wrap row" id="TabLivreListes">
-                        <div class="mb-3 mx-3">
-                            <div class="row px-2">
-                                <div class="col-2 text-center">
-                                    Livre
-                                </div>
-                                <div class="col-2 text-center">
-                                    ISBN
-                                </div>
-                                <div class="col-2 text-center">
-                                    Auteur
-                                </div>
-                                <div class="col-1 text-center">
-                                    Catégorie
-                                </div>
-                                <div class="col-2 text-center">
-                                    Prix par type
-                                </div>
-                                <div class="col-1 text-center">
-                                    Quantité
-                                </div>
-                            </div>
-
-                        </div>
-
-                        @* Results *@
-                        @foreach (var item in Model.ListeLivres)
-                        {
-                            <div id="@item.Id" class="card mb-2 mx-3 element-hoverable">
-                                <div class="card-body row p-2 align-items-center">
-                                    <div class="imgDiv col-2 text-center">
-                                        @{
-                                            string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
-                                        }
-                                        <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
-                                        <p>@Html.DisplayFor(modelItem => item.Titre)</p>
-
-                                    </div>
-                                    <div class="col-2 text-center">
-                                        @Html.DisplayFor(modelItem => item.ISBN)
-                                    </div>
-                                    <div class="col-2 d-flex flex-column align-items-center">
-                                        @foreach(var auteur in item.ListAuteur)
-                                        {
-                                            <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
-                                        }
-                                    </div>
-                                    <div class="col-1 text-center">
-                                        @foreach (var categorie in item.Categories)
-                                        {
-                                            <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
-                                        }
-                                        @*Html.DisplayFor(modelItem => item.Categorie)*@
-                                    </div>
-                                    <div class="col-2 d-flex flex-column">
-                                        @foreach(var type in item.LivreTypeLivres)
-                                        {
-                                            <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
-                                        }
-                                    </div>
-                                    <div class="col-1 text-center">
-                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
-                                        {
-                                            <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
-                                        }
-                                        else
-                                        {
-                                            <span>N/A</span>
-                                        }
-                                    </div>
-                                    <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
-                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
-                                        {
-                                            <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
-                                                saveQuantite('@item.Id', '@item.Quantite')
-                                                disableButton('@item.Id')">
-
-                                                <span class="fa-solid fa-check fa-2x"></span>
-
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <button class="btn btn-success saveButton px-3">
-                                                <span class="fa-solid fa-check fa-2x"></span>
-                                            </button>
-                                        }
-                                        <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
-                                            <span class="fa-solid fa-pen fa-2x"></span>
-                                        </a>
-                                        <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
-                                            <span class="fa-solid fa-trash fa-2x"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-
-                        <partial name="PartialViews/Utilities/_PaginationPartial"/>
-                    </div>
-
-                </div>
-            </div>
-
-        </form>
-
+    <button id="filtreBTN" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="sidebar">
+        Filtres
+    </button>
+    @* Recherche précise *@
+    <div id="filtre" class="offcanvas offcanvas-start card col-2" tabindex="-1">
+        @* Recherche précise *@
+        <button id="fermeFiltre" type="button" class="btn-close btn-close-black text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <h3>Filtres:</h3>
+        <div class="form-group">
+            <label for="specificationTitre">Titre:</label>
+            <input id="specificationTitre" class="form-control" name="specificationTitre" type="text" list="ListeLivres">
+            <datalist id="ListeLivres">
+                @foreach (var livre in Model.Livres)
+                {
+                    <option value="@livre" />
+                }
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label for="specificationAuteur">Auteur:</label>
+            <input id="specificationAuteur" class="form-control" name="specificationAuteur" type="text" list="ListeAuteurs">
+            <datalist id="ListeAuteurs">
+                @foreach (var auteur in Model.Auteurs)
+                {
+                    <option value="@auteur" />
+                }
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label for="specificationMaisonEdition">Maison d'édition:</label>
+            <input id="specificationMaisonEdition" class="form-control" type="text" list="specificationMaisonEditions">
+            <datalist id="specificationMaisonEditions">
+                @foreach (var maisonEdition in Model.MaisonEditions)
+                {
+                    <option value="@maisonEdition" />
+                }
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label for="specificationCategorie">Categorie:</label>
+            <input id="specificationCategorie" class="form-control" name="specificationCategorie" type="text" list="specificationCategories">
+            <datalist id="specificationCategories">
+                @foreach (var categorie in Model.Categories)
+                {
+                    <option value="@categorie" />
+                }
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label for="specificationLangue">Langue:</label>
+            <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues" />
+            <datalist id="ListeLangues">
+                @foreach (var langue in Model.Langues)
+                {
+                    <option value="@langue" />
+                }
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label for="specificationPrixMin">Prix minimum:</label>
+            <input id="specificationPrixMin" class="form-control" type="number" min="0">
+        </div>
+        <div class="form-group">
+            <label for="specificationPrixMax">Prix maximum:</label>
+            <input id="specificationPrixMax" class="form-control" type="number" min="0">
+        </div>
+        <div class="form-group">
+            <label for="specificationTypeLivre">Type de livre:</label>
+            <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres" />
+            <datalist id="ListeTypeLivres">
+                @foreach (var typeLivre in Model.TypeLivres)
+                {
+                    <option value="@typeLivre" />
+                }
+            </datalist>
+        </div>
+        <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary">
+            Rechercher
+        </button>
     </div>
+    @* Body *@
+    @* Add button *@
+    <div class="m-4">
+        <a id="btnAjouterLivre" onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
+    </div>
+    @* Table *@
+    <partial model="Model.LivrePartials" name="PartialViews/GestionLivres/_ListeLivresPartial" />
+    <partial name="PartialViews/Utilities/_PaginationPartial" />
+</form>
 
-</div>
 
-<style> 
+<style>
     /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
     .saveButton {
         visibility: hidden;
@@ -249,6 +140,10 @@
     var btnSearchGL = document.getElementById("rechercherBTN_GL");
 
     btnSearchGL.addEventListener("click", RechercheGestionLivres);
+
+    var btnSearchGLFiltre = document.getElementById("rechercherBTNFiltre");
+
+    btnSearchGLFiltre.addEventListener("click", RechercheGestionLivres);
 
     async function RechercheGestionLivres(ev) {
         ev.preventDefault();
@@ -347,6 +242,6 @@
 
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
 
 }

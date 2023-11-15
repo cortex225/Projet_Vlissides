@@ -28,5 +28,6 @@ namespace VLISSIDES.ViewModels.Evenements
         public string NbPlacesReservees { get; set; } = default!;
 
         [DisplayName("Prix")] public decimal? Prix { get; set; } = default!;
+        public bool EstEnDemandeAnnuler { get; set; } = default!;
     }
 }
