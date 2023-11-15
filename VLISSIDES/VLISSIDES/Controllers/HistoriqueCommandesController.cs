@@ -245,29 +245,29 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         public async Task<IActionResult> Cancel(string commandeId)
         {
-
-            // Récupère l'identifiant de l'utilisateur connecté
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
-
-            var commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
-            var lc = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId);
-            if (lc == null || commande == null) return BadRequest();
-
-            var livresCommandes = lc.Select(lc => new LivreCommandeVM
-            {
-                Livre = lc.Livre,
-                CommandeId = lc.CommandeId,
-                Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat,
-                EnDemandeRetourner = lc.EnDemandeRetourner
-            }).ToList();
-
-            //Send email
-            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-
             try
             {
+                // Récupère l'identifiant de l'utilisateur connecté
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
+
+                var commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
+                var lc = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId);
+                if (lc == null || commande == null) return BadRequest();
+
+                var livresCommandes = lc.Select(lc => new LivreCommandeVM
+                {
+                    Livre = lc.Livre,
+                    CommandeId = lc.CommandeId,
+                    Quantite = lc.Quantite,
+                    PrixAchat = lc.PrixAchat,
+                    EnDemandeRetourner = lc.EnDemandeRetourner
+                }).ToList();
+
+                //Send email
+                var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+
                 var customer =
                     await _context.Membres.FirstOrDefaultAsync(m => m.Id == userId);
 
@@ -277,17 +277,17 @@ namespace VLISSIDES.Controllers
                         "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
                 // Envoi du mail de confirmation de commande
                 await SendConfirmationEmailAnnule(customer, commandeId, livresCommandes, logoUrl);
+
+
+                commande.EnDemandeAnnulation = true;
+
+                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
-
-            commande.EnDemandeAnnulation = true;
-
-            await _context.SaveChangesAsync();
-
-            return View();
+            return View("~/HistoriqueCommandes/Index.cshtml");
         }
 
         private async Task SendConfirmationEmailRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
