@@ -52,6 +52,20 @@
     .saveButton {
         visibility: hidden;
     }
+
+    #ajouterCodePromo{
+        margin-top: 12px;
+        background: #E1E1E1;
+    }
+
+    #inputCodePromoDiv{
+        margin-top: 12px;
+    }
+
+    .hideInputCodePromo{
+        visibility: hidden;
+        height: 0px;
+    }
 </style>
 <script type="text/javascript" src="~/js/DynamicSaveButton.js" asp-append-version="true"></script>
 <!--Fin pour Fonctionalite des boutons-->
@@ -136,6 +150,11 @@
             console.error("Erreur lors de la requête FETCH:", error);
         });
         
+    }
+
+    function AfficherFieldCodePromo() {
+        var p = document.getElementById("inputCodePromoDiv");
+        p.classList.toggle('hideInputCodePromo');
     }
 </script>
 <script>
