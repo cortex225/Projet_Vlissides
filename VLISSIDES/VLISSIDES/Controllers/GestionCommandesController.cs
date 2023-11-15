@@ -226,7 +226,7 @@ namespace VLISSIDES.Controllers
                 Livres = livresList,
             };
 
-            return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerAccepterAnnulationPartial", vm);
+            return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerRefuserAnnulationPartial", vm);
         }
 
         [HttpPost]
