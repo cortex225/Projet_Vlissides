@@ -19,7 +19,7 @@ namespace VLISSIDES.ViewModels.GestionPromotions
         [Display(Name = "Fin de la promotion")] public DateTime DateFin { get; set; }
 
         public string? ImageUrl { get; set; }
-
+        [Display(Name = "Image de la promotion")] public IFormFile? CoverPhoto { get; set; }
         [Display(Name = "Auteur")] public string Auteur { get; set; }
         [Display(Name = "Auteur")] public List<string> Auteurs { get; set; }
 
