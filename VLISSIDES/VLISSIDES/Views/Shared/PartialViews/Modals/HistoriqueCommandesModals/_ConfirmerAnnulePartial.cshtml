@@ -1,0 +1,19 @@
+﻿<div id="ModalId">
+    <div class="modal-header">
+        <h5 class="modal-title">Confirmation d'annulation</h5>
+    </div>
+    <div class="modal-body">
+        Êtes-vous sûr de vouloir annulé la commande @Model.Commande.Id ?
+        <ul>
+            @foreach (var item in Model.Livres)
+            {
+                <li>@item.Quantite x @item.Livre.Titre</li>             
+            }
+        </ul>
+        
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-secondary" href="~/HistoriqueCommandes/Index">Annuler</a>
+        <button type="button" class="btn btn-danger" id="confirmDelete" onclick="annulerCommande('@Model.Commande.Id', event)">Retourner</button>
+    </div>
+</div>

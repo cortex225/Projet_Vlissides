@@ -29,4 +29,6 @@ public class Commande
     public StatutCommande StatutCommande { get; set; } = default!;
 
     public string? PaymentIntentId { get; set; } = default!;
+
+    public bool EnDemandeAnnulation { get; set; } = default!;
 }

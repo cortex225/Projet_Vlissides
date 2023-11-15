@@ -161,7 +161,7 @@ namespace VLISSIDES.API.Stripe
             var nbCommandes = _context.Commandes.Count().ToString();
             var commande = new Commande
             {
-                Id = "Commande-#" + nbCommandes + "-" + DateTime.Now.ToString("yyyyMMddHH"),
+                Id = "Commande" + nbCommandes + "-" + DateTime.Now.ToString("yyyyMMddHH"),
                 DateCommande = nouvelleCommande.DateCommande,
                 PrixTotal = nouvelleCommande.PrixTotal,
                 MembreId = customer.Id,
