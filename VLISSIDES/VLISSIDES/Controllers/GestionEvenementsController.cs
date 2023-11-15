@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
 using VLISSIDES.Data;
+using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionEvenements;
 
@@ -12,12 +15,16 @@ namespace VLISSIDES.Controllers
         private readonly IConfiguration _config;
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ISendGridEmail _sendGridEmail;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public GestionEvenementsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
-        IConfiguration config)
+        IConfiguration config, ISendGridEmail sendGridEmail, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _config = config;
+            _sendGridEmail = sendGridEmail;
+            _httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Index()
         {
@@ -57,6 +64,16 @@ namespace VLISSIDES.Controllers
                 Prix = e.Prix,
             }).ToList();
             return PartialView("PartialViews/GestionEvenements/_ListeEvenementsPartial", evenements);
+        }
+        public IActionResult AfficherReservations()
+        {
+            var reservations = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).Where(r => r.EnDemandeAnnuler == true).Select(r => new GestionEvenementsReservationVM
+            {
+                Id = r.Id,
+                NomEvenement = r.Evenement.Nom,
+                NomUtilisateur = r.Membre.UserName
+            }).ToList();
+            return PartialView("PartialViews/GestionEvenements/_ListeReservationsPartial", reservations);
         }
         public IActionResult AjouterEvenement()
         {
@@ -265,6 +282,62 @@ namespace VLISSIDES.Controllers
             };
             return PartialView("PartialViews/Modals/Evenements/_SupprimerEvenementPartial", vm);
         }
+        public IActionResult ShowConfirmerDemande(string id)
+        {
+            var reservations = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).FirstOrDefault(r => r.Id == id);
+            var vm = new GestionEvenementsReservationVM
+            {
+                Id = reservations.Id,
+                NomEvenement = reservations.Evenement.Nom,
+                NomUtilisateur = reservations.Membre.UserName
+            };
+            return PartialView("PartialViews/Modals/Evenements/_ConfirmerReservationPartial", vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ConfirmerDemande(string id)
+        {
+            var reservation = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).FirstOrDefault(r => r.Id == id);
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+            _context.Reservations.Remove(reservation);
+            _context.SaveChanges();
+            //Logo fourmi ailé
+            var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
+            //Nom utilisateur du membre
+            var username = reservation.Membre.UserName;
+            await SendConfirmationEmailMembreConfirmed(username, reservation, logoUrl);
+            return Ok();
+        }
+        public IActionResult ShowAnnulerDemande(string id)
+        {
+            var reservations = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).FirstOrDefault(r => r.Id == id);
+            var vm = new GestionEvenementsReservationVM
+            {
+                Id = reservations.Id,
+                NomEvenement = reservations.Evenement.Nom,
+                NomUtilisateur = reservations.Membre.UserName
+            };
+            return PartialView("PartialViews/Modals/Evenements/_AnnulerReservationPartial", vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AnnulerDemande(string id)
+        {
+            var reservation = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).FirstOrDefault(r => r.Id == id);
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+            reservation.EnDemandeAnnuler = false;
+            _context.SaveChanges();
+            //Logo fourmi ailé
+            var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
+            //Nom utilisateur du membre
+            var username = reservation.Membre.UserName;
+            await SendConfirmationEmailMembreCancelled(username, reservation, logoUrl);
+            return Ok();
+        }
         [HttpPost]
         public IActionResult SupprimerEvenement(string id)
         {
@@ -276,6 +349,112 @@ namespace VLISSIDES.Controllers
             _context.Evenements.Remove(evenement);
             _context.SaveChanges();
             return Ok();
+        }
+        private async Task SendConfirmationEmailMembreConfirmed(string? username, Reservation reservation, string logoUrl)
+        {
+            var subject = "Confirmation de commande";
+
+            // Construire le corps du courriel
+            var body = BuildConfirmationEmailMembreConfirmedBody(username, reservation, logoUrl);
+
+            var emailAddress = _context.Users.FirstOrDefault(u => u.Id == reservation.MembreId).Email;
+            // Envoyer le courriel avec la facture en pièce jointe
+            await _sendGridEmail.SendEmailAsync(emailAddress, subject, body);
+        }
+        private string BuildConfirmationEmailMembreConfirmedBody(string username, Reservation reservation, string logoUrl)
+        {
+            var body = new StringBuilder();
+
+            string myURL = _httpContextAccessor.HttpContext.Request.Host.Value;//_httpContextAccessor.Request.Host.Value;            string BASE_URL_RAZOR = Url.Content("~"); 
+
+
+            body.Append("<div style='font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; max-width: 680px; margin: 20px auto; padding: 40px; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);'>");
+            body.Append($"<img src='{logoUrl}' alt='Logo' style='max-width: 200px; display: block; margin: 0 auto 20px;'>");
+            body.Append($"<h2 style='color: #333; text-align: center; margin-top: 0;'>Cher(e) {username},</h2>");
+            body.Append($"<h2 style='color: #444;'>Votre demande d'annulation de la commande {reservation.Id} a été accepté!</h2>");
+            body.Append($"<h2 style='color: #444;'>Vous allez être rembourser pour la commande.</h2>");
+            body.Append("<p style='color: #555; font-size: 16px; text-align: center;'>Voici le récapitulatif :</p>");
+            body.Append("<hr style='border: 0; height: 1px; background-image: linear-gradient(to right, #146ec3, #146ec3, #fff); margin: 20px 0;'>");
+            body.Append("<table style='width: 100%; margin-top: 30px; border-collapse: collapse;'>");
+            body.Append("<thead>");
+            body.Append("<tr style='background-color: #146ec3; color: #ffffff;'>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Evenement</th>");
+
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Prix</th>");
+            body.Append("</tr>");
+            body.Append("</thead>");
+            body.Append("<tbody>");
+            body.Append("<tr>");
+            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{reservation.Evenement.Nom}</td>");
+
+            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{reservation.prixAchat}</td>");
+            body.Append("</tr>");
+            body.Append("</tbody>");
+            body.Append("</table>");
+
+            body.Append($"<p style='color: #555; font-size: 16px;'><strong>Remboursement Total:</strong> {reservation.prixAchat}</p>");
+            body.Append("<p style='color: #555; font-size: 16px;'>Si vous avez des questions ou si vous avez besoin d'informations supplémentaires, veuillez ne pas hésiter à nous contacter.</p>");
+            body.Append("<p style='text-align: center; margin-top: 40px;'><a href='https://sqlinfocg.cegepgranby.qc.ca/2147186' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
+            body.Append("<footer style='text-align: center; color: #888; margin-top: 40px; font-size: 14px;'>");
+            body.Append("<p>Merci de faire confiance à La Fourmi Aillée.</p>");
+            body.Append("<p style='color: #146ec3;'>La Fourmi Aillée, 235 Rue Saint-Jacques, Granby, QC J2G 3N1</p>");
+            body.Append("</div>");
+
+            return body.ToString();
+
+        }
+        private async Task SendConfirmationEmailMembreCancelled(string? username, Reservation reservation, string logoUrl)
+        {
+            var subject = "Confirmation de commande";
+
+            // Construire le corps du courriel
+            var body = BuildConfirmationEmailMembreCancelledBody(username, reservation, logoUrl);
+
+            var emailAddress = _context.Users.FirstOrDefault(u => u.Id == reservation.MembreId).Email;
+            // Envoyer le courriel avec la facture en pièce jointe
+            await _sendGridEmail.SendEmailAsync(emailAddress, subject, body);
+        }
+        private string BuildConfirmationEmailMembreCancelledBody(string username, Reservation reservation, string logoUrl)
+        {
+            var body = new StringBuilder();
+
+            string myURL = _httpContextAccessor.HttpContext.Request.Host.Value;//_httpContextAccessor.Request.Host.Value;            string BASE_URL_RAZOR = Url.Content("~"); 
+
+
+            body.Append("<div style='font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; max-width: 680px; margin: 20px auto; padding: 40px; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);'>");
+            body.Append($"<img src='{logoUrl}' alt='Logo' style='max-width: 200px; display: block; margin: 0 auto 20px;'>");
+            body.Append($"<h2 style='color: #333; text-align: center; margin-top: 0;'>Cher(e) {username},</h2>");
+            body.Append($"<h2 style='color: #444;'>Votre demande d'annulation de la commande {reservation.Id} a été refusé.</h2>");
+            body.Append($"<h2 style='color: #444;'>Désolé du malentendu...</h2>");
+            body.Append("<p style='color: #555; font-size: 16px; text-align: center;'>Voici le récapitulatif :</p>");
+            body.Append("<hr style='border: 0; height: 1px; background-image: linear-gradient(to right, #146ec3, #146ec3, #fff); margin: 20px 0;'>");
+            body.Append("<table style='width: 100%; margin-top: 30px; border-collapse: collapse;'>");
+            body.Append("<thead>");
+            body.Append("<tr style='background-color: #146ec3; color: #ffffff;'>");
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Evenement</th>");
+
+            body.Append("<th style='padding: 15px; border: 1px solid #146ec3;'>Prix</th>");
+            body.Append("</tr>");
+            body.Append("</thead>");
+            body.Append("<tbody>");
+            body.Append("<tr>");
+            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{reservation.Evenement.Nom}</td>");
+
+            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{reservation.prixAchat}</td>");
+            body.Append("</tr>");
+            body.Append("</tbody>");
+            body.Append("</table>");
+
+            body.Append("<p style='color: #555; font-size: 16px;'>Si vous avez des questions ou si vous avez besoin d'informations supplémentaires, veuillez ne pas hésiter à nous contacter.</p>");
+            body.Append("<p style='text-align: center; margin-top: 40px;'><a href='https://sqlinfocg.cegepgranby.qc.ca/2147186' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
+            body.Append("<footer style='text-align: center; color: #888; margin-top: 40px; font-size: 14px;'>");
+            body.Append("<p>Merci de faire confiance à La Fourmi Aillée.</p>");
+            body.Append("<p style='color: #146ec3;'>La Fourmi Aillée, 235 Rue Saint-Jacques, Granby, QC J2G 3N1</p>");
+            body.Append("</div>");
+
+
+            return body.ToString();
+
         }
     }
 }

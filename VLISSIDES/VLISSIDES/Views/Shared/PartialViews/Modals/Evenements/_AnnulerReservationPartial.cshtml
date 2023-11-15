@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model VLISSIDES.ViewModels.GestionEvenements.GestionEvenementsReservationVM
+
+<div class="modal-header">
+    <h5 class="modal-title" id="ModalEditLabel">
+        Annuler la demande @Model.Id
+    </h5>
+</div>
+<div class="modal-body">
+    <p>
+        Êtes-vous sûr de vouloir annuler la demande @Model.Id de l'utilisateur @Model.NomUtilisateur pour l'évenement @Model.NomEvenement?
+    </p>
+</div>
+<div class="modal-footer">
+    <input class="btn btn-secondary" onclick="Annuler()" value="Annuler"/>
+    <button type="button" class="btn btn-danger" id="confirmDelete" onclick="AnnulerDemande('@Model.Id')">Annuler la demande</button>
+</div>

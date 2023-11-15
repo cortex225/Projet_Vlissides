@@ -8,6 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="ViewModels\GestionEvenements\GestionEvenementsConfirmerDemandeVM - Copy.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     </ItemGroup>
 
