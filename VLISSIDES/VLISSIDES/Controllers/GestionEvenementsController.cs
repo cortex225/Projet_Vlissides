@@ -352,7 +352,7 @@ namespace VLISSIDES.Controllers
         }
         private async Task SendConfirmationEmailMembreConfirmed(string? username, Reservation reservation, string logoUrl)
         {
-            var subject = "Confirmation de commande";
+            var subject = "Demande d'annulation de reservation";
 
             // Construire le corps du courriel
             var body = BuildConfirmationEmailMembreConfirmedBody(username, reservation, logoUrl);
@@ -405,7 +405,7 @@ namespace VLISSIDES.Controllers
         }
         private async Task SendConfirmationEmailMembreCancelled(string? username, Reservation reservation, string logoUrl)
         {
-            var subject = "Confirmation de commande";
+            var subject = "Demande d'annulation de reservation";
 
             // Construire le corps du courriel
             var body = BuildConfirmationEmailMembreCancelledBody(username, reservation, logoUrl);

@@ -13,26 +13,30 @@
 <link rel="stylesheet" href="~/css/event-card.css"asp-append-version="true">
 
 <div class="container-fluid">
-    @if(Model.MesEvenements != null)
+    @if (User.Identity.IsAuthenticated)
     {
-        @if (Model.MesEvenements.Count != 0)
+        
+   
+        @if(Model.MesEvenements != null)
         {
-           <h1>Mes événements</h1>
-           <div class="row">
-                <div class="d-flex flex-wrap justify-content-around">
-                    @foreach (var item in Model.MesEvenements)
-                    {
-                        <div style="width:40%; ">
-                            <partial name="PartialViews/Evenements/_EvenementReservedCardPartial" model="@item" />
-                        </div>
+            @if (Model.MesEvenements.Count != 0)
+            {
+               <h1>Mes événements</h1>
+               <div class="row">
+                    <div class="d-flex flex-wrap justify-content-around">
+                        @foreach (var item in Model.MesEvenements)
+                        {
+                            <div style="width:40%; ">
+                                <partial name="PartialViews/Evenements/_EvenementReservedCardPartial" model="@item" />
+                            </div>
 
-                    }
-                </div>
+                        }
+                    </div>
 
-           </div> 
+               </div> 
+            }
         }
     }
-    
     
     <h1>Les événements</h1>
     <div class="row">

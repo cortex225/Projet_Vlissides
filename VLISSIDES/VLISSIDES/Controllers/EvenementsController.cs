@@ -117,6 +117,7 @@ namespace VLISSIDES.Controllers
                     NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Count()).ToString() + "/" + e.NbPlacesMembre.ToString(),
                     Prix = e.Prix,
                 }).ToList();
+                vm.MesEvenements = new List<EvenementsVM>();
             }
 
             return View(vm);
@@ -168,7 +169,7 @@ namespace VLISSIDES.Controllers
         }
         private async Task SendConfirmationEmailAdminAnnuler(string? username, Reservation reservation, string logoUrl)
         {
-            var subject = "Confirmation de commande";
+            var subject = "Demande d'annulation de reservation";
 
             // Construire le corps du courriel
             var body = BuildEmailAdminAnnulerBody(username, reservation, logoUrl);
