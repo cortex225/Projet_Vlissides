@@ -230,35 +230,28 @@ namespace VLISSIDES.Controllers
         }
 
         [HttpPost]
-        public IActionResult AccepterDemandeRetour(string commandeId, string livreId, string quantite)
+        public IActionResult AccepterDemandeRetour(string? commandeId, string? livreId, string? quantite)
         {
             LivreCommande? livreCommande = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
-
-
 
             int quantiteInt;
             if (int.TryParse(quantite, out quantiteInt) && livreCommande is not null)
             {
-                //if (livreCommande.Quantite == quantiteInt)
-                //{
-                //    //Soit qu'on supprime la commande ou on affiche le nombre de livre retournés
-                //}
-                //else
-                //{
                 livreCommande.Quantite -= quantiteInt;
-                //}
+                livreCommande.EnDemandeRetourner = false;
+                _context.SaveChanges();
             }
             else
             {
                 return BadRequest();
             }
 
-            livreCommande.EnDemandeRetourner = false;
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult AccepterDemandeAnnulation(string commandeId)
+        public IActionResult AccepterDemandeAnnulation(string? commandeId)
         {
             Commande? commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
 
@@ -267,32 +260,36 @@ namespace VLISSIDES.Controllers
                 commande.StatutCommandeId = "5";
 
                 commande.EnDemandeAnnulation = false;
+
+                _context.SaveChanges();
             }
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult RefuserDemandeRetour(string commandeId, string livreId, string quantite)
+        public IActionResult RefuserDemandeRetour(string? commandeId, string? livreId, string? quantite)
         {
             LivreCommande? livreCommande = _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
             if (livreCommande is not null)
             {
                 livreCommande.EnDemandeRetourner = false;
+                _context.SaveChanges();
             }
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult RefuserDemandeAnnulation(string commandeId)
+        public IActionResult RefuserDemandeAnnulation(string? commandeId)
         {
             Commande? commande = _context.Commandes.FirstOrDefault(lc => lc.Id == commandeId);
 
             if (commande is not null)
             {
                 commande.EnDemandeAnnulation = false;
+                _context.SaveChanges();
             }
 
             return View();

@@ -1,9 +1,9 @@
 ﻿<div id="ModalId">
     <div class="modal-header">
-        <h5 class="modal-title">Confirmer l'annulation de la commande</h5>
+        <h5 class="modal-title">Refuser la demande de retour</h5>
     </div>
     <div class="modal-body">
-        Êtes-vous sûr d'accepter la demande de remboursement?
+        Êtes-vous sûr de refuser la demande de remboursement?
         <ul>
             @foreach (var item in Model.Livres)
             {
@@ -13,7 +13,7 @@
         </ul>
     </div>
     <div class="modal-footer">
-        <a class="btn btn-secondary" href="~/HistoriqueCommandes/Index">Annuler</a>
-        <button type="button" class="btn btn-danger" id="confirmDelete" onclick="annulerCommande('@Model.Id')">Retourner</button>
+        <a class="btn btn-secondary" href="~/GestionCommandes/Index">Annuler</a>
+        <button type="button" class="btn btn-danger" id="confirmDelete" onclick="refuserRetour('@Model.Id')">Confirmer</button>
     </div>
 </div>
