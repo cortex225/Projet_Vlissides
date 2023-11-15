@@ -13,10 +13,10 @@
             string couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
         }
         <img id="DetailsIMG" src="@Html.Raw(couverture)" />
-            <div class="Container-Evaluation px-4">
-                <p > Évaluation de nos lecteurs</p>
-                <partial name="PartialViews/Accueil/_Etoiles" model=@Model.Note />
-            </div>
+        <div class="Container-Evaluation px-4">
+            <p > Évaluation de nos lecteurs</p>
+            <partial name="PartialViews/Accueil/_Etoiles" model=@Model.Note />
+        </div>
     </div>
 
     <div id="DetailsInfo">
@@ -69,7 +69,7 @@
     </div>
     @if (!Model.Papier.Equals(null) && User.IsInRole(RoleName.MEMBRE))//1 = "Neuf"
     {
-        <div id="commande" class="btn-group" role="group" aria-label="Basic example">
+        <div id="commande" class="btn-group" role="group" aria-label="Basic example" style="background-color: #D7E2EC;">
             @if (Model.NbExemplaires > 0)
             {
                 <form>
