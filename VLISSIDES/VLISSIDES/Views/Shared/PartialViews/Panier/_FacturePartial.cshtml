@@ -59,29 +59,20 @@
             +5,00$
         </div>
     </div>
-    <div>
-        <button id="ajouterCodePromo" type="button" class="btn btn-light" onclick=" AfficherFieldCodePromo()">Ajouter un code promotionnel</button>
-        <form class="d-flex hideInputCodePromo" role="search" id="inputCodePromoDiv">
-            <input id="inputCodePromo" class="form-control me-2" type="search" placeholder="Code promo ici:" aria-label="Search">
-            <button id="submitCodePromo" class="btn btn-primary" type="submit">Ajouter</button>
-        </form>
 
-    </div>
 </div>
 
 @* Rajout de l'input pour le code promo *@
 
 <div class="d-flex justify-content-between mt-4">
-    <div class="form-group">
-        <label for="codePromo">Code promo</label>
-        <input type="text" class="form-control" id="codePromo" placeholder="Entrez votre code promo">
-        @* Rajout du bouton pour applique le code *@
-        <button type="button" class="btn btn-primary mt-2" id="btnAppliquerCodePromo" onclick="appliquerCodePromo()">Appliquer</button>
-    </div>
-    <div id="prixCodePromo">
-        -0,00$
-    </div>
+    <button id="ajouterCodePromo" type="button" class="btn btn-light" onclick=" AfficherFieldCodePromo()">Ajouter un code promotionnel</button>
+    <form class="d-flex hideInputCodePromo" role="search" id="inputCodePromoDiv">
+        <input id="inputCodePromo" class="form-control me-2" type="search" placeholder="Code promo ici:" aria-label="Search">
+        <button id="submitCodePromo" class="btn btn-primary" type="submit">Ajouter</button>
+    </form>
 </div>
+
+
 <hr/>
 <div id="total" class="p-2 px-4">
     <div class="d-flex justify-content-between">
