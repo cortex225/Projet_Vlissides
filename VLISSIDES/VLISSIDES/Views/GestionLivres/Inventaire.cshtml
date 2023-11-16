@@ -153,13 +153,13 @@
                                         Prix par type
                                     </p>                                   
                                 </div>
-                                <div class="QuantiteCol mediaQuerryHideOnMedium col-1">
+                                <div class="QuantiteCol mediaQuerryHideOnMediumLarge col-1">
                                     <p class="text-center">
                                         Quantité
                                     </p>                                   
                                 </div>
                                 <div class="col-2">
-                                    @* Espace vide pour les bouton *@
+                                    @* Espace vide pour les boutons *@
                                 </div>
                             </div>
 
@@ -208,9 +208,9 @@
                                             }
                                         </div>
                                     </div>
-                                    <div class="QuantiteCol mediaQuerryHideOnMedium col-1">
+                                    <div class="QuantiteCol mediaQuerryHideOnMediumLarge col-1">
                                         <div class="text-center">
-                                            @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
+                                            @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
                                             {
                                                 <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
                                             }
@@ -223,9 +223,9 @@
                                     
                                     
                                     <div class="divBoutons col-2 text-center h-40">
-                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
+                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
                                         {
-                                            <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="mediaQuerryHideOnMedium btn btn-success saveButton px-3" onclick="
+                                            <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="mediaQuerryHideOnMediumLarge btn btn-success saveButton px-3" onclick="
                                                 saveQuantite('@item.Id', '@item.Quantite')
                                                 disableButton('@item.Id')">
 
