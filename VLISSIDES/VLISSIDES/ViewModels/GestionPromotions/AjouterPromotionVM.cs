@@ -42,7 +42,7 @@ namespace VLISSIDES.ViewModels.GestionPromotions
         public AjouterPromotionVM(Promotions promotion = null, List<Auteur> auteurs = null,
             List<Categorie> categories = null, List<MaisonEdition> maisonEditions = null, List<string> typePromotions = null)
         {
-            if (promotion.Equals(null))
+            if (promotion == null)
             {
                 Action = "Ajouter";
                 Id = "";

@@ -77,7 +77,7 @@ namespace VLISSIDES.Controllers
                 var id = Guid.NewGuid().ToString();
 
 
-                _context.Promotions.Add(new Promotions
+                var promo = new Promotions
                 {
                     Id = id,
                     Image = vm.ImageUrl,
@@ -94,6 +94,7 @@ namespace VLISSIDES.Controllers
                     LivresGratuits = vm.LivresGratuits,
                     PourcentageRabais = vm.PourcentageRabais
                 };
+                _context.Promotions.Add(promo);
 
                 // Création de la promotion dans Stripe
                 await CreerPromotionStripe(vm);

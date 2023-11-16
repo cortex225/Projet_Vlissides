@@ -14,7 +14,7 @@
         <div class="container d-flex justify-content-center">
             <div class="row rowAjoutPromotion" id="row1">
                 <input type="hidden" asp-for="Id" value="" />
-                <input type="hidden" asp-for="CoverImageUrl"/>
+                <input type="hidden" asp-for="ImageUrl"/>
                 <div class="custom-file row">
 
                     <input asp-for="CoverPhoto" type="file" class="custom-file-input" id="customFile">
@@ -55,22 +55,33 @@
 
             <div class="row rowAjoutPromotion" id="row2">
                 <div class="form-group">
-                    <label asp-for="AuteurId"></label>
-                    <select asp-for="AuteurId" asp-items="Model.SelectListAuteurs" class="form-control">
-                        <option value="">Sélectionnez...</option>
-                    </select>
+                    <input asp-for="Auteur" class="form-control" type="text" list="Auteurs">
+                    <datalist id="Auteurs">
+                        @foreach (var auteur in Model.Auteurs)
+                        {
+                            <option value="@auteur" />
+                        }
+                    </datalist>
+                </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="MaisonEditionId"></label>
-                    <select asp-for="MaisonEditionId" asp-items="Model.SelectListMaisonEditions" class="form-control">
-                        <option value="">Sélectionnez...</option>
-                    </select>
+                <input asp-for="MaisonEdition" class="form-control" name="specificationTitre" type="text" list="MaisonEditions">
+                <datalist id="MaisonEditions">
+                    @foreach (var livre in Model.MaisonEditions)
+                    {
+                        <option value="@livre" />
+                    }
+                </datalist>
+            </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CategorieId"></label>
-                    <select asp-for="CategorieId" asp-items="Model.SelectListCategories" class="form-control">
-                        <option value="">Sélectionnez...</option>
-                    </select>
+            <input asp-for="Categorie" class="form-control" name="specificationTitre" type="text" list="Categories">
+            <datalist id="Categories">
+                @foreach (var categorie in Model.Categories)
+                {
+                    <option value="@categorie" />
+                }
+            </datalist>
                 </div>
                 <div class="form-group mt-4">
                     <label asp-for="DateDebut"></label>
@@ -85,11 +96,11 @@
     </div>
     <div class="modal-footer">
         <a class="btn btn-danger " href="~/GestionPromotions/Index">Annuler</a>
-        @if (Model.action == "Ajouter")
+        @if (Model.Action == "Ajouter")
         {
             <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterPromo()" />
         }
-        else if (Model.action == "Modifier")
+        else if (Model.Action == "Modifier")
         {
             <input type="button" value="Modifier" class="btn btn-primary" onclick="ModifierPromo()" />
         }
