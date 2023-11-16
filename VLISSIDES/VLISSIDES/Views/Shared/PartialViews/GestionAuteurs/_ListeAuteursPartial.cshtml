@@ -13,12 +13,12 @@
             <!--onclick pour afficher livres ici-->
             <div id="@auteur.Id" class="card list-group-item list-group-item-action mb-2 mx-3 element-hoverable" data-toggle="list" onclient onclick="AfficherAuteursLivres('@auteur.Id')">
                 <div class="card-body row align-items-center p-0">
-                    <div class="col-9 text-center">
+                    <div class="col text-center">
                         <!--Début : Modifier nom d'une maison d'édition-->
                         <input id="@auteur.Id @auteur.Nom" type="text" asp-for="@auteur.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => auteur.Nom)"
                                onclick="enableButton('@auteur.Id')">
                     </div>
-                    <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+                    <div class="col-auto text-center d-flex flex-row justify-content-around h-40 mx-1">
                         @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
 
                         <button id="saveButton @auteur.Id" type="button" class="btn btn-success saveButton"
