@@ -222,10 +222,10 @@
                                     </div>
                                     
                                     
-                                    <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
+                                    <div class="divBoutons col-2 text-center h-40">
                                         @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
                                         {
-                                            <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
+                                            <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="mediaQuerryHideOnSmall btn btn-success saveButton px-3" onclick="
                                                 saveQuantite('@item.Id', '@item.Quantite')
                                                 disableButton('@item.Id')">
 
@@ -239,10 +239,10 @@
                                                 <span class="fa-solid fa-check fa-2x"></span>
                                             </button>
                                         }
-                                        <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                                        <a class="btn btn-primary p-2 m-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
                                             <span class="fa-solid fa-pen fa-2x"></span>
                                         </a>
-                                        <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
+                                        <a class="btn btn-danger p-2 m-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
                                             <span class="fa-solid fa-trash fa-2x"></span>
                                         </a>
                                     </div>
@@ -266,6 +266,14 @@
     /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
     .saveButton {
         visibility: hidden;
+    }
+
+    html{
+        width: auto;
+        margin: 0px;
+    }
+    body{
+        width: auto;
     }
 </style>
 

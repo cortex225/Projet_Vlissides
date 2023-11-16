@@ -8,5 +8,15 @@
     .mediaQuerryHideOnMedium {
         display: none !important;
     }
+
+    .divBouton {
+        display: flex !important;
+        flex-direction: column !important;
+    }
 }
 
+.divBouton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
