@@ -8,6 +8,7 @@
     string BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Responsive/GestionInventaire.css" asp-append-version="true">
 
 
 @*********************@
@@ -127,23 +128,38 @@
                     <div class="container-fluid d-flex flex-wrap row" id="TabLivreListes">
                         <div class="mb-3 mx-3">
                             <div class="row px-2">
-                                <div class="col-2 text-center">
-                                    Livre
+                                <div class="LivreCol col">
+                                    <p class="text-center">
+                                        Livre
+                                    </p>
                                 </div>
-                                <div class="col-2 text-center">
-                                    ISBN
+                                <div class="ISBNCol col">
+                                    <p class="text-center">
+                                        ISBN
+                                    </p>                                   
                                 </div>
-                                <div class="col-2 text-center">
-                                    Auteur
+                                <div class="AuteurCol mediaQuerryHideOnMedium col-2">
+                                    <p class="text-center">
+                                        Auteur
+                                    </p>                                   
                                 </div>
-                                <div class="col-1 text-center">
-                                    Catégorie
+                                <div class="CategorieCol mediaQuerryHideOnMedium col-1">
+                                    <p class="text-center">
+                                        Catégorie
+                                    </p>                                  
                                 </div>
-                                <div class="col-2 text-center">
-                                    Prix par type
+                                <div class="PrixCol mediaQuerryHideOnSmall col-2">
+                                    <p class="text-center">
+                                        Prix par type
+                                    </p>                                   
                                 </div>
-                                <div class="col-1 text-center">
-                                    Quantité
+                                <div class="QuantiteCol mediaQuerryHideOnSmall col-1">
+                                    <p class="text-center">
+                                        Quantité
+                                    </p>                                   
+                                </div>
+                                <div class="col-2">
+                                    @* Espace vide pour les bouton *@
                                 </div>
                             </div>
 
@@ -154,46 +170,58 @@
                         {
                             <div id="@item.Id" class="card mb-2 mx-3 element-hoverable">
                                 <div class="card-body row p-2 align-items-center">
-                                    <div class="imgDiv col-2 text-center">
-                                        @{
-                                            string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
-                                        }
-                                        <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
-                                        <p>@Html.DisplayFor(modelItem => item.Titre)</p>
-
+                                    <div class="LivreCol col">
+                                        <div class="imgDiv text-center">
+                                            @{
+                                                string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
+                                            }
+                                            <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
+                                            <p>@Html.DisplayFor(modelItem => item.Titre)</p>
+                                        </div>
                                     </div>
-                                    <div class="col-2 text-center">
-                                        @Html.DisplayFor(modelItem => item.ISBN)
+                                    <div class="ISBNCol col">
+                                        <div class="text-center">
+                                            @Html.DisplayFor(modelItem => item.ISBN)
+                                        </div>
                                     </div>
-                                    <div class="col-2 d-flex flex-column align-items-center">
-                                        @foreach(var auteur in item.ListAuteur)
-                                        {
-                                            <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
-                                        }
+                                    <div class="AuteurCol mediaQuerryHideOnMedium col-2">
+                                        <div class="d-flex flex-column align-items-center">
+                                            @foreach (var auteur in item.ListAuteur)
+                                            {
+                                                <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
+                                            }
+                                        </div>
                                     </div>
-                                    <div class="col-1 text-center">
-                                        @foreach (var categorie in item.Categories)
-                                        {
-                                            <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
-                                        }
-                                        @*Html.DisplayFor(modelItem => item.Categorie)*@
+                                    <div class="CategorieCol mediaQuerryHideOnMedium col-1">
+                                        <div class="text-center">
+                                            @foreach (var categorie in item.Categories)
+                                            {
+                                                <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
+                                            }
+                                        </div>
                                     </div>
-                                    <div class="col-2 d-flex flex-column">
-                                        @foreach(var type in item.LivreTypeLivres)
-                                        {
-                                            <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
-                                        }
+                                    <div class="PrixCol mediaQuerryHideOnSmall col-2">
+                                        <div class="d-flex flex-column">
+                                            @foreach (var type in item.LivreTypeLivres)
+                                            {
+                                                <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
+                                            }
+                                        </div>
                                     </div>
-                                    <div class="col-1 text-center">
-                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
-                                        {
-                                            <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
-                                        }
-                                        else
-                                        {
-                                            <span>N/A</span>
-                                        }
+                                    <div class="QuantiteCol mediaQuerryHideOnSmall col-1">
+                                        <div class="text-center">
+                                            @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
+                                            {
+                                                <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </div>
                                     </div>
+                                    
+                                    
                                     <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
                                         @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
                                         {
@@ -240,6 +268,21 @@
         visibility: hidden;
     }
 </style>
+
+<script>
+    $(window).on('resize', function () {
+        var win = $(this);
+        if (win.width() < 1100) {
+
+            $('.ISBNCol').removeClass('col-2');
+            $('.ISBNCol').addClass('col-4');
+
+        } else {
+            $('.ISBNCol').removeClass('col-4');
+            $('.ISBNCol').addClass('col-2');
+        }
+    });
+</script>
 
 <script type="text/javascript">
     //Hide save button
