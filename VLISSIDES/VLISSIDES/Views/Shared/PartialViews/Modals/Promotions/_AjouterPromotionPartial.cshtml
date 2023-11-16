@@ -55,6 +55,7 @@
 
             <div class="row rowAjoutPromotion" id="row2">
                 <div class="form-group">
+                    <label asp-for="Auteur">Auteur :</label>
                     <input asp-for="Auteur" class="form-control" type="text" list="Auteurs">
                     <datalist id="Auteurs">
                         @foreach (var auteur in Model.Auteurs)
@@ -65,6 +66,7 @@
                 </div>
                 </div>
                 <div class="form-group">
+                <label asp-for="MaisonEdition">Maison d'édition :</label>
                 <input asp-for="MaisonEdition" class="form-control" name="specificationTitre" type="text" list="MaisonEditions">
                 <datalist id="MaisonEditions">
                     @foreach (var livre in Model.MaisonEditions)
@@ -75,6 +77,7 @@
             </div>
                 </div>
                 <div class="form-group">
+            <label asp-for="Categorie">Catégorie:</label>
             <input asp-for="Categorie" class="form-control" name="specificationTitre" type="text" list="Categories">
             <datalist id="Categories">
                 @foreach (var categorie in Model.Categories)

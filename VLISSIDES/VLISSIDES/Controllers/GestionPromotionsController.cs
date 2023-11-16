@@ -116,6 +116,9 @@ namespace VLISSIDES.Controllers
 
                 return Ok();
             }
+            vm.Auteurs = _context.Auteurs.Select(a => a.NomAuteur).ToList();
+            vm.MaisonEditions = _context.MaisonEditions.Select(me => me.Nom).ToList();
+            vm.Categories = _context.Categories.Select(c => c.Nom).ToList();
             return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
         }
 
