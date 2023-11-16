@@ -1,6 +1,7 @@
 ﻿/*--Accueil/Index------------------------------------------------------------------------------------------------------------------------*/
+
 #photoPageAccueilDiv {
-    background: url('/img/Hero-3.svg') no-repeat center center fixed;
+    background: url('../../img/Hero-3.svg') no-repeat center center fixed;
     background-size: cover;
     overflow: hidden;
     height: 90vh;
