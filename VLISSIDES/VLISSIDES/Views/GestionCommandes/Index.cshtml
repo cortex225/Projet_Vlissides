@@ -4,6 +4,9 @@
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
+
+<link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
+
 @*********************@
 @* Modals *@
 @*********************@
@@ -69,21 +72,32 @@
 
     <div class="my-2 p-2">
         <div class="row">
-            <div class="col-sm-3 d-flex justify-content-center">
+            <div class="col d-flex justify-content-center">
                 <h5>Identifiant</h5>
             </div>
-            <div class="col-sm-2 d-flex justify-content-center">
+            <div class="mediaQuerryHideOnMedium col-2 d-flex justify-content-center">
                 <h5>Utilisateur</h5>
             </div>
-            <div class="col-sm-1 d-flex justify-content-center">
+            <div class="mediaQuerryHideOnMediumLarge col-1 d-flex justify-content-center">
                 <h5>Prix</h5>
             </div>
-            <div class="col-sm-2 d-flex justify-content-center">
+            <div class="mediaQuerryHideOnSmall col d-flex justify-content-center">
                 <h5>Date</h5>
             </div>
-            <div class="col-sm-2 d-flex justify-content-center">
+            <div class="mediaQuerryHideOnMedium col-2 d-flex justify-content-center">
                 <h5>Statut</h5>
             </div>
+            <div class="col-2 d-flex justify-content-center">
+                
+                <div class="mediaQuerryHideOnMediumSmall w-50">
+                    @* Espace vide pour i*@
+                </div>
+                <div class="col-1 d-flex justify-content-center">
+                    Alertes
+                </div>
+
+            </div>
+            
         </div>
     </div>
 
