@@ -29,7 +29,7 @@
 <form class="row">
     @* Research bar *@
     <div id="rechercheRapide" class="text-center d-flex flex-wrap">
-        <a id="rechercherBTN_GL" class="btn btn-primary">
+        <a id="rechercherBTN" class="container-fluid btn btn-primary" asp-controller="Recherche" asp-action="Index">
             Rechercher
         </a>
         <input id="rechercheGeneralGL" type="text" class="form-control recherche-input" placeholder="Recherche générale">
@@ -123,21 +123,10 @@
     <partial model="Model.LivrePartials" name="PartialViews/GestionLivres/_ListeLivresPartial" />
     <partial name="PartialViews/Utilities/_PaginationPartial" />
 </form>
-
-
-<style>
-    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
-    .saveButton {
-        visibility: hidden;
-    }
-</style>
-
 <script type="text/javascript">
-    //Hide save button
-    //Utiliser "GL" à la fin de chaque variable, pour signifier "GestionLivres" et pour différencier des variables de Recherche/Index
-
     //Script pour la recherche
-    var btnSearchGL = document.getElementById("rechercherBTN_GL");
+    var btnSearch = document.getElementById("rechercherBTN").addEventListener("click", RechercheGenerale);
+    var btnFiltreSearch = document.getElementById("rechercherBTNFiltre").addEventListener("click", RechercheGenerale);
 
     btnSearchGL.addEventListener("click", RechercheGestionLivres);
 
@@ -148,93 +137,101 @@
     async function RechercheGestionLivres(ev) {
         ev.preventDefault();
 
-        var partieMotClesGL = "motCles=";
-        var partieCriteresGL = "criteres=";
+        var partieMotCles = "motCles=";
+        var partieCriteres = "criteres=";
 
         //Recherche générale
-        var searchGeneralGL = document.getElementById("rechercheGeneralGL");
-        var searchTermGL = searchGeneralGL.value; // Récupérer la valeur de la barre de recherche
+        var searchGeneral = document.getElementById("rechercheGeneral");
+        var searchTerm = searchGeneral.value.trim(); // Récupérer la valeur de la barre de recherche
 
-        if (searchTermGL != "") {
-            artieMotClesGL = partieMotClesGL.concat(`${searchTermGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("general|");
+        if (searchTerm != "") {
+            artieMotCles = partieMotCles.concat(`${searchTerm}|`);
+            partieCriteres = partieCriteres.concat("general|");
         }
 
         //Titre
-        var titreSpecificationGL = document.getElementById("specificationTitreGL");
-        var titreEntreeGL = titreSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var titreSpecification = document.getElementById("specificationTitre");
+        var titreEntree = titreSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
-        if (titreEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${titreEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("titre|");
+        if (titreEntree != "") {
+            partieMotCles = partieMotCles.concat(`${titreEntree}|`);
+            partieCriteres = partieCriteres.concat("titre|");
         }
 
         //Auteur
-        var auteurSpecificationGL = document.getElementById("specificationAuteurGL");
-        var auteurEntreeGL = auteurSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var auteurSpecification = document.getElementById("specificationAuteur");
+        var auteurEntree = auteurSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
-        if (auteurEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${auteurEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("auteur|");
+        if (auteurEntree != "") {
+            partieMotCles = partieMotCles.concat(`${auteurEntree}|`);
+            partieCriteres = partieCriteres.concat("auteur|");
         }
 
         //MaisonEdition
-        var maisonEditionSpecificationGL = document.getElementById("specificationMaisonEditionGL");
-        var maisonEditionEntreeGL = maisonEditionSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var maisonEditionSpecification = document.getElementById("specificationMaisonEdition");
+        var maisonEditionEntree = maisonEditionSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
-        if (maisonEditionEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${maisonEditionEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("maisonEdition|");
+        if (maisonEditionEntree != "") {
+            partieMotCles = partieMotCles.concat(`${maisonEditionEntree}|`);
+            partieCriteres = partieCriteres.concat("maisonEdition|");
         }
 
         //Categorie
-        var categorieSpecificationGL = document.getElementById("specificationCategorieGL");
-        var categorieEntreeGL = categorieSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var categorieSpecification = document.getElementById("specificationCategorie");
+        var categorieEntree = categorieSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
-        if (categorieEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${categorieEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("categorie|");
+        if (categorieEntree != "") {
+            partieMotCles = partieMotCles.concat(`${categorieEntree}|`);
+            partieCriteres = partieCriteres.concat("categorie|");
         }
 
         //Langue
-        var langueSpecificationGL = document.getElementById("specificationLangueGL");
-        var langueEntreeGL = langueSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var langueSpecification = document.getElementById("specificationLangue");
+        var langueEntree = langueSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
-        if (langueEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${langueEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("langue|");
+        if (langueEntree != "") {
+            partieMotCles = partieMotCles.concat(`${langueEntree}|`);
+            partieCriteres = partieCriteres.concat("langue|");
         }
 
         //Type livre
-        var typeLivreSpecificationGL = document.getElementById("specificationTypeLivreGL");
-        var typeLivreEntreeGL = typeLivreSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var typeLivreSpecification = document.getElementById("specificationTypeLivre");
+        var typeLivreEntree = typeLivreSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
-        if (typeLivreEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${typeLivreEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("typeLivre|");
+        if (typeLivreEntree != "") {
+            partieMotCles = partieMotCles.concat(`${typeLivreEntree}|`);
+            partieCriteres = partieCriteres.concat("typeLivre|");
         }
 
         //Prix minimum
-        var prixMinSpecificationGL = document.getElementById("specificationPrixMinGL");
-        var prixMinEntreeGL = prixMinSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var prixMinSpecification = document.getElementById("specificationPrixMin");
+        var prixMinEntree = prixMinSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
-        if (prixMinEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${prixMinEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("prixMin|");
+        if (prixMinEntree != "") {
+            partieMotCles = partieMotCles.concat(`${prixMinEntree}|`);
+            partieCriteres = partieCriteres.concat("prixMin|");
         }
 
         //Prix maximum
-        var prixMaxSpecificationGL = document.getElementById("specificationPrixMaxGL");
-        var prixMaxEntreeGL = prixMaxSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var prixMaxSpecification = document.getElementById("specificationPrixMax");
+        var prixMaxEntree = prixMaxSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
-        if (prixMaxEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${prixMaxEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("prixMax|");
+        if (prixMaxEntree != "") {
+            partieMotCles = partieMotCles.concat(`${prixMaxEntree}|`);
+            partieCriteres = partieCriteres.concat("prixMax|");
         }
+        if (partieMotCles != "")
+            partieMotCles = partieMotCles.substring(0, partieMotCles.length - 1);
+        if (partieCriteres != "")
+            partieCriteres = partieCriteres.substring(0, partieCriteres.length - 1);
+        // Utiliser la valeur dans l'URL pour l'action Index
+        window.location.href = `/Recherche/Index?${partieMotCles}&${partieCriteres}`;
+    }
+</script>
 
-
-        // Utiliser la valeur dans l'URL pour l'action Inventaire
-        window.location.href = `/GestionLivres/Inventaire?${partieMotClesGL}&${partieCriteresGL}`;
+<script>
+    function RechercheRapide() {
+        if (event.key == 'Enter') RechercheGenerale();
     }
 </script>
 <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>

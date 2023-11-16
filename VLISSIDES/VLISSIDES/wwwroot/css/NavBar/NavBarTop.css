@@ -3,7 +3,7 @@
     background-color: var(--primaire) !important;
     max-height: 115px !important;
     height: 110px;
-    padding-top:0px;
+    padding-top: 0px;
     box-shadow: none;
 }
 /* Logo */
@@ -62,41 +62,51 @@
     padding: 0.3rem 0.4rem !important;
     border-radius: 100% !important;
 }
+
 #boutonseconection {
-    width: 440px;
+    width: 640px;
     max-height: 60%;
     display: flex;
     flex-wrap: nowrap;
 }
+
     #boutonseconection * {
+        width: 100%;
         display: flex;
         text-align: center;
         align-items: center;
     }
 
-    #boutonseconection button:first-of-type {
-        border-radius: 25rem 0px 0px 25rem !important;
+    #boutonseconection > * {
+        width: 50%;
+        text-align: center;
     }
-    #boutonseconection button:first-of-type a{
-        text-align: end;
-        padding:5px;
+
+
+.btnconnection1 {
+    border-radius: 25rem 0px 0px 25rem !important;
+}
+
+    .btnconnection1 a {
+        padding: 5px;
     }
-    #boutonseconection button:last-of-type {
-        border-radius: 0px 25rem 25rem 0px !important;
-    }
-    #boutonseconection button:last-of-type {
-        padding-right:5px;
-    }
-        #boutonseconection button a {
-            display: block;
-        }
-        #boutonseconection * i {
-            width: fit-content;
-            align-self: start;
-            position:relative;
-            left:20px;
-            top:3px;
-        }
+.btnconnection2 {
+    border-radius: 0px 25rem 25rem 0px !important;
+    padding-right: 5px;
+}
+
+#boutonseconection button a {
+    display: block;
+}
+
+#boutonseconection i {
+    width: fit-content;
+    align-self: start;
+    position: relative;
+    left: 15px;
+    top: 7px;
+}
+
 @media only screen and (max-width: 894px) {
     #navTop {
         height: 95px;
@@ -110,21 +120,23 @@
 
         #boutonseconection * {
             width: 100%;
-            height:fit-content;
+            height: fit-content;
             margin: 0px;
             padding: 0;
         }
-        #boutonsconection button:first-of-type {
-            border-radius: inherit !important;
-        }
-        #boutonseconection button:last-of-type {
-            border-radius: 0 0 0 25rem !important;
-        }
-        #boutonseconection button:last-of-type a {
-            position:relative;
-            right:-20px;
+
+    .btnconnection2 {
+        border-radius: 0 0 0 25rem!important;
+    }
+
+        .btnconnection2 a {
+            position: relative;
+            right: -20px;
         }
 
+    .btnconnection1 {
+        border-radius: inherit!important;
+    }
 }
 
 @media only screen and (max-width: 606px) {
@@ -162,14 +174,19 @@
         width: 40%;
         border-radius: 0rem 25rem 25rem 0rem;
     }
+    /*Bouton connection*/
+    #boutonseconection i {
+        top: 0px;
+    }
 }
 
-@media only screen and (max-width: 577px){
+@media only screen and (max-width: 577px) {
     #divRecherche {
         width: fit-content;
         max-width: 150px;
     }
 }
+
 @media only screen and (max-width: 430px) {
     #navTop {
         height: 100px;

@@ -161,7 +161,7 @@ p{
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 1010px) {
+@media only screen and (max-width: 1010px) {
     .event-card {
         width: 100%;
         height: auto; /* Changez la hauteur fixe en auto pour s'adapter au contenu */
@@ -184,10 +184,10 @@ p{
         gap: 10px;
     }
 
-    .event-date-time .date, .event-date-time .discount-box {
-        width: 100%; /* Assurez-vous que la date et le rabais prennent toute la largeur */
-        text-align: center; /* Centrez le texte pour un meilleur rendu sur mobile */
-    }
+        .event-date-time .date, .event-date-time .discount-box {
+            width: 100%; /* Assurez-vous que la date et le rabais prennent toute la largeur */
+            text-align: center; /* Centrez le texte pour un meilleur rendu sur mobile */
+        }
 
     .sticker {
         position: static;
@@ -203,8 +203,8 @@ p{
         margin-right: auto;
     }
 }
-@media (max-width: 767px) {
-    .badge{
-        top:20px;
+@media only screen and (max-width: 767px) {
+    .badge {
+        top: 20px;
     }
 } 

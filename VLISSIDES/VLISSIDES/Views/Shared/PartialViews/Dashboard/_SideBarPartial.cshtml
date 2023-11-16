@@ -33,6 +33,13 @@
             </li>
             <li class="nav-item">
                 <div class="card  card-menu-dash">
+                    <a asp-controller="GestionCommandes" asp-action="Index" class="nav-link-dash   card-body @Html.IsActive("GestionCategories", "Index")">
+                        <i class="fas fa-clipboard-list"></i> Les Commandes
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="card  card-menu-dash">
                     <a asp-controller="GestionCategories" asp-action="Index" class="nav-link-dash   card-body @Html.IsActive("GestionCategories", "Index")">
                         <i class="fas fa-clipboard-list"></i> Les Catégories
                     </a>
@@ -66,6 +73,16 @@
                     </a>
                 </div>
             </li>
+                @if (User.IsInRole(RoleName.ADMIN))
+                {
+                <li class="nav-item">
+                    <div class="card card-menu-dash">
+                        <a asp-controller="GestionComptes" asp-action="Index" class="nav-link-dash  card-body @Html.IsActive("Comptes", "Index")">
+                            <i class="fas fa-tag"></i> Les Comptes
+                        </a>
+                    </div>
+                </li>
+                }
         </ul>
         <div class="">
             <form class="form-inline" method="post" asp-area="" asp-controller="Compte" asp-action="Logout" asp-route-returnUrl="@Url.Action("Login", "Compte", new { area = "" })">
