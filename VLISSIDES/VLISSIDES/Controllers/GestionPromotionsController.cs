@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionPromotions;
+using VLISSIDES.ViewModels.Livres;
+using Stripe;
 
 namespace VLISSIDES.Controllers
 
@@ -37,14 +40,30 @@ namespace VLISSIDES.Controllers
         }
 
         [Route("2147186/GestionPromotions/AjouterPromotion")]
-        public IActionResult AjouterPromotion() =>
-            PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", new AjouterPromotionVM(
-            null,
-            _context.Auteurs.ToList(),
-            _context.Categories.ToList(),
-            _context.MaisonEditions.ToList(),
-            new() { "Promotion par pourcentage", "Promotion de type \"2 pour 1" }
-            ));
+        public IActionResult AjouterPromotion()
+        {
+            var vm = new AjouterPromotionVM();
+
+            vm.action = "Ajouter";
+
+            //Populer les listes déroulantes
+            vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+            {
+                Text = x.NomAuteur,
+                Value = x.Id
+            }).ToList();
+            vm.SelectListMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
+        }
 
 
         [HttpPost]
@@ -62,7 +81,7 @@ namespace VLISSIDES.Controllers
                     var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
                     var extension = Path.GetExtension(vm.CoverPhoto.FileName);
                     fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
-                    vm.ImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                    vm.CoverImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
                     var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
                     using (var fileStream = new FileStream(path, FileMode.Create))
                     {
@@ -71,30 +90,28 @@ namespace VLISSIDES.Controllers
                 }
                 else
                 {
-                    vm.ImageUrl = "/img/CouvertureLivre/livredefault.png";
+                    vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
                 }
 
                 var id = Guid.NewGuid().ToString();
 
-
-                var promo = new Promotions
+                Promotions promo = new Promotions
                 {
                     Id = id,
-                    Image = vm.ImageUrl,
+                    Image = vm.CoverImageUrl,
                     Nom = vm.Nom,
                     Description = vm.Description,
                     CodePromo = vm.CodePromo,
                     DateDebut = vm.DateDebut,
                     DateFin = vm.DateFin,
-                    Auteur = _context.Auteurs.First(a => a.NomAuteur.Equals(vm.Auteur)),
-                    MaisonEdition = _context.MaisonEditions.First(me => me.Nom.Equals(vm.MaisonEdition)),
-                    Categorie = _context.Categories.First(c => c.Nom.Equals(vm.Categorie)),
+                    AuteurId = vm.AuteurId,
+                    MaisonEditionId = vm.MaisonEditionId,
+                    CategorieId = vm.CategorieId,
                     TypePromotion = vm.TypePromotion,
                     LivresAcheter = vm.LivresAcheter,
                     LivresGratuits = vm.LivresGratuits,
                     PourcentageRabais = vm.PourcentageRabais
                 };
-                _context.Promotions.Add(promo);
 
                 // Création de la promotion dans Stripe
                 await CreerPromotionStripe(vm);
@@ -116,10 +133,28 @@ namespace VLISSIDES.Controllers
 
                 return Ok();
             }
-            vm.Auteurs = _context.Auteurs.Select(a => a.NomAuteur).ToList();
-            vm.MaisonEditions = _context.MaisonEditions.Select(me => me.Nom).ToList();
-            vm.Categories = _context.Categories.Select(c => c.Nom).ToList();
-            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
+
+            var VM = new AjouterPromotionVM();
+
+            VM.action = "Ajouter";
+
+            //Populer les listes déroulantes
+            VM.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+            {
+                Text = x.NomAuteur,
+                Value = x.Id
+            }).ToList();
+            VM.SelectListMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            VM.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
         }
 
 
@@ -144,22 +179,18 @@ namespace VLISSIDES.Controllers
 
         private async Task CreerCouponPourcentage(AjouterPromotionVM vm)
         {
-            var categorie = _context.Categories.First(c => c.Nom.Equals(vm.Categorie));
-            var auteur = _context.Auteurs.First(a => a.NomAuteur.Equals(vm.Auteur));
-            var maisonEdition = _context.MaisonEditions.First(a => a.Nom.Equals(vm.MaisonEditions));
-
             var metadata = new Dictionary<string, string>();
-            if (categorie != null)
+            if (!string.IsNullOrEmpty(vm.CategorieId))
             {
-                metadata.Add("CategorieId", categorie.Id);
+                metadata.Add("CategorieId", vm.CategorieId);
             }
-            if (auteur != null)
+            if (!string.IsNullOrEmpty(vm.AuteurId))
             {
-                metadata.Add("AuteurId", auteur.Id);
+                metadata.Add("AuteurId", vm.AuteurId);
             }
-            if (maisonEdition != null)
+            if (!string.IsNullOrEmpty(vm.MaisonEditionId))
             {
-                metadata.Add("MaisonEditionId", maisonEdition.Id);
+                metadata.Add("MaisonEditionId", vm.MaisonEditionId);
             }
             var options = new CouponCreateOptions
             {
@@ -177,22 +208,18 @@ namespace VLISSIDES.Controllers
 
         private async Task CreerPromotion2Pour1(AjouterPromotionVM vm)
         {
-            var categorie = _context.Categories.First(c => c.Nom.Equals(vm.Categorie));
-            var auteur = _context.Auteurs.First(a => a.NomAuteur.Equals(vm.Auteur));
-            var maisonEdition = _context.MaisonEditions.First(a => a.Nom.Equals(vm.MaisonEditions));
-
             var metadata = new Dictionary<string, string>();
-            if (categorie != null)
+            if (!string.IsNullOrEmpty(vm.CategorieId))
             {
-                metadata.Add("CategorieId", categorie.Id);
+                metadata.Add("CategorieId", vm.CategorieId);
             }
-            if (auteur != null)
+            if (!string.IsNullOrEmpty(vm.AuteurId))
             {
-                metadata.Add("AuteurId", auteur.Id);
+                metadata.Add("AuteurId", vm.AuteurId);
             }
-            if (maisonEdition != null)
+            if (!string.IsNullOrEmpty(vm.MaisonEditionId))
             {
-                metadata.Add("MaisonEditionId", maisonEdition.Id);
+                metadata.Add("MaisonEditionId", vm.MaisonEditionId);
             }
 
 
@@ -227,13 +254,47 @@ namespace VLISSIDES.Controllers
 
 
         [Route("2147186/GestionPromotions/ModifierPromotion")]
-        public IActionResult ModifierPromotion(string id) => PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", new AjouterPromotionVM(
-            _context.Promotions.Find(id),
-            _context.Auteurs.ToList(),
-            _context.Categories.ToList(),
-            _context.MaisonEditions.ToList(),
-            new() { "Promotion par pourcentage", "Promotion de type \"2 pour 1" }
-            ));
+        public IActionResult ModifierPromotion(string id)
+        {
+            Promotions promo = _context.Promotions.Find(id);
+
+            var vm = new AjouterPromotionVM();
+
+            vm.action = "Modifier";
+
+            vm.Id = id;
+            vm.CoverImageUrl = promo.Image;
+            vm.Nom = promo.Nom;
+            vm.Description = promo.Description;
+            vm.CodePromo = promo.CodePromo;
+            vm.DateDebut = promo.DateDebut;
+            vm.DateFin = promo.DateFin;
+            vm.AuteurId = promo.AuteurId;
+            vm.MaisonEditionId = promo.MaisonEditionId;
+            vm.CategorieId = promo.CategorieId;
+            vm.TypePromotion = promo.TypePromotion;
+            vm.LivresAcheter = promo.LivresAcheter;
+            vm.LivresGratuits = promo.LivresGratuits;
+            vm.PourcentageRabais = promo.PourcentageRabais;
+
+            //Populer les listes déroulantes
+            vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+            {
+                Text = x.NomAuteur,
+                Value = x.Id
+            }).ToList();
+            vm.SelectListMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -250,7 +311,7 @@ namespace VLISSIDES.Controllers
                     var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
                     var extension = Path.GetExtension(vm.CoverPhoto.FileName);
                     fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
-                    vm.ImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                    vm.CoverImageUrl = _config.GetValue<string>("ImageUrl") + fileName;
                     var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
                     using (var fileStream = new FileStream(path, FileMode.Create))
                     {
@@ -259,22 +320,22 @@ namespace VLISSIDES.Controllers
                 }
                 else
                 {
-                    vm.ImageUrl = "/img/CouvertureLivre/livredefault.png";
+                    vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
                 }
 
                 Promotions? maPromo = _context.Promotions.Find(vm.Id);
 
                 if (maPromo != null)
                 {
-                    maPromo.Image = vm.ImageUrl;
+                    maPromo.Image = vm.CoverImageUrl;
                     maPromo.Nom = vm.Nom;
                     maPromo.Description = vm.Description;
                     maPromo.CodePromo = vm.CodePromo;
                     maPromo.DateDebut = vm.DateDebut;
                     maPromo.DateFin = vm.DateFin;
-                    maPromo.Auteur = await _context.Auteurs.FirstAsync(a => a.NomAuteur.Equals(vm.Auteur));
-                    maPromo.MaisonEdition = await _context.MaisonEditions.FirstAsync(me => me.Nom.Equals(vm.MaisonEdition));
-                    maPromo.Categorie = await _context.Categories.FirstAsync(c => c.Nom.Equals(vm.Categorie));
+                    maPromo.AuteurId = vm.AuteurId;
+                    maPromo.MaisonEditionId = vm.MaisonEditionId;
+                    maPromo.CategorieId = vm.CategorieId;
                     maPromo.TypePromotion = vm.TypePromotion;
                     maPromo.LivresAcheter = vm.LivresAcheter;
                     maPromo.LivresGratuits = vm.LivresGratuits;
@@ -285,33 +346,78 @@ namespace VLISSIDES.Controllers
 
                 return Ok();
             }
-            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", new AjouterPromotionVM(
-            _context.Promotions.Find(vm.Id),
-            _context.Auteurs.ToList(),
-            _context.Categories.ToList(),
-            _context.MaisonEditions.ToList(),
-            new() { "Promotion par pourcentage", "Promotion de type \"2 pour 1" }
-            ));
+
+            Promotions promo = _context.Promotions.Find(vm.Id);
+
+            var VM = new AjouterPromotionVM();
+
+            VM.action = "Modifier";
+
+            VM.Id = promo.Id;
+            VM.CoverImageUrl = promo.Image;
+            VM.Nom = promo.Nom;
+            VM.Description = promo.Description;
+            VM.CodePromo = promo.CodePromo;
+            VM.DateDebut = promo.DateDebut;
+            VM.DateFin = promo.DateFin;
+            VM.AuteurId = promo.AuteurId;
+            VM.MaisonEditionId = promo.MaisonEditionId;
+            VM.CategorieId = promo.CategorieId;
+            VM.TypePromotion = promo.TypePromotion;
+            VM.LivresAcheter = promo.LivresAcheter;
+            VM.LivresGratuits = promo.LivresGratuits;
+            VM.PourcentageRabais = promo.PourcentageRabais;
+
+            //Populer les listes déroulantes
+            VM.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
+            {
+                Text = x.NomAuteur,
+                Value = x.Id
+            }).ToList();
+            VM.SelectListMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            VM.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList();
+            return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
         }
 
         // POST: Livre/Delete/5
         [HttpDelete]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.Promotions.Any(p => p.Id.Equals(id))) return NotFound(id + " n'existe pas.");
-            else _context.Promotions.Remove(await _context.Promotions.FindAsync(id));
+            if (_context.Promotions == null) return Problem("Entity set 'ApplicationDbContext.Promotions'  is null.");
+            var promo = await _context.Promotions.FindAsync(id);
+            if (promo != null) _context.Promotions.Remove(promo);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+
+            /*
+            if (id == null || _context.Promotions == null) return NotFound();
+
+            var promo = _context.Promotions.FirstOrDefault(m => m.Id == id);
+            if (promo == null) return NotFound();
+            _context.Promotions.Remove(promo);
+            _context.SaveChanges();
+            */
         }
 
         //Pour montrer la partial view de confirmation de suppression
         [HttpGet]
         public async Task<IActionResult> ShowDeleteConfirmation(string id)
         {
-            if (_context.Promotions.Any(p => p.Id.Equals(id))) return NotFound(id + " n'existe pas.");
+            if (id == null) return NotFound();
 
-            return PartialView("PartialViews/Modals/Promotions/_SupprimerPromotionPartial", await _context.Promotions.FindAsync(id));
+            var promo = await _context.Promotions.FindAsync(id);
+            if (promo == null) return NotFound();
+
+            return PartialView("PartialViews/Modals/Promotions/_SupprimerPromotionPartial", promo);
         }
     }
 }
