@@ -1,4 +1,7 @@
-﻿namespace VLISSIDES.ViewModels.GestionPromotions
+﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
+
+namespace VLISSIDES.ViewModels.GestionPromotions
 {
     public class AjouterPromotionVM
     {

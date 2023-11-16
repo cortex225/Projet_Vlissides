@@ -1,4 +1,12 @@
-﻿namespace VLISSIDES.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Stripe;
+using VLISSIDES.Data;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionPromotions;
+
+namespace VLISSIDES.Controllers
 
 {
     [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
@@ -132,18 +140,22 @@
 
         private async Task CreerCouponPourcentage(AjouterPromotionVM vm)
         {
+            var categorie = _context.Categories.First(c => c.Nom.Equals(vm.Categorie));
+            var auteur = _context.Auteurs.First(a => a.NomAuteur.Equals(vm.Auteur));
+            var maisonEdition = _context.MaisonEditions.First(a => a.Nom.Equals(vm.MaisonEditions));
+
             var metadata = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(vm.CategorieId))
+            if (categorie != null)
             {
-                metadata.Add("CategorieId", vm.CategorieId);
+                metadata.Add("CategorieId", categorie.Id);
             }
-            if (!string.IsNullOrEmpty(vm.AuteurId))
+            if (auteur != null)
             {
-                metadata.Add("AuteurId", vm.AuteurId);
+                metadata.Add("AuteurId", auteur.Id);
             }
-            if (!string.IsNullOrEmpty(vm.MaisonEditionId))
+            if (maisonEdition != null)
             {
-                metadata.Add("MaisonEditionId", vm.MaisonEditionId);
+                metadata.Add("MaisonEditionId", maisonEdition.Id);
             }
             var options = new CouponCreateOptions
             {
@@ -161,18 +173,22 @@
 
         private async Task CreerPromotion2Pour1(AjouterPromotionVM vm)
         {
+            var categorie = _context.Categories.First(c => c.Nom.Equals(vm.Categorie));
+            var auteur = _context.Auteurs.First(a => a.NomAuteur.Equals(vm.Auteur));
+            var maisonEdition = _context.MaisonEditions.First(a => a.Nom.Equals(vm.MaisonEditions));
+
             var metadata = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(vm.CategorieId))
+            if (categorie != null)
             {
-                metadata.Add("CategorieId", vm.CategorieId);
+                metadata.Add("CategorieId", categorie.Id);
             }
-            if (!string.IsNullOrEmpty(vm.AuteurId))
+            if (auteur != null)
             {
-                metadata.Add("AuteurId", vm.AuteurId);
+                metadata.Add("AuteurId", auteur.Id);
             }
-            if (!string.IsNullOrEmpty(vm.MaisonEditionId))
+            if (maisonEdition != null)
             {
-                metadata.Add("MaisonEditionId", vm.MaisonEditionId);
+                metadata.Add("MaisonEditionId", maisonEdition.Id);
             }
 
 
