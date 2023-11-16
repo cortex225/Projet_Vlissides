@@ -22,20 +22,18 @@
 }
  
 #DetailsDIV {
-    max-width: 20%;
-    min-width: 20%;
+    max-width: 30%;
+    min-width: 30%;
 }
 
 #DetailsIMG {
     max-width: 100%;    
 }
-#commande {
-}
 #commande * {
     width: min-content;
 }
-@media only screen and (max-width: 835px) {
 
-    #commande {
-    }
+
+#commande {
+    background-color: aqua;
 }
