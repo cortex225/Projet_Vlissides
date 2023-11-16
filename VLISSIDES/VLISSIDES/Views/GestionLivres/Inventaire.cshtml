@@ -29,9 +29,9 @@
 <form class="row">
     @* Research bar *@
     <div id="rechercheRapide" class="text-center d-flex flex-wrap">
-        <a id="rechercherBTN" class="container-fluid btn btn-primary" asp-controller="Recherche" asp-action="Index">
+        <button id="rechercherBTN" class="container-fluid btn btn-primary">
             Rechercher
-        </a>
+        </button>
         <input id="rechercheGeneralGL" type="text" class="form-control recherche-input" placeholder="Recherche générale">
     </div>
     <button id="filtreBTN" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="sidebar">
@@ -125,14 +125,12 @@
 </form>
 <script type="text/javascript">
     //Script pour la recherche
-    var btnSearch = document.getElementById("rechercherBTN").addEventListener("click", RechercheGenerale);
-    var btnFiltreSearch = document.getElementById("rechercherBTNFiltre").addEventListener("click", RechercheGenerale);
+    var btnSearch = document.getElementById("rechercherBTN");
+    var btnFiltreSearchGL = document.getElementById("rechercherBTNFiltre");
 
-    btnSearchGL.addEventListener("click", RechercheGestionLivres);
+    btnSearch.addEventListener("click", RechercheGestionLivres);
 
-    var btnSearchGLFiltre = document.getElementById("rechercherBTNFiltre");
-
-    btnSearchGLFiltre.addEventListener("click", RechercheGestionLivres);
+    btnFiltreSearchGL.addEventListener("click", RechercheGestionLivres);
 
     async function RechercheGestionLivres(ev) {
         ev.preventDefault();
@@ -141,11 +139,11 @@
         var partieCriteres = "criteres=";
 
         //Recherche générale
-        var searchGeneral = document.getElementById("rechercheGeneral");
+        var searchGeneral = document.getElementById("rechercheGeneralGL");
         var searchTerm = searchGeneral.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (searchTerm != "") {
-            artieMotCles = partieMotCles.concat(`${searchTerm}|`);
+            partieMotCles = partieMotCles.concat(`${searchTerm}|`);
             partieCriteres = partieCriteres.concat("general|");
         }
 
@@ -225,7 +223,7 @@
         if (partieCriteres != "")
             partieCriteres = partieCriteres.substring(0, partieCriteres.length - 1);
         // Utiliser la valeur dans l'URL pour l'action Index
-        window.location.href = `/Recherche/Index?${partieMotCles}&${partieCriteres}`;
+        window.location.href = `/GestionLivres/Inventaire?${partieMotCles}&${partieCriteres}`;
     }
 </script>
 
