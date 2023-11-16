@@ -30,7 +30,9 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
+            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId)
+                .Include(a => a.Livre.LivreAuteurs)
+                .ToList();
 
             var listeArticleVM = article.Select(a => new AfficherPanierVM
             {
@@ -39,7 +41,9 @@ namespace VLISSIDES.Controllers
                 TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
                 Prix = (double)_context.LivreTypeLivres.FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
                 UserId = a.UserId,
-                Quantite = a.Quantite
+                Quantite = a.Quantite,
+                LivreAuteurs = _context.LivreAuteurs.Where(la => la.LivreId == a.LivreId).ToList()
+
             }).ToList();
 
 
@@ -308,6 +312,38 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Panier/_DeletePanierConfirmation", vm);
         }
 
+
+        private void AppliquerPromotionsSurPanier(List<AfficherPanierVM> panierItems, string codePromo)
+        {
+            var promotion = TrouverPromotionParCode(codePromo);
+
+            if (promotion != null)
+            {
+                foreach (var item in panierItems)
+                {
+                    if (EstEligiblePourPromotion(item, promotion))
+                    {
+                        item.Prix = (double)(item.Prix * (1 - promotion.PourcentageRabais / 100))!;
+                    }
+                }
+            }
+        }
+
+        private Promotions TrouverPromotionParCode(string codePromo)
+        {
+
+            return _context.Promotions.FirstOrDefault(p => p.CodePromo == codePromo);
+        }
+
+        private bool EstEligiblePourPromotion(AfficherPanierVM item, Promotions promotion)
+        {
+
+            return (promotion.CategorieId == null ||
+                    promotion.CategorieId == item.Livre.Categories.FirstOrDefault()?.CategorieId) &&
+                   (promotion.AuteurId == null ||
+                    promotion.AuteurId == item.Livre.LivreAuteurs.FirstOrDefault()?.AuteurId) &&
+                   (promotion.MaisonEditionId == null || promotion.MaisonEditionId == item.Livre.MaisonEditionId);
+        }
         [HttpGet]
         public async Task<int> NbArticles()
         {

@@ -2,7 +2,7 @@
 @using VLISSIDES.ViewModels.Panier;
 @{
     float prixDonEco = 5;
-    string prixtotal = (Model.PrixTotal + 5).ToString("n",new CultureInfo("fr-CA"));
+    string prixtotal = (Model.PrixTotal + 5).ToString("n", new CultureInfo("fr-CA"));
 
 }
 @model VLISSIDES.ViewModels.Panier.PanierVM
@@ -77,16 +77,28 @@
                         Un arbre à la fois
                     </label>
                 </div>
-                
+
             </div>
         </div>
         <div id="prixDonEco">
             +5,00$
         </div>
     </div>
+
 </div>
 
-<hr />
+@* Rajout de l'input pour le code promo *@
+
+<div class="d-flex justify-content-between mt-4">
+    <button id="ajouterCodePromo" type="button" class="btn btn-light" onclick=" AfficherFieldCodePromo()">Ajouter un code promotionnel</button>
+    <form class="d-flex hideInputCodePromo" role="search" id="inputCodePromoDiv">
+        <input id="inputCodePromo" class="form-control me-2" type="search" placeholder="Code promo ici:" aria-label="Search">
+        <button id="submitCodePromo" class="btn btn-primary" type="submit">Ajouter</button>
+    </form>
+</div>
+
+
+<hr/>
 <div id="total" class="p-2 px-4">
     <div class="d-flex justify-content-between">
         <div class="">Total <span class="text-danger">(sans taxe)</span>: </div>
@@ -99,3 +111,19 @@
 
     </div>
 </div>
+
+@section Scripts
+{
+   <script>
+           var codePromo = document.getElementById("codePromo").value;
+           if (codePromo.length >= 5) {
+               document.getElementById("btnAppliquerCodePromo").style.display = "block";
+           }
+           else {
+               document.getElementById("btnAppliquerCodePromo").style.display = "none";
+           }
+
+   </script>
+}
+
+
