@@ -12,16 +12,26 @@
                  alt="Couverture du livre"/>
         </div>
         <div class="card-body">
-            <h6 class="card-title">@Model.Titre</h6>
+            <h6 class="card-title titre">@Model.Titre</h6>
             <partial model="@Model.Score" name="_Etoiles.cshtml"/>
 
             <h6>@Model.Prix $</h6>
+            <div class="auteur">
+                @foreach (var auteur in Model.Auteurs)
+                {
+                    <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@auteur" asp-route-criteres="auteur" class="btn btn-secondary btnCategorie">@auteur</a>
 
-            <p>@Model.Auteurs</p>
+                }
+            </div>
 
             <hr/>
             <h6>Catégories reliées: </h6>
-            <a href="#" class="btn btn-secondary btnCategorie">@Model.Categorie</a>
+            <div class="categorie">
+                @foreach (var categorie in @Model.Categories)
+                {
+                    <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@categorie" asp-route-criteres="categorie" class="btn btn-secondary btnCategorie">@categorie</a>
+                }
+            </div>
         </div>
     </div>
 </div>

@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div id="confirmationPage">
+    <h2 class="mx-auto">Confirmation de commande</h2>
+    <div class="rcorners m-2 p-4 overflow-hidden d-flex justify-content-center mx-auto  mt-4" style="width: fit-content">
+        <div class=" my-4">
+            <h2 class="d-flex justify-content-center text-center ">Génial !</h2>
+            <p class="d-flex justify-content-center text-center " style="font-size: 1.5em">La demande d'annulation à été effectuée avec succès. <br /> Retournez à la liste d'événements en appuyant sur le ci-dessous. </p>
+            @* //Creation d'un loader *@
+            <div class=" text-primary d-flex justify-content-center mx-auto my-auto" role="status">
+                <a asp-controller="Evenements" asp-action="Index">
+                    <i class="fa-solid fa-circle-check" style="font-size: 5em;"></i>
+
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>

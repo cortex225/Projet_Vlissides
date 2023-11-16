@@ -17,7 +17,7 @@ public class Commande
     [DisplayName("Livres commandés")] public ICollection<Livre> Livres { get; set; } = default!;
 
     [DisplayName("Identifiant de l'adresse")]
-    public string AdresseId { get; set; } = default!;
+    public string? AdresseId { get; set; } = default!;
 
     [DisplayName("Adresse de livraison")]
     public Adresse AdresseLivraison { get; set; } = default!; //Chaque commande a une adresse de livraison
@@ -27,4 +27,8 @@ public class Commande
 
     public string StatutCommandeId { get; set; } = default!;
     public StatutCommande StatutCommande { get; set; } = default!;
+
+    public string? PaymentIntentId { get; set; } = default!;
+
+    public bool EnDemandeAnnulation { get; set; } = default!;
 }

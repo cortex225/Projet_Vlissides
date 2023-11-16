@@ -1,0 +1,186 @@
+﻿@using VLISSIDES.ViewModels.GestionPromotions;
+@model AjouterPromotionVM
+@{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
+}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="ModalEditLabel">Ajouter une nouvelle promotion</h5>
+</div>
+<form asp-action="AjouterPromotion" asp-controller="GestionPromotions" enctype="multipart/form-data" id="FormAjouterPromo">
+    @Html.AntiForgeryToken()
+    <div class="modal-body" id="modalBodyPromo">
+        <div class="container d-flex justify-content-center">
+            <div class="row rowAjoutPromotion" id="row1">
+                <input type="hidden" asp-for="Id" value="" />
+                <input type="hidden" asp-for="CoverImageUrl"/>
+                <div class="custom-file row">
+
+                    <input asp-for="CoverPhoto" type="file" class="custom-file-input" id="customFile">
+
+                </div>
+                <div class="form-group ">
+                    <label asp-for="Nom" class="control-label"></label>
+                    <input asp-for="Nom" class="form-control" />
+                </div>
+                <div class="form-group " id="formDescription">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="4" style="height:100%;"></textarea>
+                </div>
+                <div class="form-group ">
+                    <label asp-for="CodePromo" class="control-label"></label>
+                    <input asp-for="CodePromo" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TypePromotion"></label>
+                    <select asp-for="TypePromotion" id="typeDePromotion" class="form-control" onchange="changerTypePromotion()">
+                        <option value="">Sélectionnez...</option>
+                        <option value="pourcentage">Promotion par pourcentage</option>
+                        <option value="2pour1">Promotion de type "2 pour 1"</option>
+                    </select>
+                </div>
+                <div class="form-group " id="form2pour1" hidden>
+                    <label asp-for="LivresAcheter">Livres à acheter:</label>
+                    <input asp-for="LivresAcheter" class="form-control" value="1" min="1" max="99">
+                    <label asp-for="LivresGratuits">Livres gratuits:</label>
+                    <input asp-for="LivresGratuits" class="form-control" value="1" min="1" max="99">
+                </div>
+                <div class="form-group" id="formPourcentage" hidden>
+                    <label asp-for="PourcentageRabais">Pourcentage du rabais:</label>
+                    <input asp-for="PourcentageRabais" class="form-control" value="1" min="1" max="99">
+                </div>
+            </div>
+
+            <div class="row rowAjoutPromotion" id="row2">
+                <div class="form-group">
+                    <label asp-for="AuteurId"></label>
+                    <select asp-for="AuteurId" asp-items="Model.SelectListAuteurs" class="form-control">
+                        <option value="">Sélectionnez...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaisonEditionId"></label>
+                    <select asp-for="MaisonEditionId" asp-items="Model.SelectListMaisonEditions" class="form-control">
+                        <option value="">Sélectionnez...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategorieId"></label>
+                    <select asp-for="CategorieId" asp-items="Model.SelectListCategories" class="form-control">
+                        <option value="">Sélectionnez...</option>
+                    </select>
+                </div>
+                <div class="form-group mt-4">
+                    <label asp-for="DateDebut"></label>
+                    <input asp-for="DateDebut" value="" />
+                </div>
+                <div class="form-group mt-4">
+                    <label asp-for="DateFin"></label>
+                    <input asp-for="DateFin" value="" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-danger " href="~/GestionPromotions/Index">Annuler</a>
+        @if (Model.action == "Ajouter")
+        {
+            <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterPromo()" />
+        }
+        else if (Model.action == "Modifier")
+        {
+            <input type="button" value="Modifier" class="btn btn-primary" onclick="ModifierPromo()" />
+        }
+    </div>
+
+</form>
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+    console.log(BASE_URL);
+</script>
+
+<script>
+    function changerTypePromotion() {
+        var dropDown = document.getElementById("typeDePromotion");
+        var value = dropDown.value;
+
+        var formPourcentage = document.getElementById("formPourcentage");
+        var form2pour1 = document.getElementById("form2pour1");
+
+        switch (value) {
+            case "pourcentage":
+                form2pour1.hidden = true;
+                formPourcentage.hidden = false;
+            break;
+            case "2pour1":
+                form2pour1.hidden = false;
+                formPourcentage.hidden = true;
+            break;
+            default:
+                form2pour1.hidden = true;
+                formPourcentage.hidden = true;
+            break;
+        }
+    }
+
+    function AjouterPromo() {
+        var form = document.getElementById("FormAjouterPromo");
+        var data = new FormData(form);
+
+        var csrfToken = form.querySelector('[name="__RequestVerificationToken"]').value;
+        fetch(BASE_URL + '/GestionPromotions/AjouterPromotion', {
+            method: "POST",
+            body: data,
+            headers: {
+               RequestVerificationToken: csrfToken,
+            },
+        }).catch(error => {
+            console.error('Échec du fetch pour ajouter promotion', error);
+        }).then((response) => {
+
+            return response.text();
+        }).then((result) => {
+            console.log(result);
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                AfficherLivres();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+            }
+
+        });
+    };
+
+    function ModifierPromo() {
+        var form = document.getElementById("FormAjouterPromo");
+        var data = new FormData(form);
+
+        //var csrfToken = form.querySelector(�'[name="__RequestVerificationToken"]').value;
+        fetch(BASE_URL + '/GestionPromotions/ModifierPromotion', {
+            method: "POST",
+            body: data
+            // headers: {
+            //    RequestVerificationToken: csrfToken,
+            // },
+        }).catch(error => {
+            console.error('Échec du fetch pour modifier promotion', error);
+        }).then((response) => {
+
+            return response.text();
+        }).then((result) => {
+            console.log(result);
+            if (result == "") {
+
+                $('.modal').modal('hide');
+                AfficherLivres();
+            } else {
+                document.querySelector('.modal-content').innerHTML = result;
+            }
+
+        });
+    };
+</script>

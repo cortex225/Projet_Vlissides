@@ -4,6 +4,18 @@
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
+@*********************@
+@* Modals *@
+@*********************@
+
+<div class="modal fade modal-dialog-centered " tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+        </div>
+    </div>
+</div>
+
 <div class="m-4">
     <h1>Gestion des commandes</h1>
     <div class="row">
@@ -22,7 +34,7 @@
             <div class="d-flex justify-content-around">
                 <div>
                     <h5>Trier par date:</h5>
-                    <div class="d-flex">
+                    <div class="form-group d-flex">
                         <select id="trierDateSelect" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
                             <option value="1">Plus récent</option>
                             <option value="2">Plus ancien</option>
@@ -32,8 +44,18 @@
                 <div>
                     <h5>Filtrer par statut:</h5>
                     <div class="form-group d-flex">
-                        <select id="filtrerStatutSelect" asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-control" onchange="applyFilter(event)">
+                        <select id="filtrerStatutSelect" asp-for="StatutId" asp-items="Model.SelectListStatut" class="form-select" onchange="applyFilter(event)">
                             <option value="0">Tous</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <h5>En attente de rembourssement:</h5>
+                    <div class="form-group d-flex">
+                        <select id="filtrerDemandeRemboursement" class="form-select" aria-label="Default select example" onchange="applyFilter(event)">
+                            <option value="1">Non appliqué</option>
+                            <option value="2">Demandes d'annulation de commande</option>
+                            <option value="3">Demandes de retour de livre(s)</option>
                         </select>
                     </div>
                 </div>
@@ -59,18 +81,18 @@
             <div class="col-sm-2 d-flex justify-content-center">
                 <h5>Date</h5>
             </div>
-            <div class="col-sm-3 d-flex justify-content-center">
+            <div class="col-sm-2 d-flex justify-content-center">
                 <h5>Statut</h5>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div id="commandesListe" class="col-12">
+        <div id="commandesListe" class="col-12 ">
             <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial" />
         </div>
     </div>
-    
+  
 </div>
 
 <style>
@@ -87,10 +109,10 @@
 </script>
 <script type="text/javascript">
     function saveStatut(id = "") {
-        
-        var statutVal = document.getElementById(id + ' statutSelectList').value;
+        var idString = `${id}`.toString();
+        var statutVal = document.getElementById(idString + ' statutSelectList').value;
 
-        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${id}&statut=${statutVal}`, {
+        fetch(BASE_URL + `/GestionCommandes/ModifierStatut?id=${idString}&statut=${statutVal}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -116,6 +138,10 @@
         partieMotCles = partieMotCles.concat(`${statutFiltre}|`);
         partieCriteres = partieCriteres.concat("filtrerStatut|");
 
+        demandeRemboursement = document.getElementById("filtrerDemandeRemboursement").value;
+        partieMotCles = partieMotCles.concat(`${demandeRemboursement}|`);
+        partieCriteres = partieCriteres.concat("demandeRemboursement|");
+
         rechercheValue = document.getElementById("inputRechercherCommande").value;
         if (rechercheValue != null) {
             partieMotCles = partieMotCles.concat(`${rechercheValue}|`);
@@ -136,6 +162,87 @@
         .catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
             console.error('Erreur lors de la récupération de la liste des auteurs', error);
+        });
+    }
+
+    function collapse(commandeId = "") {
+        var div = document.getElementById(`collapseCommandeLivres_${commandeId}`);
+
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+
+    }
+
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+
+    function HideModal() {
+        $('.modal').modal('hide');
+    }
+
+    function accepterAnnulation(commandeId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/AccepterDemandeAnnulation?commandeId=${commandeId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).then(() => {
+            applyFilter(ev);
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error("Erreur lors de l'acceptation de l'annulation.", error);
+        });
+    }
+
+    function refuserAnnulation(commandeId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/RefuserDemandeAnnulation?commandeId=${commandeId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).then(() => {
+            applyFilter(ev);
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error("Erreur lors du refus de l'annulation.", error);
+        });
+    }
+    function accepterRetour(commandeId = "", livreId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/AccepterDemandeRetour?commandeId=${commandeId}&livreId=${livreId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).then(() => {
+            applyFilter(ev);
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error("Erreur lors de l'acceptation du retour.", error);
+        });
+    }
+    function refuserRetour(commandeId = "", livreId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/RefuserDemandeRetour?commandeId=${commandeId}&livreId=${livreId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).then(() => {
+            applyFilter(ev);
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors du refus du retour.', error);
         });
     }
 </script>

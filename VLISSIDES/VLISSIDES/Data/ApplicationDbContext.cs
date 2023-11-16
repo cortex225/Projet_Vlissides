@@ -44,12 +44,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
 
-    public DbSet<Panier> Paniers { get; set; }
+    public DbSet<Don> Dons { get; set; }
     public DbSet<LivrePanier> LivrePanier { get; set; }
 
     public DbSet<Adresse> Adresses { get; set; }
     public DbSet<LivreCategorie> LivreCategories { get; set; }
-    
+
     public DbSet<LivreAuteur> LivreAuteurs { get; set; }
 
 
@@ -60,9 +60,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #region configuration
 
-     
 
-       
+
+
 
         // Configuration des entités
         builder.ApplyConfiguration(new StatutCommandeConfiguration());
@@ -125,10 +125,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Livre>()
             .HasOne(l => l.Langue)
             .WithMany(l => l.Livres);
-        //Un livre peut avoir plusiseurs promotions et une ptomotion peut avoir plusieurs livres
-        builder.Entity<Livre>()
-            .HasMany(l => l.Promotions)
-            .WithMany(c => c.Livres);
 
         #endregion
 
@@ -179,7 +175,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             UserName = "admin@admin.com",
             NormalizedEmail = "admin@admin.com".ToUpper(),
             NormalizedUserName = "admin@admin.com".ToUpper(),
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            IsBanned = false
         };
         //var adminHasher = password.HashPassword(UserAdmin, "Jaimelaprog1!");
         UserAdmin.PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
@@ -196,7 +193,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             NormalizedEmail = "employe@employe.com".ToUpper(),
             NormalizedUserName = "employe@employe.com".ToUpper(),
             EmailConfirmed = true,
-            AdressePrincipaleId = ""
+            AdressePrincipaleId = "",
+            IsBanned = false
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserEmploye.PasswordHash =
@@ -215,7 +213,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             NormalizedUserName = "membre@membre.com".ToUpper(),
             EmailConfirmed = true,
             DateAdhesion = DateTime.Now,
-            AdressePrincipaleId = ""
+            AdressePrincipaleId = "",
+            IsBanned = false
+
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserMembre.PasswordHash =
@@ -274,7 +274,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasKey(la => new { la.LivreId, la.TypeLivreId });
 
         #endregion
+
+        #region Promotion
+        //Une promotion peut avoir une seule maison d'édition et une maison d'édtion peut avoir plusieurs promotions
+        builder.Entity<Promotions>()
+            .HasOne(p => p.MaisonEdition)
+            .WithMany(me => me.Promotions);
+        //Une promotion peut avoir un seul auteur et un auteur peut avoir plusieurs promotions
+        builder.Entity<Promotions>()
+           .HasOne(p => p.Auteur)
+            .WithMany(a => a.Promotions);
+        //Une promotion peut avoir une seule categorie et une categorie peut avoir plusieurs promotions
+        builder.Entity<Promotions>()
+            .HasOne(p => p.Categorie)
+            .WithMany(c => c.Promotions);
+        #endregion
     }
-
-
 }

@@ -1,0 +1,63 @@
+﻿table * {
+    align-content:center;
+    text-align:center;
+}
+tr {
+    border-bottom: 1px solid black;
+}
+.groupeBoutton{
+    min-width:140px;
+}
+#rechercheRapide > *, #filtreBTN {
+    width: fit-content;
+}
+#rechercheRapide, #filtreBTN, #btnAjouterLivre {
+    margin: 16px;
+}
+
+#filtre {
+    width: fit-content;
+    margin: 18px;
+    padding: 12px;
+    overflow-y: auto;
+}
+
+#filtre > * {
+    margin: 6px;
+}
+
+#fermeFiltre{
+    position:absolute;
+    top:12px;
+    right:12px;
+}
+@media (max-width: 500px) {
+    .cacher-1 {
+        position: absolute!important;
+        visibility: hidden!important;
+    }
+}
+@media (max-width: 880px) {
+    .cacher-2 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media (max-width: 1px) {
+    .cacher-3 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media (max-width: 1px) {
+    .cacher-4 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media (max-width: 590px) {
+    .cacher-5 {
+        position: absolute;
+        visibility: hidden;
+    }
+}

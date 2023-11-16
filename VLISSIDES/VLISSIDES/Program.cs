@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
 using Stripe;
+using System.Text.Json.Serialization;
 using VLISSIDES.Data;
 using VLISSIDES.Helpers;
 using VLISSIDES.Interfaces;
@@ -28,6 +28,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+{
+    options.ValidationInterval = TimeSpan.FromSeconds(1);
+});
 builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -35,12 +39,16 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //Implementation du service SendGridEmail par l'interface ISendGridEmail
 builder.Services.AddTransient<ISendGridEmail, SendGridEmail>();
+builder.Services.AddTransient<ISendGridEmailAdvance, SendGridEmailAdvance>();
 //Permet de ne pas utiliser la configuration de base mais plutot de configurer les option de recupération de AuthMessageSenderOptions
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSection("SendGrid"));
 
 //Permet de ne pas utiliser la configuration de base mais plutot de configurer les option de recupération de AuthMessageSenderOptions
 builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
+//Service qui permet d'envoyer un mail d'anniversaire
+builder.Services.AddHostedService<BirthdayService>();
 
 
 var app = builder.Build();

@@ -4,128 +4,81 @@
 @{
     var nbArticles = Context.Session.GetInt32("NbArticles") ?? 0;
 }
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-0 px-4" id="navBottom">
+<link rel="stylesheet" href="~/css/NavBar/NavBarBottom.css" />
 
-    <div class="container-fluid">
-        <!-- Premier groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
-        <div class="navbar-collapse collapse d-sm-inline-flex">
-            <ul class="navbar-nav flex-grow-1">
+<nav id="navBottom" class="navbar">
+    <ul id="navLeft" class=" d-flex  align-items-end">
+        <li class="cacherPetit">
+            <a class="nav-link" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
+            @if (!User.IsInRole(RoleName.EMPLOYE))
+            {
+            <pre> - </pre>
+            }
+        </li>
+        @if (!User.Identity.IsAuthenticated || User.IsInRole(RoleName.MEMBRE))
+        {
+            <li>
+                <a class="nav-link" asp-area="" asp-controller="Recherche" asp-action="Index">Livres</a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Accueil</a>
+            @if (User.IsInRole(RoleName.MEMBRE))
+            {
+                <li class="NavMembre">
+                    <a class="nav-link" asp-area="" asp-controller="Livres" asp-action="MesLivres">Mes livres</a>
                 </li>
-                @if (!User.Identity.IsAuthenticated || User.IsInRole(RoleName.MEMBRE))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Recherche" asp-action="Index">Livres</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Evenments" asp-action="Index">Évènements</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Promotions" asp-action="Index">Promotions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Info">À propos de nous</a>
-                    </li>
-                }
-                @if (User.IsInRole(RoleName.MEMBRE))
-                {
-                    <li class="nav-link text-dark"> - </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Commandes" asp-action="Index">Mes commandes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="LivreUtilisateur" asp-action="Index">Mes livres</a>
-                    </li>
-                }
-                @if (User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN))
-                {
-                    <li class="nav-link text-dark"> - </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionLivres" asp-action="Inventaire">Inventaire</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionAuteurs" asp-action="Index">Auteurs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionMaisonEditions" asp-action="Index">Maison d'éditions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionCategories" asp-action="Index">Catégories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionCommandes" asp-action="Index">Commandes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionEvenements" asp-action="Index">Évènements</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionPromotions" asp-action="Index">Promotions</a>
-                    </li>
-                }
-                @if (User.IsInRole(RoleName.ADMIN))
-                {
-                    <li class="nav-link text-dark"> - </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="GestionComptes" asp-action="Index">Gestion des comptes</a>
-                    </li>
-                }
-            </ul>
-        </div>
-
-        <!-- Deuxième groupe de liens. Les liens peuvent changer, c'est juste pour le design -->
-        @* <div class="navbar-collapse collapse d-sm-inline-flex">
-        <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 1</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 2</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 3</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Accueil" asp-action="Index">Lien 4</a>
-        </li>
-        </ul>
-        </div> *@
+                <li class="NavMembre">
+                    <a class="nav-link" asp-area="" asp-controller="Commandes" asp-action="Index">Mes commandes</a>
+                </li>
+            }
+            <li class="cacherPetit">
+                <a class="nav-link" asp-area="" asp-controller="Evenements" asp-action="Index">Évènements</a>
+            </li>
+            <li class="cacherPetit">
+                <a class="nav-link" asp-area="" asp-controller="Promotions" asp-action="Index">Promotions</a>
+            </li>
+            <li class="cacherPetit">
+                <a class="nav-link" asp-area="" asp-controller="Accueil" asp-action="Info">À propos de nous</a>
+            </li>
+        }
+        @if (User.IsInRole(RoleName.ADMIN))
+        {
+            <li>
+                <a class="nav-link" asp-area="" asp-controller="GestionComptes" asp-action="Index">Gestion des comptes</a>
+            </li>
+        }
+</ul>
+    <ul id="navRight" class=" d-flex justify-content-end  align-items-end">
         @if (SignInManager.IsSignedIn(User))
         {
             <!-- Icônes de profil et de panier -->
-            <div class="navbar-icons">
-                <ul class="navbar-nav flex-grow-1">
-                    <!--
-                    Gérer son profil
-                    -->
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="index">Profil</a>
-                    </li>
-                    <!--
-                    Gérer panier
-                    -->
-                    @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
-                    {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
-                            Consulter le panier
-                            <i class="fa-solid fa-cart-shopping">
-                                <span class="badge-panier" id="nbArticles">
-                                    @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
-                                    {
-                                        <span id="nbArticlesText">@nbArticles</span>
-                                    }
-                                </span>
-                            </i>
-
-                        </a>
-                    </li>
-                    }
-
-                </ul>
-            </div>
+            <!--
+            Gérer son profil
+            -->
+            <li class="cacherMini">
+                <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="index">Profil</a>
+            </li>
+            <!--
+            Gérer panier
+            -->
+            @if (User.IsInRole(RoleName.MEMBRE))
+            {
+                <li>
+                    <a class="nav-link" asp-area="" asp-controller="Panier" asp-action="Index">
+                        <span class="badge-panier" id="nbArticles">
+                                <span id="nbArticlesText">@nbArticles</span>
+                        </span>
+                    </a>
+                    <a class="nav-link" asp-area="" asp-controller="Panier" asp-action="Index">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Consulter le panier
+                    </a>
+                </li>
+            }
         }
-    </div>
+</ul>
 </nav>
-
+<!-- Barre latérale coulissante -->
+@if (User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN))
+{
+    <partial name="PartialViews/Dashboard/_SideBarPartial" />
+}

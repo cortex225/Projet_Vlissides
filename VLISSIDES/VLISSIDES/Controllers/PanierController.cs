@@ -30,7 +30,9 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
+            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId)
+                .Include(a => a.Livre.LivreAuteurs)
+                .ToList();
 
             var listeArticleVM = article.Select(a => new AfficherPanierVM
             {
@@ -39,9 +41,11 @@ namespace VLISSIDES.Controllers
                 TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
                 Prix = (double)_context.LivreTypeLivres.FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
                 UserId = a.UserId,
-                Quantite = a.Quantite
+                Quantite = a.Quantite,
+                LivreAuteurs = _context.LivreAuteurs.Where(la => la.LivreId == a.LivreId).ToList()
+
             }).ToList();
-            
+
 
             double prixtotal = 0;
 
@@ -70,6 +74,24 @@ namespace VLISSIDES.Controllers
                 PrixTotal = prixtotal
 
             };
+            //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
+            Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
+            if (don != null)
+            {
+                switch (don.Nom)
+                {
+                    case "Vent Verdure et Plantation":
+                        panier.PremierChoixDon = true;
+
+                        break;
+                    case "Écosystème et Pérennité":
+                        panier.DeuxiemeChoixDon = true;
+                        break;
+                    case "Un arbre à la fois":
+                        panier.TroisiemeChoixDon = true;
+                        break;
+                }
+            }
             await NbArticles();
 
             return View(panier);
@@ -139,7 +161,24 @@ namespace VLISSIDES.Controllers
                 PrixTotal = prixtotal
 
             };
+            //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
+            Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
+            if (don != null)
+            {
+                switch (don.Nom)
+                {
+                    case "Vent Verdure et Plantation":
+                        panier.PremierChoixDon = true;
 
+                        break;
+                    case "Écosystème et Pérennité":
+                        panier.DeuxiemeChoixDon = true;
+                        break;
+                    case "Un arbre à la fois":
+                        panier.TroisiemeChoixDon = true;
+                        break;
+                }
+            }
             return PartialView("PartialViews/Panier/_FacturePartial", panier);
         }
 
@@ -184,7 +223,7 @@ namespace VLISSIDES.Controllers
                     "La quantité demandée n'est pas disponible en stock. Voulez-vous précommander le surplus ?");
             }
 
-            
+
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             var article = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
 
@@ -251,7 +290,7 @@ namespace VLISSIDES.Controllers
             //Set le nombre d'articles dans le panier
             await NbArticles();
 
-                return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
+            return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
         }
 
         //Pour montrer la partial view de confirmation de suppression
@@ -273,6 +312,38 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Panier/_DeletePanierConfirmation", vm);
         }
 
+
+        private void AppliquerPromotionsSurPanier(List<AfficherPanierVM> panierItems, string codePromo)
+        {
+            var promotion = TrouverPromotionParCode(codePromo);
+
+            if (promotion != null)
+            {
+                foreach (var item in panierItems)
+                {
+                    if (EstEligiblePourPromotion(item, promotion))
+                    {
+                        item.Prix = (double)(item.Prix * (1 - promotion.PourcentageRabais / 100))!;
+                    }
+                }
+            }
+        }
+
+        private Promotions TrouverPromotionParCode(string codePromo)
+        {
+
+            return _context.Promotions.FirstOrDefault(p => p.CodePromo == codePromo);
+        }
+
+        private bool EstEligiblePourPromotion(AfficherPanierVM item, Promotions promotion)
+        {
+
+            return (promotion.CategorieId == null ||
+                    promotion.CategorieId == item.Livre.Categories.FirstOrDefault()?.CategorieId) &&
+                   (promotion.AuteurId == null ||
+                    promotion.AuteurId == item.Livre.LivreAuteurs.FirstOrDefault()?.AuteurId) &&
+                   (promotion.MaisonEditionId == null || promotion.MaisonEditionId == item.Livre.MaisonEditionId);
+        }
         [HttpGet]
         public async Task<int> NbArticles()
         {
@@ -283,5 +354,67 @@ namespace VLISSIDES.Controllers
             return NbArticles;
         }
 
+        [HttpGet]
+        public IActionResult PasserAuPaiement(string numero)
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
+            if (don == null)
+            {
+                //Ajout si don est null
+                switch (numero)
+                {
+                    case "1":
+                        don = new Don()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Nom = "Vent Verdure et Plantation",
+                            Montant = 5.00,
+                            UserId = currentUserId,
+                        };
+                        _context.Dons.Add(don);
+                        _context.SaveChanges();
+                        break;
+                    case "2":
+                        don = new Don()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Nom = "Écosystème et Pérennité",
+                            Montant = 5.00,
+                            UserId = currentUserId,
+                        };
+                        _context.Dons.Add(don);
+                        _context.SaveChanges();
+                        break;
+                    case "3":
+                        don = new Don()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Nom = "Un arbre à la fois",
+                            Montant = 5.00,
+                            UserId = currentUserId,
+                        };
+                        _context.Dons.Add(don);
+                        _context.SaveChanges();
+                        break;
+                    default:
+                        don = null;
+                        break;
+                }
+
+            }
+            else
+            {//Modification quand don n'est pas nulle
+                switch (numero)
+                {
+                    case "1": don.Nom = "Vent Verdure et Plantation"; break;
+                    case "2": don.Nom = "Écosystème et Pérennité"; break;
+                    case "3": don.Nom = "Un arbre à la fois"; break;
+                    default: _context.Dons.Remove(don); break;
+                }
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index", "Paiement");
+        }
     }
 }

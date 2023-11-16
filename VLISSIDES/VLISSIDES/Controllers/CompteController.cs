@@ -1,10 +1,10 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -84,7 +84,11 @@ public class CompteController : Controller
                 ModelState.AddModelError(string.Empty, "L'email est encore a être confirmer.");
                 return View(vm);
             }
-
+            if (user.IsBanned)
+            {
+                ModelState.AddModelError(string.Empty, "Ce compte a été bloqué, veuillez contacter le support.");
+                return View(vm);
+            }
             var result = await _signInManager.PasswordSignInAsync(user.UserName, vm.Password, vm.RememberMe, false);
 
             if (result.Succeeded)
@@ -132,7 +136,6 @@ public class CompteController : Controller
     {
         var vm = new RegisterVM();
         vm.ReturnUrl = returnUrl;
-        // Populate Department list
         return View(vm);
     }
 
@@ -181,7 +184,8 @@ public class CompteController : Controller
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
                 DateAdhesion = DateTime.Now,
-                DateNaissance = vm.DateNaissance,
+
+                IsBanned = false,
 
             };
 
@@ -478,6 +482,9 @@ public class CompteController : Controller
             ModelState.AddModelError("Email", "Cet utilisateur existe déjà.");
         }
 
+
+
+
         ViewData["ReturnUrl"] = returnurl;
         return View(vm);
     }
@@ -502,4 +509,5 @@ public class CompteController : Controller
         var customer = await service.CreateAsync(options);
         return customer.Id;
     }
+
 }
