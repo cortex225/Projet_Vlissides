@@ -1,9 +1,9 @@
 ﻿@media only screen and (max-width: 500px) {
-    .listeAuteur{
+    .listeSujet {
         width: 100% !important;
     }
 }
 
-.listeAuteur {
+.listeSujet {
     width: 50%;
 }

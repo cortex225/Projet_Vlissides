@@ -5,6 +5,9 @@
 }
 @model List<VLISSIDES.ViewModels.Categories.CategoriesIndexVM>
 <link rel="stylesheet" href="~/css/ListeLivres.css"/>
+<link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Responsive/ListeGestion.css" asp-append-version="true">
+
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
     <div class="modal-dialog" role="document">
@@ -56,7 +59,7 @@
         <div class="row">
 
             <!--Début: Affichage des catégorie-->
-            <div class="list-group col-6" id="list-tab" role="tablist">
+            <div class="listeSujet list-group" id="list-tab" role="tablist">
                 @foreach (var categorie in Model)
                 {
                     <partial name="PartialViews/GestionCategories/_CardCategorie" model="categorie" />
@@ -67,7 +70,7 @@
             <!--Fin: Affichage des catégorie-->
 
             <!--Début: Affichage des informations de la catégorie (droite)-->
-            <div id="divListeLivres" class="col-6 card rounded-xl">
+            <div id="divListeLivres" class="mediaQuerryHideOnSuperSmall card rounded-xl">
                 <h3 class="text-center my-3">Informations de la catégorie</h3>
 
                 <div class="" id="divListeMaisonEditionLivres">
