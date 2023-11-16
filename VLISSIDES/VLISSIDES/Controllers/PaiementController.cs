@@ -177,7 +177,7 @@ namespace VLISSIDES.Controllers
                 },
                 AutomaticTax = new SessionAutomaticTaxOptions
                 {
-                    Enabled = false, // Active le calcul automatique des taxes
+                    Enabled = true, // Active le calcul automatique des taxes
                 },
                  AllowPromotionCodes = true,
 

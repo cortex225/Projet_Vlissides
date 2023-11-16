@@ -9,10 +9,5 @@ namespace VLISSIDES.ViewModels.Panier
 
         public Promotions? Promotion { get; set; }
 
-        public bool? isPromotion { get; set; } = false;
-
-
-
-
     }
 }

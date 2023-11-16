@@ -1,4 +1,6 @@
 ﻿@model VLISSIDES.ViewModels.Accueil.IndexAccueilVM
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Accueil Page";
 }
@@ -8,6 +10,7 @@
 
 @{
     bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.user?.DateNaissance == null;
+
 }
 <!--
 Ceci est le div qui contient une image large avec le titre
@@ -363,9 +366,14 @@ function toggleDescription(buttonElement) {
 
 
 </script>
+
 @section Scripts {
-    @if (isIncompleteBirthday) {
-        <script>
+    @* seulement si l'utlisateur est un membre *@
+    @if (!User.Identity.IsAuthenticated || User.IsInRole(RoleName.MEMBRE))
+    {
+        @if (isIncompleteBirthday)
+        {
+            <script>
             setTimeout(function() {
                 Swal.fire({
                     title: 'Complétez votre profil',
@@ -392,5 +400,7 @@ function toggleDescription(buttonElement) {
                 });
             }, 5000); // 5 secondes après que la page a chargé
         </script>
+        }
     }
 }
+

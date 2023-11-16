@@ -15,7 +15,7 @@
                 {
                     @for (var quantite = 0; quantite < article.Quantite; quantite++)
                     {
-                        <li class="float-end">@article.Prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</li>
+                        <li class="float-end">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</li>
                     }
                 }
                 else @* When acrticle type is numérique  *@
@@ -68,7 +68,7 @@
     <button id="ajouterCodePromo" type="button" class="btn btn-light" onclick=" AfficherFieldCodePromo()">Ajouter un code promotionnel</button>
     <form class="d-flex hideInputCodePromo" role="search" id="inputCodePromoDiv">
         <input id="inputCodePromo" class="form-control me-2" type="search" placeholder="Code promo ici:" aria-label="Search">
-        <button id="submitCodePromo" class="btn btn-primary" type="submit">Ajouter</button>
+    <button id="submitCodePromo" class="btn btn-primary" type="button" onclick="validerEtAppliquerCodePromo()">Ajouter</button>
     </form>
 </div>
 
@@ -87,18 +87,42 @@
     </div>
 </div>
 
-@section Scripts
-{
-   <script>
-           var codePromo = document.getElementById("codePromo").value;
-           if (codePromo.length >= 5) {
-               document.getElementById("btnAppliquerCodePromo").style.display = "block";
-           }
-           else {
-               document.getElementById("btnAppliquerCodePromo").style.display = "none";
-           }
+<script>
+function validerEtAppliquerCodePromo() {
+    var codePromo = document.getElementById('inputCodePromo').value;
+    console.log("Code promo:", codePromo);
 
-   </script>
+    fetch(BASE_URL + '/Panier/ValiderCodePromo?codePromo=' + codePromo
+   , {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+        },
+        body: JSON.stringify({ codePromo: codePromo })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.isValid) {
+            // Met à jour la facture avec les détails de la promotion
+             fetch(BASE_URL + "/Panier/AfficherFacture", {
+                        method: "GET"
+                    }).then((response) => {
+                        // Convertit la réponse en texte
+                        return response.text();
+                    }).then((result) => {
+                        // Met à jour le contenu de la div avec le résultat
+                        var div = document.getElementById("facture");
+                        div.innerHTML = result;
+                    })
+        } else {
+            // Affiche un message d'erreur
+            alert("Code promo invalide ou expiré.");
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la validation du code promo', error);
+    });
 }
 
-
+</script>

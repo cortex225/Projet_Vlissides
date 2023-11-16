@@ -10,14 +10,14 @@ namespace VLISSIDES.ViewModels.Panier
 
         public TypeLivre TypeLivre { get; set; } = default!;
 
-        public double Prix { get; set; }
+        public double PrixOriginal { get; set; }
 
         public string? UserId { get; set; }
 
         public int? Quantite { get; set; } = default!;
         public List<LivreAuteur>? LivreAuteurs { get; set; }
 
-        public decimal? PrixAvecPromotion { get; set; } = default!;
+        public double PrixApresPromotion { get; set; }
 
     }
 }

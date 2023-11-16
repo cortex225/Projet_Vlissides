@@ -113,8 +113,6 @@ namespace VLISSIDES.Controllers
                     PourcentageRabais = vm.PourcentageRabais
                 };
 
-                // Création de la promotion dans Stripe
-                await CreerPromotionStripe(vm);
 
                 _context.Promotions.Add(promo);
                 _context.SaveChanges();
@@ -159,97 +157,6 @@ namespace VLISSIDES.Controllers
 
 
 
-        private async Task CreerPromotionStripe(AjouterPromotionVM vm)
-        {
-
-
-            switch (vm.TypePromotion)
-            {
-                case "pourcentage":
-                    await CreerCouponPourcentage(vm);
-                    break;
-                case "2pour1":
-                    await CreerPromotion2Pour1(vm);
-                    break;
-                default:
-                    // Gérer les autres types de promotions ou les erreurs
-                    break;
-            }
-        }
-
-        private async Task CreerCouponPourcentage(AjouterPromotionVM vm)
-        {
-            var metadata = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(vm.CategorieId))
-            {
-                metadata.Add("CategorieId", vm.CategorieId);
-            }
-            if (!string.IsNullOrEmpty(vm.AuteurId))
-            {
-                metadata.Add("AuteurId", vm.AuteurId);
-            }
-            if (!string.IsNullOrEmpty(vm.MaisonEditionId))
-            {
-                metadata.Add("MaisonEditionId", vm.MaisonEditionId);
-            }
-            var options = new CouponCreateOptions
-            {
-                Name = vm.Nom,
-                PercentOff = vm.PourcentageRabais,
-                Currency = "cad",
-                Metadata = metadata,
-
-            };
-
-            var service = new CouponService();
-            var coupon = await service.CreateAsync(options);
-            await CreerCodePromotionnelStripe(coupon.Id, vm.CodePromo);
-        }
-
-        private async Task CreerPromotion2Pour1(AjouterPromotionVM vm)
-        {
-            var metadata = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(vm.CategorieId))
-            {
-                metadata.Add("CategorieId", vm.CategorieId);
-            }
-            if (!string.IsNullOrEmpty(vm.AuteurId))
-            {
-                metadata.Add("AuteurId", vm.AuteurId);
-            }
-            if (!string.IsNullOrEmpty(vm.MaisonEditionId))
-            {
-                metadata.Add("MaisonEditionId", vm.MaisonEditionId);
-            }
-
-
-            var options = new CouponCreateOptions
-            {
-                Name = vm.Nom,
-                Metadata = metadata,
-                AmountOff = 100,
-                Currency = "cad"
-
-
-            };
-
-            var service = new CouponService();
-            var coupon2Pour1 = await service.CreateAsync(options);
-            await CreerCodePromotionnelStripe(coupon2Pour1.Id, vm.CodePromo);
-        }
-
-        private async Task CreerCodePromotionnelStripe(string couponId, string codePromo)
-        {
-            var options = new PromotionCodeCreateOptions
-            {
-                Coupon = couponId,
-                Code = codePromo,
-                Active = true,
-            };
-
-            var service = new PromotionCodeService();
-            await service.CreateAsync(options);
-        }
 
 
 
