@@ -7,7 +7,7 @@
 
 @if (Model.Count != 0)
 {
-    <div class="list-group col-6" id="list-tab" role="tablist">
+    <div class="listeAuteur list-group" id="list-tab" role="tablist">
         @foreach (var auteur in Model)
         {
             <!--onclick pour afficher livres ici-->
@@ -38,7 +38,7 @@
             <partial name="PartialViews/Utilities/_PaginationIndexPartial"/>
 
     </div>
-    <div id="divListeLivres" class="col-6 card rounded-xl">
+    <div id="divListeLivres" class="mediaQuerryHideOnSuperSmall card rounded-xl">
         <h3 class="text-center my-3">Livres de l'auteur</h3>
 
         <div class="" id="divListeAuteursLivres">
