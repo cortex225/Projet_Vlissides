@@ -8,6 +8,7 @@
     string BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
 <link rel="stylesheet" href="~/css/Responsive/GestionInventaire.css" asp-append-version="true">
 
 
@@ -143,7 +144,7 @@
                                         Auteur
                                     </p>                                   
                                 </div>
-                                <div class="CategorieCol mediaQuerryHideOnMedium col-1">
+                                <div class="CategorieCol mediaQuerryHideOnMediumLarge col-1">
                                     <p class="text-center">
                                         Catégorie
                                     </p>                                  
@@ -153,12 +154,12 @@
                                         Prix par type
                                     </p>                                   
                                 </div>
-                                <div class="QuantiteCol mediaQuerryHideOnMediumLarge col-1">
+                                <div class="QuantiteCol mediaQuerryHideOnMedium col-1">
                                     <p class="text-center">
                                         Quantité
                                     </p>                                   
                                 </div>
-                                <div class="col-2">
+                                <div class="col">
                                     @* Espace vide pour les boutons *@
                                 </div>
                             </div>
@@ -192,7 +193,7 @@
                                             }
                                         </div>
                                     </div>
-                                    <div class="CategorieCol mediaQuerryHideOnMedium col-1">
+                                    <div class="CategorieCol mediaQuerryHideOnMediumLarge col-1">
                                         <div class="text-center">
                                             @foreach (var categorie in item.Categories)
                                             {
@@ -208,7 +209,7 @@
                                             }
                                         </div>
                                     </div>
-                                    <div class="QuantiteCol mediaQuerryHideOnMediumLarge col-1">
+                                    <div class="QuantiteCol mediaQuerryHideOnMedium col-1">
                                         <div class="text-center">
                                             @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
                                             {
@@ -222,29 +223,35 @@
                                     </div>
                                     
                                     
-                                    <div class="divBoutons col-2 text-center h-40">
-                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
-                                        {
-                                            <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="mediaQuerryHideOnMediumLarge btn btn-success saveButton px-3" onclick="
-                                                saveQuantite('@item.Id', '@item.Quantite')
-                                                disableButton('@item.Id')">
+                                    <div class="divBoutons col text-center h-40 d-flex justify-content-around">
+                                        <div class="mediaQuerryHideOnMedium">
+                                            @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
+                                            {
+                                                <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
+                                                    saveQuantite('@item.Id', '@item.Quantite')
+                                                    disableButton('@item.Id')">
 
-                                                <span class="fa-solid fa-check fa-2x"></span>
+                                                    <span class="fa-solid fa-check fa-2x"></span>
 
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <button class="mediaQuerryHideOnMedium btn btn-success saveButton px-3" disabled>
-                                                <span class="fa-solid fa-check fa-2x"></span>
-                                            </button>
-                                        }
-                                        <a class="btn btn-primary p-2 m-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
-                                            <span class="fa-solid fa-pen fa-2x"></span>
-                                        </a>
-                                        <a class="btn btn-danger p-2 m-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
-                                            <span class="fa-solid fa-trash fa-2x"></span>
-                                        </a>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class=" btn btn-success saveButton px-3" disabled>
+                                                    <span class="fa-solid fa-check fa-2x"></span>
+                                                </button>
+                                            }
+                                        </div>
+                                        
+                                        <div class="divEditDelete">
+                                            <a class="btn btn-primary p-2 m-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                                                <span class="fa-solid fa-pen fa-2x"></span>
+                                            </a>
+                                            <a class="btn btn-danger p-2 m-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
+                                                <span class="fa-solid fa-trash fa-2x"></span>
+                                            </a>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
