@@ -72,26 +72,46 @@ Un bouton pour cacher/montrer les services de l'entreprises'
         <h2 class="titreSections mb-1">Nos Activités Et Évenements: </h2>
         <p class="m-2">Immergez-vous dans nos événements et partagez des moments d'exception.</p>
         <div id="carouselEvenements" class="carousel slide container-fluid">
-            <a class="voirPlus" asp-controller="Evenements" asp-action="Index">Voir plus -></a>
-            <div class="carousel-inner">
+            <a class="voirPlus" asp-controller="Evenements" asp-action="Index">Voir plus -></a><div class="carousel-inner">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="cards-wrapper d-flex justify-content-around">
+                            <div class="cacher-0">
+                                <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[0]" />
+                            </div>
+                            @if (Model.Vedettes.Count > 1)
+                            {
+                                <div class="cacher-1">
+                                    <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[1]" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @for (var indexEvenement = 2; indexEvenement < (float)Model.Evenements.Count / 2; indexEvenement++)
+                    {
+                        <div class="carousel-item">
+                            <div class="cards-wrapper d-flex justify-content-around">
+                                @for (var indexLivre2 = 1; indexLivre2 < 2; indexLivre2++)
+                                {
+                                    @if (Model.Evenements.Count > indexEvenement * 2 + indexLivre2)
+                                    {
+                                        <div class="cacher-@indexLivre2">
+                                            <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement * 2 + indexLivre2]" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvenements" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                @for (var indexEvenement = 0; indexEvenement < Model.Evenements.Count; indexEvenement++)
-                {
-                    <div class="carousel-item row d-flex justify-content-around @(indexEvenement == 0 ? "active" : "")">
-                            <div class="col-md-6 col-12">
-                                <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement]"/>
-                            </div>
-                            @if (++indexEvenement < Model.Evenements.Count)
-                            {
-                                <div class="col-md-6 d-none d-md-block">
-                                    <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement]"/>
-                                </div>
-                            }
-                    </div>
-                }
                 <button class="carousel-control-next" type="button" data-bs-target="#carouselEvenements" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
@@ -110,21 +130,39 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             <div id="carouselPromotions" class="carousel slide">
                 <a class="voirPlus" asp-controller="Promotions" asp-action="Index">Voir plus -></a>
                 <div class="carousel-inner">
-                    <div class="carousel-item">
-                        <div class="row mb-4 d-flex justify-content-around">
-                            <div class="carousel-item active">
-                                <div class="row mb-4 d-flex justify-content-around">
-                                    <div class="col-md-6 col-12">
-                                        <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]" />
-                                    </div>
-                                    @if (1 < Model.Promotions.Count)
+                    <div class="carousel-item active">
+                        <div class="cards-wrapper d-flex justify-content-around">
+                            <div class="cacher-0">
+                                <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Evenements[0]" />
+                            </div>
+                            @if (Model.Vedettes.Count > 1)
+                            {
+                                <div class="cacher-1">
+                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Evenements[1]" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @for (var indexEvenement = 1; indexEvenement < (float)Model.Evenements.Count / 2; indexEvenement++)
+                    {
+                        <div class="carousel-item">
+                            <div class="cards-wrapper d-flex justify-content-around">
+                                @for (var indexLivre2 = 0; indexLivre2 < 2; indexLivre2++)
+                                {
+                                    @if (Model.Evenements.Count > indexEvenement * 2 + indexLivre2)
                                     {
-                                        <div class="col-md-6 d-none d-md-block cacher-3">
-                                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]" />
+                                        <div class="cacher-@indexLivre2">
+                                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Evenements[indexEvenement * 2 + indexLivre2]" />
                                         </div>
                                     }
-                                </div>
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
                             </div>
+                        </div>
+                    }
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotions" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -135,6 +173,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                     <span class="visually-hidden">Suivant</span>
                 </button>
             </div>
+
         </section>
     }
 
