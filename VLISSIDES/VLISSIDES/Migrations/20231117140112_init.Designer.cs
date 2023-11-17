@@ -12,7 +12,7 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231116050424_init")]
+    [Migration("20231117140112_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,21 +54,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "1bd83253-6fab-45b7-9feb-50d9ad8a2e98",
+                            ConcurrencyStamp = "a99e7317-e941-4a57-aaa1-a2d8efe1399b",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "34ac6120-ff3f-4369-a999-7661cd9dd564",
+                            ConcurrencyStamp = "b54ba045-6bd6-47a8-afe7-2a712f440487",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "ca63b6f4-7936-4120-91e6-12121af29231",
+                            ConcurrencyStamp = "bc5aaac3-d147-4d42-ba59-a9f1350680d5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -342,7 +342,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bc0ce511-cc30-4821-88bf-cd44a740a749",
+                            ConcurrencyStamp = "a565dd99-b458-4b7b-adb2-d2b02fcde4af",
                             Email = "vlissides2023@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -352,7 +352,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "fb5bc974-3082-4c02-9f6c-4382752e84cd",
+                            SecurityStamp = "7dadc430-2864-4889-afe3-64f0111963bd",
                             TwoFactorEnabled = false,
                             UserName = "admin1"
                         });
@@ -966,6 +966,9 @@ namespace VLISSIDES.Migrations
                     b.Property<int>("Quantite")
                         .HasColumnType("int");
 
+                    b.Property<int?>("QuantiteARetourner")
+                        .HasColumnType("int");
+
                     b.HasKey("LivreId", "CommandeId");
 
                     b.HasIndex("CommandeId");
@@ -981,6 +984,12 @@ namespace VLISSIDES.Migrations
                     b.Property<string>("LivreId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal?>("PrixApresPromotion")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("PrixOriginal")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("Quantite")
                         .HasColumnType("int");
@@ -1223,7 +1232,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "f0324bf2-c39f-498b-859b-689881d00131",
+                            ConcurrencyStamp = "31bafc38-fd4a-4df5-ac54-998179d26f64",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1233,7 +1242,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "4866d605-7f24-4ddf-9891-166e4ceab091",
+                            SecurityStamp = "06b43488-575d-499c-9de9-abe8cf1ce853",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1268,7 +1277,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "2328f4c0-86ca-4b75-8e2c-a0f3b3c41bae",
+                            ConcurrencyStamp = "0a5a6eca-b5fc-4150-a3a6-350b35574da7",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1278,10 +1287,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "7287e6fb-13c7-42d8-9499-094cef42009c",
+                            SecurityStamp = "1326ddcf-c008-473a-8724-2d7cb584f280",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 11, 16, 0, 4, 23, 942, DateTimeKind.Local).AddTicks(630),
+                            DateAdhesion = new DateTime(2023, 11, 17, 9, 1, 12, 550, DateTimeKind.Local).AddTicks(7870),
                             NoMembre = "123456"
                         });
                 });
