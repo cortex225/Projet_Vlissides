@@ -33,7 +33,9 @@
     <partial name="PartialViews/GestionPromotions/_ListePromotionsPartial" model="@Model" />
 
 </div>
-
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
 <script>
     // ModalScript
     function ShowModal($url) {
@@ -43,10 +45,21 @@
         });
     }
 </script>
-
+<script>
+    function AfficherPromotions(){
+        fetch(BASE_URL + '/GestionPromotions/Index', {
+            method:"GET",
+            
+        }).then((response) => {
+            return response.text();
+        }).then((result)=>{
+            document.querySelector("body").innerHTML = result;
+        })
+    }
+</script>
 <script>
     function SupprimerPromotion(id = "") {
-        fetch(`/GestionPromotions/DeleteConfirmed?id=${id}`, {
+        fetch(BASE_URL+`/GestionPromotions/DeleteConfirmed?id=${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
