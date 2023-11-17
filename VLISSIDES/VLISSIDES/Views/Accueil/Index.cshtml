@@ -162,12 +162,12 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                     <div class="carousel-item active">
                         <div class="cards-wrapper d-flex justify-content-around">
                             <div class="cacher-0">
-                                <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Evenements[0]" />
+                                <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]" />
                             </div>
                             @if (Model.Vedettes.Count > 1)
                             {
                                 <div class="cacher-1">
-                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Evenements[1]" />
+                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]" />
                                 </div>
                             }
                         </div>
@@ -181,7 +181,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                                     @if (Model.Evenements.Count > indexEvenement * 2 + indexLivre2)
                                     {
                                         <div class="cacher-@indexLivre2">
-                                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Evenements[indexEvenement * 2 + indexLivre2]" />
+                                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexEvenement * 2 + indexLivre2]" />
                                         </div>
                                     }
                                     else
