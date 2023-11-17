@@ -327,6 +327,7 @@ namespace VLISSIDES.Controllers
             if (promotion.TypePromotion == "2pour1")
             {
                 AppliquerPromotionDeuxPourUn(panierVM, promotion);
+                prixTotal = panierVM.ListeArticles.Sum(a => a.PrixApresPromotion * (a.Quantite ?? 1));
 
             }
             else if (promotion.TypePromotion == "pourcentage")
@@ -348,28 +349,42 @@ namespace VLISSIDES.Controllers
 
             panierVM.PrixTotal = panierVM.ListeArticles.Sum(a => a.PrixApresPromotion * (a.Quantite ?? 1));
             panierVM.Promotion = promotion;
+            // Logique pour valider le code promo
+            bool isCodeValid = false; // Remplacez ceci par votre logique de validation
 
-            return Json(new { success = true, nouveauTotal = prixTotal, message = "Code promo appliqué avec succès." });
+
+            return Json(new { success = true, nouveauTotal = prixTotal, isValid=isCodeValid, message = "Code promo appliqué avec succès." });
         }
 
         private void AppliquerPromotionDeuxPourUn(PanierVM panierVM, Promotions promo)
         {
 
-            // Assurez-vous que la promotion est applicable
-            if (!promo.LivresAcheter.HasValue || !promo.LivresGratuits.HasValue || panierVM.ListeArticles.Count < 2)
+            if (!promo.LivresAcheter.HasValue || !promo.LivresGratuits.HasValue)
             {
                 return;
             }
-
+            // Récupérer tous les articles éligibles pour la promotion
             var articlesEligibles = panierVM.ListeArticles
                 .Where(a => EstEligiblePourPromotion(a, promo))
-                .OrderBy(a => a.PrixOriginal) // Triez par prix croissant
+                .SelectMany(a => Enumerable.Repeat(a, a.Quantite ?? 1))
+                .OrderBy(a => a.PrixOriginal)
                 .ToList();
 
-            // Appliquez la promotion sur l'article le moins cher
-            if (articlesEligibles.Count >= 2)
+            // Initialisez PrixApresPromotion pour tous les articles éligibles
+            foreach (var article in articlesEligibles)
             {
-                articlesEligibles[0].PrixApresPromotion = 0; // Le premier élément est le moins cher
+                article.PrixApresPromotion = article.PrixOriginal;
+            }
+
+            int nombreTotalArticles = articlesEligibles.Count;
+            int tailleGroupe = promo.LivresAcheter.Value + promo.LivresGratuits.Value;
+            int nombreDeGroupes = nombreTotalArticles / tailleGroupe;
+            int nombreArticlesGratuits = nombreDeGroupes * promo.LivresGratuits.Value;
+
+            // Appliquer la promotion aux articles gratuits
+            for (int i = 0; i < nombreArticlesGratuits; i++)
+            {
+                articlesEligibles[i].PrixApresPromotion = 0;
             }
 
         }
