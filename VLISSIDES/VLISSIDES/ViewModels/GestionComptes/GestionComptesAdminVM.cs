@@ -1,9 +1,8 @@
-﻿namespace VLISSIDES.ViewModels.GestionComptes
+﻿namespace VLISSIDES.ViewModels.GestionComptes;
+
+public class GestionComptesAdminVM
 {
-    public class GestionComptesAdminVM
-    {
-        public string Id { get; set; }
-        public string Nom { get; set; }
-        public string Courriel { get; set; }
-    }
+    public string Id { get; set; }
+    public string Nom { get; set; }
+    public string Courriel { get; set; }
 }

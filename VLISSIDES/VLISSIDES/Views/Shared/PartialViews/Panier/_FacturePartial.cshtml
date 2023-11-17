@@ -1,7 +1,6 @@
-﻿<link rel="stylesheet" href="~/css/facture.css" asp-append-version="true"/>
+﻿@using System.Globalization
+<link rel="stylesheet" href="~/css/facture.css" asp-append-version="true"/>
 
-
-@using System.Globalization;
 @{
     float prixDonEco = 5;
     string prixtotal = (Model.PrixTotal + 5).ToString("n", new CultureInfo("fr-CA"));
@@ -20,7 +19,7 @@
                     {
                         <li class="float-end">
                             <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
-                            <div class="prix-promo" >@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                            <div class="prix-promo">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
                         </li>
                     }
                 }
@@ -76,7 +75,7 @@
     <button id="ajouterCodePromo" type="button" class="btn btn-light" onclick=" AfficherFieldCodePromo()">Ajouter un code promotionnel</button>
     <form class="d-flex hideInputCodePromo" role="search" id="inputCodePromoDiv">
         <input id="inputCodePromo" class="form-control me-2" type="search" placeholder="Code promo ici:" aria-label="Search">
-    <button id="submitCodePromo" class="btn btn-primary" type="button" onclick="validerEtAppliquerCodePromo()">Ajouter</button>
+        <button id="submitCodePromo" class="btn btn-primary" type="button" onclick="validerEtAppliquerCodePromo()">Ajouter</button>
     </form>
 </div>
 

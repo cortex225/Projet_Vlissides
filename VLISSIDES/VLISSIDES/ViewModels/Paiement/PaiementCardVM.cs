@@ -23,5 +23,4 @@ public class PaiementCardVM
     [Required(ErrorMessage = "Le CVV est requis")]
     [StringLength(3, MinimumLength = 3, ErrorMessage = "Le CVV doit être de 3 chiffres")]
     public string CVV { get; set; }
-
 }

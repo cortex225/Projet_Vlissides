@@ -4,8 +4,8 @@
 
 @{
     ViewData["Title"] = "Paiement";
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 
 
@@ -50,7 +50,7 @@
                             </p>
                         </div>
 
-                        @if(Model.PaiementAdresseVM.AdressesExistantes is not null)
+                        @if (Model.PaiementAdresseVM.AdressesExistantes is not null)
                         {
                             @foreach (var adresse in Model.PaiementAdresseVM.AdressesExistantes)
                             {
@@ -63,9 +63,9 @@
                 </div>
             </div>
 
-            <hr />
+            <hr/>
             <form enctype="multipart/form-data" method="post" id="adressePaiement">
-                 @Html.AntiForgeryToken()
+                @Html.AntiForgeryToken()
                 <input type="hidden" id="adresseId" name="adresseId" value="">
                 <div class="rcorners m-2 p-4 overflow-hidden">
                     <h5 class="my-2">Adresse ligne 1</h5>
@@ -81,7 +81,7 @@
                         <div class="col-10">
                             <div class="form-group form-group-static">
                                 <label asp-for="PaiementAdresseVM.NouvelleAdresse.Rue" class="control-label mb-2"></label>
-                                <input id="inputRue" asp-for="PaiementAdresseVM.NouvelleAdresse.Rue" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.Rue)" />
+                                <input id="inputRue" asp-for="PaiementAdresseVM.NouvelleAdresse.Rue" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.Rue)"/>
                                 <span asp-validation-for="PaiementAdresseVM.NouvelleAdresse.Rue" class="text-danger"></span>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                         <div class="col-12">
                             <div class="form-group form-group-static">
                                 <label asp-for="PaiementAdresseVM.NouvelleAdresse.NoApartement" class="control-label mb-2"></label>
-                                <input id="inputNoApp" asp-for="PaiementAdresseVM.NouvelleAdresse.NoApartement" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.NoApartement)" />
+                                <input id="inputNoApp" asp-for="PaiementAdresseVM.NouvelleAdresse.NoApartement" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.NoApartement)"/>
                                 <span asp-validation-for="PaiementAdresseVM.NouvelleAdresse.NoApartement" class="text-danger"></span>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                         <div class="col-2">
                             <div class="form-group form-group-static">
                                 <label asp-for="PaiementAdresseVM.NouvelleAdresse.CodePostal" class="control-label mb-2"></label>
-                                <input id="inputCodePost" asp-for="PaiementAdresseVM.NouvelleAdresse.CodePostal" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.CodePostal)" />
+                                <input id="inputCodePost" asp-for="PaiementAdresseVM.NouvelleAdresse.CodePostal" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.CodePostal)"/>
                                 <span asp-validation-for="PaiementAdresseVM.NouvelleAdresse.CodePostal" class="text-danger"></span>
                             </div>
                         </div>
@@ -112,21 +112,21 @@
                         <div class="col">
                             <div class="form-group form-group-static">
                                 <label asp-for="PaiementAdresseVM.NouvelleAdresse.Ville" class="control-label mb-2"></label>
-                                <input id="inputVille" asp-for="PaiementAdresseVM.NouvelleAdresse.Ville" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.Ville)" />
+                                <input id="inputVille" asp-for="PaiementAdresseVM.NouvelleAdresse.Ville" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.Ville)"/>
                                 <span asp-validation-for="PaiementAdresseVM.NouvelleAdresse.Ville" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group form-group-static">
                                 <label asp-for="PaiementAdresseVM.NouvelleAdresse.Province" class="control-label mb-2"></label>
-                                <input id="inputProvince" asp-for="PaiementAdresseVM.NouvelleAdresse.Province" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.Province)" />
+                                <input id="inputProvince" asp-for="PaiementAdresseVM.NouvelleAdresse.Province" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.Province)"/>
                                 <span asp-validation-for="PaiementAdresseVM.NouvelleAdresse.Province" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group form-group-static">
                                 <label asp-for="PaiementAdresseVM.NouvelleAdresse.Pays" class="control-label mb-2"></label>
-                                <input id="inputPays" asp-for="PaiementAdresseVM.NouvelleAdresse.Pays" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.Pays)" />
+                                <input id="inputPays" asp-for="PaiementAdresseVM.NouvelleAdresse.Pays" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.PaiementAdresseVM.NouvelleAdresse.Pays)"/>
                                 <span asp-validation-for="PaiementAdresseVM.NouvelleAdresse.Pays" class="text-danger"></span>
                             </div>
                         </div>
@@ -158,8 +158,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 @section Scripts {
@@ -307,9 +305,10 @@
 
     </script>
 }
-    <script src="https://js.stripe.com/v3/"></script>
 
-    <script type="text/javascript">
+<script src="https://js.stripe.com/v3/"></script>
+
+<script type="text/javascript">
         step1 = document.getElementById("step1");
         step2 = document.getElementById("step2");
         step3 = document.getElementById("step3");

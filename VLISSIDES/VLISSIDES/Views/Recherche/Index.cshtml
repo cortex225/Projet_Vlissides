@@ -3,8 +3,8 @@
     ViewData["Title"] = "Libraire";
 }
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Recherche.css">
 <div class="d-block p-4 p-4">
@@ -107,7 +107,7 @@
                     @foreach (var livre in Model.LivrePartials)
                     {
                         <a asp-controller="Recherche" asp-action="Details" asp-route-id="@livre.Id">
-                            <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre" />
+                            <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre"/>
                         </a>
                     }
                 </div>

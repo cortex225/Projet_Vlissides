@@ -1,7 +1,8 @@
 ﻿.prix-barre {
-    text-decoration: line-through!important;
-    color: grey!important;
+    text-decoration: line-through !important;
+    color: grey !important;
 }
+
 .prix-original {
-    color: red!important;
+    color: red !important;
 }

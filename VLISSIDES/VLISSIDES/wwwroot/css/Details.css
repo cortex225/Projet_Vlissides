@@ -3,9 +3,9 @@
     flex-direction: row;
 }
 
-    #detailsDivPrincipal * {
-        margin: 12px;
-    }
+#detailsDivPrincipal * {
+    margin: 12px;
+}
 
 #checkboxTypeLivre {
     display: flex;
@@ -38,6 +38,7 @@
     font-size: 1.1em;
     font-weight: bold;
 }
+
 .Detail-Auteurs {
     font-size: 1.1em;
     font-style: italic;
@@ -56,12 +57,12 @@
 
 /* In-stock indicator color */
 .in-stock {
-    background-color: #1D8514!important;
+    background-color: #1D8514 !important;
 }
 
 /* Out-of-stock indicator color */
 .out-of-stock {
-    background-color: #FF0000!important;
+    background-color: #FF0000 !important;
 }
 
 /* Button group styles */
@@ -128,7 +129,7 @@
 
 .price-button.active {
     background-color: #386bc0;
-    color: white!important;
+    color: white !important;
 }
 
 .price-button:hover {
@@ -148,7 +149,6 @@
     font-size: 16px;
     font-weight: bold;
 }
-
 
 
 .quantity-selector {
@@ -245,10 +245,10 @@
     padding-bottom: 10px;
 }
 
-.Container-Evaluation >p {
-    margin-bottom: -25px!important;
+.Container-Evaluation > p {
+    margin-bottom: -25px !important;
     font-size: 1.2em;
     font-weight: bold;
-    width: 100%!important;
+    width: 100% !important;
 }
 

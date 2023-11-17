@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels;
 using VLISSIDES.ViewModels.MaisonEditions;
 
 namespace VLISSIDES.Controllers;
+
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionMaisonEditionsController : Controller
 {
@@ -50,7 +51,8 @@ public class GestionMaisonEditionsController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM() { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
+        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM
+            { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
         return View(vm);
     }
 
@@ -67,7 +69,8 @@ public class GestionMaisonEditionsController : Controller
             .Take(itemsPerPage)
             .ToList();
         if (motCle != null && motCle != "")
-            editions = editions.Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
+            editions = editions
+                .Where(maison => Regex.IsMatch(maison.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
                 .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
                 .Take(itemsPerPage)
                 .ToList();
@@ -80,7 +83,8 @@ public class GestionMaisonEditionsController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
 
-        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM() { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
+        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM
+            { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
         return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial", vm);
     }
 

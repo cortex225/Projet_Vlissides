@@ -13,25 +13,27 @@
 
 <table class="table table-responsive">
     <thead>
-        <tr>
-            <th scope="col">Nom</th>
-            <th scope="col">Courriel</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
+    <tr>
+        <th scope="col">Nom</th>
+        <th scope="col">Courriel</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <th scope="row">@item.Nom</th>
-                <td>@item.Courriel</td>
-                <td ><button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompteEmploye", "GestionComptes" , new { id=item.Id })')">Modifier</button></td>
-                <td>
-                    
-                    <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationEmploye", "GestionComptes" , new { id=item.Id })')">Supprimer</button>
-                </td>
-            </tr>
-        }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th scope="row">@item.Nom</th>
+            <td>@item.Courriel</td>
+            <td >
+                <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompteEmploye", "GestionComptes", new { id = item.Id })')">Modifier</button>
+            </td>
+            <td>
+
+                <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationEmploye", "GestionComptes", new { id = item.Id })')">Supprimer</button>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

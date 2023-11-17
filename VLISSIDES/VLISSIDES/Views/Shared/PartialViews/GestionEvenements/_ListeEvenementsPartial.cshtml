@@ -2,8 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 @* Results *@
 @model List<VLISSIDES.ViewModels.GestionEvenements.GestionEvenementsIndexVM>
@@ -39,7 +39,7 @@
         <div class="card-body row p-2 align-items-center">
             <div class="imgDiv col-2 text-center">
                 @{
-                    string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
+                    var couverture = string.Concat(BASE_URL_RAZOR, item.Image);
                 }
                 <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                 <p>@Html.DisplayFor(modelItem => item.Nom)</p>
@@ -55,23 +55,23 @@
                 @Html.DisplayFor(modelItem => item.Lieu)
             </div>
             <div class="col-1 text-center">
-                @Html.DisplayFor(modelItem=>item.NbPlaces)
+                @Html.DisplayFor(modelItem => item.NbPlaces)
             </div>
-            
+
             <div class="col-1 text-center">
-              @Html.DisplayFor(modelItem=>item.NbPlacesMembre)
+                @Html.DisplayFor(modelItem => item.NbPlacesMembre)
             </div>
-            
+
             <div class="col-1 text-center">
                 @if (item.Prix != null)
                 {
-                @Html.DisplayFor(modelItem=>item.Prix) 
+                    @Html.DisplayFor(modelItem => item.Prix)
                 }
             </div>
-           
-           
+
+
             <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
-                
+
                 <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("ModifierEvenement", "GestionEvenements", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
                     <span class="fa-solid fa-pen fa-2x"></span>
                 </a>

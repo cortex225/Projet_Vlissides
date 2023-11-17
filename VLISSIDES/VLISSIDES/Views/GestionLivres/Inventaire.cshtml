@@ -4,8 +4,8 @@
 
 @{
     ViewData["Title"] = "Inventaire";
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true">
 
@@ -156,7 +156,7 @@
                                 <div class="card-body row p-2 align-items-center">
                                     <div class="imgDiv col-2 text-center">
                                         @{
-                                            string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
+                                            var couverture = string.Concat(BASE_URL_RAZOR, item.Image);
                                         }
                                         <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                                         <p>@Html.DisplayFor(modelItem => item.Titre)</p>
@@ -166,7 +166,7 @@
                                         @Html.DisplayFor(modelItem => item.ISBN)
                                     </div>
                                     <div class="col-2 d-flex flex-column align-items-center">
-                                        @foreach(var auteur in item.ListAuteur)
+                                        @foreach (var auteur in item.ListAuteur)
                                         {
                                             <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
                                         }
@@ -174,12 +174,12 @@
                                     <div class="col-1 text-center">
                                         @foreach (var categorie in item.Categories)
                                         {
-                                            <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
+                                            <p>@Html.DisplayFor(modelItem => categorie.Nom)</p>
                                         }
                                         @*Html.DisplayFor(modelItem => item.Categorie)*@
                                     </div>
                                     <div class="col-2 d-flex flex-column">
-                                        @foreach(var type in item.LivreTypeLivres)
+                                        @foreach (var type in item.LivreTypeLivres)
                                         {
                                             <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
                                         }

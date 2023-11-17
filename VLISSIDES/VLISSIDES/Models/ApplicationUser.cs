@@ -24,7 +24,5 @@ public class ApplicationUser : IdentityUser
     [Display(Name = "Photo")] [NotMapped] public IFormFile CoverPhoto { get; set; } = default!;
     public string? CoverImageUrl { get; set; }
 
-    [DisplayName("Panier")]
-    public ICollection<LivrePanier>? Panier { get; set; }
-
+    [DisplayName("Panier")] public ICollection<LivrePanier>? Panier { get; set; }
 }

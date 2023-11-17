@@ -1,16 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VLISSIDES.ViewModels.Categories;
 
 public class CategoriesModifierVM
 {
     public string Id { get; set; }
+
     [Required(ErrorMessage = "Le nom est obligatoire")]
     public string Nom { get; set; }
+
     [Required(ErrorMessage = "La description est obligatoire")]
     public string Description { get; set; }
+
     [DisplayName("Sous catégorie de")] public string? ParentId { get; set; }
     public List<SelectListItem>? CategoriesParents { get; set; }
 

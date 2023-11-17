@@ -179,8 +179,7 @@ public class CompteController : Controller
                 Nom = vm.FirstName,
                 Prenom = vm.LastName,
                 PhoneNumber = vm.Phone,
-                DateAdhesion = DateTime.Now,
-
+                DateAdhesion = DateTime.Now
             };
 
             user.CoverImageUrl = "/img/UserPhoto/DefaultUser.png";
@@ -192,7 +191,8 @@ public class CompteController : Controller
             //user.AdressePrincipale.Province = "ProvinceTest";
             //user.AdressePrincipale.Pays = "PaysTest";
             //user.AdressePrincipale.CodePostal = "CodePostalTest";
-            var stripeCustomerId = await CreateStripeCustomer(user.Email, $"{user.Prenom} {user.Nom}" /*, user.AdressePrincipale.Rue, user.AdressePrincipale.Ville, user.AdressePrincipale.Province, user.AdressePrincipale.CodePostal, user.AdressePrincipale.Pays*/);
+            var stripeCustomerId = await CreateStripeCustomer(user.Email,
+                $"{user.Prenom} {user.Nom}" /*, user.AdressePrincipale.Rue, user.AdressePrincipale.Ville, user.AdressePrincipale.Province, user.AdressePrincipale.CodePostal, user.AdressePrincipale.Pays*/);
             // Stocker l'ID de client Stripe dans votre base de données
             ((Membre)user).StripeCustomerId = stripeCustomerId;
 
@@ -475,8 +475,6 @@ public class CompteController : Controller
         }
 
 
-
-
         ViewData["ReturnUrl"] = returnurl;
         return View(vm);
     }
@@ -486,7 +484,7 @@ public class CompteController : Controller
         var options = new CustomerCreateOptions
         {
             Email = email,
-            Name = name,
+            Name = name
             //Address = new AddressOptions
             //{
             //    Line1 = line1,
@@ -501,5 +499,4 @@ public class CompteController : Controller
         var customer = await service.CreateAsync(options);
         return customer.Id;
     }
-
 }

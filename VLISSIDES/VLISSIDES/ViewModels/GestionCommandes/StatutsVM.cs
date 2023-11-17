@@ -1,6 +1,5 @@
-﻿namespace VLISSIDES.ViewModels.GestionCommandes
+﻿namespace VLISSIDES.ViewModels.GestionCommandes;
+
+public class StatutsVM
 {
-    public class StatutsVM
-    {
-    }
 }

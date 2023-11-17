@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="~/css/promo-card.css">
 
 @{
-    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.user?.DateNaissance == null;
+    var isIncompleteBirthday = User.Identity.IsAuthenticated && Model.user?.DateNaissance == null;
 
 }
 <!--
@@ -403,4 +403,3 @@ function toggleDescription(buttonElement) {
         }
     }
 }
-

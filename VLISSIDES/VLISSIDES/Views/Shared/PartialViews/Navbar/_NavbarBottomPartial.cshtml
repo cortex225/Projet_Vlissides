@@ -1,6 +1,5 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@using Microsoft.AspNetCore.Http
 @{
     var nbArticles = Context.Session.GetInt32("NbArticles") ?? 0;
 }
@@ -107,20 +106,20 @@
                     -->
                     @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
                     {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
-                            Consulter le panier
-                            <i class="fa-solid fa-cart-shopping">
-                                <span class="badge-panier" id="nbArticles">
-                                    @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
-                                    {
-                                        <span id="nbArticlesText">@nbArticles</span>
-                                    }
-                                </span>
-                            </i>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
+                                Consulter le panier
+                                <i class="fa-solid fa-cart-shopping">
+                                    <span class="badge-panier" id="nbArticles">
+                                        @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
+                                        {
+                                            <span id="nbArticlesText">@nbArticles</span>
+                                        }
+                                    </span>
+                                </i>
 
-                        </a>
-                    </li>
+                            </a>
+                        </li>
                     }
 
                 </ul>
@@ -128,4 +127,3 @@
         }
     </div>
 </nav>
-

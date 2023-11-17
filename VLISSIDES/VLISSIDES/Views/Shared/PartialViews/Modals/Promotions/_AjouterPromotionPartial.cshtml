@@ -1,5 +1,4 @@
-﻿@using VLISSIDES.ViewModels.GestionPromotions;
-@model AjouterPromotionVM
+﻿@model VLISSIDES.ViewModels.GestionPromotions.AjouterPromotionVM
 @{
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
@@ -13,7 +12,7 @@
     <div class="modal-body" id="modalBodyPromo">
         <div class="container d-flex justify-content-center">
             <div class="row rowAjoutPromotion" id="row1">
-                <input type="hidden" asp-for="Id" value="" />
+                <input type="hidden" asp-for="Id" value=""/>
                 <input type="hidden" asp-for="CoverImageUrl"/>
                 <div class="custom-file row">
 
@@ -22,7 +21,7 @@
                 </div>
                 <div class="form-group ">
                     <label asp-for="Nom" class="control-label"></label>
-                    <input asp-for="Nom" class="form-control" />
+                    <input asp-for="Nom" class="form-control"/>
                 </div>
                 <div class="form-group " id="formDescription">
                     <label asp-for="Description" class="control-label"></label>
@@ -30,7 +29,7 @@
                 </div>
                 <div class="form-group ">
                     <label asp-for="CodePromo" class="control-label"></label>
-                    <input asp-for="CodePromo" class="form-control" />
+                    <input asp-for="CodePromo" class="form-control"/>
                 </div>
 
                 <div class="form-group">
@@ -74,11 +73,11 @@
                 </div>
                 <div class="form-group mt-4">
                     <label asp-for="DateDebut"></label>
-                    <input asp-for="DateDebut" value="" />
+                    <input asp-for="DateDebut" value=""/>
                 </div>
                 <div class="form-group mt-4">
                     <label asp-for="DateFin"></label>
-                    <input asp-for="DateFin" value="" />
+                    <input asp-for="DateFin" value=""/>
                 </div>
             </div>
         </div>
@@ -87,11 +86,11 @@
         <a class="btn btn-danger " href="~/GestionPromotions/Index">Annuler</a>
         @if (Model.action == "Ajouter")
         {
-            <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterPromo()" />
+            <input type="button" value="Ajouter" class="btn btn-primary" onclick="AjouterPromo()"/>
         }
         else if (Model.action == "Modifier")
         {
-            <input type="button" value="Modifier" class="btn btn-primary" onclick="ModifierPromo()" />
+            <input type="button" value="Modifier" class="btn btn-primary" onclick="ModifierPromo()"/>
         }
     </div>
 

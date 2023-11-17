@@ -1,5 +1,4 @@
-﻿@using VLISSIDES.ViewModels.Recherche;
-@model DetailsLivreVM
+﻿@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM
 @{
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
@@ -9,130 +8,139 @@
 <link rel="stylesheet" href="~/css/Details.css" asp-append-version="true">
 <div class="container-fluid">
 
-<h1 class=" Titre-Page mx-auto">Détails du livre</h1>
-<div>
-    <div id="detailsDivPrincipal">
-        <input type="hidden" id="viewModelId" name="viewModelId" value="@Model.Id"/>
-        <div id="DetailsDIV">
-            @{
-                string couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
-            }
+    <h1 class=" Titre-Page mx-auto">Détails du livre</h1>
+    <div>
+        <div id="detailsDivPrincipal">
+            <input type="hidden" id="viewModelId" name="viewModelId" value="@Model.Id"/>
+            <div id="DetailsDIV">
+                @{
+                    var couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
+                }
 
-            <img id="DetailsIMG" src="@Html.Raw(couverture)"/>
-            <div class="Container-Evaluation px-4">
-                <p > Évaluation de nos lecteurs</p>
-                <partial name="PartialViews/Accueil/_Etoiles" model=@Model.Note />
+                <img id="DetailsIMG" src="@Html.Raw(couverture)"/>
+                <div class="Container-Evaluation px-4">
+                    <p > Évaluation de nos lecteurs</p>
+                    <partial name="PartialViews/Accueil/_Etoiles" model="@Model.Note"/>
+                </div>
+
             </div>
 
-        </div>
-
-        <div id="DetailsInfo">
-            <h2 class="Details-Titre">@Model.Titre</h2>
-            @foreach (var auteur in Model.Auteurs)
-            {
-                <p class="Detail-Auteurs">Auteur(s): @auteur</p>
-            }
-
-            <p class="Details-Resume">
-                @Model.Resume
-            </p>
-
-
-           <div class="price-options">
-               @if (!Model.Papier.Equals(null))
-               {
-                   <div class="price-container">
-                       <button class="price-button paper" onclick="toggleActive(this, 'paper')">
-                           <i class="fas fa-book icon"></i>
-                           <div class="price-info">
-                               <span class="type-name">Papier</span>
-                               <span class="price">@Model.Papier $</span>
-                           </div>
-                       </button>
-                       <div id="quantity-selector-paper" class="quantity-selector" style="display: none;">
-                           <button class="quantity-btn" onclick="changeQuantity('decrease', 'paper')">-</button>
-                           <input type="number" id="quantity-paper" class="quantity-input" value="1" min="1">
-                           <button class="quantity-btn" onclick="changeQuantity('increase', 'paper')">+</button>
-                       </div>
-                   </div>
-               }
-               @if (!Model.Numerique.Equals(null))
-               {
-                   <div class="price-container">
-                       <button  class="price-button digital" onclick="toggleActive(this, 'digital')">
-                           <i class="fas fa-tablet-alt icon"></i>
-                           <div class="price-info">
-                               <span class="type-name">Numérique</span>
-                               <span class="price">@Model.Numerique $</span>
-                           </div>
-                       </button>
-                   </div>
-               }
-           </div>
-
-
-          <div class="Details-More-Info card">
-
-              <div class="card-body">
-                  <p class="info-item"><span class="info-title">ISBN:</span> @Model.ISBN</p>
-                  <p class="info-item"><span class="info-title">Date de publication:</span> @Model.DatePublication</p>
-                  <p class="info-item"><span class="info-title">Langue:</span> @Model.Langue</p>
-                  <p class="info-item"><span class="info-title">Catégorie(s):</span>
-                      <ul class="categories-list">
-                          @foreach (var categorie in Model.Categories)
-                          {
-                              <li class="badge badge-primary">@categorie</li>
-                          }
-                      </ul>
-                  </p>
-                  <p class="info-item"><span class="info-title">Éditeur:</span> @Model.MaisonEdition</p>
-                  <p class="info-item"><span class="info-title">Nombre de pages:</span> @Model.NbPages</p>
-              </div>
-          </div>
-
-
-
-        </div>
-        <div>
-            @if (!Model.Papier.Equals(null)) //1 = "Neuf"
-            {
-                <br/>
-                @if (Model.NbExemplaires > 0)
+            <div id="DetailsInfo">
+                <h2 class="Details-Titre">@Model.Titre</h2>
+                @foreach (var auteur in Model.Auteurs)
                 {
-                    @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+                    <p class="Detail-Auteurs">Auteur(s): @auteur</p>
+                }
+
+                <p class="Details-Resume">
+                    @Model.Resume
+                </p>
+
+
+                <div class="price-options">
+                    @if (!Model.Papier.Equals(null))
                     {
+                        <div class="price-container">
+                            <button class="price-button paper" onclick="toggleActive(this, 'paper')">
+                                <i class="fas fa-book icon"></i>
+                                <div class="price-info">
+                                    <span class="type-name">Papier</span>
+                                    <span class="price">@Model.Papier $</span>
+                                </div>
+                            </button>
+                            <div id="quantity-selector-paper" class="quantity-selector" style="display: none;">
+                                <button class="quantity-btn" onclick="changeQuantity('decrease', 'paper')">-</button>
+                                <input type="number" id="quantity-paper" class="quantity-input" value="1" min="1">
+                                <button class="quantity-btn" onclick="changeQuantity('increase', 'paper')">+</button>
+                            </div>
+                        </div>
+                    }
+                    @if (!Model.Numerique.Equals(null))
+                    {
+                        <div class="price-container">
+                            <button class="price-button digital" onclick="toggleActive(this, 'digital')">
+                                <i class="fas fa-tablet-alt icon"></i>
+                                <div class="price-info">
+                                    <span class="type-name">Numérique</span>
+                                    <span class="price">@Model.Numerique $</span>
+                                </div>
+                            </button>
+                        </div>
+                    }
+                </div>
+
+
+                <div class="Details-More-Info card">
+
+                    <div class="card-body">
+                        <p class="info-item">
+                            <span class="info-title">ISBN:</span> @Model.ISBN
+                        </p>
+                        <p class="info-item">
+                            <span class="info-title">Date de publication:</span> @Model.DatePublication
+                        </p>
+                        <p class="info-item">
+                            <span class="info-title">Langue:</span> @Model.Langue
+                        </p>
+                        <p class="info-item">
+                            <span class="info-title">Catégorie(s):</span>
+                            <ul class="categories-list">
+                                @foreach (var categorie in Model.Categories)
+                                {
+                                    <li class="badge badge-primary">@categorie</li>
+                                }
+                            </ul>
+                        </p>
+                        <p class="info-item">
+                            <span class="info-title">Éditeur:</span> @Model.MaisonEdition
+                        </p>
+                        <p class="info-item">
+                            <span class="info-title">Nombre de pages:</span> @Model.NbPages
+                        </p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div>
+                @if (!Model.Papier.Equals(null)) //1 = "Neuf"
+                {
+                    <br/>
+                    @if (Model.NbExemplaires > 0)
+                    {
+                        @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+                        {
                             <p class="stock-restant">
                                 <span class="stock-indicator"></span>
                                 En stock (<span id="stock-count">@Model.NbExemplaires</span>restants )
                             </p>
-                    }
+                        }
 
+                        else
+                        {
+                            <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                        }
+                    }
                     else
                     {
-                        <p style="font-weight: bold;">En stock (@Model.NbExemplaires restants)</p>
+                        <p class="stock-restant">
+                            <span class="stock-indicator"></span>
+                            En rupture de stock
+                        </p>
+                        //boutton pour envoyer un courriel lorsque le livre est de retour en stock
+                        <a class="btn btn-primary ">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            Recevoir un courriel lorsque le livre sera disponible ?
+                        </a>
                     }
                 }
-                else
-                {
-                    <p class="stock-restant">
-                        <span class="stock-indicator"></span>
-                        En rupture de stock
-                    </p>
-                    //boutton pour envoyer un courriel lorsque le livre est de retour en stock
-                    <a class="btn btn-primary ">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        Recevoir un courriel lorsque le livre sera disponible ?
-                    </a>
-                }
-            }
-            <button id="ajouterAuPanier" class="btn btn-primary">Ajouter au panier</button>
+                <button id="ajouterAuPanier" class="btn btn-primary">Ajouter au panier</button>
 
 
-
+            </div>
         </div>
-    </div>
 
-</div>
+    </div>
 </div>
 <script>
     //Script pour URL

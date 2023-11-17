@@ -1,8 +1,8 @@
-﻿@using System.Globalization;
+﻿@using System.Globalization
 @model double;
 @{
     //Ajouter de la valeur plus qu'il va avoir d'espace entre les étoiles
-    double ratingAvantModif = Model;
+    var ratingAvantModif = Model;
 
     var rating = ratingAvantModif.ToString("0.0", CultureInfo.InvariantCulture);
 }

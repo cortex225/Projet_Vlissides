@@ -37,7 +37,7 @@
         <div class="card-body row p-2 align-items-center">
             <div class="imgDiv col-2 text-center">
                 @{
-                    string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
+                    var couverture = string.Concat(BASE_URL_RAZOR, item.Image);
                 }
                 <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                 <p>@Html.DisplayFor(modelItem => item.Titre)</p>
@@ -53,9 +53,9 @@
                 }
             </div>
             <div class="col-2 text-center">
-                @foreach(var categorie in item.Categories)
+                @foreach (var categorie in item.Categories)
                 {
-                    <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
+                    <p>@Html.DisplayFor(modelItem => categorie.Nom)</p>
                 }
             </div>
             <div class="col-2 d-flex flex-column">

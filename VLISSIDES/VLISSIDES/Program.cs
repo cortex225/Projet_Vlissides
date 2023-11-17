@@ -1,6 +1,6 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
 using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Helpers;
