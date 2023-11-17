@@ -1,0 +1,16 @@
+﻿@media only screen and (max-width: 900px) {
+    #rechercheCommande {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    #rechercheCommande > div {
+        margin: 5px;
+        width: 100% !important;
+    }
+}
+
+
+#rechercheCommande > div {
+    width: 50%;
+}
