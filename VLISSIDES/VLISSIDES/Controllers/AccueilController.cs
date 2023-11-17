@@ -46,7 +46,9 @@ public class AccueilController : Controller
             .ThenInclude(la => la.Auteur).Include(v => v.Categories).ThenInclude(lc => lc.Categorie).ToList();
         vedettes.Sort((l1, l2) => decimal.ToInt32(l1.Note - l2.Note));
         var taille = 12;
-        return View(new IndexAccueilVM(services, evenements.Take(taille), promotions.Take(taille), vedettes.Take(taille)));
+        var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+
+        return View(new IndexAccueilVM(services, evenements.Take(taille), promotions.Take(taille), vedettes.Take(taille), user));
     }
 
     public IActionResult Message(string titre, string message)
