@@ -28,6 +28,7 @@ public class GestionPromotionsController : Controller
         var vm = _context.Promotions.Select(p => new GestionPromotionsIndexVM
         {
             Id = p.Id,
+            Nom = p.Nom,
             Description = p.Description,
             DateDebut = p.DateDebut,
             DateFin = p.DateFin,

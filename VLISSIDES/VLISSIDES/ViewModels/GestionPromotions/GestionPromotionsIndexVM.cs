@@ -5,6 +5,8 @@ namespace VLISSIDES.ViewModels.GestionPromotions;
 public class GestionPromotionsIndexVM
 {
     public string Id { get; set; }
+
+    public string Nom { get; set; }
     public string Description { get; set; }
 
     public decimal Rabais { get; set; }

@@ -10,7 +10,7 @@
 <div class="mb-3 mx-3">
     <div class="row px-2">
         <div class="col-2 text-center">
-            Description
+            Nom Promotion
         </div>
         <div class="col-2 text-center">
             Date de Debut
@@ -33,7 +33,7 @@
                     var couverture = string.Concat(BASE_URL_RAZOR, item.Image);
                 }
                 <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
-                <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                <p>@Html.DisplayFor(modelItem => item.Nom)</p>
 
             </div>
             <div class="col-2 text-center">
