@@ -46,7 +46,9 @@ public class GestionLivresController : Controller
         //Prendre tous les livres
         var livres = await _context.Livres
             .Include(l => l.LivreAuteurs)
+            .ThenInclude(la => la.Auteur)
             .Include(l => l.Categories)
+            .ThenInclude(lc => lc.Categorie)
             .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
@@ -73,8 +75,11 @@ public class GestionLivresController : Controller
                         break;
                     case "auteur":
                         livres = livres
-                            .Where(livre => Regex.IsMatch(livre.LivreAuteurs.Select(la => la.Auteur).First().NomAuteur,
-                                ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
+                            .Where(livre => livre.LivreAuteurs.Any(la =>
+                                la.Auteur != null
+                                    ? Regex.IsMatch(la.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*",
+                                        RegexOptions.IgnoreCase)
+                                    : false))
                             .ToList();
                         break;
                     case "categorie":
