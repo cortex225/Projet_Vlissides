@@ -1,4 +1,5 @@
-﻿@*
+﻿@model List<VLISSIDES.ViewModels.GestionEvenements.GestionEvenementsIndexVM>
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -6,81 +7,44 @@
     string BASE_URL_RAZOR = Url.Content("~");
 }
 @* Results *@
-@model List<VLISSIDES.ViewModels.GestionEvenements.GestionEvenementsIndexVM>
-<link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
-
-<div class="mb-3 mx-3">
-    <div class="row px-2">
-        <div class="col-2 text-center">
-            Nom
-        </div>
-        <div class="col-2 text-center">
-            Date de Debut
-        </div>
-        <div class="col-2 text-center">
-            Date de Fin
-        </div>
-        <div class="col-1 text-center">
-            Lieu
-        </div>
-        <div class="col-1 text-center">
-            Nombre de places
-        </div>
-        <div class="col-1 text-center">
-            Nombre de places membres
-        </div>
-        <div class="col-1 text-center">Prix</div>
-    </div>
-
-</div>
-@foreach (var item in Model)
-{
-    <div id="@item.Id" class="card mb-2 mx-3 element-hoverable">
-        <div class="card-body row p-2 align-items-center">
-            <div class="imgDiv col-2 text-center">
-                @{
-                    string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
-                }
-                <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
-                <p>@Html.DisplayFor(modelItem => item.Nom)</p>
-
-            </div>
-            <div class="col-2 text-center">
-                @Html.DisplayFor(modelItem => item.DateDebut)
-            </div>
-            <div class="col-2 text-center">
-                @Html.DisplayFor(modelItem => item.DateFin)
-            </div>
-            <div class="col-1 text-center">
-                @Html.DisplayFor(modelItem => item.Lieu)
-            </div>
-            <div class="col-1 text-center">
-                @Html.DisplayFor(modelItem=>item.NbPlaces)
-            </div>
-            
-            <div class="col-1 text-center">
-              @Html.DisplayFor(modelItem=>item.NbPlacesMembre)
-            </div>
-            
-            <div class="col-1 text-center">
-                @if (item.Prix != null)
-                {
-                @Html.DisplayFor(modelItem=>item.Prix) 
-                }
-            </div>
-           
-           
-            <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
-                
-                <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("ModifierEvenement", "GestionEvenements", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
+<link rel="stylesheet" href="~/css/Gestion/Gestion.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Gestion/Evenement.css" asp-append-version="true">
+<table>
+    <tr>
+        <th>Nom</th>
+        <th class="cacher-5">Date de Debut</th>
+        <th class="cacher-5">Date de Fin</th>
+        <th class="cacher-4">Lieu</th>
+        <th class="cacher-2">Nombre de places</th>
+        <th class="cacher-2">Nombre de places membres</th>
+        <th class="cacher-1">Prix</th>
+        <th></th>
+    </tr>
+    @foreach (var evenement in Model)
+    {
+        <tr id="@evenement.Id">
+            <td>
+                <p>@Html.DisplayFor(modelItem => evenement.Nom)</p>
+            </td>
+            <td class="cacher-5">@Html.DisplayFor(modelItem => evenement.DateDebut)</td>
+            <td class="cacher-5">@Html.DisplayFor(modelItem=>evenement.DateFin)</td>
+            <td class="cacher-4">@Html.DisplayFor(modelItem=>evenement.Lieu)</td>
+            <td class="cacher-2">@Html.DisplayFor(modelItem=>evenement.NbPlaces)</td>
+            <td class="cacher-2">
+                @Html.DisplayFor(modelItem=>evenement.NbPlacesMembreReserve)/
+                @Html.DisplayFor(modelItem=>evenement.NbPlacesMembre)
+            </td>
+            <td class="cacher-1">
+                @Html.DisplayFor(modelItem=>evenement.Prix) $
+            </td>
+            <td class="groupeBoutton">
+                <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("ModifierEvenement", "GestionEvenements", new { id = evenement.Id })')" data-toggle="tooltip" title="Modifier le livre">
                     <span class="fa-solid fa-pen fa-2x"></span>
                 </a>
-                <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer l'evenement" onclick="ShowModal('@Url.Action("ShowSupprimerEvenement", "GestionEvenements", new { id = item.Id })')">
+                <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer l'evenement" onclick="ShowModal('@Url.Action("ShowSupprimerEvenement", "GestionEvenements", new { id = evenement.Id })')">
                     <span class="fa-solid fa-trash fa-2x"></span>
                 </a>
-
-
-            </div>
-        </div>
-    </div>
-}
+            </td>
+        </tr>
+    }
+</table>

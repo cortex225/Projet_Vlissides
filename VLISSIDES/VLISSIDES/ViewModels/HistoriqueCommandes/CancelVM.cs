@@ -2,9 +2,10 @@
 
 namespace VLISSIDES.ViewModels.HistoriqueCommandes
 {
-    public class StripeCancelVM
+    public class CancelVM
     {
-        public string Id { get; set; }
+        public Commande Commande { get; set; }
         public List<LivreCommande> Livres { get; set; }
+        public string PaymentIntent { get; set; }
     }
 }

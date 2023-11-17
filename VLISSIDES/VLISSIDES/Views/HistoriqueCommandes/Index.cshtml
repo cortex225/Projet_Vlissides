@@ -147,20 +147,7 @@
         $('.modal').modal('hide');
     }
 
-    function retournerLivre(commandeId = "", livreId = "") {
-        var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`).value;
-
-        fetch(BASE_URL + `/HistoriqueCommandes/RefundStripe?commandeId=${commandeId}&livreId=${livreId}&quantite=${quantite}`, {
-            method: "POST",
-        }).then((response) => {
-            return response.text();
-        }).then(() => {
-            HideModal();
-        }).catch(error => {
-            // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la confirmation du remboursement.', error);
-        });
-    }
+    
 
     function verifierQuantite(commandeId = "", livreId = "", max = "") {
         var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`);
@@ -188,14 +175,73 @@
         }
         
     }
+    function retournerLivre(commandeId = "", livreId = "", ev) {
+        var quantite = document.getElementById(`quantite-${commandeId}-${livreId}`).value;
 
-    function annulerCommande(commandeId = "") {
-        fetch(BASE_URL + `/HistoriqueCommandes/CancelStripe?commandeId=${commandeId}`, {
+        listeCommandesDiv = document.getElementById("commandesListe");
+        var partieMotCles = "motCles=";
+        var partieCriteres = "criteres=";
+
+        dateTrie = document.getElementById("trierDateSelect").value;
+        partieMotCles = partieMotCles.concat(`${dateTrie}|`);
+        partieCriteres = partieCriteres.concat("trierDate|");
+
+        statutFiltre = document.getElementById("filtrerStatutSelect").value;
+        partieMotCles = partieMotCles.concat(`${statutFiltre}|`);
+        partieCriteres = partieCriteres.concat("filtrerStatut|");
+
+        rechercheValue = document.getElementById("inputRechercherCommande").value;
+        if (rechercheValue != null) {
+            partieMotCles = partieMotCles.concat(`${rechercheValue}|`);
+            partieCriteres = partieCriteres.concat("rechercherCommande|");
+        }
+
+        var apiUrl = BASE_URL + `/HistoriqueCommandes/Return?commandeId=${commandeId}&livreId=${livreId}&quantite=${quantite}&${partieMotCles}&${partieCriteres}`;
+
+        fetch(apiUrl, {
             method: "POST",
         }).then((response) => {
             return response.text();
         }).then(() => {
             HideModal();
+        }).then(() => {
+            applyFilter(ev);
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors de la confirmation du remboursement.', error);
+        });
+    }
+
+    async function annulerCommande(commandeId = "", ev) {
+
+        listeCommandesDiv = document.getElementById("commandesListe");
+        var partieMotCles = "motCles=";
+        var partieCriteres = "criteres=";
+
+        dateTrie = document.getElementById("trierDateSelect").value;
+        partieMotCles = partieMotCles.concat(`${dateTrie}|`);
+        partieCriteres = partieCriteres.concat("trierDate|");
+
+        statutFiltre = document.getElementById("filtrerStatutSelect").value;
+        partieMotCles = partieMotCles.concat(`${statutFiltre}|`);
+        partieCriteres = partieCriteres.concat("filtrerStatut|");
+
+        rechercheValue = document.getElementById("inputRechercherCommande").value;
+        if (rechercheValue != null) {
+            partieMotCles = partieMotCles.concat(`${rechercheValue}|`);
+            partieCriteres = partieCriteres.concat("rechercherCommande|");
+        }
+
+        var apiUrl = BASE_URL + `/HistoriqueCommandes/Cancel?commandeId=${commandeId}` + `&${partieMotCles}&${partieCriteres}`;
+
+        fetch(apiUrl, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).then(() => {
+            applyFilter(ev);
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
             console.error('Erreur lors de la confirmation du remboursement.', error);

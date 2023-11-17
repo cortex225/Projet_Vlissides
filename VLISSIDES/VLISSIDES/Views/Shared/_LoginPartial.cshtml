@@ -4,7 +4,7 @@
 @*
     Cette vue partielle sert à afficher les liens pour se connecter.
 
-    Il y a un if qui détermine si l'utilisateur estr connecté
+    Il y a un if qui détermine si l'utilisateur est connecté
 
     Si connecté:
         Un message de bienvenue disant "Hello [NOM UTILISATEUR]"
@@ -15,26 +15,17 @@
         Un lien pour s'inscrire
 *@
 
-<ul class="navbar-nav">
+<div id="boutonseconection">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item mx-2">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Salut @UserManager.GetUserAsync(User)?.Result.UserName!👋</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Accueil", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link rounded-pill  bg-secondary  text-white px-4">Se déconnecter <i class="fa-solid fa-arrow-right-from-bracket px-2"></i></button>
-            </form>
-        </li>
+        <button class=" btnconnection1 nav-link flex-nowrap"><a class=" text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">👋 Salut @UserManager.GetUserAsync(User).Result.UserName.Split("@")[0]!</a></button>
+        <form class=" form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+            <button type="submit" class=" btnconnection2 nav-link  btn btn-link flex-nowrap rounded-pill  bg-secondary  flex-nowrap"><i class="fa-solid fa-arrow-right-from-bracket text-white"></i><a class="text-white">Se déconnecter</a></button>
+        </form>
     }
     else
     {
-        <li class="nav-item">
-            <a class="nav-link rounded-pill btn btn-outline-secondary mx-2 " asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link rounded-pill btn bg-primary  text-white px-4" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a>
-        </li>
+        <button class="btnconnection1 nav-link btn btn-outline-secondary flex-nowrap rounded-pill"><a asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a></button>
+        <button class="btnconnection2 nav-link btn bg-primary flex-nowrap rounded-pill"><a id="btnRegister" class="text-white" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a></button>
     }
-</ul>
+</div>

@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="d-flex flex-row justify-content-end mt-4">
-                    <button class="btn btn-primary" onclick="location.href='@Url.Action("Index","Paiement")'">Passer à la commande</button>
+                    <button class="btn btn-primary" onclick="PasserAuPaiement()">Passer à la commande</button>
                 </div>
             </div>
         </div>       
@@ -172,4 +172,29 @@ $(document).ready(function () {
     }
 );
 }
+</script>
+<script>
+    function PasserAuPaiement() {
+        var cbDonEco = document.getElementById("cbDonEco");
+        var radioButtons = document.querySelectorAll('input[name="flexRadioDefault"]');
+        var selectedValue;
+        if (cbDonEco.checked){
+            for(var radioButton of radioButtons){
+                if (radioButton.checked) {
+                    selectedValue = radioButton.value;
+                }
+            }
+        }
+        
+        console.log(selectedValue);
+        fetch(BASE_URL + "/Panier/PasserAuPaiement?numero=" + selectedValue, {
+            method: "GET",
+
+        }).then((response) => {
+            return response.text();
+        }).then((result)=>{
+            window.location = BASE_URL+'/Paiement'
+            //document.querySelector("body").innerHTML = result;
+        });
+    }
 </script>
