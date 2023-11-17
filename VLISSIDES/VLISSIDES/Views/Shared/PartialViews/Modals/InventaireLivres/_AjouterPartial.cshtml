@@ -186,7 +186,17 @@
             div.className = "visually-hidden ml-2";
         }
     }
-    
+    function AfficherLivres() {
+        fetch(BASE_URL + "/GestionLivres/Inventaire", {
+            method: "GET"
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            document.querySelector("body").innerHTML = result;
+            //document.getElementById("TabLivreListes").innerHTML = result;
+
+        });
+    }
     function AjouterLivre() {
         var form = document.getElementById("FormLivreAjouter");
         var data = new FormData(form);
@@ -217,16 +227,7 @@
             
         });
     };
-    function AfficherLivres() {
-        fetch(BASE_URL+"/GestionLivres/AfficherLivres", {
-            method: "GET"
-        }).then((response)=>{
-            return response.text();
-        }).then((result) => {
-            document.getElementById("TabLivreListes").innerHTML = result;
-
-        });
-    }
+    
     ShowInputsNeuf();
     ShowInputNumerique();
 </script>
