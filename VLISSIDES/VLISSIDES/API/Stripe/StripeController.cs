@@ -131,9 +131,12 @@ namespace VLISSIDES.API.Stripe
         private async Task TraiterAchatLivre(Session session)
         {
 
+
             var customer =
                 await _context.Membres.FirstOrDefaultAsync(c => c.StripeCustomerId == session.CustomerId);
 
+
+            await GetStripeSessionDetails(session.Id);
 
 
             // Récupérer les items du panier de l'utilisateur
@@ -149,30 +152,35 @@ namespace VLISSIDES.API.Stripe
                 PrixTotal = session.AmountTotal.Value / 100m,
                 MembreUserName = customer.UserName,
                 AdresseId = customer?.AdressePrincipaleId,
-                StatutId = "2"
+                StatutId = "1"
             };
+
             nouvelleCommande.LivreCommandes = panierItems.Select(lc => new LivreCommandeVM
             {
                 Livre = lc.Livre,
                 CommandeId = nouvelleCommande.Id,
-                Quantite = (int)lc.Quantite
+                Quantite = (int)lc.Quantite,
+                PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
+
             }).ToList();
 
             var nbCommandes = _context.Commandes.Count().ToString();
             var commande = new Commande
             {
-                Id = "Commande" + nbCommandes + "-" + DateTime.Now.ToString("yyyyMMddHH"),
+                Id = nbCommandes,
                 DateCommande = nouvelleCommande.DateCommande,
                 PrixTotal = nouvelleCommande.PrixTotal,
                 MembreId = customer.Id,
                 AdresseId = customer.AdressePrincipaleId,
                 StatutCommandeId = nouvelleCommande.StatutId,
                 PaymentIntentId = session.PaymentIntentId, //Récupérer le paiement intent id de la session
+                EnDemandeAnnulation = false,
                 LivreCommandes = nouvelleCommande.LivreCommandes.Select(lc => new LivreCommande
                 {
                     LivreId = lc.Livre.Id,
                     CommandeId = nouvelleCommande.Id,
-                    Quantite = lc.Quantite
+                    Quantite = lc.Quantite,
+                    PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
                 }).ToList()
             };
 
@@ -206,6 +214,33 @@ namespace VLISSIDES.API.Stripe
                 }
             }
             await _context.SaveChangesAsync();
+        }
+
+        private async Task GetStripeSessionDetails(string sessionId)
+        {
+            // Initialiser le service de session Stripe
+            var sessionService = new SessionService();
+
+            // Récupérer les détails de la session
+            Session stripeSession = await sessionService.GetAsync(sessionId);
+
+            // Vérifier si la session contient des informations sur les articles
+            if (stripeSession != null && stripeSession.LineItems != null && stripeSession.LineItems.Data != null)
+            {
+                foreach (var lineItem in stripeSession.LineItems.Data)
+                {
+                    // Récupérer le prix unitaire de chaque article
+                    long? unitPrice = lineItem.Price.UnitAmount;
+
+                    // Vous pouvez ici traiter ou afficher le prix comme nécessaire
+                    // Par exemple, afficher le prix
+                    Console.WriteLine($"Prix de l'article : {unitPrice}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Aucun article trouvé dans la session Stripe.");
+            }
         }
 
         private async Task TraiterReservationEvenement(Session session)

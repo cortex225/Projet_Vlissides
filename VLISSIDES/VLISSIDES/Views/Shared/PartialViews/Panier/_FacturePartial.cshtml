@@ -1,28 +1,36 @@
-﻿@using System.Globalization;
+﻿<link rel="stylesheet" href="~/css/facture.css" asp-append-version="true"/>
+
+
+@using System.Globalization;
 @{
     float prixDonEco = 5;
-    string prixtotal = (Model.PrixTotal + 5).ToString("n",new CultureInfo("fr-CA"));
+    string prixtotal = (Model.PrixTotal + 5).ToString("n", new CultureInfo("fr-CA"));
 
 }
 
 <div id="articlesPrix" class="p-4">
     @foreach (var article in Model.ListeArticles)
     {
-        <div class="d-flex justify-content-between">
+        <div class="article d-flex justify-content-between">
             <div class="w-75">@article.Livre.Titre - @article.TypeLivre.Nom</div>
             <ul class="w-25" style="list-style:none">
-                @if (article.Quantite is not null) @* When acrticle type is Papier *@
+                @if (article.Quantite is not null) @* When article type is Papier *@
                 {
                     @for (var quantite = 0; quantite < article.Quantite; quantite++)
                     {
-                        <li class="float-end">@article.Prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</li>
+                        <li class="float-end">
+                            <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                            <div class="prix-promo" >@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                        </li>
                     }
                 }
-                else @* When acrticle type is numérique  *@
+                else @* When article type is numérique *@
                 {
-                    <li class="float-end">@article.Prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</li>
+                    <li class="float-end">
+                        <div class="prix-original">@article.Prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                        <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                    </li>
                 }
-
             </ul>
         </div>
     }
@@ -52,16 +60,28 @@
                         Un arbre à la fois
                     </label>
                 </div>
-                
+
             </div>
         </div>
         <div id="prixDonEco">
             +5,00$
         </div>
     </div>
+
 </div>
 
-<hr />
+@* Rajout de l'input pour le code promo *@
+
+<div class="d-flex justify-content-between mt-4">
+    <button id="ajouterCodePromo" type="button" class="btn btn-light" onclick=" AfficherFieldCodePromo()">Ajouter un code promotionnel</button>
+    <form class="d-flex hideInputCodePromo" role="search" id="inputCodePromoDiv">
+        <input id="inputCodePromo" class="form-control me-2" type="search" placeholder="Code promo ici:" aria-label="Search">
+    <button id="submitCodePromo" class="btn btn-primary" type="button" onclick="validerEtAppliquerCodePromo()">Ajouter</button>
+    </form>
+</div>
+
+
+<hr/>
 <div id="total" class="p-2 px-4">
     <div class="d-flex justify-content-between">
         <div class="">Total <span class="text-danger">(sans taxe)</span>: </div>
@@ -74,3 +94,49 @@
 
     </div>
 </div>
+
+<script>
+function validerEtAppliquerCodePromo() {
+    var codePromo = document.getElementById('inputCodePromo').value;
+
+    fetch(BASE_URL + '/Panier/ValiderCodePromo?codePromo=' + codePromo, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ codePromo: codePromo })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && data.isValid) {
+            // Mise à jour du total du panier
+            var prixTotalElement = document.getElementById('prixTotal');
+            if (prixTotalElement) {
+                prixTotalElement.innerText = data.nouveauTotal;
+            }
+             // Met à jour la liste des articles et leurs prix
+            AfficherFacture();
+           //Permets de barrer le prix original et d'afficher le prix après promotion
+             var articles = document.querySelectorAll(".article");
+                        articles.forEach((article) => {
+                            var prixOriginal = article.querySelector(".prix-original");
+                            var prixPromo = article.querySelector(".prix-promo");
+
+                            if (prixOriginal && prixPromo) {
+                                prixOriginal.classList.add("prix-barre"); // Barrer le prix original
+                                prixPromo.style.display = "block"; // Afficher le prix après promotion
+                            }
+                        });
+            // Affiche un message de succès
+            alert(data.message);
+        } else {
+            // Affiche un message d'erreur
+            alert("Code promo invalide ou expiré.");
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la validation du code promo', error);
+    });
+}
+
+</script>

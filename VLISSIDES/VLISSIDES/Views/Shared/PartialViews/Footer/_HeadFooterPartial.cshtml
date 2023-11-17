@@ -90,13 +90,13 @@
                             Explorez
                         </h5>
                         <li>
-                            <a href="#">À propos de nous</a>
+                            <a asp-action="Info" asp-controller="Accueil">À propos de nous</a>
                         </li>
                         <li>
-                            <a href="#">Services</a>
+                            <a href="/Accueil#serviceCollapse">Services</a>
                         </li>
                         <li>
-                            <a href="#">Librarie</a>
+                            <a asp-action="Index" asp-controller="Recherche">Catalogue des livres</a>
                         </li>
                         <li>
                             <a asp-action="Login" asp-controller="Compte">Devenir membre</a>

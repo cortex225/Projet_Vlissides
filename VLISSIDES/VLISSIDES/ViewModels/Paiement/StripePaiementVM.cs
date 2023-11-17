@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using VLISSIDES.ViewModels.Panier;
 using VLISSIDES.ViewModels.Profile;
 
@@ -5,17 +6,20 @@ namespace VLISSIDES.ViewModels.Paiement;
 
 public class StripePaiementVM
 {
-    public string UserId { get; set; }
+    [DisplayName("Identifiant Utilisateur")]
+    public string? UserId { get; set; }
 
+    [DisplayName("Identifiant Client Stripe")]
     public string? StripeCustomerId { get; set; }
 
-    public string? Name { get; set; }
+    [DisplayName("Nom")] public string? Name { get; set; }
 
-    public List<AfficherPanierVM>? Livres { get; set; }
+    [DisplayName("Livres")] public List<AfficherPanierVM>? Livres { get; set; }
 
-    public double PrixTotal { get; set; }
+    [DisplayName("Prix Total")] public double? PrixTotal { get; set; }
 
-    public ProfileModifierAdressesVM Adresse { get; set; }
-    public PaiementAdresseVM PaiementAdresseVM { get; set; }
+    [DisplayName("Identifiant Adresse")] public string? AdresseId { get; set; }
+
+    [DisplayName("Adresse Paiement")] public PaiementAdresseVM? PaiementAdresseVM { get; set; }
 
 }

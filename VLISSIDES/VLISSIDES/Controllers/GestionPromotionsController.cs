@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionPromotions;
 using VLISSIDES.ViewModels.Livres;
+using Stripe;
 
 namespace VLISSIDES.Controllers
 
@@ -32,6 +34,7 @@ namespace VLISSIDES.Controllers
                 DateDebut = p.DateDebut,
                 DateFin = p.DateFin,
                 Image = p.Image,
+                Rabais = (decimal)p.PourcentageRabais
             }).ToList();
             return View(vm);
         }
@@ -110,8 +113,21 @@ namespace VLISSIDES.Controllers
                     PourcentageRabais = vm.PourcentageRabais
                 };
 
+
                 _context.Promotions.Add(promo);
                 _context.SaveChanges();
+
+                // Création de la promotion dans Stripe
+                var options = new CouponCreateOptions
+                {
+                    PercentOff = promo.PourcentageRabais,
+                    Duration = "once",
+                    Id = promo.Id,
+                    Currency = "cad"
+                };
+                var service = new CouponService();
+                Coupon coupon = service.Create(options);
+
 
                 return Ok();
             }
@@ -138,6 +154,11 @@ namespace VLISSIDES.Controllers
             }).ToList();
             return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
         }
+
+
+
+
+
 
         [Route("2147186/GestionPromotions/ModifierPromotion")]
         public IActionResult ModifierPromotion(string id)

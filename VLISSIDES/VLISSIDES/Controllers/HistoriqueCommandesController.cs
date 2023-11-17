@@ -207,7 +207,7 @@ namespace VLISSIDES.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
 
-            var lc = _context.LivreCommandes.Include(lc => lc.Livre).FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+            var lc = _context.LivreCommandes.Include(lc => lc.Livre).Include(livreCommande => livreCommande.Commande).FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
             if (lc == null) return BadRequest();
 
             var model = new LivreCommandeVM
