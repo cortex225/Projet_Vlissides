@@ -10,3 +10,8 @@
     flex-direction: row !important;
     justify-content: center !important;
 }
+
+.listeCategorie, .listeAuteur{
+    overflow-y: auto;
+    height: 85px;
+}

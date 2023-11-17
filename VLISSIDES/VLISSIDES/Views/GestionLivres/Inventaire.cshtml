@@ -139,12 +139,12 @@
                                         ISBN
                                     </p>                                   
                                 </div>
-                                <div class="AuteurCol mediaQuerryHideOnMedium col-2">
+                                <div class="AuteurCol mediaQuerryHideOnMedium col-sm-2">
                                     <p class="text-center">
                                         Auteur
                                     </p>                                   
                                 </div>
-                                <div class="CategorieCol mediaQuerryHideOnMediumLarge col-1">
+                                <div class="CategorieCol mediaQuerryHideOnMediumLarge col-sm-2">
                                     <p class="text-center">
                                         Catégorie
                                     </p>                                  
@@ -185,16 +185,16 @@
                                             @Html.DisplayFor(modelItem => item.ISBN)
                                         </div>
                                     </div>
-                                    <div class="AuteurCol mediaQuerryHideOnMedium col-2">
-                                        <div class="d-flex flex-column align-items-center">
+                                    <div class="AuteurCol mediaQuerryHideOnMedium col-sm-2">
+                                        <div class="listeAuteur d-flex flex-column align-items-center">
                                             @foreach (var auteur in item.ListAuteur)
                                             {
                                                 <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
                                             }
                                         </div>
                                     </div>
-                                    <div class="CategorieCol mediaQuerryHideOnMediumLarge col-1">
-                                        <div class="text-center">
+                                    <div class="CategorieCol mediaQuerryHideOnMediumLarge col-sm-2">
+                                        <div class="listeCategorie text-center">
                                             @foreach (var categorie in item.Categories)
                                             {
                                                 <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
