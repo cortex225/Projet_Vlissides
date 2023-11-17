@@ -17,5 +17,10 @@
 
         public int? Quantite { get; set; } = default!;
 
+        public decimal? PrixOriginal { get; set; } = default!;
+
+        public decimal? PrixApresPromotion { get; set; } = default!;
+
+
     }
 }

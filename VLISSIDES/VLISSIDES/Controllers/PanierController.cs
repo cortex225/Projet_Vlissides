@@ -29,53 +29,56 @@ namespace VLISSIDES.Controllers
 
         public async Task<IActionResult> Index()
         {
+            // Récupérer l'ID de l'utilisateur actuel
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var article = _context.LivrePanier.Where(a => a.UserId == currentUserId)
-                .Include(a => a.Livre.LivreAuteurs)
-                .ToList();
 
-            var listeArticleVM = article.Select(a => new AfficherPanierVM
+            // Récupérer tous les articles du panier pour cet utilisateur
+            var articles = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
+
+            var listeArticleVM = new List<AfficherPanierVM>();
+
+            // Parcourir chaque article du panier
+            foreach (var a in articles)
             {
-                Id = a.Id,
-                Livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId),
-                TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
-                PrixOriginal = (double)_context.LivreTypeLivres
-                    .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
-                UserId = a.UserId,
-                Quantite = a.Quantite,
-                LivreAuteurs = _context.LivreAuteurs.Where(la => la.LivreId == a.LivreId).ToList()
-            }).ToList();
+                // Récupérer les détails du livre et du type de livre associés à l'article
+                var livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId);
+                var typeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId);
 
+                // Récupérer le prix original du livre
+                var prixOriginal = _context.LivreTypeLivres
+                    .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId)?.Prix ?? 0;
 
-            double prixtotal = 0;
+                // Récupérer le prix après promotion s'il est disponible, sinon utiliser le prix original
+                var prixApresPromotion = a.PrixApresPromotion.HasValue ? a.PrixApresPromotion.Value : prixOriginal;
 
-            if (IdLivreSupprime != null)
-            {
-                listeArticleVM.RemoveAll(a => a.Id == IdLivreSupprime);
-                IdLivreSupprime = null;
+                // Ajouter les détails de l'article au ViewModel de la liste d'articles
+                listeArticleVM.Add(new AfficherPanierVM
+                {
+                    Id = a.Id,
+                    Livre = livre,
+                    TypeLivre = typeLivre,
+                    PrixOriginal = (double)prixOriginal,
+                    PrixApresPromotion = (double)prixApresPromotion,
+                    UserId = a.UserId,
+                    Quantite = a.Quantite,
+                });
             }
 
-            foreach (var item in listeArticleVM)
-            {
-                if (item.Quantite is not null)
-                {
-                    prixtotal += (double)item.Quantite * item.PrixOriginal;
-                }
-                else
-                {
-                    prixtotal += item.PrixOriginal;
-                }
-            }
+            // Calculer le prix total du panier
+            double prixtotal = listeArticleVM.Sum(item =>
+                item.Quantite != null ? (double)item.Quantite * item.PrixApresPromotion : item.PrixApresPromotion);
 
+            // Créer le ViewModel du panier et lui assigner la liste des articles et le prix total
             var panier = new PanierVM
             {
                 ListeArticles = listeArticleVM,
                 PrixTotal = prixtotal
             };
-            await NbArticles();
 
+            // Retourner la vue avec le ViewModel du panier
             return View(panier);
         }
+
 
         [HttpDelete]
         [ValidateAntiForgeryToken]
@@ -109,51 +112,33 @@ namespace VLISSIDES.Controllers
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             var articles = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
 
-            // Récupérer le code promo entré par l'utilisateur
-            var promotionsActives = _context.Promotions
-                .Where(p => p.CodePromo != null && p.DateDebut <= DateTime.Now && p.DateFin >= DateTime.Now);
-
             var listeArticleVM = new List<AfficherPanierVM>();
 
             foreach (var a in articles)
             {
                 var livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId);
                 var typeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId);
-                var prix = (double)_context.LivreTypeLivres
-                    .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix;
+                var prixOriginal = _context.LivreTypeLivres
+                    .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId)?.Prix ?? 0;
 
-                // Appliquer les promotions si éligibles
-                // foreach (var promo in promotionsActives)
-                // {
-                //     if ((promo.AuteurId == null || promo.AuteurId == livre.LivreAuteurs.FirstOrDefault().AuteurId) &&
-                //         (promo.CategorieId == null ||
-                //          promo.CategorieId == livre.Categories.FirstOrDefault().CategorieId) &&
-                //         (promo.MaisonEditionId == null || promo.MaisonEditionId == livre.MaisonEditionId))
-                //     {
-                //         // Appliquer la promotion
-                //         if (promo.PourcentageRabais.HasValue)
-                //         {
-                //             prix -= prix * promo.PourcentageRabais.Value / 100;
-                //         }
-                //
-                //         // Ajouter d'autres logiques de promotion ici (comme 2 pour 1)
-                //         break; // Sortir de la boucle une fois la promotion appliquée
-                //     }
-                // }
+                // Utiliser 'FirstOrDefault' et vérifier si l'objet n'est pas null avant d'accéder à 'PrixApresPromotion'
+                var livrePanier = _context.LivrePanier.FirstOrDefault(lp => lp.Id == a.Id);
+                var prixApresPromotion = livrePanier?.PrixApresPromotion ?? prixOriginal;
 
                 listeArticleVM.Add(new AfficherPanierVM
                 {
                     Id = a.Id,
                     Livre = livre,
                     TypeLivre = typeLivre,
-                    PrixOriginal = prix,
+                    PrixOriginal = (double)prixOriginal,
                     UserId = a.UserId,
                     Quantite = a.Quantite,
+                    PrixApresPromotion = (double)prixApresPromotion,
                 });
             }
 
             double prixtotal = listeArticleVM.Sum(item =>
-                item.Quantite != null ? (double)item.Quantite * item.PrixOriginal : item.PrixOriginal);
+                item.Quantite != null ? (double)item.Quantite * item.PrixApresPromotion : item.PrixApresPromotion);
 
             var panier = new PanierVM
             {
@@ -172,8 +157,7 @@ namespace VLISSIDES.Controllers
 
             if (quantite > livre.NbExemplaires)
             {
-                // Informez l'utilisateur qu'il précommandera le surplus
-                // Vous pouvez également enregistrer la quantité précommandée dans la base de données
+                // Informe l'utilisateur qu'il précommandera le surplus
                 return Content(
                     "La quantité demandée n'est pas disponible en stock. Voulez-vous précommander le surplus ?");
             }
@@ -199,8 +183,7 @@ namespace VLISSIDES.Controllers
 
             if (vm.quantitee > livre.NbExemplaires)
             {
-                // Informez l'utilisateur qu'il précommandera le surplus
-                // Vous pouvez également enregistrer la quantité précommandée dans la base de données
+                // Informe l'utilisateur qu'il précommandera le surplus
                 return Content(
                     "La quantité demandée n'est pas disponible en stock. Voulez-vous précommander le surplus ?");
             }
@@ -224,6 +207,11 @@ namespace VLISSIDES.Controllers
                 lp.TypeLivre = type;
                 lp.Quantite = vm.quantitee;
                 lp.UserId = user.Id;
+                lp.PrixOriginal = _context.LivreTypeLivres
+                    .FirstOrDefault(lt => lt.LivreId == livre.Id && lt.TypeLivreId == type.Id).Prix;
+
+
+
 
                 bool siExiste = false;
 
@@ -337,23 +325,35 @@ namespace VLISSIDES.Controllers
                     if (EstEligiblePourPromotion(article, promotion))
                     {
                         article.PrixApresPromotion = CalculerPrixApresPromotion(article.PrixOriginal, promotion);
+
                     }
                     else
                     {
                         article.PrixApresPromotion = article.PrixOriginal;
+
                     }
 
                     prixTotal += article.PrixApresPromotion * (article.Quantite ?? 1);
+
                 }
             }
 
             panierVM.PrixTotal = panierVM.ListeArticles.Sum(a => a.PrixApresPromotion * (a.Quantite ?? 1));
             panierVM.Promotion = promotion;
-            // Logique pour valider le code promo
-            bool isCodeValid = false; // Remplacez ceci par votre logique de validation
 
+            foreach (var articleVM in panierVM.ListeArticles)
+            {
+                var articleBD = _context.LivrePanier.FirstOrDefault(a => a.Id == articleVM.Id);
+                if (articleBD != null)
+                {
+                    articleBD.PrixApresPromotion = (decimal)articleVM.PrixApresPromotion;
+                    _context.Update(articleBD);
+                }
+            }
 
-            return Json(new { success = true, nouveauTotal = prixTotal, isValid=isCodeValid, message = "Code promo appliqué avec succès." });
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true, nouveauTotal = prixTotal, isValid=true, message = "Code promo appliqué avec succès." });
         }
 
         private void AppliquerPromotionDeuxPourUn(PanierVM panierVM, Promotions promo)
