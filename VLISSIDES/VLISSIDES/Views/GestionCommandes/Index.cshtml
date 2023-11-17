@@ -4,6 +4,18 @@
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
+@*********************@
+@* Modals *@
+@*********************@
+
+<div class="modal fade modal-dialog-centered " tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
+     style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+        </div>
+    </div>
+</div>
+
 <div class="m-4">
     <h1>Gestion des commandes</h1>
     <div class="row">
@@ -97,9 +109,6 @@
 </script>
 <script type="text/javascript">
     function saveStatut(id = "") {
-        
-        console.log(id.toString());
-
         var idString = `${id}`.toString();
         var statutVal = document.getElementById(idString + ' statutSelectList').value;
 
@@ -153,6 +162,87 @@
         .catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
             console.error('Erreur lors de la récupération de la liste des auteurs', error);
+        });
+    }
+
+    function collapse(commandeId = "") {
+        var div = document.getElementById(`collapseCommandeLivres_${commandeId}`);
+
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+
+    }
+
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+
+    function HideModal() {
+        $('.modal').modal('hide');
+    }
+
+    function accepterAnnulation(commandeId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/AccepterDemandeAnnulation?commandeId=${commandeId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).then(() => {
+            applyFilter(ev);
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error("Erreur lors de l'acceptation de l'annulation.", error);
+        });
+    }
+
+    function refuserAnnulation(commandeId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/RefuserDemandeAnnulation?commandeId=${commandeId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).then(() => {
+            applyFilter(ev);
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error("Erreur lors du refus de l'annulation.", error);
+        });
+    }
+    function accepterRetour(commandeId = "", livreId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/AccepterDemandeRetour?commandeId=${commandeId}&livreId=${livreId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).then(() => {
+            applyFilter(ev);
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error("Erreur lors de l'acceptation du retour.", error);
+        });
+    }
+    function refuserRetour(commandeId = "", livreId = "", ev) {
+        fetch(BASE_URL + `/GestionCommandes/RefuserDemandeRetour?commandeId=${commandeId}&livreId=${livreId}`, {
+            method: "POST",
+        }).then((response) => {
+            return response.text();
+        }).then(() => {
+            HideModal();
+        }).then(() => {
+            applyFilter(ev);
+        }).catch(error => {
+            // Affiche une erreur dans la console en cas d'échec de la requête
+            console.error('Erreur lors du refus du retour.', error);
         });
     }
 </script>

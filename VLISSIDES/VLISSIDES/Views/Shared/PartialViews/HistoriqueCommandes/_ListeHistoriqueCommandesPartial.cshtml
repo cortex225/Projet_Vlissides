@@ -9,7 +9,7 @@
 <div id="accordion">
     @foreach (var commande in @Model.ListCommandes)
     {
-        <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable" data-toggle="collapse" data-target="#collapseCommandeLivres_@commande.Id">
+        <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable">
             <div class="row d-flex p-2">
                 <div class="col-sm-3 d-flex justify-content-center">
                     <h4 class="card-title my-auto">#@commande.Id</h4>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center align-self-md-center">
 
-                    <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" data-toggle="" aria-expanded="false" aria-controls="collapseCommandeLivres_@commande.Id" data-target="#collapseCommandeLivres_@commande.Id" onclick="collapse('@commande.Id')"></i>
+                    <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" onclick="collapse('@commande.Id')"></i>
 
                 </div>
                 <div class="col-sm-1 d-flex justify-content-center">
@@ -70,27 +70,36 @@
                                 </div>
                                 <div class="col-sm-1 d-flex justify-content-center">
                                     @{
-                                        var prix = item.PrixAchat * item.Quantite;
+                                        var prix = item.PrixAchat;
                                     }
                                     @prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))
                                 </div>
-                                @if(commande.StatutId == "4")
-                                {
-                                    <div class="col-sm-2 d-inline-flex">
-                                        @if (item.EnDemandeRetourner == false)
+                                <div class="col-sm-2 d-inline-flex">
+                                    @if(commande.StatutId == "4")
+                                    {
+                                        @if(item.Quantite > 1)
                                         {
-                                            var inputId = $"quantite-{item.CommandeId}-{item.Livre.Id}";
 
-                                            <input id="@inputId" type="number" class="form-control w-auto" min="1" max="@item.Quantite" value="1" onkeyup="verifierQuantite('@item.CommandeId', '@item.Livre.Id', '@item.Quantite')">
-                                            <button class="btn btn-primary mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Retourner</button>
+                                                @if (item.EnDemandeRetourner == false)
+                                                {
+                                                    var inputId = $"quantite-{item.CommandeId}-{item.Livre.Id}";
+
+                                                    <input id="@inputId" type="number" class="form-control w-auto" min="1" max="@item.Quantite" value="1" onkeyup="verifierQuantite('@item.CommandeId', '@item.Livre.Id', '@item.Quantite')">
+                                                    <button class="btn btn-primary mx-2" onclick="ShowModal('@Url.Action("ShowRetournerConfirmation", "HistoriqueCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Retourner</button>
+
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">En attente de remboursement</span>
+                                                }
 
                                         }
                                         else
                                         {
-                                            <span class="text-danger">En attente de remboursement </span>
+                                            <span class="text-danger">Vous n'avez plus de livre à rembourser</span>
                                         }
-                                    </div>
-                                }                             
+                                    }
+                                </div>
                             </div>       
                         }
                     </div>
