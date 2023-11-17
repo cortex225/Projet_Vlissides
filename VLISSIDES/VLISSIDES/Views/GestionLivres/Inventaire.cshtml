@@ -4,10 +4,12 @@
 
 @{
     ViewData["Title"] = "Inventaire";
-    var myURL = Context.Request.Host.Value;
-    var BASE_URL_RAZOR = Url.Content("~");
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Sidebar.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Responsive/GestionInventaire.css" asp-append-version="true">
 
 
 @*********************@
@@ -127,23 +129,38 @@
                     <div class="container-fluid d-flex flex-wrap row" id="TabLivreListes">
                         <div class="mb-3 mx-3">
                             <div class="row px-2">
-                                <div class="col-2 text-center">
-                                    Livre
+                                <div class="LivreCol col">
+                                    <p class="text-center">
+                                        Livre
+                                    </p>
                                 </div>
-                                <div class="col-2 text-center">
-                                    ISBN
+                                <div class="ISBNCol mediaQuerryHideOnSuperSmall col">
+                                    <p class="text-center">
+                                        ISBN
+                                    </p>                                   
                                 </div>
-                                <div class="col-2 text-center">
-                                    Auteur
+                                <div class="AuteurCol mediaQuerryHideOnMedium col-2">
+                                    <p class="text-center">
+                                        Auteur
+                                    </p>                                   
                                 </div>
-                                <div class="col-1 text-center">
-                                    Catégorie
+                                <div class="CategorieCol mediaQuerryHideOnMediumLarge col-1">
+                                    <p class="text-center">
+                                        Catégorie
+                                    </p>                                  
                                 </div>
-                                <div class="col-2 text-center">
-                                    Prix par type
+                                <div class="PrixCol mediaQuerryHideOnSmall col-2">
+                                    <p class="text-center">
+                                        Prix par type
+                                    </p>                                   
                                 </div>
-                                <div class="col-1 text-center">
-                                    Quantité
+                                <div class="QuantiteCol mediaQuerryHideOnMedium col-1">
+                                    <p class="text-center">
+                                        Quantité
+                                    </p>                                   
+                                </div>
+                                <div class="col">
+                                    @* Espace vide pour les boutons *@
                                 </div>
                             </div>
 
@@ -154,69 +171,87 @@
                         {
                             <div id="@item.Id" class="card mb-2 mx-3 element-hoverable">
                                 <div class="card-body row p-2 align-items-center">
-                                    <div class="imgDiv col-2 text-center">
-                                        @{
-                                            var couverture = string.Concat(BASE_URL_RAZOR, item.Image);
-                                        }
-                                        <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
-                                        <p>@Html.DisplayFor(modelItem => item.Titre)</p>
+                                    <div class="LivreCol col">
+                                        <div class="imgDiv text-center">
+                                            @{
+                                                string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
+                                            }
+                                            <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
+                                            <p>@Html.DisplayFor(modelItem => item.Titre)</p>
+                                        </div>
+                                    </div>
+                                    <div class="ISBNCol mediaQuerryHideOnSuperSmall col">
+                                        <div class="text-center">
+                                            @Html.DisplayFor(modelItem => item.ISBN)
+                                        </div>
+                                    </div>
+                                    <div class="AuteurCol mediaQuerryHideOnMedium col-2">
+                                        <div class="d-flex flex-column align-items-center">
+                                            @foreach (var auteur in item.ListAuteur)
+                                            {
+                                                <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="CategorieCol mediaQuerryHideOnMediumLarge col-1">
+                                        <div class="text-center">
+                                            @foreach (var categorie in item.Categories)
+                                            {
+                                                <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="PrixCol mediaQuerryHideOnSmall col-2">
+                                        <div class="d-flex flex-column">
+                                            @foreach (var type in item.LivreTypeLivres)
+                                            {
+                                                <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="QuantiteCol mediaQuerryHideOnMedium col-1">
+                                        <div class="text-center">
+                                            @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
+                                            {
+                                                <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="divBoutons col text-center h-40 d-flex justify-content-around">
+                                        <div class="mediaQuerryHideOnMedium">
+                                            @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
+                                            {
+                                                <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
+                                                    saveQuantite('@item.Id', '@item.Quantite')
+                                                    disableButton('@item.Id')">
 
-                                    </div>
-                                    <div class="col-2 text-center">
-                                        @Html.DisplayFor(modelItem => item.ISBN)
-                                    </div>
-                                    <div class="col-2 d-flex flex-column align-items-center">
-                                        @foreach (var auteur in item.ListAuteur)
-                                        {
-                                            <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
-                                        }
-                                    </div>
-                                    <div class="col-1 text-center">
-                                        @foreach (var categorie in item.Categories)
-                                        {
-                                            <p>@Html.DisplayFor(modelItem => categorie.Nom)</p>
-                                        }
-                                        @*Html.DisplayFor(modelItem => item.Categorie)*@
-                                    </div>
-                                    <div class="col-2 d-flex flex-column">
-                                        @foreach (var type in item.LivreTypeLivres)
-                                        {
-                                            <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
-                                        }
-                                    </div>
-                                    <div class="col-1 text-center">
-                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
-                                        {
-                                            <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
-                                        }
-                                        else
-                                        {
-                                            <span>N/A</span>
-                                        }
-                                    </div>
-                                    <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
-                                        @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Nom == "Neuf"))
-                                        {
-                                            <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
-                                                saveQuantite('@item.Id', '@item.Quantite')
-                                                disableButton('@item.Id')">
+                                                    <span class="fa-solid fa-check fa-2x"></span>
 
-                                                <span class="fa-solid fa-check fa-2x"></span>
-
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <button class="btn btn-success saveButton px-3">
-                                                <span class="fa-solid fa-check fa-2x"></span>
-                                            </button>
-                                        }
-                                        <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
-                                            <span class="fa-solid fa-pen fa-2x"></span>
-                                        </a>
-                                        <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
-                                            <span class="fa-solid fa-trash fa-2x"></span>
-                                        </a>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class=" btn btn-success saveButton px-3" disabled>
+                                                    <span class="fa-solid fa-check fa-2x"></span>
+                                                </button>
+                                            }
+                                        </div>
+                                        
+                                        <div class="divEditDelete">
+                                            <a class="btn btn-primary p-2 m-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                                                <span class="fa-solid fa-pen fa-2x"></span>
+                                            </a>
+                                            <a class="btn btn-danger p-2 m-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
+                                                <span class="fa-solid fa-trash fa-2x"></span>
+                                            </a>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +274,30 @@
     .saveButton {
         visibility: hidden;
     }
+
+    html{
+        width: auto;
+        margin: 0px;
+    }
+    body{
+        width: auto;
+    }
 </style>
+
+<script>
+    $(window).on('resize', function () {
+        var win = $(this);
+        if (win.width() < 1100) {
+
+            $('.ISBNCol').removeClass('col-2');
+            $('.ISBNCol').addClass('col-4');
+
+        } else {
+            $('.ISBNCol').removeClass('col-4');
+            $('.ISBNCol').addClass('col-2');
+        }
+    });
+</script>
 
 <script type="text/javascript">
     //Hide save button
