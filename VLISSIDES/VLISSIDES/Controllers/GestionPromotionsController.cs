@@ -65,7 +65,7 @@ public class GestionPromotionsController : Controller
     }
 
 
-    [HttpPost]
+   [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("2147186/GestionPromotions/AjouterPromotion")]
     [Route("{controller}/{action}")]
