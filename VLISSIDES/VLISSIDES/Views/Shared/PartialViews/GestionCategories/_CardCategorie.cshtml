@@ -6,12 +6,12 @@
 <!--onclick pour afficher livres ici-->
 <div id="@Model.Id" class="card list-group-item list-group-item-action mb-2 mx-3 element-hoverable" data-toggle="list" onclient onclick="AfficherMaisonsEditionsLivres('@Model.Id')">
     <div class="card-body row align-items-center p-0">
-        <div class="col-8 text-center">
+        <div class="col text-center">
             <!--Début : Modifier nom d'une maison d'édition-->
             <input id="@Model.Id @Model.Nom" type="text" asp-for="@Model.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => Model.Nom)"
                    onclick="enableButton('@Model.Id')">
         </div>
-        <div class="col-4 text-center d-flex flex-row justify-content-around h-40">
+        <div class="col-auto text-center d-flex flex-row justify-content-around h-40">
             <button id="saveButton @Model.Id" type="button" class="btn btn-success saveButton"
                     onclick="ModifierNomCategorie('@Model.Id', '@Model.Nom')
                                         disableButton('@Model.Id')">
