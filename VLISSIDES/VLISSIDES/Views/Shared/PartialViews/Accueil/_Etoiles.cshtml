@@ -9,11 +9,14 @@
 
 
 <div class="star-et-nombre-container">
-    <div class="star-container">
+    <div class="star-container ">
         <div class="Stars" style="--rating: @rating;"></div>
         <div class="Stars-o"></div>
+
     </div>
-    <p class="rating-number">(@Math.Round(Model, 1))</p>
+            <p class="rating-number mx-3">(@Math.Round(Model, 1))</p>
+
+
 </div>
 <style >
     :root {
@@ -26,11 +29,22 @@
 
     .star-et-nombre-container {
         display: flex;
+        align-items: start;
+        justify-content: center;
+        margin-top: 10px;
+        flex-direction: row;
     }
+
+    .rating-number {
+        align-items: flex-end;
+        margin-top: 1.8em!important;
+    }
+
 
     .star-container {
         width: 108px;
         position: relative;
+        display: flex;
     }
 
     .Stars, .Stars-o{
