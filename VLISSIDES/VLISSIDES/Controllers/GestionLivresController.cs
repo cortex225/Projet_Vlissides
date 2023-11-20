@@ -42,6 +42,8 @@ public class GestionLivresController : Controller
         var categories = _context.Categories.ToList();
         var langues = _context.Langues.ToList();
         var typesLivres = _context.TypeLivres.ToList();
+        var auteurs = _context.Auteurs.ToList();
+        var maisonEditions = _context.MaisonEditions.ToList();
 
         //Prendre tous les livres
         var livres = await _context.Livres
@@ -149,7 +151,9 @@ public class GestionLivresController : Controller
             ListeLivres = livresVM,
             ListeCategories = categories,
             ListeLangue = langues,
-            ListeTypeLivres = typesLivres
+            ListeTypeLivres = typesLivres,
+            ListeAuteurs = auteurs,
+            ListeMaisonEditions = maisonEditions
         };
         return View(vm);
     }
@@ -171,6 +175,8 @@ public class GestionLivresController : Controller
         var categories = _context.Categories.ToList();
         var langues = _context.Langues.ToList();
         var typesLivres = _context.TypeLivres.ToList();
+        var auteurs = _context.Auteurs.ToList();
+        var maisonEditions = _context.MaisonEditions.ToList();
 
         //Prendre tous les livres
         var livres = await _context.Livres
@@ -276,7 +282,9 @@ public class GestionLivresController : Controller
             ListeLivres = livresVM,
             ListeCategories = categories,
             ListeLangue = langues,
-            ListeTypeLivres = typesLivres
+            ListeTypeLivres = typesLivres,
+            ListeAuteurs = auteurs,
+            ListeMaisonEditions = maisonEditions
         };
         return PartialView("PartialViews/GestionLivres/_ListeLivresPartial", vm);
     }
