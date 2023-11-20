@@ -108,7 +108,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                             <div class="cacher-0">
                                 <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[0]" />
                             </div>
-                            @if (Model.Vedettes.Count > 1)
+                            @if (Model.Evenements.Count > 1)
                             {
                                 <div class="cacher-1">
                                     <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[1]" />
@@ -164,7 +164,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                             <div class="cacher-0">
                                 <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]" />
                             </div>
-                            @if (Model.Vedettes.Count > 1)
+                            @if (Model.Promotions.Count > 1)
                             {
                                 <div class="cacher-1">
                                     <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]" />
@@ -178,7 +178,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                             <div class="cards-wrapper d-flex justify-content-around">
                                 @for (var indexLivre2 = 0; indexLivre2 < 2; indexLivre2++)
                                 {
-                                    @if (Model.Evenements.Count > indexEvenement * 2 + indexLivre2)
+                                    @if (Model.Promotions.Count > indexEvenement * 2 + indexLivre2)
                                     {
                                         <div class="cacher-@indexLivre2">
                                             <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexEvenement * 2 + indexLivre2]" />
