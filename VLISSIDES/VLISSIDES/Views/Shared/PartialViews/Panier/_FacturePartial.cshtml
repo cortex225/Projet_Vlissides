@@ -1,5 +1,5 @@
 ﻿@using System.Globalization
-<link rel="stylesheet" href="~/css/facture.css" asp-append-version="true"/>
+<link rel="stylesheet" href="~/css/facture.css" />
 
 @{
     float prixDonEco = 5;
@@ -17,9 +17,9 @@
                 {
                     @for (var quantite = 0; quantite < article.Quantite; quantite++)
                     {
-                        <li class="float-end">
+                        <li class="float-end" >
                             <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
-                            <div class="prix-promo">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
                         </li>
                     }
                 }
@@ -113,21 +113,22 @@ function validerEtAppliquerCodePromo() {
             if (prixTotalElement) {
                 prixTotalElement.innerText = data.nouveauTotal;
             }
-             // Met à jour la liste des articles et leurs prix
+            // Attende la mise à jour de la facture avant de modifier le DOM
             AfficherFacture();
-           //Permets de barrer le prix original et d'afficher le prix après promotion
-             var articles = document.querySelectorAll(".article");
-                        articles.forEach((article) => {
-                            var prixOriginal = article.querySelector(".prix-original");
-                            var prixPromo = article.querySelector(".prix-promo");
 
-                            if (prixOriginal && prixPromo) {
-                                prixOriginal.classList.add("prix-barre"); // Barrer le prix original
-                                prixPromo.style.display = "block"; // Afficher le prix après promotion
-                            }
-                        });
-            // Affiche un message de succès
-            alert(data.message);
+           var articles = document.querySelectorAll(".article");
+                           articles.forEach(article => {
+                               var prixOriginal = article.querySelector(".prix-original");
+                               var prixPromo = article.querySelector(".prix-promo");
+
+
+                                   prixOriginal.classList.add("prix-barre");
+                                   prixPromo.style.display = "block";
+
+
+
+
+                       });
         } else {
             // Affiche un message d'erreur
             alert("Code promo invalide ou expiré.");

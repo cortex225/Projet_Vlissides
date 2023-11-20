@@ -115,7 +115,7 @@ public class PaiementController : Controller
             {
                 PriceData = new SessionLineItemPriceDataOptions
                 {
-                    UnitAmountDecimal = item.Livre.LivreTypeLivres.FirstOrDefault().Prix * 100,
+                    UnitAmountDecimal = item.PrixApresPromotion* 100,
                     Currency = "cad",
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
@@ -177,7 +177,6 @@ public class PaiementController : Controller
             {
                 Enabled = true // Active le calcul automatique des taxes
             },
-            AllowPromotionCodes = true,
 
 
             SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),
