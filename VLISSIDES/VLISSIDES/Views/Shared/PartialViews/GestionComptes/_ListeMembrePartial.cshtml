@@ -41,13 +41,13 @@
                 @if (item.IsBanned)
                 {
                     <td>
-                        <button class="btn btn-primary" onclick="BanMembre('@item.Id')">Débloquer</button>
+                        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowUnbanMembre","GestionComptes",new {id=item.Id})')">Débloquer</button>
                     </td>
                 }
                 else
                 {
                     <td>
-                        <button class="btn btn-danger" onclick="BanMembre('@item.Id')">Bloquer</button>
+                        <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowBanMembre","GestionComptes",new {id=item.Id})')">Bloquer</button>
                     </td>
                 }
                 <td>
