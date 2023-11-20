@@ -4,6 +4,15 @@
         flex-direction: column !important;
     }
 }
+@media only screen and (max-width: 1300px) {
+    #filtreBTN {
+        display: block !important;
+    }
+}
+
+#filtreBTN {
+    display: none;
+}
 
 .divBouton {
     display: flex !important;
@@ -11,7 +20,7 @@
     justify-content: center !important;
 }
 
-.listeCategorie, .listeAuteur{
+.listeCategorie, .listeAuteur {
     overflow-y: auto;
     height: 85px;
 }

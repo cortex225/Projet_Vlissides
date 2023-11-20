@@ -27,10 +27,6 @@
 
 <!-- Barre latérale coulissante -->
 <partial name="PartialViews/Dashboard/_SideBarPartial"/>
-
-
-    
-
     @*  ============================================================================= *@
     @*  ============================================================================= *@
     @*  ============================================================================= *@
@@ -43,7 +39,7 @@
 
         <div class="container-fluid m-1">
             <form class="row">
-                <div id="rechercheRapide" class="row text-center">
+                <div id="rechercheRapide" class="mediaQuerryHideOnMedium row text-center">
                     <div class="col-2">
                         <button id="rechercherBTN" class="container-fluid btn btn-primary">
                             Rechercher
@@ -54,15 +50,19 @@
                     </div>       
                 </div>
 
-                <div class="d-flex flex-row-reverse">
-                    <div class="col-10 d-flex justify">
+                
+                <div class="row">
+                    <div class="col-2">
+                        <button id="filtreBTN" class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="sidebar">
+                            Filtres
+                        </button> 
+                    </div>
+                    <div class="col d-flex justify">
                         @* Add button *@
                         <div class="m-4">
                             <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
                         </div>
-                        <button id="filtreBTN" class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="sidebar">
-                            Filtres
-                        </button>   
+                          
                     </div>
                 </div>
                 
