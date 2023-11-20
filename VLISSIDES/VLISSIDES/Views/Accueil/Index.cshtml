@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="~/css/Accueil/event-card.css">
 <link rel="stylesheet" href="~/css/Accueil/promo-card.css">
 
-@* @{
-    var isIncompleteBirthday = User.Identity.IsAuthenticated && Model.?.DateNaissance == null;
+@{
+    var isIncompleteBirthday = User.Identity.IsAuthenticated && Model.User?.DateNaissance == null;
 
-}  *@
+}
 <!--
 Ceci est le div qui contient une image large avec le titre
 -->
@@ -281,6 +281,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             </button>
         </div>
     }
+</div>
 <script>
 function toggleDescription(buttonElement) {
     var descriptionElement = buttonElement.previousElementSibling;
@@ -332,4 +333,4 @@ function toggleDescription(buttonElement) {
         </script>
         }
     }
-} *@
+}

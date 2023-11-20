@@ -125,7 +125,7 @@ public class PaiementController : Controller
             {
                 PriceData = new SessionLineItemPriceDataOptions
                 {
-                    UnitAmountDecimal = item.PrixApresPromotion* 100,
+                    UnitAmountDecimal = (item.PrixApresPromotion ?? item.PrixOriginal)* 100,
                     Currency = "cad",
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {

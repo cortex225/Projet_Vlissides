@@ -8,7 +8,7 @@ public class DetailsLivreVM
         IEnumerable<int> notes,
         DateTime datePublication, string couverture, MaisonEdition? maisonEdition, int nbPages, string resume,
         int nbExemplaires,
-        IEnumerable<LivreTypeLivre> livreTypeLivres, string isbn, string langue)
+        ICollection<LivreTypeLivre> livreTypeLivres, string isbn, string langue)
     {
         Id = id;
         Titre = titre;
@@ -58,6 +58,7 @@ public class DetailsLivreVM
     public string ISBN { get; set; }
 
     public string Langue { get; set; }
+    public int Quantite { get; set; }
 
     public void CalculerNote()
     {

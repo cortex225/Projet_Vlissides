@@ -20,8 +20,10 @@ public class IndexRechercheVM
     public double minPrix { get; set; }
     public double maxPrix { get; set; }
 
-    public IndexRechercheVM(string motRecherche, string criteres, List<Livre> resultatRecherche, List<Livre> livres, List<Auteur> auteurs, List<MaisonEdition> maisonEditions, List<Categorie> categories,
-        List<Langue> langues, List<TypeLivre> typeLivres, double minPrix = 0, double maxPrix = 199.99)
+    public IndexRechercheVM(string motRecherche, string criteres, List<Livre> resultatRecherche, List<Livre> livres,
+        List<Auteur> auteurs, List<MaisonEdition> maisonEditions, List<Categorie> categories,
+        List<Langue> langues, List<TypeLivre> typeLivres, List<DetailsLivreVM> livresPartials,
+        double minPrix = 0, double maxPrix = 199.99)
     {
         motRecherche ??= "";
         criteres ??= "";
@@ -40,7 +42,8 @@ public class IndexRechercheVM
             rr.LivreAuteurs.Select(la => la.Auteur),
             rr.Categories.Select(lc => lc.Categorie), rr.Evaluations.Select(le => le.Note),
             rr.DatePublication, rr.Couverture, rr.MaisonEdition, rr.NbPages, rr.Resume,
-            rr.NbExemplaires, rr.LivreTypeLivres, rr.NbExemplaires)).ToList();
+            rr.NbExemplaires, rr.LivreTypeLivres, rr.ISBN, rr.Langue.Nom
+            )).ToList();
         Livres = livres.Select(l => l.Titre).ToList();
         Auteurs = auteurs.Select(a => a.NomAuteur).ToList();
         MaisonEditions = maisonEditions.Select(me => me.Nom).ToList();
@@ -49,17 +52,8 @@ public class IndexRechercheVM
         TypeLivres = typeLivres.Select(lc => lc.Nom).ToList();
         this.minPrix = minPrix;
         this.maxPrix = maxPrix;
+
     }
 
-    public string MotRecherche { get; set; } //Juste le mot clé que l'on va afficher dans le message
 
-    //"Résultat de recherche pour "MotRecherche"
-    public List<string> ResultatRecherche { get; set; }
-    public List<DetailsLivreVM> LivrePartials { get; set; }
-    public List<string> ListeCategories { get; set; }
-    public List<string> ListeLangues { get; set; }
-    public List<string> ListeTypeLivres { get; set; }
-
-    public double minPrix { get; set; }
-    public double maxPrix { get; set; }
 }

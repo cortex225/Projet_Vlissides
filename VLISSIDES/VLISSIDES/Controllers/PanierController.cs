@@ -435,14 +435,12 @@ public class PanierController : Controller
         // Vérifie si l'article correspond à la maison d'édition spécifiée dans la promotion
         if (promotion.MaisonEditionId != null && article.Livre.MaisonEditionId != promotion.MaisonEditionId)
             return false;
+        // Si toutes les vérifications sont passées ou si aucun critère n'est spécifié, l'article est éligible
+        return true;
 
-            return (promotion.CategorieId == null ||
-                    promotion.CategorieId == item.Livre.Categories.FirstOrDefault()?.CategorieId) &&
-                   (promotion.AuteurId == null ||
-                    promotion.AuteurId == item.Livre.LivreAuteurs.FirstOrDefault()?.AuteurId) &&
-                   (promotion.MaisonEditionId == null || promotion.MaisonEditionId == item.Livre.MaisonEditionId);
-        }
-        [HttpGet]
+    }
+
+    [HttpGet]
         public async Task<int> NbArticles()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
@@ -515,4 +513,3 @@ public class PanierController : Controller
             return RedirectToAction("Index", "Paiement");
         }
     }
-}

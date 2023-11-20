@@ -242,7 +242,7 @@ public class StripeController : Controller
             DateReservation = DateTime.Now,
             Membre = customer,
             Evenement = evenement,
-            Description = evenement.Description
+            Description = evenement.Description,
         PaymentIntentId = session.PaymentIntentId,
                 prixAchat = evenement.Prix,
                 EnDemandeAnnuler = false,};
