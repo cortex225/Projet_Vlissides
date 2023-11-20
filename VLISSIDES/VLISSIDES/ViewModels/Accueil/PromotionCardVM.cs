@@ -11,9 +11,9 @@ public class PromotionCardVM
     [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm}")]
     [DisplayName("Date de début")] public DateTime DateDebut { get; set; }
     [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm}")]
-    [DisplayName("Date de fin")] public DateTime DateFin { get; set; }
+    [DisplayName("Date de fin")] public DateTime? DateFin { get; set; }=null;
     [DisplayName("Image promotion")] public string Image { get; set; }
-    public PromotionCardVM(string description, decimal rabais, DateTime dateDebut, DateTime dateFin, string image)
+    public PromotionCardVM(string description, decimal rabais, DateTime dateDebut, DateTime? dateFin, string image)
     {
         Description = description;
         Rabais = rabais;
