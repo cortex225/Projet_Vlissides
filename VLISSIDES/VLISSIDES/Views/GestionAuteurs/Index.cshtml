@@ -6,10 +6,7 @@
 }
 
 
-<link rel="stylesheet" href="~/css/ListeLivres.css"/>
-<link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
-<link rel="stylesheet" href="~/css/Responsive/ListeGestion.css" asp-append-version="true">
-
+<link rel="stylesheet" href="~/css/Gestion/Gestion.css"/>
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
     <div class="modal-dialog" role="document">
@@ -18,10 +15,7 @@
     </div>
 </div>
 
-<!-- Barre latérale coulissante -->
-<partial name="PartialViews/Dashboard/_SideBarPartial"/>
-
-<div class="d-block p-4 p-4">
+<div class="d-block">
 
 
     <!--Début : Ajouter Auteur-->
@@ -38,7 +32,7 @@
             <div class="input-group">
                 <input class="form-control" asp-for="AuteursAjouterVM.NomAuteur" id="inputNom" placeholder="Nom"/>
                 <span asp-validation-for="AuteursAjouterVM.NomAuteur" class="text-danger"></span>
-                <button class="btn btn-primary p-2" type="button" onclick="AjouterAuteur()" data-toggle="tooltip" title="Ajouter le livre">
+                <button class="btn btn-primary" type="button" onclick="AjouterAuteur()" data-toggle="tooltip" title="Ajouter le livre">
                     Ajouter
                 </button>
             </div>
@@ -59,7 +53,7 @@
             <br/>
             <div class="input-group">
                 <input class="form-control" id="inputRechercherAuteur" placeholder="Rechercher..."/>
-                <button class="btn btn-primary p-2" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la auteur">
+                <button class="btn btn-primary" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la auteur">
                     Rechercher
                 </button>
             </div>
@@ -70,19 +64,15 @@
     <br/>
     <!--Fin : Rechercher auteur-->
 
-    <div class="d-block p-4 p-4">
+    <div class="d-block">
 
-        <div class="mb-4 text-center">
+        <div class="text-center">
             <h1>Gestion des auteurs</h1>
         </div>
 
-        <div class="mb-4">
+        <div class="">
             <h3>Liste des auteurs</h3>
-            <div class="row p-0" id="ListeAuteurPartial">
-
-            </div>
-
-
+            <div class="row" id="ListeAuteurPartial"/>
         </div>
 
     </div>
@@ -93,18 +83,11 @@
     
 </script>
 <!--Fonctionalite des boutons *-->
-<style>
-    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
-    .saveButton {
-        visibility: hidden;
-    }
-</style>
 <script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
-<!--Fin pour Fonctionalite des boutons-->
 
-<!--Script pour liste-->
 <script type="text/javascript">
-    function AfficherListe(page= @ViewBag.CurrentPage) {
+        /*Script pour liste*/
+        function AfficherListe(page = @ViewBag.CurrentPage) {
         // Récupère la valeur du mot-clé de recherche à partir de l'élément d'entrée
         var motCle = document.getElementById("inputRechercherAuteur").value || "";
         
@@ -127,11 +110,8 @@
         });
     }
 
-
     AfficherListe();
-</script>
-<!--Script pour Ajouter-->
-<script type="text/javascript">
+    /*Script pour Ajouter*/
     function AjouterAuteur() {
         var form = document.getElementById("champAjouter");
         var data = new FormData(form);
@@ -150,9 +130,7 @@
         });
         form.reset();
     }
-</script>
-<!--Script pour la liste de livres d'un auteur-->
-<script type="text/javascript">
+    /*Script pour la liste de livres d'un auteur*/
     function hideall() {
         divListes = document.getElementById("divListeAuteursLivres").childNodes;
         divListes.forEach((element) => { element.className = "visually-hidden" });
@@ -163,11 +141,7 @@
             var liste = document.getElementById("Liste_" + id);
             liste.className = "";
         }
-    </script>
-
-
-<!--Script pour Modifier-->
-<script type="text/javascript">
+    /*Script pour Modifier*/
         function ModifierAuteur(id = "", nom = "") {
         fetch(BASE_URL+'/GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
                 method: 'POST',
@@ -181,10 +155,7 @@
                 document.getElementById("NomAuteur_" + id).innerText = document.getElementById(id + " " + nom).value;
             });
         }
-    </script>
-
-<!--Script pour la supprimation-->
-<script type="text/javascript">
+/*Script pour la supprimation*/
             function SupprimerAuteur(id = "") {
         fetch(BASE_URL+`/GestionAuteurs/SupprimerAuteur?id=${id}`, {
                 method: 'POST',
@@ -209,14 +180,3 @@
             });
         }
     </script>
-<!--Script pour la recherche-->
-@* <script type="text/javascript">
-        // ModalScript
-        function RechercherAuteur() {
-            console.log("Recherche commencée");
-            var motCle = document.getElementById("inputRechercherAuteur").value;
-            console.log("Mot entré: " + motCle);
-            window.location.href = `/GestionAuteurs/Index?motCle=${motCle}`;
-        }
-    </script>
- *@

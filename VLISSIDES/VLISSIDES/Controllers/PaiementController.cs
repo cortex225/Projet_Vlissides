@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using Stripe.Checkout;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -95,9 +96,18 @@ public class PaiementController : Controller
         // Récupere les données de LivrePanier basées sur l'identifiant de l'utilisateur
         var panierItems = _context.LivrePanier
             .Where(lp => lp.UserId == userId)
-            .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+            .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres).ThenInclude(livretypelivre => livretypelivre.TypeLivre)
             .ToList();
+            //Tax livre
 
+            var taxLivreOptions = new TaxRateCreateOptions
+            {
+                DisplayName = "TPS",
+                Inclusive = false,
+                Percentage = 5,
+            };
+            var taxLivreService = new TaxRateService();
+            var taxLivreRate = taxLivreService.Create(taxLivreOptions);
 
         var lineItems = panierItems.Select(item =>
         {

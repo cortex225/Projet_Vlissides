@@ -1,6 +1,7 @@
 ﻿/*--Accueil/Index------------------------------------------------------------------------------------------------------------------------*/
+
 #photoPageAccueilDiv {
-    background: url('../img/Hero-3.svg') no-repeat center center fixed;
+    background: url('../../img/Hero-3.svg') no-repeat center center fixed;
     background-size: cover;
     overflow: hidden;
     height: 90vh;
@@ -112,11 +113,11 @@
 }
 
 .cardServiceOffert {
+    min-width: 100px;
     width: 80%;
-    max-height: 100%;
-    min-height: 100%;
+    max-height: inherit!important;
+    min-height: inherit!important;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
 }
@@ -254,11 +255,66 @@
     background-color: #4e7fd0;
 !important;
 }
+.cardLivre {
+    height: 455px;
+}
+.categorie, .auteur, .titre {
+    max-height: 70px;
+    overflow-y: auto;
+}
+.titre {
+    max-height: 40px;
+}
+    .voirPlus {
+        margin: 0;
+        position: relative;
+        right: 0;
+    }
 
-@media (max-width: 768px) {
+@media only screen and (max-width: 1010px) {
     .cardServiceOffert {
         flex: 1 2 100%; /* Prendre toute la largeur disponible */
         max-width: 100%;
         margin-bottom: 20px; /* Espacement entre les cartes empilées */
     }
 }
+
+@media only screen and (max-width: 1360px) {
+    .cacher {
+        position: absolute !important;
+        visibility: hidden;
+        top: inherit;
+        right: inherit;
+    }
+}
+
+@media only screen and (max-width: 1010px) {
+    .cacher {
+        position: inherit !important;
+        visibility: inherit;
+    }
+
+    .cacher-3 {
+        position: absolute !important;
+        visibility: hidden;
+    }
+}
+
+@media (max-width: 1200px) {
+    .cacher-3 {
+        position: absolute !important;
+        visibility: hidden;
+    }
+}
+
+@media (max-width: 992px) {
+    .cacher-2 {
+        position: absolute !important;
+        visibility: hidden;
+    }
+}
+@media (max-width: 508px) {
+    .cacher-1 {
+        position: absolute !important;
+        visibility: hidden;
+    }

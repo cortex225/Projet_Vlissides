@@ -20,4 +20,7 @@ public class StripePaiementVM
     [DisplayName("Identifiant Adresse")] public string? AdresseId { get; set; }
 
     [DisplayName("Adresse Paiement")] public PaiementAdresseVM? PaiementAdresseVM { get; set; }
+
+    public string DonEcologie { get; set; }
+
 }

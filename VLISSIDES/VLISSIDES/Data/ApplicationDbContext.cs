@@ -44,7 +44,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
 
-    public DbSet<Panier> Paniers { get; set; }
+    public DbSet<Don> Dons { get; set; }
     public DbSet<LivrePanier> LivrePanier { get; set; }
 
     public DbSet<Adresse> Adresses { get; set; }
@@ -169,11 +169,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Id = "0",
             Nom = "ADMIN",
             Prenom = "Admin",
-            Email = "vlissides2023@gmail.com",
-            UserName = "admin1",
-            NormalizedEmail = "vlissides2023@gmail.com".ToUpper(),
-            NormalizedUserName = "admin1".ToUpper(),
-            EmailConfirmed = true
+            Email = "admin@admin.com",
+            UserName = "admin@admin.com",
+            NormalizedEmail = "admin@admin.com".ToUpper(),
+            NormalizedUserName = "admin@admin.com".ToUpper(),
+            EmailConfirmed = true,
+            IsBanned = false
         };
         //var adminHasher = password.HashPassword(UserAdmin, "Jaimelaprog1!");
         UserAdmin.PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
@@ -190,7 +191,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             NormalizedEmail = "employe@employe.com".ToUpper(),
             NormalizedUserName = "employe@employe.com".ToUpper(),
             EmailConfirmed = true,
-            AdressePrincipaleId = ""
+            AdressePrincipaleId = "",
+            IsBanned = false
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserEmploye.PasswordHash =
@@ -209,7 +211,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             NormalizedUserName = "membre@membre.com".ToUpper(),
             EmailConfirmed = true,
             DateAdhesion = DateTime.Now,
-            AdressePrincipaleId = ""
+            AdressePrincipaleId = "",
+            IsBanned = false
+
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserMembre.PasswordHash =

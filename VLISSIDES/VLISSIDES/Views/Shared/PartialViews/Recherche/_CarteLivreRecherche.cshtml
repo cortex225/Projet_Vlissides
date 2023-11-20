@@ -1,20 +1,41 @@
 ﻿@model VLISSIDES.ViewModels.Recherche.DetailsLivreVM;
 @{
-    var myURL = Context.Request.Host.Value;
+     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
 }
-
-<div class="item livrePetit livre" onclick="window.location.href=`/Recherche/Details?id=@Model.Id`">
-    <div class="card cardLivreSearch" style="width: 15.5rem; height: 33rem;">
+<div class="card divLivre mr-auto" onclick="window.location.href=`@BASE_URL_RAZOR`+`/Recherche/Details?id=@Model.Id`">
+    <div class="divIMG">
         @{
-            var couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
+            string couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
         }
-        <img src="@Html.Raw(couverture)"
-             class="card-img-top imgLivre"
-             alt="Couverture du livre" height="10"/>
-        <div class="card-body">
-            <h6 class="card-title">@Model.Titre</h6>
+        <img src="@Html.Raw(couverture)" class="card-img-top imgLivre" alt="Couverture du livre"  />
+    </div>
+    <div class="card-body">
+        <h1 class="card-title">@Model.Titre</h1>
+        <h2>Auteur(es) : </h2>
+        <div class=" d-flex justify-content-around auteur divAuteurs">
+            @foreach (var auteur in Model.Auteurs)
+            {
+                <a class="btn btn-secondary btnCategorie" asp-controller="Recherche" asp-action="Index" asp-route-motCles="@auteur" asp-route-criteres="auteur">
+                    @auteur
+                </a>
+            }
+        </div>
 
+        <h2>Catégorie(s) : </h2>
+        <div class=" d-flex justify-content-around divCategories">
+            @foreach (var categorie in @Model.Categories)
+            {
+                <p class="btn btn-secondary btnCategorie">
+                    <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@categorie" asp-route-criteres="categorie">@categorie</a>
+                </p>
+            }
+        </div>
+        <h2>Maison d'édition : </h2>
+        <div class="maisonEdition d-flex justify-content-around divMaison">
+            <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@Model.MaisonEdition" asp-route-criteres="maisonEdition" class="btn btn-secondary btnCategorie">@Model.MaisonEdition</a>
+        </div>
+        <div class="type d-flex justify-content-around divMedium">
             @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
             {
                 <p>
@@ -23,32 +44,16 @@
             }
             else
             {
-                <p>
-                    <strong>Prix</strong>
-                </p>
                 if (!Model.Papier.Equals(null))
                 {
-                    <p>Papier : @Model.Papier $</p>
+                    <div>Papier : @Model.Papier $</div>
                 }
                 if (!Model.Numerique.Equals(null))
                 {
-                    <p>Numérique :@Model.Numerique $</p>
+                    <div>Numérique : @Model.Numerique $</div>
                 }
             }
-
-            <partial name="../Accueil/_Etoiles.cshtml" model="@Model.Note"/>
-
-            <h6>Auteurs: </h6>
-            @foreach (var auteur in Model.Auteurs)
-            {
-                <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@auteur" asp-route-criteres="auteur" class="btn btn-secondary btnCategorie">@auteur</a>
-            }
-
-            <h6>Catégories reliées: </h6>
-            @foreach (var categorie in Model.Categories)
-            {
-                <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@categorie" asp-route-criteres="categorie" class="btn btn-secondary btnCategorie">@categorie</a>
-            }
         </div>
+        <p class="quantite">@Model.Quantite disponible</p>
     </div>
 </div>

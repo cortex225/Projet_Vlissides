@@ -243,7 +243,9 @@ public class StripeController : Controller
             Membre = customer,
             Evenement = evenement,
             Description = evenement.Description
-        };
+        PaymentIntentId = session.PaymentIntentId,
+                prixAchat = evenement.Prix,
+                EnDemandeAnnuler = false,};
         // Ajouter la réservation au contexte
         _context.Reservations.Add(reservation);
 

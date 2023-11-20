@@ -1,4 +1,7 @@
 
+p{
+    margin:0;
+}
 .event-card {
     display: flex;
     flex-direction: column; /* Organise le contenu verticalement */
@@ -152,7 +155,13 @@
     border-radius: 10px;
 }
 
-@media (max-width: 768px) {
+.sticker {
+    font-size: 14px;
+    padding: 5px 15px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (max-width: 1010px) {
     .event-card {
         width: 100%;
         height: auto; /* Changez la hauteur fixe en auto pour s'adapter au contenu */
@@ -175,10 +184,10 @@
         gap: 10px;
     }
 
-    .event-date-time .date, .event-date-time .discount-box {
-        width: 100%; /* Assurez-vous que la date et le rabais prennent toute la largeur */
-        text-align: center; /* Centrez le texte pour un meilleur rendu sur mobile */
-    }
+        .event-date-time .date, .event-date-time .discount-box {
+            width: 100%; /* Assurez-vous que la date et le rabais prennent toute la largeur */
+            text-align: center; /* Centrez le texte pour un meilleur rendu sur mobile */
+        }
 
     .sticker {
         position: static;
@@ -194,3 +203,8 @@
         margin-right: auto;
     }
 }
+@media only screen and (max-width: 767px) {
+    .badge {
+        top: 20px;
+    }
+} 

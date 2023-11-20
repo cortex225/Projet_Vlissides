@@ -1,31 +1,26 @@
-﻿:root {
-    /*couleur de la pallète*/
-    --c1: #dfe1da;
-    --c2: #788daa;
-    --c3: #415a77;
-    --c4: #1b263a;
-    --c5: #0e1b2b;
-}
-
-html {
+﻿html {
     font-size: 14px;
     font-family: "Inter", sans-serif;
 }
-
+/*
 @media (min-width: 768px) {
     html {
         font-size: 16px;
     }
 }
+*/
 
 
 body {
+    min-width:360px !important;
     margin-bottom: 60px;
     position: relative;
     background-color: #f8f4f1 !important;
     overflow-x: hidden;
 }
-
+li {
+    list-style-type: none;
+}
 header {
     background-color: #f8f4f1 !important;
 }

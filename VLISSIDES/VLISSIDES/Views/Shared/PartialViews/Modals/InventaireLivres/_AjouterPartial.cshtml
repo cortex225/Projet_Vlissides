@@ -58,28 +58,71 @@
                         <div>
                             <input id="cbNeuf" class="form-check-input" type="checkbox" asp-for="@Model.Neuf" onclick="ShowInputsNeuf()">
                             <label asp-for="@Model.Neuf"></label>
-                            <div id="inputsNeuf" class="visually-hidden">
-                                <div class="form-group">
-                                    <label asp-for="PrixNeuf" class="control-label"></label>
-                                    <input asp-for="PrixNeuf" type="number" class="form-control"/>
-                                    <span asp-validation-for="PrixNeuf" class="text-danger"></span>
+                            @if (Model.Neuf)
+                            {
+                                <div id="inputsNeuf" class="">
+                                    <div class="form-group">
+                                        <label asp-for="PrixNeuf" class="control-label"></label>
+                                        <input asp-for="PrixNeuf" type="number" class="form-control" />
+                                        <span asp-validation-for="PrixNeuf" class="text-danger"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="NbExemplaires" class="control-label"></label>
+                                        <input asp-for="NbExemplaires" type="number" class="form-control" />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label asp-for="NbExemplaires" class="control-label"></label>
-                                    <input asp-for="NbExemplaires" type="number" class="form-control"/>
+                            }
+                            else
+                            {
+                                <div id="inputsNeuf" class="visually-hidden">
+                                    <div class="form-group">
+                                        <label asp-for="PrixNeuf" class="control-label"></label>
+                                        <input asp-for="PrixNeuf" type="number" class="form-control"/>
+                                        <span asp-validation-for="PrixNeuf" class="text-danger"></span>
+                                    </div>
+                                    <div>
+                                        <label asp-for="NbExemplaires" class="control-label"></label>
+                                        <input asp-for="NbExemplaires" type="number" class="form-control"/>
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                         <div>
                             <input id="cbNumerique" class="form-check-input" type="checkbox" asp-for="@Model.Numerique" onclick="ShowInputNumerique()">
                             <label asp-for="@Model.Numerique"></label>
-                            <div id="inputNumerique" class="visually-hidden">
-                                <div class="form-group">
-                                    <label asp-for="PrixNumerique" class="control-label"></label>
-                                    <input asp-for="PrixNumerique" type="number" class="form-control"/>
-                                    <span asp-validation-for="PrixNumerique" class="text-danger"></span>
+                            @if (Model.Numerique)
+                            {
+
+                                <div id="inputNumerique" class="">
+                                    <div class="custom-file row">
+                                        <label asp-for="NumeriqueFile" class="control-label"></label>
+                                        <input asp-for="NumeriqueFile" type="file" class="custom-file-input col-6 my-3" id="customFile">
+                                        <span asp-validation-for="NumeriqueFile" class="text-danger"></span>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="PrixNumerique" class="control-label"></label>
+                                        <input asp-for="PrixNumerique" type="number" class="form-control" />
+                                        <span asp-validation-for="PrixNumerique" class="text-danger"></span>
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+
+                                <div id="inputNumerique" class="visually-hidden">
+                                    <div class="custom-file row">
+                                        <label asp-for="NumeriqueFile" class="control-label"></label>
+                                        <input asp-for="NumeriqueFile" type="file" class="custom-file-input col-6 my-3" id="customFile">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="PrixNumerique" class="control-label"></label>
+                                        <input asp-for="PrixNumerique" type="number" class="form-control"/>
+                                        <span asp-validation-for="PrixNumerique" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            }
                         </div>
 
                     </fieldset>
@@ -143,6 +186,17 @@
             div.className = "visually-hidden ml-2";
         }
     }
+    function AfficherLivres() {
+        fetch(BASE_URL + "/GestionLivres/Inventaire", {
+            method: "GET"
+        }).then((response) => {
+            return response.text();
+        }).then((result) => {
+            document.querySelector("body").innerHTML = result;
+            //document.getElementById("TabLivreListes").innerHTML = result;
+
+        });
+    }
     function AjouterLivre() {
         var form = document.getElementById("FormLivreAjouter");
         var data = new FormData(form);
@@ -173,14 +227,7 @@
             
         });
     };
-    function AfficherLivres() {
-        fetch(BASE_URL+"/GestionLivres/AfficherLivres", {
-            method: "GET"
-        }).then((response)=>{
-            return response.text();
-        }).then((result) => {
-            document.getElementById("TabLivreListes").innerHTML = result;
 
-        });
-    }
+    ShowInputsNeuf();
+    ShowInputNumerique();
 </script>

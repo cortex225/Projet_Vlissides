@@ -1,46 +1,41 @@
 @{
-    var myURL = Context.Request.Host.Value;
-    var BASE_URL_RAZOR = Url.Content("~");
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
 }
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0 px-4" id="navTop">
-    <div class="container-fluid">
-        <!-- Logo fourmi ailée. Ce logo permet de retourner à l'accueil -->
-        <a class="navbar-brand" asp-area="" asp-controller="Accueil" asp-action="Index">
-            <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" class="brand-logo"/>
-        </a>
+<link rel="stylesheet" href="~/css/NavBar/NavBarTop.css" />
+<nav class="navbar navbar-expand-sm container-fluid justify-content-between" id="navTop">
+    <!-- Logo fourmi ailée. Ce logo permet de retourner à l'accueil -->
+    <a id="IconeNavBar" asp-area="" asp-controller="Accueil" asp-action="Index">
+        <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" />
+    </a>
 
-        <!-- Barre de recherche -->
-        <div id="divRecherche" class="navbar-nav flex-grow-1 recherche-container">
-            <div class="input-group mb-3 recherche-group">
-                <div class="category-dropdown dropdown">
-                    <span class="selected-category">Trier par :</span>
-                    <select class="form-select recherche-select" id="dropdownRechercheNavbar">
-                        <option value="titre">Titre</option>
-                        <option value="auteur">Auteur</option>
-                        <option value="categorie">Catégorie</option>
-                    </select>
-                </div>
-                <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="if (event.key == 'Enter')Recherche()">
-                <div onclick="Recherche()">
-                    <button type="button" class="btn btn-secondary recherche-btn" style="width: 100%; height: 100%; border-radius: 10rem 25rem 25rem 10rem;">
-
-                        <i class="fa-solid fa-magnifying-glass fa-sm"></i>
-                    </button>
-
-                </div>
+    <!-- Barre de recherche -->
+    <div id="divRecherche" class="d-flex flex-wrap">
+        <div id="divOption" class="dropdown">
+            <label id="OptionLabel" for="dropdownRechercheNavbar" class="selected-category">Trier par :</label>
+            <select name="dropdownRechercheNavbar" class="form-select recherche-select" id="dropdownRechercheNavbar">
+                <option value="titre" selected onclick="OptionChoisieNavBar('Titre :')">Titre</option>
+                <option value="auteur" onclick="OptionChoisieNavBar('Auteur :')">Auteur</option>
+                <option value="categorie" onclick="OptionChoisieNavBar('Catégorie :')">Catégorie</option>
+            </select>
             </div>
-        </div>
-
-        <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
-        <partial name="_LoginPartial"/>
+        <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="if (event.key == 'Enter')Recherche()">
+        <button id="boutonRechercheNavBar" type="button" class="btn btn-secondary recherche-btn" onclick="RechercheNavBar()">
+            <i class="fa-solid fa-magnifying-glass fa-sm"></i>
+        </button>
     </div>
+
+    <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
+    <partial name="_LoginPartial" />
 </nav>
 <script>
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
-</script>
-<script>
-    function Recherche() {
-         window.location.href = BASE_URL
+
+    function OptionChoisieNavBar(option) {
+        document.getElementById("OptionLabel").innerHTML = option;
+    }
+    function RechercheNavBar() {
+        window.location.href = BASE_URL
             + "/Recherche/index?motCles=" + document.getElementById('barreRechercheNavbar').value
             + "&criteres=" + document.getElementById('dropdownRechercheNavbar').value;
     }

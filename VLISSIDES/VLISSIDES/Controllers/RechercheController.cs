@@ -25,7 +25,7 @@ public class RechercheController : Controller
     // GET: RechercheController
     //[Route("2147186/Recherche/Index")]
     //[Route("{controller}/{action}")]
-    public ActionResult Index(string? motCles, string? criteres)
+    public ActionResult Index(string? motCles, string? criteres, int page = 1)
     {
         var listMotCles = new List<string>();
         if (motCles != null) listMotCles = motCles.Split('|').ToList();
@@ -33,11 +33,13 @@ public class RechercheController : Controller
         var listCriteres = new List<string>();
         if (criteres != null) listCriteres = criteres.Split('|').ToList();
 
-        var TousLesLivres = _context.Livres.ToList();
+        var livres = _context.Livres.ToList();
+        var auteurs = _context.Auteurs.ToList();
+        var maisonEditions = _context.MaisonEditions.ToList();
 
-        var listCategories = _context.Categories.ToList();
-        var listLangues = _context.Langues.ToList();
-        var listTypeLivres = _context.TypeLivres.ToList();
+        var categories = _context.Categories.ToList();
+        var langues = _context.Langues.ToList();
+        var typeLivres = _context.TypeLivres.ToList();
 
         List<Livre> livresRecherches;
 
@@ -133,8 +135,15 @@ public class RechercheController : Controller
             livresRecherches = livresRecherches
                 .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                 .ToList();
-
-        return View(new IndexRechercheVM(motCles, livresRecherches, listCategories, listLangues, listTypeLivres));
+        var itemsPerPage = 12;
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = Math.Ceiling((double)livresRecherches.Count / itemsPerPage);
+        return View(new IndexRechercheVM(motCles, criteres, livresRecherches
+            .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions, categories, langues, typeLivres));
     }
 
     // GET: RechercheController
@@ -160,6 +169,6 @@ public class RechercheController : Controller
         return View(new DetailsLivreVM(livre.Id, livre.Titre, livre.LivreAuteurs.Select(la => la.Auteur),
             livre.Categories.Select(lc => lc.Categorie), livre.Evaluations.Select(lc => lc.Note), livre.DatePublication,
             livre.Couverture, livre.MaisonEdition,
-            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres, livre.ISBN, livre.Langue.Nom));
+            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres, livre.NbExemplaires));
     }
 }

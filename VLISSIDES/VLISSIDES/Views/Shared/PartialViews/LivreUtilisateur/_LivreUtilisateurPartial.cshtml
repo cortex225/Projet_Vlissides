@@ -1,16 +1,45 @@
 ﻿@model VLISSIDES.ViewModels.LivreUtilisateur.LivreUtilisateurIndexVM
 @{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 <div class="conteneurLU card mb-3">
     <div class="row g-0">
         <div class="col-md-3 divIMG_LU">
-            <img src="@Model.Couverture" alt="Couverture de @Model.Titre" class="card-img-left imgLU">
+            @{
+                string couverture = string.Concat(BASE_URL_RAZOR, @Model.Couverture);
+            }
+            <img src="@Html.Raw(couverture)" alt="Couverture de @Model.Titre" class="card-img-left imgLU">
         </div>
         <div class="col-md-9">
             <div class="card-body">
                 <div class="card-lu card-lu-download-titre">
-                    <h5>@Model.Titre</h5>
-                    <i class="fa-solid fa-file-arrow-down fa-2x" style="color: #358bff;"></i>
+                    
+                        <div class="col-8">
+                            <h5>@Model.Titre</h5>
+                        </div>
+                        <div class="col-4 ">
+                            @{
+                                string pdf = string.Concat(BASE_URL_RAZOR, @Model.NumeriqueURL);
+                            }
+                            @if (Model.DateCommande.AddDays(7) >= DateTime.Now)
+                            {
+
+                                <a href="@Html.Raw(pdf)" download >
+                                <i class="fa-solid fa-file-arrow-down fa-2x float-end" style="color: #358bff;"></i>
+                                </a>
+                            }
+                            else
+                            {
+                            <h6 class="text-danger float-end">Délai de téléchargement dépassé</h6>
+                            }
+                        </div>
+                    
+                    
+                   
+
+                    
+                   
                 </div>
                 <div class="card-lu card-lu-btn-rating">
                     @if (Model.monEvaluation == null)

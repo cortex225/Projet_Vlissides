@@ -68,12 +68,31 @@ public class PanierController : Controller
         var prixtotal = listeArticleVM.Sum(item =>
             item.Quantite != null ? (double)item.Quantite * item.PrixApresPromotion : item.PrixApresPromotion);
 
-        // Créer le ViewModel du panier et lui assigner la liste des articles et le prix total
-        var panier = new PanierVM
-        {
-            ListeArticles = listeArticleVM,
-            PrixTotal = prixtotal
-        };
+            var panier = new PanierVM
+            {
+                ListeArticles = listeArticleVM,
+                PrixTotal = prixtotal
+
+            };
+            //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
+            Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
+            if (don != null)
+            {
+                switch (don.Nom)
+                {
+                    case "Vent Verdure et Plantation":
+                        panier.PremierChoixDon = true;
+
+                        break;
+                    case "Écosystème et Pérennité":
+                        panier.DeuxiemeChoixDon = true;
+                        break;
+                    case "Un arbre à la fois":
+                        panier.TroisiemeChoixDon = true;
+                        break;
+                }
+            }
+            await NbArticles();
 
         // Retourner la vue avec le ViewModel du panier
         return View(panier);
@@ -138,13 +157,30 @@ public class PanierController : Controller
         var prixtotal = listeArticleVM.Sum(item =>
             item.Quantite != null ? (double)item.Quantite * item.PrixApresPromotion : item.PrixApresPromotion);
 
-        var panier = new PanierVM
-        {
-            ListeArticles = listeArticleVM,
-            PrixTotal = prixtotal
-        };
+            var panier = new PanierVM
+            {
+                ListeArticles = listeArticleVM,
+                PrixTotal = prixtotal
 
-        return PartialView("PartialViews/Panier/_FacturePartial", panier);
+            };
+            //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
+            Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
+            if (don != null)
+            {
+                switch (don.Nom)
+                {
+                    case "Vent Verdure et Plantation":
+                        panier.PremierChoixDon = true;
+
+        break;
+                    case "Écosystème et Pérennité":
+                        panier.DeuxiemeChoixDon = true;
+                        break;
+                    case "Un arbre à la fois":
+                        panier.TroisiemeChoixDon = true;
+                        break;
+                }
+            }return PartialView("PartialViews/Panier/_FacturePartial", panier);
     }
 
     [HttpPost]
@@ -400,18 +436,83 @@ public class PanierController : Controller
         if (promotion.MaisonEditionId != null && article.Livre.MaisonEditionId != promotion.MaisonEditionId)
             return false;
 
-        // Si toutes les vérifications sont passées ou si aucun critère n'est spécifié, l'article est éligible
-        return true;
-    }
+            return (promotion.CategorieId == null ||
+                    promotion.CategorieId == item.Livre.Categories.FirstOrDefault()?.CategorieId) &&
+                   (promotion.AuteurId == null ||
+                    promotion.AuteurId == item.Livre.LivreAuteurs.FirstOrDefault()?.AuteurId) &&
+                   (promotion.MaisonEditionId == null || promotion.MaisonEditionId == item.Livre.MaisonEditionId);
+        }
+        [HttpGet]
+        public async Task<int> NbArticles()
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var NbArticles = await _context.LivrePanier
+                .Where(a => a.UserId == currentUserId)
+                .SumAsync(a => a.Quantite ?? 1);
+            return NbArticles;
+        }
 
+        [HttpGet]
+        public IActionResult PasserAuPaiement(string numero)
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
+            if (don == null)
+            {
+                //Ajout si don est null
+                switch (numero)
+                {
+                    case "1":
+                        don = new Don()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Nom = "Vent Verdure et Plantation",
+                            Montant = 5.00,
+                            UserId = currentUserId,
+                        };
+                        _context.Dons.Add(don);
+                        _context.SaveChanges();
+                        break;
+                    case "2":
+                        don = new Don()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Nom = "Écosystème et Pérennité",
+                            Montant = 5.00,
+                            UserId = currentUserId,
+                        };
+                        _context.Dons.Add(don);
+                        _context.SaveChanges();
+                        break;
+                    case "3":
+                        don = new Don()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Nom = "Un arbre à la fois",
+                            Montant = 5.00,
+                            UserId = currentUserId,
+                        };
+                        _context.Dons.Add(don);
+                        _context.SaveChanges();
+                        break;
+                    default:
+                        don = null;
+                        break;
+                }
 
-    [HttpGet]
-    public async Task<int> NbArticles()
-    {
-        var currentUserId = _userManager.GetUserId(HttpContext.User);
-        var NbArticles = await _context.LivrePanier
-            .Where(a => a.UserId == currentUserId)
-            .SumAsync(a => a.Quantite ?? 1);
-        return NbArticles;
+            }
+            else
+            {//Modification quand don n'est pas nulle
+                switch (numero)
+                {
+                    case "1": don.Nom = "Vent Verdure et Plantation"; break;
+                    case "2": don.Nom = "Écosystème et Pérennité"; break;
+                    case "3": don.Nom = "Un arbre à la fois"; break;
+                    default: _context.Dons.Remove(don); break;
+                }
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index", "Paiement");
+        }
     }
 }

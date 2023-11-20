@@ -88,7 +88,7 @@
                 <h5>Statut</h5>
             </div>
             <div class="col-2 d-flex justify-content-center">
-                
+
                 <div class="mediaQuerryHideOnMediumSmall w-50">
                     @* Espace vide pour i*@
                 </div>
@@ -97,7 +97,7 @@
                 </div>
 
             </div>
-            
+
         </div>
     </div>
 
@@ -137,7 +137,7 @@
 </script>
 
 <script type="text/javascript">
-        async function applyFilter(ev) {
+    async function applyFilter(ev) {
         ev.preventDefault();
 
         listeCommandesDiv = document.getElementById("commandesListe");
@@ -173,10 +173,10 @@
         }).then((data) => {
             listeCommandesDiv.innerHTML = data;
         })
-        .catch(error => {
-            // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la récupération de la liste des auteurs', error);
-        });
+            .catch(error => {
+                // Affiche une erreur dans la console en cas d'échec de la requête
+                console.error('Erreur lors de la récupération de la liste des auteurs', error);
+            });
     }
 
     function collapse(commandeId = "") {

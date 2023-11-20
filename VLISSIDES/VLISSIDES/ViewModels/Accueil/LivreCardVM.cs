@@ -7,17 +7,28 @@ namespace VLISSIDES.ViewModels.Accueil;
 
 public class LivreCardVM
 {
-    public LivreCardVM(string couverture = "", string titre = "", decimal prix = 0, Auteur auteurs = default!,
-        Categorie categories = default!)
+
+    [DisplayName("Page couverture")] public string Couverture { get; set; }
+
+    [DisplayName("Titre")] public string Titre { get; set; }
+
+    [DisplayName("Prix")] public decimal Prix { get; set; }
+
+    [DisplayName("Auteurs")] public List<string> Auteurs { get; set; }
+
+    [DisplayName("Score")] public double Score { get; set; }
+
+    [DisplayName("Catégories associés")] public List<string> Categories { get; set; }
+    public LivreCardVM(string couverture = "", string titre = "", decimal prix = 0, List<Auteur> auteurs = default!,
+        List<Categorie> categories = default!)
     {
         //auteurs ??= new List<Auteur>();
         //categories ??= new List<Categorie>();
         Couverture = couverture;
         Titre = titre;
         Prix = prix;
-        Auteurs = auteurs?.NomAuteur;
-
-        Categorie = categories?.Nom;
+        Auteurs = auteurs.Select(a => a.NomAuteur).ToList();
+        Categories = categories.Select(c => c.Nom).ToList();
     }
 
     public LivreCardVM(string v, Livre livre)
@@ -26,23 +37,8 @@ public class LivreCardVM
         Couverture = livre.Couverture;
         Titre = livre.Titre;
         Prix = livre.LivreTypeLivres.FirstOrDefault().Prix;
-        Auteurs = "";
-        livre.LivreAuteurs.ForEach(a => Auteurs += a.Auteur.NomAuteur + ", ");
-        Score = (int)livre.Evaluations.Select(evaluation => evaluation.Note).Average();
-
-        Categorie = "";
-        Categorie += livre.Categories.Select(lc => lc.Categorie.Nom);
+        Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
+        Score = (int)livre.Note;
+        Categories = livre.Categories.Select(lc => lc.Categorie.Nom).ToList();
     }
-
-    [DisplayName("Page couverture")] public string Couverture { get; set; }
-
-    [DisplayName("Titre")] public string Titre { get; set; }
-
-    [DisplayName("Prix")] public decimal Prix { get; set; }
-
-    [DisplayName("Auteurs")] public string Auteurs { get; set; }
-
-    [DisplayName("Score")] public double Score { get; set; }
-
-    [DisplayName("Catégories associés")] public string Categorie { get; set; }
 }

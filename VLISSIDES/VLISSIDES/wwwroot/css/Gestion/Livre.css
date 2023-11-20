@@ -1,0 +1,42 @@
+﻿
+#rechercheRapide > *, #filtreBTN {
+    width: fit-content;
+}
+#rechercheRapide, #filtreBTN, #btnAjouterLivre {
+    margin: 16px;
+}
+
+#filtre {
+    width: fit-content;
+    margin: 18px;
+    padding: 12px;
+    overflow-y: auto;
+}
+
+#filtre > * {
+    margin: 6px;
+}
+
+#fermeFiltre{
+    position:absolute;
+    top:12px;
+    right:12px;
+}
+@media only screen and (max-width: 880px) {
+    .cacher-2 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media only screen and (max-width: 590px) {
+    .cacher-5 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .cacher-1 {
+        position: absolute !important;
+        visibility: hidden !important;
+    }
+}

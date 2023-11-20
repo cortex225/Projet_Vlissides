@@ -76,4 +76,8 @@ public class AjouterVM
     public string? CoverImageUrl { get; set; }
 
     [Display(Name = "Image du livre")] public IFormFile? CoverPhoto { get; set; }
+
+    //PDF pour livre numérique
+    public string? NumeriqueUrl { get; set; }
+    [Display(Name = "Fichier numérique")] public IFormFile? NumeriqueFile { get; set; }
 }
