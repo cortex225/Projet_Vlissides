@@ -6,7 +6,9 @@
 
     var rating = ratingAvantModif.ToString("0.0", CultureInfo.InvariantCulture);
 }
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
 <div class="star-et-nombre-container-lu">
     <div class="star-container-lu">
@@ -52,6 +54,7 @@
         font-size: var(--star-size-lu);
         top: 5.2px;
         left: 2.5px;
+        font-family: 'Roboto', sans-serif;
         &::before
 
     {
@@ -70,10 +73,9 @@
         font-size: var(--star-size-o-lu);
         top: 0;
         left: 0;
+        font-family: 'Roboto', sans-serif;
         &::before
-
     {
-        /*content: '☆☆☆☆☆';*/
         content: '★★★★★';
         letter-spacing: 21px;
         background: var(--star-background-lu);
