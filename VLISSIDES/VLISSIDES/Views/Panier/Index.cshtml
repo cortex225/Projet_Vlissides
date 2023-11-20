@@ -24,11 +24,11 @@
         <div class="row">
             <div class="col">
                 <h3 class="text-center">Articles</h3>
-                @foreach(var item in Model.ListeArticles)
+                @foreach (var item in Model.ListeArticles)
                 {
-                    <partial name="../Shared/PartialViews/Panier/_PanierItem.cshtml" model="@item" />
+                    <partial name="../Shared/PartialViews/Panier/_PanierItem.cshtml" model="@item"/>
                 }
-                
+
             </div>
 
             <div class="col">
@@ -42,7 +42,7 @@
                     <button class="btn btn-primary" onclick="PasserAuPaiement()">Passer à la commande</button>
                 </div>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 
@@ -90,11 +90,10 @@
             div.innerHTML = result;
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la récupération de la liste des maisons d\'édition', error);
+            console.error('Erreur lors de la récupération de la liste des articles', error);
         });
     }   
-    
-    AfficherFacture();
+
     changerPrixDon();
 </script>
 
@@ -185,7 +184,7 @@ $(document).ready(function () {
                 }
             }
         }
-        
+
         console.log(selectedValue);
         fetch(BASE_URL + "/Panier/PasserAuPaiement?numero=" + selectedValue, {
             method: "GET",

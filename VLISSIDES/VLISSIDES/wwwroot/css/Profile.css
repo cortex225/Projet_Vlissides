@@ -13,21 +13,21 @@
 }
 
 .nav-item {
-    transition: background-color 0.3s ease!important; /* Transition douce */
+    transition: background-color 0.3s ease !important; /* Transition douce */
 }
 
 .nav-item:hover {
-    background-color: #f8f9fa!important; /* Couleur de fond au survol */
+    background-color: #f8f9fa !important; /* Couleur de fond au survol */
 }
 
 .nav-link {
     color: #495057; /* Couleur du texte */
-    transition: color 0.3s ease!important; /* Transition douce */
+    transition: color 0.3s ease !important; /* Transition douce */
     cursor: pointer;
 }
 
 .nav-link:hover {
-    color: #007bff!important; /* Couleur du texte au survol */
+    color: #007bff !important; /* Couleur du texte au survol */
 }
 
 /* Styles pour les icônes */
@@ -37,7 +37,7 @@
 }
 
 .fa-solid:hover {
-    color: #007bff!important; /* Couleur des icônes au survol */
+    color: #007bff !important; /* Couleur des icônes au survol */
 }
 
 /* Styles pour les titres */
@@ -99,7 +99,7 @@ h5 {
     border: none;
     border-radius: 20px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    overflow-y: auto ;
+    overflow-y: auto;
     transition: all 0.3s ease;
     padding: 20px;
     max-width: 100%;

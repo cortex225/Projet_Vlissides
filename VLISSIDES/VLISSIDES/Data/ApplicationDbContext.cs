@@ -60,10 +60,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #region configuration
 
-
-
-
-
         // Configuration des entités
         builder.ApplyConfiguration(new StatutCommandeConfiguration());
         builder.ApplyConfiguration(new TypeLivreConfiguration());
@@ -145,6 +141,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lc => lc.Commande)
             .WithMany(c => c.LivreCommandes)
             .HasForeignKey(lc => lc.CommandeId);
+
         #endregion
 
         #region Livre Panier
@@ -160,6 +157,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(lp => lp.User)
             .WithMany(p => p.Panier)
             .HasForeignKey(lp => lp.UserId);
+
         #endregion
 
         #region ApplicationUser
@@ -276,18 +274,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #endregion
 
         #region Promotion
+
         //Une promotion peut avoir une seule maison d'édition et une maison d'édtion peut avoir plusieurs promotions
         builder.Entity<Promotions>()
             .HasOne(p => p.MaisonEdition)
             .WithMany(me => me.Promotions);
         //Une promotion peut avoir un seul auteur et un auteur peut avoir plusieurs promotions
         builder.Entity<Promotions>()
-           .HasOne(p => p.Auteur)
+            .HasOne(p => p.Auteur)
             .WithMany(a => a.Promotions);
         //Une promotion peut avoir une seule categorie et une categorie peut avoir plusieurs promotions
         builder.Entity<Promotions>()
             .HasOne(p => p.Categorie)
             .WithMany(c => c.Promotions);
+
         #endregion
     }
 }

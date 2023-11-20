@@ -8,11 +8,16 @@ public class Promotions
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string Id { get; set; }
 
-    [Display(Name = "Nom de la promotion")] public string Nom { get; set; }
+    [Display(Name = "Nom de la promotion")]
+    public string Nom { get; set; }
+
     [Display(Name = "Description")] public string Description { get; set; }
-    
-    [Display(Name = "D�but de la promotion")] public DateTime DateDebut { get; set; }
-    [Display(Name = "Fin de la promotion")] public DateTime DateFin { get; set; }
+
+    [Display(Name = "D�but de la promotion")]
+    public DateTime DateDebut { get; set; }
+
+    [Display(Name = "Fin de la promotion")]
+    public DateTime DateFin { get; set; }
 
     public string? Image { get; set; }
 
@@ -32,7 +37,8 @@ public class Promotions
     [Display(Name = "Livres � acheter")] public int? LivresAcheter { get; set; }
     [Display(Name = "Livres gratuits")] public int? LivresGratuits { get; set; }
 
-    [Display(Name = "Pourcentage du rabais")] public int? PourcentageRabais { get; set; }
+    [Display(Name = "Pourcentage du rabais")]
+    public int? PourcentageRabais { get; set; }
 
     [Display(Name = "Code promo")] public string CodePromo { get; set; }
 }

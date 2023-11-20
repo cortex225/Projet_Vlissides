@@ -1,8 +1,7 @@
-﻿namespace VLISSIDES.ViewModels.GestionEvenements
+﻿namespace VLISSIDES.ViewModels.GestionEvenements;
+
+public class GestionEvenementSupprimerVM
 {
-    public class GestionEvenementSupprimerVM
-    {
-        public string Id { get; set; }
-        public string Nom { get; set; }
-    }
+    public string Id { get; set; }
+    public string Nom { get; set; }
 }

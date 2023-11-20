@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using VLISSIDES.ViewModels.Panier;
-using VLISSIDES.ViewModels.Profile;
 
 namespace VLISSIDES.ViewModels.Paiement;
 

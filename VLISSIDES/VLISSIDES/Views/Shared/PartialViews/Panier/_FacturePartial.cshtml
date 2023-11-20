@@ -1,78 +1,60 @@
-﻿@using System.Globalization;
-@using VLISSIDES.ViewModels.Panier;
+﻿@using System.Globalization
+<link rel="stylesheet" href="~/css/facture.css" />
+
 @{
     float prixDonEco = 5;
     string prixtotal = (Model.PrixTotal + 5).ToString("n", new CultureInfo("fr-CA"));
 
 }
-@model VLISSIDES.ViewModels.Panier.PanierVM
+
 <div id="articlesPrix" class="p-4">
     @foreach (var article in Model.ListeArticles)
     {
-        <div class="d-flex justify-content-between">
+        <div class="article d-flex justify-content-between">
             <div class="w-75">@article.Livre.Titre - @article.TypeLivre.Nom</div>
             <ul class="w-25" style="list-style:none">
-                @if (article.Quantite is not null) @* When acrticle type is Papier *@
+                @if (article.Quantite is not null) @* When article type is Papier *@
                 {
                     @for (var quantite = 0; quantite < article.Quantite; quantite++)
                     {
-                        <li class="float-end">@article.Prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</li>
+                        <li class="float-end" >
+                            <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                        </li>
                     }
                 }
-                else @* When acrticle type is numérique  *@
+                else @* When article type is numérique *@
                 {
-                    <li class="float-end">@article.Prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</li>
+                    <li class="float-end">
+                        <div class="prix-original">@article.Prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                        <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                    </li>
                 }
-
             </ul>
         </div>
     }
 
     <div class="d-flex justify-content-between mt-4">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="cbDonEco" checked="checked" onclick="changerPrixDon()" >
+            <input class="form-check-input" type="checkbox" value="" id="cbDonEco" checked="checked" onclick="changerPrixDon()" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             <label class="form-check-label" for="cbDonEco">
                 Don pour écologie
             </label>
-            <div class="mx-4" id="collapseDon">
+            <div class="collapse show mx-4" id="collapseExample">
                 <div>
-                    @if (Model.PremierChoixDon) {
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" checked>
-                    }
-                    else
-                    {
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1">
-                    }
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
                     <label class="form-check-label" for="flexRadioDefault1">
                         Vent Verdure et Plantation
                     </label>
                 </div>
                 <div>
-
-                    @if (Model.DeuxiemeChoixDon)
-                    {
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" Selected="@Model.DeuxiemeChoixDon" checked>
-                    }
-                    else
-                    {
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" Selected="@Model.DeuxiemeChoixDon">
-                    }
-                    
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
                     <label class="form-check-label" for="flexRadioDefault2">
                         Écosystème et Pérennité
                     </label>
                 </div>
                 <div>
-                    @if (Model.TroisiemeChoixDon)
-                    {
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="3" Selected="@Model.TroisiemeChoixDon" checked>
-                    }
-                    else
-                    {
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="3" Selected="@Model.TroisiemeChoixDon">
-                        
-                    }
-                    
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
                     <label class="form-check-label" for="flexRadioDefault3">
                         Un arbre à la fois
                     </label>
@@ -93,7 +75,7 @@
     <button id="ajouterCodePromo" type="button" class="btn btn-light" onclick=" AfficherFieldCodePromo()">Ajouter un code promotionnel</button>
     <form class="d-flex hideInputCodePromo" role="search" id="inputCodePromoDiv">
         <input id="inputCodePromo" class="form-control me-2" type="search" placeholder="Code promo ici:" aria-label="Search">
-        <button id="submitCodePromo" class="btn btn-primary" type="submit">Ajouter</button>
+        <button id="submitCodePromo" class="btn btn-primary" type="button" onclick="validerEtAppliquerCodePromo()">Ajouter</button>
     </form>
 </div>
 
@@ -112,18 +94,49 @@
     </div>
 </div>
 
-@section Scripts
-{
-   <script>
-           var codePromo = document.getElementById("codePromo").value;
-           if (codePromo.length >= 5) {
-               document.getElementById("btnAppliquerCodePromo").style.display = "block";
-           }
-           else {
-               document.getElementById("btnAppliquerCodePromo").style.display = "none";
-           }
+<script>
+function validerEtAppliquerCodePromo() {
+    var codePromo = document.getElementById('inputCodePromo').value;
 
-   </script>
+    fetch(BASE_URL + '/Panier/ValiderCodePromo?codePromo=' + codePromo, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ codePromo: codePromo })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && data.isValid) {
+            // Mise à jour du total du panier
+            var prixTotalElement = document.getElementById('prixTotal');
+            if (prixTotalElement) {
+                prixTotalElement.innerText = data.nouveauTotal;
+            }
+            // Attende la mise à jour de la facture avant de modifier le DOM
+            AfficherFacture();
+
+           var articles = document.querySelectorAll(".article");
+                           articles.forEach(article => {
+                               var prixOriginal = article.querySelector(".prix-original");
+                               var prixPromo = article.querySelector(".prix-promo");
+
+
+                                   prixOriginal.classList.add("prix-barre");
+                                   prixPromo.style.display = "block";
+
+
+
+
+                       });
+        } else {
+            // Affiche un message d'erreur
+            alert("Code promo invalide ou expiré.");
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la validation du code promo', error);
+    });
 }
 
-
+</script>

@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Categories;
 
 namespace VLISSIDES.Controllers;
+
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionCategoriesController : Controller
 {
@@ -49,7 +50,7 @@ public class GestionCategoriesController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        return View(liste.Select(c => new CategoriesIndexVM()
+        return View(liste.Select(c => new CategoriesIndexVM
         {
             Id = c.Id,
             Nom = c.Nom,

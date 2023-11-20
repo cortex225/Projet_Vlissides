@@ -1,0 +1,8 @@
+﻿.prix-barre {
+    text-decoration: line-through !important;
+    color: grey !important;
+}
+
+.prix-promo {
+    color: red !important;
+}

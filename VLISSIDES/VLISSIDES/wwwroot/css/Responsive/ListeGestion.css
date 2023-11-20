@@ -1,0 +1,9 @@
+﻿@media only screen and (max-width: 500px) {
+    .listeSujet {
+        width: 100% !important;
+    }
+}
+
+.listeSujet {
+    width: 50%;
+}

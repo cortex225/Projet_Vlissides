@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionAuteurs;
 
 namespace VLISSIDES.Controllers;
+
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionAuteursController : Controller
 {
@@ -29,7 +30,7 @@ public class GestionAuteursController : Controller
 
         var vm = new AuteursIndexVM();
         vm.AuteursAjouterVM = new AuteursAjouterVM { NomAuteur = "" };
-        List<Auteur> auteurs = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre)
+        var auteurs = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre)
             .Include(la => la.Livres)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
             .Take(itemsPerPage)
@@ -51,7 +52,8 @@ public class GestionAuteursController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
 
-        vm.AuteursAfficherVM = auteurs.Select(a => new AuteursAfficherVM() { Id = a.Id, Nom = a.NomAuteur, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList();
+        vm.AuteursAfficherVM = auteurs.Select(a => new AuteursAfficherVM
+            { Id = a.Id, Nom = a.NomAuteur, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList();
 
         return View(vm);
     }
@@ -63,7 +65,6 @@ public class GestionAuteursController : Controller
 
     public async Task<IActionResult> AfficherListe(string? motCle, int page = 1)
     {
-
         var itemsPerPage = 10;
         var totalItems = await _context.Auteurs.CountAsync();
 
@@ -86,7 +87,9 @@ public class GestionAuteursController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial", auteurs.Select(a => new AuteursAfficherVM() { Id = a.Id, Nom = a.NomAuteur, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList());
+        return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial",
+            auteurs.Select(a => new AuteursAfficherVM
+                { Id = a.Id, Nom = a.NomAuteur, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList());
     }
 
     //AJOUTER

@@ -9,7 +9,7 @@
     <link href="~/css/profile-avatar.css" rel="stylesheet" asp-append-version="true"/>
 </head>
 <form id="updateProfileForm" method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="ModifierInformation">
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Id"/>
 
     @Html.AntiForgeryToken()
 
@@ -20,12 +20,11 @@
             <div class="col-sm col-4 position-relative">
                 <div class="avatar avatar-xxl rounded-circle shadow-sm avatar-profile">
                     @{
-                        
-                    string couverture = string.Concat(BASE_URL_RAZOR, Model.CoverImageUrl);
-                
+                        var couverture = string.Concat(BASE_URL_RAZOR, Model.CoverImageUrl);
+
                         <img src="@Html.Raw(couverture)" alt="User Photo" class="avatar-image">
 
-                        
+
 
                     }
                     <div class="avatar-overlay" onclick="triggerFileInput()">
@@ -36,23 +35,20 @@
             </div>
 
 
-
-
             <div class="col-sm-auto col-8 my-auto">
                 <div class="h-100">
                     <h5 class="mb-1 font-weight-bolder">
                         @UserManager.GetUserAsync(User).Result.UserName
                     </h5>
                     <p class="mb-0 font-weight-normal text-sm">
-                        
+
                     </p>
                 </div>
             </div>
 
 
-
         </div>
-        @Html.ValidationSummary(false,"",new{@class="text-danger"})
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
         <div class="card mt-4" id="basic-info">
             <div class="card-header">
@@ -65,7 +61,7 @@
                             <label asp-for="Prenom" class="control-label"></label>
                             <input asp-for="Prenom" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Prenom)"
                                    onfocus="focused(this)" onfocusout="defocused(this)">
-                            
+
                         </div>
                     </div>
                     <div class="col">
@@ -73,7 +69,7 @@
                             <label asp-for="Nom" class="control-label"></label>
                             <input asp-for="Nom" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Nom)"
                                    onfocus="focused(this)" onfocusout="defocused(this)">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -102,7 +98,7 @@
 
                                     <input asp-for="DateNaissance" class="form-control datetimepicker" type="datetime-local"
                                            onfocus="focused(this)" onfocusout="defocused(this)"/>
-                                    
+
                                 </div>
 
                             </div>
@@ -169,19 +165,19 @@
                         </div>
                     } *@
                     <div class="row mt-4">
-                                        <div class="col-md">
-                                            <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="button" onclick="ProfileInformationEnregistrer()">
-                                                Enregistrer les changements
-                                            </button>
-                                        </div>
-                                    </div>
+                        <div class="col-md">
+                            <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="button" onclick="ProfileInformationEnregistrer()">
+                                Enregistrer les changements
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
 </form>
-   <script>
+<script>
     function ProfileInformationEnregistrer(){
         var form = document.getElementById("updateProfileForm");
         var data = new FormData(form);
@@ -196,8 +192,8 @@
             
         });
     }
-</script>  
- <script>
+</script>
+<script>
   function triggerFileInput() {
       document.getElementById("customFile").click();
   }
@@ -239,4 +235,3 @@
         });
 
 </script>
-
