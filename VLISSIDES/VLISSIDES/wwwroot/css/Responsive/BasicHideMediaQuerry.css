@@ -22,7 +22,7 @@
     }
 }
 
-@media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 1200px) {
     .mediaQuerryHideOnMedium-MediumLarge {
         display: none !important;
     }
