@@ -343,7 +343,26 @@ namespace VLISSIDES.Controllers
                 return Ok();
             }
         }
-
+        public IActionResult ShowBanMembre(string id)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var vm = new GestionComptesBanVM()
+            {
+                Id = user.Id,
+                Username = user.UserName,
+            };
+            return PartialView("PartialViews/Modals/Comptes/_BanMemberPartial", vm);
+        }
+        public IActionResult ShowUnbanMembre(string id)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var vm = new GestionComptesBanVM()
+            {
+                Id = user.Id,
+                Username = user.UserName,
+            };
+            return PartialView("PartialViews/Modals/Comptes/_UnbanMemberPartial", vm);
+        }
         [HttpPost]
         public async Task<IActionResult> BanMembre(string id)
         {
