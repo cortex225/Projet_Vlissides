@@ -1,4 +1,12 @@
-﻿@media only screen and (max-width: 1100px){
+﻿@media only screen and (max-width: 490px) {
+    #filtreBTNDiv {
+        width: 30% !important;
+    }
+    #ajouterLivreBTNDiv {
+        width: 70% !important;
+    }
+}
+@media only screen and (max-width: 1100px){
     .divEditDelete {
         display: flex !important;
         flex-direction: column !important;
@@ -8,6 +16,14 @@
     #filtreBTN {
         display: block !important;
     }
+}
+
+#filtreBTNDiv {
+    width: 16%;
+}
+
+#ajouterLivreBTNDiv {
+    width: 84%;
 }
 
 #filtreBTN {
