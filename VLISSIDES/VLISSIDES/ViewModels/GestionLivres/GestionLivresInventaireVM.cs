@@ -8,4 +8,6 @@ public class GestionLivresInventaireVM
     public List<Categorie> ListeCategories { get; set; }
     public List<Langue> ListeLangue { get; set; }
     public List<TypeLivre> ListeTypeLivres { get; set; }
+    public List<Auteur> ListeAuteurs { get; set; }
+    public List<MaisonEdition> ListeMaisonEditions { get; set; }
 }

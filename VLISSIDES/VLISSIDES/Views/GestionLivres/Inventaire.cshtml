@@ -27,106 +27,207 @@
 
 <!-- Barre latérale coulissante -->
 <partial name="PartialViews/Dashboard/_SideBarPartial"/>
+    @*  ============================================================================= *@
+    @*  ============================================================================= *@
+    @*  ============================================================================= *@
+    @* Table *@    
+       <div class="d-block p-3 col">
 
+        <div class="text-center mb-4">
+            <h1>Inventaire des livres</h1>
+        </div>
 
-<div class="d-block p-3 col">
-
-    <div class="text-center mb-4">
-        <h1>Inventaire des livres</h1>
-    </div>
-
-    <div class="container-fluid m-1">
-
-        @* Les recherches *@
-        <form class="row">
-            @* Research bar *@
-            <div class="row mb-3">
-                <div class="col-2 ml-4 text-center">
-                    <a asp-controller="Recherche" asp-action="Index">
-                        <button id="rechercherBTN_GL" type="button" class="container-fluid btn btn-primary">
+        <div class="container-fluid m-1">
+            <form class="row">
+                <div id="rechercheRapide" class="mediaQuerryHideOnMedium row text-center">
+                    <div class="col-2">
+                        <button id="rechercherBTN" class="container-fluid btn btn-primary">
                             Rechercher
                         </button>
-                    </a>
+                    </div>
+                    <div class="col-10">
+                        <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale">
+                    </div>       
                 </div>
 
-                <div class="col-10">
-                    <input id="rechercheGeneralGL" type="text" class="form-control recherche-input" placeholder="Recherche générale">
-                </div>
-            </div>
+                
 
-            <div class="row">
-
-                <div class="col-2 bg-secondary">
-
-                    @* Recherche précise *@
-                    <div class="my-2">
-                        <h3>Spécifications</h3>
-                        <div class="form-group">
-                            <label for="specificationTitre">Titre:</label>
-                            <input type="text" class="form-control" id="specificationTitreGL" placeholder="">
+                <div class="d-flex">
+                    <div id="filtreBTNDiv" class="pl-0 pr-2">
+                        <button id="filtreBTN" class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="sidebar">
+                            Filtres
+                        </button> 
+                    </div>
+                    <div id="ajouterLivreBTNDiv" class="d-flex mx-2 pl-2">
+                        @* Add button *@
+                        <div class="m-4">
+                            <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
                         </div>
-                        <div class="form-group">
-                            <label for="specificationAuteur">Auteur:</label>
-                            <input type="text" class="form-control" id="specificationAuteurGL" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationMaisonEdition">Maison d'édition:</label>
-                            <input type="text" class="form-control" id="specificationMaisonEditionGL" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationCategorie">Categorie:</label>
-                            <select class="form-control" id="specificationCategorieGL" name="categorie">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var categorie in Model.ListeCategories)
-                                {
-                                    <option value="@categorie.Nom">@categorie.Nom</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationLangue">Langue:</label>
-                            <select class="form-control" id="specificationLangueGL" name="langue">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var langue in Model.ListeLangue)
-                                {
-                                    <option value="@langue.Nom">@langue.Nom</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationPrixMin">Prix minimum:</label>
-                            <input type="text" class="form-control" id="specificationPrixMinGL" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="specificationPrixMax">Prix maximum:</label>
-                            <input type="text" class="form-control" id="specificationPrixMaxGL" placeholder="">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="specificationTypeLivre">Type de livre:</label>
-                            <select class="form-control" id="specificationTypeLivreGL" name="typeLivre">
-                                <option value="">Sélectionnez...</option>
-                                @foreach (var type in Model.ListeTypeLivres)
-                                {
-                                    <option value="@type.Nom">@type.Nom</option>
-                                }
-                            </select>
-                        </div>
+                          
                     </div>
                 </div>
+
+                
+                
+                <div id="filtre" class="offcanvas offcanvas-start card col-2" tabindex="-1">
+                    @* Recherche précise 1*@
+                    <button id="fermeFiltre" type="button" class="btn-close btn-close-black text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <h3>Filtres:</h3>
+                    <div class="form-group">
+                        <label for="specificationTitre">Titre:</label>
+                        <input id="specificationTitre" class="form-control" name="specificationTitre" type="text" list="ListeLivres">
+                        <datalist id="ListeLivres">
+                            @foreach (var livre in Model.ListeLivres)
+                            {
+                                <option value="@livre.Titre" />
+                            }
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationAuteur">Auteur:</label>
+                        <input id="specificationAuteur" class="form-control" name="specificationAuteur" type="text" list="ListeAuteurs">
+                        <datalist id="ListeAuteurs">
+                            @foreach (var auteur in Model.ListeAuteurs)
+                            {
+                                <option value="@auteur.NomAuteur" />
+                            }
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationMaisonEdition">Maison d'édition:</label>
+                        <input id="specificationMaisonEdition" class="form-control" type="text" list="specificationMaisonEditions">
+                        <datalist id="specificationMaisonEditions">
+                            @foreach (var maisonEdition in Model.ListeMaisonEditions)
+                            {
+                                <option value="@maisonEdition.Nom" />
+                            }
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationCategorie">Categorie:</label>
+                        <input id="specificationCategorie" class="form-control" name="specificationCategorie" type="text" list="specificationCategories">
+                        <datalist id="specificationCategories">
+                            @foreach (var categorie in Model.ListeCategories)
+                            {
+                                <option value="@categorie.Nom" />
+                            }
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationLangue">Langue:</label>
+                        <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues" />
+                        <datalist id="ListeLangues">
+                            @foreach (var langue in Model.ListeLangue)
+                            {
+                                <option value="@langue.Nom" />
+                            }
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationPrixMin">Prix minimum:</label>
+                        <input id="specificationPrixMin" class="form-control" type="number" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationPrixMax">Prix maximum:</label>
+                        <input id="specificationPrixMax" class="form-control" type="number" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="specificationTypeLivre">Type de livre:</label>
+                        <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres" />
+                        <datalist id="ListeTypeLivres">
+                            @foreach (var typeLivre in Model.ListeTypeLivres)
+                            {
+                                <option value="@typeLivre.Nom" />
+                            }
+                        </datalist>
+                    </div>
+                    <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary">
+                        Rechercher
+                    </button>
+                </div>
+            </form>
 
                 @* Body *@
-                <div class="col-10">
-
-
-                    @* Add button *@
-                    <div class="m-4">
-                        <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
+                <div class="row">
+                    <div class="mediaQuerryHideOnMedium-MediumLarge col-2">
+                        <div id="filtre2" class="card p-4" tabindex="-1">
+                            @* Recherche précise 2 *@
+                            <h3>Filtres:</h3>
+                            <div class="form-group">
+                                <label for="specificationTitre2">Titre:</label>
+                                <input id="specificationTitre2" class="form-control" name="specificationTitre2" type="text" list="ListeLivres">
+                                <datalist id="ListeLivres">
+                                    @foreach (var livre in Model.ListeLivres)
+                                    {
+                                        <option value="@livre.Titre" />
+                                    }
+                                </datalist>
+                            </div>
+                            <div class="form-group">
+                                <label for="specificationAuteur2">Auteur:</label>
+                                <input id="specificationAuteur2" class="form-control" name="specificationAuteur2" type="text" list="ListeAuteurs">
+                                <datalist id="ListeAuteurs">
+                                    @foreach (var auteur in Model.ListeAuteurs)
+                                    {
+                                        <option value="@auteur.NomAuteur" />
+                                    }
+                                </datalist>
+                            </div>
+                            <div class="form-group">
+                                <label for="specificationMaisonEdition2">Maison d'édition:</label>
+                                <input id="specificationMaisonEdition2" class="form-control" type="text" list="specificationMaisonEditions2">
+                                <datalist id="specificationMaisonEditions2">
+                                    @foreach (var maisonEdition in Model.ListeMaisonEditions)
+                                    {
+                                        <option value="@maisonEdition.Nom" />
+                                    }
+                                </datalist>
+                            </div>
+                            <div class="form-group">
+                                <label for="specificationCategorie2">Categorie:</label>
+                                <input id="specificationCategorie2" class="form-control" name="specificationCategorie2" type="text" list="specificationCategories2">
+                                <datalist id="specificationCategories2">
+                                    @foreach (var categorie in Model.ListeCategories)
+                                    {
+                                        <option value="@categorie.Nom" />
+                                    }
+                                </datalist>
+                            </div>
+                            <div class="form-group">
+                                <label for="specificationLangue2">Langue:</label>
+                                <input id="specificationLangue2" class="form-control" name="specificationLangue2" type="text" list="ListeLangues" />
+                                <datalist id="ListeLangues">
+                                    @foreach (var langue in Model.ListeLangue)
+                                    {
+                                        <option value="@langue.Nom" />
+                                    }
+                                </datalist>
+                            </div>
+                            <div class="form-group">
+                                <label for="specificationPrixMin2">Prix minimum:</label>
+                                <input id="specificationPrixMin2" class="form-control" type="number" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="specificationPrixMax2">Prix maximum:</label>
+                                <input id="specificationPrixMax2" class="form-control" type="number" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="specificationTypeLivre2">Type de livre:</label>
+                                <input id="specificationTypeLivre2" class="form-control" name="specificationTypeLivre2" type="text" list="ListeTypeLivres" />
+                                <datalist id="ListeTypeLivres">
+                                    @foreach (var typeLivre in Model.ListeTypeLivres)
+                                    {
+                                        <option value="@typeLivre.Nom" />
+                                    }
+                                </datalist>
+                            </div>
+                            <button id="rechercherBTNFiltre2" type="button" class="container-fluid btn btn-primary my-2">
+                                Rechercher
+                            </button>
+                        </div>
                     </div>
-
-
                     @* Table *@
-                    <div class="container-fluid d-flex flex-wrap row" id="TabLivreListes">
+                    <div class="col container-fluid d-flex flex-wrap row" id="TabLivreListes">
                         <div class="mb-3 mx-3">
                             <div class="row px-2">
                                 <div class="LivreCol col">
@@ -139,12 +240,12 @@
                                         ISBN
                                     </p>                                   
                                 </div>
-                                <div class="AuteurCol mediaQuerryHideOnMedium col-2">
+                                <div class="AuteurCol mediaQuerryHideOnMedium col-sm-2">
                                     <p class="text-center">
                                         Auteur
                                     </p>                                   
                                 </div>
-                                <div class="CategorieCol mediaQuerryHideOnMediumLarge col-1">
+                                <div class="CategorieCol mediaQuerryHideOnMediumLarge col-sm-2">
                                     <p class="text-center">
                                         Catégorie
                                     </p>                                  
@@ -185,16 +286,16 @@
                                             @Html.DisplayFor(modelItem => item.ISBN)
                                         </div>
                                     </div>
-                                    <div class="AuteurCol mediaQuerryHideOnMedium col-2">
-                                        <div class="d-flex flex-column align-items-center">
+                                    <div class="AuteurCol mediaQuerryHideOnMedium col-sm-2">
+                                        <div class="listeAuteur d-flex flex-column align-items-center">
                                             @foreach (var auteur in item.ListAuteur)
                                             {
                                                 <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
                                             }
                                         </div>
                                     </div>
-                                    <div class="CategorieCol mediaQuerryHideOnMediumLarge col-1">
-                                        <div class="text-center">
+                                    <div class="CategorieCol mediaQuerryHideOnMediumLarge col-sm-2">
+                                        <div class="listeCategorie text-center">
                                             @foreach (var categorie in item.Categories)
                                             {
                                                 <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
@@ -223,7 +324,7 @@
                                     </div>
                                     
                                     
-                                    <div class="divBoutons col text-center h-40 d-flex justify-content-around">
+                                    <div class="divBoutons col text-center h-40 d-flex justify-content-around align-items-center">
                                         <div class="mediaQuerryHideOnMedium">
                                             @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
                                             {
@@ -232,7 +333,6 @@
                                                     disableButton('@item.Id')">
 
                                                     <span class="fa-solid fa-check fa-2x"></span>
-
                                                 </button>
                                             }
                                             else
@@ -263,11 +363,16 @@
                 </div>
             </div>
 
-        </form>
+        </div>
 
     </div>
+   @*  ============================================================================= *@
+   @*  ============================================================================= *@
+   @*  ============================================================================= *@
 
-</div>
+
+
+
 
 <style> 
     /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
@@ -304,100 +409,194 @@
     //Utiliser "GL" à la fin de chaque variable, pour signifier "GestionLivres" et pour différencier des variables de Recherche/Index
 
     //Script pour la recherche
-    var btnSearchGL = document.getElementById("rechercherBTN_GL");
+    var btnSearch = document.getElementById("rechercherBTNFiltre");
+    var btnSearch2 = document.getElementById("rechercherBTNFiltre2");
 
-    btnSearchGL.addEventListener("click", RechercheGestionLivres);
+    btnSearch.addEventListener("click", RechercheGestionLivres);
+    btnSearch2.addEventListener("click", RechercheGestionLivres2);
 
     async function RechercheGestionLivres(ev) {
         ev.preventDefault();
 
-        var partieMotClesGL = "motCles=";
-        var partieCriteresGL = "criteres=";
+        var partieMotCles = "motCles=";
+        var partieCriteres = "criteres=";
 
         //Recherche générale
-        var searchGeneralGL = document.getElementById("rechercheGeneralGL");
-        var searchTermGL = searchGeneralGL.value; // Récupérer la valeur de la barre de recherche
+        var searchGeneral = document.getElementById("rechercheGeneral");
+        var searchTerm = searchGeneral.value; // Récupérer la valeur de la barre de recherche
 
-        if (searchTermGL != "") {
-            artieMotClesGL = partieMotClesGL.concat(`${searchTermGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("general|");
+        if (searchTerm != "") {
+            artieMotCles = partieMotCles.concat(`${searchTerm}|`);
+            partieCriteres = partieCriteres.concat("general|");
         }
 
         //Titre
-        var titreSpecificationGL = document.getElementById("specificationTitreGL");
-        var titreEntreeGL = titreSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var titreSpecification = document.getElementById("specificationTitre");
+        var titreEntree = titreSpecification.value; // Récupérer la valeur de la barre de recherche
 
-        if (titreEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${titreEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("titre|");
+        if (titreEntree != "") {
+            partieMotCles = partieMotCles.concat(`${titreEntree}|`);
+            partieCriteres = partieCriteres.concat("titre|");
         }
 
         //Auteur
-        var auteurSpecificationGL = document.getElementById("specificationAuteurGL");
-        var auteurEntreeGL = auteurSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var auteurSpecification = document.getElementById("specificationAuteur");
+        var auteurEntree = auteurSpecification.value; // Récupérer la valeur de la barre de recherche
 
-        if (auteurEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${auteurEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("auteur|");
+        if (auteurEntree != "") {
+            partieMotCles = partieMotCles.concat(`${auteurEntree}|`);
+            partieCriteres = partieCriteres.concat("auteur|");
         }
 
         //MaisonEdition
-        var maisonEditionSpecificationGL = document.getElementById("specificationMaisonEditionGL");
-        var maisonEditionEntreeGL = maisonEditionSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var maisonEditionSpecification = document.getElementById("specificationMaisonEdition");
+        var maisonEditionEntree = maisonEditionSpecification.value; // Récupérer la valeur de la barre de recherche
 
-        if (maisonEditionEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${maisonEditionEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("maisonEdition|");
+        if (maisonEditionEntree != "") {
+            partieMotCles = partieMotCles.concat(`${maisonEditionEntree}|`);
+            partieCriteres = partieCriteres.concat("maisonEdition|");
         }
 
         //Categorie
-        var categorieSpecificationGL = document.getElementById("specificationCategorieGL");
-        var categorieEntreeGL = categorieSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var categorieSpecification = document.getElementById("specificationCategorie");
+        var categorieEntree = categorieSpecification.value; // Récupérer la valeur de la barre de recherche
 
-        if (categorieEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${categorieEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("categorie|");
+        if (categorieEntree != "") {
+            partieMotCles = partieMotCles.concat(`${categorieEntree}|`);
+            partieCriteres = partieCriteres.concat("categorie|");
         }
 
         //Langue
-        var langueSpecificationGL = document.getElementById("specificationLangueGL");
-        var langueEntreeGL = langueSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var langueSpecification = document.getElementById("specificationLangue");
+        var langueEntree = langueSpecification.value; // Récupérer la valeur de la barre de recherche
 
-        if (langueEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${langueEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("langue|");
+        if (langueEntree != "") {
+            partieMotCles = partieMotCles.concat(`${langueEntree}|`);
+            partieCriteres = partieCriteres.concat("langue|");
         }
 
         //Type livre
-        var typeLivreSpecificationGL = document.getElementById("specificationTypeLivreGL");
-        var typeLivreEntreeGL = typeLivreSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var typeLivreSpecification = document.getElementById("specificationTypeLivre");
+        var typeLivreEntree = typeLivreSpecification.value; // Récupérer la valeur de la barre de recherche
 
-        if (typeLivreEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${typeLivreEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("typeLivre|");
+        if (typeLivreEntree != "") {
+            partieMotCles = partieMotCles.concat(`${typeLivreEntree}|`);
+            partieCriteres = partieCriteres.concat("typeLivre|");
         }
 
         //Prix minimum
-        var prixMinSpecificationGL = document.getElementById("specificationPrixMinGL");
-        var prixMinEntreeGL = prixMinSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var prixMinSpecification = document.getElementById("specificationPrixMin");
+        var prixMinEntree = prixMinSpecification.value; // Récupérer la valeur de la barre de recherche
 
-        if (prixMinEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${prixMinEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("prixMin|");
+        if (prixMinEntree != "") {
+            partieMotCles = partieMotCles.concat(`${prixMinEntree}|`);
+            partieCriteres = partieCriteres.concat("prixMin|");
         }
 
         //Prix maximum
-        var prixMaxSpecificationGL = document.getElementById("specificationPrixMaxGL");
-        var prixMaxEntreeGL = prixMaxSpecificationGL.value; // Récupérer la valeur de la barre de recherche
+        var prixMaxSpecification = document.getElementById("specificationPrixMax");
+        var prixMaxEntree = prixMaxSpecification.value; // Récupérer la valeur de la barre de recherche
 
-        if (prixMaxEntreeGL != "") {
-            partieMotClesGL = partieMotClesGL.concat(`${prixMaxEntreeGL}|`);
-            partieCriteresGL = partieCriteresGL.concat("prixMax|");
+        if (prixMaxEntree != "") {
+            partieMotCles = partieMotCles.concat(`${prixMaxEntree}|`);
+            partieCriteres = partieCriteres.concat("prixMax|");
         }
 
 
         // Utiliser la valeur dans l'URL pour l'action Inventaire
-        window.location.href = `/GestionLivres/Inventaire?${partieMotClesGL}&${partieCriteresGL}`;
+        window.location.href = `/GestionLivres/Inventaire?${partieMotCles}&${partieCriteres}`;
+    }
+
+    async function RechercheGestionLivres2(ev) {
+        ev.preventDefault();
+
+        var partieMotCles = "motCles=";
+        var partieCriteres = "criteres=";
+
+        //Recherche générale
+        var searchGeneral = document.getElementById("rechercheGeneral");
+        var searchTerm = searchGeneral.value; // Récupérer la valeur de la barre de recherche
+
+        if (searchTerm != "") {
+            artieMotCles = partieMotCles.concat(`${searchTerm}|`);
+            partieCriteres = partieCriteres.concat("general|");
+        }
+
+        //Titre
+        var titreSpecification = document.getElementById("specificationTitre2");
+        var titreEntree = titreSpecification.value; // Récupérer la valeur de la barre de recherche
+
+        if (titreEntree != "") {
+            partieMotCles = partieMotCles.concat(`${titreEntree}|`);
+            partieCriteres = partieCriteres.concat("titre|");
+        }
+
+        //Auteur
+        var auteurSpecification = document.getElementById("specificationAuteur2");
+        var auteurEntree = auteurSpecification.value; // Récupérer la valeur de la barre de recherche
+
+        if (auteurEntree != "") {
+            partieMotCles = partieMotCles.concat(`${auteurEntree}|`);
+            partieCriteres = partieCriteres.concat("auteur|");
+        }
+
+        //MaisonEdition
+        var maisonEditionSpecification = document.getElementById("specificationMaisonEdition2");
+        var maisonEditionEntree = maisonEditionSpecification.value; // Récupérer la valeur de la barre de recherche
+
+        if (maisonEditionEntree != "") {
+            partieMotCles = partieMotCles.concat(`${maisonEditionEntree}|`);
+            partieCriteres = partieCriteres.concat("maisonEdition|");
+        }
+
+        //Categorie
+        var categorieSpecification = document.getElementById("specificationCategorie2");
+        var categorieEntree = categorieSpecification.value; // Récupérer la valeur de la barre de recherche
+
+        if (categorieEntree != "") {
+            partieMotCles = partieMotCles.concat(`${categorieEntree}|`);
+            partieCriteres = partieCriteres.concat("categorie|");
+        }
+
+        //Langue
+        var langueSpecification = document.getElementById("specificationLangue2");
+        var langueEntree = langueSpecification.value; // Récupérer la valeur de la barre de recherche
+
+        if (langueEntree != "") {
+            partieMotCles = partieMotCles.concat(`${langueEntree}|`);
+            partieCriteres = partieCriteres.concat("langue|");
+        }
+
+        //Type livre
+        var typeLivreSpecification = document.getElementById("specificationTypeLivre2");
+        var typeLivreEntree = typeLivreSpecification.value; // Récupérer la valeur de la barre de recherche
+
+        if (typeLivreEntree != "") {
+            partieMotCles = partieMotCles.concat(`${typeLivreEntree}|`);
+            partieCriteres = partieCriteres.concat("typeLivre|");
+        }
+
+        //Prix minimum
+        var prixMinSpecification = document.getElementById("specificationPrixMin2");
+        var prixMinEntree = prixMinSpecification.value; // Récupérer la valeur de la barre de recherche
+
+        if (prixMinEntree != "") {
+            partieMotCles = partieMotCles.concat(`${prixMinEntree}|`);
+            partieCriteres = partieCriteres.concat("prixMin|");
+        }
+
+        //Prix maximum
+        var prixMaxSpecification = document.getElementById("specificationPrixMax2");
+        var prixMaxEntree = prixMaxSpecification.value; // Récupérer la valeur de la barre de recherche
+
+        if (prixMaxEntree != "") {
+            partieMotCles = partieMotCles.concat(`${prixMaxEntree}|`);
+            partieCriteres = partieCriteres.concat("prixMax|");
+        }
+
+
+        // Utiliser la valeur dans l'URL pour l'action Inventaire
+        window.location.href = `/GestionLivres/Inventaire?${partieMotCles}&${partieCriteres}`;
     }
 </script>
 <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>
