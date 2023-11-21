@@ -39,7 +39,7 @@ public class GestionPromotionsController : Controller
         return View(vm);
     }
 
-    [Route("2147186/GestionPromotions/AjouterPromotion")]
+    [Route("2147186/{controller}/{action}")]
     public IActionResult AjouterPromotion()
     {
         var vm = new AjouterPromotionVM();
@@ -62,13 +62,13 @@ public class GestionPromotionsController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return PartialView("PartialViews/Modals/Promotion/_AjouterPromotionPartial", vm);
+        return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
     }
 
 
    [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2147186/GestionPromotions/AjouterPromotion")]
+    [Route("2147186/{controller}/{action}")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> AjouterPromotion(AjouterPromotionVM vm)
     {
@@ -152,11 +152,11 @@ public class GestionPromotionsController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return PartialView("PartialViews/Modals/Promotion/_AjouterPromotionPartial", VM);
+        return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
     }
 
 
-    [Route("2147186/GestionPromotions/ModifierPromotion")]
+    [Route("2147186/{controller}/{action}")]
     public IActionResult ModifierPromotion(string id)
     {
         var promo = _context.Promotions.Find(id);
@@ -196,12 +196,12 @@ public class GestionPromotionsController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return PartialView("PartialViews/Modals/Promotion/_AjouterPromotionPartial", vm);
+        return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2147186/GestionPromotions/ModifierPromotion")]
+    [Route("2147186/{controller}/{action}")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> ModifierPromotion(AjouterPromotionVM vm)
     {
@@ -223,7 +223,7 @@ public class GestionPromotionsController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "/img/images_Promo/promo2.png";
             }
 
             var maPromo = _context.Promotions.Find(vm.Id);
@@ -287,7 +287,7 @@ public class GestionPromotionsController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return PartialView("PartialViews/Modals/Promotion/_AjouterPromotionPartial", VM);
+        return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
     }
 
     // POST: Livre/Delete/5
@@ -320,6 +320,6 @@ public class GestionPromotionsController : Controller
         var promo = await _context.Promotions.FindAsync(id);
         if (promo == null) return NotFound();
 
-        return PartialView("PartialViews/Modals/Promotion/_SupprimerPromotionPartial", promo);
+        return PartialView("PartialViews/Modals/Promotions/_SupprimerPromotionPartial", promo);
     }
 }

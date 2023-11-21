@@ -19,7 +19,7 @@
                     {
                         <li class="float-end" >
                             <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
-                            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                            <div class="prix-promo" >@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
                         </li>
                     }
                 }
@@ -123,6 +123,7 @@ function validerEtAppliquerCodePromo() {
 
 
                                    prixOriginal.classList.add("prix-barre");
+                                   prixOriginal.classList.add("btn-danger");
                                    prixPromo.style.display = "block";
 
 
@@ -131,7 +132,7 @@ function validerEtAppliquerCodePromo() {
                        });
         } else {
             // Affiche un message d'erreur
-            alert("Code promo invalide ou expiré.");
+            alert(data.message);
         }
     })
     .catch(error => {

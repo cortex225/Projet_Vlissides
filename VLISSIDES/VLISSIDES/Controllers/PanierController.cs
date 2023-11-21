@@ -313,17 +313,26 @@ public class PanierController : Controller
         var utilisateur = _context.Users.Find(currentUserId);
         var promotion = _context.Promotions.FirstOrDefault(p => p.CodePromo == codePromo);
 
+
         // Vérifie si le code promo existe
         if (promotion == null) return Json(new { success = false, message = "Code promo invalide ou expiré." });
+
+
 
         // Vérifie si c'est le mois d'anniversaire de l'utilisateur
         if (DateTime.Now.Month != utilisateur.DateNaissance?.Month)
             return Json(new
-                { success = false, message = "Ce code promo est uniquement valide durant votre mois d'anniversaire." });
+            {
+                success = false,
+                message = "Ce code promo est uniquement valide durant votre mois d'anniversaire."
+            });
         // Vérifie si la promo a déjà été utilisée cette année
         if (utilisateur.DerniereUtilisationPromoAnniversaire.HasValue &&
-            utilisateur.DerniereUtilisationPromoAnniversaire.Value.Year == DateTime.Now.Year && promotion.CodePromo == "BIRTHDAY")
-            return Json(new { success = false, message = "Vous avez déjà utilisé ce code promo cette année." });
+            utilisateur.DerniereUtilisationPromoAnniversaire.Value.Year == DateTime.Now.Year &&
+            promotion.CodePromo == "BIRTHDAY")
+            return Json(new
+                { success = false, message = "Vous avez déjà utilisé ce code promo cette année." });
+
 
 
 
@@ -342,6 +351,12 @@ public class PanierController : Controller
                 }).ToList()
         };
 
+        // Vérifie si une promotion a déjà été appliquée
+        if (panierVM.PromotionAppliquee)
+        {
+            return Json(new { success = false, message = "Une promotion a déjà été appliquée à ce panier." });
+        }
+
         double prixTotal = 0;
 
         if (promotion.TypePromotion == "2pour1")
@@ -354,7 +369,12 @@ public class PanierController : Controller
             foreach (var article in panierVM.ListeArticles)
             {
                 if (EstEligiblePourPromotion(article, promotion))
+                {
+                    //Calcule le prix après promotion
                     article.PrixApresPromotion = CalculerPrixApresPromotion(article.PrixOriginal, promotion);
+
+
+                }
                 else
                     article.PrixApresPromotion = article.PrixOriginal;
 
@@ -375,6 +395,8 @@ public class PanierController : Controller
             }
         }
 
+        // Si la promotion est appliquée avec succès, marquez-la comme appliquée
+        panierVM.PromotionAppliquee = true;
         // Mettre à jour la dernière utilisation
         utilisateur.DerniereUtilisationPromoAnniversaire = DateTime.Now;
         _context.Update(utilisateur);

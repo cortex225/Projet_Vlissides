@@ -4,7 +4,7 @@
 }
 @model List<VLISSIDES.ViewModels.GestionPromotions.GestionPromotionsIndexVM>
 
-<link rel="stylesheet" href="~/css/Promotion.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Promotions.css" asp-append-version="true">
 
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
@@ -47,7 +47,7 @@
 </script>
 <script>
     function AfficherPromotion(){
-        fetch(BASE_URL + '/GestionPromotion/Index', {
+        fetch(BASE_URL + '/GestionPromotions/Index', {
             method:"GET",
             
         }).then((response) => {
@@ -59,7 +59,7 @@
 </script>
 <script>
     function SupprimerPromotion(id = "") {
-        fetch(BASE_URL+`/GestionPromotion/DeleteConfirmed?id=${id}`, {
+        fetch(BASE_URL+`/GestionPromotions/DeleteConfirmed?id=${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
