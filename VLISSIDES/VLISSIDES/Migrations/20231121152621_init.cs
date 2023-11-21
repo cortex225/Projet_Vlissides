@@ -34,6 +34,7 @@ namespace VLISSIDES.Migrations
                     DateNaissance = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CoverImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsBanned = table.Column<bool>(type: "bit", nullable: false),
+                    DerniereUtilisationPromoAnniversaire = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NoEmploye = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NoMembre = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -655,25 +656,25 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0", "d3496b05-1595-4701-81dc-6f5d194b886b", "Employe", "EMPLOYE" },
-                    { "1", "42a94ddd-c644-40ff-bfe7-f568e231dcac", "Membre", "MEMBRE" },
-                    { "2", "8482ab4d-5b43-4037-b1a3-bcf269793045", "Admin", "ADMIN" }
+                    { "0", "c70de6af-a830-4ead-bebb-83587ab89565", "Employe", "EMPLOYE" },
+                    { "1", "328dfccf-7b3c-4bd1-8d8f-4a18595268e0", "Membre", "MEMBRE" },
+                    { "2", "52323389-7daa-4f82-bf43-a7ef2e9053b1", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "IsBanned", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "0", 0, null, "b05df43d-b59e-4cc5-9004-207fcea7d299", null, null, "ApplicationUser", "admin@admin.com", true, false, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "3a676990-1880-43c2-a4fa-3b5652194fec", false, "admin@admin.com" });
+                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "DerniereUtilisationPromoAnniversaire", "Discriminator", "Email", "EmailConfirmed", "IsBanned", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "0", 0, null, "60ae05fc-ea7a-4794-a04d-eb7d928a86db", null, null, null, "ApplicationUser", "admin@admin.com", true, false, false, null, "ADMIN", "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Admin", "f2c7ae99-ec83-45e7-af5c-ff79858345fd", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "IsBanned", "LockoutEnabled", "LockoutEnd", "NoEmploye", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "", "dc6a3b2a-4add-447d-acf8-a6d384944026", null, null, "Employe", "employe@employe.com", true, false, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "c256cd19-67da-4660-97b4-6b3b3fa1bd94", false, "employe@employe.com" });
+                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "DerniereUtilisationPromoAnniversaire", "Discriminator", "Email", "EmailConfirmed", "IsBanned", "LockoutEnabled", "LockoutEnd", "NoEmploye", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "1", 0, "", "2146c7e4-9d49-4762-94f2-16363b0d124d", null, null, null, "Employe", "employe@employe.com", true, false, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "d624e3f3-8a96-4e8e-a3dd-f05a037438b5", false, "employe@employe.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "CommandeId", "ConcurrencyStamp", "CoverImageUrl", "DateAdhesion", "DateNaissance", "Discriminator", "Email", "EmailConfirmed", "IsBanned", "LockoutEnabled", "LockoutEnd", "NoMembre", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "ReservationId", "SecurityStamp", "StripeCustomerId", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "", null, "13b58cd6-4b89-4752-af7f-b479e156298e", null, new DateTime(2023, 11, 20, 11, 37, 25, 81, DateTimeKind.Local).AddTicks(2240), null, "Membre", "membre@membre.com", true, false, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "fa938cda-efed-4d53-90ec-c6892059b95f", null, false, "membre@membre.com" });
+                columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "CommandeId", "ConcurrencyStamp", "CoverImageUrl", "DateAdhesion", "DateNaissance", "DerniereUtilisationPromoAnniversaire", "Discriminator", "Email", "EmailConfirmed", "IsBanned", "LockoutEnabled", "LockoutEnd", "NoMembre", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "ReservationId", "SecurityStamp", "StripeCustomerId", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "2", 0, "", null, "f2e67070-d3cc-4e43-a6e4-8d30f5f4ba15", null, new DateTime(2023, 11, 21, 10, 26, 21, 125, DateTimeKind.Local).AddTicks(8230), null, null, "Membre", "membre@membre.com", true, false, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "aa6ccd36-3db4-4e6e-a1ba-a54d1c4e7d73", null, false, "membre@membre.com" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -723,13 +724,17 @@ namespace VLISSIDES.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Promotions",
+                columns: new[] { "Id", "AuteurId", "CategorieId", "CodePromo", "DateDebut", "DateFin", "Description", "Image", "LivresAcheter", "LivresGratuits", "MaisonEditionId", "Nom", "PourcentageRabais", "TypePromotion" },
+                values: new object[] { "0", null, null, "BIRTHDAY", new DateTime(2023, 11, 21, 10, 26, 21, 126, DateTimeKind.Local).AddTicks(9450), new DateTime(2024, 11, 21, 10, 26, 21, 126, DateTimeKind.Local).AddTicks(9450), "Ce code promo est uniquement valide durant votre mois d'anniversaire.", null, null, null, null, "Promotion Anniversaire", 10, "Pourcentage" });
+
+            migrationBuilder.InsertData(
                 table: "StatutCommande",
                 columns: new[] { "Id", "Nom" },
                 values: new object[,]
                 {
                     { "1", "En attente" },
-                    { "2", "En cours de traitement" },
-                    { "3", "En cours de livraison" }
+                    { "2", "En cours de traitement" }
                 });
 
             migrationBuilder.InsertData(
@@ -737,6 +742,7 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "Nom" },
                 values: new object[,]
                 {
+                    { "3", "En cours de livraison" },
                     { "4", "Livrée" },
                     { "5", "Annulée" }
                 });

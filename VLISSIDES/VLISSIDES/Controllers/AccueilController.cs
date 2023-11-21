@@ -33,7 +33,7 @@ public class AccueilController : Controller
                 "Faites un choix éco-responsable lors de vos achats. Participez à notre initiative de réduction de l'empreinte écologique et contribuez à la plantation d'arbres. Ensemble, faisons une différence !",
                 "fa-brands fa-pagelines"),
             new ServiceCardVM("https://sqlinfocg.cegepgranby.qc.ca/2147186/img/book-icon.png",
-                "Promotions et Offres spéciales  ",
+                "Promotion et Offres spéciales  ",
                 "Ne manquez pas nos offres exceptionnelles ! Découvrez les promotions du moment, bénéficiez de rabais exclusifs et profitez de réductions spéciales pour nos membres.",
                 "fa-solid fa-tags"),
             new ServiceCardVM("https://sqlinfocg.cegepgranby.qc.ca/2147186/img/book-icon.png", "Espace Membre",

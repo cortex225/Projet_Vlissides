@@ -61,7 +61,7 @@ public class GestionPromotionsController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
+        return PartialView("PartialViews/Modals/Promotion/_AjouterPromotionPartial", vm);
     }
 
 
@@ -94,7 +94,7 @@ public class GestionPromotionsController : Controller
 
             var id = Guid.NewGuid().ToString();
 
-            var promo = new Promotions
+            var promo = new Promotion
             {
                 Id = id,
                 Image = vm.CoverImageUrl,
@@ -151,7 +151,7 @@ public class GestionPromotionsController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
+        return PartialView("PartialViews/Modals/Promotion/_AjouterPromotionPartial", VM);
     }
 
 
@@ -195,7 +195,7 @@ public class GestionPromotionsController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
+        return PartialView("PartialViews/Modals/Promotion/_AjouterPromotionPartial", vm);
     }
 
     [HttpPost]
@@ -286,14 +286,14 @@ public class GestionPromotionsController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
+        return PartialView("PartialViews/Modals/Promotion/_AjouterPromotionPartial", VM);
     }
 
     // POST: Livre/Delete/5
     [HttpDelete]
     public async Task<IActionResult> DeleteConfirmed(string id)
     {
-        if (_context.Promotions == null) return Problem("Entity set 'ApplicationDbContext.Promotions'  is null.");
+        if (_context.Promotions == null) return Problem("Entity set 'ApplicationDbContext.Promotion'  is null.");
         var promo = await _context.Promotions.FindAsync(id);
         if (promo != null) _context.Promotions.Remove(promo);
 
@@ -301,11 +301,11 @@ public class GestionPromotionsController : Controller
         return RedirectToAction(nameof(Index));
 
         /*
-        if (id == null || _context.Promotions == null) return NotFound();
+        if (id == null || _context.Promotion == null) return NotFound();
 
-        var promo = _context.Promotions.FirstOrDefault(m => m.Id == id);
+        var promo = _context.Promotion.FirstOrDefault(m => m.Id == id);
         if (promo == null) return NotFound();
-        _context.Promotions.Remove(promo);
+        _context.Promotion.Remove(promo);
         _context.SaveChanges();
         */
     }
@@ -319,6 +319,6 @@ public class GestionPromotionsController : Controller
         var promo = await _context.Promotions.FindAsync(id);
         if (promo == null) return NotFound();
 
-        return PartialView("PartialViews/Modals/Promotions/_SupprimerPromotionPartial", promo);
+        return PartialView("PartialViews/Modals/Promotion/_SupprimerPromotionPartial", promo);
     }
 }

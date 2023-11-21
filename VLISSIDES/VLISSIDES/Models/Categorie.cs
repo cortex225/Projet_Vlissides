@@ -19,5 +19,5 @@ public class Categorie
 
     [DisplayName("Livres")] public ICollection<LivreCategorie>? Livres { get; set; }
 
-    [DisplayName("Promotions reliées")] public ICollection<Promotions> Promotions { get; set; } = default!;
+    [DisplayName("Promotion reliï¿½es")] public ICollection<Promotion> Promotions { get; set; } = default!;
 }

@@ -10,5 +10,5 @@ public class Auteur
 
     [DisplayName("Livres écrits")] public ICollection<LivreAuteur> Livres { get; set; } = default!;
 
-    [DisplayName("Promotions reliées")] public ICollection<Promotions> Promotions { get; set; } = default!;
+    [DisplayName("Promotion reliées")] public ICollection<Promotion> Promotions { get; set; } = default!;
 }
