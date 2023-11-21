@@ -1,8 +1,8 @@
 ﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
     ViewData["Title"] = "Gestion de commandes";
-    var myURL = Context.Request.Host.Value;
-    var BASE_URL_RAZOR = Url.Content("~");
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
 }
 
 <link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
@@ -22,12 +22,12 @@
 
 <div class="m-4">
     <h1>Gestion des commandes</h1>
-    <div id="rechercheCommande" class="row">
+    <div id="rechercheCommandeGroup" class="row">
         <div class="">
             <form id="rechercherCommande" enctype="multipart/form-data">
-                <br/>
+                <br />
                 <div class="input-group">
-                    <input class="form-control" id="inputRechercherCommande" placeholder='Numéro de la commande sans le "#"'/>
+                    <input class="form-control" id="inputRechercherCommande" placeholder='Numéro de la commande sans le "#"' />
                     <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" onclick="applyFilter(event)">
                         Rechercher
                     </button>
@@ -68,7 +68,8 @@
     </div>
 
 
-    <hr/>
+
+    <hr />
 
     <div class="my-2 p-2">
         <div class="row">
@@ -103,7 +104,7 @@
 
     <div class="row">
         <div id="commandesListe" class="col-12 ">
-            <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial"/>
+            <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial" />
         </div>
     </div>
 
