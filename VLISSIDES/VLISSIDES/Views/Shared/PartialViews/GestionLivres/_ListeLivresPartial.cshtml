@@ -41,7 +41,6 @@
                 }
                 <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                 <p>@Html.DisplayFor(modelItem => item.Titre)</p>
-
             </div>
             <div class="col-2 text-center">
                 @Html.DisplayFor(modelItem => item.ISBN)
@@ -91,14 +90,12 @@
                         <span class="fa-solid fa-check fa-2x"></span>
                     </button>
                 }
-                <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                <a class="btn btn-primary p-2 m-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
                     <span class="fa-solid fa-pen fa-2x"></span>
                 </a>
-                <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
+                <a class="btn btn-danger p-2 m-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
                     <span class="fa-solid fa-trash fa-2x"></span>
                 </a>
-
-
             </div>
         </div>
     </div>

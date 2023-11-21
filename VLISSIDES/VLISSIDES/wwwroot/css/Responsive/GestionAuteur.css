@@ -1,0 +1,9 @@
+﻿@media only screen and (max-width: 500px) {
+    .listeAuteur{
+        width: 100% !important;
+    }
+}
+
+.listeAuteur {
+    width: 50%;
+}
