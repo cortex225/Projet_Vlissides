@@ -33,7 +33,8 @@ public class GestionPromotionsController : Controller
             DateDebut = p.DateDebut,
             DateFin = p.DateFin,
             Image = p.Image,
-            Rabais = (decimal)p.PourcentageRabais
+            Rabais = (decimal)p.PourcentageRabais,
+            TypePromotion = p.TypePromotion
         }).ToList();
         return View(vm);
     }
