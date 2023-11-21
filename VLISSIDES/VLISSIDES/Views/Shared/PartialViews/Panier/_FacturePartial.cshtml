@@ -19,9 +19,10 @@
                     {
                         <li class="float-end" >
                             <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
-                            <div class="prix-promo" >@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+                            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
                         </li>
                     }
+
                 }
                 else @* When article type is numérique *@
                 {
@@ -116,20 +117,16 @@ function validerEtAppliquerCodePromo() {
             // Attende la mise à jour de la facture avant de modifier le DOM
             AfficherFacture();
 
-           var articles = document.querySelectorAll(".article");
-                           articles.forEach(article => {
-                               var prixOriginal = article.querySelector(".prix-original");
-                               var prixPromo = article.querySelector(".prix-promo");
+           setTimeout(() => {
+                       var articles = document.querySelectorAll(".article");
+                       articles.forEach(article => {
+                           var prixOriginal = article.querySelector(".prix-original");
+                           var prixPromo = article.querySelector(".prix-promo");
 
-
-                                   prixOriginal.classList.add("prix-barre");
-                                   prixOriginal.classList.add("btn-danger");
-                                   prixPromo.style.display = "block";
-
-
-
-
+                           prixOriginal.classList.add("prix-barre");
+                           prixPromo.style.display = "block";
                        });
+                   }, 500);//Retard de 500ms pour laisser le temps au serveur de mettre à jour la facture
         } else {
             // Affiche un message d'erreur
             alert(data.message);
