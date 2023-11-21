@@ -19,7 +19,7 @@ public class Promotion
     public DateTime DateDebut { get; set; }
 
     [Display(Name = "Fin de la promotion")]
-    public DateTime DateFin { get; set; }
+    public DateTime? DateFin { get; set; }=null;
 
     public string? Image { get; set; }
 

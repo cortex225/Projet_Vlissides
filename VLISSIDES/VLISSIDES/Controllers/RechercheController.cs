@@ -134,13 +134,15 @@ public class RechercheController : Controller
             livresRecherches = livresRecherches
                 .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                 .ToList();
-        var itemsPerPage = 12;
+        var itemsPerPage = 15;
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.CurrentPage = page;
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = Math.Ceiling((double)livresRecherches.Count / itemsPerPage);
+
+
         return View(new IndexRechercheVM(motCles, criteres, livresRecherches
             .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions, categories, langues, typeLivres, new List<DetailsLivreVM>()));
     }

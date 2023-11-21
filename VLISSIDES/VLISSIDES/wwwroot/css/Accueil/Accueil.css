@@ -151,7 +151,7 @@
 .btnCategorie {
     margin: 4px;
     font-size: 10px;
-    padding: 6px;
+    padding: 2px;
 }
 
 .imgLivre {
@@ -182,7 +182,7 @@
 .btnCategorie {
     margin: 4px;
     font-size: 10px;
-    padding: 6px;
+    padding: 2px;
 }
 
 .imgLivrePetit {
@@ -318,3 +318,4 @@
         position: absolute !important;
         visibility: hidden;
     }
+}

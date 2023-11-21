@@ -13,7 +13,7 @@ public class GestionPromotionsIndexVM
 
     public DateTime DateDebut { get; set; }
 
-    public DateTime DateFin { get; set; }
+    public DateTime? DateFin { get; set; }
 
 
     public ICollection<Livre>? Livres { get; set; }
