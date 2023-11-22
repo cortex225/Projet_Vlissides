@@ -134,13 +134,10 @@ function validerEtAppliquerCodePromo() {
                 var articles = document.querySelectorAll(".article");
                 articles.forEach(article => {
                     var prixOriginal = article.querySelector(".prix-original");
-                    console.log("Prix original avant modification: ", prixOriginal.innerText);
                     var prixPromo = article.querySelector(".prix-promo");
 
 
                     prixOriginal.classList.add("prix-barre");
-                    console.log("Prix original après modification: ", prixOriginal.innerText);
-
                     prixPromo.style.display = "block";
 
                 });
