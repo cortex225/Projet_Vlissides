@@ -1,10 +1,10 @@
 ﻿@using System.Globalization
 @model VLISSIDES.ViewModels.Panier.PanierVM
-<link rel="stylesheet" href="~/css/facture.css" />
+<link rel="stylesheet" href="~/css/facture.css"/>
 
 @{
     float prixDonEco = 5;
-    string prixtotal = (Model.PrixTotal + 5).ToString("n", new CultureInfo("fr-CA"));
+    string prixtotal = (Model.PrixTotal + 5).ToString("c", CultureInfo.GetCultureInfo("fr-CA"));
 
 }
 
@@ -17,29 +17,6 @@
             <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
             <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
         </div>
-        @* <div class="article d-flex justify-content-between"> *@
-        @*     <div class="w-75">@article.Livre.Titre - @article.TypeLivre.Nom</div> *@
-        @*     <ul class="w-25" style="list-style:none"> *@
-        @*         @if (article.Quantite is not null) $1$ When article type is Papier #1# *@
-        @*         { *@
-        @*             @for (var quantite = 0; quantite < article.Quantite; quantite++) *@
-        @*             { *@
-        @*                 <li class="float-end" > *@
-        @*                     <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div> *@
-        @*                     <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div> *@
-        @*                 </li> *@
-        @*             } *@
-        @* *@
-        @*         } *@
-        @*         else $1$ When article type is numérique #1# *@
-        @*         { *@
-        @*             <li class="float-end"> *@
-        @*                 <div class="prix-original">@article.Prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div> *@
-        @*                 <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div> *@
-        @*             </li> *@
-        @*         } *@
-        @*     </ul> *@
-        @* </div> *@
     }
 
     <div class="d-flex justify-content-between mt-4">
@@ -92,9 +69,6 @@
 </div>
 
 
-
-
-
 <hr/>
 <div id="total" class="p-2 px-4">
     <div class="d-flex justify-content-between">
@@ -103,7 +77,6 @@
             <div id="prixTotal" class="">
                 @prixtotal
             </div>
-            $
         </div>
 
     </div>
@@ -181,6 +154,9 @@ function annulerCodePromo() {
         prixTotalElement.innerText = @prixtotal;
     }
     // Attende la mise à jour de la facture avant de modifier le DOM
-    AfficherFacture();
+    AfficherFacture(()=>
+    {
+        document.getElementById('ajouterCodePromo').style.display = 'block';
+    });
 }
 </script>
