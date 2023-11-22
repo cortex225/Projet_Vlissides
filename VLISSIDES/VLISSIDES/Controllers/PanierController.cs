@@ -323,7 +323,7 @@ public class PanierController : Controller
 
 
         // Vérifie si c'est le mois d'anniversaire de l'utilisateur
-        if (DateTime.Now.Month != utilisateur.DateNaissance?.Month)
+        if (DateTime.Now.Month != utilisateur.DateNaissance?.Month && promotion.CodePromo == "BIRTHDAY")
             return Json(new
             {
                 success = false,
