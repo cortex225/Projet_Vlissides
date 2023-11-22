@@ -71,7 +71,7 @@ public class PanierController : Controller
             var panier = new PanierVM
             {
                 ListeArticles = listeArticleVm,
-                PrixTotal = prixtotal
+                PrixTotal = prixtotal,
 
             };
             //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
@@ -128,40 +128,43 @@ public class PanierController : Controller
         var currentUserId = _userManager.GetUserId(HttpContext.User);
         var articles = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
 
+        var groupedArticles = articles
+            .GroupBy(a => new { a.LivreId, a.TypeId })
+            .Select(group => new
+            {
+                LivreId = group.Key.LivreId,
+                TypeId = group.Key.TypeId,
+                QuantiteTotale = group.Sum(a => a.Quantite ?? 1),
+                PrixApresPromotionTotal = group.Sum(a => a.PrixApresPromotion ?? _context.LivreTypeLivres
+                    .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId)?.Prix ?? 0)
+            });
+
         var listeArticleVM = new List<AfficherPanierVM>();
 
-        foreach (var a in articles)
+        foreach (var group in groupedArticles)
         {
-            var livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId);
-            var typeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId);
-            var prixOriginal = _context.LivreTypeLivres
-                .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId)?.Prix ?? 0;
-
-            // Utiliser 'FirstOrDefault' et vérifier si l'objet n'est pas null avant d'accéder à 'PrixApresPromotion'
-            var livrePanier = _context.LivrePanier.FirstOrDefault(lp => lp.Id == a.Id);
-            var prixApresPromotion = livrePanier?.PrixApresPromotion ?? prixOriginal;
+            var livre = _context.Livres.FirstOrDefault(l => l.Id == group.LivreId);
+            var typeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == group.TypeId);
 
             listeArticleVM.Add(new AfficherPanierVM
             {
-                Id = a.Id,
                 Livre = livre,
                 TypeLivre = typeLivre,
-                PrixOriginal = (double)prixOriginal,
-                UserId = a.UserId,
-                Quantite = a.Quantite,
-                PrixApresPromotion = (double)prixApresPromotion
+                Quantite = group.QuantiteTotale,
+                PrixApresPromotion = (double)group.PrixApresPromotionTotal,
+                PrixOriginal = (double)_context.LivreTypeLivres
+                    .FirstOrDefault(lt => lt.LivreId == group.LivreId && lt.TypeLivreId == group.TypeId)?.Prix!
             });
         }
 
         var prixtotal = listeArticleVM.Sum(item =>
             item.Quantite != null ? (double)item.Quantite * item.PrixApresPromotion : item.PrixApresPromotion);
 
-            var panier = new PanierVM
-            {
-                ListeArticles = listeArticleVM,
-                PrixTotal = prixtotal
-
-            };
+        var panier = new PanierVM
+        {
+            ListeArticles = listeArticleVM,
+            PrixTotal = prixtotal
+        };
             //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
             Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
             if (don != null)
