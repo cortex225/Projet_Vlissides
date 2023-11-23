@@ -1,4 +1,8 @@
-﻿namespace VLISSIDES.ViewModels.Accueil;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
+
+namespace VLISSIDES.ViewModels.Accueil;
 
 public class PromotionCardVM
 {
@@ -12,11 +16,11 @@ public class PromotionCardVM
 
     public PromotionCardVM(Promotion promotion)
     {
-        Description = promotions.Description;
-        Rabais = (decimal)(promotions.PourcentageRabais ?? 0);
-        DateDebut = promotions.DateDebut;
-        DateFin = promotions.DateFin;
-        Image = promotions.Image ?? "";
+        Description = promotion.Description;
+        Rabais = (decimal)(promotion.PourcentageRabais ?? 0);
+        DateDebut = promotion.DateDebut;
+        DateFin = promotion.DateFin ?? new();
+        Image = promotion.Image ?? "";
     }
 
 }

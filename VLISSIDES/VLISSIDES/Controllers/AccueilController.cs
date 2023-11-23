@@ -1,4 +1,11 @@
-﻿namespace VLISSIDES.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using VLISSIDES.Data;
+using VLISSIDES.ViewModels;
+using VLISSIDES.ViewModels.Accueil;
+
+namespace VLISSIDES.Controllers;
 
 public class AccueilController : Controller
 {
@@ -38,9 +45,8 @@ public class AccueilController : Controller
         var vedettes = _context.Livres.Include(v => v.Evaluations).Include(v => v.LivreTypeLivres).Include(v => v.LivreAuteurs)
             .ThenInclude(la => la.Auteur).Include(v => v.Categories).ThenInclude(lc => lc.Categorie).ToList();
         vedettes.Sort((l1, l2) => decimal.ToInt32(l1.Note - l2.Note));
-        var taille = 12;
         var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-
+        var taille = 12;
         return View(new IndexAccueilVM(services, evenements.Take(taille), promotions.Take(taille), vedettes.Take(taille), user));
     }
 
