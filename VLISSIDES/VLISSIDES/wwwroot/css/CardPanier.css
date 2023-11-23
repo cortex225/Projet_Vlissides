@@ -9,24 +9,24 @@
 
 .product-card .product-title {
     font-weight: 600;
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
     line-height: 1.2;
 }
 
 .product-author {
     font-style: italic;
     text-decoration: underline;
-    font-size: 0.85rem; /* ~13.6px */
+    font-size: 0.85rem;
 }
 
 .product-price {
     font-weight: 600;
-    font-size: 1.2rem; /* 19px */
+    font-size: 1.2rem;
 }
 
 .product-stock-status {
-    font-size: 0.8rem; /* 12.8px */
-    color: #1d8414; /* Or use a Bootstrap text color class */
+    font-size: 0.8rem;
+    color: #1d8414;
 }
 
 .product-quantity-wrapper .quantity-input {
@@ -42,4 +42,3 @@
     font-size: 1.5rem; /* 24px */
 }
 
-/* Additional styles for other elements can be added here */

@@ -42,7 +42,7 @@ public class Livre
     [DisplayName("Identifiant de la langue")]
     public string? LangueId { get; set; } = default!;
 
-    [DisplayName("Langues")] public Langue? Langue { get; set; } = default!;
+    [DisplayName("Langues")] public Langue Langue { get; set; } = default!;
 
     [DisplayName("Favoris")] public ICollection<Favori>? Favoris { get; set; }
 

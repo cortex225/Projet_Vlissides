@@ -1,8 +1,7 @@
-﻿namespace VLISSIDES.ViewModels.Panier
+﻿namespace VLISSIDES.ViewModels.Panier;
+
+public class SupprPanierConfirmationVM
 {
-    public class SupprPanierConfirmationVM
-    {
-        public string Id { get; set; }
-        public string Titre { get; set; }
-    }
+    public string Id { get; set; }
+    public string Titre { get; set; }
 }

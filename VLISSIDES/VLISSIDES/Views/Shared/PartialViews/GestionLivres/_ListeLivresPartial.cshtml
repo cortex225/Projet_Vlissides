@@ -22,7 +22,7 @@
         <tr id="@livre.Id" class="card">
             <td>
                 @{
-                    string couverture = string.Concat(BASE_URL_RAZOR, livre.Couverture);
+                    var couverture = string.Concat(BASE_URL_RAZOR, livre.Couverture);
                 }
                 <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                 <p>@Html.DisplayFor(modelItem => livre.Titre)</p>
@@ -38,7 +38,7 @@
             </td>
             <td class="cacher-3">
                 <div>
-                    @foreach (var categorie in livre.Categories)
+                @foreach (var categorie in livre.Categories)
                     {
                         <p>@Html.DisplayFor(modelItem=>categorie)</p>
                     }
@@ -81,10 +81,10 @@
                         <span class="fa-solid fa-check fa-2x"></span>
                     </button>
                 }
-                <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = livre.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                <a class="btn btn-primary p-2 m-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = livre.Id })')" data-toggle="tooltip" title="Modifier le livre">
                     <span class="fa-solid fa-pen fa-2x"></span>
                 </a>
-                <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = livre.Id })')">
+                <a class="btn btn-danger p-2 m-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = livre.Id })')">
                     <span class="fa-solid fa-trash fa-2x"></span>
                 </a>
             </td>

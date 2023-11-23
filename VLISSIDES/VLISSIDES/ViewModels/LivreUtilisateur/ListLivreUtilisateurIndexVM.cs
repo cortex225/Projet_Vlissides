@@ -1,8 +1,7 @@
-﻿namespace VLISSIDES.ViewModels.LivreUtilisateur
+﻿namespace VLISSIDES.ViewModels.LivreUtilisateur;
+
+public class ListLivreUtilisateurIndexVM
 {
-    public class ListLivreUtilisateurIndexVM
-    {
-        public List<LivreUtilisateurIndexVM> listVM { get; set; }
-        public string? livreSelectionneId { get; set; }
-    }
+    public List<LivreUtilisateurIndexVM> listVM { get; set; }
+    public string? livreSelectionneId { get; set; }
 }

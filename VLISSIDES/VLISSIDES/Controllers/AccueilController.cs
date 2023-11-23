@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using VLISSIDES.Data;
-using VLISSIDES.ViewModels;
-using VLISSIDES.ViewModels.Accueil;
-
-namespace VLISSIDES.Controllers;
+﻿namespace VLISSIDES.Controllers;
 
 public class AccueilController : Controller
 {
@@ -33,7 +26,7 @@ public class AccueilController : Controller
                 "Faites un choix éco-responsable lors de vos achats. Participez à notre initiative de réduction de l'empreinte écologique et contribuez à la plantation d'arbres. Ensemble, faisons une différence !",
                 "fa-brands fa-pagelines"),
             new ServiceCardVM("https://sqlinfocg.cegepgranby.qc.ca/2147186/img/book-icon.png",
-                "Promotions et Offres spéciales  ",
+                "Promotion et Offres spéciales  ",
                 "Ne manquez pas nos offres exceptionnelles ! Découvrez les promotions du moment, bénéficiez de rabais exclusifs et profitez de réductions spéciales pour nos membres.",
                 "fa-solid fa-tags"),
             new ServiceCardVM("https://sqlinfocg.cegepgranby.qc.ca/2147186/img/book-icon.png", "Espace Membre",
@@ -46,7 +39,9 @@ public class AccueilController : Controller
             .ThenInclude(la => la.Auteur).Include(v => v.Categories).ThenInclude(lc => lc.Categorie).ToList();
         vedettes.Sort((l1, l2) => decimal.ToInt32(l1.Note - l2.Note));
         var taille = 12;
-        return View(new IndexAccueilVM(services, evenements.Take(taille), promotions.Take(taille), vedettes.Take(taille)));
+        var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+
+        return View(new IndexAccueilVM(services, evenements.Take(taille), promotions.Take(taille), vedettes.Take(taille), user));
     }
 
     public IActionResult Message(string titre, string message) => View(new MessageVM(titre, message));

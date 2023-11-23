@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
 }
 @model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
 
@@ -8,7 +7,7 @@
 
 @if (Model.MaisonEditionsAfficherVM.Any())
 {
-    <div class="list-group col-6" id="list-tab" role="tablist">
+    <div class="listeSujet list-group" id="list-tab" role="tablist">
 
         @foreach (var edition in Model.MaisonEditionsAfficherVM)
 
@@ -37,11 +36,11 @@
                 </div>
             </div>
         }
-                <partial name="PartialViews/Utilities/_PaginationIndexPartial"/>
+        <partial name="PartialViews/Utilities/_PaginationIndexPartial"/>
 
     </div>
 
-    <div id="divListeLivres" class="col-6 card rounded-xl">
+    <div id="divListeLivres" class="mediaQuerryHideOnSuperSmall card rounded-xl">
         <h3 class="text-center my-3">Livres de la maison d'édition</h3>
 
         <div class="" id="divListeMaisonEditionLivres">

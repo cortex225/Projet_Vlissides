@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using VLISSIDES.Models;
-
-namespace VLISSIDES.ViewModels.Accueil;
+﻿namespace VLISSIDES.ViewModels.Accueil;
 
 public class PromotionCardVM
 {
@@ -14,7 +10,7 @@ public class PromotionCardVM
     [DisplayName("Date de fin")] public DateTime DateFin { get; set; }
     [DisplayName("Image promotion")] public string Image { get; set; }
 
-    public PromotionCardVM(Promotions promotions)
+    public PromotionCardVM(Promotion promotion)
     {
         Description = promotions.Description;
         Rabais = (decimal)(promotions.PourcentageRabais ?? 0);

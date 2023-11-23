@@ -85,7 +85,7 @@
 }
 
 .footer-section .sofa-img img {
-    max-width: 380px;
+    max-width: 80%!important;
 }
 
 .footer-section .links-wrap {
@@ -94,7 +94,7 @@
 
 @media (min-width: 992px) {
     .footer-section .links-wrap {
-        margin-top: 50px;
+        margin-top: 30px;
     }
 }
 
@@ -106,7 +106,7 @@
     font-size: 32px;
     font-weight: 500;
     text-decoration: none;
-    color: #3b5d50;
+    color: #0f447c;
 }
 
 .footer-section .custom-social li {
@@ -120,13 +120,14 @@
     text-align: center;
     line-height: 40px;
     display: inline-block;
-    background: #dce5e4;
-    color: #3b5d50;
+    background: #f8f4f1;
+    color: #146ec3;
+
     border-radius: 50%;
 }
 
 .footer-section .custom-social li a:hover {
-    background: #3b5d50;
+    background: #146ec3;
     color: #ffffff;
 }
 
@@ -136,7 +137,7 @@
 
 .footer-section .border-top.copyright {
     font-size: 14px !important;
-    color: #3b5d50;
+    color: #0f447c;
     height: 5px !important;
 }
 
@@ -156,6 +157,25 @@
     transition: .3s all ease;
 }
 
-/*.fa-brands{*/
-/*    color: #5080cf!important;*/
-/*}*/
+/*Responsive pour l'image .footer-section .sofa-img img */
+
+@media (max-width: 992px) {
+
+    .footer-section .sofa-img  img{
+        max-width: 78%!important;
+    }
+
+    .footer-section .sofa-img {
+        top: -12em!important;
+        z-index: 1!important;
+        right: -5em!important;
+    }
+
+    .footer-logo-wrap {
+        margin-top: 20px;
+    }
+
+    .footer-logo-wrap .footer-logo img{
+        max-width: 230px;
+    }
+}

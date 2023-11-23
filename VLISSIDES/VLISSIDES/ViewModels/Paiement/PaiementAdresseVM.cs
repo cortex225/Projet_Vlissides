@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel;
 
-namespace VLISSIDES.ViewModels.Paiement
-{
-    public class PaiementAdresseVM
-    {
-        [DisplayName("Adresses Existantes")] public IEnumerable<AdresseVM>? AdressesExistantes { get; set; }
+namespace VLISSIDES.ViewModels.Paiement;
 
-        [DisplayName("Nouvelle Adresse")] public AdresseVM NouvelleAdresse { get; set; }
-    }
+public class PaiementAdresseVM
+{
+    [DisplayName("Adresses Existantes")] public IEnumerable<AdresseVM>? AdressesExistantes { get; set; }
+
+    [DisplayName("Nouvelle Adresse")] public AdresseVM NouvelleAdresse { get; set; }
 }

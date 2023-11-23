@@ -24,15 +24,15 @@
         <div class="row">
             <div class="col">
                 <h3 class="text-center">Articles</h3>
-                @foreach(var item in Model.ListeArticles)
+                @foreach (var item in Model.ListeArticles)
                 {
-                    <partial name="../Shared/PartialViews/Panier/_PanierItem.cshtml" model="@item" />
+                    <partial name="../Shared/PartialViews/Panier/_PanierItem.cshtml" model="@item"/>
                 }
-                
+
             </div>
 
             <div class="col">
-                <h3 class="text-center">Facture <span class="text-danger">(sans taxes)</span></h3>
+                <h3 class="text-center">Facture <span class="text-danger">(sans taxe)</span></h3>
                 <div id="facture" class="bg-white mh-100 p-xl-4">
                     @* @Html.Partial("PartialViews/Panier/_FacturePartial") *@
                     <partial name="PartialViews/Panier/_FacturePartial"/>
@@ -42,7 +42,7 @@
                     <button class="btn btn-primary" onclick="PasserAuPaiement()">Passer à la commande</button>
                 </div>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 
@@ -76,9 +76,8 @@
 </script>
 
 <script src="~/js/Panier/Index.js" asp-append-version="true"></script>
-
-<script type="text/javascript">
-    function AfficherFacture() {
+<script type="text/javascript" asp-append-version="true">
+ function AfficherFacture(callback) {
         fetch(BASE_URL + "/Panier/AfficherFacture", {
             method: "GET"
         }).then((response) => {
@@ -88,14 +87,17 @@
             // Met à jour le contenu de la div avec le résultat
             var div = document.getElementById("facture");
             div.innerHTML = result;
+                //changerPrixDon();
+
+                if(callback){
+                    callback();
+                }
+
         }).catch(error => {
             // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la récupération de la liste des maisons d\'édition', error);
+            console.error('Erreur lors de la récupération de la liste des articles', error);
         });
-    }   
-    
-    AfficherFacture();
-    changerPrixDon();
+    }
 </script>
 
 <script type="text/javascript" asp-append-version="true">
@@ -185,7 +187,7 @@ $(document).ready(function () {
                 }
             }
         }
-        
+
         console.log(selectedValue);
         fetch(BASE_URL + "/Panier/PasserAuPaiement?numero=" + selectedValue, {
             method: "GET",

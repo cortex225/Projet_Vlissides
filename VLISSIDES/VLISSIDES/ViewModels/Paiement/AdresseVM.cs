@@ -18,5 +18,4 @@ public class AdresseVM
 
     [DisplayName("Pays")] public string Pays { get; set; }
     public string? AdresseId { get; set; }
-
 }

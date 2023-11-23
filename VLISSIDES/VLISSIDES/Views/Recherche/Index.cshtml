@@ -1,9 +1,13 @@
 ﻿@using System.Web.WebPages;
 @model VLISSIDES.ViewModels.Recherche.IndexRechercheVM;
 @{
-    ViewData["Title"] = "Librairie";
+    ViewData["Title"] = "Libraire";
 }
-<link rel="stylesheet" href="~/css/Rechercher/Recherche.css">
+@{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
+}
+<link rel="stylesheet" href="~/css/Rechercher/Recherche.css" asp-append-version="true">
 <div class="d-block">
     @if (!Model.MotRecherche.IsEmpty())
     {
@@ -12,7 +16,6 @@
         </div>
     }
     <div class="container-fluid">
-
         @* Les recherches *@
         @* Research bar *@
         <div class="row text-center" id="rechercheDIV">
@@ -35,7 +38,7 @@
                     <datalist id="ListeLivres">
                         @foreach (var livre in Model.Livres)
                         {
-                            <option value="@livre" />
+                            <option value="@livre"/>
                         }
                     </datalist>
                 </div>
@@ -45,7 +48,7 @@
                     <datalist id="ListeAuteurs">
                         @foreach (var auteur in Model.Auteurs)
                         {
-                            <option value="@auteur" />
+                            <option value="@auteur"/>
                         }
                     </datalist>
                 </div>
@@ -55,7 +58,7 @@
                     <datalist id="specificationMaisonEditions">
                         @foreach (var maisonEdition in Model.MaisonEditions)
                         {
-                            <option value="@maisonEdition" />
+                            <option value="@maisonEdition"/>
                         }
                     </datalist>
                 </div>
@@ -65,17 +68,17 @@
                     <datalist id="specificationCategories">
                         @foreach (var categorie in Model.Categories)
                         {
-                            <option value="@categorie" />
+                            <option value="@categorie"/>
                         }
                     </datalist>
                 </div>
                 <div class="form-group">
                     <label for="specificationLangue">Langue:</label>
-                    <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues" />
+                    <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues"/>
                     <datalist id="ListeLangues">
                         @foreach (var langue in Model.Langues)
                         {
-                            <option value="@langue" />
+                            <option value="@langue"/>
                         }
                     </datalist>
                 </div>
@@ -89,11 +92,11 @@
                 </div>
                 <div class="form-group">
                     <label for="specificationTypeLivre">Type de livre:</label>
-                    <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres" />
+                    <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres"/>
                     <datalist id="ListeTypeLivres">
                         @foreach (var typeLivre in Model.TypeLivres)
                         {
-                            <option value="@typeLivre" />
+                            <option value="@typeLivre"/>
                         }
                     </datalist>
                 </div>
@@ -102,18 +105,23 @@
                 </button>
             </div>
             @* Body *@
-
-                @* Results *@
-                <div id="results" class="d-flex justify-content-around flex-wrap">
-                    @foreach (var livre in Model.LivrePartials)
-                    {
-                        <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre" />
-                    }
-                </div>
-                <partial name="PartialViews/Utilities/_PaginationRecherchePartial" />
+           <div class="container">
+               <div class="row justify-content-center">
+                   <div id="results" class="col-lg-8">
+                       <div class="d-flex flex-wrap justify-content-around">
+                           @foreach (var livre in Model.LivrePartials) {
+                               <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre"/>
+                           }
+                       </div>
+                       <div class="d-flex justify-content-center mt-4">
+                           <partial name="PartialViews/Utilities/_PaginationRecherchePartial"/>
+                       </div>
+                   </div>
+               </div>
+           </div>
         </div>
 
-    </div>
+
 
 </div>
 <script type="text/javascript">

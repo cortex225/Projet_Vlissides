@@ -1,4 +1,6 @@
 ﻿@model VLISSIDES.ViewModels.Accueil.IndexAccueilVM
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Accueil Page";
 }
@@ -6,9 +8,10 @@
 <link rel="stylesheet" href="~/css/Accueil/event-card.css">
 <link rel="stylesheet" href="~/css/Accueil/promo-card.css">
 
-@* @{
-    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.?.DateNaissance == null;
-}  *@
+@{
+    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.User?.DateNaissance == null;
+
+}
 <!--
 Ceci est le div qui contient une image large avec le titre
 -->
@@ -108,7 +111,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                             <div class="cacher-0">
                                 <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[0]" />
                             </div>
-                            @if (Model.Vedettes.Count > 1)
+                            @if (Model.Evenements.Count > 1)
                             {
                                 <div class="cacher-1">
                                     <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[1]" />
@@ -150,21 +153,21 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     }
 
 
-    <!-- Carousel contenant les promotions -->
+    <!-- Carousel contenant les promotion -->
     @if (Model.Promotions.Count > 1)
     {
-        <section class="promotions-section">
+        <section class="promotion-section">
             <h2 class="titreSections">Offres spéciales juste pour vous!</h2>
             <p>Découvrez nos offres du moment et enrichissez votre collection.</p>
             <div id="carouselPromotions" class="carousel slide">
-                <a class="voirPlus" asp-controller="Promotions" asp-action="Index">Voir plus -></a>
+                <a class="voirPlus" asp-controller="Promotion" asp-action="Index">Voir plus -></a>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="cards-wrapper d-flex justify-content-around">
                             <div class="cacher-0">
                                 <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]" />
                             </div>
-                            @if (Model.Vedettes.Count > 1)
+                            @if (Model.Promotions.Count > 1)
                             {
                                 <div class="cacher-1">
                                     <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]" />
@@ -178,7 +181,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                             <div class="cards-wrapper d-flex justify-content-around">
                                 @for (var indexLivre2 = 0; indexLivre2 < 2; indexLivre2++)
                                 {
-                                    @if (Model.Evenements.Count > indexEvenement * 2 + indexLivre2)
+                                    @if (Model.Promotions.Count > indexEvenement * 2 + indexLivre2)
                                     {
                                         <div class="cacher-@indexLivre2">
                                             <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexEvenement * 2 + indexLivre2]" />
@@ -193,11 +196,11 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                         </div>
                     }
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotions" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotion" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Précédent</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotions" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotion" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Suivant</span>
                 </button>
@@ -278,6 +281,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             </button>
         </div>
     }
+</div>
 <script>
 function toggleDescription(buttonElement) {
     var descriptionElement = buttonElement.previousElementSibling;
@@ -293,9 +297,14 @@ function toggleDescription(buttonElement) {
 
 
 </script>
-@* @section Scripts {
-    @if (isIncompleteBirthday) {
-        <script>
+
+@section Scripts {
+    @* seulement si l'utlisateur est un membre *@
+    @if (!User.Identity.IsAuthenticated || User.IsInRole(RoleName.MEMBRE))
+    {
+        @if (isIncompleteBirthday)
+        {
+            <script>
             setTimeout(function() {
                 Swal.fire({
                     title: 'Complétez votre profil',
@@ -322,5 +331,6 @@ function toggleDescription(buttonElement) {
                 });
             }, 5000); // 5 secondes après que la page a chargé
         </script>
+        }
     }
-} *@
+}

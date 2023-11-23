@@ -14,7 +14,7 @@ public class RechercheController : Controller
     private readonly ApplicationDbContext _context;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public RechercheController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
+      public RechercheController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
         IConfiguration config)
     {
         _context = context;
@@ -134,15 +134,17 @@ public class RechercheController : Controller
             livresRecherches = livresRecherches
                 .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                 .ToList();
-        var itemsPerPage = 12;
+        var itemsPerPage = 15;
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.CurrentPage = page;
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = Math.Ceiling((double)livresRecherches.Count / itemsPerPage);
+
+
         return View(new IndexRechercheVM(motCles, criteres, livresRecherches
-            .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions, categories, langues, typeLivres));
+            .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions, categories, langues, typeLivres, new List<DetailsLivreVM>()));
     }
 
     // GET: RechercheController
@@ -167,6 +169,6 @@ public class RechercheController : Controller
 
         return View(new DetailsLivreVM(livre.Id, livre.Titre, livre.LivreAuteurs.Select(la => la.Auteur),
             livre.Categories.Select(lc => lc.Categorie), livre.Evaluations.Select(lc => lc.Note), livre.DatePublication, livre.Couverture, livre.MaisonEdition,
-            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres, livre.NbExemplaires));
+            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres, livre.ISBN, livre.Langue.Nom));
     }
 }

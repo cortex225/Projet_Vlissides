@@ -28,4 +28,8 @@ public class ApplicationUser : IdentityUser
     public ICollection<LivrePanier>? Panier { get; set; }
     public bool IsBanned { get; set; } = false;
 
+    // Champ pour la dernière utilisation de la promotion d'anniversaire
+    [DisplayName("Dernière utilisation promo anniversaire")]
+    public DateTime? DerniereUtilisationPromoAnniversaire { get; set; }
+
 }

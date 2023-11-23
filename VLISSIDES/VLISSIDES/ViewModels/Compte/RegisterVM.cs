@@ -1,11 +1,11 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace VLISSIDES.ViewModels.Compte;
 
 public class RegisterVM
 {
-    [Display(Name = "Nom d'utilisateur (?)")] public string? UserName { get; set; }
+    [Display(Name = "Nom d'utilisateur (?)")]
+    public string? UserName { get; set; }
 
     [Required(ErrorMessage = "Le prenom est requis.")]
     [Display(Name = "Prenom (*)")]
@@ -45,5 +45,4 @@ public class RegisterVM
     public bool Conditions { get; set; }
 
     public string? ReturnUrl { get; set; }
-
 }

@@ -1,6 +1,5 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@using Microsoft.AspNetCore.Http
 @{
     var nbArticles = Context.Session.GetInt32("NbArticles") ?? 0;
 }
@@ -34,7 +33,7 @@
                 <a class="nav-link" asp-area="" asp-controller="Evenements" asp-action="Index">Évènements</a>
             </li>
             <li class="cacherPetit">
-                <a class="nav-link" asp-area="" asp-controller="Promotions" asp-action="Index">Promotions</a>
+                <a class="nav-link" asp-area="" asp-controller="Promotion" asp-action="Index">Promotion</a>
             </li>
             <li class="cacherPetit">
                 <a class="nav-link" asp-area="" asp-controller="Accueil" asp-action="Info">À propos de nous</a>
@@ -51,31 +50,39 @@
         @if (SignInManager.IsSignedIn(User))
         {
             <!-- Icônes de profil et de panier -->
-            <!--
-            Gérer son profil
-            -->
-            <li class="cacherMini">
-                <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="index">Profil</a>
-            </li>
-            <!--
-            Gérer panier
-            -->
-            @if (User.IsInRole(RoleName.MEMBRE))
-            {
-                <li>
-                    <a class="nav-link" asp-area="" asp-controller="Panier" asp-action="Index">
-                        <span class="badge-panier" id="nbArticles">
-                                <span id="nbArticlesText">@nbArticles</span>
-                        </span>
-                    </a>
-                    <a class="nav-link" asp-area="" asp-controller="Panier" asp-action="Index">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        Consulter le panier
-                    </a>
-                </li>
-            }
+            <div class="navbar-icons">
+                <ul class="navbar-nav flex-grow-1">
+                    <!--
+                    Gérer son profil
+                    -->
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="index">Profil</a>
+                    </li>
+                    <!--
+                    Gérer panier
+                    -->
+                    @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
+                                Consulter le panier
+                                <i class="fa-solid fa-cart-shopping">
+                                    <span class="badge-panier" id="nbArticles">
+                                        @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
+                                        {
+                                            <span id="nbArticlesText">@nbArticles</span>
+                                        }
+                                    </span>
+                                </i>
+
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
         }
-</ul>
+    </div>
 </nav>
 <!-- Barre latérale coulissante -->
 @if (User.IsInRole(RoleName.EMPLOYE) || User.IsInRole(RoleName.ADMIN))
