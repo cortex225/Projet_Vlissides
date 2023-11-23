@@ -19,24 +19,16 @@ public class LivreCardVM
     [DisplayName("Score")] public double Score { get; set; }
 
     [DisplayName("Catégories associés")] public List<string> Categories { get; set; }
-    public LivreCardVM(string couverture = "", string titre = "", decimal prix = 0, List<Auteur> auteurs = default!,
-        List<Categorie> categories = default!)
-    {
-        //auteurs ??= new List<Auteur>();
-        //categories ??= new List<Categorie>();
-        Couverture = couverture;
-        Titre = titre;
-        Prix = prix;
-        Auteurs = auteurs.Select(a => a.NomAuteur).ToList();
-        Categories = categories.Select(c => c.Nom).ToList();
-    }
 
-    public LivreCardVM(string v, Livre livre)
+    public LivreCardVM(Livre livre)
     {
+        livre ??= new();
         livre.Evaluations ??= new List<Evaluation>();
+        livre.LivreTypeLivres ??= new List<LivreTypeLivre>() { new() { Prix = 0 } };
+        livre.LivreAuteurs ??= new List<LivreAuteur>();
         Couverture = livre.Couverture;
         Titre = livre.Titre;
-        Prix = livre.LivreTypeLivres.FirstOrDefault().Prix;
+        Prix = livre.LivreTypeLivres.First().Prix;
         Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
         Score = (int)livre.Note;
         Categories = livre.Categories.Select(lc => lc.Categorie.Nom).ToList();

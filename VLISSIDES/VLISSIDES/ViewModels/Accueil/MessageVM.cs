@@ -1,13 +1,16 @@
-﻿namespace VLISSIDES.ViewModels.Accueil;
+﻿using System.ComponentModel;
+
+namespace VLISSIDES.ViewModels.Accueil;
 
 public class MessageVM
 {
-    public MessageVM(string tittre, string message)
+    [DisplayName("Titre")] public string Titre { get; set; }
+    [DisplayName("Message")] public string Message { get; set; }
+
+    public MessageVM(string titre, string message)
     {
-        Tittre = tittre;
+        Titre = titre;
         Message = message;
     }
 
-    public string Tittre { get; set; }
-    public string Message { get; set; }
 }

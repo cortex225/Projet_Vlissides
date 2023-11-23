@@ -49,27 +49,13 @@ public class AccueilController : Controller
         return View(new IndexAccueilVM(services, evenements.Take(taille), promotions.Take(taille), vedettes.Take(taille)));
     }
 
-    public IActionResult Message(string titre, string message)
-    {
-        return View(new MessageVM(titre, message));
-    }
+    public IActionResult Message(string titre, string message) => View(new MessageVM(titre, message));
 
-    public IActionResult Info()
-    {
-        return View();
-    }
+    public IActionResult Info() => View();
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    public IActionResult Privacy() => View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-
-
+    public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
 }

@@ -13,22 +13,14 @@ public class PromotionCardVM
     [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm}")]
     [DisplayName("Date de fin")] public DateTime DateFin { get; set; }
     [DisplayName("Image promotion")] public string Image { get; set; }
-    public PromotionCardVM(string description, decimal rabais, DateTime dateDebut, DateTime dateFin, string image)
-    {
-        Description = description;
-        Rabais = rabais;
-        DateDebut = dateDebut;
-        DateFin = dateFin;
-        Image = image;
-    }
 
     public PromotionCardVM(Promotions promotions)
     {
         Description = promotions.Description;
-        Rabais = (decimal)promotions.PourcentageRabais;
+        Rabais = (decimal)(promotions.PourcentageRabais ?? 0);
         DateDebut = promotions.DateDebut;
         DateFin = promotions.DateFin;
-        Image = promotions.Image;
+        Image = promotions.Image ?? "";
     }
 
 }

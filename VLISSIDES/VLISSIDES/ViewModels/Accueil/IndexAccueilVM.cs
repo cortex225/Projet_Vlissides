@@ -9,12 +9,15 @@ public class IndexAccueilVM
     [DisplayName("Évenements")] public List<EventCardVM> Evenements { get; set; }
     [DisplayName("Promotions")] public List<PromotionCardVM> Promotions { get; set; }
     [DisplayName("Livres en vedette")] public List<LivreCardVM> Vedettes { get; set; }
-    public IndexAccueilVM(IEnumerable<ServiceCardVM> services = default, IEnumerable<Evenement> evenement = default, IEnumerable<Promotions> promotions = default,
-        IEnumerable<Livre> vedettes = default)
+    public IndexAccueilVM(IEnumerable<ServiceCardVM> services, IEnumerable<Evenement> evenements, IEnumerable<Promotions> promotions, IEnumerable<Livre> vedettes)
     {
+        services ??= new List<ServiceCardVM>();
+        evenements ??= new List<Evenement>();
+        promotions ??= new List<Promotions>();
+        vedettes ??= new List<Livre>();
         Services = services.ToList();
-        Evenements = evenement.Select(e => new EventCardVM(e)).ToList();
+        Evenements = evenements.Select(e => new EventCardVM(e)).ToList();
         Promotions = promotions.Select(p => new PromotionCardVM(p)).ToList();
-        Vedettes = vedettes.Select(v => new LivreCardVM(v.Couverture, v)).ToList();
+        Vedettes = vedettes.Select(v => new LivreCardVM(v)).ToList();
     }
 }
