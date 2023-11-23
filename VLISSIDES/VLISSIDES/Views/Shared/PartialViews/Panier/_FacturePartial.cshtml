@@ -4,7 +4,7 @@
 
 @{
     float prixDonEco = 5;
-    string prixtotal = (Model.PrixTotal + 5).ToString("c", CultureInfo.GetCultureInfo("fr-CA"));
+    string prixtotal = (Model.PrixTotal + 5).ToString("F2", CultureInfo.GetCultureInfo("fr-CA"));
 
 }
 
@@ -137,26 +137,27 @@ function validerEtAppliquerCodePromo() {
 
 <script>
 function annulerCodePromo() {
-    // Logique pour annuler le code promo
-    // Par exemple, réinitialiser le prix et masquer l'affichage du code promo
-    document.getElementById('promoCodeDisplay').style.display = 'none';
-    var articles = document.querySelectorAll(".article");
-    articles.forEach(article => {
-        var prixOriginal = article.querySelector(".prix-original");
-        var prixPromo = article.querySelector(".prix-promo");
+    try {
+        document.getElementById('promoCodeDisplay').style.display = 'none';
+        var articles = document.querySelectorAll(".article");
+        articles.forEach(article => {
+            var prixOriginal = article.querySelector(".prix-original");
+            var prixPromo = article.querySelector(".prix-promo");
 
-        prixOriginal.classList.remove("prix-barre");
-        prixPromo.style.display = "none";
-    });
-    // Mise à jour du total du panier
-    var prixTotalElement = document.getElementById('prixTotal');
-    if (prixTotalElement) {
-        prixTotalElement.innerText = @prixtotal;
+            prixOriginal.classList.remove("prix-barre");
+            prixPromo.style.display = "none";
+        });
+        // Mise à jour du total du panier
+        var prixTotalElement = document.getElementById('prixTotal');
+        if (prixTotalElement) {
+            prixTotalElement.innerText = "@prixtotal";
+        }
+        // Attendre la mise à jour de la facture avant de modifier le DOM
+        AfficherFacture(() => {
+            document.getElementById('ajouterCodePromo').style.display = 'block';
+        });
+    } catch (message) {
+        console.error(message);
     }
-    // Attende la mise à jour de la facture avant de modifier le DOM
-    AfficherFacture(()=>
-    {
-        document.getElementById('ajouterCodePromo').style.display = 'block';
-    });
 }
 </script>
