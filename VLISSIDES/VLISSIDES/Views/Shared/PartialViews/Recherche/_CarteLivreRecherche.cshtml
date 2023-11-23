@@ -22,19 +22,6 @@
             }
         </div>
 
-        @* <h2>Catégorie(s) : </h2> *@
-        @* <div class=" d-flex  divCategories"> *@
-        @*     @foreach (var categorie in @Model.Categories.Take(3)) *@
-        @*     { *@
-        @*         <p class=" btnCategorie"> *@
-        @*             <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@categorie" asp-route-criteres="categorie">@categorie</a> *@
-        @*         </p> *@
-        @*     } *@
-        @* </div> *@
-        @* <h2>Maison d'édition : </h2> *@
-        @* <div class="maisonEdition d-flex justify-content-around divMaison"> *@
-        @*     <a asp-controller="Recherche" asp-action="Index" asp-route-motCles="@Model.MaisonEdition" asp-route-criteres="maisonEdition" class="btn btn-secondary btnCategorie">@Model.MaisonEdition</a> *@
-        @* </div> *@
         <div class="type d-flex divMedium">
             @if (Model.Papier.Equals(null) && Model.Numerique.Equals(null))
             {

@@ -18,4 +18,6 @@ public class GestionPromotionsIndexVM
 
     public ICollection<Livre>? Livres { get; set; }
     public string? Image { get; set; }
+
+    public string TypePromotion { get; set; }
 }

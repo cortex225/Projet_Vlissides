@@ -10,5 +10,7 @@ public class PanierVM
         public bool DeuxiemeChoixDon { get; set; }
         public bool TroisiemeChoixDon { get; set; }
 
-    public Promotions? Promotion { get; set; }
+    public Promotion? Promotion { get; set; }
+
+    public bool PromotionAppliquee { get; set; }=false;
 }

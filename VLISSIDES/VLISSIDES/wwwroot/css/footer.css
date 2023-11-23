@@ -85,7 +85,7 @@
 }
 
 .footer-section .sofa-img img {
-    max-width: 380px;
+    max-width: 80%!important;
 }
 
 .footer-section .links-wrap {
@@ -94,7 +94,7 @@
 
 @media (min-width: 992px) {
     .footer-section .links-wrap {
-        margin-top: 50px;
+        margin-top: 30px;
     }
 }
 
@@ -157,6 +157,25 @@
     transition: .3s all ease;
 }
 
-/*.fa-brands{*/
-/*    color: #5080cf!important;*/
-/*}*/
+/*Responsive pour l'image .footer-section .sofa-img img */
+
+@media (max-width: 992px) {
+
+    .footer-section .sofa-img  img{
+        max-width: 78%!important;
+    }
+
+    .footer-section .sofa-img {
+        top: -12em!important;
+        z-index: 1!important;
+        right: -5em!important;
+    }
+
+    .footer-logo-wrap {
+        margin-top: 20px;
+    }
+
+    .footer-logo-wrap .footer-logo img{
+        max-width: 230px;
+    }
+}

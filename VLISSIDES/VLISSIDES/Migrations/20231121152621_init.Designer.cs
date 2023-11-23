@@ -12,7 +12,7 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231120163725_init")]
+    [Migration("20231121152621_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,21 +54,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "d3496b05-1595-4701-81dc-6f5d194b886b",
+                            ConcurrencyStamp = "c70de6af-a830-4ead-bebb-83587ab89565",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "42a94ddd-c644-40ff-bfe7-f568e231dcac",
+                            ConcurrencyStamp = "328dfccf-7b3c-4bd1-8d8f-4a18595268e0",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "8482ab4d-5b43-4037-b1a3-bcf269793045",
+                            ConcurrencyStamp = "52323389-7daa-4f82-bf43-a7ef2e9053b1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -271,6 +271,9 @@ namespace VLISSIDES.Migrations
                     b.Property<DateTime?>("DateNaissance")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DerniereUtilisationPromoAnniversaire")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -345,7 +348,7 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b05df43d-b59e-4cc5-9004-207fcea7d299",
+                            ConcurrencyStamp = "60ae05fc-ea7a-4794-a04d-eb7d928a86db",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -356,7 +359,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "3a676990-1880-43c2-a4fa-3b5652194fec",
+                            SecurityStamp = "f2c7ae99-ec83-45e7-af5c-ff79858345fd",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -1079,7 +1082,7 @@ namespace VLISSIDES.Migrations
                     b.ToTable("MaisonEditions", (string)null);
                 });
 
-            modelBuilder.Entity("VLISSIDES.Models.Promotions", b =>
+            modelBuilder.Entity("VLISSIDES.Models.Promotion", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -1137,6 +1140,19 @@ namespace VLISSIDES.Migrations
                     b.HasIndex("MaisonEditionId");
 
                     b.ToTable("Promotions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "0",
+                            CodePromo = "BIRTHDAY",
+                            DateDebut = new DateTime(2023, 11, 21, 10, 26, 21, 126, DateTimeKind.Local).AddTicks(9450),
+                            DateFin = new DateTime(2024, 11, 21, 10, 26, 21, 126, DateTimeKind.Local).AddTicks(9450),
+                            Description = "Ce code promo est uniquement valide durant votre mois d'anniversaire.",
+                            Nom = "Promotion Anniversaire",
+                            PourcentageRabais = 10,
+                            TypePromotion = "Pourcentage"
+                        });
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.Reservation", b =>
@@ -1262,7 +1278,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "dc6a3b2a-4add-447d-acf8-a6d384944026",
+                            ConcurrencyStamp = "2146c7e4-9d49-4762-94f2-16363b0d124d",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -1273,7 +1289,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "c256cd19-67da-4660-97b4-6b3b3fa1bd94",
+                            SecurityStamp = "d624e3f3-8a96-4e8e-a3dd-f05a037438b5",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1308,7 +1324,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "13b58cd6-4b89-4752-af7f-b479e156298e",
+                            ConcurrencyStamp = "f2e67070-d3cc-4e43-a6e4-8d30f5f4ba15",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -1319,10 +1335,10 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "fa938cda-efed-4d53-90ec-c6892059b95f",
+                            SecurityStamp = "aa6ccd36-3db4-4e6e-a1ba-a54d1c4e7d73",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 11, 20, 11, 37, 25, 81, DateTimeKind.Local).AddTicks(2240),
+                            DateAdhesion = new DateTime(2023, 11, 21, 10, 26, 21, 125, DateTimeKind.Local).AddTicks(8230),
                             NoMembre = "123456"
                         });
                 });
@@ -1599,7 +1615,7 @@ namespace VLISSIDES.Migrations
                     b.Navigation("TypeLivre");
                 });
 
-            modelBuilder.Entity("VLISSIDES.Models.Promotions", b =>
+            modelBuilder.Entity("VLISSIDES.Models.Promotion", b =>
                 {
                     b.HasOne("VLISSIDES.Models.Auteur", "Auteur")
                         .WithMany("Promotions")

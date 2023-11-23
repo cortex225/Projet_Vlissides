@@ -10,5 +10,5 @@ public class MaisonEdition
 
     [DisplayName("Livres publiés")] public ICollection<Livre> Livres { get; set; } = default!;
 
-    [DisplayName("Promotions reliées")] public ICollection<Promotions> Promotions { get; set; } = default!;
+    [DisplayName("Promotion reliées")] public ICollection<Promotion> Promotions { get; set; } = default!;
 }

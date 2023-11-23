@@ -33,12 +33,13 @@ public class GestionPromotionsController : Controller
             DateDebut = p.DateDebut,
             DateFin = p.DateFin,
             Image = p.Image,
-            Rabais = (decimal)p.PourcentageRabais
+            Rabais = (decimal)p.PourcentageRabais,
+            TypePromotion = p.TypePromotion
         }).ToList();
         return View(vm);
     }
 
-    [Route("2147186/GestionPromotions/AjouterPromotion")]
+    [Route("2147186/{controller}/{action}")]
     public IActionResult AjouterPromotion()
     {
         var vm = new AjouterPromotionVM();
@@ -67,7 +68,7 @@ public class GestionPromotionsController : Controller
 
    [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2147186/GestionPromotions/AjouterPromotion")]
+    [Route("2147186/{controller}/{action}")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> AjouterPromotion(AjouterPromotionVM vm)
     {
@@ -94,7 +95,7 @@ public class GestionPromotionsController : Controller
 
             var id = Guid.NewGuid().ToString();
 
-            var promo = new Promotions
+            var promo = new Promotion
             {
                 Id = id,
                 Image = vm.CoverImageUrl,
@@ -155,7 +156,7 @@ public class GestionPromotionsController : Controller
     }
 
 
-    [Route("2147186/GestionPromotions/ModifierPromotion")]
+    [Route("2147186/{controller}/{action}")]
     public IActionResult ModifierPromotion(string id)
     {
         var promo = _context.Promotions.Find(id);
@@ -200,7 +201,7 @@ public class GestionPromotionsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("2147186/GestionPromotions/ModifierPromotion")]
+    [Route("2147186/{controller}/{action}")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> ModifierPromotion(AjouterPromotionVM vm)
     {
@@ -222,7 +223,7 @@ public class GestionPromotionsController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "/img/images_Promo/promo2.png";
             }
 
             var maPromo = _context.Promotions.Find(vm.Id);
@@ -293,7 +294,7 @@ public class GestionPromotionsController : Controller
     [HttpDelete]
     public async Task<IActionResult> DeleteConfirmed(string id)
     {
-        if (_context.Promotions == null) return Problem("Entity set 'ApplicationDbContext.Promotions'  is null.");
+        if (_context.Promotions == null) return Problem("Entity set 'ApplicationDbContext.Promotion'  is null.");
         var promo = await _context.Promotions.FindAsync(id);
         if (promo != null) _context.Promotions.Remove(promo);
 
@@ -301,11 +302,11 @@ public class GestionPromotionsController : Controller
         return RedirectToAction(nameof(Index));
 
         /*
-        if (id == null || _context.Promotions == null) return NotFound();
+        if (id == null || _context.Promotion == null) return NotFound();
 
-        var promo = _context.Promotions.FirstOrDefault(m => m.Id == id);
+        var promo = _context.Promotion.FirstOrDefault(m => m.Id == id);
         if (promo == null) return NotFound();
-        _context.Promotions.Remove(promo);
+        _context.Promotion.Remove(promo);
         _context.SaveChanges();
         */
     }

@@ -15,7 +15,6 @@ public class PanierController : Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private string? IdLivreSupprime;
 
     public PanierController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
         IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
@@ -35,7 +34,8 @@ public class PanierController : Controller
         // Récupérer tous les articles du panier pour cet utilisateur
         var articles = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
 
-        var listeArticleVM = new List<AfficherPanierVM>();
+        var listeArticleVm = new List<AfficherPanierVM>();
+        if (listeArticleVm == null) throw new ArgumentNullException(nameof(listeArticleVm));
 
         // Parcourir chaque article du panier
         foreach (var a in articles)
@@ -52,7 +52,7 @@ public class PanierController : Controller
             var prixApresPromotion = a.PrixApresPromotion.HasValue ? a.PrixApresPromotion.Value : prixOriginal;
 
             // Ajouter les détails de l'article au ViewModel de la liste d'articles
-            listeArticleVM.Add(new AfficherPanierVM
+            listeArticleVm.Add(new AfficherPanierVM
             {
                 Id = a.Id,
                 Livre = livre,
@@ -65,13 +65,13 @@ public class PanierController : Controller
         }
 
         // Calculer le prix total du panier
-        var prixtotal = listeArticleVM.Sum(item =>
+        var prixtotal = listeArticleVm.Sum(item =>
             item.Quantite != null ? (double)item.Quantite * item.PrixApresPromotion : item.PrixApresPromotion);
 
             var panier = new PanierVM
             {
-                ListeArticles = listeArticleVM,
-                PrixTotal = prixtotal
+                ListeArticles = listeArticleVm,
+                PrixTotal = prixtotal,
 
             };
             //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
@@ -114,7 +114,6 @@ public class PanierController : Controller
         foreach (var p in user.Panier)
             if (p.Id == id)
             {
-                IdLivreSupprime = p.Id;
                 _context.LivrePanier.Remove(p);
                 await _context.SaveChangesAsync();
 
@@ -129,40 +128,43 @@ public class PanierController : Controller
         var currentUserId = _userManager.GetUserId(HttpContext.User);
         var articles = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
 
+        var groupedArticles = articles
+            .GroupBy(a => new { a.LivreId, a.TypeId })
+            .Select(group => new
+            {
+                LivreId = group.Key.LivreId,
+                TypeId = group.Key.TypeId,
+                QuantiteTotale = group.Sum(a => a.Quantite ?? 1),
+                PrixApresPromotionTotal = group.Sum(a => a.PrixApresPromotion ?? _context.LivreTypeLivres
+                    .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId)?.Prix ?? 0)
+            });
+
         var listeArticleVM = new List<AfficherPanierVM>();
 
-        foreach (var a in articles)
+        foreach (var group in groupedArticles)
         {
-            var livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId);
-            var typeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId);
-            var prixOriginal = _context.LivreTypeLivres
-                .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId)?.Prix ?? 0;
-
-            // Utiliser 'FirstOrDefault' et vérifier si l'objet n'est pas null avant d'accéder à 'PrixApresPromotion'
-            var livrePanier = _context.LivrePanier.FirstOrDefault(lp => lp.Id == a.Id);
-            var prixApresPromotion = livrePanier?.PrixApresPromotion ?? prixOriginal;
+            var livre = _context.Livres.FirstOrDefault(l => l.Id == group.LivreId);
+            var typeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == group.TypeId);
 
             listeArticleVM.Add(new AfficherPanierVM
             {
-                Id = a.Id,
                 Livre = livre,
                 TypeLivre = typeLivre,
-                PrixOriginal = (double)prixOriginal,
-                UserId = a.UserId,
-                Quantite = a.Quantite,
-                PrixApresPromotion = (double)prixApresPromotion
+                Quantite = group.QuantiteTotale,
+                PrixApresPromotion = (double)group.PrixApresPromotionTotal,
+                PrixOriginal = (double)_context.LivreTypeLivres
+                    .FirstOrDefault(lt => lt.LivreId == group.LivreId && lt.TypeLivreId == group.TypeId)?.Prix!
             });
         }
 
         var prixtotal = listeArticleVM.Sum(item =>
             item.Quantite != null ? (double)item.Quantite * item.PrixApresPromotion : item.PrixApresPromotion);
 
-            var panier = new PanierVM
-            {
-                ListeArticles = listeArticleVM,
-                PrixTotal = prixtotal
-
-            };
+        var panier = new PanierVM
+        {
+            ListeArticles = listeArticleVM,
+            PrixTotal = prixtotal
+        };
             //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
             Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
             if (don != null)
@@ -206,7 +208,7 @@ public class PanierController : Controller
     //[Route("{controller}/{action}")]
     public async Task<IActionResult> AjouterPanier([FromBody] AjouterPanierVM vm)
     {
-        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userManager.FindByIdAsync(userId);
 
         var type = await _context.TypeLivres.FindAsync(vm.typeId);
@@ -310,11 +312,33 @@ public class PanierController : Controller
     [HttpPost]
     public async Task<IActionResult> ValiderCodePromo(string codePromo)
     {
+        var currentUserId = _userManager.GetUserId(HttpContext.User);
+        var utilisateur = _context.Users.Find(currentUserId);
         var promotion = _context.Promotions.FirstOrDefault(p => p.CodePromo == codePromo);
 
+
+        // Vérifie si le code promo existe
         if (promotion == null) return Json(new { success = false, message = "Code promo invalide ou expiré." });
 
-        var currentUserId = _userManager.GetUserId(HttpContext.User);
+
+
+        // Vérifie si c'est le mois d'anniversaire de l'utilisateur
+        if (DateTime.Now.Month != utilisateur.DateNaissance?.Month && promotion.CodePromo == "BIRTHDAY")
+            return Json(new
+            {
+                success = false,
+                message = "Ce code promo est uniquement valide durant votre mois d'anniversaire."
+            });
+        // Vérifie si la promo a déjà été utilisée cette année
+        if (utilisateur.DerniereUtilisationPromoAnniversaire.HasValue &&
+            utilisateur.DerniereUtilisationPromoAnniversaire.Value.Year == DateTime.Now.Year &&
+            promotion.CodePromo == "BIRTHDAY")
+            return Json(new
+                { success = false, message = "Vous avez déjà utilisé ce code promo cette année." });
+
+
+
+
         var panierVM = new PanierVM
         {
             ListeArticles = _context.LivrePanier
@@ -322,13 +346,19 @@ public class PanierController : Controller
                 .Select(a => new AfficherPanierVM
                 {
                     Id = a.Id,
-                    Livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId),
-                    TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId),
+                    Livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId)!,
+                    TypeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId)!,
                     PrixOriginal = (double)_context.LivreTypeLivres
-                        .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId).Prix,
+                        .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId)!.Prix,
                     Quantite = a.Quantite
                 }).ToList()
         };
+
+        // Vérifie si une promotion a déjà été appliquée
+        if (panierVM.PromotionAppliquee)
+        {
+            return Json(new { success = false, message = "Une promotion a déjà été appliquée à ce panier." });
+        }
 
         double prixTotal = 0;
 
@@ -342,7 +372,12 @@ public class PanierController : Controller
             foreach (var article in panierVM.ListeArticles)
             {
                 if (EstEligiblePourPromotion(article, promotion))
+                {
+                    //Calcule le prix après promotion
                     article.PrixApresPromotion = CalculerPrixApresPromotion(article.PrixOriginal, promotion);
+
+
+                }
                 else
                     article.PrixApresPromotion = article.PrixOriginal;
 
@@ -363,13 +398,18 @@ public class PanierController : Controller
             }
         }
 
+        // Si la promotion est appliquée avec succès, marquez-la comme appliquée
+        panierVM.PromotionAppliquee = true;
+        // Mettre à jour la dernière utilisation
+        utilisateur.DerniereUtilisationPromoAnniversaire = DateTime.Now;
+        _context.Update(utilisateur);
         await _context.SaveChangesAsync();
 
         return Json(new
             { success = true, nouveauTotal = prixTotal, isValid = true, message = "Code promo appliqué avec succès." });
     }
 
-    private void AppliquerPromotionDeuxPourUn(PanierVM panierVM, Promotions promo)
+    private void AppliquerPromotionDeuxPourUn(PanierVM panierVM, Promotion promo)
     {
         if (!promo.LivresAcheter.HasValue || !promo.LivresGratuits.HasValue) return;
         // Récupérer tous les articles éligibles pour la promotion
@@ -392,7 +432,7 @@ public class PanierController : Controller
     }
 
 
-    private double CalculerPrixApresPromotion(double articlePrixOriginal, Promotions promo)
+    private double CalculerPrixApresPromotion(double articlePrixOriginal, Promotion promo)
     {
         var prixApresPromotion = articlePrixOriginal;
 
@@ -403,7 +443,7 @@ public class PanierController : Controller
         return prixApresPromotion;
     }
 
-    private bool EstEligiblePourPromotion(AfficherPanierVM article, Promotions promotion)
+    private bool EstEligiblePourPromotion(AfficherPanierVM article, Promotion promotion)
     {
         // Vérifie si la promotion est active en fonction de la date
         // if (DateTime.Now < promotion.DateDebut || DateTime.Now > promotion.DateFin)
@@ -415,7 +455,7 @@ public class PanierController : Controller
         return EstEligiblePourPromotionSpecifique(article, promotion);
     }
 
-    private bool EstEligiblePourPromotionSpecifique(AfficherPanierVM article, Promotions promotion)
+    private bool EstEligiblePourPromotionSpecifique(AfficherPanierVM article, Promotion promotion)
     {
         // Vérifie si l'article correspond à la catégorie spécifiée dans la promotion
         if (promotion.CategorieId != null)
@@ -444,10 +484,10 @@ public class PanierController : Controller
         public async Task<int> NbArticles()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var NbArticles = await _context.LivrePanier
+            var nbArticles = await _context.LivrePanier
                 .Where(a => a.UserId == currentUserId)
                 .SumAsync(a => a.Quantite ?? 1);
-            return NbArticles;
+            return nbArticles;
         }
 
         [HttpGet]

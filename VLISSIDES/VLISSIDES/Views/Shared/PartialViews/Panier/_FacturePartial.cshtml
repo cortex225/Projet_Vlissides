@@ -1,9 +1,10 @@
 ﻿@using System.Globalization
-<link rel="stylesheet" href="~/css/facture.css" />
+@model VLISSIDES.ViewModels.Panier.PanierVM
+<link rel="stylesheet" href="~/css/facture.css"/>
 
 @{
     float prixDonEco = 5;
-    string prixtotal = (Model.PrixTotal + 5).ToString("n", new CultureInfo("fr-CA"));
+    string prixtotal = (Model.PrixTotal + 5).ToString("F2", CultureInfo.GetCultureInfo("fr-CA"));
 
 }
 
@@ -12,25 +13,9 @@
     {
         <div class="article d-flex justify-content-between">
             <div class="w-75">@article.Livre.Titre - @article.TypeLivre.Nom</div>
-            <ul class="w-25" style="list-style:none">
-                @if (article.Quantite is not null) @* When article type is Papier *@
-                {
-                    @for (var quantite = 0; quantite < article.Quantite; quantite++)
-                    {
-                        <li class="float-end" >
-                            <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
-                            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
-                        </li>
-                    }
-                }
-                else @* When article type is numérique *@
-                {
-                    <li class="float-end">
-                        <div class="prix-original">@article.Prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
-                        <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
-                    </li>
-                }
-            </ul>
+            <div class="quantite">@article.Quantite x</div>
+            <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
         </div>
     }
 
@@ -72,11 +57,15 @@
 @* Rajout de l'input pour le code promo *@
 
 <div class="d-flex justify-content-between mt-4">
-    <button id="ajouterCodePromo" type="button" class="btn btn-light" onclick=" AfficherFieldCodePromo()">Ajouter un code promotionnel</button>
+    <button id="ajouterCodePromo" type="button" class="btn btn-light" onclick=" AfficherFieldCodePromo()"> <i class="fa-solid fa-tag fa-xl"></i> Ajouter un code promotionnel</button>
     <form class="d-flex hideInputCodePromo" role="search" id="inputCodePromoDiv">
         <input id="inputCodePromo" class="form-control me-2" type="search" placeholder="Code promo ici:" aria-label="Search">
         <button id="submitCodePromo" class="btn btn-primary" type="button" onclick="validerEtAppliquerCodePromo()">Ajouter</button>
     </form>
+</div>
+<div id="promoCodeDisplay" class="promo-code-container" style="display: none;">
+    <span id="appliedPromoCode" class="promo-code-text"></span>
+    <i onclick="annulerCodePromo()" class="fas fa-times annuler-promo-icon"></i>
 </div>
 
 
@@ -88,13 +77,12 @@
             <div id="prixTotal" class="">
                 @prixtotal
             </div>
-            $
         </div>
 
     </div>
 </div>
 
-<script>
+<script asp-append-version="true">
 function validerEtAppliquerCodePromo() {
     var codePromo = document.getElementById('inputCodePromo').value;
 
@@ -108,30 +96,36 @@ function validerEtAppliquerCodePromo() {
     .then(response => response.json())
     .then(data => {
         if (data.success && data.isValid) {
+            AfficherFacture(() => {
             // Mise à jour du total du panier
             var prixTotalElement = document.getElementById('prixTotal');
             if (prixTotalElement) {
-                prixTotalElement.innerText = data.nouveauTotal;
+                prixTotalElement.innerText = data.nouveauTotal.toFixed(2);
             }
             // Attende la mise à jour de la facture avant de modifier le DOM
-            AfficherFacture();
 
-           var articles = document.querySelectorAll(".article");
-                           articles.forEach(article => {
-                               var prixOriginal = article.querySelector(".prix-original");
-                               var prixPromo = article.querySelector(".prix-promo");
-
-
-                                   prixOriginal.classList.add("prix-barre");
-                                   prixPromo.style.display = "block";
+                var articles = document.querySelectorAll(".article");
+                articles.forEach(article => {
+                    var prixOriginal = article.querySelector(".prix-original");
+                    var prixPromo = article.querySelector(".prix-promo");
 
 
+                    prixOriginal.classList.add("prix-barre");
+                    prixPromo.style.display = "block";
+
+                });
+
+                // Afficher le code promo appliqué
+                 document.getElementById('appliedPromoCode').innerText = codePromo;
+                 document.getElementById('promoCodeDisplay').style.display = 'block';
+                 document.getElementById('ajouterCodePromo').style.display = 'none';
+            });
 
 
-                       });
+
         } else {
             // Affiche un message d'erreur
-            alert("Code promo invalide ou expiré.");
+            alert(data.message);
         }
     })
     .catch(error => {
@@ -139,4 +133,31 @@ function validerEtAppliquerCodePromo() {
     });
 }
 
+</script>
+
+<script>
+function annulerCodePromo() {
+    try {
+        document.getElementById('promoCodeDisplay').style.display = 'none';
+        var articles = document.querySelectorAll(".article");
+        articles.forEach(article => {
+            var prixOriginal = article.querySelector(".prix-original");
+            var prixPromo = article.querySelector(".prix-promo");
+
+            prixOriginal.classList.remove("prix-barre");
+            prixPromo.style.display = "none";
+        });
+        // Mise à jour du total du panier
+        var prixTotalElement = document.getElementById('prixTotal');
+        if (prixTotalElement) {
+            prixTotalElement.innerText = "@prixtotal";
+        }
+        // Attendre la mise à jour de la facture avant de modifier le DOM
+        AfficherFacture(() => {
+            document.getElementById('ajouterCodePromo').style.display = 'block';
+        });
+    } catch (message) {
+        console.error(message);
+    }
+}
 </script>

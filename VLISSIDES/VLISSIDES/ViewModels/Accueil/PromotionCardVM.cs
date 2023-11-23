@@ -22,13 +22,13 @@ public class PromotionCardVM
         Image = image;
     }
 
-    public PromotionCardVM(Promotions promotions)
+    public PromotionCardVM(Promotion promotion)
     {
-        Description = promotions.Description;
-        Rabais = (decimal)promotions.PourcentageRabais;
-        DateDebut = promotions.DateDebut;
-        DateFin = promotions.DateFin;
-        Image = promotions.Image;
+        Description = promotion.Description;
+        Rabais = (decimal)promotion.PourcentageRabais;
+        DateDebut = promotion.DateDebut;
+        DateFin = promotion.DateFin;
+        Image = promotion.Image;
     }
 
 }

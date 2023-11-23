@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="~/css/Accueil/promo-card.css">
 
 @{
-    var isIncompleteBirthday = User.Identity.IsAuthenticated && Model.User?.DateNaissance == null;
+    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.User?.DateNaissance == null;
 
 }
 <!--
@@ -153,14 +153,14 @@ Un bouton pour cacher/montrer les services de l'entreprises'
     }
 
 
-    <!-- Carousel contenant les promotions -->
+    <!-- Carousel contenant les promotion -->
     @if (Model.Promotions.Count > 1)
     {
-        <section class="promotions-section">
+        <section class="promotion-section">
             <h2 class="titreSections">Offres spéciales juste pour vous!</h2>
             <p>Découvrez nos offres du moment et enrichissez votre collection.</p>
             <div id="carouselPromotions" class="carousel slide">
-                <a class="voirPlus" asp-controller="Promotions" asp-action="Index">Voir plus -></a>
+                <a class="voirPlus" asp-controller="Promotion" asp-action="Index">Voir plus -></a>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="cards-wrapper d-flex justify-content-around">
@@ -196,11 +196,11 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                         </div>
                     }
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotions" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotion" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Précédent</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotions" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotion" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Suivant</span>
                 </button>

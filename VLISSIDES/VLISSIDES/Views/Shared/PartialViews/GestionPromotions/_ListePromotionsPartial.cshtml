@@ -6,21 +6,25 @@
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
 }
+@using System.ComponentModel
 @model List<VLISSIDES.ViewModels.GestionPromotions.GestionPromotionsIndexVM>
 <div class="mb-3 mx-3">
     <div class="row px-2">
-        <div class="col-2 text-center">
+        <h5 class="col-2 text-center">
             Nom Promotion
-        </div>
-        <div class="col-2 text-center">
+        </h5>
+        <h5 class="col-2 text-center">
             Date de Debut
-        </div>
+        </h5>
         <div class="col-2 text-center">
             Date de Fin
         </div>
-        <div class="col-1 text-center">
-            Rabais
-        </div>
+        <h5 class="col-2 text-center">
+            Rabais (%)
+        </h5>
+        <h5 class="col-2 text-center">
+            Type de promotion
+        </h5>
     </div>
 
 </div>
@@ -42,11 +46,13 @@
             <div class="col-2 text-center">
                 @Html.DisplayFor(modelItem => item.DateFin)
             </div>
-            <div class="col-1 text-center">
+            <div class="col-2 text-center">
                 @Html.DisplayFor(modelItem => item.Rabais)
             </div>
-            <div class="col-3"></div>
-            <div class="col-2 text-center d-flex flex-row justify-content-around h-40">
+            <div class="col-2 text-center">
+                @Html.DisplayFor(modelItem => item.TypePromotion)
+            </div>
+            <div class="col-2 text-center d-flex flex-row justify-content-evenly h-40">
 
                 <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("ModifierPromotion", "GestionPromotions", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
                     <span class="fa-solid fa-pen fa-2x"></span>

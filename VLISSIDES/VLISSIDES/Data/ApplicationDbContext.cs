@@ -40,7 +40,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Langue> Langues { get; set; }
     public DbSet<MaisonEdition> MaisonEditions { get; set; }
 
-    public DbSet<Promotions> Promotions { get; set; }
+    public DbSet<Promotion> Promotions { get; set; }
 
     public DbSet<LivreTypeLivre> LivreTypeLivres { get; set; }
 
@@ -51,7 +51,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<LivreCategorie> LivreCategories { get; set; }
 
     public DbSet<LivreAuteur> LivreAuteurs { get; set; }
-
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -276,18 +275,34 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         #region Promotion
 
         //Une promotion peut avoir une seule maison d'édition et une maison d'édtion peut avoir plusieurs promotions
-        builder.Entity<Promotions>()
+        builder.Entity<Promotion>()
             .HasOne(p => p.MaisonEdition)
             .WithMany(me => me.Promotions);
         //Une promotion peut avoir un seul auteur et un auteur peut avoir plusieurs promotions
-        builder.Entity<Promotions>()
+        builder.Entity<Promotion>()
             .HasOne(p => p.Auteur)
             .WithMany(a => a.Promotions);
         //Une promotion peut avoir une seule categorie et une categorie peut avoir plusieurs promotions
-        builder.Entity<Promotions>()
+        builder.Entity<Promotion>()
             .HasOne(p => p.Categorie)
             .WithMany(c => c.Promotions);
 
+        //Creation d'une promoition d'anniversaire par défaut
+        builder.Entity<Promotion>().HasData(
+            new Promotion
+            {
+                Id = "0",
+                Nom = "Promotion Anniversaire",
+                Description = "Ce code promo est uniquement valide durant votre mois d'anniversaire.",
+                DateDebut = DateTime.Now,
+                DateFin = DateTime.Now.AddYears(1),
+                TypePromotion = "Pourcentage",
+                PourcentageRabais = 10,
+                Image = "/img/images_Promo/birthday.jpg",
+
+                CodePromo = "BIRTHDAY",
+            }
+        );
         #endregion
     }
 }
