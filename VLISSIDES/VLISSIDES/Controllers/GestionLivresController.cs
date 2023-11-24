@@ -240,17 +240,7 @@ public class GestionLivresController : Controller
         var livresVM = livres
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
             .Take(itemsPerPage)
-            .Select(l => new GestionLivresAfficherVM
-            {
-                Id = l.Id,
-                Image = l.Couverture,
-                Titre = l.Titre,
-                ISBN = l.ISBN,
-                Categories = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).ToList(),
-                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
-                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
-                Quantite = l.NbExemplaires,
-            }).ToList();
+            .Select(l => new GestionLivresAfficherVM(l)).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
@@ -279,32 +269,35 @@ public class GestionLivresController : Controller
 
     // GET: C
     [Route("2147186/GestionLivres/Ajouter")]
-    public IActionResult Ajouter()
-    {
-        var vm = new AjouterVM();
-        //Populer les listes déroulantes
-        vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
-        {
-            Text = x.NomAuteur,
-            Value = x.Id
-        }).ToList();
-        vm.SelectMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
-        {
-            Text = x.Nom,
-            Value = x.Id
-        }).ToList();
-        vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
-        {
-            Text = x.Nom,
-            Value = x.Id
-        }).ToList();
-        vm.SelectLangues = _context.Langues.Select(x => new SelectListItem
-        {
-            Text = x.Nom,
-            Value = x.Id
-        }).ToList();
-        return PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", vm);
-    }
+    public IActionResult Ajouter() => PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", new AjouterVM(
+            _context.Categories.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList(),
+            _context.Auteurs.Select(x => new SelectListItem
+            {
+                Text = x.NomAuteur,
+                Value = x.Id
+            }).ToList(),
+            _context.MaisonEditions.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList(),
+            _context.TypeLivres.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList(),
+            _context.Langues.Select(x => new SelectListItem
+            {
+                Text = x.Nom,
+                Value = x.Id
+            }).ToList(),
+            null,
+            null
+            ));
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -358,13 +351,13 @@ public class GestionLivresController : Controller
             var id = Guid.NewGuid().ToString();
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
-            if (vm.Neuf)
+            if (vm.Papier)
                 //var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
                 listeType.Add(new LivreTypeLivre
                 {
                     LivreId = id,
                     TypeLivreId = "1",
-                    Prix = vm.PrixNeuf
+                    Prix = vm.PrixPapier
                 });
 
             if (vm.Numerique)
@@ -471,74 +464,23 @@ public class GestionLivresController : Controller
             .Include(l => l.Categories)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
-        var vm = new ModifierVM
-        {
-            Id = livre.Id,
-            ISBN = livre.ISBN,
-            //Auteur = livre.Auteurs,
-            DatePublication = livre.DatePublication,
-            NbExemplaires = livre.NbExemplaires,
-            NbPages = livre.NbPages,
-            Resume = livre.Resume,
-            Titre = livre.Titre,
-            LangueId = livre.LangueId,
-            CoverImageUrl = livre.Couverture
-        };
-        //Remplir les checkbox types 
-        if (livre.LivreTypeLivres.Count == 0)
-        {
-            vm.Neuf = false;
-            vm.Numerique = false;
-        }
-        else
-        {
-            if (livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1") != null)
-            {
-                vm.Neuf = true;
-                vm.PrixNeuf = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1").Prix;
-            }
-            else
-            {
-                vm.Neuf = false;
-            }
-
-            if (livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2") != null)
-            {
-                vm.Numerique = true;
-                vm.PrixNumerique = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2").Prix;
-            }
-            else
-            {
-                vm.Numerique = false;
-            }
-        }
-        //Préselectionner les auteurs
-        vm.AuteurIds = new List<string>();
-        vm.AuteurIds.AddRange(livre.LivreAuteurs.Select(a => a.AuteurId));
-        //Préselectionner les catégories
-        vm.CategorieIds = new List<string>();
-        vm.CategorieIds.AddRange(livre.Categories.Select(c => c.CategorieId));
-        //Populer les selectList
-        vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
-        {
-            Text = x.NomAuteur,
-            Value = x.Id
-        }).ToList();
-        vm.SelectMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
+        var vm = new ModifierVM(livre, _context.Categories.Select(x => new SelectListItem
         {
             Text = x.Nom,
             Value = x.Id
-        }).ToList();
-        vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
+        }).ToList(), _context.MaisonEditions.Select(x => new SelectListItem
         {
             Text = x.Nom,
             Value = x.Id
-        }).ToList();
-        vm.SelectLangues = _context.Langues.Select(x => new SelectListItem
+        }).ToList(), _context.MaisonEditions.Select(x => new SelectListItem
         {
             Text = x.Nom,
             Value = x.Id
-        }).ToList();
+        }).ToList(), _context.Langues.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList(), null, null);
         return PartialView("PartialViews/Modals/InventaireLivres/_EditPartial", vm);
     }
 
@@ -589,12 +531,12 @@ public class GestionLivresController : Controller
             }
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
-            if (vm.Neuf)
+            if (vm.Papier)
                 listeType.Add(new LivreTypeLivre
                 {
                     LivreId = vm.Id,
                     TypeLivreId = "1",
-                    Prix = vm.PrixNeuf
+                    Prix = vm.PrixPapier
                 });
 
             if (vm.Numerique)
@@ -619,7 +561,7 @@ public class GestionLivresController : Controller
             livre.NbExemplaires = vm.NbExemplaires;
             livre.NbPages = vm.NbPages;
             livre.LangueId = vm.LangueId;
-            livre.LivreTypeLivres = listeType; 
+            livre.LivreTypeLivres = listeType;
             livre.Couverture = vm.CoverImageUrl;
             livre.MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId));
             livre.DatePublication = vm.DatePublication;

@@ -1,29 +1,46 @@
-﻿using VLISSIDES.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Recherche;
 
 public class DetailsLivreVM
 {
-    public DetailsLivreVM(string id, string titre, IEnumerable<Auteur> auteurs, IEnumerable<Categorie> categories,
-        IEnumerable<int> notes,
-        DateTime datePublication, string couverture, MaisonEdition? maisonEdition, int nbPages, string resume,
-        int nbExemplaires,
-        ICollection<LivreTypeLivre> livreTypeLivres, string isbn, string langue)
+
+    [Display(Name = "Identifié")] public string Id { get; set; }
+    [Display(Name = "Titre")] public string Titre { get; set; }
+    [Display(Name = "Auteurs")] public List<string> Auteurs { get; set; }
+    [Display(Name = "Categories")] public List<string> Categories { get; set; }
+    [Display(Name = "DatePublication")] public DateTime DatePublication { get; set; }
+    [Display(Name = "Couverture")] public string Couverture { get; set; }
+    [Display(Name = "MaisonEdition")] public string MaisonEdition { get; set; }
+    [Display(Name = "NbPages")] public int NbPages { get; set; }
+    [Display(Name = "Resume")] public string Resume { get; set; }
+    [Display(Name = "NbExemplaires")] public int NbExemplaires { get; set; }
+    [Display(Name = "Papier")] public decimal? Papier { get; set; }
+    [Display(Name = "Numerique")] public decimal? Numerique { get; set; }
+
+    [Display(Name = "Note")] public decimal Note { get; set; }
+
+    [Display(Name = "ISBN")] public string ISBN { get; set; }
+
+    [Display(Name = "Langue")] public string Langue { get; set; }
+    [Display(Name = "Quantite")] public int Quantite { get; set; }
+    public DetailsLivreVM(Livre livre)
     {
-        Id = id;
-        Titre = titre;
-        Auteurs = auteurs.Select(a => a.NomAuteur).ToList();
-        Categories = categories.Select(c => c.Nom).ToList();
-        Notes = notes.ToList();
-        DatePublication = datePublication;
-        Couverture = couverture;
-        MaisonEdition = maisonEdition != null ? maisonEdition.Nom : "";
-        NbPages = nbPages;
-        Resume = resume;
-        ISBN = isbn;
-        Langue = langue;
-        NbExemplaires = nbExemplaires;
-        foreach (var media in livreTypeLivres)
+        Id = livre.Id;
+        Titre = livre.Titre;
+        Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
+        Categories = livre.Categories.Select(c => c.Categorie.Nom).ToList();
+        Note = livre.Note;
+        DatePublication = livre.DatePublication;
+        Couverture = livre.Couverture;
+        MaisonEdition = livre.MaisonEdition != null ? livre.MaisonEdition.Nom : "";
+        NbPages = livre.NbPages;
+        Resume = livre.Resume;
+        ISBN = livre.ISBN;
+        Langue = livre.Langue.Nom;
+        NbExemplaires = livre.NbExemplaires;
+        foreach (var media in livre.LivreTypeLivres)
             switch (media.TypeLivre.Nom)
             {
                 case "Papier":
@@ -33,42 +50,5 @@ public class DetailsLivreVM
                     Numerique = media.Prix;
                     break;
             }
-
-        CalculerNote();
-    }
-
-    public string Id { get; set; }
-    public string Titre { get; set; }
-    public List<string> Auteurs { get; set; }
-    public List<string> Categories { get; set; }
-    public List<int> Notes { get; set; }
-    public DateTime DatePublication { get; set; }
-    public string Couverture { get; set; }
-    public string MaisonEdition { get; set; }
-    public int NbPages { get; set; }
-    public string Resume { get; set; }
-    public int NbExemplaires { get; set; }
-    public decimal? Papier { get; set; }
-    public decimal? Numerique { get; set; }
-
-    private Random rnd { get; set; }
-    private double rDouble { get; set; }
-    public double Note { get; set; }
-
-    public string ISBN { get; set; }
-
-    public string Langue { get; set; }
-    public int Quantite { get; set; }
-
-    public void CalculerNote()
-    {
-        var total = 0.0;
-        double nbNotes = Notes.Count();
-        foreach (var n in Notes) total += Convert.ToDouble(n);
-
-        if (nbNotes == 0.0)
-            Note = 0.0;
-        else
-            Note = total / nbNotes;
     }
 }
