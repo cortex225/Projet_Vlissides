@@ -1,9 +1,8 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -44,40 +43,11 @@ public class GestionCommandesController : Controller
             .Include(c => c.Membre);
         var livreCommandes = _context.LivreCommandes;
 
-        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
-        {
-            Livre = lc.Livre,
-            CommandeId = lc.CommandeId,
-            Quantite = lc.Quantite,
-            PrixAchat = lc.PrixAchat,
-            EnDemandeRetourner = lc.EnDemandeRetourner
-        }).ToList();
+        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc)).ToList();
 
-        var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM
-        {
-            Id = c.Id.ToString(),
-            DateCommande = c.DateCommande,
-            PrixTotal = c.PrixTotal,
-            MembreUserName = c.Membre.UserName,
-            AdresseId = c.AdresseId,
-            LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
-            StatutId = c.StatutCommande.Id,
-            StatutNom = c.StatutCommande.Nom,
-            EnDemandeAnnulation = c.EnDemandeAnnulation
-        }).OrderBy(c => c.DateCommande).ToList();
+        var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM(c)).OrderBy(c => c.DateCommande).ToList();
 
-        var affichageCommandes = new AffichageCommandeVM
-        {
-            ListCommandes = listeCommandeVM
-        };
-
-        affichageCommandes.SelectListStatut = _context.StatutCommandes.Select(s => new SelectListItem
-        {
-            Text = s.Nom,
-            Value = s.Id
-        }).ToList();
-
-        return View(affichageCommandes);
+        return View(new AffichageCommandeVM(listeCommandeVM, "", _context.StatutCommandes));
     }
 
     public IActionResult AfficherCommandes(string? motCles, string? criteres)
@@ -94,27 +64,9 @@ public class GestionCommandesController : Controller
             .Include(c => c.Membre);
         var livreCommandes = _context.LivreCommandes;
 
-        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
-        {
-            Livre = lc.Livre,
-            CommandeId = lc.CommandeId,
-            Quantite = lc.Quantite,
-            PrixAchat = lc.PrixAchat,
-            EnDemandeRetourner = lc.EnDemandeRetourner
-        }).ToList();
+        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc)).ToList();
 
-        var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM
-        {
-            Id = c.Id.ToString(),
-            DateCommande = c.DateCommande,
-            PrixTotal = c.PrixTotal,
-            MembreUserName = c.Membre.UserName,
-            AdresseId = c.AdresseId,
-            LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
-            StatutId = c.StatutCommande.Id,
-            StatutNom = c.StatutCommande.Nom,
-            EnDemandeAnnulation = c.EnDemandeAnnulation
-        }).OrderByDescending(c => c.DateCommande).ToList();
+        var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM(c)).OrderByDescending(c => c.DateCommande).ToList();
 
         if (listCriteres.Any(c => c == "rechercherCommande"))
             if (listCriteresValue[3] != "")
@@ -137,22 +89,12 @@ public class GestionCommandesController : Controller
             if (listCriteresValue[2] == "2")
                 listeCommandeVM = listeCommandeVM.Where(c => c.EnDemandeAnnulation).ToList();
             if (listCriteresValue[2] == "3")
-                listeCommandeVM = listeCommandeVM.Where(c => c.LivreCommandes.Any(lc => lc.EnDemandeRetourner))
+                listeCommandeVM = listeCommandeVM.Where(c => c.LivreCommandes.Any(lc => lc.EnDemandeRetourne))
                     .ToList();
         }
 
-        var affichageCommandes = new AffichageCommandeVM
-        {
-            ListCommandes = listeCommandeVM
-        };
 
-        affichageCommandes.SelectListStatut = _context.StatutCommandes.Select(s => new SelectListItem
-        {
-            Text = s.Nom,
-            Value = s.Id
-        }).ToList();
-
-        return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
+        return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", new AffichageCommandeVM(listeCommandeVM, "", _context.StatutCommandes));
     }
 
     [HttpPost]
@@ -264,14 +206,7 @@ public class GestionCommandesController : Controller
         var lc = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId);
         if (lc == null || commande == null) return BadRequest();
 
-        var livresCommandes = lc.Select(lc => new LivreCommandeVM
-        {
-            Livre = lc.Livre,
-            CommandeId = lc.CommandeId,
-            Quantite = lc.Quantite,
-            PrixAchat = lc.PrixAchat,
-            EnDemandeRetourner = lc.EnDemandeRetourner
-        }).ToList();
+        var livresCommandes = lc.Select(lc => new LivreCommandeVM(lc)).ToList();
 
         // Récupérer l'URL complète du logo à partir de l'application
         var logoUrl =
@@ -320,14 +255,7 @@ public class GestionCommandesController : Controller
 
         var lc = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId);
 
-        var livresCommandes = lc.Select(lc => new LivreCommandeVM
-        {
-            Livre = lc.Livre,
-            CommandeId = lc.CommandeId,
-            Quantite = lc.Quantite,
-            PrixAchat = lc.PrixAchat,
-            EnDemandeRetourner = lc.EnDemandeRetourner
-        }).ToList();
+        var livresCommandes = lc.Select(lc => new LivreCommandeVM(lc)).ToList();
 
         // Récupérer l'URL complète du logo à partir de l'application
         var logoUrl =

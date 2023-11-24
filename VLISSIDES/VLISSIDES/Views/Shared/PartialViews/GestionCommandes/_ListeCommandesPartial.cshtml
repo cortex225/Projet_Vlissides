@@ -5,7 +5,7 @@
 
 <link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
 <div id="accordion">
-    @foreach (var commande in @Model.ListCommandes)
+    @foreach (var commande in @Model.Commandes)
     {
         <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable">
             <div class="row d-flex p-2">
@@ -24,7 +24,7 @@
                 <div class="mediaQuerryHideOnMedium col-2 form-group d-flex justify-content-center">
                     <div>
                         <select id="@commande.Id statutSelectList" class="form-select my-auto" style="width:auto;" onchange="enableButton('@commande.Id')" name="StatutId">
-                            @foreach (var statut in Model.SelectListStatut)
+                            @foreach (var statut in Model.ListStatut)
                             {
                                 if (statut.Value == commande.StatutId)
                                 {
@@ -54,7 +54,7 @@
                     {
                         <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Annulation</span>
                     }
-                    @if(commande.LivreCommandes.Any(lc => lc.EnDemandeRetourner == true))
+                    @if(commande.LivreCommandes.Any(lc => lc.EnDemandeRetourne == true))
                     {
                         <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Retour</span>
                     }
@@ -80,7 +80,7 @@
                                     @prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))
                                 </div>
                                 <div class="mediaQuerryHideOnMediumSmall">
-                                    @if (item.EnDemandeRetourner == true)
+                                    @if (item.EnDemandeRetourne == true)
                                     {
                                         <div class="col-sm-3 d-flex justify-content-center my-auto">
                                             <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowAccepterRetourConfirmation", "GestionCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Accepter</button>

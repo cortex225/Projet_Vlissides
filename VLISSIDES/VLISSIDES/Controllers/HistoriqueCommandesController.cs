@@ -64,7 +64,7 @@ public class HistoriqueCommandes : Controller
             CommandeId = lc.CommandeId,
             Quantite = lc.Quantite,
             PrixAchat = lc.PrixAchat,
-            EnDemandeRetourner = lc.EnDemandeRetourner
+            EnDemandeRetourne = lc.EnDemandeRetourner
         }).ToList();
 
         var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
@@ -82,10 +82,10 @@ public class HistoriqueCommandes : Controller
 
         var affichageCommandes = new AffichageCommandeVM
         {
-            ListCommandes = listeCommandeVM
+            Commandes = listeCommandeVM
         };
 
-        affichageCommandes.SelectListStatut = _context.StatutCommandes.Select(s => new SelectListItem
+        affichageCommandes.ListStatut = _context.StatutCommandes.Select(s => new SelectListItem
         {
             Text = s.Nom,
             Value = s.Id
@@ -116,7 +116,7 @@ public class HistoriqueCommandes : Controller
             CommandeId = lc.CommandeId,
             Quantite = lc.Quantite,
             PrixAchat = lc.PrixAchat,
-            EnDemandeRetourner = lc.EnDemandeRetourner
+            EnDemandeRetourne = lc.EnDemandeRetourner
         }).ToList();
 
         var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
@@ -150,10 +150,10 @@ public class HistoriqueCommandes : Controller
 
         var affichageCommandes = new AffichageCommandeVM
         {
-            ListCommandes = listeCommandeVM
+            Commandes = listeCommandeVM
         };
 
-        affichageCommandes.SelectListStatut = _context.StatutCommandes.Select(s => new SelectListItem
+        affichageCommandes.ListStatut = _context.StatutCommandes.Select(s => new SelectListItem
         {
             Text = s.Nom,
             Value = s.Id
@@ -257,7 +257,7 @@ public class HistoriqueCommandes : Controller
                 CommandeId = lc.CommandeId,
                 Quantite = lc.Quantite,
                 PrixAchat = lc.PrixAchat,
-                EnDemandeRetourner = lc.EnDemandeRetourner
+                EnDemandeRetourne = lc.EnDemandeRetourner
             }).ToList();
 
             //Send email

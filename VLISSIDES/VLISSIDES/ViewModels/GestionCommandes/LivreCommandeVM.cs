@@ -1,16 +1,26 @@
-﻿using VLISSIDES.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.GestionCommandes;
 
 public class LivreCommandeVM
 {
-    public Livre Livre { get; set; } = default!;
+    [Display(Name = "Livre")] public Livre Livre { get; set; }
 
-    public string CommandeId { get; set; } = default!;
+    [Display(Name = "Commande identifiant")] public string CommandeId { get; set; }
 
-    public int Quantite { get; set; } = default!;
+    [Display(Name = "Quantité")] public int Quantite { get; set; }
 
-    public double PrixAchat { get; set; } = default!;
+    [Display(Name = "Prix de l'achat")] public double PrixAchat { get; set; }
 
-    public bool EnDemandeRetourner { get; set; } = default!;
+    [Display(Name = "En demande d'être retourné")] public bool EnDemandeRetourne { get; set; }
+
+    public LivreCommandeVM(LivreCommande livreCommande)
+    {
+        Livre = livreCommande.Livre;
+        CommandeId = livreCommande.CommandeId;
+        Quantite = livreCommande.Quantite;
+        PrixAchat = livreCommande.PrixAchat;
+        EnDemandeRetourne = livreCommande.EnDemandeRetourner;
+    }
 }

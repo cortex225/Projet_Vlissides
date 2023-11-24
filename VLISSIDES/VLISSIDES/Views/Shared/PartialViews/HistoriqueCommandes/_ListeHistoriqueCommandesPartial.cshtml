@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
 <div id="accordion">
-    @foreach (var commande in Model.ListCommandes)
+    @foreach (var commande in Model.Commandes)
     {
         <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable">
             <div class="row d-flex p-2">
@@ -78,7 +78,7 @@
                                     {
                                         @if (item.Quantite > 1)
                                         {
-                                            @if (item.EnDemandeRetourner == false)
+                                            @if (item.EnDemandeRetourne == false)
                                             {
                                                 var inputId = $"quantite-{item.CommandeId}-{item.Livre.Id}";
 
