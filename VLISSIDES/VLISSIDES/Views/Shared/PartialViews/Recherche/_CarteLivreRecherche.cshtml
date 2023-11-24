@@ -50,5 +50,8 @@
             }
         </div>
         <p class="quantite">@Model.NbExemplaires En Stock</p>
+        <a  class="ajouterAuPanierCard" onclick="window.location.href=`@BASE_URL_RAZOR`+`/Recherche/Details?id=@Model.Id`">
+            <i class="fa-solid  fa-basket-shopping"></i>
+            </a>
     </div>
 </div>

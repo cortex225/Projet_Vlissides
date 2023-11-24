@@ -15,6 +15,7 @@
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-color: rgba(197, 223, 249, 0.6);
 }
 
 /* Styles pour l'image du livre */
@@ -109,6 +110,21 @@
     background-color: rgba(255, 255, 255, 0.9);
     padding: 2px 5px;
     border-radius: 5px;
+}
+
+.ajouterAuPanierCard {
+    position: absolute;
+    top: 10px;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #146ec3;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+.ajouterAuPanierCard:hover {
+    color: rgba(255, 255, 255, 0.9);
+    background-color: #146ec3;
 }
 
 /* Icônes */
