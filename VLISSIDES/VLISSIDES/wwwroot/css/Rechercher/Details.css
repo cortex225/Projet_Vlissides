@@ -1,14 +1,14 @@
 ﻿#detailsDivPrincipal {
-    max-width:100%;
+    max-width: 100%;
 }
 
-    #detailsDivPrincipal * {
-        margin: 2px;
-    }   
+#detailsDivPrincipal * {
+    margin: 2px;
+}
 
 #checkboxTypeLivre {
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;
 }
 
 #DetailsInfo {
@@ -16,19 +16,20 @@
 }
 
 .btnPanier {
-    width: 100%; 
+    width: 100%;
     display: flex;
     align-items: center;
 }
- 
+
 #DetailsDIV {
     max-width: 30%;
     min-width: 30%;
 }
 
 #DetailsIMG {
-    max-width: 100%;    
+    max-width: 100%;
 }
+
 #commande * {
     width: min-content;
 }

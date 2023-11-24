@@ -29,42 +29,41 @@
 <div class="event-card card shadow-sm p-3 my-4 bg-white event-card " style="height:250px">
 
 
-<div class="event-card shadow-sm bg-white event-card ">
-    <div class="row align-items-center">
-        <div class="col-md-3 text-center text-md-left">
-            <img src="@Model.Image" alt="Image de l'événement" class="img-fluid rounded mb-3 mb-md-0">
-        </div>
-        <div class="col-md-6 text-center text-md-left">
-            <h2 class="font-weight-bold mb-3">@Model.Nom</h2>
-            <p class="text-muted">@Model.Description</p>
-            @{
-                if (Model.NbPlacesReservees != Model.NbPlaces)
-                {
-                    <button class="reserve-btn btn btn-primary" onclick="Reserver('@Model.Id')">Réserver Maintenant</button>
+    <div class="event-card shadow-sm bg-white event-card ">
+        <div class="row align-items-center">
+            <div class="col-md-3 text-center text-md-left">
+                <img src="@Model.Image" alt="Image de l'événement" class="img-fluid rounded mb-3 mb-md-0">
+            </div>
+            <div class="col-md-6 text-center text-md-left">
+                <h2 class="font-weight-bold mb-3">@Model.Nom</h2>
+                <p class="text-muted">@Model.Description</p>
+                @{
+                    if (Model.NbPlacesReservees != Model.NbPlaces)
+                    {
+                        <button class="reserve-btn btn btn-primary" onclick="Reserver('@Model.Id')">Réserver Maintenant</button>
+                    }
 
                 }
 
-            }
-
+            </div>
+            <div class="cacher col-md-3 text-center text-md-left event-date-time">
+                <div class="d-flex align-items-center justify-content-center justify-content-md-start rounded-2 p-2 dateEvent">
+                    <i class="fas fa-calendar-alt mr-2 mx-2"></i> @Model.DateDebut.Day / @Model.DateDebut.Month / @Model.DateDebut.Year
+                </div>
+                <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+                    <i class="fas fa-clock mr-2 mx-2"></i> @Model.DateDebut.Hour : @Model.DateDebut.Minute
+                </div>
+                <div class="d-flex flex-column">
+                    <p><i class="fas fa-chair mr-2 mx-2"></i>Réservation</p>
+                    <p>@Model.NbPlacesRestantes/@Model.NbPlaces</p>
+                    <p><i class="fas fa-chair mr-2 mx-2"></i>public</p>
+                    <p>@Model.NbPlacesMembre</p>
+                </div>
+            </div>
         </div>
-        <div class="cacher col-md-3 text-center text-md-left event-date-time">
-            <div class="d-flex align-items-center justify-content-center justify-content-md-start rounded-2 p-2 dateEvent">
-                <i class="fas fa-calendar-alt mr-2 mx-2"></i> @Model.DateDebut.Day / @Model.DateDebut.Month / @Model.DateDebut.Year
-            </div>
-            <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                <i class="fas fa-clock mr-2 mx-2"></i> @Model.DateDebut.Hour : @Model.DateDebut.Minute
-            </div>
-            <div class="d-flex flex-column">
-                <p><i class="fas fa-chair mr-2 mx-2"></i>Réservation</p>
-                <p>@Model.NbPlacesRestantes/@Model.NbPlaces</p>
-                <p><i class="fas fa-chair mr-2 mx-2"></i>public</p>
-                <p>@Model.NbPlacesMembre</p>
-            </div>
-        </div>
+        @if (Model.DateFin <= DateTime.UtcNow)
+        {
+            <div class="cacher sticker badge badge-danger position-absolute" style="top: 10px; right: 10px;">Complet</div>
+        }
     </div>
-    @if (Model.DateFin<=DateTime.UtcNow)
-    {
-        <div class="cacher sticker badge badge-danger position-absolute" style="top: 10px; right: 10px;">Complet</div>
-    }
-</div>
 </div>

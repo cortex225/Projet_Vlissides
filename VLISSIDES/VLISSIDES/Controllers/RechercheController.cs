@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Web.WebPages;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Recherche;
@@ -14,7 +14,7 @@ public class RechercheController : Controller
     private readonly ApplicationDbContext _context;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-      public RechercheController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
+    public RechercheController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
         IConfiguration config)
     {
         _context = context;
@@ -58,7 +58,8 @@ public class RechercheController : Controller
         if (criteres.IsEmpty()) //Lorsqu'il n'y a pas de criteres spécifiques
             for (var id = 0; id < listMotCles.Count(); ++id)
                 livresRecherches = livresRecherches
-                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + (listMotCles.Any() ? listMotCles[id] : "") + ".*", RegexOptions.IgnoreCase))
+                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + (listMotCles.Any() ? listMotCles[id] : "") + ".*",
+                        RegexOptions.IgnoreCase))
                     .ToList();
         else if (listCriteres.Count > 0)
             for (var i = 0; i < listMotCles.Count(); ++i)
@@ -134,6 +135,7 @@ public class RechercheController : Controller
             livresRecherches = livresRecherches
                 .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                 .ToList();
+
         var itemsPerPage = 15;
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
@@ -144,7 +146,9 @@ public class RechercheController : Controller
 
 
         return View(new IndexRechercheVM(motCles, criteres, livresRecherches
-            .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions, categories, langues, typeLivres, new List<DetailsLivreVM>()));
+                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions,
+            categories,
+            langues, typeLivres, new List<DetailsLivreVM>()));
     }
 
     // GET: RechercheController
@@ -168,7 +172,8 @@ public class RechercheController : Controller
         if (livre == null) return NotFound();
 
         return View(new DetailsLivreVM(livre.Id, livre.Titre, livre.LivreAuteurs.Select(la => la.Auteur),
-            livre.Categories.Select(lc => lc.Categorie), livre.Evaluations.Select(lc => lc.Note), livre.DatePublication, livre.Couverture, livre.MaisonEdition,
+            livre.Categories.Select(lc => lc.Categorie), livre.Evaluations.Select(lc => lc.Note), livre.DatePublication,
+            livre.Couverture, livre.MaisonEdition,
             livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres, livre.ISBN, livre.Langue.Nom));
     }
 }

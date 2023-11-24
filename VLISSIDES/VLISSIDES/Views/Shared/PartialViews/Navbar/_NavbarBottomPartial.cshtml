@@ -3,7 +3,7 @@
 @{
     var nbArticles = Context.Session.GetInt32("NbArticles") ?? 0;
 }
-<link rel="stylesheet" href="~/css/NavBar/NavBarBottom.css" />
+<link rel="stylesheet" href="~/css/NavBar/NavBarBottom.css"/>
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-0 px-4" id="navBottom">
 
@@ -108,20 +108,20 @@
                     -->
                     @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
                     {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
-                            Consulter le panier
-                            <i class="fa-solid fa-cart-shopping">
-                                <span class="badge-panier" id="nbArticles">
-                                    @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
-                                    {
-                                        <span id="nbArticlesText">@nbArticles</span>
-                                    }
-                                </span>
-                            </i>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
+                                Consulter le panier
+                                <i class="fa-solid fa-cart-shopping">
+                                    <span class="badge-panier" id="nbArticles">
+                                        @if (User.IsInRole(RoleName.MEMBRE) || User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE))
+                                        {
+                                            <span id="nbArticlesText">@nbArticles</span>
+                                        }
+                                    </span>
+                                </i>
 
-                        </a>
-                    </li>
+                            </a>
+                        </li>
                     }
 
                 </ul>

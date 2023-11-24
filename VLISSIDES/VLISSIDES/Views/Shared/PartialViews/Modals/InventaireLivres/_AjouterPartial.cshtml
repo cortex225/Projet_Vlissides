@@ -63,12 +63,12 @@
                                 <div id="inputsNeuf" class="">
                                     <div class="form-group">
                                         <label asp-for="PrixNeuf" class="control-label"></label>
-                                        <input asp-for="PrixNeuf" type="number" class="form-control" />
+                                        <input asp-for="PrixNeuf" type="number" class="form-control"/>
                                         <span asp-validation-for="PrixNeuf" class="text-danger"></span>
                                     </div>
                                     <div>
                                         <label asp-for="NbExemplaires" class="control-label"></label>
-                                        <input asp-for="NbExemplaires" type="number" class="form-control" />
+                                        <input asp-for="NbExemplaires" type="number" class="form-control"/>
                                     </div>
                                 </div>
                             }
@@ -92,7 +92,6 @@
                             <label asp-for="@Model.Numerique"></label>
                             @if (Model.Numerique)
                             {
-
                                 <div id="inputNumerique" class="">
                                     <div class="custom-file row">
                                         <label asp-for="NumeriqueFile" class="control-label"></label>
@@ -102,14 +101,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="PrixNumerique" class="control-label"></label>
-                                        <input asp-for="PrixNumerique" type="number" class="form-control" />
+                                        <input asp-for="PrixNumerique" type="number" class="form-control"/>
                                         <span asp-validation-for="PrixNumerique" class="text-danger"></span>
                                     </div>
                                 </div>
                             }
                             else
                             {
-
                                 <div id="inputNumerique" class="visually-hidden">
                                     <div class="custom-file row">
                                         <label asp-for="NumeriqueFile" class="control-label"></label>

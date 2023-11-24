@@ -96,18 +96,19 @@ public class PaiementController : Controller
         // Récupere les données de LivrePanier basées sur l'identifiant de l'utilisateur
         var panierItems = _context.LivrePanier
             .Where(lp => lp.UserId == userId)
-            .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres).ThenInclude(livretypelivre => livretypelivre.TypeLivre)
+            .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+            .ThenInclude(livretypelivre => livretypelivre.TypeLivre)
             .ToList();
-            //Tax livre
+        //Tax livre
 
-            var taxLivreOptions = new TaxRateCreateOptions
-            {
-                DisplayName = "TPS",
-                Inclusive = false,
-                Percentage = 5,
-            };
-            var taxLivreService = new TaxRateService();
-            var taxLivreRate = taxLivreService.Create(taxLivreOptions);
+        var taxLivreOptions = new TaxRateCreateOptions
+        {
+            DisplayName = "TPS",
+            Inclusive = false,
+            Percentage = 5
+        };
+        var taxLivreService = new TaxRateService();
+        var taxLivreRate = taxLivreService.Create(taxLivreOptions);
 
         var lineItems = panierItems.Select(item =>
         {
@@ -125,7 +126,7 @@ public class PaiementController : Controller
             {
                 PriceData = new SessionLineItemPriceDataOptions
                 {
-                    UnitAmountDecimal = (item.PrixApresPromotion ?? item.PrixOriginal)* 100,
+                    UnitAmountDecimal = (item.PrixApresPromotion ?? item.PrixOriginal) * 100,
                     Currency = "cad",
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
