@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels;
@@ -29,8 +29,6 @@ public class GestionMaisonEditionsController : Controller
         var itemsPerPage = 10;
         var totalItems = await _context.MaisonEditions.CountAsync();
 
-        var vm = new MaisonEditionsIndexVM();
-        vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
         var editions = _context.MaisonEditions.Include(me => me.Livres)
             .OrderBy(me => me.Nom)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -51,9 +49,7 @@ public class GestionMaisonEditionsController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM
-            { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
-        return View(vm);
+        return View(new MaisonEditionsIndexVM(new(), null, editions.Select(e => new MaisonEditionsAfficherVM(e)).ToList()));
     }
 
     public async Task<IActionResult> AfficherListe(string? motCle, int page = 1)
@@ -61,8 +57,6 @@ public class GestionMaisonEditionsController : Controller
         var itemsPerPage = 10;
         var totalItems = await _context.MaisonEditions.CountAsync();
 
-        var vm = new MaisonEditionsIndexVM();
-        vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
         var editions = _context.MaisonEditions.Include(me => me.Livres)
             .OrderBy(me => me.Nom)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -83,9 +77,9 @@ public class GestionMaisonEditionsController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
 
-        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM
-            { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
-        return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial", vm);
+        return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial",
+            new MaisonEditionsIndexVM(new MaisonEditionsAjouterVM(), null,
+            editions.Select(e => new MaisonEditionsAfficherVM(e)).ToList()));
     }
 
     [HttpPost]
