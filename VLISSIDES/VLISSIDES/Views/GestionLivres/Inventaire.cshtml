@@ -51,18 +51,15 @@
 
 
 
-            <div class="d-flex">
+            <div class="d-flex justify-content-between">
                 <div id="filtreBTNDiv" class="pl-0 pr-2">
                     <button id="filtreBTN" class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="sidebar">
                         Filtres
                     </button>
                 </div>
-                <div id="ajouterLivreBTNDiv" class="d-flex mx-2 pl-2">
-                    @* Add button *@
-                    <div class="m-4">
-                        <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
-                    </div>
-
+                @* Add button *@
+                <div id="ajouterLivreBTNDiv" class="m-4 mx-2 pl-2">
+                    <a onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
                 </div>
             </div>
 
