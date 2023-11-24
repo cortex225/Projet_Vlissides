@@ -1,8 +1,8 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Categories;
@@ -29,7 +29,7 @@ public class GestionCategoriesController : Controller
         var itemsPerPage = 10;
         var totalItems = await _context.Categories.CountAsync();
 
-        var vm = new CategoriesIndexVM();
+        var vm = new CategoriesIndexVM(new());
         var liste = _context.Categories.Include(c => c.Livres).ThenInclude(lc => lc.Livre).Include(c => c.Enfants)
             .OrderBy(c => c.Nom)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -50,21 +50,14 @@ public class GestionCategoriesController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        return View(liste.Select(c => new CategoriesIndexVM
-        {
-            Id = c.Id,
-            Nom = c.Nom,
-            Description = c.Description,
-            Enfants = c.Enfants.Select(e => e.Nom).ToList(),
-            Livres = c.Livres.Select(l => l.Livre.Titre).ToList()
-        }).ToList());
+        return View(liste.Select(c => new CategoriesIndexVM(c)).ToList());
     }
 
     //[Route("2167594/GestionCategories/Ajouter")]
     //[Route("{controller}/{action}")]
     public ActionResult ShowAjouter()
     {
-        var vm = new CategoriesAjouterVM();
+        var vm = new CategoriesAjouterVM(new());
         vm.CategoriesParents = _context.Categories.Select(c => new SelectListItem
         {
             Text = c.Nom,
@@ -107,20 +100,7 @@ public class GestionCategoriesController : Controller
     public IActionResult Modifier(string id)
     {
         var categorie = _context.Categories.Include(c => c.Parent).FirstOrDefault(c => c.Id == id);
-        var vm = new CategoriesModifierVM
-        {
-            Id = categorie.Id,
-            Nom = categorie.Nom,
-            Description = categorie.Description,
-            CategoriesParents = _context.Categories.Select(c => new SelectListItem
-            {
-                Selected = c.Parent.Equals(categorie.Parent),
-                Text = c.Nom,
-                Value = c.Id
-            }).ToList(),
-            ParentId = null,
-            ASousCategorie = false
-        };
+        var vm = new CategoriesModifierVM(categorie);
         if (categorie.Parent != null)
         {
             vm.ParentId = categorie.Parent.Id;
