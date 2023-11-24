@@ -42,13 +42,13 @@ public class GestionLivresController : Controller
         var categories = _context.Categories.ToList();
         var langues = _context.Langues.ToList();
         var typesLivres = _context.TypeLivres.ToList();
+        var auteurs = _context.Auteurs.ToList();
+        var maisonEditions = _context.MaisonEditions.ToList();
 
         //Prendre tous les livres
         var livres = await _context.Livres
             .Include(l => l.LivreAuteurs)
-            .ThenInclude(la => la.Auteur)
             .Include(l => l.Categories)
-            .ThenInclude(lc => lc.Categorie)
             .Include(l => l.Langue)
             .Include(l => l.Evaluations)
             .Include(l => l.MaisonEdition)
@@ -75,11 +75,8 @@ public class GestionLivresController : Controller
                         break;
                     case "auteur":
                         livres = livres
-                            .Where(livre => livre.LivreAuteurs.Any(la =>
-                                la.Auteur != null
-                                    ? Regex.IsMatch(la.Auteur.NomAuteur, ".*" + listMotCles[i] + ".*",
-                                        RegexOptions.IgnoreCase)
-                                    : false))
+                            .Where(livre => Regex.IsMatch(livre.LivreAuteurs.Select(la => la.Auteur).First().NomAuteur,
+                                ".*" + listMotCles[i] + ".*", RegexOptions.IgnoreCase))
                             .ToList();
                         break;
                     case "categorie":
@@ -125,9 +122,20 @@ public class GestionLivresController : Controller
                         break;
                 }
 
-        livres = livres
+        var livresVM = livres
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
-            .Take(itemsPerPage).ToList();
+            .Take(itemsPerPage)
+            .Select(l => new GestionLivresAfficherVM
+            {
+                Id = l.Id,
+                Image = l.Couverture == null ? "/img/CouvertureLivre/livredefault.png" : l.Couverture,
+                Titre = l.Titre,
+                ISBN = l.ISBN,
+                Categories = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).ToList(),
+                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
+                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
+                Quantite = l.NbExemplaires,
+            }).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
@@ -138,8 +146,16 @@ public class GestionLivresController : Controller
 
         ViewBag.Action = "Inventaire";
 
-        return View(new GestionLivresInventaireVM(livres, _context.Livres.ToList(), _context.Auteurs.ToList(),
-            _context.MaisonEditions.ToList(), _context.Categories.ToList(), _context.Langues.ToList(), _context.TypeLivres.ToList()));
+        var vm = new GestionLivresInventaireVM
+        {
+            ListeLivres = livresVM,
+            ListeCategories = categories,
+            ListeLangue = langues,
+            ListeTypeLivres = typesLivres,
+            ListeAuteurs = auteurs,
+            ListeMaisonEditions = maisonEditions
+        };
+        return View(vm);
     }
 
     [Route("2147186/GestionLivres/{action}")]
@@ -159,6 +175,8 @@ public class GestionLivresController : Controller
         var categories = _context.Categories.ToList();
         var langues = _context.Langues.ToList();
         var typesLivres = _context.TypeLivres.ToList();
+        var auteurs = _context.Auteurs.ToList();
+        var maisonEditions = _context.MaisonEditions.ToList();
 
         //Prendre tous les livres
         var livres = await _context.Livres
@@ -259,8 +277,16 @@ public class GestionLivresController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        return View(new GestionLivresInventaireVM(livres, _context.Livres.ToList(), _context.Auteurs.ToList(),
-            _context.MaisonEditions.ToList(), _context.Categories.ToList(), _context.Langues.ToList(), _context.TypeLivres.ToList()));
+        var vm = new GestionLivresInventaireVM
+        {
+            ListeLivres = livresVM,
+            ListeCategories = categories,
+            ListeLangue = langues,
+            ListeTypeLivres = typesLivres,
+            ListeAuteurs = auteurs,
+            ListeMaisonEditions = maisonEditions
+        };
+        return PartialView("PartialViews/GestionLivres/_ListeLivresPartial", vm);
     }
 
     // GET: Livre/Details/5
@@ -312,14 +338,6 @@ public class GestionLivresController : Controller
     [Route("{controller}/{action}")]
     public async Task<IActionResult> Ajouter(AjouterVM vm)
     {
-        if (vm.Numerique)
-        {
-            if (vm.NumeriqueFile == null)
-            {
-                ModelState.AddModelError("NumeriqueFile", "Un fichier numérique est obligatoire pour un livre numérique");
-
-            }
-        }
         if (ModelState.IsValid)
         {
             //Sauvegarder l'image dans root
@@ -339,20 +357,6 @@ public class GestionLivresController : Controller
             else
             {
                 vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
-            }
-            //Fichier numérique
-            if (vm.Numerique)
-            {
-                var wwwRootPath = _webHostEnvironment.WebRootPath;
-                var fileName = Path.GetFileNameWithoutExtension(vm.NumeriqueFile.FileName);
-                var extension = Path.GetExtension(vm.NumeriqueFile.FileName);
-                fileName += Guid.NewGuid() + "-" + DateTime.Now.ToString("yyyymmssfff") + extension;
-                vm.NumeriqueUrl = _config.GetValue<string>("ImageUrl") + fileName;
-                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await vm.NumeriqueFile.CopyToAsync(fileStream);
-                }
             }
 
             var id = Guid.NewGuid().ToString();
@@ -386,7 +390,6 @@ public class GestionLivresController : Controller
                 //AuteurId = vm.AuteurId,
                 MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId)),
                 Couverture = vm.CoverImageUrl,
-                UrlNumerique = vm.NumeriqueUrl,
                 LivreTypeLivres = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
@@ -492,7 +495,7 @@ public class GestionLivresController : Controller
         }
         else
         {
-            if (livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1") != null)
+            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1")))
             {
                 vm.Neuf = true;
                 vm.PrixNeuf = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1").Prix;
@@ -502,7 +505,7 @@ public class GestionLivresController : Controller
                 vm.Neuf = false;
             }
 
-            if (livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2") != null)
+            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2")))
             {
                 vm.Numerique = true;
                 vm.PrixNumerique = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2").Prix;
@@ -548,14 +551,6 @@ public class GestionLivresController : Controller
     [Route("{controller}/{action}")]
     public async Task<IActionResult> Modifier(ModifierVM vm)
     {
-        if (vm.Numerique)
-        {
-            if (vm.NumeriqueFile == null)
-            {
-                ModelState.AddModelError("NumeriqueFile", "Un fichier numérique est obligatoire pour un livre numérique");
-
-            }
-        }
         if (ModelState.IsValid)
         {
             //Si nouvelle photo
@@ -572,21 +567,7 @@ public class GestionLivresController : Controller
                     await vm.CoverPhoto.CopyToAsync(fileStream);
                 }
             }
-            //Fichier numérique
-            if (vm.Numerique)
-            {
 
-                var wwwRootPath = _webHostEnvironment.WebRootPath;
-                var fileName = Path.GetFileNameWithoutExtension(vm.NumeriqueFile.FileName);
-                var extension = Path.GetExtension(vm.NumeriqueFile.FileName);
-                fileName += Guid.NewGuid() + "-" + DateTime.Now.ToString("yyyymmssfff") + extension;
-                vm.NumeriqueUrl = _config.GetValue<string>("ImageUrl") + fileName;
-                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await vm.NumeriqueFile.CopyToAsync(fileStream);
-                }
-            }
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
             if (vm.Neuf)
