@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionAuteurs;
@@ -29,7 +29,7 @@ public class GestionAuteursController : Controller
         var totalItems = await _context.Auteurs.CountAsync();
 
         var vm = new AuteursIndexVM();
-        vm.AuteursAjouterVM = new AuteursAjouterVM { NomAuteur = "" };
+        vm.AuteurAjouter = new AuteursAjouterVM();
         var auteurs = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre)
             .Include(la => la.Livres)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -52,16 +52,12 @@ public class GestionAuteursController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
 
-        vm.AuteursAfficherVM = auteurs.Select(a => new AuteursAfficherVM
-            { Id = a.Id, Nom = a.NomAuteur, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList();
+        vm.Auteurs = auteurs.Select(a => new AuteursAfficherVM(a)).ToList();
 
         return View(vm);
     }
 
-    public async Task<IActionResult> AfficherLivre(List<Livre> listLivre)
-    {
-        return Json(listLivre);
-    }
+    public async Task<IActionResult> AfficherLivre(List<Livre> listLivre) => Json(listLivre);
 
     public async Task<IActionResult> AfficherListe(string? motCle, int page = 1)
     {
@@ -88,8 +84,7 @@ public class GestionAuteursController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
         return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial",
-            auteurs.Select(a => new AuteursAfficherVM
-                { Id = a.Id, Nom = a.NomAuteur, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList());
+            auteurs.Select(a => new AuteursAfficherVM(a)).ToList());
     }
 
     //AJOUTER
@@ -104,7 +99,7 @@ public class GestionAuteursController : Controller
             var auteur = new Auteur
             {
                 Id = Guid.NewGuid().ToString(),
-                NomAuteur = vm.AuteursAjouterVM.NomAuteur
+                NomAuteur = vm.AuteurAjouter.Nom
             };
             _context.Auteurs.Add(auteur);
             _context.SaveChanges();
@@ -119,8 +114,7 @@ public class GestionAuteursController : Controller
     {
         if (ModelState.IsValid)
         {
-            var auteur = _context.Auteurs.FirstOrDefault(a => a.Id == id);
-            auteur.NomAuteur = nom;
+            var auteur = _context.Auteurs.FirstOrDefault(a => a.Id == id).NomAuteur = nom;
             _context.SaveChanges();
             return Ok();
         }

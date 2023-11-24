@@ -30,8 +30,8 @@
             @* @Html.AntiForgeryToken() *@
             @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
             <div class="input-group">
-                <input class="form-control" asp-for="AuteursAjouterVM.NomAuteur" id="inputNom" placeholder="Nom"/>
-                <span asp-validation-for="AuteursAjouterVM.NomAuteur" class="text-danger"></span>
+                <input class="form-control" asp-for="AuteurAjouter.Nom" id="inputNom" placeholder="Nom"/>
+                <span asp-validation-for="AuteurAjouter.Nom" class="text-danger"></span>
                 <button class="btn btn-primary" type="button" onclick="AjouterAuteur()" data-toggle="tooltip" title="Ajouter le livre">
                     Ajouter
                 </button>
