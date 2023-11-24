@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VLISSIDES.ViewModels.Compte;
 
-public class RegisterVM
+public class EnregistrerVM
 {
     [Display(Name = "Nom d'utilisateur (?)")] public string? UserName { get; set; }
 
@@ -36,9 +36,20 @@ public class RegisterVM
 
     [Display(Name = "Chemin de retour")] public string? ReturnUrl { get; set; }
 
-    public RegisterVM(string? returnUrl="", string? userName="", string firstName="", string lastName="",
-        string email="", string phone="", string password="", string confirmPassword="",
-        bool conditions=false)
+    public EnregistrerVM()
+    {
+        UserName = "";
+        FirstName = "";
+        LastName = "";
+        Email = "";
+        Phone = "";
+        Password = "";
+        ConfirmPassword = "";
+        Conditions = false;
+    }
+    public EnregistrerVM(string? returnUrl = "", string? userName = "", string firstName = "", string lastName = "",
+        string email = "", string phone = "", string password = "", string confirmPassword = "",
+        bool conditions = false)
     {
         UserName = userName;
         FirstName = firstName;

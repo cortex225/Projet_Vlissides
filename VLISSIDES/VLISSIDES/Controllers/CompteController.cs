@@ -125,13 +125,13 @@ public class CompteController : Controller
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> Register(string? returnUrl = null) => View(new RegisterVM(returnUrl
+    public async Task<IActionResult> Register(string? returnUrl = null) => View(new EnregistrerVM(returnUrl
         ?? Url.Content("~/")));
 
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterVM vm, string? returnUrl = null)
+    public async Task<IActionResult> Register(EnregistrerVM vm, string? returnUrl = null)
     {
         // Vérifie si l'état du modèle est valide.
         if (ModelState.IsValid)
