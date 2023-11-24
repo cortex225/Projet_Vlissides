@@ -44,21 +44,22 @@
                         <span class="fa-solid fa-check fa-2x"></span>
                     </button>
                 </div>
-                <div class="mediaQuerryHideOnSuperSmall col-2 d-flex justify-content-start align-self-md-center">
+                <div class="mediaQuerryHideOnSuperSmall col-2 d-flex justify-content-between align-self-md-center">
 
                     <div class="mediaQuerryHideOnMediumSmall">
                         <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" onclick="collapse('@commande.Id')"></i>
                     </div>
 
-                    @if (commande.EnDemandeAnnulation == true)
-                    {
-                        <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Annulation</span>
-                    }
-                    @if (commande.LivreCommandes.Any(lc => lc.EnDemandeRetourner == true))
-                    {
-                        <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Retour</span>
-                    }
-
+                    <div>
+                        @if (commande.EnDemandeAnnulation == true)
+                        {
+                            <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Annulation</span>
+                        }
+                        @if (commande.LivreCommandes.Any(lc => lc.EnDemandeRetourner == true))
+                        {
+                            <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Retour</span>
+                        }
+                    </div>
                 </div>
 
             </div>
