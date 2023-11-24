@@ -33,58 +33,14 @@ namespace VLISSIDES.Controllers
             _context.Evenements.RemoveRange(evenementsSupprime);
             _context.SaveChanges();
             //La liste à afficher
-            var evenements = _context.Evenements.Select(e => new GestionEvenementsIndexVM
-            {
-                Id = e.Id,
-                Nom = e.Nom,
-                Description = e.Description,
-                DateDebut = e.DateDebut,
-                DateFin = e.DateFin,
-                Image = e.Image,
-                Lieu = e.Lieu,
-                NbPlaces = e.NbPlaces,
-                NbPlacesMembre = e.NbPlacesMembre,
-                NbPlacesMembreReserve = e.Reservations.Count(),
-                Prix = e.Prix,
-            }).ToList();
-            return View(evenements);
+            return View(_context.Evenements.Select(e => new GestionEvenementsIndexVM(e)));
         }
-        public IActionResult AfficherEvenements()
-        {
-            var evenements = _context.Evenements.Select(e => new GestionEvenementsIndexVM
-            {
-                Id = e.Id,
-                Nom = e.Nom,
-                Description = e.Description,
-                DateDebut = e.DateDebut,
-                DateFin = e.DateFin,
-                Image = e.Image,
-                Lieu = e.Lieu,
-                NbPlaces = e.NbPlaces,
-                NbPlacesMembre = e.NbPlacesMembre,
-                Prix = e.Prix,
-            }).ToList();
-            return PartialView("PartialViews/GestionEvenements/_ListeEvenementsPartial", evenements);
-        }
-        public IActionResult AfficherReservations()
-        {
-            var reservations = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).Where(r => r.EnDemandeAnnuler == true).Select(r => new GestionEvenementsReservationVM
-            {
-                Id = r.Id,
-                NomEvenement = r.Evenement.Nom,
-                NomUtilisateur = r.Membre.UserName
-            }).ToList();
-            return PartialView("PartialViews/GestionEvenements/_ListeReservationsPartial", reservations);
-        }
-        public IActionResult AjouterEvenement()
-        {
-            var vm = new GestionEvenementsAjouterVM()
-            {
-                DateDebut = DateTime.Now,
-                DateFin = DateTime.Now,
-            };
-            return PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial", vm);
-        }
+        public IActionResult AfficherEvenements() => PartialView("PartialViews/GestionEvenements/_ListeEvenementsPartial", _context.Evenements.Select(e => e));
+        public IActionResult AfficherReservations() => PartialView("PartialViews/GestionEvenements/_ListeReservationsPartial"
+            , _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).Where(r => r.EnDemandeAnnuler == true)
+            .Select(r => new GestionEvenementsReservationVM(r)));
+        public IActionResult AjouterEvenement() => PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial",
+            new GestionEvenementsAjouterVM(null, null));
         [HttpPost]
         public async Task<IActionResult> AjouterEvenement(GestionEvenementsAjouterVM vm)
         {
@@ -173,24 +129,9 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial", vm);
         }
 
-        public IActionResult ModifierEvenement(string id)
-        {
-            var evenement = _context.Evenements.FirstOrDefault(e => e.Id == id);
-            var vm = new GestionEvenementsModifierVM()
-            {
-                Id = id,
-                Nom = evenement.Nom,
-                Description = evenement.Description,
-                DateDebut = evenement.DateDebut,
-                DateFin = evenement.DateFin,
-                Image = evenement.Image,
-                Lieu = evenement.Lieu,
-                NbPlaces = evenement.NbPlaces,
-                NbPlacesMembre = evenement.NbPlacesMembre,
-                Prix = evenement.Prix.ToString(),
-            };
-            return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial", vm);
-        }
+        public IActionResult ModifierEvenement(string id) =>
+            PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial",
+                new GestionEvenementsModifierVM(_context.Evenements.FirstOrDefault(e => e.Id == id)));
         [HttpPost]
         public async Task<IActionResult> ModifierEvenement(GestionEvenementsModifierVM vm)
         {
@@ -273,27 +214,13 @@ namespace VLISSIDES.Controllers
             }
             return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial", vm);
         }
-        public IActionResult ShowSupprimerEvenement(string id)
-        {
-            var evenement = _context.Evenements.FirstOrDefault(e => e.Id == id);
-            var vm = new GestionEvenementSupprimerVM()
-            {
-                Id = evenement.Id,
-                Nom = evenement.Nom
-            };
-            return PartialView("PartialViews/Modals/Evenements/_SupprimerEvenementPartial", vm);
-        }
-        public IActionResult ShowConfirmerDemande(string id)
-        {
-            var reservations = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).FirstOrDefault(r => r.Id == id);
-            var vm = new GestionEvenementsReservationVM
-            {
-                Id = reservations.Id,
-                NomEvenement = reservations.Evenement.Nom,
-                NomUtilisateur = reservations.Membre.UserName
-            };
-            return PartialView("PartialViews/Modals/Evenements/_ConfirmerReservationPartial", vm);
-        }
+        public IActionResult ShowSupprimerEvenement(string id) =>
+            PartialView("PartialViews/Modals/Evenements/_SupprimerEvenementPartial",
+                new GestionEvenementSupprimerVM(_context.Evenements.FirstOrDefault(e => e.Id == id)));
+        public IActionResult ShowConfirmerDemande(string id) =>
+            PartialView("PartialViews/Modals/Evenements/_ConfirmerReservationPartial",
+                new GestionEvenementsReservationVM(_context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
+                    .FirstOrDefault(r => r.Id == id)));
         [HttpPost]
         public async Task<IActionResult> ConfirmerDemande(string id)
         {
@@ -311,17 +238,10 @@ namespace VLISSIDES.Controllers
             await SendConfirmationEmailMembreConfirmed(username, reservation, logoUrl);
             return Ok();
         }
-        public IActionResult ShowAnnulerDemande(string id)
-        {
-            var reservations = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).FirstOrDefault(r => r.Id == id);
-            var vm = new GestionEvenementsReservationVM
-            {
-                Id = reservations.Id,
-                NomEvenement = reservations.Evenement.Nom,
-                NomUtilisateur = reservations.Membre.UserName
-            };
-            return PartialView("PartialViews/Modals/Evenements/_AnnulerReservationPartial", vm);
-        }
+        public IActionResult ShowAnnulerDemande(string id) =>
+            PartialView("PartialViews/Modals/Evenements/_AnnulerReservationPartial",
+                new GestionEvenementsReservationVM(_context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
+                    .FirstOrDefault(r => r.Id == id)));
         [HttpPost]
         public async Task<IActionResult> AnnulerDemande(string id)
         {
