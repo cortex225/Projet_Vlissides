@@ -22,7 +22,7 @@
                         @{
                             var pdf = string.Concat(BASE_URL_RAZOR, Model.NumeriqueURL);
                         }
-                        @if (Model.DateCommande.AddDays(7) >= DateTime.Now)
+                        @if (Model.DateCommande.AddDays(10) >= DateTime.Now)
                         {
                             <a href="@Html.Raw(pdf)" download>
                                 <i class="fa-solid fa-file-arrow-down fa-2x float-end" style="color: #358bff;"></i>

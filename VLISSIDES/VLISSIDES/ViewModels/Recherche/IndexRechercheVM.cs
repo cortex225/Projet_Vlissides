@@ -38,7 +38,7 @@ public class IndexRechercheVM
         this.maxPrix = maxPrix;
     }
 
-    public string MotRecherche { get; set; }
+    public string? MotRecherche { get; set; }
     public string Criteres { get; set; }
 
     //"Résultat de recherche pour "MotRecherche"

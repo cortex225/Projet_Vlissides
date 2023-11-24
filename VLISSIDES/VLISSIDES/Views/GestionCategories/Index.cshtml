@@ -1,10 +1,12 @@
-﻿@model List<VLISSIDES.ViewModels.Categories.CategoriesIndexVM>
-@{
+﻿@{
     ViewData["Title"] = "Catégorie";
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
 }
-<link rel="stylesheet" href="~/css/Gestion/Gestion.css"/>
+@model List<VLISSIDES.ViewModels.Categories.CategoriesIndexVM>
+<link rel="stylesheet" href="~/css/ListeLivres.css" />
+<link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Responsive/ListeGestion.css"asp-append-version="true">
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
     <div class="modal-dialog" role="document">
@@ -13,9 +15,12 @@
     </div>
 </div>
 
-<div class="d-block">
+<!-- Barre latérale coulissante -->
+<partial name="PartialViews/Dashboard/_SideBarPartial" />
 
-    <div class="">
+<div class="d-block p-4 p-4">
+
+    <div class="mb-4">
         <h1>Gestion des catégories</h1>
     </div>
 
@@ -48,12 +53,12 @@
     <br/>
     <!--Fin : Rechercher catégorie-->
 
-    <div class="">
+    <div class="mb-4">
         <h3>Liste des catégories</h3>
         <div class="row">
 
             <!--Début: Affichage des catégorie-->
-            <div id="list-tab" class="list-group col-6" role="tablist">
+            <div class="listeSujet list-group" id="list-tab" role="tablist">
                 @foreach (var categorie in Model)
                 {
                     <partial name="PartialViews/GestionCategories/_CardCategorie" model="categorie"/>
@@ -63,7 +68,7 @@
             </div>
             <!--Fin: Affichage des catégorie-->
             <!--Début: Affichage des informations de la catégorie (droite)-->
-            <div id="divListeLivres" class="col-6 card rounded-xl">
+            <div id="divListeLivres" class="mediaQuerryHideOnSmall card rounded-xl">
                 <h3 class="text-center my-3">Informations de la catégorie</h3>
 
                 <div class="" id="divListeMaisonEditionLivres">
@@ -80,14 +85,20 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
-<!--Fin pour Fonctionalite des boutons-->
-
 <script>
     //Script pour URL
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 
 </script>
+<!--Fonctionalite des boutons *-->
+<style>
+    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
+<script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
+<!--Fin pour Fonctionalite des boutons-->
 <!--Script pour la liste de livres d'une categorie-->
 <script type="text/javascript">
     function hideall() {
@@ -154,7 +165,7 @@
         console.log("Recherche commencée");
         var motCle = document.getElementById("inputRechercherCategorie").value;
         console.log("Mot entré: " + motCle);
-        window.location.href = BASE_URL+`/GestionCategories/Index?motCle=${motCle}`;
+        window.location.href = `/GestionCategories/Index?motCle=${motCle}`;
     }
 </script>
 <!--Script pour Ajouter et modifier-->

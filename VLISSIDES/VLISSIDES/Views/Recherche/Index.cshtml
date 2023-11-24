@@ -8,7 +8,7 @@
 }
 <link rel="stylesheet" href="~/css/Rechercher/Recherche.css" asp-append-version="true">
 <div class="d-block">
-@if (!Model.MotRecherche.IsEmpty())
+@if (!Model.MotRecherche.Equals(""))
 {
     <div>
         <h1>Résultat de recherche pour @Model.MotRecherche dans @Model.Criteres</h1>
@@ -121,6 +121,7 @@
         </div>
     </div>
 
+</div>
 
 </div>
 <script type="text/javascript">

@@ -4,8 +4,8 @@
 
 @{
     ViewData["Title"] = "Inventaire";
-    var myURL = Context.Request.Host.Value;
-    var BASE_URL_RAZOR = Url.Content("~");
+    string myURL = Context.Request.Host.Value;
+    string BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Gestion/Gestion.css" asp-append-version="true">
 <link rel="stylesheet" href="~/css/Gestion/Livre.css" asp-append-version="true">
@@ -48,7 +48,7 @@
             <datalist id="ListeLivres">
                 @foreach (var livre in Model.Livres)
                 {
-                    <option value="@livre"/>
+                    <option value="@livre" />
                 }
             </datalist>
         </div>
@@ -58,7 +58,7 @@
             <datalist id="ListeAuteurs">
                 @foreach (var auteur in Model.Auteurs)
                 {
-                    <option value="@auteur"/>
+                    <option value="@auteur" />
                 }
             </datalist>
         </div>
@@ -68,7 +68,7 @@
             <datalist id="specificationMaisonEditions">
                 @foreach (var maisonEdition in Model.MaisonEditions)
                 {
-                    <option value="@maisonEdition"/>
+                    <option value="@maisonEdition" />
                 }
             </datalist>
         </div>
@@ -78,17 +78,17 @@
             <datalist id="specificationCategories">
                 @foreach (var categorie in Model.Categories)
                 {
-                    <option value="@categorie"/>
+                    <option value="@categorie" />
                 }
             </datalist>
         </div>
         <div class="form-group">
             <label for="specificationLangue">Langue:</label>
-            <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues"/>
+            <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues" />
             <datalist id="ListeLangues">
                 @foreach (var langue in Model.Langues)
                 {
-                    <option value="@langue"/>
+                    <option value="@langue" />
                 }
             </datalist>
         </div>
@@ -102,11 +102,11 @@
         </div>
         <div class="form-group">
             <label for="specificationTypeLivre">Type de livre:</label>
-            <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres"/>
+            <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres" />
             <datalist id="ListeTypeLivres">
                 @foreach (var typeLivre in Model.TypeLivres)
                 {
-                    <option value="@typeLivre"/>
+                    <option value="@typeLivre" />
                 }
             </datalist>
         </div>
@@ -120,8 +120,8 @@
         <a id="btnAjouterLivre" onclick="ShowModal('@Url.Action("Ajouter", "GestionLivres")')" class="btn btn-primary">Ajouter livre</a>
     </div>
     @* Table *@
-    <partial model="Model.LivrePartials" name="PartialViews/GestionLivres/_ListeLivresPartial"/>
-    <partial name="PartialViews/Utilities/_PaginationPartial"/>
+    <partial model="Model.LivrePartials" name="PartialViews/GestionLivres/_ListeLivresPartial" />
+    <partial name="PartialViews/Utilities/_PaginationPartial" />
 </form>
 <script type="text/javascript">
     //Script pour la recherche
@@ -237,6 +237,6 @@
 
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
 
 }

@@ -1,10 +1,13 @@
-﻿@model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
-@{
+﻿@{
     ViewData["Title"] = "Maison d'édition";
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
 }
-<link rel="stylesheet" href="~/css/Gestion/Gestion.css"/>
+@model VLISSIDES.ViewModels.MaisonEditions.MaisonEditionsIndexVM
+<link rel="stylesheet" href="~/css/ListeLivres.css" />
+<link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Responsive/ListeGestion.css" asp-append-version="true">
+
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
     <div class="modal-dialog" role="document">
@@ -13,8 +16,11 @@
     </div>
 </div>
 
-<div class="d-block">
-    <div class="">
+<!-- Barre latérale coulissante -->
+<partial name="PartialViews/Dashboard/_SideBarPartial" />
+
+<div class="d-block p-4 p-4">
+    <div class="mb-4">
         <h1>Gestion des maisons d'éditions</h1>
     </div>
     <!--Début : Ajouter maison edition-->
@@ -25,13 +31,13 @@
         </button>
 
         <form class="collapse" id="champAjouter" enctype="multipart/form-data">
-            <br/>
+            <br />
             @* @Html.AntiForgeryToken() *@
             @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
             <div class="input-group">
-                <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" placeholder="Nom"/>
+                <input class="form-control" asp-for="MaisonEditionsAjouterVM.Nom" id="inputNom" placeholder="Nom" />
                 <span asp-validation-for="MaisonEditionsAjouterVM.Nom" class="text-danger"></span>
-                <button class="btn btn-primary" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter la maison d'édition">
+                <button class="btn btn-primary p-2" type="button" onclick="AjouterMaisonEdition()" data-toggle="tooltip" title="Ajouter la maison d'édition">
                     Ajouter
                 </button>
             </div>
@@ -39,7 +45,7 @@
         </form>
 
     </div>
-    <br/>
+    <br />
     <!--Fin : Ajouter maison edition-->
     <!--Début : Rechercher maison edition-->
     <div class="container-fluid">
@@ -49,9 +55,9 @@
         </button>
 
         <form class="collapse" id="rechercherMaisonEdition" enctype="multipart/form-data">
-            <br/>
+            <br />
             <div class="input-group">
-                <input class="form-control" id="inputRechercherMaison" placeholder="Rechercher..."/>
+                <input class="form-control" id="inputRechercherMaison" placeholder="Rechercher..." />
                 <button class="btn btn-primary p-2" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la maison d'édition">
                     Rechercher
                 </button>
@@ -60,12 +66,11 @@
         </form>
 
     </div>
-    <br/>
+    <br />
     <!--Fin : Rechercher maison edition-->
-    <div class="">
+    <div class="mb-4">
         <h3>Liste des maisons d'éditions</h3>
         <div class="row" id="ListeMaisonPartial">
-
         </div>
 
 
@@ -76,6 +81,13 @@
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 
 </script>
+<!--Fonctionalite des boutons *-->
+<style>
+    /*Pour cacher les boutons de sauvegarde --- Ne fonctionne pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
 <script type="text/javascript" src="~/js/DynamicSaveButton.js" asp-append-version="true"></script>
 <!--Fin pour Fonctionalite des boutons-->
 <!--Script pour liste-->
