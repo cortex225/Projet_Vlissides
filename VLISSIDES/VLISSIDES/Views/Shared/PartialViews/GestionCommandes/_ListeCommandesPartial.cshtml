@@ -21,7 +21,7 @@
                 <div class="mediaQuerryHideOnSmall col d-flex justify-content-center">
                     <p class="my-auto">@commande.DateCommande</p>
                 </div>
-                <div class="mediaQuerryHideOnMedium col-2 form-group d-flex justify-content-center">
+                <div class="mediaQuerryHideOnMedium col form-group d-flex justify-content-center">
                     <div>
                         <select id="@commande.Id statutSelectList" class="form-select my-auto" style="width:auto;" onchange="enableButton('@commande.Id')" name="StatutId">
                             @foreach (var statut in Model.SelectListStatut)
@@ -43,22 +43,23 @@
 
                         <span class="fa-solid fa-check fa-2x"></span>
                     </button>
-                </div>
-                <div class="mediaQuerryHideOnSuperSmall col-2 d-flex justify-content-start align-self-md-center">
+                </div> 
+                <div class="mediaQuerryHideOnSuperSmall col-2 pl-3 d-flex justify-content-between align-self-md-center">
 
-                    <div class="mediaQuerryHideOnMediumSmall">
+                    <div class="mediaQuerryHideOnMediumSmall pl-3">
                         <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" onclick="collapse('@commande.Id')"></i>
                     </div>
 
-                    @if (commande.EnDemandeAnnulation)
-                    {
-                        <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Annulation</span>
-                    }
-                    @if (commande.LivreCommandes.Any(lc => lc.EnDemandeRetourner))
-                    {
-                        <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Retour</span>
-                    }
-
+                    <div class="d-flex flex-column">
+                        @if (commande.EnDemandeAnnulation == true)
+                        {
+                            <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Annulation</span>
+                        }
+                        @if (commande.LivreCommandes.Any(lc => lc.EnDemandeRetourner == true))
+                        {
+                            <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Retour</span>
+                        }
+                    </div>
                 </div>
 
             </div>
@@ -79,8 +80,8 @@
                                     @{ var prix = item.PrixAchat * item.Quantite; }
                                     @prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))
                                 </div>
-                                <div class="mediaQuerryHideOnMediumSmall">
-                                    @if (item.EnDemandeRetourner)
+                                <div class="mediaQuerryHideOnMediumSmall col-sm-3 d-flex justify-content-center">
+                                    @if (item.EnDemandeRetourner == true)
                                     {
                                         <div class="col-sm-3 d-flex justify-content-center my-auto">
                                             <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowAccepterRetourConfirmation", "GestionCommandes", new { commandeId = item.CommandeId, livreId = item.Livre.Id })')">Accepter</button>
