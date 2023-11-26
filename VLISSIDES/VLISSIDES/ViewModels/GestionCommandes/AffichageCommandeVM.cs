@@ -11,9 +11,9 @@ public class AffichageCommandeVM
     [Display(Name = "Statut:")] public string StatutId { get; set; }
     [Display(Name = "Liste statue")] public List<SelectListItem> ListStatut { get; set; }
 
-    public AffichageCommandeVM(List<CommandesVM> commandes, string statutId, IEnumerable<StatutCommande> listStatut)
+    public AffichageCommandeVM(IEnumerable<CommandesVM> commandes, string statutId, IEnumerable<StatutCommande> listStatut)
     {
-        Commandes = commandes;
+        Commandes = commandes.ToList();
         StatutId = statutId;
         ListStatut = listStatut.Select(ls=>new SelectListItem(ls.Nom,ls.Id)).ToList();
     }

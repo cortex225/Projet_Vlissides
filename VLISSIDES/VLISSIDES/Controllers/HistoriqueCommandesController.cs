@@ -1,9 +1,8 @@
-﻿using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -58,38 +57,12 @@ public class HistoriqueCommandes : Controller
             .Include(c => c.Membre);
         var livreCommandes = _context.LivreCommandes;
 
-        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
-        {
-            Livre = lc.Livre,
-            CommandeId = lc.CommandeId,
-            Quantite = lc.Quantite,
-            PrixAchat = lc.PrixAchat,
-            EnDemandeRetourne = lc.EnDemandeRetourner
-        }).ToList();
+        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc)).ToList();
 
-        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
-        {
-            Id = c.Id.ToString(),
-            DateCommande = c.DateCommande,
-            PrixTotal = c.PrixTotal,
-            MembreUserName = c.Membre.UserName,
-            AdresseId = c.AdresseId,
-            LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
-            StatutId = c.StatutCommande.Id,
-            StatutNom = c.StatutCommande.Nom,
-            EnDemandeAnnulation = c.EnDemandeAnnulation
-        }).OrderBy(c => c.DateCommande).ToList();
+        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM(c)).OrderBy(c => c.DateCommande).ToList();
 
-        var affichageCommandes = new AffichageCommandeVM
-        {
-            Commandes = listeCommandeVM
-        };
+        var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, "", _context.StatutCommandes);
 
-        affichageCommandes.ListStatut = _context.StatutCommandes.Select(s => new SelectListItem
-        {
-            Text = s.Nom,
-            Value = s.Id
-        }).ToList();
 
         return View(affichageCommandes);
     }
@@ -110,27 +83,9 @@ public class HistoriqueCommandes : Controller
             .Include(c => c.Membre);
         var livreCommandes = _context.LivreCommandes;
 
-        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
-        {
-            Livre = lc.Livre,
-            CommandeId = lc.CommandeId,
-            Quantite = lc.Quantite,
-            PrixAchat = lc.PrixAchat,
-            EnDemandeRetourne = lc.EnDemandeRetourner
-        }).ToList();
+        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc));
 
-        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
-        {
-            Id = c.Id.ToString(),
-            DateCommande = c.DateCommande,
-            PrixTotal = c.PrixTotal,
-            MembreUserName = c.Membre.UserName,
-            AdresseId = c.AdresseId,
-            LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
-            StatutId = c.StatutCommande.Id,
-            StatutNom = c.StatutCommande.Nom,
-            EnDemandeAnnulation = c.EnDemandeAnnulation
-        }).OrderByDescending(c => c.DateCommande).ToList();
+        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM(c));
 
         if (listCriteres.Any(c => c == "rechercherCommande"))
             if (listCriteresValue[2] != "")
@@ -148,16 +103,7 @@ public class HistoriqueCommandes : Controller
             if (listCriteresValue[1] != "0")
                 listeCommandeVM = listeCommandeVM.Where(c => c.StatutId == listCriteresValue[1]).ToList();
 
-        var affichageCommandes = new AffichageCommandeVM
-        {
-            Commandes = listeCommandeVM
-        };
-
-        affichageCommandes.ListStatut = _context.StatutCommandes.Select(s => new SelectListItem
-        {
-            Text = s.Nom,
-            Value = s.Id
-        }).ToList();
+        var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, "", _context.StatutCommandes);
 
         return PartialView("PartialViews/HistoriqueCommandes/_ListeHistoriqueCommandesPartial", affichageCommandes);
     }
@@ -204,13 +150,7 @@ public class HistoriqueCommandes : Controller
             .FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
         if (lc == null) return BadRequest();
 
-        var model = new LivreCommandeVM
-        {
-            Livre = lc.Livre,
-            CommandeId = lc.CommandeId,
-            PrixAchat = lc.PrixAchat,
-            Quantite = quantite
-        };
+        var model = new LivreCommandeVM(lc);
 
         //Send email
         var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
@@ -251,14 +191,7 @@ public class HistoriqueCommandes : Controller
             var lc = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId);
             if (lc == null || commande == null) return BadRequest();
 
-            var livresCommandes = lc.Select(lc => new LivreCommandeVM
-            {
-                Livre = lc.Livre,
-                CommandeId = lc.CommandeId,
-                Quantite = lc.Quantite,
-                PrixAchat = lc.PrixAchat,
-                EnDemandeRetourne = lc.EnDemandeRetourner
-            }).ToList();
+            var livresCommandes = lc.Select(lc => new LivreCommandeVM(lc));
 
             //Send email
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
@@ -309,7 +242,7 @@ public class HistoriqueCommandes : Controller
     }
 
     private async Task SendConfirmationEmailAnnule(Membre customer, string commandeId,
-        List<LivreCommandeVM> livreCommande, string logoUrl)
+        IEnumerable<LivreCommandeVM> livreCommande, string logoUrl)
     {
         var subject = "Retour de livres";
 
@@ -376,7 +309,7 @@ public class HistoriqueCommandes : Controller
         return body.ToString();
     }
 
-    private string BuildEmailBodyAnnule(Membre customer, string commandeId, List<LivreCommandeVM> livreCommande,
+    private string BuildEmailBodyAnnule(Membre customer, string commandeId, IEnumerable<LivreCommandeVM> livreCommande,
         string logoUrl)
     {
         var body = new StringBuilder();
