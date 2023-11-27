@@ -122,11 +122,17 @@ public class PaiementController : Controller
         //Recuperation de l'adresse de la nouvelle adresse de livraison
 
         // Détermine si vous utilisez une nouvelle adresse ou une adresse existante
-        string adresseId = string.IsNullOrEmpty(_context.Adresses.FirstOrDefault(a => a.Id == model.AdresseId).Id)
-            ? Request.Form["adresseId"]
-            : model.AdresseId ?? "";
+        string adresseId;
+        try
+        {
+            adresseId = Request.Form["adresseId"];
+        }
+        catch (Exception)
+        {
+            adresseId = model.AdresseId ?? "";
+        }
         // Récupére l'adresse sélectionnée
-        var selectedAddress = _context.Adresses.FirstOrDefault(a => a.Id == adresseId);
+        var selectedAddress = _context.Adresses.FirstOrDefault(a => a.Id == adresseId) ?? new();
 
         // Crée un dictionnaire de métadonnées pour stocker les informations sur l'adresse sélectionnée
         var metadata = new Dictionary<string, string>
@@ -178,7 +184,15 @@ public class PaiementController : Controller
 
 
         var service = new SessionService();
-        var session = service.Create(options);
+        Session session;
+        try
+        {
+            session = service.Create(options);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
 
         return Json(new { id = session.Id });
     }
