@@ -230,6 +230,11 @@ public class ProfileController : Controller
     {
         if (ModelState.IsValid)
         {
+            if (!Regex.Match(vm.CodePostal, "^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] [0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]$").Success)
+            {
+                ModelState.AddModelError("CodePostal", "Le code postal doit avoir le format : A2A 2A2");
+                return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
+            }
             var user = _context.Users.Include(u => u.AdressePrincipale)
                 .FirstOrDefault(u => u.Id == vm.Id);
             if (user.AdressePrincipale == null)
