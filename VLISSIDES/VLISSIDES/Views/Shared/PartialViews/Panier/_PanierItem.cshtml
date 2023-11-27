@@ -39,14 +39,17 @@
                 </div>
 
                 <div class="d-flex flex-row my-4">
-                    <div class="col-4">
-                        <input id="@Model.Id quantite" type="number" class=" form-control formGroupExampleInput h-100" placeholder="" value="@Model.Quantite" onclient onclick="enableButton('@Model.Id')">
-                    </div>
-                    <button id="saveButton @Model.Id" type="button" class="btn btn-success saveButton mx-2 p-2"
-                            onclick="ModifierQuantite('@Model.Id', '@Model.Quantite')
-                                                disableButton('@Model.Id')">
-                        <span class="fa-solid fa-check fa-2x"></span>
-                    </button>
+                    @if(Model.TypeLivre.Id == "1")
+                    {
+                        <div class="col-4">
+                            <input id="@Model.Id quantite" type="number" class=" form-control formGroupExampleInput h-100" placeholder="" value="@Model.Quantite" onclient onclick="enableButton('@Model.Id')">
+                        </div>
+                        <button id="saveButton @Model.Id" type="button" class="btn btn-success saveButton mx-2 p-2"
+                                onclick="ModifierQuantite('@Model.Id', '@Model.Quantite')
+                                                    disableButton('@Model.Id')">
+                            <span class="fa-solid fa-check fa-2x"></span>
+                        </button>
+                    }                   
                 </div>
 
                 <div class="d-flex flex-row justify-content-end">
