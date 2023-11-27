@@ -13,6 +13,6 @@ public class MaisonEditionsAfficherVM
     {
         Id = maisonEdition.Id;
         Nom = maisonEdition.Nom;
-        Livres = maisonEdition.Livres.Select(l => l.Titre).ToList();
+        Livres = (maisonEdition.Livres ?? new List<Livre>()).Select(l => l.Titre).ToList();
     }
 }
