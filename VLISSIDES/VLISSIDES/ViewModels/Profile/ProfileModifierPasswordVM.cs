@@ -16,11 +16,18 @@ public class ProfileModifierPasswordVM
     [Required(ErrorMessage = "Veuillez confirmez votre nouveau mot de passe")]
     [Display(Name = "Confirmez votre nouveau mot de passe")] public string MotDePasseConfirme { get; set; }
 
-    public ProfileModifierPasswordVM(string id, string motDePasse, string nouveauMotDePasse, string motDePasseConfirme)
+    public ProfileModifierPasswordVM()
+    {
+        Id = "";
+        MotDePasse = "";
+        NouveauMotDePasse = "";
+        MotDePasseConfirme = "";
+    }
+    public ProfileModifierPasswordVM(string id)
     {
         Id = id;
-        MotDePasse = motDePasse;
-        NouveauMotDePasse = nouveauMotDePasse;
-        MotDePasseConfirme = motDePasseConfirme;
+        MotDePasse = "";
+        NouveauMotDePasse = "";
+        MotDePasseConfirme = "";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Profile;
 
@@ -28,17 +29,28 @@ public class ProfileModifierInformationVM
 
     [Display(Name = "Image du livre")] public IFormFile? CoverPhoto { get; set; }
 
-    public ProfileModifierInformationVM(string id, string prenom, string nom, DateTime? dateNaissance,
-        string nomUtilisateur, string courriel, string telephone, string? coverImageUrl, IFormFile? coverPhoto)
+    public ProfileModifierInformationVM()
     {
-        Id = id;
-        Prenom = prenom;
-        Nom = nom;
-        DateNaissance = dateNaissance;
-        NomUtilisateur = nomUtilisateur;
-        Courriel = courriel;
-        Telephone = telephone;
-        CoverImageUrl = coverImageUrl;
-        CoverPhoto = coverPhoto;
+        Id = "";
+        Prenom = "";
+        Nom = "";
+        DateNaissance = DateTime.Now;
+        NomUtilisateur = "";
+        Courriel = "";
+        Telephone = "";
+        CoverImageUrl = "";
+        CoverPhoto = null;
+    }
+    public ProfileModifierInformationVM(ApplicationUser user)
+    {
+        Id = user.Id;
+        Prenom = user.Prenom;
+        Nom = user.Nom;
+        DateNaissance = user.DateNaissance;
+        NomUtilisateur = user.UserName;
+        Courriel = user.Email;
+        Telephone = user.PhoneNumber;
+        CoverImageUrl = user.CoverImageUrl;
+        CoverPhoto = user.CoverPhoto;
     }
 }

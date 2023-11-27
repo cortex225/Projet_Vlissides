@@ -88,13 +88,13 @@
     <div class="card-address">
         <h5>Liste des Adresses de livraison</h5>
         <div class="address-list">
-            @foreach (var item in Model.AdressesDeLivraison)
+            @for (var compteur = 0; compteur < Model.AdressesDeLivraison.Count;compteur++)
             {
                 <div class="address-item">
                     <span>
-                        @item.NoCivique @item.Rue, @item.NoApartement, @item.CodePostal, @item.Ville, @item.Province, @item.Pays
+                            @Model.AdressesDeLivraison][@compteur]
                     </span>
-                    <button class="btn btn-remove" type="button" onclick="EnleverAdressesLivraison(@item.Id)">
+                        <button class="btn btn-remove" type="button" onclick="EnleverAdressesLivraison(@Model.AdressesDeLivraisonId][@compteur])">
                         X
                     </button>
                 </div>

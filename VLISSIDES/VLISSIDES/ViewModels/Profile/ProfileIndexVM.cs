@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Profile;
 
@@ -9,5 +10,9 @@ public class ProfileIndexVM
     public ProfileIndexVM(ProfileModifierInformationVM profileModifierInformationVM)
     {
         ProfileModifierInformationVM = profileModifierInformationVM;
+    }
+    public ProfileIndexVM(ApplicationUser user)
+    {
+        ProfileModifierInformationVM = new(user);
     }
 }

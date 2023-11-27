@@ -35,4 +35,9 @@ public class Adresse
     [NotMapped]
     [DisplayName("Utilisateur de livraison")]
     public ApplicationUser? UtilisateurLivraison { get; set; }
+    public override string ToString()
+    {
+        return NoCivique + " " + Rue + ", " + NoApartement + ", " + CodePostal + ", " + Ville + ", "
+            + Province + ", " + Pays;
+    }
 }
