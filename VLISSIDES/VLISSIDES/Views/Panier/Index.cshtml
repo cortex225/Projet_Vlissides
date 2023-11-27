@@ -1,4 +1,6 @@
 ﻿@model VLISSIDES.ViewModels.Panier.PanierVM
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Panier";
     var myURL = Context.Request.Host.Value;
@@ -39,7 +41,21 @@
                 </div>
 
                 <div class="d-flex flex-row justify-content-end mt-4">
-                    <button class="btn btn-primary" onclick="PasserAuPaiement()">Passer à la commande</button>
+                    <button id="checkout-button" class="btn btn-primary btn-md float-end mt-6 mb-0 mx-3" onclick="createCheckoutSession()">Procéder au paiement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="paiementPage" class="d-none">
+        <div class="rcorners m-2 p-4 overflow-hidden d-flex justify-content-center mx-auto my-auto" style="width: fit-content">
+
+            <div class="navigationButtons my-4">
+                <h3 class="d-flex justify-content-center text-center ">
+                    Création de la session de paiement en cours...
+                </h3>
+                @* //Creation d'un loader *@
+                <div class="spinner-border text-primary d-flex justify-content-center mx-auto mt-4 mb-4" role="status" style="width: 4rem; height: 4rem;">
+                    <span class="visually-hidden">Chargement...</span>
                 </div>
             </div>
         </div>
@@ -174,28 +190,39 @@ $(document).ready(function () {
 );
 }
 </script>
-<script>
-    function PasserAuPaiement() {
-        var cbDonEco = document.getElementById("cbDonEco");
-        var radioButtons = document.querySelectorAll('input[name="flexRadioDefault"]');
-        var selectedValue;
-        if (cbDonEco.checked){
-            for(var radioButton of radioButtons){
-                if (radioButton.checked) {
-                    selectedValue = radioButton.value;
+<script type="text/javascript">
+    function createCheckoutSession() {
+        event.preventDefault();
+        // var adresseId = document.getElementById('adresseId').value;
+        // if (adresseId == "") {
+        //     enregistrerAdresse();
+        //     adresseId = document.getElementById('adresseId').value;
+        // }
+
+        var data = {
+            // adresseId: adresseId,
+            userId: '@UserManager.GetUserId(User)'
+        };
+        fetch('@Url.Action("CreateCheckoutSession", "Paiement")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.id) {
+                    var stripe = Stripe('pk_test_51O3gRDAIrJUcHyNnVbRxxrTEmN0ndzgrocNP008WZgRBHCFJNXhNXnXYyfxU1im6XjmLPKmJT1Tq64eNf5vIysOu00LWHU5Ohx');
+                    stripe.redirectToCheckout({ sessionId: data.id });
+                } else {
+                    console.error('Erreur lors de la création de la session de paiement');
                 }
-            }
-        }
-
-        console.log(selectedValue);
-        fetch(BASE_URL + "/Panier/PasserAuPaiement?numero=" + selectedValue, {
-            method: "GET",
-
-        }).then((response) => {
-            return response.text();
-        }).then((result)=>{
-            window.location = BASE_URL+'/Paiement'
-            //document.querySelector("body").innerHTML = result;
-        });
+            })
+            .catch(error => {
+                console.error('Erreur lors de la communication avec le serveur:', error);
+            });
     }
+
 </script>
