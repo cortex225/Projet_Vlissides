@@ -73,12 +73,13 @@ public class PaiementController : Controller
     {
         // Récupère l'identifiant de l'utilisateur connecté
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
+        var StripeCustomerId = _context.Membres.First(m => m.Id == userId).StripeCustomerId;
 
         // Récupere les données de LivrePanier basées sur l'identifiant de l'utilisateur
         var panierItems = _context.LivrePanier
             .Where(lp => lp.UserId == userId)
-            .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres).ThenInclude(livretypelivre => livretypelivre.TypeLivre)
+            .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+            .ThenInclude(livretypelivre => livretypelivre.TypeLivre)
             .ToList();
         //Tax livre
 
@@ -123,7 +124,7 @@ public class PaiementController : Controller
         // Détermine si vous utilisez une nouvelle adresse ou une adresse existante
         string adresseId = string.IsNullOrEmpty(_context.Adresses.FirstOrDefault(a => a.Id == model.AdresseId).Id)
             ? Request.Form["adresseId"]
-            : model.AdresseId;
+            : model.AdresseId ?? "";
         // Récupére l'adresse sélectionnée
         var selectedAddress = _context.Adresses.FirstOrDefault(a => a.Id == adresseId);
 

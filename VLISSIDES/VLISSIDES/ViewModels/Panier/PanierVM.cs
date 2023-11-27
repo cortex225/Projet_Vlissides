@@ -15,15 +15,15 @@ public class PanierVM
 
     [DisplayName("Identifiant")] public bool PromotionAppliquee { get; set; }
 
-    public PanierVM(IEnumerable<AfficherPanierVM> listeArticles, decimal? prixTotal,
-        IEnumerable<bool> dons, Promotion? promotion, bool promotionAppliquee = false)
+    public PanierVM(IEnumerable<AfficherPanierVM> listeArticles, decimal? prixTotal = null, Promotion? promotion = null,
+        bool promotionAppliquee = false)
     {
         ListeArticles = listeArticles.ToList();
-        PrixTotal = prixTotal??0;
-        PremierChoixDon = dons.ToList()[0];
-        DeuxiemeChoixDon = dons.ToList()[1];
-        TroisiemeChoixDon = dons.ToList()[2];
-        Promotion = promotion.Nom;
+        PrixTotal = prixTotal ?? 0;
+        PremierChoixDon = false;
+        DeuxiemeChoixDon = false;
+        TroisiemeChoixDon = false;
+        Promotion = (promotion ?? new()).Nom;
         PromotionAppliquee = promotionAppliquee;
     }
 }

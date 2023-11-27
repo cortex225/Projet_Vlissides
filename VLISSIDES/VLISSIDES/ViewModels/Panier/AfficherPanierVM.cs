@@ -9,6 +9,7 @@ public class AfficherPanierVM
     [DisplayName("Identifiant du livre")] public string LivreId { get; set; }
 
     [DisplayName("Livre")] public string Livre { get; set; }
+    [DisplayName("Couverture de livre")] public string Couverture { get; set; }
 
     [DisplayName("Type de livre")] public string Type { get; set; }
 
@@ -29,6 +30,7 @@ public class AfficherPanierVM
         Id = livrePanier.Id;
         LivreId = livrePanier.Livre.Id;
         Livre = livrePanier.Livre.Titre;
+        Livre = livrePanier.Livre.Couverture;
         Type = livrePanier.TypeLivre.Nom;
         PrixOriginal = livrePanier.PrixOriginal ?? 0;
         UtilisateurId = livrePanier.UserId;
@@ -36,7 +38,7 @@ public class AfficherPanierVM
         AuteursIds = livrePanier.Livre.LivreAuteurs.Select(a => a.Auteur.Id).ToList();
         Auteurs = livrePanier.Livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
         CategoriesIds = livrePanier.Livre.Categories.Select(a => a.Categorie.Id).ToList();
-        CategoriesIds = livrePanier.Livre.MaisonEditionId;
+        MaisonEditionId = livrePanier.Livre.MaisonEditionId;
         PrixApresPromotion = livrePanier.PrixApresPromotion ?? 0;
     }
 }

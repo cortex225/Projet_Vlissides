@@ -12,7 +12,7 @@
     @foreach (var article in Model.ListeArticles)
     {
         <div class="article d-flex justify-content-between">
-            <div class="w-75">@article.Livre.Titre - @articTypeLvre.Nom</div>
+            <div class="w-75">@article.Livre - @article.Type</div>
             <div class="quantite">@article.Quantite x</div>
             <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
             <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>

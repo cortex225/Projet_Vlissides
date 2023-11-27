@@ -31,44 +31,18 @@ public class PanierController : Controller
         // Récupérer l'ID de l'utilisateur actuel
         var currentUserId = _userManager.GetUserId(HttpContext.User);
 
-        // Récupérer tous les articles du panier pour cet utilisateur
-        var articles = _context.LivrePanier.Where(a => a.UserId == currentUserId).ToList();
-
         var listeArticleVm = new List<AfficherPanierVM>();
-        if (listeArticleVm == null) throw new ArgumentNullException(nameof(listeArticleVm));
 
         // Parcourir chaque article du panier
-        foreach (var a in articles)
-        {
-            // Récupérer les détails du livre et du type de livre associés à l'article
-            var livre = _context.Livres.FirstOrDefault(l => l.Id == a.LivreId);
-            var typeLivre = _context.TypeLivres.FirstOrDefault(t => t.Id == a.TypeId);
-
-            // Récupérer le prix original du livre
-            var prixOriginal = _context.LivreTypeLivres
-                .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId)?.Prix ?? 0;
-
-            // Récupérer le prix après promotion s'il est disponible, sinon utiliser le prix original
-            var prixApresPromotion = a.PrixApresPromotion.HasValue ? a.PrixApresPromotion.Value : prixOriginal;
-
-            // Ajouter les détails de l'article au ViewModel de la liste d'articles
-            listeArticleVm.Add(new AfficherPanierVM(new()
-            {
-                Id = a.Id,
-                Livre = livre,
-                TypeLivre = typeLivre,
-                PrixOriginal = prixOriginal,
-                PrixApresPromotion = prixApresPromotion,
-                UserId = a.UserId,
-                Quantite = a.Quantite
-            }));
-        }
+        foreach (var a in _context.LivrePanier.Where(a => a.UserId == currentUserId).Include(a => a.Livre)
+            .ThenInclude(l => l.LivreTypeLivres).ThenInclude(ltl => ltl.TypeLivre))
+            listeArticleVm.Add(new AfficherPanierVM(a));
 
         // Calculer le prix total du panier
         var prixtotal = listeArticleVm.Sum(item =>
             item.Quantite != null ? item.Quantite * item.PrixApresPromotion : item.PrixApresPromotion);
 
-        var panier = new PanierVM(listeArticleVm, prixtotal, new List<bool>(), null);
+        var panier = new PanierVM(listeArticleVm, prixtotal);
 
         //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
         Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
@@ -155,7 +129,7 @@ public class PanierController : Controller
         var prixtotal = listeArticleVM.Sum(item =>
             item.Quantite != null ? item.Quantite * item.PrixApresPromotion : item.PrixApresPromotion);
 
-        var panier = new PanierVM(listeArticleVM, prixtotal, null, null);
+        var panier = new PanierVM(listeArticleVM, prixtotal);
         //Préselectionner le don si l'utilisateur à déjà choisi un organisation auparavant
         Don? don = _context.Dons.FirstOrDefault(d => d.UserId == currentUserId);
         if (don != null)
@@ -337,7 +311,7 @@ public class PanierController : Controller
                     PrixOriginal = _context.LivreTypeLivres
                         .FirstOrDefault(lt => lt.LivreId == a.LivreId && lt.TypeLivreId == a.TypeId)!.Prix,
                     Quantite = a.Quantite
-                })), null, new List<bool>(), null);
+                })));
 
         // Vérifie si une promotion a déjà été appliquée
         if (panierVM.PromotionAppliquee)
