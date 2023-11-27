@@ -1,9 +1,9 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Paiement;
@@ -100,7 +100,6 @@ public class PaiementController : Controller
             .ThenInclude(livretypelivre => livretypelivre.TypeLivre)
             .ToList();
         //Tax livre
-
         var taxLivreOptions = new TaxRateCreateOptions
         {
             DisplayName = "TPS",
@@ -134,10 +133,39 @@ public class PaiementController : Controller
                         Images = new List<string> { encodedImgLivreUrl }
                     }
                 },
-                Quantity = item.Quantite
+                Quantity = item.Quantite,
+                TaxRates = new List<string> { taxLivreRate.Id }
             };
         }).ToList();
-//Recuperation de l'adresse de la nouvelle adresse de livraison
+        var don = _context.Dons.FirstOrDefault(d => d.UserId == userId);
+        var taxDonOptions = new TaxRateCreateOptions
+        {
+            DisplayName = "Don",
+            Inclusive = true,
+            Percentage = 0,
+        };
+        var taxDonService = new TaxRateService();
+        var taxDonRate = taxDonService.Create(taxDonOptions);
+        if (don != null)
+        {
+            lineItems.Add(new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(don.Montant) * 100,
+                    Currency = "cad",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = don.Nom,
+
+                    }
+                },
+                Quantity = 1,
+                TaxRates = new List<string> { taxDonRate.Id }
+
+            });
+        }
+        //Recuperation de l'adresse de la nouvelle adresse de livraison
 
         // Détermine si vous utilisez une nouvelle adresse ou une adresse existante
         string adresseId = string.IsNullOrEmpty(_context.Adresses.FirstOrDefault(a => a.Id == model.AdresseId).Id)
@@ -186,7 +214,7 @@ public class PaiementController : Controller
             },
             AutomaticTax = new SessionAutomaticTaxOptions
             {
-                Enabled = true // Active le calcul automatique des taxes
+                Enabled = false // Active le calcul automatique des taxes
             },
 
 
