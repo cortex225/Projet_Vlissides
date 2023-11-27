@@ -1,9 +1,9 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -192,6 +192,7 @@ public class GestionCommandesController : Controller
             .FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
+        if (livreCommande == null) return BadRequest();
         if (livreCommande.QuantiteARetourner == null) return BadRequest();
         var vm = new RefundVM
         {
