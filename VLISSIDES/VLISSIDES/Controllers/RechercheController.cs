@@ -53,6 +53,7 @@ public class RechercheController : Controller
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
             .ThenInclude(ltl => ltl.TypeLivre)
+            .OrderByDescending(l => l.DateAjout)
             .ToList();
 
         if (criteres.IsEmpty()) //Lorsqu'il n'y a pas de criteres spécifiques
