@@ -73,7 +73,7 @@
                     <label for="specificationTitre">Titre:</label>
                     <input id="specificationTitre" class="form-control" name="specificationTitre" type="text" list="ListeLivres">
                     <datalist id="ListeLivres">
-                        @foreach (var livre in Model.ListeLivres)
+                        @foreach (var livre in Model.ListeLivresFiltre)
                         {
                             <option value="@livre.Titre" />
                         }
@@ -153,7 +153,7 @@
                         <label for="specificationTitre2">Titre:</label>
                         <input id="specificationTitre2" class="form-control" name="specificationTitre2" type="text" list="ListeLivres">
                         <datalist id="ListeLivres">
-                            @foreach (var livre in Model.ListeLivres)
+                            @foreach (var livre in Model.ListeLivresFiltre)
                             {
                                 <option value="@livre.Titre" />
                             }

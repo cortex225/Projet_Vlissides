@@ -39,11 +39,11 @@ public class GestionLivresController : Controller
         var itemsPerPage = 10;
         var totalItems = await _context.Livres.CountAsync();
 
-        var categories = _context.Categories.ToList();
+        var categories = _context.Categories.OrderBy(c => c.Nom).ToList();
         var langues = _context.Langues.ToList();
         var typesLivres = _context.TypeLivres.ToList();
-        var auteurs = _context.Auteurs.ToList();
-        var maisonEditions = _context.MaisonEditions.ToList();
+        var auteurs = _context.Auteurs.OrderBy(a => a.NomAuteur).ToList();
+        var maisonEditions = _context.MaisonEditions.OrderBy(m => m.Nom).ToList();
 
         //Prendre tous les livres
         var livres = await _context.Livres
@@ -136,6 +136,17 @@ public class GestionLivresController : Controller
                 LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
                 Quantite = l.NbExemplaires,
             }).ToList();
+        var livresFiltreVM = livres.OrderBy(l => l.Titre).Select(l => new GestionLivresAfficherVM
+        {
+            Id = l.Id,
+            Image = l.Couverture == null ? "/img/CouvertureLivre/livredefault.png" : l.Couverture,
+            Titre = l.Titre,
+            ISBN = l.ISBN,
+            Categories = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).ToList(),
+            ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
+            LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
+            Quantite = l.NbExemplaires,
+        }).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
@@ -149,6 +160,7 @@ public class GestionLivresController : Controller
         var vm = new GestionLivresInventaireVM
         {
             ListeLivres = livresVM,
+            ListeLivresFiltre = livresFiltreVM,
             ListeCategories = categories,
             ListeLangue = langues,
             ListeTypeLivres = typesLivres,
@@ -172,11 +184,11 @@ public class GestionLivresController : Controller
         var itemsPerPage = 10;
         var totalItems = await _context.Livres.CountAsync();
 
-        var categories = _context.Categories.ToList();
+        var categories = _context.Categories.OrderBy(c => c.Nom).ToList();
         var langues = _context.Langues.ToList();
         var typesLivres = _context.TypeLivres.ToList();
-        var auteurs = _context.Auteurs.ToList();
-        var maisonEditions = _context.MaisonEditions.ToList();
+        var auteurs = _context.Auteurs.OrderBy(a => a.NomAuteur).ToList();
+        var maisonEditions = _context.MaisonEditions.OrderBy(m => m.Nom).ToList();
 
         //Prendre tous les livres
         var livres = await _context.Livres
