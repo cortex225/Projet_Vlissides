@@ -60,7 +60,7 @@ public class PanierController : Controller
                 PrixOriginal = (double)prixOriginal,
                 PrixApresPromotion = (double)prixApresPromotion,
                 UserId = a.UserId,
-                Quantite = a.Quantite,
+                Quantite = a.Quantite
             });
         }
 
