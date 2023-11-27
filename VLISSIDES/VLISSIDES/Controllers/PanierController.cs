@@ -446,19 +446,19 @@ public class PanierController : Controller
         if (promotion.CategorieId != null)
         {
             var categorieCorrespond =
-                article.Livre.Categories?.Any(c => c.CategorieId == promotion.CategorieId) ?? false;
+                article.CategoriesIds?.Any(c => c == promotion.CategorieId) ?? false;
             if (!categorieCorrespond) return false;
         }
 
         // Vérifie si l'article correspond à l'auteur spécifié dans la promotion
         if (promotion.AuteurId != null)
         {
-            var auteurCorrespond = article.LivreAuteurs?.Any(la => la.AuteurId == promotion.AuteurId) ?? false;
+            var auteurCorrespond = article.AuteursIds?.Any(la => la == promotion.AuteurId) ?? false;
             if (!auteurCorrespond) return false;
         }
 
         // Vérifie si l'article correspond à la maison d'édition spécifiée dans la promotion
-        if (promotion.MaisonEditionId != null && article.Livre.MaisonEditionId != promotion.MaisonEditionId)
+        if (promotion.MaisonEditionId != null && article.MaisonEditionId != promotion.MaisonEditionId)
             return false;
         // Si toutes les vérifications sont passées ou si aucun critère n'est spécifié, l'article est éligible
         return true;
