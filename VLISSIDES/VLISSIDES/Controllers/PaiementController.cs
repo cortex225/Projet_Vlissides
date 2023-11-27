@@ -1,9 +1,9 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Paiement;
@@ -49,28 +49,10 @@ public class PaiementController : Controller
     {
         var currentUserId = _userManager.GetUserId(HttpContext.User);
         var adresse = _context.Adresses
-            .Where(a => a.UtilisateurPrincipalId == currentUserId || a.UtilisateurLivraisonId == currentUserId)
-            .Select(a => new AdresseVM
-            {
-                AdresseId = a.Id,
-                NoCivique = a.NoCivique,
-                Rue = a.Rue,
-                NoApartement = a.NoApartement,
-                Ville = a.Ville,
-                Province = a.Province,
-                Pays = a.Pays,
-                CodePostal = a.CodePostal
-            })
-            .ToList(); // Ajout de ToList pour exécuter la requête
+            .Where(a => a.UtilisateurPrincipalId == currentUserId || a.UtilisateurLivraisonId == currentUserId); // Ajout de ToList pour exécuter la requête
 
-        var adresseLivraisonVM = new StripePaiementVM
-        {
-            PaiementAdresseVM = new PaiementAdresseVM
-            {
-                AdressesExistantes = adresse,
-                NouvelleAdresse = new AdresseVM() // Initialisation de NouvelleAdresse
-            }
-        };
+        var adresseLivraisonVM = new StripePaiementVM(null, null, null, null, null, null, new PaiementAdresseVM(adresse,
+            new()), null);
 
         return View(adresseLivraisonVM);
     }
@@ -98,16 +80,16 @@ public class PaiementController : Controller
             .Where(lp => lp.UserId == userId)
             .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres).ThenInclude(livretypelivre => livretypelivre.TypeLivre)
             .ToList();
-            //Tax livre
+        //Tax livre
 
-            var taxLivreOptions = new TaxRateCreateOptions
-            {
-                DisplayName = "TPS",
-                Inclusive = false,
-                Percentage = 5,
-            };
-            var taxLivreService = new TaxRateService();
-            var taxLivreRate = taxLivreService.Create(taxLivreOptions);
+        var taxLivreOptions = new TaxRateCreateOptions
+        {
+            DisplayName = "TPS",
+            Inclusive = false,
+            Percentage = 5,
+        };
+        var taxLivreService = new TaxRateService();
+        var taxLivreRate = taxLivreService.Create(taxLivreOptions);
 
         var lineItems = panierItems.Select(item =>
         {
@@ -125,7 +107,7 @@ public class PaiementController : Controller
             {
                 PriceData = new SessionLineItemPriceDataOptions
                 {
-                    UnitAmountDecimal = (item.PrixApresPromotion ?? item.PrixOriginal)* 100,
+                    UnitAmountDecimal = (item.PrixApresPromotion ?? item.PrixOriginal) * 100,
                     Currency = "cad",
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
@@ -136,7 +118,7 @@ public class PaiementController : Controller
                 Quantity = item.Quantite
             };
         }).ToList();
-//Recuperation de l'adresse de la nouvelle adresse de livraison
+        //Recuperation de l'adresse de la nouvelle adresse de livraison
 
         // Détermine si vous utilisez une nouvelle adresse ou une adresse existante
         string adresseId = string.IsNullOrEmpty(_context.Adresses.FirstOrDefault(a => a.Id == model.AdresseId).Id)
