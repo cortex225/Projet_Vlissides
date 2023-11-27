@@ -72,9 +72,40 @@ public class ModifierVM
     [Display(Name = "Chemin du pdf")] public string? NumeriqueUrl { get; set; }
     [Display(Name = "Fichier numérique")] public IFormFile? NumeriqueFile { get; set; }
 
+    public ModifierVM()
+    {
+        Id = "";
+        Titre = "";
+        Resume = "";
+        Couverture = "";
+        NbExemplaires = 0;
+        NbPages = 0;
+        DatePublication = DateTime.Now;
+        ISBN = "";
+        CategorieIds = new();
+        Categories = new();
+        SelectListCategories = new();
+        AuteurIds = new();
+        Auteurs = new();
+        SelectListAuteurs = new();
+        MaisonEditionId = "";
+        SelectMaisonEditions = new();
+        TypeLivreId = "";
+        Numerique = false;
+        PrixNumerique = 0;
+        Papier = false;
+        PrixPapier = 0;
+        Types = new();
+        LangueId = "";
+        SelectLangues = new();
+        CoverImageUrl = "";
+        CoverPhoto = null;
+        NumeriqueUrl = "";
+        NumeriqueFile = null;
+    }
     public ModifierVM(Livre livre, List<SelectListItem>? selectListCategories, List<SelectListItem>? selectListAuteurs,
         List<SelectListItem>? selectMaisonEditions, List<SelectListItem>? selectLangues, IFormFile? coverPhoto,
-        IFormFile? numeriqueFile)
+        IFormFile? numeriqueFile = null)
     {
         Id = livre.Id;
         Titre = livre.Titre;
@@ -87,16 +118,16 @@ public class ModifierVM
         CategorieIds = livre.Categories.Select(c => c.Categorie.Id).ToList();
         Categories = livre.Categories.Select(c => c.Categorie.Nom).ToList();
         SelectListCategories = selectListCategories;
-        AuteurIds = livre.LivreAuteurs.Select(la => la.AuteurId).ToList();
-        Auteurs = livre.LivreAuteurs.Select(la => la.Auteur.NomAuteur).ToList();
+        AuteurIds = (livre.LivreAuteurs ?? new()).Select(la => la.AuteurId).ToList();
+        Auteurs = (livre.LivreAuteurs ?? new()).Select(la => la.Auteur.NomAuteur).ToList();
         SelectListAuteurs = selectListAuteurs;
-        MaisonEditionId = livre.MaisonEdition.Nom;
+        MaisonEditionId = (livre.MaisonEdition ?? new()).Nom;
         SelectMaisonEditions = selectMaisonEditions;
         TypeLivreId = "";
         Numerique = livre.LivreTypeLivres.Any(ltl => ltl.TypeLivre.Nom.Equals("Numérique"));
-        PrixNumerique = livre.LivreTypeLivres.First(ltl => ltl.TypeLivre.Nom.Equals("Numérique")).Prix;
+        PrixNumerique = Numerique ? livre.LivreTypeLivres.First(ltl => ltl.TypeLivre.Nom.Equals("Numérique")).Prix : 0;
         Papier = livre.LivreTypeLivres.Any(ltl => ltl.TypeLivre.Nom.Equals("Papier"));
-        PrixPapier = livre.LivreTypeLivres.First(ltl => ltl.TypeLivre.Nom.Equals("Papier")).Prix;
+        PrixPapier = Papier ? livre.LivreTypeLivres.First(ltl => ltl.TypeLivre.Nom.Equals("Papier")).Prix : 0;
         Types = new();
         LangueId = livre.LangueId;
         SelectLangues = selectLangues;

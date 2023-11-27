@@ -71,6 +71,36 @@ public class AjouterVM
     [Display(Name = "Chemin du pdf")] public string? NumeriqueUrl { get; set; }
     [Display(Name = "Fichier numérique")] public IFormFile? NumeriqueFile { get; set; }
 
+    public AjouterVM()
+    {
+        Titre = "";
+        Resume = "";
+        Couverture = "";
+        NbExemplaires = 0;
+        NbPages = 0;
+        DatePublication = new();
+        ISBN = "";
+        CategorieIds = new();
+        Categories = new();
+        SelectListCategories = new();
+        AuteurIds = new();
+        Auteurs = new();
+        SelectListAuteurs = new();
+        MaisonEditionId = "";
+        SelectMaisonEditions = new();
+        TypeLivreId = "";
+        Numerique = false;
+        PrixNumerique = 0;
+        Papier = false;
+        PrixPapier = 0;
+        Types = new();
+        LangueId = "";
+        SelectLangues = new();
+        CoverImageUrl = "";
+        CoverPhoto = null;
+        NumeriqueUrl = "";
+        NumeriqueFile = null;
+    }
     public AjouterVM(List<SelectListItem>? selectListCategories, List<SelectListItem>? selectListAuteurs,
        List<SelectListItem>? selectMaisonEditions, List<SelectListItem>? SelectionTypes,
        List<SelectListItem>? selectLangues, IFormFile? papierFile, IFormFile? numeriqueFile)

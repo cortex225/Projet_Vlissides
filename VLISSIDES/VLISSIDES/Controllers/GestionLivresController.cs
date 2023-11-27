@@ -459,9 +459,12 @@ public class GestionLivresController : Controller
     {
         var livre = _context.Livres
             .Include(l => l.LivreAuteurs)
+            .ThenInclude(la => la.Auteur)
             .Include(l => l.LivreTypeLivres)
+            .ThenInclude(ltl => ltl.TypeLivre)
             .Include(l => l.Langue)
             .Include(l => l.Categories)
+            .ThenInclude(lc => lc.Categorie)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
         var vm = new ModifierVM(livre, _context.Categories.Select(x => new SelectListItem
