@@ -18,11 +18,19 @@ public class CategoriesAjouterVM
 
     [DisplayName("Est une sous catégorie?")] public bool ASousCategorie { get; set; }
 
+    public CategoriesAjouterVM()
+    {
+        Nom = "";
+        Description = "";
+        CategoriesParents = new();
+        ParentId = "";
+        ASousCategorie = false;
+    }
     public CategoriesAjouterVM(Categorie categorie)
     {
         Nom = categorie.Nom;
         Description = categorie.Description;
-        CategoriesParents = categorie.Enfants.Select(c => new SelectListItem(c.Nom, c.Id)).ToList();
+        CategoriesParents = (categorie.Enfants ?? new List<Categorie>()).Select(c => new SelectListItem(c.Nom, c.Id)).ToList();
         ParentId = categorie.ParentId;
         ASousCategorie = categorie.Parent != null;
     }
