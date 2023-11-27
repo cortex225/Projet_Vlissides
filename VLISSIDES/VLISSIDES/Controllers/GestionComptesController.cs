@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionComptes;
@@ -100,7 +100,11 @@ public class GestionComptesController : Controller
                     ModelState.AddModelError("Email", "L'adresse courriel existe déjà");
                     return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial", vm);
                 }
-
+            if (!Regex.Match(vm.Telephone, "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$").Success)
+            {
+                ModelState.AddModelError("Telephone", "Le numéro de téléphone doit avoir le format : 123-456-7890");
+                return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
+            }
             //Modification du mot de passe si applicable
             if (vm.Password != null && vm.PasswordConfirmed != null)
             {
@@ -162,7 +166,11 @@ public class GestionComptesController : Controller
                     ModelState.AddModelError("Email", "L'adresse courriel existe déjà");
                     return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
                 }
-
+            if (!Regex.Match(vm.Telephone, "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$").Success)
+            {
+                ModelState.AddModelError("Telephone", "Le numéro de téléphone doit avoir le format : 123-456-7890");
+                return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
+            }
             //Modification du mot de passe si applicable
             if (vm.Password != null && vm.PasswordConfirmed != null)
             {
@@ -336,7 +344,11 @@ public class GestionComptesController : Controller
                 ModelState.AddModelError("Email", "L'adresse courriel existe déjà");
                 return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
             }
-
+            if (!Regex.Match(vm.Telephone, "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$").Success)
+            {
+                ModelState.AddModelError("Telephone", "Le numéro de téléphone doit avoir le format : 123-456-7890");
+                return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
+            }
             var Employe = new Employe
             {
                 Id = Guid.NewGuid().ToString(),

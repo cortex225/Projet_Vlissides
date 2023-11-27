@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Profile;
@@ -88,6 +89,11 @@ public class ProfileController : Controller
 
         if (ModelState.IsValid)
         {
+            if (!Regex.Match(vm.Telephone, "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$").Success)
+            {
+                ModelState.AddModelError("Telephone", "Le numéro de téléphone doit avoir le format : 123-456-7890");
+                return View("Index", indexVM);
+            }
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == vm.Id);
             var userM = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == vm.Id);
 
@@ -224,6 +230,11 @@ public class ProfileController : Controller
     {
         if (ModelState.IsValid)
         {
+            if (!Regex.Match(vm.CodePostal, "^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ] [0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]$").Success)
+            {
+                ModelState.AddModelError("CodePostal", "Le code postal doit avoir le format : A2A 2A2");
+                return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
+            }
             var user = _context.Users.Include(u => u.AdressePrincipale)
                 .FirstOrDefault(u => u.Id == vm.Id);
             if (user.AdressePrincipale == null)
