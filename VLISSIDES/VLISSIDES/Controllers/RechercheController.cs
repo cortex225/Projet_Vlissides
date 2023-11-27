@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using System.Web.WebPages;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+using System.Web.WebPages;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Recherche;
@@ -33,11 +33,11 @@ public class RechercheController : Controller
         var listCriteres = new List<string>();
         if (criteres != null) listCriteres = criteres.Split('|').ToList();
 
-        var livres = _context.Livres.ToList();
-        var auteurs = _context.Auteurs.ToList();
-        var maisonEditions = _context.MaisonEditions.ToList();
+        var livres = _context.Livres.OrderBy(l => l.Titre).ToList();
+        var auteurs = _context.Auteurs.OrderBy(a => a.NomAuteur).ToList();
+        var maisonEditions = _context.MaisonEditions.OrderBy(m => m.Nom).ToList();
 
-        var categories = _context.Categories.ToList();
+        var categories = _context.Categories.OrderBy(c => c.Nom).ToList();
         var langues = _context.Langues.ToList();
         var typeLivres = _context.TypeLivres.ToList();
 
@@ -53,6 +53,7 @@ public class RechercheController : Controller
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
             .ThenInclude(ltl => ltl.TypeLivre)
+            .OrderByDescending(l => l.DateAjout)
             .ToList();
 
         if (criteres.IsEmpty()) //Lorsqu'il n'y a pas de criteres spécifiques
