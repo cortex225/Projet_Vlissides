@@ -71,4 +71,5 @@ public class DetailsLivreVM
         else
             Note = total / nbNotes;
     }
+
 }

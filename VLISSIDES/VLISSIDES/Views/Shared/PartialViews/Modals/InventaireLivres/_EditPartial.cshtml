@@ -19,7 +19,7 @@
                 <div class="custom-file row">
                     <div class="col-6 text-center align-center">
                         @{
-                            string couverture = string.Concat(BASE_URL_RAZOR, Model.CoverImageUrl);
+                            var couverture = string.Concat(BASE_URL_RAZOR, Model.CoverImageUrl);
                         }
                         <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="65">
                     </div>
@@ -99,7 +99,6 @@
                             <label asp-for="@Model.Numerique"></label>
                             @if (Model.Numerique)
                             {
-                                
                                 <div id="inputNumerique" class="">
                                     <div class="custom-file row">
                                         <span>
@@ -109,14 +108,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="PrixNumerique" class="control-label"></label>
-                                        <input asp-for="PrixNumerique"  class="form-control" />
+                                        <input asp-for="PrixNumerique" class="form-control"/>
                                         <span asp-validation-for="PrixNumerique" class="text-danger"></span>
                                     </div>
                                 </div>
                             }
                             else
                             {
-
                                 <div id="inputNumerique" class="visually-hidden">
                                     <div class="custom-file row">
                                         <span>
@@ -129,7 +127,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="PrixNumerique" class="control-label"></label>
-                                        <input asp-for="PrixNumerique"  class="form-control" />
+                                        <input asp-for="PrixNumerique" class="form-control"/>
                                         <span asp-validation-for="PrixNumerique" class="text-danger"></span>
                                     </div>
                                 </div>

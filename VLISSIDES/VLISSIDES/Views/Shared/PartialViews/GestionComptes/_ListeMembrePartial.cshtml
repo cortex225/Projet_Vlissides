@@ -8,9 +8,9 @@
 <!--Recherche de membre-->
 <div class="container-fluid">
     <form id="rechercherCategorie" enctype="multipart/form-data">
-        <br />
+        <br/>
         <div class="input-group">
-            <input class="form-control" id="inputRechercherMembre" placeholder="Rechercher..." />
+            <input class="form-control" id="inputRechercherMembre" placeholder="Rechercher..."/>
             <button class="btn btn-primary p-2" type="button" onclick="RechercherMembre()" data-toggle="tooltip" title="Rechercher la catégorie">
                 Rechercher
             </button>
@@ -22,12 +22,12 @@
 <!--Liste-->
 <table class="table">
     <thead>
-        <tr>
-            <th scope="col">Nom</th>
-            <th class="cacher" scope="col">Courriel</th>
-            <th scope="col"></th>
-            
-        </tr>
+    <tr>
+        <th scope="col">Nom</th>
+        <th class="cacher" scope="col">Courriel</th>
+        <th scope="col"></th>
+
+    </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
@@ -62,15 +62,15 @@
                         </li>
 
                     </ul>
-                    
-                    
-                   
-                    
-                </td>
-                
-                    
 
-                
+
+
+
+                </td>
+
+
+
+
             </tr>
         }
     </tbody>

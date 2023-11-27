@@ -487,7 +487,7 @@ public class GestionLivresController : Controller
             LangueId = livre.LangueId,
             CoverImageUrl = livre.Couverture
         };
-        //Remplir les checkbox types 
+        //Remplir les checkbox types
         if (livre.LivreTypeLivres.Count == 0)
         {
             vm.Neuf = false;
