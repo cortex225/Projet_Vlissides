@@ -169,16 +169,16 @@ public class ProfileController : Controller
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
             var passswordVerificationResult =
-                new PasswordHasher<ApplicationUser>().VerifyHashedPassword(user, user.PasswordHash, vm.Password);
+                new PasswordHasher<ApplicationUser>().VerifyHashedPassword(user, user.PasswordHash, vm.MotDePasse);
             if (passswordVerificationResult == PasswordVerificationResult.Failed)
                 ModelState.AddModelError("Password", "Mot de passe actuel erroné");
 
-            if (vm.NewPassword != vm.ConfirmPassword)
+            if (vm.NouveauMotDePasse != vm.MotDePasseConfirme)
                 ModelState.AddModelError("ConfirmPassword", "La confirmation du mot de passe n'est pas correcte");
 
             if (ModelState.IsValid)
             {
-                user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, vm.NewPassword);
+                user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, vm.NouveauMotDePasse);
                 _context.SaveChanges();
             }
         }
