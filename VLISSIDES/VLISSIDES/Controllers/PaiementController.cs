@@ -165,27 +165,13 @@ public class PaiementController : Controller
 
             });
         }
-        //Recuperation de l'adresse de la nouvelle adresse de livraison
 
-        // Détermine si vous utilisez une nouvelle adresse ou une adresse existante
-        string adresseId = string.IsNullOrEmpty(_context.Adresses.FirstOrDefault(a => a.Id == model.AdresseId).Id)
-            ? Request.Form["adresseId"]
-            : model.AdresseId;
-        // Récupére l'adresse sélectionnée
-        var selectedAddress = _context.Adresses.FirstOrDefault(a => a.Id == adresseId);
 
         // Crée un dictionnaire de métadonnées pour stocker les informations sur l'adresse sélectionnée
         var metadata = new Dictionary<string, string>
         {
             { "type", "livre" },
-            { "adresseId", selectedAddress.Id },
-            { "noCivique", selectedAddress.NoCivique },
-            { "rue", selectedAddress.Rue },
-            { "noApartement", selectedAddress.NoApartement },
-            { "ville", selectedAddress.Ville },
-            { "province", selectedAddress.Province },
-            { "pays", selectedAddress.Pays },
-            { "codePostal", selectedAddress.CodePostal }
+
         };
 
         var options = new SessionCreateOptions
