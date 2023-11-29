@@ -3,20 +3,32 @@ p {
     margin: 0;
 }
 
+.event-card-parentDiv {
+    width: 44%;
+}
+
 .event-card {
     display: flex;
     flex-direction: column; /* Organise le contenu verticalement */
     justify-content: center; /* Centre le contenu verticalement */
     align-items: center; /* Centre le contenu horizontalement */
     position: relative;
-    width: 80vw;
-    max-width: 680px;
-    height: 280px !important;
+    width: 100%;
+    height: 366px !important;
     background-color: #f5f7fa;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
+    padding: 12px;
+    margin: 12px;
+}
 
+.div-event-img {
+    max-height: 120px !important;
+}
+
+.img-event {
+    max-height: 120px !important;
 }
 
 .event-image {
@@ -49,6 +61,7 @@ p {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-right: 18px;
 }
 
 .event-date-time i, .event-content p {
@@ -63,6 +76,9 @@ p {
     color: #333333; /* Texte général en gris foncé */
 }
 
+.places-restantes {
+    text-align: start;
+}
 
 .date {
     background-color: #e4e9f2;
@@ -140,11 +156,6 @@ p {
     transform: rotate(20deg);
 }
 
-.event-card {
-    background-color: #f5f7fa;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
 .reserve-btn {
     transform: translateY(0);
     transition: transform 0.3s, background-color 0.3s;
@@ -162,10 +173,25 @@ p {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-@media only screen and (max-width: 1010px) {
+.event-desc {
+    overflow: auto;
+    max-height: 104px;
+}
+
+@media only screen and (max-width: 1060px) and (min-width: 766px) {
+    .div-event-img {
+        width: 40%;
+        margin-bottom: 12px;
+    }
+
+    .div-event-nom {
+        width: 60%;
+        margin-bottom: 12px;
+    }
+
     .event-card {
         width: 100%;
-        height: auto; /* Changez la hauteur fixe en auto pour s'adapter au contenu */
+        height: 418px !important;
         flex-direction: column;
     }
 
@@ -181,7 +207,7 @@ p {
 
     .event-date-time {
         flex-direction: column; /* Changez la direction pour s'assurer que la date et le rabais s'empilent verticalement */
-        align-items: center; /* Centrez le contenu horizontalement */
+        /*align-items: center; /* Centrez le contenu horizontalement */
         gap: 10px;
     }
 
@@ -199,7 +225,7 @@ p {
 
     .reserve-btn {
         margin-bottom: 20px;
-        width: 80%; /* Réduisez la largeur du bouton pour un meilleur rendu sur mobile */
+        width: 100%; /* Réduisez la largeur du bouton pour un meilleur rendu sur mobile */
         margin-left: auto; /* Centrez le bouton horizontalement */
         margin-right: auto;
     }
@@ -209,4 +235,27 @@ p {
     .badge {
         top: 20px;
     }
-} 
+
+    .event-date-time {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 508px) {
+    .event-caroussel-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .event-desc {
+        display: none;
+    }
+
+    .event-card {
+        display: flex;
+        flex-direction: row;
+        height: 30%;
+        width: 160px;
+    }
+}
