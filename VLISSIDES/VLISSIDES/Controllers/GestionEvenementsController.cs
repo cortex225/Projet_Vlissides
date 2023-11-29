@@ -29,8 +29,8 @@ namespace VLISSIDES.Controllers
         public IActionResult Index()
         {
             //Supprimer automatiquement les evenements trop vieux
-            var evenementsSupprime = _context.Evenements.Include(e => e.Reservations).Where(e => e.DateFin.AddDays(7) < DateTime.Now);
-            _context.Evenements.RemoveRange(evenementsSupprime);
+            _context.Evenements.RemoveRange(_context.Evenements.Include(e => e.Reservations).Where(e => e.DateFin
+            .AddDays(7) < DateTime.Now));
             _context.SaveChanges();
             //La liste à afficher
             return View(_context.Evenements.Select(e => new GestionEvenementsIndexVM(e)).ToList());
@@ -45,9 +45,6 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         public async Task<IActionResult> AjouterEvenement(GestionEvenementsAjouterVM vm)
         {
-            decimal prix = 0;
-
-
             if (ModelState.IsValid)
             {
                 if (vm.DateDebut < DateTime.Now)
@@ -71,7 +68,7 @@ namespace VLISSIDES.Controllers
                     Lieu = vm.Lieu,
                     NbPlaces = vm.NbPlaces,
                     NbPlacesMembre = vm.NbPlacesMembre,
-                    Prix = prix,
+                    Prix = vm.Prix,
 
                 };
                 if (vm.CoverPhoto != null)
@@ -99,14 +96,17 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial", vm);
         }
 
-        public IActionResult ModifierEvenement(string id) =>
-            PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial",
-                new GestionEvenementsModifierVM(_context.Evenements.FirstOrDefault(e => e.Id == id) ?? new() { Id = id }));
+        public async Task<IActionResult> ModifierEvenement(string id)
+        {
+            var evenement = await _context.Evenements.FindAsync(id);
+            if (evenement == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
+            return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial",
+                    new GestionEvenementsModifierVM(evenement));
+
+        }
         [HttpPost]
         public async Task<IActionResult> ModifierEvenement(GestionEvenementsModifierVM vm)
         {
-            decimal prix = 0;
-
             if (ModelState.IsValid)
             {
                 if (vm.DateDebut < DateTime.Now)
@@ -130,7 +130,7 @@ namespace VLISSIDES.Controllers
                     evenement.Lieu = vm.Lieu;
                     evenement.NbPlaces = vm.NbPlaces;
                     evenement.NbPlacesMembre = vm.NbPlacesMembre;
-                    evenement.Prix = prix;
+                    evenement.Prix = vm.Prix;
 
                     if (vm.CoverPhoto != null)
                     {
@@ -156,18 +156,17 @@ namespace VLISSIDES.Controllers
             }
             return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial", vm);
         }
-        public IActionResult ShowSupprimerEvenement(string id)
+        public async Task<IActionResult> ShowSupprimerEvenement(string id)
         {
-            if (_context.Evenements.Any(e => e.Id == id)) return NotFound("Il ny' a pas d'évènement avec l'indentifiant "
-                + id + ".");
+            var evenement = await _context.Evenements.FindAsync(id);
+            if (evenement == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
             return PartialView("PartialViews/Modals/Evenements/_SupprimerEvenementPartial",
-                new GestionEvenementSupprimerVM(_context.Evenements.FirstOrDefault(e => e.Id == id)));
+                new GestionEvenementSupprimerVM(evenement));
         }
 
-        public IActionResult ShowConfirmerDemande(string id)
+        public async Task<IActionResult> ShowConfirmerDemande(string id)
         {
-            if (_context.Evenements.Any(e => e.Id == id)) return NotFound("Il ny' a pas d'évènement avec l'indentifiant "
-                + id + ".");
+            if (await _context.Evenements.FindAsync(id) == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
             return PartialView("PartialViews/Modals/Evenements/_ConfirmerReservationPartial",
                 new GestionEvenementsReservationVM(_context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
                     .FirstOrDefault(r => r.Id == id)));
@@ -176,12 +175,11 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmerDemande(string id)
         {
+            if (_context.Reservations.FindAsync(id) == null) return NotFound("La réservation à l'identifiant " + id
+                + " n'a pas été trouvé.");
+
             var reservation = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
-                .FirstOrDefault(r => r.Id == id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
+                .First(r => r.Id == id);
             _context.Reservations.Remove(reservation);
             _context.SaveChanges();
             //Logo fourmi ailé
@@ -191,10 +189,10 @@ namespace VLISSIDES.Controllers
             await SendConfirmationEmailMembreConfirmed(username, reservation, logoUrl);
             return Ok();
         }
-        public IActionResult ShowAnnulerDemande(string id)
+        public async Task<IActionResult> ShowAnnulerDemande(string id)
         {
-            if (_context.Evenements.Any(e => e.Id == id)) return NotFound("Il ny' a pas d'évènement avec l'indentifiant "
-                + id + ".");
+            if (await _context.Evenements.FindAsync(id) == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
+
             return PartialView("PartialViews/Modals/Evenements/_AnnulerReservationPartial",
                 new GestionEvenementsReservationVM(_context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
                     .FirstOrDefault(r => r.Id == id)));
@@ -202,12 +200,12 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         public async Task<IActionResult> AnnulerDemande(string id)
         {
+            if (_context.Reservations.FindAsync(id) == null) return NotFound("L'évènement à l'identifiant " + id
+                + " n'a pas été trouvé.");
+
             var reservation = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
                 .FirstOrDefault(r => r.Id == id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
+
             reservation.EnDemandeAnnuler = false;
             _context.SaveChanges();
             //Logo fourmi ailé
@@ -217,14 +215,12 @@ namespace VLISSIDES.Controllers
             await SendConfirmationEmailMembreCancelled(username, reservation, logoUrl);
             return Ok();
         }
-        [HttpPost]
-        public IActionResult SupprimerEvenement(string id)
+        [HttpDelete]
+        public async Task<IActionResult> SupprimerEvenement(string id)
         {
-            var evenement = _context.Evenements.FirstOrDefault(e => e.Id == id);
-            if (evenement == null)
-            {
-                return NotFound();
-            }
+            var evenement = await _context.Evenements.FindAsync(id);
+            if (evenement == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
+
             _context.Evenements.Remove(evenement);
             _context.SaveChanges();
             return Ok();
