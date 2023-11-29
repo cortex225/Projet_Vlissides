@@ -6,7 +6,10 @@
 }
 
 
-<link rel="stylesheet" href="~/css/Gestion/Gestion.css"/>
+<link rel="stylesheet" href="~/css/ListeLivres.css" />
+<link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Responsive/ListeGestion.css" asp-append-version="true">
+
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
     <div class="modal-dialog" role="document">
@@ -15,7 +18,10 @@
     </div>
 </div>
 
-<div class="d-block">
+<!-- Barre latérale coulissante -->
+<partial name="PartialViews/Dashboard/_SideBarPartial" />
+
+<div class="d-block p-4 p-4">
 
 
     <!--Début : Ajouter Auteur-->
@@ -26,7 +32,7 @@
         </button>
 
         <form class="collapse" id="champAjouter" enctype="multipart/form-data">
-            <br/>
+            <br />
             @* @Html.AntiForgeryToken() *@
             @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
             <div class="input-group">
@@ -40,7 +46,7 @@
         </form>
 
     </div>
-    <br/>
+    <br />
     <!--Fin : Ajouter maison edition-->
     <!--Fin : Rechercher auteur-->
     <div class="container-fluid">
@@ -50,10 +56,10 @@
         </button>
 
         <form class="collapse" id="rechercherAuteur" enctype="multipart/form-data">
-            <br/>
+            <br />
             <div class="input-group">
-                <input class="form-control" id="inputRechercherAuteur" placeholder="Rechercher..."/>
-                <button class="btn btn-primary" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la auteur">
+                <input class="form-control" id="inputRechercherAuteur" placeholder="Rechercher..." />
+                <button class="btn btn-primary p-2" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la auteur">
                     Rechercher
                 </button>
             </div>
@@ -61,18 +67,22 @@
         </form>
 
     </div>
-    <br/>
+    <br />
     <!--Fin : Rechercher auteur-->
 
-    <div class="d-block">
+    <div class="d-block p-4 p-4">
 
-        <div class="text-center">
+        <div class="mb-4 text-center">
             <h1>Gestion des auteurs</h1>
         </div>
 
-        <div class="">
+        <div class="mb-4">
             <h3>Liste des auteurs</h3>
-            <div class="row" id="ListeAuteurPartial"/>
+            <div class="row p-0" id="ListeAuteurPartial">
+            </div>
+
+
+
         </div>
 
     </div>
@@ -80,20 +90,26 @@
 <script>
     //Script pour URL
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
-    
+
 </script>
 <!--Fonctionalite des boutons *-->
+<style>
+    /*Pour cacher les boutons de sauvegarde --- Ne fonction pas dans un fichier css*/
+    .saveButton {
+        visibility: hidden;
+    }
+</style>
 <script type="text/javascript" src="~/js/DynamicSaveButton.js"></script>
-
+<!--Fin pour Fonctionalite des boutons-->
+<!--Script pour liste-->
 <script type="text/javascript">
-        /*Script pour liste*/
-        function AfficherListe(page = @ViewBag.CurrentPage) {
+    function AfficherListe(page = @ViewBag.CurrentPage) {
         // Récupère la valeur du mot-clé de recherche à partir de l'élément d'entrée
         var motCle = document.getElementById("inputRechercherAuteur").value || "";
-        
+
         // Construit l'URL pour la requête API en utilisant le mot-clé et le numéro de page
         var apiUrl = BASE_URL + '/GestionAuteurs/AfficherListe?motCle=' + motCle + '&page=' + page;
-        
+
         // Effectue une requête GET à l'API
         fetch(apiUrl, {
             method: "GET"
@@ -110,8 +126,11 @@
         });
     }
 
+
     AfficherListe();
-    /*Script pour Ajouter*/
+</script>
+<!--Script pour Ajouter-->
+<script type="text/javascript">
     function AjouterAuteur() {
         var form = document.getElementById("champAjouter");
         var data = new FormData(form);
@@ -130,7 +149,9 @@
         });
         form.reset();
     }
-    /*Script pour la liste de livres d'un auteur*/
+</script>
+<!--Script pour la liste de livres d'un auteur-->
+<script type="text/javascript">
     function hideall() {
         divListes = document.getElementById("divListeAuteursLivres").childNodes;
         divListes.forEach((element) => { element.className = "visually-hidden" });
@@ -138,19 +159,23 @@
     function AfficherAuteursLivres(id = "") {
         hideall();
 
-            var liste = document.getElementById("Liste_" + id);
-            liste.className = "";
-        }
-    /*Script pour Modifier*/
-        function ModifierAuteur(id = "", nom = "") {
-        fetch(BASE_URL+'/GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).catch(error => console.error('Échec du fetch pour modifier le nom'))
-            .then((response) => { 
+        var liste = document.getElementById("Liste_" + id);
+        liste.className = "";
+    }
+</script>
+
+
+<!--Script pour Modifier-->
+<script type="text/javascript">
+    function ModifierAuteur(id = "", nom = "") {
+        fetch(BASE_URL + '/GestionAuteurs/ModifierAuteur?id=' + id + '&nom=' + document.getElementById(id + " " + nom).value, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch(error => console.error('Échec du fetch pour modifier le nom'))
+            .then((response) => {
                 disableButton(id);
                 document.getElementById("NomAuteur_" + id).innerText = document.getElementById(id + " " + nom).value;
             });
@@ -172,11 +197,11 @@
         }
 
 
-        // ModalScript
-        function ShowModal($url) {
-            $.get($url, function (result) {
-                $('.modal-content').html(result);
-                $('.modal').modal('show');
-            });
-        }
-    </script>
+    // ModalScript
+    function ShowModal($url) {
+        $.get($url, function (result) {
+            $('.modal-content').html(result);
+            $('.modal').modal('show');
+        });
+    }
+</script>

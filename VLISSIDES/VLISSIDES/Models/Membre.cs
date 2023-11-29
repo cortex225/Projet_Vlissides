@@ -20,5 +20,4 @@ public class Membre : ApplicationUser
 
     [DisplayName("Livres favoris")] public ICollection<Favori>? Favoris { get; set; }
     public string? StripeCustomerId { get; internal set; }
-
 }

@@ -16,9 +16,9 @@
     transition: background-color 0.3s ease !important; /* Transition douce */
 }
 
-    .nav-item:hover {
-        background-color: #f8f9fa !important; /* Couleur de fond au survol */
-    }
+.nav-item:hover {
+    background-color: #f8f9fa !important; /* Couleur de fond au survol */
+}
 
 .nav-link {
     color: #495057; /* Couleur du texte */
@@ -26,9 +26,9 @@
     cursor: pointer;
 }
 
-    .nav-link:hover {
-        color: #007bff !important; /* Couleur du texte au survol */
-    }
+.nav-link:hover {
+    color: #007bff !important; /* Couleur du texte au survol */
+}
 
 /* Styles pour les icônes */
 .fa-solid {
@@ -36,9 +36,9 @@
     transition: color 0.3s ease; /* Transition douce */
 }
 
-    .fa-solid:hover {
-        color: #007bff !important; /* Couleur des icônes au survol */
-    }
+.fa-solid:hover {
+    color: #007bff !important; /* Couleur des icônes au survol */
+}
 
 /* Styles pour les titres */
 h5 {
@@ -66,10 +66,10 @@ h5 {
     transition: border-color 0.3s ease-in-out;
 }
 
-    .form-control:focus {
-        border-color: #007bff;
-        box-shadow: none;
-    }
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+}
 
 /* Styles pour les boutons */
 .btn.bg-gradient-dark {
@@ -80,9 +80,9 @@ h5 {
     transition: background-color 0.3s ease-in-out;
 }
 
-    .btn.bg-gradient-dark:hover {
-        background-color: #23272b;
-    }
+.btn.bg-gradient-dark:hover {
+    background-color: #23272b;
+}
 
 .card:hover {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -106,9 +106,9 @@ h5 {
     background: #ffff;
 }
 
-    .card-address:hover {
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
+.card-address:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
 
 /* Styles pour la liste des adresses */
 .address-list {
@@ -125,9 +125,9 @@ h5 {
     border-bottom: 1px solid #e9ecef;
 }
 
-    .address-item:last-child {
-        border-bottom: none;
-    }
+.address-item:last-child {
+    border-bottom: none;
+}
 
 /* Styles pour les boutons */
 .btn-remove {
@@ -145,10 +145,10 @@ h5 {
     transition: background-color 0.3s ease;
 }
 
-    .btn-remove:hover {
-        background-color: #c82333;
-        color: #ffffff;
-    }
+.btn-remove:hover {
+    background-color: #c82333;
+    color: #ffffff;
+}
 
 @media only screen and (max-width: 635px) {
     .cacher {
@@ -156,8 +156,9 @@ h5 {
         visibility: hidden;
     }
 }
+
 @media only screen and (max-width: 460px) {
-    td,th{
-        padding:0!important;
+    td, th {
+        padding: 0 !important;
     }
 }

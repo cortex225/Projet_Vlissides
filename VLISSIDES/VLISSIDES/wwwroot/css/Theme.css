@@ -1,28 +1,34 @@
 ﻿:root {
-    --primaire:#f8f4f1;
+    --primaire: #f8f4f1;
     /*--secondaire:;
     --tertiaire:;
     --quaternaire:;
     --quinquénaire:;*/
 }
-html{
+
+html {
 
 }
+
 body {
 }
-header{
+
+header {
 
 }
-nav{
+
+nav {
 
 }
 
-footer{
+footer {
 
 }
+
 .btn-primary {
 
 }
+
 .btn-secondary {
 
 }

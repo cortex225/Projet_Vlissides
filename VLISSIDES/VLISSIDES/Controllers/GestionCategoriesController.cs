@@ -1,8 +1,8 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Categories;
@@ -69,7 +69,7 @@ public class GestionCategoriesController : Controller
         {
             Text = c.Nom,
             Value = c.Id
-        }).ToList();
+        }).OrderBy(c => c.Text).ToList();
         return PartialView("PartialViews/Modals/Categories/_AjouterCategoriesPartial", vm);
     }
 
@@ -117,7 +117,7 @@ public class GestionCategoriesController : Controller
                 Selected = c.Parent.Equals(categorie.Parent),
                 Text = c.Nom,
                 Value = c.Id
-            }).ToList(),
+            }).OrderBy(c => c.Text).ToList(),
             ParentId = null,
             ASousCategorie = false
         };
