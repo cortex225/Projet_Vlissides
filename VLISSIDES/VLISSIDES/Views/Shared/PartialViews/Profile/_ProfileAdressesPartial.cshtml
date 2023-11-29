@@ -17,14 +17,14 @@
 
                 <div class="col-2 ">
                     <div class="form-group form-group-static">
-                        <label asp-for="NoCivique" class="control-label mb-2"></label>
+                        <label asp-for="NoCivique" class="control-label mb-2"></label>(<span class="text-danger">*</span>)
                         <input asp-for="NoCivique" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.NoCivique)"/>
                         <span asp-validation-for="NoCivique" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-10">
                     <div class="form-group form-group-static">
-                        <label asp-for="Rue" class="control-label mb-2"></label>
+                        <label asp-for="Rue" class="control-label mb-2"></label>(<span class="text-danger">*</span>)
                         <input asp-for="Rue" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Rue)"/>
                         <span asp-validation-for="Rue" class="text-danger"></span>
                     </div>
@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-2">
                     <div class="form-group form-group-static">
-                        <label asp-for="CodePostal" class="control-label mb-2"></label>
+                        <label asp-for="CodePostal" class="control-label mb-2"></label>(<span class="text-danger">*</span>)
                         <input asp-for="CodePostal" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.CodePostal)"/>
                         <span asp-validation-for="CodePostal" class="text-danger"></span>
                     </div>
@@ -54,21 +54,21 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group form-group-static">
-                        <label asp-for="Ville" class="control-label mb-2"></label>
+                        <label asp-for="Ville" class="control-label mb-2"></label>(<span class="text-danger">*</span>)
                         <input asp-for="Ville" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Ville)"/>
                         <span asp-validation-for="Ville" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group form-group-static">
-                        <label asp-for="Province" class="control-label mb-2"></label>
+                        <label asp-for="Province" class="control-label mb-2"></label>(<span class="text-danger">*</span>)
                         <input asp-for="Province" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Province)"/>
                         <span asp-validation-for="Province" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group form-group-static">
-                        <label asp-for="Pays" class="control-label mb-2"></label>
+                        <label asp-for="Pays" class="control-label mb-2"></label>(<span class="text-danger">*</span>)
                         <input asp-for="Pays" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Pays)"/>
                         <span asp-validation-for="Pays" class="text-danger"></span>
                     </div>
@@ -103,19 +103,3 @@
     </div>
 }
 
-<script>
-    // function ProfileAdresseEnregistrer(){
-    //     var form = document.getElementById("AdressesForm");
-    //     var data = new FormData(form);
-    //     fetch(BASE_URL + "/Profile/ModifierAdressePrincipale", {
-    //         method: "POST",
-    //         body: data,
-    //     }).then((response)=>{
-    //         return response.text()
-    //     }).then((result) => {
-    //         document.getElementById("ModifierProfile").innerHTML = result;
-    //     });
-    // }
-
-    
-</script>

@@ -1,12 +1,12 @@
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
-<link rel="stylesheet" href="~/css/NavBar/NavBarTop.css" />
+<link rel="stylesheet" href="~/css/NavBar/NavBarTop.css"/>
 <nav class="navbar navbar-expand-sm container-fluid justify-content-between" id="navTop">
     <!-- Logo fourmi ailée. Ce logo permet de retourner à l'accueil -->
     <a id="IconeNavBar" asp-area="" asp-controller="Accueil" asp-action="Index">
-        <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" />
+        <img src="~/img/Logo/Logo_sans_fond.png" alt="logo"/>
     </a>
 
     <!-- Barre de recherche -->
@@ -18,7 +18,7 @@
                 <option value="auteur" onclick="OptionChoisieNavBar('Auteur :')">Auteur</option>
                 <option value="categorie" onclick="OptionChoisieNavBar('Catégorie :')">Catégorie</option>
             </select>
-            </div>
+        </div>
         <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="if (event.key == 'Enter')Recherche()">
         <button id="boutonRechercheNavBar" type="button" class="btn btn-secondary recherche-btn" onclick="RechercheNavBar()">
             <i class="fa-solid fa-magnifying-glass fa-sm"></i>
@@ -26,7 +26,7 @@
     </div>
 
     <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
-    <partial name="_LoginPartial" />
+    <partial name="_LoginPartial"/>
 </nav>
 <script>
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);

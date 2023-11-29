@@ -31,7 +31,7 @@
                 <div class="col">
 
                     <div>
-                        <label asp-for="Nom" class="control-label"></label>
+                        <label asp-for="Nom" class="control-label"></label>(<span class="text-danger">*</span>)
                         <input asp-for="Nom" class="form-control"/>
                         <span asp-validation-for="Nom" class="text-danger"></span>
                     </div>
@@ -46,7 +46,7 @@
                         <span asp-validation-for="DateFin" class="text-danger"></span>
                     </div>
                     <div>
-                        <label asp-for="Prix" class="control-label"></label>
+                        <label asp-for="Prix" class="control-label"></label>(<span class="text-danger">*</span>)
                         <input asp-for="Prix" class="form-control" type="text" placeholder="0,00"/>
                         <span asp-validation-for="Prix" class="text-danger"></span>
                     </div>
@@ -55,18 +55,18 @@
 
                 <div class="col">
                     <div>
-                        <label asp-for="Lieu" class="control-label"></label>
+                        <label asp-for="Lieu" class="control-label"></label>(<span class="text-danger">*</span>)
                         <input asp-for="Lieu" class="form-control"/>
                         <span asp-validation-for="Lieu" class="text-danger"></span>
                     </div>
 
                     <div>
-                        <label asp-for="NbPlaces" class="control-label"></label>
+                        <label asp-for="NbPlaces" class="control-label"></label>(<span class="text-danger">*</span>)
                         <input asp-for="NbPlaces" class="form-control"/>
                         <span asp-validation-for="NbPlaces" class="text-danger"></span>
                     </div>
                     <div>
-                        <label asp-for="NbPlacesMembre" class="control-label"></label>
+                        <label asp-for="NbPlacesMembre" class="control-label"></label>(<span class="text-danger">*</span>)
                         <input asp-for="NbPlacesMembre" class="form-control"/>
                         <span asp-validation-for="NbPlacesMembre" class="text-danger"></span>
                     </div>
@@ -77,7 +77,7 @@
 
         </div>
         <div>
-            <label asp-for="Description" class="control-label"></label>
+            <label asp-for="Description" class="control-label"></label>(<span class="text-danger">*</span>)
             <textarea asp-for="Description" rows="5" style="height:100%" class="form-control"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>

@@ -18,5 +18,4 @@ public class AfficherPanierVM
     public List<LivreAuteur>? LivreAuteurs { get; set; }
 
     public double PrixApresPromotion { get; set; }
-
 }

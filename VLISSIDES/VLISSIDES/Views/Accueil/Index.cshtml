@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="~/css/Accueil/promo-card.css">
 
 @{
-    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.User?.DateNaissance == null;
+    var isIncompleteBirthday = User.Identity.IsAuthenticated && Model.User?.DateNaissance == null;
 
 }
 <!--
@@ -104,17 +104,18 @@ Un bouton pour cacher/montrer les services de l'entreprises'
         <h2 class="titreSections mb-1">Nos Activités Et Évenements: </h2>
         <p class="m-2">Immergez-vous dans nos événements et partagez des moments d'exception.</p>
         <div id="carouselEvenements" class="carousel slide container-fluid">
-            <a class="voirPlus" asp-controller="Evenements" asp-action="Index">Voir plus -></a><div class="carousel-inner">
+            <a class="voirPlus" asp-controller="Evenements" asp-action="Index">Voir plus -></a>
+            <div class="carousel-inner">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="cards-wrapper d-flex justify-content-around">
                             <div class="cacher-0">
-                                <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[0]" />
+                                <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[0]"/>
                             </div>
                             @if (Model.Evenements.Count > 1)
                             {
                                 <div class="cacher-1">
-                                    <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[1]" />
+                                    <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[1]"/>
                                 </div>
                             }
                         </div>
@@ -128,7 +129,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                                     @if (Model.Evenements.Count > indexEvenement * 2 + indexLivre2)
                                     {
                                         <div class="cacher-@indexLivre2">
-                                            <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement * 2 + indexLivre2]" />
+                                            <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement * 2 + indexLivre2]"/>
                                         </div>
                                     }
                                     else
@@ -165,12 +166,12 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                     <div class="carousel-item active">
                         <div class="cards-wrapper d-flex justify-content-around">
                             <div class="cacher-0">
-                                <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]" />
+                                <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]"/>
                             </div>
                             @if (Model.Promotions.Count > 1)
                             {
                                 <div class="cacher-1">
-                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]" />
+                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]"/>
                                 </div>
                             }
                         </div>
@@ -184,7 +185,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                                     @if (Model.Promotions.Count > indexEvenement * 2 + indexLivre2)
                                     {
                                         <div class="cacher-@indexLivre2">
-                                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexEvenement * 2 + indexLivre2]" />
+                                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexEvenement * 2 + indexLivre2]"/>
                                         </div>
                                     }
                                     else
@@ -228,24 +229,24 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                 <div class="carousel-item active">
                     <div class="cards-wrapper d-flex justify-content-around">
                         <div class="cacher-0">
-                            <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[0]" />
+                            <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[0]"/>
                         </div>
                         @if (Model.Vedettes.Count > 2)
                         {
                             <div class="cacher-1">
-                                <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[1]" />
+                                <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[1]"/>
                             </div>
                         }
                         @if (Model.Vedettes.Count > 3)
                         {
                             <div class="cacher-2">
-                                <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[2]" />
+                                <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[2]"/>
                             </div>
                         }
                         @if (Model.Vedettes.Count > 4)
                         {
                             <div class="cacher-3">
-                                <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[3]" />
+                                <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[3]"/>
                             </div>
                         }
                     </div>
@@ -259,7 +260,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
                                 @if (Model.Vedettes.Count > indexLivre * 4 + indexLivre2)
                                 {
                                     <div class="cacher-@indexLivre2">
-                                    <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[indexLivre * 4 + indexLivre2]"/>
+                                        <partial name="PartialViews/Accueil/_CarteLivre" model="Model.Vedettes[indexLivre * 4 + indexLivre2]"/>
                                     </div>
                                 }
                                 else
