@@ -96,7 +96,7 @@ public class GestionAuteursController : Controller
             var auteur = new Auteur
             {
                 Id = Guid.NewGuid().ToString(),
-                NomAuteur = vm.AuteurAjouter.Nom
+                NomAuteur = vm.AuteurAjouter.Nom,
             };
             _context.Auteurs.Add(auteur);
             _context.SaveChanges();

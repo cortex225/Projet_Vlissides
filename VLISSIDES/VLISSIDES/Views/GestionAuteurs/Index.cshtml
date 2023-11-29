@@ -138,11 +138,11 @@
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
         fetch(BASE_URL + '/GestionAuteurs/Ajouter', {
             method: "POST",
-            body: data
+            body: data,
             // headers: {
             //    RequestVerificationToken: csrfToken,
             // },
-        }).catch(error => {
+        }).catch((error) => {
             console.error('Échec du fetch pour ajouter auteur', error);
         }).then((response) => {
             AfficherListe();
