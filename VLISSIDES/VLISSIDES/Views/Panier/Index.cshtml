@@ -209,7 +209,7 @@ $(document).ready(function () {
                 userId: '@UserManager.GetUserId(User)',
                 customerStripeId: '@Model.CustomerStripeId'
            };
-           fetch(BASE_URL + '@Url.Action("CreateCheckoutSession", "Paiement")', {
+        fetch(BASE_URL + '/Paiement/CreateCheckoutSession', {
                method: 'POST',
                   headers: {
                      'Content-Type': 'application/json'
