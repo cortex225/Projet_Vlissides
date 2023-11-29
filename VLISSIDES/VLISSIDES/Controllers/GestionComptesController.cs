@@ -122,7 +122,7 @@ namespace VLISSIDES.Controllers
         {
             var user = await _context.Employes.FindAsync(id);
             if (user == null) return NotFound("L'employe à l'identifiant " + id + " n'a pas été trouvé.");
-            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", user);
+            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", new GestionComptesModifierVM(user));
         }
         [HttpPost]
         public async Task<IActionResult> ModifierCompteMembre(GestionComptesModifierVM vm)
