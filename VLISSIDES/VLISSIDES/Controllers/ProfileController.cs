@@ -29,16 +29,12 @@ public class ProfileController : Controller
     }
 
     public IActionResult Index() => View(
-        new ProfileIndexVM(
-            _userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User)).Result)
-        );
+        new ProfileIndexVM(_userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User)).Result));
 
     [Route("2167594/Profile/ModifierInformation")]
     [Route("{controller}/{action}")]
     public IActionResult ModifierInformation() => PartialView("PartialViews/Profile/_ProfilePartial",
-        new ProfileModifierInformationVM(
-            _userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User)).Result)
-        );
+        new ProfileModifierInformationVM(_userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User)).Result));
 
     [HttpPost]
     [Route("2167594/Profile/ModifierInformation")]
@@ -69,27 +65,6 @@ public class ProfileController : Controller
                 user.NormalizedUserName = vm.NomUtilisateur.ToUpper();
                 userM.UserName = vm.NomUtilisateur;
 
-                // Sauvegarder l'image dans le dossier spécifié
-                //if (vm.CoverPhoto != null)
-                //{
-                //    var wwwRootPath = _webHostEnvironment.WebRootPath;
-                //    var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
-                //    var extension = Path.GetExtension(vm.CoverPhoto.FileName);
-                //    fileName = fileName + "_" + Guid.NewGuid().ToString() +
-                //               extension; // Utilisation de Guid pour un nom de fichier unique
-                //    var folderPath =
-                //        Path.Combine(wwwRootPath, _config.GetValue<string>("ImageUrl")); // Chemin du dossier où l'image sera sauvegardée
-                //    var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
-
-                //    // Sauvegarder l'image
-                //    using (var fileStream = new FileStream(fullPath, FileMode.Create))
-                //    {
-                //        await vm.CoverPhoto.CopyToAsync(fileStream);
-                //    }
-
-                //    userCourant.CoverImageUrl =
-                //        "/img/UserPhoto/" + fileName; 
-                //}
                 if (vm.CoverPhoto != null)
                 {
                     var wwwRootPath = _webHostEnvironment.WebRootPath;
@@ -196,12 +171,12 @@ public class ProfileController : Controller
     }
 
     [HttpPost]
-    public IActionResult EnleverAdressesLivraison(string? id)
+    public async Task<IActionResult> EnleverAdressesLivraison(string? id)
     {
-        if (_context.Adresses.Any(a => a.Id == id)) return NotFound("Il n'existe pas d'adresse avec " + id
-            + " comme identifiant.");
+        var adresse = await _context.Adresses.FindAsync(id);
+        if (adresse == null) return NotFound("L'adresse à l'identifiant " + id + " n'a pas été trouvé.");
 
-        _context.Adresses.Remove(_context.Adresses.FirstOrDefault(a => a.Id == id));
+        _context.Adresses.Remove(adresse);
         _context.SaveChanges();
         return PartialView("PartialViews/Profile/_ProfileAdressesPartial",
             new ProfileModifierAdressesVM(

@@ -27,28 +27,11 @@ namespace VLISSIDES.Controllers
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
         }
-        public IActionResult Index()
-        {
-            var Membres = _context.Membres.Select(m => new GestionComptesMembreVM
-            {
-                Id = m.Id,
-                Nom = m.UserName,
-                Courriel = m.Email,
-                IsBanned = m.IsBanned,
-            }).ToList();
-
-            return View(Membres);
-        }
+        public IActionResult Index() => View(_context.Membres.Select(m => new GestionComptesMembreVM(m)).ToList());
         #region Lister les comptes
         public IActionResult ShowMembres(string? motCle)
         {
-            var Membres = _context.Membres.Select(m => new GestionComptesMembreVM
-            {
-                Id = m.Id,
-                Nom = m.UserName,
-                Courriel = m.Email,
-                IsBanned = m.IsBanned
-            }).ToList();
+            var Membres = _context.Membres.Select(m => new GestionComptesMembreVM(m)).ToList();
             if (motCle != null && motCle != "")
             {
                 Membres = Membres
@@ -60,32 +43,19 @@ namespace VLISSIDES.Controllers
         }
         public IActionResult ShowEmployes()
         {
-            var Employes = _context.Employes.Select(e => new GestionComptesEmployeVM
-            {
-                Id = e.Id,
-                Nom = e.UserName,
-                Courriel = e.Email
-            }).ToList();
+            var Employes = _context.Employes.Select(e => new GestionComptesEmployeVM(e)).ToList();
             return PartialView("PartialViews/GestionComptes/_ListeEmployePartial", Employes);
         }
         public IActionResult ShowAdmins()
         {
             //Il y a seulement un admin
-            var Admin = _context.Users.Where(u => u.Id == "0").Select(u => new GestionComptesAdminVM
-            {
-                Id = u.Id,
-                Nom = u.UserName,
-                Courriel = u.Email
-            }).ToList();
+            var Admin = _context.Users.Where(u => u.Id == "0").Select(u => new GestionComptesAdminVM(u)).ToList();
             return PartialView("PartialViews/GestionComptes/_ListeAdminPartial", Admin);
         }
         #endregion
         #region Ajouter Employe
-        public IActionResult ShowAjouterEmploye()
-        {
-            var vm = new GestionComptesAjouterEmployeVM();
-            return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
-        }
+        public IActionResult ShowAjouterEmploye() => PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial",
+            new GestionComptesAjouterEmployeVM());
         [HttpPost]
         public async Task<IActionResult> AjouterEmploye(GestionComptesAjouterEmployeVM vm)
         {
@@ -122,8 +92,6 @@ namespace VLISSIDES.Controllers
 
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
-
-
                 };
                 var result = await _userManager.CreateAsync(Employe, vm.Password);
                 if (result.Succeeded)
@@ -142,33 +110,19 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
         }
         #endregion
-        public IActionResult ShowModifierCompteMembre(string id)
+        public async Task<IActionResult> ShowModifierCompteMembre(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            var vm = new GestionComptesModifierVM
-            {
-                Id = user.Id,
-                Nom = user.Nom,
-                Prenom = user.Prenom,
-                Telephone = user.PhoneNumber,
-                Email = user.Email,
-                Username = user.UserName
-            };
-            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial", vm);
+            var user = await _context.Membres.FindAsync(id);
+            if (user == null) return NotFound("Le membre à l'identifiant " + id + " n'a pas été trouvé.");
+
+            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial",
+                new GestionComptesModifierVM(user));
         }
-        public IActionResult ShowModifierCompteEmploye(string id)
+        public async Task<IActionResult> ShowModifierCompteEmploye(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            var vm = new GestionComptesModifierVM
-            {
-                Id = user.Id,
-                Nom = user.Nom,
-                Prenom = user.Prenom,
-                Telephone = user.PhoneNumber,
-                Email = user.Email,
-                Username = user.UserName
-            };
-            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
+            var user = await _context.Employes.FindAsync(id);
+            if (user == null) return NotFound("L'employe à l'identifiant " + id + " n'a pas été trouvé.");
+            return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", user);
         }
         [HttpPost]
         public async Task<IActionResult> ModifierCompteMembre(GestionComptesModifierVM vm)
@@ -302,11 +256,13 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
         }
         #region Confirmation de supprimer
-        public IActionResult ShowDeleteConfirmationMembre(string id)
+        public async Task<IActionResult> ShowDeleteConfirmationMembre(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var user = await _context.Membres.FindAsync(id);
+            if (user == null) return NotFound("Le membre à l'identifiant " + id + " n'a pas été trouvé.");
+
             var userCourant = _userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User)).Result;
-            var vm = new GestionComptesDeleteVM { Id = user.Id, Nom = user.UserName };
+            var vm = new GestionComptesDeleteVM(user);
             if (user == userCourant)
             {
                 return PartialView("PartialViews/Modals/Comptes/_ErreurCompteUtilisePartial", vm);
@@ -315,89 +271,62 @@ namespace VLISSIDES.Controllers
 
             return PartialView("PartialViews/Modals/Comptes/_DeleteMembrePartial", vm);
         }
-        public IActionResult ShowDeleteConfirmationEmploye(string id)
+        public async Task<IActionResult> ShowDeleteConfirmationEmploye(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            var vm = new GestionComptesDeleteVM { Id = user.Id, Nom = user.UserName };
+            var user = await _context.Employes.FindAsync(id);
+            if (user == null) return NotFound("L'employe à l'identifiant " + id + " n'a pas été trouvé.");
 
-            return PartialView("PartialViews/Modals/Comptes/_DeleteEmployePartial", vm);
+            return PartialView("PartialViews/Modals/Comptes/_DeleteEmployePartial", new GestionComptesDeleteVM(user));
         }
-        public IActionResult ShowDeleteConfirmationAdmin(string id)
+        public async Task<IActionResult> ShowDeleteConfirmationAdmin(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            var vm = new GestionComptesDeleteVM { Id = user.Id, Nom = user.UserName };
 
-            return PartialView("PartialViews/Modals/Comptes/_DeleteAdminPartial", vm);
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
+
+            return PartialView("PartialViews/Modals/Comptes/_DeleteAdminPartial", new GestionComptesDeleteVM(user));
         }
         #endregion
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> SupprimerCompte(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-                return NotFound();
-            else
-            {
-                await _userManager.DeleteAsync(user);
-                await _context.SaveChangesAsync();
-                return Ok();
-            }
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
+
+            await _userManager.DeleteAsync(user);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
-        public IActionResult ShowBanMembre(string id)
+        public async Task<IActionResult> ShowBanMembre(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            var vm = new GestionComptesBanVM()
-            {
-                Id = user.Id,
-                Username = user.UserName,
-            };
-            return PartialView("PartialViews/Modals/Comptes/_BanMemberPartial", vm);
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
+            return PartialView("PartialViews/Modals/Comptes/_BanMemberPartial", new GestionComptesBanVM(user));
         }
-        public IActionResult ShowUnbanMembre(string id)
+        public async Task<IActionResult> ShowUnbanMembre(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            var vm = new GestionComptesBanVM()
-            {
-                Id = user.Id,
-                Username = user.UserName,
-            };
-            return PartialView("PartialViews/Modals/Comptes/_UnbanMemberPartial", vm);
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
+            return PartialView("PartialViews/Modals/Comptes/_UnbanMemberPartial", new GestionComptesBanVM(user));
         }
         [HttpPost]
         public async Task<IActionResult> BanMembre(string id)
         {
-            var user = _context.Membres.FirstOrDefault(x => x.Id == id);
-            if (user == null)
+            var user = await _context.Membres.FindAsync(id);
+            if (user == null) return NotFound("Le membre à l'identifiant " + id + " n'a pas été trouvé.");
+            if (user.IsBanned)
             {
-                return NotFound();
+                user.IsBanned = false;
 
             }
             else
             {
-                if (user.IsBanned)
-                {
-                    user.IsBanned = false;
+                user.IsBanned = true;
 
-                }
-                else
-                {
-                    user.IsBanned = true;
-
-                    Console.WriteLine(await _userManager.GetSecurityStampAsync(user));
+                Console.WriteLine(await _userManager.GetSecurityStampAsync(user));
 
 
-                    await _userManager.UpdateSecurityStampAsync(user);
-
-
-
-                    //services.Configure<SecurityStampValidatorOptions>(options =>
-                    //{
-                    // enables immediate logout, after updating the user's stat.
-                    //    options.ValidationInterval = TimeSpan.Zero;
-                    //});
-
-
-                }
+                await _userManager.UpdateSecurityStampAsync(user);
             }
             _context.SaveChanges();
 
