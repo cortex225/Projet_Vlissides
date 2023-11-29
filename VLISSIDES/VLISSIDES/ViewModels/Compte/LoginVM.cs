@@ -21,8 +21,16 @@ public class LoginVM
 
     [Display(Name = "Chemin de retour")] public string? ReturnUrl { get; set; }
 
-    public LoginVM(string? returnUrl = "", string? userName = null, string emailOrUserName="",
-        string password="", bool rememberMe=false)
+    public LoginVM()
+    {
+        UserName = "";
+        EmailOrUserName = "";
+        Password = "";
+        RememberMe = false;
+        ReturnUrl = "";
+    }
+    public LoginVM(string? returnUrl = "", string? userName = null, string emailOrUserName = "",
+        string password = "", bool rememberMe = false)
     {
         UserName = userName;
         EmailOrUserName = emailOrUserName;
