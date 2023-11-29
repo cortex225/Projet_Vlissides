@@ -1,24 +1,29 @@
-﻿@using System.Globalization;
+﻿@using System.Globalization
 @model double
 @{
     //Ajouter de la valeur plus qu'il va avoir d'espace entre les étoiles
-    double ratingAvantModif = Model;
+    var ratingAvantModif = Model;
 
     var rating = ratingAvantModif.ToString("0.0", CultureInfo.InvariantCulture);
 }
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
 <div class="star-et-nombre-container">
-    <div class="star-container">
+    <div class="star-container ">
         <div class="Stars" style="--rating: @rating;"></div>
         <div class="Stars-o"></div>
+
     </div>
-    <p class="rating-number">(@Math.Round(Model, 1))</p>
+    <p class="rating-number mx-3">(@Math.Round(Model, 1))</p>
+
+
 </div>
 <style >
     :root {
-        --star-size: 17px;
-        --star-size-o: 23px;
+        --star-size: 16px;
+        --star-size-o: 22px;
         --star-color: #fff;
         --star-background: #fc0;
         --star-background-o: #000;
@@ -26,11 +31,22 @@
 
     .star-et-nombre-container {
         display: flex;
+        align-items: start;
+        justify-content: center;
+        margin-top: 10px;
+        flex-direction: row;
     }
+
+    .rating-number {
+        align-items: flex-end;
+        margin-top: 1.8em!important;
+    }
+
 
     .star-container {
         width: 108px;
         position: relative;
+        display: flex;
     }
 
     .Stars, .Stars-o{
@@ -44,9 +60,9 @@
         --percent: calc((var(--rating) / 5) * 100%);
         z-index: 10;
         font-size: var(--star-size);
-        top: 5.2px;
+        top: 5.1px;
         left: 2.5px;
-        font-family: serif;
+        font-family: 'Roboto', sans-serif;
         &::before {
             content: '★★★★★';
             letter-spacing: 6px;
@@ -62,7 +78,7 @@
         font-size: var(--star-size-o);
         top: 0;
         left: 0;
-        font-family: serif;
+        font-family: 'Roboto', sans-serif;
         &::before{
             content: '★★★★★';
             letter-spacing: 1px;

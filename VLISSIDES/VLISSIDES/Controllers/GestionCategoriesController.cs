@@ -8,6 +8,7 @@ using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Categories;
 
 namespace VLISSIDES.Controllers;
+
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionCategoriesController : Controller
 {
@@ -49,7 +50,7 @@ public class GestionCategoriesController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        return View(liste.Select(c => new CategoriesIndexVM()
+        return View(liste.Select(c => new CategoriesIndexVM
         {
             Id = c.Id,
             Nom = c.Nom,
@@ -68,7 +69,7 @@ public class GestionCategoriesController : Controller
         {
             Text = c.Nom,
             Value = c.Id
-        }).ToList();
+        }).OrderBy(c => c.Text).ToList();
         return PartialView("PartialViews/Modals/Categories/_AjouterCategoriesPartial", vm);
     }
 
@@ -116,7 +117,7 @@ public class GestionCategoriesController : Controller
                 Selected = c.Parent.Equals(categorie.Parent),
                 Text = c.Nom,
                 Value = c.Id
-            }).ToList(),
+            }).OrderBy(c => c.Text).ToList(),
             ParentId = null,
             ASousCategorie = false
         };

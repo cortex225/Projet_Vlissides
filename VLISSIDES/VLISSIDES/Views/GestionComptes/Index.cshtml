@@ -3,11 +3,12 @@
 *@
 @{
     ViewData["Title"] = "Gestion de comptes";
-    string myURL = Context.Request.Host.Value;    
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 @model List<VLISSIDES.ViewModels.GestionComptes.GestionComptesMembreVM>
 <link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Gestion/Compte.css" asp-append-version="true">
 <div class="modal fade modal-dialog-centered" tabindex="-1" role="dialog" aria-hidden="true" id="ModalId"
      style="display: none;">
     <div class="modal-dialog" role="document">
@@ -22,7 +23,7 @@
             <div class="card position-sticky top-1 shadow-sm">
                 <ul class="nav flex-column bg-white border-radius p-3">
                     <h5 class="text-center mb-3">Gestion de comptes</h5>
-                    <hr />
+                    <hr/>
                     <li class="nav-item mb-2">
                         <a class="nav-link text-dark d-flex profile-btn" onclick="showMembres()">
                             <i class="fa-solid fa-user text-lg-center me-2"></i>
@@ -48,7 +49,7 @@
         <div class="col-lg-9 mt-lg-0 mt-4">
             <div class="card">
                 <div id="ListUser">
-                    <partial name="PartialViews/GestionComptes/_ListeMembrePartial" model="@Model" />
+                    <partial name="PartialViews/GestionComptes/_ListeMembrePartial" model="@Model"/>
                 </div>
             </div>
         </div>
@@ -220,6 +221,7 @@
             return response.text();
         }).then((result) => {
             showMembres();
+            Annuler();
         });
             
         

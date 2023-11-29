@@ -1,0 +1,164 @@
+﻿/* Styles pour la carte */
+.card {
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease-in-out;
+    border: none;
+}
+
+/* Styles pour les éléments de navigation */
+.nav {
+    border-radius: 10px; /* Coins arrondis */
+}
+
+.nav-item {
+    transition: background-color 0.3s ease !important; /* Transition douce */
+}
+
+.nav-item:hover {
+    background-color: #f8f9fa !important; /* Couleur de fond au survol */
+}
+
+.nav-link {
+    color: #495057; /* Couleur du texte */
+    transition: color 0.3s ease !important; /* Transition douce */
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: #007bff !important; /* Couleur du texte au survol */
+}
+
+/* Styles pour les icônes */
+.fa-solid {
+    font-size: 20px; /* Taille des icônes */
+    transition: color 0.3s ease; /* Transition douce */
+}
+
+.fa-solid:hover {
+    color: #007bff !important; /* Couleur des icônes au survol */
+}
+
+/* Styles pour les titres */
+h5 {
+    font-weight: bold; /* Gras */
+}
+
+
+/*Profile partial*/
+
+.card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour les en-têtes de cartes */
+.card-header {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    font-size: 1.2em;
+    border-bottom: none;
+}
+
+
+.form-control {
+    border-radius: 5px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+}
+
+/* Styles pour les boutons */
+.btn.bg-gradient-dark {
+    background-color: #343a40;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn.bg-gradient-dark:hover {
+    background-color: #23272b;
+}
+
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    background-color: #ffffff;
+    border-bottom: 2px solid #f8f9fa;
+    border-radius: 20px 20px 0 0;
+}
+
+/* Styles pour la carte */
+.card-address {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    padding: 20px;
+    max-width: 100%;
+    background: #ffff;
+}
+
+.card-address:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles pour la liste des adresses */
+.address-list {
+    max-height: 150px; /* Vous pouvez ajuster la hauteur maximale selon vos besoins */
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.address-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.address-item:last-child {
+    border-bottom: none;
+}
+
+/* Styles pour les boutons */
+.btn-remove {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    border-radius: 10%;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-remove:hover {
+    background-color: #c82333;
+    color: #ffffff;
+}
+
+@media only screen and (max-width: 635px) {
+    .cacher {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    td, th {
+        padding: 0 !important;
+    }
+}

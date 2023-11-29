@@ -37,12 +37,16 @@ public class Livre
     [DisplayName("Type(s) de livre")] public ICollection<LivreTypeLivre> LivreTypeLivres { get; set; } = default!;
 
     [DisplayName("Évaluations")] public ICollection<Evaluation>? Evaluations { get; set; }
-    [NotMapped] public decimal Note => (Evaluations ?? new List<Evaluation>()).Any() ? (decimal)Evaluations.Select(e => e.Note).Average() : 0;
+
+    [NotMapped]
+    public decimal Note => (Evaluations ?? new List<Evaluation>()).Any()
+        ? (decimal)Evaluations.Select(e => e.Note).Average()
+        : 0;
 
     [DisplayName("Identifiant de la langue")]
     public string? LangueId { get; set; } = default!;
 
-    [DisplayName("Langues")] public Langue? Langue { get; set; } = default!;
+    [DisplayName("Langues")] public Langue Langue { get; set; } = default!;
 
     [DisplayName("Favoris")] public ICollection<Favori>? Favoris { get; set; }
 

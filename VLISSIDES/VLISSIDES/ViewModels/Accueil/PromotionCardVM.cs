@@ -6,14 +6,7 @@ namespace VLISSIDES.ViewModels.Accueil;
 
 public class PromotionCardVM
 {
-    [DisplayName("Description")] public string Description { get; set; }
-    [DisplayName("Rabais")] public decimal Rabais { get; set; }
-    [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm}")]
-    [DisplayName("Date de début")] public DateTime DateDebut { get; set; }
-    [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm}")]
-    [DisplayName("Date de fin")] public DateTime DateFin { get; set; }
-    [DisplayName("Image promotion")] public string Image { get; set; }
-    public PromotionCardVM(string description, decimal rabais, DateTime dateDebut, DateTime dateFin, string image)
+    public PromotionCardVM(string description, decimal rabais, DateTime dateDebut, DateTime? dateFin, string image)
     {
         Description = description;
         Rabais = rabais;
@@ -22,13 +15,25 @@ public class PromotionCardVM
         Image = image;
     }
 
-    public PromotionCardVM(Promotions promotions)
+    public PromotionCardVM(Promotion promotion)
     {
-        Description = promotions.Description;
-        Rabais = (decimal)promotions.PourcentageRabais;
-        DateDebut = promotions.DateDebut;
-        DateFin = promotions.DateFin;
-        Image = promotions.Image;
+        Description = promotion.Description;
+        Rabais = (decimal)promotion.PourcentageRabais;
+        DateDebut = promotion.DateDebut;
+        DateFin = promotion.DateFin;
+        Image = promotion.Image;
     }
 
+    [DisplayName("Description")] public string Description { get; set; }
+    [DisplayName("Rabais")] public decimal Rabais { get; set; }
+
+    [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm}")]
+    [DisplayName("Date de début")]
+    public DateTime DateDebut { get; set; }
+
+    [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm}")]
+    [DisplayName("Date de fin")]
+    public DateTime? DateFin { get; set; }
+
+    [DisplayName("Image promotion")] public string Image { get; set; }
 }

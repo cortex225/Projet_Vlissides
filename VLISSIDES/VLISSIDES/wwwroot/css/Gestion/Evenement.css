@@ -1,0 +1,31 @@
+﻿#Description {
+    max-height: 75px;
+}
+
+@media only screen and (max-width: 880px) {
+    .cacher-2 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .cacher-1 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 1px) {
+    .cacher-4 {
+        position: absolute;
+        visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 590px) {
+    .cacher-5 {
+        position: absolute;
+        visibility: hidden;
+    }
+}

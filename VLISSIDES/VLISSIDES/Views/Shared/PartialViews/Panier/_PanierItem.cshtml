@@ -1,5 +1,4 @@
-﻿@using VLISSIDES.ViewModels.Panier;
-@model AfficherPanierVM
+﻿@model VLISSIDES.ViewModels.Panier.AfficherPanierVM
 @{
     var myURL = Context.Request.Host.Value;
     var BASE_URL_RAZOR = Url.Content("~");
@@ -7,11 +6,11 @@
 
 
 <div class="card mb-3 " id="@Model.Id" style="max-width: 540px;">
-    <input type="hidden" class="vmIdPanier"  name="viewModelId" value="@Model.Id" />
+    <input type="hidden" class="vmIdPanier" name="viewModelId" value="@Model.Id"/>
     <div class="row no-gutters">
         <div class="col-md-4 bg-secondary ">
             @{
-                string couverture = string.Concat(BASE_URL_RAZOR, Model.Livre.Couverture);
+                var couverture = string.Concat(BASE_URL_RAZOR, Model.Livre.Couverture);
             }
             <img src="@Html.Raw(couverture)" class="card-img" alt="...">
         </div>
@@ -19,19 +18,36 @@
             <div class="card-body">
                 <h5 class="card-title">@Model.Livre.Titre</h5>
 
-                <div>
-                    @String.Format("{0:#,##0.00}", Model.Prix) $
+                <h6>
+                    @string.Format("{0:#,##0.00}", Model.PrixOriginal) $
+                </h6>
+
+                <div >
+                    @if (Model.TypeLivre.Id == "1")
+                    {
+                        <i class="fas fa-book icon"></i>
+                        @Model.TypeLivre.Nom
+                    }
+                    @if (Model.TypeLivre.Id == "2")
+                    {
+                        <i class="fas fa-tablet-alt icon"></i>
+                        @Model.TypeLivre.Nom
+                    }
+
                 </div>
 
                 <div class="d-flex flex-row my-4">
-                    <div class="col-4">
-                        <input id="@Model.Id quantite" type="number" class=" form-control formGroupExampleInput h-100" placeholder="" value="@Model.Quantite" onclient onclick="enableButton('@Model.Id')">
-                    </div>
-                    <button id="saveButton @Model.Id" type="button" class="btn btn-success saveButton mx-2 p-2"
-                            onclick="ModifierQuantite('@Model.Id', '@Model.Quantite')
-                                                disableButton('@Model.Id')">
-                        <span class="fa-solid fa-check fa-2x"></span>
-                    </button>
+                    @if(Model.TypeLivre.Id == "1")
+                    {
+                        <div class="col-4">
+                            <input id="@Model.Id quantite" type="number" class=" form-control formGroupExampleInput h-100" placeholder="" value="@Model.Quantite" onclient onclick="enableButton('@Model.Id')">
+                        </div>
+                        <button id="saveButton @Model.Id" type="button" class="btn btn-success saveButton mx-2 p-2"
+                                onclick="ModifierQuantite('@Model.Id', '@Model.Quantite')
+                                                    disableButton('@Model.Id')">
+                            <span class="fa-solid fa-check fa-2x"></span>
+                        </button>
+                    }                   
                 </div>
 
                 <div class="d-flex flex-row justify-content-end">

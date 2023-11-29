@@ -33,11 +33,11 @@ public class RechercheController : Controller
         var listCriteres = new List<string>();
         if (criteres != null) listCriteres = criteres.Split('|').ToList();
 
-        var livres = _context.Livres.ToList();
-        var auteurs = _context.Auteurs.ToList();
-        var maisonEditions = _context.MaisonEditions.ToList();
+        var livres = _context.Livres.OrderBy(l => l.Titre).ToList();
+        var auteurs = _context.Auteurs.OrderBy(a => a.NomAuteur).ToList();
+        var maisonEditions = _context.MaisonEditions.OrderBy(m => m.Nom).ToList();
 
-        var categories = _context.Categories.ToList();
+        var categories = _context.Categories.OrderBy(c => c.Nom).ToList();
         var langues = _context.Langues.ToList();
         var typeLivres = _context.TypeLivres.ToList();
 
@@ -53,12 +53,14 @@ public class RechercheController : Controller
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
             .ThenInclude(ltl => ltl.TypeLivre)
+            .OrderByDescending(l => l.DateAjout)
             .ToList();
 
         if (criteres.IsEmpty()) //Lorsqu'il n'y a pas de criteres spécifiques
             for (var id = 0; id < listMotCles.Count(); ++id)
                 livresRecherches = livresRecherches
-                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + (listMotCles.Any() ? listMotCles[id] : "") + ".*", RegexOptions.IgnoreCase))
+                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + (listMotCles.Any() ? listMotCles[id] : "") + ".*",
+                        RegexOptions.IgnoreCase))
                     .ToList();
         else if (listCriteres.Count > 0)
             for (var i = 0; i < listMotCles.Count(); ++i)
@@ -134,15 +136,20 @@ public class RechercheController : Controller
             livresRecherches = livresRecherches
                 .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                 .ToList();
-        var itemsPerPage = 12;
+
+        var itemsPerPage = 15;
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.CurrentPage = page;
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = Math.Ceiling((double)livresRecherches.Count / itemsPerPage);
+
+
         return View(new IndexRechercheVM(motCles, criteres, livresRecherches
-            .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions, categories, langues, typeLivres));
+                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions,
+            categories,
+            langues, typeLivres, new List<DetailsLivreVM>()));
     }
 
     // GET: RechercheController
@@ -166,7 +173,8 @@ public class RechercheController : Controller
         if (livre == null) return NotFound();
 
         return View(new DetailsLivreVM(livre.Id, livre.Titre, livre.LivreAuteurs.Select(la => la.Auteur),
-            livre.Categories.Select(lc => lc.Categorie), livre.Evaluations.Select(lc => lc.Note), livre.DatePublication, livre.Couverture, livre.MaisonEdition,
-            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres, livre.NbExemplaires));
+            livre.Categories.Select(lc => lc.Categorie), livre.Evaluations.Select(lc => lc.Note), livre.DatePublication,
+            livre.Couverture, livre.MaisonEdition,
+            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres, livre.ISBN, livre.Langue.Nom));
     }
 }

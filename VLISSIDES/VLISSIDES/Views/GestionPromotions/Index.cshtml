@@ -1,6 +1,6 @@
 ﻿@{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 @model List<VLISSIDES.ViewModels.GestionPromotions.GestionPromotionsIndexVM>
 
@@ -13,10 +13,10 @@
         </div>
     </div>
 </div>
-<br />
+<br/>
 <div class="d-block p-4 p-4">
     <div class="mb-4">
-        <h1>Gestion des promotions</h1>
+        <h1>Gestion des promotion</h1>
     </div>
     <div class="container-fluid">
         @* Add button *@
@@ -24,16 +24,18 @@
             <a onclick="ShowModal('@Url.Action("AjouterPromotion", "GestionPromotions")')" class="btn btn-primary">Ajouter une promotion</a>
         </div>
     </div>
-    <br />
+    <br/>
 </div>
 
 
 <div class="container-fluid d-flex flex-wrap row" id="TabEvenementsListe">
 
-    <partial name="PartialViews/GestionPromotions/_ListePromotionsPartial" model="@Model" />
+    <partial name="PartialViews/GestionPromotions/_ListePromotionsPartial" model="@Model"/>
 
 </div>
-
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
 <script>
     // ModalScript
     function ShowModal($url) {
@@ -43,10 +45,21 @@
         });
     }
 </script>
-
+<script>
+    function AfficherPromotion(){
+        fetch(BASE_URL + '/GestionPromotions/Index', {
+            method:"GET",
+            
+        }).then((response) => {
+            return response.text();
+        }).then((result)=>{
+            document.querySelector("body").innerHTML = result;
+        })
+    }
+</script>
 <script>
     function SupprimerPromotion(id = "") {
-        fetch(`/GestionPromotions/DeleteConfirmed?id=${id}`, {
+        fetch(BASE_URL+`/GestionPromotions/DeleteConfirmed?id=${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

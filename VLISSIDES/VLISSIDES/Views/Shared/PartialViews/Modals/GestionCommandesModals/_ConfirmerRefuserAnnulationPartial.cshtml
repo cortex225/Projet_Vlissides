@@ -7,7 +7,7 @@
         <p>Id de la commande: @Model.Commande.Id</p>
         <p>Membre: @Model.Commande.MembreId</p>
         <ul>
-            @foreach(var livre in Model.Livres)
+            @foreach (var livre in Model.Livres)
             {
                 <li>@livre.Quantite x @livre.Livre.Titre</li>
             }
@@ -16,7 +16,7 @@
         @{
             var urlStripe = $"https://dashboard.stripe.com/test/payments/{Model.PaymentIntent}";
         }
-        <a href=@urlStripe target="_blank">Allez voir la commande sur stripe</a>
+        <a href="@urlStripe" target="_blank">Allez voir la commande sur Stripe</a>
     </div>
     <div class="modal-footer">
         <a class="btn btn-secondary" href="~/GestionCommandes/Index">Annuler</a>

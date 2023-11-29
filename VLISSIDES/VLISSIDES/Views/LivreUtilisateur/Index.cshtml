@@ -1,5 +1,4 @@
-﻿@using VLISSIDES.ViewModels.LivreUtilisateur;
-@model ListLivreUtilisateurIndexVM
+﻿@model VLISSIDES.ViewModels.LivreUtilisateur.ListLivreUtilisateurIndexVM
 @{
     //LU est une abbréviation pour Livre Utilisateur
 
@@ -10,13 +9,13 @@
     var BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/LivreUtilisateur.css" asp-append-version="true">
-<div  style="margin: 24px;">
+<div style="margin: 24px;">
     <h2 id="titreMesLivres">Mes livres: </h2>
     <div id="LU_Etoiles" class="container">
         <div class="row listLivresLU">
-            @foreach (LivreUtilisateurIndexVM l in Model.listVM)
+            @foreach (var l in Model.listVM)
             {
-                <partial name="PartialViews/LivreUtilisateur/_LivreUtilisateurPartial" model="@l" />
+                <partial name="PartialViews/LivreUtilisateur/_LivreUtilisateurPartial" model="@l"/>
             }
         </div>
         <div class="row">
@@ -31,55 +30,55 @@
                             <div class="inputStar">
                                 <input type="radio" class="radioStar" id="star5" name="starsRadioGroup" value="5">
                                 <label for="star5" class="grosEtoile">
-                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="5.0" />
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="5.0"/>
                                 </label><br>
                                 <label for="star5" class="petiteEtoile">
-                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="5.0" />
+                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="5.0"/>
                                 </label><br>
                             </div>
                             <div class="inputStar">
                                 <input type="radio" class="radioStar" id="star4" name="starsRadioGroup" value="4">
                                 <label for="star4" class="grosEtoile">
-                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="4.0" />
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="4.0"/>
                                 </label><br>
                                 <label for="star4" class="petiteEtoile">
-                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="4.0" />
+                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="4.0"/>
                                 </label><br>
                             </div>
                             <div class="inputStar">
                                 <input type="radio" class="radioStar" id="star3" name="starsRadioGroup" value="3">
                                 <label for="star3" class="grosEtoile">
-                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="3.0" />
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="3.0"/>
                                 </label><br>
                                 <label for="star3" class="petiteEtoile">
-                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="3.0" />
+                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="3.0"/>
                                 </label><br>
                             </div>
                             <div class="inputStar">
                                 <input type="radio" class="radioStar" id="star2" name="starsRadioGroup" value="2">
                                 <label for="star2" class="grosEtoile">
-                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="2.0" />
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="2.0"/>
                                 </label><br>
                                 <label for="star2" class="petiteEtoile">
-                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="2.0" />
+                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="2.0"/>
                                 </label><br>
                             </div>
                             <div class="inputStar">
                                 <input type="radio" class="radioStar" id="star1" name="starsRadioGroup" value="1">
                                 <label for="star1" class="grosEtoile">
-                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="1.0" />
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="1.0"/>
                                 </label><br>
                                 <label for="star1" class="petiteEtoile">
-                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="1.0" />
+                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="1.0"/>
                                 </label><br>
                             </div>
                             <div class="inputStar">
                                 <input type="radio" class="radioStar" id="star0" name="starsRadioGroup" value="0">
                                 <label for="star0" class="grosEtoile">
-                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="0.0" />
+                                    <partial name="PartialViews/LivreUtilisateur/_EtoilesLivreUtilisateur" model="0.0"/>
                                 </label><br>
                                 <label for="star0" class="petiteEtoile">
-                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="0.0" />
+                                    <partial name="../Shared/PartialViews/Accueil/_Etoiles.cshtml" model="0.0"/>
                                 </label><br>
                             </div>
                         </fieldset>

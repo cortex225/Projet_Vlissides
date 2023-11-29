@@ -13,17 +13,17 @@
 <form asp-action="ModifierEvenement" asp-controller="GestionEvenements" enctype="multipart/form-data" id="FormModifierEvenement">
     @Html.AntiForgeryToken()
     <div class="modal-body">
-        <input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="Image" />
+        <input type="hidden" asp-for="Id"/>
+        <input type="hidden" asp-for="Image"/>
         <div class="custom-file row">
-           
-                <div class="col-6 text-center align-center">
-                    @{
-                        string couverture = string.Concat(BASE_URL_RAZOR, Model.Image);
-                    }
-                    <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="65">
-                </div>
-                <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
+
+            <div class="col-6 text-center align-center">
+                @{
+                    var couverture = string.Concat(BASE_URL_RAZOR, Model.Image);
+                }
+                <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="65">
+            </div>
+            <input asp-for="CoverPhoto" type="file" class="custom-file-input col-6 my-3" id="customFile">
         </div>
 
         <div class="container d-flex justify-content-center">
@@ -31,43 +31,43 @@
                 <div class="col">
 
                     <div>
-                        <label asp-for="Nom" class="control-label"></label>
-                        <input asp-for="Nom" class="form-control" />
+                        <label asp-for="Nom" class="control-label"></label>(<span class="text-danger">*</span>)
+                        <input asp-for="Nom" class="form-control"/>
                         <span asp-validation-for="Nom" class="text-danger"></span>
-                    </div>    
+                    </div>
                     <div>
                         <label asp-for="DateDebut" class="control-label"></label>
-                        <input asp-for="DateDebut" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+                        <input asp-for="DateDebut" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}"/>
                         <span asp-validation-for="DateDebut" class="text-danger"></span>
                     </div>
                     <div>
                         <label asp-for="DateFin" class="control-label"></label>
-                        <input asp-for="DateFin" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+                        <input asp-for="DateFin" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}"/>
                         <span asp-validation-for="DateFin" class="text-danger"></span>
                     </div>
                     <div>
-                        <label asp-for="Prix" class="control-label"></label>
-                        <input asp-for="Prix" class="form-control" type="text" placeholder="0,00" />
+                        <label asp-for="Prix" class="control-label"></label>(<span class="text-danger">*</span>)
+                        <input asp-for="Prix" class="form-control" type="text" placeholder="0,00"/>
                         <span asp-validation-for="Prix" class="text-danger"></span>
                     </div>
-            
+
                 </div>
 
                 <div class="col">
                     <div>
-                        <label asp-for="Lieu" class="control-label"></label>
-                        <input asp-for="Lieu" class="form-control" />
+                        <label asp-for="Lieu" class="control-label"></label>(<span class="text-danger">*</span>)
+                        <input asp-for="Lieu" class="form-control"/>
                         <span asp-validation-for="Lieu" class="text-danger"></span>
                     </div>
 
                     <div>
-                        <label asp-for="NbPlaces" class="control-label"></label>
-                        <input asp-for="NbPlaces" class="form-control" />
+                        <label asp-for="NbPlaces" class="control-label"></label>(<span class="text-danger">*</span>)
+                        <input asp-for="NbPlaces" class="form-control"/>
                         <span asp-validation-for="NbPlaces" class="text-danger"></span>
                     </div>
                     <div>
-                        <label asp-for="NbPlacesMembre" class="control-label"></label>
-                        <input asp-for="NbPlacesMembre" class="form-control" />
+                        <label asp-for="NbPlacesMembre" class="control-label"></label>(<span class="text-danger">*</span>)
+                        <input asp-for="NbPlacesMembre" class="form-control"/>
                         <span asp-validation-for="NbPlacesMembre" class="text-danger"></span>
                     </div>
 
@@ -75,18 +75,15 @@
             </div>
 
 
-
-
-
-            </div>
+        </div>
         <div>
-            <label asp-for="Description" class="control-label"></label>
+            <label asp-for="Description" class="control-label"></label>(<span class="text-danger">*</span>)
             <textarea asp-for="Description" rows="5" style="height:100%" class="form-control"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>
     <div class="modal-footer">
-        <input type="button" value="Annuler" class="btn btn-secondary" onclick="Annuler()" />
+        <input type="button" value="Annuler" class="btn btn-secondary" onclick="Annuler()"/>
         <input type="button" value="Modifier" class="btn btn-primary" onclick="ModifierEvenement()"/>
     </div>
 </form>

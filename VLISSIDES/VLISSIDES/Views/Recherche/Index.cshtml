@@ -1,18 +1,20 @@
-﻿@using System.Web.WebPages;
-@model VLISSIDES.ViewModels.Recherche.IndexRechercheVM;
+﻿@model VLISSIDES.ViewModels.Recherche.IndexRechercheVM;
 @{
-    ViewData["Title"] = "Librairie";
+    ViewData["Title"] = "Libraire";
 }
-<link rel="stylesheet" href="~/css/Rechercher/Recherche.css">
+@{
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
+}
+<link rel="stylesheet" href="~/css/Rechercher/Recherche.css" asp-append-version="true">
 <div class="d-block">
-    @if (!Model.MotRecherche.IsEmpty())
+    @if (!Model.MotRecherche.Equals(""))
     {
         <div>
-            <h1>Résultat de recherche pour "@Model.MotRecherche"" dans "@Model.Criteres"</h1>
+            <h1>Résultat de recherche pour @Model.MotRecherche dans @Model.Criteres</h1>
         </div>
     }
     <div class="container-fluid">
-
         @* Les recherches *@
         @* Research bar *@
         <div class="row text-center" id="rechercheDIV">
@@ -35,7 +37,7 @@
                     <datalist id="ListeLivres">
                         @foreach (var livre in Model.Livres)
                         {
-                            <option value="@livre" />
+                            <option value="@livre"/>
                         }
                     </datalist>
                 </div>
@@ -45,7 +47,7 @@
                     <datalist id="ListeAuteurs">
                         @foreach (var auteur in Model.Auteurs)
                         {
-                            <option value="@auteur" />
+                            <option value="@auteur"/>
                         }
                     </datalist>
                 </div>
@@ -55,7 +57,7 @@
                     <datalist id="specificationMaisonEditions">
                         @foreach (var maisonEdition in Model.MaisonEditions)
                         {
-                            <option value="@maisonEdition" />
+                            <option value="@maisonEdition"/>
                         }
                     </datalist>
                 </div>
@@ -65,17 +67,17 @@
                     <datalist id="specificationCategories">
                         @foreach (var categorie in Model.Categories)
                         {
-                            <option value="@categorie" />
+                            <option value="@categorie"/>
                         }
                     </datalist>
                 </div>
                 <div class="form-group">
                     <label for="specificationLangue">Langue:</label>
-                    <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues" />
+                    <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues"/>
                     <datalist id="ListeLangues">
                         @foreach (var langue in Model.Langues)
                         {
-                            <option value="@langue" />
+                            <option value="@langue"/>
                         }
                     </datalist>
                 </div>
@@ -89,11 +91,11 @@
                 </div>
                 <div class="form-group">
                     <label for="specificationTypeLivre">Type de livre:</label>
-                    <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres" />
+                    <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres"/>
                     <datalist id="ListeTypeLivres">
                         @foreach (var typeLivre in Model.TypeLivres)
                         {
-                            <option value="@typeLivre" />
+                            <option value="@typeLivre"/>
                         }
                     </datalist>
                 </div>
@@ -102,15 +104,21 @@
                 </button>
             </div>
             @* Body *@
-
-                @* Results *@
-                <div id="results" class="d-flex justify-content-around flex-wrap">
-                    @foreach (var livre in Model.LivrePartials)
-                    {
-                        <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre" />
-                    }
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div id="results" class="col-lg-8">
+                        <div class="d-flex flex-wrap justify-content-around">
+                            @foreach (var livre in Model.LivrePartials)
+                            {
+                                <partial name="PartialViews/Recherche/_CarteLivreRecherche" model="@livre"/>
+                            }
+                        </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            <partial name="PartialViews/Utilities/_PaginationRecherchePartial"/>
+                        </div>
+                    </div>
                 </div>
-                <partial name="PartialViews/Utilities/_PaginationRecherchePartial" />
+            </div>
         </div>
 
     </div>
@@ -118,11 +126,8 @@
 </div>
 <script type="text/javascript">
     //Script pour la recherche
-    var btnSearch = document.getElementById("rechercherBTN");
-    var btnFiltreSearch = document.getElementById("rechercherBTNFiltre");
-
-    btnSearch.addEventListener("click", RechercheGenerale);
-    btnFiltreSearch.addEventListener("click", RechercheGenerale);
+    var btnSearch = document.getElementById("rechercherBTN").addEventListener("click", RechercheGenerale);
+    var btnFiltreSearch = document.getElementById("rechercherBTNFiltre").addEventListener("click", RechercheGenerale);
 
     async function RechercheGenerale(ev) {
         ev.preventDefault();
@@ -132,7 +137,7 @@
 
         //Recherche générale
         var searchGeneral = document.getElementById("rechercheGeneral");
-        var searchTerm = searchGeneral.value; // Récupérer la valeur de la barre de recherche
+        var searchTerm = searchGeneral.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (searchTerm != "") {
             artieMotCles = partieMotCles.concat(`${searchTerm}|`);
@@ -141,7 +146,7 @@
 
         //Titre
         var titreSpecification = document.getElementById("specificationTitre");
-        var titreEntree = titreSpecification.value; // Récupérer la valeur de la barre de recherche
+        var titreEntree = titreSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (titreEntree != "") {
             partieMotCles = partieMotCles.concat(`${titreEntree}|`);
@@ -150,7 +155,7 @@
 
         //Auteur
         var auteurSpecification = document.getElementById("specificationAuteur");
-        var auteurEntree = auteurSpecification.value; // Récupérer la valeur de la barre de recherche
+        var auteurEntree = auteurSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (auteurEntree != "") {
             partieMotCles = partieMotCles.concat(`${auteurEntree}|`);
@@ -159,7 +164,7 @@
 
         //MaisonEdition
         var maisonEditionSpecification = document.getElementById("specificationMaisonEdition");
-        var maisonEditionEntree = maisonEditionSpecification.value; // Récupérer la valeur de la barre de recherche
+        var maisonEditionEntree = maisonEditionSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (maisonEditionEntree != "") {
             partieMotCles = partieMotCles.concat(`${maisonEditionEntree}|`);
@@ -168,7 +173,7 @@
 
         //Categorie
         var categorieSpecification = document.getElementById("specificationCategorie");
-        var categorieEntree = categorieSpecification.value; // Récupérer la valeur de la barre de recherche
+        var categorieEntree = categorieSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (categorieEntree != "") {
             partieMotCles = partieMotCles.concat(`${categorieEntree}|`);
@@ -177,7 +182,7 @@
 
         //Langue
         var langueSpecification = document.getElementById("specificationLangue");
-        var langueEntree = langueSpecification.value; // Récupérer la valeur de la barre de recherche
+        var langueEntree = langueSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (langueEntree != "") {
             partieMotCles = partieMotCles.concat(`${langueEntree}|`);
@@ -186,7 +191,7 @@
 
         //Type livre
         var typeLivreSpecification = document.getElementById("specificationTypeLivre");
-        var typeLivreEntree = typeLivreSpecification.value; // Récupérer la valeur de la barre de recherche
+        var typeLivreEntree = typeLivreSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (typeLivreEntree != "") {
             partieMotCles = partieMotCles.concat(`${typeLivreEntree}|`);
@@ -195,7 +200,7 @@
 
         //Prix minimum
         var prixMinSpecification = document.getElementById("specificationPrixMin");
-        var prixMinEntree = prixMinSpecification.value; // Récupérer la valeur de la barre de recherche
+        var prixMinEntree = prixMinSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (prixMinEntree != "") {
             partieMotCles = partieMotCles.concat(`${prixMinEntree}|`);
@@ -204,14 +209,16 @@
 
         //Prix maximum
         var prixMaxSpecification = document.getElementById("specificationPrixMax");
-        var prixMaxEntree = prixMaxSpecification.value; // Récupérer la valeur de la barre de recherche
+        var prixMaxEntree = prixMaxSpecification.value.trim(); // Récupérer la valeur de la barre de recherche
 
         if (prixMaxEntree != "") {
             partieMotCles = partieMotCles.concat(`${prixMaxEntree}|`);
             partieCriteres = partieCriteres.concat("prixMax|");
         }
-
-
+        if (partieMotCles != "")
+            partieMotCles = partieMotCles.substring(0, partieMotCles.length - 1);
+        if (partieCriteres != "")
+            partieCriteres = partieCriteres.substring(0, partieCriteres.length - 1);
         // Utiliser la valeur dans l'URL pour l'action Index
         window.location.href = `/Recherche/Index?${partieMotCles}&${partieCriteres}`;
     }
@@ -219,6 +226,6 @@
 
 <script>
     function RechercheRapide() {
-        if (event.key == 'Enter') window.location.href = `/Recherche/index?motCles=${document.getElementById('rechercheGeneral').value}`;
+        if (event.key == 'Enter') RechercheGenerale();
     }
 </script>

@@ -1,7 +1,8 @@
 
-p{
-    margin:0;
+p {
+    margin: 0;
 }
+
 .event-card {
     display: flex;
     flex-direction: column; /* Organise le contenu verticalement */
@@ -10,7 +11,7 @@ p{
     position: relative;
     width: 80vw;
     max-width: 680px;
-    height: 280px!important;
+    height: 280px !important;
     background-color: #f5f7fa;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -19,7 +20,7 @@ p{
 }
 
 .event-image {
-    object-fit: cover!important;
+    object-fit: cover !important;
     border-radius: 15px !important;
     margin-right: 20px !important;
 }
@@ -86,7 +87,7 @@ p{
 }
 
 .stickerDisponible {
-    position: absolute!important;
+    position: absolute !important;
     padding: 5px 15px !important;
     background-color: #5ebe39 !important;
     color: #fff !important;
@@ -95,7 +96,7 @@ p{
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1) !important;
 }
 
-.stickerIndisponible  {
+.stickerIndisponible {
     position: absolute !important;
     padding: 5px 15px !important;
     background-color: #ff4b5c !important;
@@ -161,7 +162,7 @@ p{
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 1010px) {
+@media only screen and (max-width: 1010px) {
     .event-card {
         width: 100%;
         height: auto; /* Changez la hauteur fixe en auto pour s'adapter au contenu */
@@ -203,8 +204,9 @@ p{
         margin-right: auto;
     }
 }
-@media (max-width: 767px) {
-    .badge{
-        top:20px;
+
+@media only screen and (max-width: 767px) {
+    .badge {
+        top: 20px;
     }
 } 

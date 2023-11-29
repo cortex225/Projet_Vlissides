@@ -1,9 +1,13 @@
 ﻿@model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
     ViewData["Title"] = "Gestion de commandes";
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
+
+<link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
+<link rel="stylesheet" href="~/css/Responsive/GestionCommandes.css" asp-append-version="true">
+
 @*********************@
 @* Modals *@
 @*********************@
@@ -18,20 +22,21 @@
 
 <div class="m-4">
     <h1>Gestion des commandes</h1>
-    <div class="row">
-        <div class="col-6">
+    <div id="rechercheCommandeGroup" class="row">
+        <div class="">
             <form id="rechercherCommande" enctype="multipart/form-data">
-                <br />
+                <br/>
                 <div class="input-group">
-                    <input class="form-control" id="inputRechercherCommande" placeholder='Numéro de la commande sans le "#"' />
+                    <input class="form-control" id="inputRechercherCommande" placeholder='Numéro de la commande sans le "#"'/>
                     <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" onclick="applyFilter(event)">
                         Rechercher
                     </button>
                 </div>
             </form>
         </div>
-        <div class="col-6">
-            <div class="d-flex justify-content-around">
+
+        <div class="my-3">
+            <div class="d-flex justify-content-around d-flex align-items-end">
                 <div>
                     <h5>Trier par date:</h5>
                     <div class="form-group d-flex">
@@ -62,37 +67,47 @@
             </div>
         </div>
     </div>
-    
-    
 
-    <hr />
+
+    <hr/>
 
     <div class="my-2 p-2">
         <div class="row">
-            <div class="col-sm-3 d-flex justify-content-center">
+            <div class="col d-flex justify-content-center">
                 <h5>Identifiant</h5>
             </div>
-            <div class="col-sm-2 d-flex justify-content-center">
+            <div class="mediaQuerryHideOnMedium col-2 d-flex justify-content-center">
                 <h5>Utilisateur</h5>
             </div>
-            <div class="col-sm-1 d-flex justify-content-center">
+            <div class="mediaQuerryHideOnMediumLarge col-1 d-flex justify-content-center">
                 <h5>Prix</h5>
             </div>
-            <div class="col-sm-2 d-flex justify-content-center">
+            <div class="mediaQuerryHideOnSmall col d-flex justify-content-center">
                 <h5>Date</h5>
             </div>
-            <div class="col-sm-2 d-flex justify-content-center">
+            <div class="mediaQuerryHideOnMedium col d-flex justify-content-center">
                 <h5>Statut</h5>
             </div>
+            <div class="col-2 d-flex justify-content-center">
+
+                <div class="mediaQuerryHideOnMediumSmall w-50">
+                    @* Espace vide pour i*@
+                </div>
+                <div class="col-1 d-flex justify-content-center">
+                    Alertes
+                </div>
+
+            </div>
+
         </div>
     </div>
 
     <div class="row">
         <div id="commandesListe" class="col-12 ">
-            <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial" />
+            <partial name="PartialViews/GestionCommandes/_ListeCommandesPartial"/>
         </div>
     </div>
-  
+
 </div>
 
 <style>
@@ -123,7 +138,7 @@
 </script>
 
 <script type="text/javascript">
-        async function applyFilter(ev) {
+    async function applyFilter(ev) {
         ev.preventDefault();
 
         listeCommandesDiv = document.getElementById("commandesListe");
@@ -159,10 +174,10 @@
         }).then((data) => {
             listeCommandesDiv.innerHTML = data;
         })
-        .catch(error => {
-            // Affiche une erreur dans la console en cas d'échec de la requête
-            console.error('Erreur lors de la récupération de la liste des auteurs', error);
-        });
+            .catch(error => {
+                // Affiche une erreur dans la console en cas d'échec de la requête
+                console.error('Erreur lors de la récupération de la liste des auteurs', error);
+            });
     }
 
     function collapse(commandeId = "") {

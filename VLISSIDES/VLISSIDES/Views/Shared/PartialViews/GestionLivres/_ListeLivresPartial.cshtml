@@ -19,39 +19,43 @@
     </tr>
     @foreach (var livre in Model)
     {
-        <tr id="@livre.Id">
+        <tr id="@livre.Id" class="card">
             <td>
                 @{
-                    string couverture = string.Concat(BASE_URL_RAZOR, livre.Couverture);
+                    var couverture = string.Concat(BASE_URL_RAZOR, livre.Couverture);
                 }
                 <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                 <p>@Html.DisplayFor(modelItem => livre.Titre)</p>
             </td>
             <td class="cacher-5">@Html.DisplayFor(modelItem => livre.ISBN)</td>
             <td class="cacher-4">
-                @foreach (var auteur in livre.Auteurs)
-                {
-                    <p>@Html.DisplayFor(modelItem => auteur)</p>
-                }
+                <div>
+                    @foreach (var auteur in livre.Auteurs)
+                    {
+                        <p>@Html.DisplayFor(modelItem => auteur)</p>
+                    }
+                </div>
             </td>
             <td class="cacher-3">
-                @foreach (var categorie in livre.Categories)
-                {
-                    <p>@Html.DisplayFor(modelItem=>categorie)</p>
-                }
+                <div>
+                    @foreach (var categorie in livre.Categories)
+                    {
+                        <p>@Html.DisplayFor(modelItem => categorie)</p>
+                    }
+                </div>
             </td>
             <td class="cacher-2">
                 @if (!livre.Papier.Equals(null))
                 {
                     <p>@livre.Papier $</p>
                 }
-                    @if (!livre.Numerique.Equals(null))
-                    {
+                @if (!livre.Numerique.Equals(null))
+                {
                     <p>@livre.Numerique $</p>
                 }
             </td>
             <td class="cacher-1">
-                @if (livre.NbExemplaires>0)
+                @if (livre.NbExemplaires > 0)
                 {
                     <input id="@livre.Id quantite" type="number" asp-for="@livre.NbExemplaires" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => livre.NbExemplaires)" onclient onclick="enableButton('@livre.Id')">
                 }
@@ -77,14 +81,13 @@
                         <span class="fa-solid fa-check fa-2x"></span>
                     </button>
                 }
-                <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = livre.Id })')" data-toggle="tooltip" title="Modifier le livre">
+                <a class="btn btn-primary p-2 m-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = livre.Id })')" data-toggle="tooltip" title="Modifier le livre">
                     <span class="fa-solid fa-pen fa-2x"></span>
                 </a>
-                <a class="btn btn-danger p-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = livre.Id })')">
+                <a class="btn btn-danger p-2 m-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = livre.Id })')">
                     <span class="fa-solid fa-trash fa-2x"></span>
                 </a>
             </td>
         </tr>
     }
 </table>
-<partial name="PartialViews/Utilities/_PaginationPartial" />

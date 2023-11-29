@@ -1,7 +1,6 @@
-﻿namespace VLISSIDES.ViewModels.Profile
+﻿namespace VLISSIDES.ViewModels.Profile;
+
+public class ProfileIndexVM
 {
-    public class ProfileIndexVM
-    {
-        public ProfileModifierInformationVM ProfileModifierInformationVM { get; set; }
-    }
+    public ProfileModifierInformationVM ProfileModifierInformationVM { get; set; }
 }

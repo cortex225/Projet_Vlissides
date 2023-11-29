@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.GestionLivres;
@@ -7,10 +7,14 @@ namespace VLISSIDES.ViewModels.GestionLivres;
 public class ModifierVM
 {
     public string Id { get; set; }
+
     [Required(ErrorMessage = "Le titre est obligatoire")]
-    [Display(Name = "Nom du livre")] public string Titre { get; set; }
+    [Display(Name = "Nom du livre")]
+    public string Titre { get; set; }
+
     [Required(ErrorMessage = "La description est obligatoire")]
-    [Display(Name = "Description")] public string Resume { get; set; }
+    [Display(Name = "Description")]
+    public string Resume { get; set; }
 
     public string? Couverture { get; set; }
 
@@ -20,12 +24,14 @@ public class ModifierVM
 
     public decimal Prix { get; set; }
     public DateTime DatePublication { get; set; }
+
     [Required(ErrorMessage = "L'ISBN est obligatoire")]
     public string ISBN { get; set; }
 
     //Categories
     [Required(ErrorMessage = "Les catégories sont obligatoires")]
-    [Display(Name = "Catégorie")] public List<string> CategorieIds { get; set; }
+    [Display(Name = "Catégorie")]
+    public List<string> CategorieIds { get; set; }
 
     public List<SelectListItem>? SelectListCategories { get; set; }
 

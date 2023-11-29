@@ -1,8 +1,7 @@
-﻿namespace VLISSIDES.ViewModels.GestionComptes
+﻿namespace VLISSIDES.ViewModels.GestionComptes;
+
+public class GestionComptesDeleteVM
 {
-    public class GestionComptesDeleteVM
-    {
-        public string Id { get; set; }
-        public string Nom { get; set; }
-    }
+    public string Id { get; set; }
+    public string Nom { get; set; }
 }
