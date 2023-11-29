@@ -29,12 +29,12 @@ public class CategoriesModifierVM
         ParentId = "";
         ASousCategorie = false;
     }
-    public CategoriesModifierVM(Categorie categorie)
+    public CategoriesModifierVM(Categorie categorie, IEnumerable<Categorie> categories)
     {
         Id = categorie.Id;
         Nom = categorie.Nom;
         Description = categorie.Description;
-        Parent = (categorie.Enfants ?? new List<Categorie>()).Select(c => new SelectListItem(c.Nom, c.Id)).ToList();
+        Parent = categories.Select(c => new SelectListItem(c.Nom, c.Id)).ToList();
         ParentId = categorie.ParentId;
         ASousCategorie = categorie.Parent != null;
     }

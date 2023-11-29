@@ -26,11 +26,11 @@ public class CategoriesAjouterVM
         ParentId = "";
         ASousCategorie = false;
     }
-    public CategoriesAjouterVM(Categorie categorie)
+    public CategoriesAjouterVM(Categorie categorie, IEnumerable<Categorie> categories)
     {
         Nom = categorie.Nom;
         Description = categorie.Description;
-        CategoriesParents = (categorie.Enfants ?? new List<Categorie>()).Select(c => new SelectListItem(c.Nom, c.Id)).ToList();
+        CategoriesParents = categories.Select(c => new SelectListItem(c.Nom, c.Id)).ToList();
         ParentId = categorie.ParentId;
         ASousCategorie = categorie.Parent != null;
     }

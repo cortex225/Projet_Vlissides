@@ -29,15 +29,16 @@ public class GestionCategoriesController : Controller
         var itemsPerPage = 10;
         var totalItems = await _context.Categories.CountAsync();
 
-        var vm = new CategoriesIndexVM(new());
-        var liste = _context.Categories.Include(c => c.Livres).ThenInclude(lc => lc.Livre).Include(c => c.Enfants)
+        var categories = _context.Categories
+            .Include(c => c.Livres)
+            .ThenInclude(lc => lc.Livre).Include(c => c.Enfants)
             .OrderBy(c => c.Nom)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
             .Take(itemsPerPage)
             .ToList();
 
         if (motCle != null && motCle != "")
-            liste = liste
+            categories = categories
                 .Where(categorie => Regex.IsMatch(categorie.Nom, ".*" + motCle + ".*", RegexOptions.IgnoreCase))
                 .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
                 .Take(itemsPerPage)
@@ -50,14 +51,14 @@ public class GestionCategoriesController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        return View(liste.Select(c => new CategoriesIndexVM(c)).ToList());
+        return View(categories.Select(c => new CategoriesIndexVM(c)).ToList());
     }
 
     //[Route("2167594/GestionCategories/Ajouter")]
     //[Route("{controller}/{action}")]
     public ActionResult ShowAjouter()
     {
-        var vm = new CategoriesAjouterVM(new());
+        var vm = new CategoriesAjouterVM();
         vm.CategoriesParents = _context.Categories.Select(c => new SelectListItem
         {
             Text = c.Nom,
@@ -99,8 +100,9 @@ public class GestionCategoriesController : Controller
     //[Route("{controller}/{action}")]
     public IActionResult Modifier(string id)
     {
-        var categorie = _context.Categories.Include(c => c.Parent).FirstOrDefault(c => c.Id == id);
-        var vm = new CategoriesModifierVM(categorie);
+        var categorie = _context.Categories.Include(c => c.Parent).Include(c => c.Enfants).FirstOrDefault(c => c.Id == id);
+        var vm = new CategoriesModifierVM(categorie, _context.Categories.Where(c => c.Id != id && !c.Enfants
+        .Any(e => e.Id == c.Id)));
         if (categorie.Parent != null)
         {
             vm.ParentId = categorie.Parent.Id;
@@ -159,11 +161,13 @@ public class GestionCategoriesController : Controller
     [HttpPost]
     //[Route("2167594/GestionCategories/ModifierNomCategorie")]
     //[Route("{controller}/{action}")]
-    public ActionResult ModifierNomCategorie(string id, string nom)
+    public async Task<IActionResult> ModifierNomCategorie(string id, string nom)
     {
+        var categorie = await _context.Categories.FindAsync(id);
+        if (categorie == null) return NotFound("La catégorie à l'identifiant " + id + " n'a pas été trouvé.");
+
         if (ModelState.IsValid)
         {
-            var categorie = _context.Categories.FirstOrDefault(c => c.Id == id);
             categorie.Nom = nom;
             _context.SaveChanges();
         }
@@ -173,29 +177,24 @@ public class GestionCategoriesController : Controller
 
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
-        if (id == null) return NotFound();
-
         var categorie = await _context.Categories.FindAsync(id);
-        if (categorie == null) return NotFound();
+        if (categorie == null) return NotFound("La catégorie à l'identifiant " + id + " n'a pas été trouvé.");
 
         return PartialView("PartialViews/Modals/Categories/_DeleteCategoriesPartial", categorie);
     }
 
-    [HttpPost]
+    [HttpDelete]
     //[Route("2167594/GestionCategories/SupprimerCategorie")]
     //[Route("{controller}/{action}")]
-    public ActionResult SupprimerCategorie(string id)
+    public async Task<IActionResult> SupprimerCategorie(string id)
     {
-        if (_context.Categories == null) return Problem("Entity set 'ApplicationDbContext.Categories' is null.");
-        var categorie = _context.Categories.Include(c => c.Livres).ThenInclude(lc => lc.Livre).Include(c => c.Enfants)
-            .FirstOrDefault(c => c.Id == id);
-        if (categorie != null)
-        {
-            var enfants = _context.Categories.Where(c => c.Enfants.Contains(categorie)).ToList();
-            enfants.ForEach(e => e.Enfants.Remove(categorie));
-            _context.Categories.Remove(categorie);
-            _context.SaveChanges();
-        }
+        var categorie = await _context.Categories.FindAsync(id);
+        if (categorie == null) return NotFound("La catégorie à l'identifiant " + id + " n'a pas été trouvé.");
+
+        var enfants = _context.Categories.Where(c => c.Enfants.Contains(categorie)).ToList();
+        enfants.ForEach(e => e.Enfants.Remove(categorie));
+        _context.Categories.Remove(categorie);
+        _context.SaveChanges();
 
         return Ok();
     }
