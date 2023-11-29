@@ -143,12 +143,12 @@
     position: relative;
     top: -10px!important;
     right: 0;
-    background-color: #f74959; /* Couleur de fond du badge */
-    color: #ffffff; /* Couleur du texte */
-    font-size: 0.75rem !important;
-    padding: 0.4rem 0.3rem !important;
+    background-color: #f74959;
+    color: #ffffff;
+    font-size: 0.8rem !important;
+    padding: 0.25rem 0.4rem !important;
     border-radius: 100% !important;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Ombre portée pour plus de profondeur */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
     z-index: 10;
 }
 
