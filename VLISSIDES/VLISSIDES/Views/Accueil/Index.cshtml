@@ -85,13 +85,13 @@ Un bouton pour cacher/montrer les services de l'entreprise
             <a class="voirPlus" asp-controller="Evenements" asp-action="Index">Voir plus -></a><div class="carousel-inner">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <div class="cards-wrapper d-flex justify-content-around">
-                            <div class="cacher-0">
+                        <div class="cards-wrapper d-flex justify-content-around event-caroussel-item">
+                            <div class="event-card-parentDiv">
                                 <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[0]" />
                             </div>
                             @if (Model.Evenements.Count > 1)
                             {
-                                <div class="cacher-1">
+                                <div class="event-card-parentDiv">
                                     <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[1]" />
                                 </div>
                             }
@@ -100,12 +100,12 @@ Un bouton pour cacher/montrer les services de l'entreprise
                     @for (var indexEvenement = 2; indexEvenement < (float)Model.Evenements.Count + 1; indexEvenement += 2)
                     {
                         <div class="carousel-item">
-                            <div class="cards-wrapper d-flex justify-content-around">
+                            <div class="cards-wrapper d-flex justify-content-around event-caroussel-item">
                                 @for (var indexLivre2 = 0; indexLivre2 < 2; indexLivre2++)
                                 {
                                     @if (Model.Evenements.Count > indexEvenement + indexLivre2)
                                     {
-                                        <div class="cacher-@indexLivre2">
+                                        <div class="event-card-parentDiv">
                                             <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement + indexLivre2]" />
                                         </div>
                                     }
