@@ -1,222 +1,163 @@
-/* Navbar du bas */
-#navTop {
-    background-color: var(--primaire) !important;
-    max-height: 115px !important;
-    height: 110px;
-    padding-top: 0px;
-    box-shadow: none;
-    z-index: 10;
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100% !important;
 }
 
-/* Logo */
-#IconeNavBar {
+.navbar-nav.align-items-center > .nav-item {
+    display: flex;
+    align-items: center;
+
 }
 
-#IconeNavBar * {
-    width: 100px;
-    height: 100px;
+.navbar-nav > .nav-item > .nav-link {
+    display: flex;
+    align-items: center;
+
+
 }
 
-/*Barre de recherche*/
-#divRecherche {
-    width: 100%;
+.navbar-nav > .nav-item > .nav-link i {
+    margin-right: 5px;
 }
 
-#divRecherche * {
-    max-width: 100%;
+/* Styles pour la Nav  (Barre de Recherche) */
+
+.recherche-group {
+    display: flex;
+    align-items: center;
+    background-color: #e2ebf7;
+    border-radius: 25px;
+    padding: 5px 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 420px!important;
+    margin-top: -10px;
+
+}
+
+.category-dropdown {
+    position: relative;
+    margin-right: 10px;
+}
+
+.selected-category {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    border: 1px solid #4e7fd0;
+    border-radius: 8px;
+    padding: 5px 10px;
+    background-color: #4e7fd0;
+    color: #fff;
+}
+
+.recherche-select {
+    border: none;
+    background-color: transparent;
+    padding: 5px 10px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    width: 150px;
+    appearance: none;
+    opacity: 0;
+    z-index: 1;
+}
+
+.recherche-input {
+    flex-grow: 1;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    color: #333;
     height: 40px;
 }
 
-#divOption * {
-    min-width: 90px;
-    width: 100%;
-    height: 100%;
-    border-radius: 25rem 0rem 0rem 25rem;
-    text-align: center;
+.recherche-btn {
+    background-color: transparent;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 10px;
+    font-size: 16px;
 }
 
-#dropdownRechercheNavbar {
-    position: relative;
-    right: -10px;
+/* Styles pour la Nav Bottom (Liens de Navigation) */
+#navBottom {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e2e2e2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#OptionLabel {
+.navbar-nav .nav-link {
+    color: #555;
+    font-size: 16px;
 }
 
-#barreRechercheNavbar {
-    border-radius: 0px;
-    width: 52%;
+.navbar-nav .nav-link:hover {
+    color: #007bff;
 }
 
-#boutonRechercheNavBar {
-    margin: 0px;
-    border-radius: 0rem 25rem 25rem 0rem;
-    position: relative;
-    left: -1px
+.navbar-nav .dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/*Connection*/
+.dropdown-item:hover {
+    background-color: #e2ebf7!important;
+    scale: 1.01;
+    transition-duration: 0.2s;
+}
+
+.dropdown-item {
+    font-size: 15px!important;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .recherche-container {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .recherche-input,
+    .recherche-btn,
+    .category-dropdown {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+
+    #navBottom .navbar-nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Style du badge pour le panier */
 .badge-panier {
     position: relative;
-    top: -10px;
+    top: -10px!important;
     right: 0;
-    background-color: #e94a47;
-    color: #ffff;
-    font-size: 0.7rem !important;
-    padding: 0.3rem 0.4rem !important;
+    background-color: #f74959; /* Couleur de fond du badge */
+    color: #ffffff; /* Couleur du texte */
+    font-size: 0.75rem !important;
+    padding: 0.4rem 0.3rem !important;
     border-radius: 100% !important;
-}
-
-#boutonseconection {
-    width: 640px;
-    max-height: 60%;
-    display: flex;
-    flex-wrap: nowrap;
-}
-
-#boutonseconection * {
-    width: 100%;
-    display: flex;
-    text-align: center;
-    align-items: center;
-}
-
-#boutonseconection > * {
-    width: 50%;
-    text-align: center;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Ombre portée pour plus de profondeur */
+    z-index: 10;
 }
 
 
-.btnconnection1 {
-    border-radius: 25rem 0px 0px 25rem !important;
-}
 
-.btnconnection1 a {
-    padding: 5px;
-}
 
-.btnconnection2 {
-    border-radius: 0px 25rem 25rem 0px !important;
-    padding-right: 5px;
-}
 
-#boutonseconection button a {
-    display: block;
-}
-
-#boutonseconection i {
-    width: fit-content;
-    align-self: start;
-    position: relative;
-    left: 15px;
-    top: 7px;
-}
-
-@media only screen and (max-width: 894px) {
-    #navTop {
-        height: 95px;
-    }
-
-    /*Bouton  connection*/
-    #boutonseconection {
-        width: 180px;
-        flex-wrap: wrap;
-        align-self: start;
-    }
-
-    #boutonseconection * {
-        width: 100%;
-        height: fit-content;
-        margin: 0px;
-        padding: 0;
-    }
-
-    .btnconnection2 {
-        border-radius: 0 0 0 25rem !important;
-    }
-
-    .btnconnection2 a {
-        position: relative;
-        right: -20px;
-    }
-
-    .btnconnection1 {
-        border-radius: inherit !important;
-    }
-}
-
-@media only screen and (max-width: 606px) {
-    #navTop {
-        height: 105px;
-    }
-
-    /*Barre de recherche*/
-    #divRecherche {
-        width: fit-content;
-        max-width: 150px;
-    }
-
-    #divRecherche div {
-        width: 100%;
-    }
-
-    #divRecherche * {
-        border-radius: 25rem;
-    }
-
-    #OptionLabel {
-        left: 0px;
-    }
-
-    #dropdownRechercheNavbar {
-        position: initial;
-    }
-
-    #barreRechercheNavbar {
-        width: 60%;
-        border-radius: 25rem 0rem 0rem 25rem;
-    }
-
-    #boutonRechercheNavBar {
-        width: 40%;
-        border-radius: 0rem 25rem 25rem 0rem;
-    }
-
-    /*Bouton connection*/
-    #boutonseconection i {
-        top: 0px;
-    }
-}
-
-@media only screen and (max-width: 577px) {
-    #divRecherche {
-        width: fit-content;
-        max-width: 150px;
-    }
-}
-
-@media only screen and (max-width: 430px) {
-    #navTop {
-        height: 100px;
-    }
-
-    /*Logo*/
-    #divRecherche {
-        width: 0px;
-        height: 0px;
-        position: absolute;
-        visibility: hidden;
-    }
-
-    #boutonseconection {
-        width: 170px;
-        max-heigh: 40px;
-        padding-top: 14px;
-        position: relative;
-        top: -15px;
-    }
-
-    #boutonseconection * {
-        width: 100%;
-    }
+/* Style au survol ou lors du clic */
+.navbar-toggler:hover,
+.navbar-toggler:focus {
+    background-color: rgba(107, 179, 255, 0.35) !important;
 }
