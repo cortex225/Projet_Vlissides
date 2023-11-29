@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
@@ -7,7 +8,7 @@ using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Profile;
 
 namespace VLISSIDES.Controllers;
-
+[Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN + ", " + RoleName.MEMBRE)]
 public class ProfileController : Controller
 {
     private readonly IConfiguration _config;
