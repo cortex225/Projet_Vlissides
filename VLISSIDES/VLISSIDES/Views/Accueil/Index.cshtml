@@ -106,8 +106,8 @@ Un bouton pour cacher/montrer les services de l'entreprise
                                 {
                                     @if (Model.Evenements.Count > indexEvenement + indexLivre2)
                                     {
-                                        <div class="cacher-@indexLivre2">
-                                            <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement * 2 + indexLivre2]" />
+                                        <div class="event-card-parentDiv">
+                                            <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement + indexLivre2]" />
                                         </div>
                                     }
                                     else
