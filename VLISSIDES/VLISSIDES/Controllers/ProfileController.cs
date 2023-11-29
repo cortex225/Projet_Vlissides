@@ -245,7 +245,7 @@ public class ProfileController : Controller
                     Id = id,
                     NoCivique = vm.NoCivique,
                     Rue = vm.Rue,
-                    NoApartement = vm.NoApartement,
+                    NoApartement = vm.NoApartement != null ? vm.NoApartement : null,
                     CodePostal = vm.CodePostal,
                     Ville = vm.Ville,
                     Province = vm.Province,
@@ -258,7 +258,7 @@ public class ProfileController : Controller
             {
                 user.AdressePrincipale.NoCivique = vm.NoCivique;
                 user.AdressePrincipale.Rue = vm.Rue;
-                user.AdressePrincipale.NoApartement = vm.Rue;
+                user.AdressePrincipale.NoApartement = vm.NoApartement != null ? vm.NoApartement : null;
                 user.AdressePrincipale.CodePostal = vm.CodePostal;
                 user.AdressePrincipale.Ville = vm.Ville;
                 user.AdressePrincipale.Province = vm.Province;
