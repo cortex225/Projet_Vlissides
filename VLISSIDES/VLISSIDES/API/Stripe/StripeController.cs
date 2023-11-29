@@ -365,7 +365,7 @@ public class StripeController : Controller
         body.Append(
             "<p style='color: #555; font-size: 16px;'>Si vous avez des questions ou si vous avez besoin d'informations supplémentaires, veuillez ne pas hésiter à nous contacter.</p>");
         body.Append(
-            "<p style='text-align: center; margin-top: 40px;'><a href='https://votresite.com' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
+            "<p style='text-align: center; margin-top: 40px;'><a href='https://sqlinfocg.cegepgranby.qc.ca/2147186' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
         body.Append("<footer style='text-align: center; color: #888; margin-top: 40px; font-size: 14px;'>");
         body.Append("<p>Merci de faire confiance à La Fourmi Aillée.</p>");
         body.Append("<p style='color: #146ec3;'>La Fourmi Aillée, 235 Rue Saint-Jacques, Granby, QC J2G 3N1</p>");
@@ -424,7 +424,7 @@ public class StripeController : Controller
         body.Append(
             "<p style='color: #555; font-size: 16px;'>Votre commande sera traitée rapidement et vous recevrez une notification dès qu'elle sera expédiée.</p>");
         body.Append(
-            "<p style='text-align: center; margin-top: 40px;'><a href='https://votresite.com' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
+            "<p style='text-align: center; margin-top: 40px;'><a href='https://sqlinfocg.cegepgranby.qc.ca/2147186' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
         body.Append("<footer style='text-align: center; color: #888; margin-top: 40px; font-size: 14px;'>");
         body.Append("<p>Merci de faire confiance à La Fourmie Aillée.</p>");
         body.Append("<p>La Fourmie Aillée, 235 Rue Saint-Jacques, Granby, QC J2G 3N1</p>");
