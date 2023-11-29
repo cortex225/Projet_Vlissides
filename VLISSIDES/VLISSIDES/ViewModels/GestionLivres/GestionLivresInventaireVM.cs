@@ -6,7 +6,7 @@ namespace VLISSIDES.ViewModels.GestionLivres;
 public class GestionLivresInventaireVM
 {
 
-    [Display(Name = "Resultat de recherche")] public List<string> ResultatRecherche { get; set; }
+    [Display(Name = "Resultat de recherche")] public List<DetailsLivreVM> ResultatRecherche { get; set; }
     [Display(Name = "Livreà afficher")] public List<DetailsLivreVM> LivrePartials { get; set; }
     [Display(Name = "Livres")] public List<string> Livres { get; set; }
     [Display(Name = "Auteurs")] public List<string> Auteurs { get; set; }
@@ -29,7 +29,7 @@ public class GestionLivresInventaireVM
         categories ??= new();
         langues ??= new();
         typeLivres ??= new();
-        ResultatRecherche = resultatRecherche.Select(rr => rr.Titre).ToList();
+        ResultatRecherche = resultatRecherche.Select(rr => new DetailsLivreVM(rr)).ToList();
         LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr)).ToList();
         Livres = livres.Select(l => l.Titre).ToList();
         Auteurs = auteurs.Select(a => a.NomAuteur).ToList();

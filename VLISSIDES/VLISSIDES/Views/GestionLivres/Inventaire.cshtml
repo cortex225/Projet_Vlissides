@@ -73,7 +73,7 @@
                     <label for="specificationTitre">Titre:</label>
                     <input id="specificationTitre" class="form-control" name="specificationTitre" type="text" list="ListeLivres">
                     <datalist id="ListeLivres">
-                        @foreach (var livre in Model.ListeLivresFiltre)
+                        @foreach (var livre in Model.ResultatRecherche)
                         {
                             <option value="@livre.Titre" />
                         }
@@ -83,9 +83,9 @@
                     <label for="specificationAuteur">Auteur:</label>
                     <input id="specificationAuteur" class="form-control" name="specificationAuteur" type="text" list="ListeAuteurs">
                     <datalist id="ListeAuteurs">
-                        @foreach (var auteur in Model.ListeAuteurs)
+                        @foreach (var auteur in Model.Auteurs)
                         {
-                            <option value="@auteur.NomAuteur" />
+                            <option value="@auteur" />
                         }
                     </datalist>
                 </div>
@@ -93,9 +93,9 @@
                     <label for="specificationMaisonEdition">Maison d'édition:</label>
                     <input id="specificationMaisonEdition" class="form-control" type="text" list="specificationMaisonEditions">
                     <datalist id="specificationMaisonEditions">
-                        @foreach (var maisonEdition in Model.ListeMaisonEditions)
+                        @foreach (var maisonEdition in Model.MaisonEditions)
                         {
-                            <option value="@maisonEdition.Nom" />
+                            <option value="@maisonEdition" />
                         }
                     </datalist>
                 </div>
@@ -103,9 +103,9 @@
                     <label for="specificationCategorie">Categorie:</label>
                     <input id="specificationCategorie" class="form-control" name="specificationCategorie" type="text" list="specificationCategories">
                     <datalist id="specificationCategories">
-                        @foreach (var categorie in Model.ListeCategories)
+                        @foreach (var categorie in Model.Categories)
                         {
-                            <option value="@categorie.Nom" />
+                            <option value="@categorie" />
                         }
                     </datalist>
                 </div>
@@ -113,9 +113,9 @@
                     <label for="specificationLangue">Langue:</label>
                     <input id="specificationLangue" class="form-control" name="specificationLangue" type="text" list="ListeLangues" />
                     <datalist id="ListeLangues">
-                        @foreach (var langue in Model.ListeLangue)
+                        @foreach (var langue in Model.Langues)
                         {
-                            <option value="@langue.Nom" />
+                            <option value="@langue" />
                         }
                     </datalist>
                 </div>
@@ -131,9 +131,9 @@
                     <label for="specificationTypeLivre">Type de livre:</label>
                     <input id="specificationTypeLivre" class="form-control" name="specificationTypeLivre" type="text" list="ListeTypeLivres" />
                     <datalist id="ListeTypeLivres">
-                        @foreach (var typeLivre in Model.ListeTypeLivres)
+                        @foreach (var typeLivre in Model.TypeLivres)
                         {
-                            <option value="@typeLivre.Nom" />
+                            <option value="@typeLivre" />
                         }
                     </datalist>
                 </div>
@@ -153,7 +153,7 @@
                         <label for="specificationTitre2">Titre:</label>
                         <input id="specificationTitre2" class="form-control" name="specificationTitre2" type="text" list="ListeLivres">
                         <datalist id="ListeLivres">
-                            @foreach (var livre in Model.ListeLivresFiltre)
+                            @foreach (var livre in Model.ResultatRecherche)
                             {
                                 <option value="@livre.Titre" />
                             }
@@ -163,9 +163,9 @@
                         <label for="specificationAuteur2">Auteur:</label>
                         <input id="specificationAuteur2" class="form-control" name="specificationAuteur2" type="text" list="ListeAuteurs">
                         <datalist id="ListeAuteurs">
-                            @foreach (var auteur in Model.ListeAuteurs)
+                            @foreach (var auteur in Model.Auteurs)
                             {
-                                <option value="@auteur.NomAuteur" />
+                                <option value="@auteur" />
                             }
                         </datalist>
                     </div>
@@ -173,9 +173,9 @@
                         <label for="specificationMaisonEdition2">Maison d'édition:</label>
                         <input id="specificationMaisonEdition2" class="form-control" type="text" list="specificationMaisonEditions2">
                         <datalist id="specificationMaisonEditions2">
-                            @foreach (var maisonEdition in Model.ListeMaisonEditions)
+                            @foreach (var maisonEdition in Model.MaisonEditions)
                             {
-                                <option value="@maisonEdition.Nom" />
+                                <option value="@maisonEdition" />
                             }
                         </datalist>
                     </div>
@@ -183,9 +183,9 @@
                         <label for="specificationCategorie2">Categorie:</label>
                         <input id="specificationCategorie2" class="form-control" name="specificationCategorie2" type="text" list="specificationCategories2">
                         <datalist id="specificationCategories2">
-                            @foreach (var categorie in Model.ListeCategories)
+                            @foreach (var categorie in Model.Categories)
                             {
-                                <option value="@categorie.Nom" />
+                                <option value="@categorie" />
                             }
                         </datalist>
                     </div>
@@ -193,9 +193,9 @@
                         <label for="specificationLangue2">Langue:</label>
                         <input id="specificationLangue2" class="form-control" name="specificationLangue2" type="text" list="ListeLangues" />
                         <datalist id="ListeLangues">
-                            @foreach (var langue in Model.ListeLangue)
+                            @foreach (var langue in Model.Langues)
                             {
-                                <option value="@langue.Nom" />
+                                <option value="@langue" />
                             }
                         </datalist>
                     </div>
@@ -211,9 +211,9 @@
                         <label for="specificationTypeLivre2">Type de livre:</label>
                         <input id="specificationTypeLivre2" class="form-control" name="specificationTypeLivre2" type="text" list="ListeTypeLivres" />
                         <datalist id="ListeTypeLivres">
-                            @foreach (var typeLivre in Model.ListeTypeLivres)
+                            @foreach (var typeLivre in Model.TypeLivres)
                             {
-                                <option value="@typeLivre.Nom" />
+                                <option value="@typeLivre" />
                             }
                         </datalist>
                     </div>
@@ -264,14 +264,14 @@
                 </div>
 
                 @* Results *@
-                @foreach (var item in Model.ListeLivres)
+                @foreach (var item in Model.LivrePartials)
                 {
                     <div id="@item.Id" class="card mb-2 mx-3 element-hoverable">
                         <div class="card-body row p-2 align-items-center">
                             <div class="LivreCol col">
                                 <div class="imgDiv text-center">
                                     @{
-                                        string couverture = string.Concat(BASE_URL_RAZOR, item.Image);
+                                        string couverture = string.Concat(BASE_URL_RAZOR, item);
                                     }
                                     <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                                     <p>@Html.DisplayFor(modelItem => item.Titre)</p>
@@ -284,9 +284,9 @@
                             </div>
                             <div class="AuteurCol mediaQuerryHideOnMedium col-sm-2">
                                 <div class="listeAuteur d-flex flex-column align-items-center">
-                                    @foreach (var auteur in item.ListAuteur)
+                                    @foreach (var auteur in item.Auteurs)
                                     {
-                                        <p>@Html.DisplayFor(modelItem => auteur.NomAuteur)</p>
+                                        <p>@Html.DisplayFor(modelItem => auteur)</p>
                                     }
                                 </div>
                             </div>
@@ -294,23 +294,27 @@
                                 <div class="listeCategorie text-center">
                                     @foreach (var categorie in item.Categories)
                                     {
-                                        <p>@Html.DisplayFor(modelItem=>categorie.Nom)</p>
+                                        <p>@Html.DisplayFor(modelItem=>categorie)</p>
                                     }
                                 </div>
                             </div>
                             <div class="PrixCol mediaQuerryHideOnSmall col-2">
                                 <div class="d-flex flex-column">
-                                    @foreach (var type in item.LivreTypeLivres)
+                                    @if(item.Papier!=null)
                                     {
-                                        <p>@Html.DisplayFor(modelItem => type.TypeLivre.Nom) : @Html.DisplayFor(modelItem => type.Prix) $</p>
+                                        <p>@Html.DisplayFor(modelItem => item.Papier) : @Html.DisplayFor(modelItem => item.Papier) $</p>
+                                    }
+                                    @if (item.Numerique != null)
+                                    {
+                                        <p>@Html.DisplayFor(modelItem => item.Numerique) : @Html.DisplayFor(modelItem => item.Numerique) $</p>
                                     }
                                 </div>
                             </div>
                             <div class="QuantiteCol mediaQuerryHideOnMedium col-1">
                                 <div class="text-center">
-                                    @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
+                                    @if (item.Papier!=null)
                                     {
-                                        <input id="@item.Id quantite" type="number" asp-for="@item.Quantite" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.Quantite)" onclient onclick="enableButton('@item.Id')">
+                                        <input id="@item.Id quantite" type="number" asp-for="@item.NbExemplaires" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => item.NbExemplaires)" onclient onclick="enableButton('@item.Id')">
                                     }
                                     else
                                     {
@@ -322,10 +326,10 @@
 
                             <div class="divBoutons col text-center h-40 d-flex justify-content-around align-items-center">
                                 <div class="mediaQuerryHideOnMedium">
-                                    @if (item.LivreTypeLivres.Any(l => l.TypeLivre.Id == "1"))
+                                    @if (item.Papier!=null)
                                     {
                                         <button id="saveButton @item.Id" type="button" data-toggle="tooltip" title="Sauvegarder la quantité" class="btn btn-success saveButton px-3" onclick="
-                                                    saveQuantite('@item.Id', '@item.Quantite')
+                                                    saveQuantite('@item.Id', '@item.NbExemplaires')
                                                     disableButton('@item.Id')">
 
                                             <span class="fa-solid fa-check fa-2x"></span>
