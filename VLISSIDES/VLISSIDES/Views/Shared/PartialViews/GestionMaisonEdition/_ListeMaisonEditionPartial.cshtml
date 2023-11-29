@@ -5,11 +5,11 @@
 <link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
 
 
-@if (Model.MaisonEditionsAfficherVM.Any())
+@if (Model.MaisonEditionsAffiche.Any())
 {
     <div class="listeSujet list-group" id="list-tab" role="tablist">
 
-        @foreach (var edition in Model.MaisonEditionsAfficherVM)
+        @foreach (var edition in Model.MaisonEditionsAffiche)
 
         {
             <!--onclick pour afficher livres ici-->
@@ -44,7 +44,7 @@
         <h3 class="text-center my-3">Livres de la maison d'édition</h3>
 
         <div class="" id="divListeMaisonEditionLivres">
-            @foreach (var edition in Model.MaisonEditionsAfficherVM)
+            @foreach (var edition in Model.MaisonEditionsAffiche)
             {
                 <div id="Liste_@edition.Id" class=" visually-hidden">
                     <h5 class="my-2" id="NomMaison_@edition.Id">@edition.Nom</h5>

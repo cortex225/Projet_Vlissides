@@ -5,8 +5,8 @@ namespace VLISSIDES.ViewModels.MaisonEditions;
 
 public class MaisonEditionsModifierVM
 {
-    [Display(Name = "MaisonEditionsAjouterVM")] public string Id { get; set; }
-    [Display(Name = "MaisonEditionsAjouterVM")] public string Nom { get; set; }
+    [Display(Name = "Identifiant")] public string Id { get; set; }
+    [Display(Name = "Nom")] public string Nom { get; set; }
 
     public MaisonEditionsModifierVM(MaisonEdition maisonEdition)
     {

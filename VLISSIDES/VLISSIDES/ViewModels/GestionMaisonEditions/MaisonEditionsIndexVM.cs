@@ -1,18 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.MaisonEditions;
 
 public class MaisonEditionsIndexVM
 {
-    [Display(Name = "MaisonEditionsAjouterVM")] public MaisonEditionsAjouterVM? MaisonEditionsAjouterVM { get; set; }
-    [Display(Name = "MaisonEditionsModifierVM")] public MaisonEditionsModifierVM? MaisonEditionsModifierVM { get; set; }
-    [Display(Name = "MaisonEditionsAfficherVM")] public List<MaisonEditionsAfficherVM>? MaisonEditionsAfficherVM { get; set; }
+    [Display(Name = "Maison d'édition ajouté")] public MaisonEditionsAjouterVM? MaisonEditionsAjoute { get; set; }
+    [Display(Name = "Maison d'édition modifié")] public MaisonEditionsModifierVM? MaisonEditionsModifie { get; set; }
+    [Display(Name = "Maison d'édition affiché")] public List<MaisonEditionsAfficherVM>? MaisonEditionsAffiche { get; set; }
 
-    public MaisonEditionsIndexVM(MaisonEditionsAjouterVM? maisonEditionsAjouterVM,
-        MaisonEditionsModifierVM? maisonEditionsModifierVM, List<MaisonEditionsAfficherVM>? maisonEditionsAfficherVM)
+    public MaisonEditionsIndexVM(IEnumerable<MaisonEdition> maisonEditions)
     {
-        MaisonEditionsAjouterVM = maisonEditionsAjouterVM;
-        MaisonEditionsModifierVM = maisonEditionsModifierVM;
-        MaisonEditionsAfficherVM = maisonEditionsAfficherVM;
+        MaisonEditionsAjoute = null;
+        MaisonEditionsModifie = null;
+        MaisonEditionsAffiche = maisonEditions.Select(e => new MaisonEditionsAfficherVM(e)).ToList();
     }
 }

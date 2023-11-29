@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
-using VLISSIDES.ViewModels;
 using VLISSIDES.ViewModels.MaisonEditions;
 
 namespace VLISSIDES.Controllers;
@@ -49,7 +48,7 @@ public class GestionMaisonEditionsController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        return View(new MaisonEditionsIndexVM(new(), null, editions.Select(e => new MaisonEditionsAfficherVM(e)).ToList()));
+        return View(new MaisonEditionsIndexVM(editions));
     }
 
     public async Task<IActionResult> AfficherListe(string? motCle, int page = 1)
@@ -78,8 +77,7 @@ public class GestionMaisonEditionsController : Controller
 
 
         return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial",
-            new MaisonEditionsIndexVM(new MaisonEditionsAjouterVM(), null,
-            editions.Select(e => new MaisonEditionsAfficherVM(e)).ToList()));
+            new MaisonEditionsIndexVM(editions));
     }
 
     [HttpPost]
@@ -95,7 +93,7 @@ public class GestionMaisonEditionsController : Controller
             var maisonEdition = new MaisonEdition
             {
                 Id = Guid.NewGuid().ToString(),
-                Nom = vm.MaisonEditionsAjouterVM.Nom
+                Nom = vm.MaisonEditionsAjoute.Nom
             };
             _context.MaisonEditions.Add(maisonEdition);
             _context.SaveChanges();
@@ -106,11 +104,13 @@ public class GestionMaisonEditionsController : Controller
     }
 
     [HttpPost]
-    public ActionResult ModifierMaison(string id, string nom)
+    public async Task<IActionResult> ModifierMaison(string id, string nom)
     {
+        var maisonEdition = await _context.MaisonEditions.FindAsync(id);
+        if (maisonEdition == null) return NotFound("La maison d'édition à l'identifiant " + id + " n'a pas été trouvé.");
+
         if (ModelState.IsValid)
         {
-            var maisonEdition = _context.MaisonEditions.FirstOrDefault(me => me.Id == id);
             maisonEdition.Nom = nom;
             _context.SaveChanges();
             return Ok();
@@ -119,13 +119,11 @@ public class GestionMaisonEditionsController : Controller
         return View();
     }
 
-    [HttpPost]
-    public ActionResult SupprimerMaison(string id)
+    [HttpDelete]
+    public async Task<IActionResult> SupprimerMaison(string id)
     {
-        var maisonEdition = _context.MaisonEditions.FirstOrDefault(me => me.Id == id);
-        //Si la maison d'édition n'est pas trouvé
-        if (maisonEdition == null)
-            return NotFound();
+        var maisonEdition = await _context.MaisonEditions.FindAsync(id);
+        if (maisonEdition == null) return NotFound("La maison d'édition à l'identifiant " + id + " n'a pas été trouvé.");
         //Enlever la maison d'édition pour chaque livre
         _context.Livres.Where(l => l.MaisonEdition.Id == maisonEdition.Id)
             .ToList().ForEach(l => l.MaisonEdition = null);
@@ -137,11 +135,8 @@ public class GestionMaisonEditionsController : Controller
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
-        if (id == null) return NotFound();
-
         var maisonEdition = await _context.MaisonEditions.FindAsync(id);
-        if (maisonEdition == null) return NotFound();
-
+        if (maisonEdition == null) return NotFound("La maison d'édition à l'identifiant " + id + " n'a pas été trouvé.");
         return PartialView("PartialViews/Modals/MaisonEditions/_DeleteMaisonEditionPartial", maisonEdition);
     }
 }
