@@ -124,6 +124,9 @@
     </div>
 
 </div>
+<script>
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
 <script type="text/javascript">
     //Script pour la recherche
     var btnSearch = document.getElementById("rechercherBTN").addEventListener("click", RechercheGenerale);
@@ -220,7 +223,7 @@
         if (partieCriteres != "")
             partieCriteres = partieCriteres.substring(0, partieCriteres.length - 1);
         // Utiliser la valeur dans l'URL pour l'action Index
-        window.location.href = `/Recherche/Index?${partieMotCles}&${partieCriteres}`;
+        window.location.href = BASE_URL+`/Recherche/Index?${partieMotCles}&${partieCriteres}`;
     }
 </script>
 
