@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="~/css/Accueil/promo-card.css">
 
 @{
-    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.User?.DateNaissance == null;
+    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.Utilisateur?.DateNaissance == null;
 
 }
 <!--

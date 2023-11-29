@@ -9,13 +9,13 @@ public class ServiceCardVM
     [DisplayName("Titre")] public string Titre { get; set; }
 
     [DisplayName("Description")] public string Description { get; set; }
-    [DisplayName("Icons")] public string Icons { get; set; }
-    public ServiceCardVM(string image = "", string titre = "", string description = "", string icons = "")
+    [DisplayName("Icons")] public string Icones { get; set; }
+    public ServiceCardVM(string image = "", string titre = "", string description = "", string icones = "")
     {
         Image = image;
         Titre = titre;
         Description = description;
-        this.Icons = icons;
+        Icones = icones;
     }
 
 }
