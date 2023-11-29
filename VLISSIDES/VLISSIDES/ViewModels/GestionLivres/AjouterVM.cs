@@ -7,7 +7,7 @@ namespace VLISSIDES.ViewModels.Livres;
 public class AjouterVM
 {
     [Required(ErrorMessage = "Le titre est obligatoire")]
-    [Display(Name = "Nom du livre")] public string Titre { get; set; }
+    [Display(Name = "Titre")] public string Titre { get; set; }
 
     [Required(ErrorMessage = "La description est obligatoire")]
     [Display(Name = "Description")] public string Resume { get; set; }

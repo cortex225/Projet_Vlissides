@@ -28,8 +28,10 @@ namespace VLISSIDES.Controllers
 
         public async Task<IActionResult> Index(string? id)
         {
+
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
 
             List<Commande> userCommandes = _context.Commandes
                 .Include(c => c.LivreCommandes)
@@ -61,39 +63,26 @@ namespace VLISSIDES.Controllers
                         {
                             foreach (Evaluation e in l.Livre.Evaluations)
                             {
-                                if (e.MembreId == userId)
-                                {
-                                    eval = e.Note;
-                                    break;
-                                }
+                                if (e.MembreId == userId) vm.Add(new LivreUtilisateurIndexVM(l.Livre, e, c));
+                                else vm.Add(new LivreUtilisateurIndexVM(l.Livre, e, c));
                             }
                         }
-                        vm.Add(new LivreUtilisateurIndexVM
-                        {
-                            Id = l.Livre.Id,
-                            Titre = l.Livre.Titre,
-                            Couverture = l.Livre.Couverture,
-                            monEvaluation = eval,
-                            NumeriqueURL = l.Livre.UrlNumerique,
-                            DateCommande = c.DateCommande
-                        });
                     }
                 }
             }
 
-            ListLivreUtilisateurIndexVM VM = new ListLivreUtilisateurIndexVM()
-            {
-                listVM = vm,
-                livreSelectionneId = id
-            };
-
-            return View(VM);
+            return View(new ListLivreUtilisateurIndexVM(vm, id));
         }
 
         [HttpPost]
         [Route("/LivreUtilisateur/SelectLivre")]
         public async Task<IActionResult> SelectLivre(string? id)
         {
+
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
+
             return RedirectToAction("/LivreUtilisateur/Index?id=" + id);
         }
 
@@ -102,6 +91,8 @@ namespace VLISSIDES.Controllers
         public async Task<IActionResult> Noter(string id, int? note)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
 
             Livre? l = await _context.Livres
                 .Include(l => l.Evaluations)

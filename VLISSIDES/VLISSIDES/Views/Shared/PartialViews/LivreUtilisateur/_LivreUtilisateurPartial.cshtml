@@ -42,7 +42,7 @@
                    
                 </div>
                 <div class="card-lu card-lu-btn-rating">
-                    @if (Model.monEvaluation == null)
+                    @if (Model.MonEvaluation == null)
                     {
                         <button type="button" id="@Model.Id" onclick="MontrerBoiteEvaluation('@Model.Id')" class="btn btn-primary">Notez ce livre!</button>
                     }
@@ -50,7 +50,7 @@
                     {
                         <span>Votre évaluation: </span>
 
-                        <partial name="../Accueil/_Etoiles.cshtml" model=@Model.monEvaluation/>
+                        <partial name="../Accueil/_Etoiles.cshtml" model=@Model.MonEvaluation/>
 
                         <div>
                             <a class="btn btn-primary p-2" onclick="MontrerBoiteEvaluation('@Model.Id')" data-toggle="tooltip" title="Modifier le livre">
