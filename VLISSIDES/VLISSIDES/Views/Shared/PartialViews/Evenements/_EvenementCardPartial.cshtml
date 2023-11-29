@@ -22,7 +22,7 @@
             @{
                 var couverture = string.Concat(BASE_URL_RAZOR, Model.Image);
             }
-            <img src="@Html.Raw(couverture)" alt="Image de l'événement" class="img-fluid rounded mb-3 mb-md-0">
+            <img src="@Html.Raw(couverture)" alt="Image de l'événement" class="img-fluid rounded mb-3 mb-md-0 img-event">
         </div>
         <div class="col-md-6 text-center text-md-left div-event-nom">
             <h2 class="font-weight-bold mb-3">@Model.Nom</h2>
