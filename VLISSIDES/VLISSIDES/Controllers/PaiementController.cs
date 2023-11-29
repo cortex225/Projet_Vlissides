@@ -158,6 +158,13 @@ public class PaiementController : Controller
                 Name = "auto", // Met à jour le nom du client lorsqu'il passe une commande
                 Shipping = "auto" // Met à jour les informations d'expédition du client lorsqu'il passe une commande
             },
+            Metadata = new Dictionary<string, string>
+            {
+                { "type", "livre" }, // Ici, j'indique que le type d'achat est "livre"
+                {
+                    "livreId", string.Join(",", panierItems.Select(item => item.LivreId))
+                }
+            },
             InvoiceCreation = new SessionInvoiceCreationOptions
             {
                 Enabled = true // Crée une facture pour chaque session de paiement
