@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group form-group-static">
-                            <label asp-for="Prenom" class="control-label"></label>
+                            <label asp-for="Prenom" class="control-label"></label>(<span class="text-danger">*</span>)
                             <input asp-for="Prenom" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Prenom)"
                                    onfocus="focused(this)" onfocusout="defocused(this)">
 
@@ -66,7 +66,7 @@
                     </div>
                     <div class="col">
                         <div class="form-group form-group-static">
-                            <label asp-for="Nom" class="control-label"></label>
+                            <label asp-for="Nom" class="control-label"></label>(<span class="text-danger">*</span>)
                             <input asp-for="Nom" class="form-control" type="text" placeholder="@Html.DisplayFor(model => model.Nom)"
                                    onfocus="focused(this)" onfocusout="defocused(this)">
 
@@ -74,26 +74,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    @* <div class="col-sm">
-                        <label asp-for="GenderID" class="form-label mt-4 ms-0"></label>
-                        <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list"
-                             aria-haspopup="true" aria-expanded="false">
-                            <div class="choices__inner">
-                                <select asp-for="GenderID" class="form-control choices__input" name="choices-gender"
-                                        id="choices-gender" hidden="" tabindex="-1" data-choice="active" asp-items="@Model.Gender">
-                                    <option value="" disabled="disabled">Choisissez votre genre</option>
-                                    <span asp-validation-for="GenderID" class="text-danger"></span>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-                    </div> *@
+                    
                     <div class="col-sm">
                         <div class="row">
                             <div class="col-sm">
-                                <label asp-for="DateNaissance" class="control-label form-label mt-4 ms-0"></label>
+                                <label asp-for="DateNaissance" class="control-label form-label mt-4 ms-0"></label>(<span class="text-danger">*</span>)
                                 <div class="choices__inner">
 
                                     <input asp-for="DateNaissance" class="form-control datetimepicker" type="datetime-local"
@@ -110,60 +95,31 @@
                 <div class="row mt-4">
                     <div class="col">
                         <div class="form-group form-group-static">
-                            <label asp-for="NomUtilisateur" class="control-label"></label>
+                            <label asp-for="NomUtilisateur" class="control-label"></label>(<span class="text-danger">*</span>)
                             <input asp-for="NomUtilisateur" type="text" class="input-group.input-group-static form-control"
                                    onfocus="focused(this)" onfocusout="defocused(this)">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group form-group-static">
-                            <label asp-for="Courriel" class="control-label"></label>
+                            <label asp-for="Courriel" class="control-label"></label>(<span class="text-danger">*</span>)
                             <input asp-for="Courriel" type="email" class="input-group.input-group-static form-control" placeholder="example@email.com" readonly="readonly"
                                    onfocus="focused(this)" onfocusout="defocused(this)">
                         </div>
                     </div>
                 </div>
                 <div class="row mt-4">
-                    @* <div class="col">
-                        <div class="form-group form-group-static">
-                            <label class="form-label" asp-for="@Model.Address" ></label>
-                            <input type="text" asp-for="@Model.Address" class="form-control" autocomplete="on" placeholder="Entrez votre adresse ici...">
-                        </div>
-                    </div> *@
+                    
                     <div class="col">
                         <div class="form-group form-group-static">
-                            <label asp-for="Telephone" class="form-label"></label>
-                            <input asp-for="Telephone" type="number" class="form-control" placeholder="+1 450 735 6320"
+                            <label asp-for="Telephone" class="form-label"></label>(<span class="text-danger">*</span>)
+                            <input asp-for="Telephone" type="tel" class="form-control" placeholder="+1 450 735 6320"
                                    onfocus="focused(this)" onfocusout="defocused(this)">
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    @* <div class="col-md">
-                        <label class="form-label mt-4 ms-0">@Html.DisplayNameFor(model => model.Language)</label>
-                        <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list"
-                             aria-haspopup="true" aria-expanded="false">
-                            <div class="choices__inner">
-                                <select asp-for="LanguageID" class="form-control choices__input" name="choices-language"
-                                        id="choices-language" hidden="" tabindex="-1" data-choice="active"
-                                        asp-items="@Model.Language">
-                                    <option value="" disabled="disabled">Choisissez votre langue</option>
-                                    <span asp-validation-for="LanguageID" class="text-danger"></span>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    @if (User.IsInRole(RoleName.Client))
-                    {
-                        <div class="col-md">
-                            <label asp-for="Company" class="form-label mt-4"></label>
-                            <input asp-for="Company" type="text" class="form-control" placeholder="Company Name"
-                                   onfocus="focused(this)" onfocusout="defocused(this)">
-                        </div>
-                    } *@
+                    
                     <div class="row mt-4">
                         <div class="col-md">
                             <button class="btn bg-gradient-dark btn-md float-start mt-6 mb-0" type="button" onclick="ProfileInformationEnregistrer()">
@@ -188,7 +144,7 @@
             return response.text();
         }).then((result)=>{
             document.querySelector("body").innerHTML = result;
-            //document.getElementById("ModifierProfile").innerHTML = result;
+            
             
         });
     }

@@ -15,7 +15,7 @@ public class RechercheController : Controller
     private readonly IWebHostEnvironment _webHostEnvironment;
 
     public RechercheController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
-      IConfiguration config)
+        IConfiguration config)
     {
         _context = context;
         _webHostEnvironment = webHostEnvironment;
@@ -25,7 +25,7 @@ public class RechercheController : Controller
     // GET: RechercheController
     //[Route("2147186/Recherche/Index")]
     //[Route("{controller}/{action}")]
-    public async Task<IActionResult> Index(string? motCles, string? criteres, int page = 1)
+    public ActionResult Index(string? motCles, string? criteres, int page = 1)
     {
         var listMotCles = new List<string>();
         if (motCles != null) listMotCles = motCles.Split('|').ToList();
@@ -33,17 +33,17 @@ public class RechercheController : Controller
         var listCriteres = new List<string>();
         if (criteres != null) listCriteres = criteres.Split('|').ToList();
 
-        var livres = _context.Livres.ToList();
-        var auteurs = _context.Auteurs.ToList();
-        var maisonEditions = _context.MaisonEditions.ToList();
+        var livres = _context.Livres.OrderBy(l => l.Titre).ToList();
+        var auteurs = _context.Auteurs.OrderBy(a => a.NomAuteur).ToList();
+        var maisonEditions = _context.MaisonEditions.OrderBy(m => m.Nom).ToList();
 
-        var categories = _context.Categories.ToList();
+        var categories = _context.Categories.OrderBy(c => c.Nom).ToList();
         var langues = _context.Langues.ToList();
         var typeLivres = _context.TypeLivres.ToList();
 
         List<Livre> livresRecherches;
 
-        livresRecherches = await _context.Livres
+        livresRecherches = _context.Livres
             .Include(l => l.LivreAuteurs)
             .ThenInclude(la => la.Auteur)
             .Include(l => l.Categories)
@@ -53,12 +53,14 @@ public class RechercheController : Controller
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
             .ThenInclude(ltl => ltl.TypeLivre)
-            .ToListAsync();
+            .OrderByDescending(l => l.DateAjout)
+            .ToList();
 
         if (criteres.IsEmpty()) //Lorsqu'il n'y a pas de criteres spécifiques
             for (var id = 0; id < listMotCles.Count(); ++id)
                 livresRecherches = livresRecherches
-                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + (listMotCles.Any() ? listMotCles[id] : "") + ".*", RegexOptions.IgnoreCase))
+                    .Where(livre => Regex.IsMatch(livre.Titre, ".*" + (listMotCles.Any() ? listMotCles[id] : "") + ".*",
+                        RegexOptions.IgnoreCase))
                     .ToList();
         else if (listCriteres.Count > 0)
             for (var i = 0; i < listMotCles.Count(); ++i)
@@ -134,6 +136,7 @@ public class RechercheController : Controller
             livresRecherches = livresRecherches
                 .Where(livre => Regex.IsMatch(livre.Titre, ".*" + listMotCles[0] + ".*", RegexOptions.IgnoreCase))
                 .ToList();
+
         var itemsPerPage = 15;
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
@@ -144,16 +147,18 @@ public class RechercheController : Controller
 
 
         return View(new IndexRechercheVM(motCles, criteres, livresRecherches
-            .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions, categories, langues, typeLivres, new List<DetailsLivreVM>()));
+                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions,
+            categories,
+            langues, typeLivres, new List<DetailsLivreVM>()));
     }
 
     // GET: RechercheController
     //[Route("/Recherche/Details")]
-    public async Task<IActionResult> Details(string id)
+    public ActionResult Details(string id)
     {
-        if (await _context.Livres.FindAsync(id) == null) return NotFound("Le livre à l'identifiant " + id + " n'a pas été trouvé.");
+        //var listTypeLivres = _context.TypeLivres.ToList();
 
-        return View(new DetailsLivreVM(_context.Livres
+        var livre = _context.Livres
             .Include(l => l.LivreAuteurs)
             .ThenInclude(la => la.Auteur)
             .Include(l => l.Categories)
@@ -163,6 +168,13 @@ public class RechercheController : Controller
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
             .ThenInclude(ltl => ltl.TypeLivre)
-            .FirstOrDefault(l => l.Id == id)));
+            .FirstOrDefault(l => l.Id == id);
+
+        if (livre == null) return NotFound();
+
+        return View(new DetailsLivreVM(livre.Id, livre.Titre, livre.LivreAuteurs.Select(la => la.Auteur),
+            livre.Categories.Select(lc => lc.Categorie), livre.Evaluations.Select(lc => lc.Note), livre.DatePublication,
+            livre.Couverture, livre.MaisonEdition,
+            livre.NbPages, livre.Resume, livre.NbExemplaires, livre.LivreTypeLivres, livre.ISBN, livre.Langue.Nom));
     }
 }
