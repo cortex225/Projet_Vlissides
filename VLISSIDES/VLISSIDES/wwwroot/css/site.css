@@ -2,6 +2,7 @@
     font-size: 14px;
     font-family: "Inter", sans-serif;
 }
+
 /*
 @media (min-width: 768px) {
     html {
@@ -12,15 +13,17 @@
 
 
 body {
-    min-width:360px !important;
+    min-width: 360px !important;
     margin-bottom: 60px;
     position: relative;
     background-color: #f8f4f1 !important;
     overflow-x: hidden;
 }
+
 li {
     list-style-type: none;
 }
+
 header {
     background-color: #f8f4f1 !important;
 }

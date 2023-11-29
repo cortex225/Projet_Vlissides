@@ -1,8 +1,7 @@
-﻿namespace VLISSIDES.ViewModels.GestionComptes
+﻿namespace VLISSIDES.ViewModels.GestionComptes;
+
+public class GestionComptesBanVM
 {
-    public class GestionComptesBanVM
-    {
-        public string Id { get; set; }
-        public string Username { get; set; }
-    }
+    public string Id { get; set; }
+    public string Username { get; set; }
 }

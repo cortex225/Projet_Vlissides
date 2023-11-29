@@ -1,6 +1,5 @@
-﻿namespace VLISSIDES.ViewModels.GestionEvenements
+﻿namespace VLISSIDES.ViewModels.GestionEvenements;
+
+public class GestionEvenementsConfirmerDemandeVM
 {
-    public class GestionEvenementsConfirmerDemandeVM
-    {
-    }
 }
