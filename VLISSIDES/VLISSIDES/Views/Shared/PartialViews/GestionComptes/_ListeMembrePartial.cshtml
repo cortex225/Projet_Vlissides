@@ -8,9 +8,9 @@
 <!--Recherche de membre-->
 <div class="container-fluid">
     <form id="rechercherCategorie" enctype="multipart/form-data">
-        <br />
+        <br/>
         <div class="input-group">
-            <input class="form-control" id="inputRechercherMembre" placeholder="Rechercher..." />
+            <input class="form-control" id="inputRechercherMembre" placeholder="Rechercher..."/>
             <button class="btn btn-primary p-2" type="button" onclick="RechercherMembre()" data-toggle="tooltip" title="Rechercher la catégorie">
                 Rechercher
             </button>
@@ -22,56 +22,50 @@
 <!--Liste-->
 <table class="table">
     <thead>
-        <tr>
-            <th scope="col">Nom</th>
-            <th class="cacher" scope="col">Courriel</th>
-            <th scope="col"></th>
-            
-        </tr>
+    <tr>
+        <th scope="col">Nom</th>
+        <th class="cacher" scope="col">Courriel</th>
+        <th scope="col"></th>
+
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <th scope="row">@item.Nom</th>
-                <td class="cacher">@item.Courriel</td>
-                <td class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Actions
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowModifierCompteMembre", "GestionComptes" , new { id=item.Id })')">Modifier</a></li>
-                        <li>
-                            @if (item.IsBanned)
-                            {
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th scope="row">@item.Nom</th>
+            <td class="cacher">@item.Courriel</td>
+            <td class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Actions
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowModifierCompteMembre", "GestionComptes", new { id = item.Id })')">Modifier</a>
+                    </li>
+                    <li>
+                        @if (item.IsBanned)
+                        {
+                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowUnbanMembre", "GestionComptes", new { id = item.Id })')">Débloquer</a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowBanMembre", "GestionComptes", new { id = item.Id })')">Bloquer</a>
+                        }
+                    </li>
+                    <li>
+                        <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationMembre", "GestionComptes", new { id = item.Id })')">
+                            Supprimer
+                        </a>
+                    </li>
 
-                                <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowUnbanMembre","GestionComptes",new {id=item.Id})')">Débloquer</a>
+                </ul>
 
-                            }
-                            else
-                            {
 
-                                <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowBanMembre","GestionComptes",new {id=item.Id})')">Bloquer</a>
+            </td>
 
-                            }
-                        </li>
-                        <li>
-                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationMembre", "GestionComptes" , new { id=item.Id })')">
-                                Supprimer
-                            </a>
-                        </li>
 
-                    </ul>
-                    
-                    
-                   
-                    
-                </td>
-                
-                    
-
-                
-            </tr>
-        }
+        </tr>
+    }
     </tbody>
 </table>

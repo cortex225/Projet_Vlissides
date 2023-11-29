@@ -1,9 +1,9 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Paiement;
@@ -96,18 +96,18 @@ public class PaiementController : Controller
         // Récupere les données de LivrePanier basées sur l'identifiant de l'utilisateur
         var panierItems = _context.LivrePanier
             .Where(lp => lp.UserId == userId)
-            .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres).ThenInclude(livretypelivre => livretypelivre.TypeLivre)
+            .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+            .ThenInclude(livretypelivre => livretypelivre.TypeLivre)
             .ToList();
-            //Tax livre
-
-            var taxLivreOptions = new TaxRateCreateOptions
-            {
-                DisplayName = "TPS",
-                Inclusive = false,
-                Percentage = 5,
-            };
-            var taxLivreService = new TaxRateService();
-            var taxLivreRate = taxLivreService.Create(taxLivreOptions);
+        //Tax livre
+        var taxLivreOptions = new TaxRateCreateOptions
+        {
+            DisplayName = "TPS",
+            Inclusive = false,
+            Percentage = 5
+        };
+        var taxLivreService = new TaxRateService();
+        var taxLivreRate = taxLivreService.Create(taxLivreOptions);
 
         var lineItems = panierItems.Select(item =>
         {
@@ -125,7 +125,7 @@ public class PaiementController : Controller
             {
                 PriceData = new SessionLineItemPriceDataOptions
                 {
-                    UnitAmountDecimal = (item.PrixApresPromotion ?? item.PrixOriginal)* 100,
+                    UnitAmountDecimal = (item.PrixApresPromotion ?? item.PrixOriginal) * 100,
                     Currency = "cad",
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
@@ -133,30 +133,45 @@ public class PaiementController : Controller
                         Images = new List<string> { encodedImgLivreUrl }
                     }
                 },
-                Quantity = item.Quantite
+                Quantity = item.Quantite,
+                TaxRates = new List<string> { taxLivreRate.Id }
             };
         }).ToList();
-//Recuperation de l'adresse de la nouvelle adresse de livraison
+        var don = _context.Dons.FirstOrDefault(d => d.UserId == userId);
+        var taxDonOptions = new TaxRateCreateOptions
+        {
+            DisplayName = "Don",
+            Inclusive = true,
+            Percentage = 0,
+        };
+        var taxDonService = new TaxRateService();
+        var taxDonRate = taxDonService.Create(taxDonOptions);
+        if (don != null)
+        {
+            lineItems.Add(new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(don.Montant) * 100,
+                    Currency = "cad",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = don.Nom,
 
-        // Détermine si vous utilisez une nouvelle adresse ou une adresse existante
-        string adresseId = string.IsNullOrEmpty(_context.Adresses.FirstOrDefault(a => a.Id == model.AdresseId).Id)
-            ? Request.Form["adresseId"]
-            : model.AdresseId;
-        // Récupére l'adresse sélectionnée
-        var selectedAddress = _context.Adresses.FirstOrDefault(a => a.Id == adresseId);
+                    }
+                },
+                Quantity = 1,
+                TaxRates = new List<string> { taxDonRate.Id }
+
+            });
+        }
+
 
         // Crée un dictionnaire de métadonnées pour stocker les informations sur l'adresse sélectionnée
         var metadata = new Dictionary<string, string>
         {
             { "type", "livre" },
-            { "adresseId", selectedAddress.Id },
-            { "noCivique", selectedAddress.NoCivique },
-            { "rue", selectedAddress.Rue },
-            { "noApartement", selectedAddress.NoApartement },
-            { "ville", selectedAddress.Ville },
-            { "province", selectedAddress.Province },
-            { "pays", selectedAddress.Pays },
-            { "codePostal", selectedAddress.CodePostal }
+
         };
 
         var options = new SessionCreateOptions
@@ -185,7 +200,7 @@ public class PaiementController : Controller
             },
             AutomaticTax = new SessionAutomaticTaxOptions
             {
-                Enabled = true // Active le calcul automatique des taxes
+                Enabled = false // Active le calcul automatique des taxes
             },
 
 

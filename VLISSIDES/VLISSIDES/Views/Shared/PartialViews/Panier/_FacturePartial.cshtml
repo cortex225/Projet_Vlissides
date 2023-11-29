@@ -4,7 +4,7 @@
 
 @{
     float prixDonEco = 5;
-    string prixtotal = (Model.PrixTotal + 5).ToString("F2", CultureInfo.GetCultureInfo("fr-CA"));
+    var prixtotal = (Model.PrixTotal + 5).ToString("F2", CultureInfo.GetCultureInfo("fr-CA"));
 
 }
 
@@ -14,8 +14,8 @@
         <div class="article d-flex justify-content-between">
             <div class="w-75">@article.Livre.Titre - @article.TypeLivre.Nom</div>
             <div class="quantite">@article.Quantite x</div>
-            <div class="prix-original">@article.PrixOriginal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
-            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</div>
+            <div class="prix-original">@article.PrixOriginal.ToString("F2", CultureInfo.GetCultureInfo("fr-CA"))</div>
+            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("F2", CultureInfo.GetCultureInfo("fr-CA"))</div>
         </div>
     }
 
@@ -27,19 +27,44 @@
             </label>
             <div class="collapse show mx-4" id="collapseExample">
                 <div>
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    @if (Model.PremierChoixDon)
+                    {
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1">
+                    }
                     <label class="form-check-label" for="flexRadioDefault1">
                         Vent Verdure et Plantation
                     </label>
                 </div>
                 <div>
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+
+                    @if (Model.DeuxiemeChoixDon)
+                    {
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" Selected="@Model.DeuxiemeChoixDon" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" Selected="@Model.DeuxiemeChoixDon">
+                    }
+
                     <label class="form-check-label" for="flexRadioDefault2">
                         Écosystème et Pérennité
                     </label>
                 </div>
                 <div>
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                    @if (Model.TroisiemeChoixDon)
+                    {
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="3" Selected="@Model.TroisiemeChoixDon" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="3" Selected="@Model.TroisiemeChoixDon">
+
+                    }
+
                     <label class="form-check-label" for="flexRadioDefault3">
                         Un arbre à la fois
                     </label>
@@ -102,6 +127,8 @@ function validerEtAppliquerCodePromo() {
             if (prixTotalElement) {
                 prixTotalElement.innerText = data.nouveauTotal.toFixed(2);
             }
+
+
             // Attende la mise à jour de la facture avant de modifier le DOM
 
                 var articles = document.querySelectorAll(".article");
@@ -119,9 +146,9 @@ function validerEtAppliquerCodePromo() {
                  document.getElementById('appliedPromoCode').innerText = codePromo;
                  document.getElementById('promoCodeDisplay').style.display = 'block';
                  document.getElementById('ajouterCodePromo').style.display = 'none';
+
+                 changerPrixDon();
             });
-
-
 
         } else {
             // Affiche un message d'erreur
@@ -135,29 +162,65 @@ function validerEtAppliquerCodePromo() {
 
 </script>
 
-<script>
+
+<script asp-append-version="true">
 function annulerCodePromo() {
     try {
-        document.getElementById('promoCodeDisplay').style.display = 'none';
-        var articles = document.querySelectorAll(".article");
-        articles.forEach(article => {
-            var prixOriginal = article.querySelector(".prix-original");
-            var prixPromo = article.querySelector(".prix-promo");
+        fetch(BASE_URL + '/Panier/AnnulerCodePromo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('La requête a échoué');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success && data.isValid) {
+                AfficherFacture(() => {
+                    var prixTotalElement = document.getElementById('prixTotal');
+                    if (prixTotalElement) {
+                        prixTotalElement.innerText = data.nouveauTotal.toFixed(2);
+                    }
+                    var promoCodeDisplay = document.getElementById('promoCodeDisplay');
+                    if (promoCodeDisplay) {
+                        promoCodeDisplay.style.display = 'none';
+                    }
+                    var articles = document.querySelectorAll(".article");
+                    articles.forEach(article => {
+                        var prixOriginal = article.querySelector(".prix-original");
+                        var prixPromo = article.querySelector(".prix-promo");
 
-            prixOriginal.classList.remove("prix-barre");
-            prixPromo.style.display = "none";
+                        if (prixOriginal) {
+                            prixOriginal.classList.remove("prix-barre");
+                        }
+                        if (prixPromo) {
+                            prixPromo.style.display = "none";
+                        }
+                    });
+
+                    var ajouterCodePromo = document.getElementById('ajouterCodePromo');
+                    if (ajouterCodePromo) {
+                        ajouterCodePromo.style.display = 'block';
+                    }
+                    changerPrixDon();
+
+                });
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de la validation du code promo', error);
+
         });
-        // Mise à jour du total du panier
-        var prixTotalElement = document.getElementById('prixTotal');
-        if (prixTotalElement) {
-            prixTotalElement.innerText = "@prixtotal";
-        }
-        // Attendre la mise à jour de la facture avant de modifier le DOM
-        AfficherFacture(() => {
-            document.getElementById('ajouterCodePromo').style.display = 'block';
-        });
-    } catch (message) {
-        console.error(message);
+    }
+    catch (e) {
+        console.error(e);
     }
 }
 </script>

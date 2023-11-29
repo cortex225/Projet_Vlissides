@@ -2,10 +2,9 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    
     ViewData["Title"] = "Événements";
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 
 }
 @model VLISSIDES.ViewModels.Evenements.EvenementsIndexVM
@@ -15,49 +14,43 @@
 <div class="container-fluid">
     @if (User.Identity.IsAuthenticated)
     {
-        
-   
-        @if(Model.MesEvenements != null)
+        @if (Model.MesEvenements != null)
         {
             @if (Model.MesEvenements.Count != 0)
             {
-               <h1>Mes événements</h1>
-               <div class="row">
+                <h1>Mes événements</h1>
+                <div class="row">
                     <div class="d-flex flex-wrap justify-content-around">
                         @foreach (var item in Model.MesEvenements)
                         {
                             <div style="width:40%; ">
-                                <partial name="PartialViews/Evenements/_EvenementReservedCardPartial" model="@item" />
+                                <partial name="PartialViews/Evenements/_EvenementReservedCardPartial" model="@item"/>
                             </div>
-
                         }
                     </div>
 
-               </div> 
+                </div>
             }
         }
     }
-    
+
     <h1>Les événements</h1>
     <div class="row">
         <div class="d-flex flex-wrap justify-content-around">
             @foreach (var item in Model.Evenements)
             {
-                @if (Model.MesEvenements.FirstOrDefault(e=>e.Id==item.Id)!=null)
+                @if (Model.MesEvenements.FirstOrDefault(e => e.Id == item.Id) != null)
                 {
-
                 }
                 else
                 {
                     <div style="width:40%; ">
-                    <partial name="PartialViews/Evenements/_EvenementCardPartial" model="@item" />
+                        <partial name="PartialViews/Evenements/_EvenementCardPartial" model="@item"/>
                     </div>
                 }
-                
-                
             }
         </div>
-        
+
     </div>
 </div>
 <script>const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);</script>
@@ -98,4 +91,3 @@
 </script>
 
 <script src="https://js.stripe.com/v3/"></script>
-

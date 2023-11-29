@@ -3,8 +3,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 @* Results *@
 <link rel="stylesheet" href="~/css/Gestion/Gestion.css" asp-append-version="true">
@@ -27,15 +27,15 @@
                 <p>@Html.DisplayFor(modelItem => evenement.Nom)</p>
             </td>
             <td class="cacher-5">@Html.DisplayFor(modelItem => evenement.DateDebut)</td>
-            <td class="cacher-5">@Html.DisplayFor(modelItem=>evenement.DateFin)</td>
-            <td class="cacher-4">@Html.DisplayFor(modelItem=>evenement.Lieu)</td>
-            <td class="cacher-2">@Html.DisplayFor(modelItem=>evenement.NbPlaces)</td>
+            <td class="cacher-5">@Html.DisplayFor(modelItem => evenement.DateFin)</td>
+            <td class="cacher-4">@Html.DisplayFor(modelItem => evenement.Lieu)</td>
+            <td class="cacher-2">@Html.DisplayFor(modelItem => evenement.NbPlaces)</td>
             <td class="cacher-2">
-                @Html.DisplayFor(modelItem=>evenement.NbPlacesMembreReserve)/
-                @Html.DisplayFor(modelItem=>evenement.NbPlacesMembre)
+                @Html.DisplayFor(modelItem => evenement.NbPlacesMembreReserve)/
+                @Html.DisplayFor(modelItem => evenement.NbPlacesMembre)
             </td>
             <td class="cacher-1">
-                @Html.DisplayFor(modelItem=>evenement.Prix) $
+                @Html.DisplayFor(modelItem => evenement.Prix) $
             </td>
             <td class="groupeBoutton">
                 <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("ModifierEvenement", "GestionEvenements", new { id = evenement.Id })')" data-toggle="tooltip" title="Modifier le livre">

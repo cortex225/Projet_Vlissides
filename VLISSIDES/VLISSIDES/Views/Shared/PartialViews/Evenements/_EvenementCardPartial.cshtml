@@ -2,8 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 @model VLISSIDES.ViewModels.Evenements.EvenementsVM
 
@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-3 text-center text-md-left div-event-img">
             @{
-                string couverture = string.Concat(BASE_URL_RAZOR, Model.Image);
+                var couverture = string.Concat(BASE_URL_RAZOR, Model.Image);
             }
             <img src="@Html.Raw(couverture)" alt="Image de l'événement" class="img-fluid rounded mb-3 mb-md-0">
         </div>

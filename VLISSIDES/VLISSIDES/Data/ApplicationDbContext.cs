@@ -212,7 +212,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             DateAdhesion = DateTime.Now,
             AdressePrincipaleId = "",
             IsBanned = false
-
         };
         // var employeHasher = password.HashPassword(UserEmploye, "Jaimelaprog1!");
         UserMembre.PasswordHash =
@@ -300,9 +299,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 PourcentageRabais = 10,
                 Image = "/img/images_Promo/birthday.jpg",
 
-                CodePromo = "BIRTHDAY",
+                CodePromo = "BIRTHDAY"
             }
         );
+
         #endregion
     }
 }

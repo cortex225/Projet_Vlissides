@@ -134,7 +134,7 @@
                         </a>
                     }
                 }
-                <button id="ajouterAuPanier" class="btn btn-primary " >
+                <button id="ajouterAuPanier" class="btn btn-primary ">
                     <i class="fa-solid  fa-basket-shopping"></i>
                     Ajouter au panier
                 </button>
@@ -273,19 +273,39 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 <script>
 function toggleActive(button, type) {
-    button.classList.toggle('active');
-    const selector = document.getElementById('quantity-selector-' + type);
-    if (button.classList.contains('active')) {
-        selector.style.display = 'flex';
-        button.style.backgroundColor = '#386bc0';
-        button.style.color = 'white';
+    // Détermine le type de bouton opposé (numérique ou papier)
+    const otherButtonType = type === 'digital' ? 'paper' : 'digital';
+    // Sélectionne le bouton opposé
+    const otherButton = document.querySelector('.price-button.' + otherButtonType);
 
-    } else {
+    // Vérifie si le bouton actuel est déjà sélectionné
+    if (button.classList.contains('active')) {
+        // Si déjà sélectionné, le désélectionne et masque le sélecteur de quantité
+        button.classList.remove('active');
+        const selector = document.getElementById('quantity-selector-' + type);
         selector.style.display = 'none';
-        button.style.backgroundColor = '#ffffff';
-        button.style.color = 'black';
+        button.style.backgroundColor = '#ffffff'; // Rétablit la couleur de fond par défaut
+        button.style.color = 'black'; // Rétablit la couleur du texte par défaut
+    } else {
+        // Si non sélectionné, le sélectionne et affiche le sélecteur de quantité
+        button.classList.add('active');
+        const selector = document.getElementById('quantity-selector-' + type);
+        selector.style.display = 'flex';
+        button.style.backgroundColor = '#386bc0'; // Met en surbrillance le bouton sélectionné
+        button.style.color = 'white'; // Change la couleur du texte pour contraste
+
+        // Désélectionne l'autre type s'il est déjà sélectionné
+        if (otherButton.classList.contains('active')) {
+            otherButton.classList.remove('active');
+            const otherSelector = document.getElementById('quantity-selector-' + otherButtonType);
+            otherSelector.style.display = 'none'; // Masque le sélecteur de l'autre type
+            otherButton.style.backgroundColor = '#ffffff'; // Rétablit la couleur de fond par défaut
+            otherButton.style.color = 'black'; // Rétablit la couleur du texte par défaut
+        }
     }
 }
+
+
 
 function changeQuantity(action, type) {
     const quantityInput = document.getElementById('quantity-' + type);

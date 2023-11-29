@@ -19,7 +19,7 @@
                 <div class="custom-file row">
                     <div class="col-6 text-center align-center">
                         @{
-                            string couverture = string.Concat(BASE_URL_RAZOR, Model.CoverImageUrl);
+                            var couverture = string.Concat(BASE_URL_RAZOR, Model.CoverImageUrl);
                         }
                         <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="65">
                     </div>
@@ -28,12 +28,12 @@
                 </div>
                 <div class="col">
                     <div class="form-group ">
-                        <label asp-for="Titre" class="control-label"></label>
+                        <label asp-for="Titre" class="control-label"></label>(<span class="text-danger">*</span>)
                         <input asp-for="Titre" class="form-control"/>
                         <span asp-validation-for="Titre" class="text-danger"></span>
                     </div>
                     <div class="form-group mt-1">
-                        <label asp-for="ISBN" class="control-label"></label>
+                        <label asp-for="ISBN" class="control-label"></label>(<span class="text-danger">*</span>)
                         <input asp-for="ISBN" class="form-control"/>
                         <span asp-validation-for="ISBN" class="text-danger"></span>
                     </div>
@@ -46,7 +46,7 @@
                         <select asp-for="MaisonEditionId" asp-items="Model.SelectMaisonEditions" class="form-control"></select>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NbPages" class="control-label"></label>
+                        <label asp-for="NbPages" class="control-label"></label>(<span class="text-danger">*</span>)
                         <input asp-for="NbPages" type="number" class="form-control" />
                         <span asp-validation-for="NbPages" class="text-danger"></span>
                     </div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label asp-for="CategorieIds" class="control-label"></label>
+                        <label asp-for="CategorieIds" class="control-label"></label>(<span class="text-danger">*</span>)
                         <select asp-for="CategorieIds" asp-items="Model.SelectListCategories" id="sCategories" multiple></select>
                         <span asp-validation-for="CategorieIds" class="text-danger"></span>
                     </div>
@@ -68,12 +68,12 @@
                             {
                                 <div id="inputsNeuf" class="">
                                     <div class="form-group">
-                                        <label asp-for="PrixNeuf" class="control-label"></label>
+                                        <label asp-for="PrixNeuf" class="control-label"></label>(<span class="text-danger">*</span>)
                                         <input asp-for="PrixNeuf"  class="form-control" />
                                         <span asp-validation-for="PrixNeuf" class="text-danger"></span>
                                     </div>
                                     <div>
-                                        <label asp-for="NbExemplaires" class="control-label"></label>
+                                        <label asp-for="NbExemplaires" class="control-label"></label>(<span class="text-danger">*</span>)
                                         <input asp-for="NbExemplaires" type="number" class="form-control" />
                                     </div>
                                 </div>
@@ -82,12 +82,12 @@
                             {
                                 <div id="inputsNeuf" class="visually-hidden">
                                     <div class="form-group">
-                                        <label asp-for="PrixNeuf" class="control-label"></label>
+                                        <label asp-for="PrixNeuf" class="control-label"></label>(<span class="text-danger">*</span>)
                                         <input asp-for="PrixNeuf"  class="form-control" />
                                         <span asp-validation-for="PrixNeuf" class="text-danger"></span>
                                     </div>
                                     <div>
-                                        <label asp-for="NbExemplaires" class="control-label"></label>
+                                        <label asp-for="NbExemplaires" class="control-label"></label>(<span class="text-danger">*</span>)
                                         <input asp-for="NbExemplaires" type="number" class="form-control" />
                                     </div>
                                 </div>
@@ -99,33 +99,35 @@
                             <label asp-for="@Model.Numerique"></label>
                             @if (Model.Numerique)
                             {
-                                
                                 <div id="inputNumerique" class="">
                                     <div class="custom-file row">
-                                        <label asp-for="NumeriqueFile" class="control-label"></label>
-                                        <input asp-for="NumeriqueFile" type="file" class="custom-file-input col-6 my-3" id="customFile">
+                                        <span>
+                                        <label asp-for="NumeriqueFile" class="control-label"></label>(<span class="text-danger">*</span>)
 
+                                        </span><input asp-for="NumeriqueFile" type="file" class="custom-file-input col-6 my-3" id="customFile">
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="PrixNumerique" class="control-label"></label>
-                                        <input asp-for="PrixNumerique"  class="form-control" />
+                                        <input asp-for="PrixNumerique" class="form-control"/>
                                         <span asp-validation-for="PrixNumerique" class="text-danger"></span>
                                     </div>
                                 </div>
                             }
                             else
                             {
-
                                 <div id="inputNumerique" class="visually-hidden">
                                     <div class="custom-file row">
-                                        <label asp-for="NumeriqueFile" class="control-label"></label>
+                                        <span>
+                                            <label asp-for="NumeriqueFile" class="control-label"></label>(<span class="text-danger">*</span>)
+                                            
+                                        </span>
                                         <input asp-for="NumeriqueFile" type="file" class="custom-file-input col-6 my-3" id="customFile">
                                         <span asp-validation-for="NumeriqueFile" class="text-danger"></span>
 
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="PrixNumerique" class="control-label"></label>
-                                        <input asp-for="PrixNumerique"  class="form-control" />
+                                        <input asp-for="PrixNumerique" class="form-control"/>
                                         <span asp-validation-for="PrixNumerique" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -150,7 +152,7 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Resume" class="control-label"></label>
+            <label asp-for="Resume" class="control-label"></label>(<span class="text-danger">*</span>)
             <textarea asp-for="Resume"rows="5" style="height:100%;" class="form-control"></textarea>
             <span asp-validation-for="Resume" class="text-danger"></span>
         </div>
@@ -175,7 +177,7 @@
 </script>
 <script type="text/javascript">
     function ShowInputsNeuf() {
-        console.log("aloo");
+        
         var cb = document.getElementById("cbNeuf");
         var div = document.getElementById("inputsNeuf");
         if (cb.checked == true) {
@@ -222,7 +224,6 @@
 
             return response.text();
         }).then((result) => {
-            console.log(result);
             if (result == "") {
 
                 $('.modal').modal('hide');

@@ -1,33 +1,47 @@
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
-<link rel="stylesheet" href="~/css/NavBar/NavBarTop.css" />
-<nav class="navbar navbar-expand-sm container-fluid justify-content-between" id="navTop">
-    <!-- Logo fourmi ailée. Ce logo permet de retourner à l'accueil -->
-    <a id="IconeNavBar" asp-area="" asp-controller="Accueil" asp-action="Index">
-        <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" />
-    </a>
-
-    <!-- Barre de recherche -->
-    <div id="divRecherche" class="d-flex flex-wrap">
-        <div id="divOption" class="dropdown">
-            <label id="OptionLabel" for="dropdownRechercheNavbar" class="selected-category">Trier par :</label>
-            <select name="dropdownRechercheNavbar" class="form-select recherche-select" id="dropdownRechercheNavbar">
-                <option value="titre" selected onclick="OptionChoisieNavBar('Titre :')">Titre</option>
-                <option value="auteur" onclick="OptionChoisieNavBar('Auteur :')">Auteur</option>
-                <option value="categorie" onclick="OptionChoisieNavBar('Catégorie :')">Catégorie</option>
-            </select>
+<link rel="stylesheet" href="~/css/NavBar/NavBarTop.css" asp-append-version="true"/>
+<nav class="navbar navbar-expand-lg ">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a id="IconeNavBar" asp-area="" asp-controller="Accueil" asp-action="Index">
+            <img src="~/img/Logo/Logo_sans_fond.png" alt="logo" style="height: 110px" />
+        </a>
+        <!-- Conteneur pour les éléments à gauche (Logo et Navigation) -->
+        <div class="d-flex ">
+            <!-- Bouton de basculement pour les appareils mobiles -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <partial name="_Navigation"/>
             </div>
-        <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="if (event.key == 'Enter')Recherche()">
-        <button id="boutonRechercheNavBar" type="button" class="btn btn-secondary recherche-btn" onclick="RechercheNavBar()">
-            <i class="fa-solid fa-magnifying-glass fa-sm"></i>
-        </button>
-    </div>
 
-    <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
-    <partial name="_LoginPartial" />
+
+        <!-- Barre de Recherche -->
+        <div class="recherche-container mx-auto"id="divRecherche">
+            <div class="recherche-group">
+                <div id="divOption" class="category-dropdown">
+                    <label id="OptionLabel" for="dropdownRechercheNavbar" class="selected-category">Trier par :</label>
+                    <select name="dropdownRechercheNavbar" class="form-select recherche-select" id="dropdownRechercheNavbar">
+                        <option value="titre" selected onclick="OptionChoisieNavBar('Titre')">Titre</option>
+                        <option value="auteur" onclick="OptionChoisieNavBar('Auteur')">Auteur</option>
+                        <option value="categorie" onclick="OptionChoisieNavBar('Catégorie')">Catégorie</option>
+                    </select>
+                </div>
+                <input id="barreRechercheNavbar" type="text" class="form-control recherche-input" placeholder="Rechercher..." onkeyup="if (event.key == 'Enter')Recherche()">
+                <button id="boutonRechercheNavBar" type="button" class="btn btn-secondary recherche-btn" onclick="RechercheNavBar()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Vue partielle contenant tout ce qui est en lien avec les comptes (connexion, inscription, etc...) -->
+        <partial name="_LoginPartial"/>
+    </div>
 </nav>
+
 <script>
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 
