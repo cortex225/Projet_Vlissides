@@ -110,7 +110,7 @@ public class GestionAuteursController : Controller
     public async Task<IActionResult> ModifierAuteur(string id, string nom)
     {
         var auteur = await _context.Auteurs.FindAsync(id);
-        if (auteur == null) return NotFound("Auteur à l'identifiant " + id + " n'a pas été trouvé.");
+        if (auteur == null) return NotFound("L'auteur à l'identifiant " + id + " n'a pas été trouvé.");
         if (ModelState.IsValid)
         {
             auteur.NomAuteur = nom;
@@ -121,11 +121,11 @@ public class GestionAuteursController : Controller
         return View();
     }
 
-    [HttpPost]
+    [HttpDelete]
     public async Task<IActionResult> SupprimerAuteur(string id)
     {
         var auteur = await _context.Auteurs.FindAsync(id);
-        if (auteur == null) return NotFound("Auteur à l'identifiant " + id + " n'a pas été trouvé.");
+        if (auteur == null) return NotFound("L'auteur à l'identifiant " + id + " n'a pas été trouvé.");
         //Si l'auteur n'est pas trouvé
         //Enlever l'auteur pour chaque livre
         _context.Livres.Where(l => l.LivreAuteurs.Any(a => a.AuteurId.Contains(auteur.Id)))
@@ -139,7 +139,7 @@ public class GestionAuteursController : Controller
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
         var auteur = await _context.Auteurs.FindAsync(id);
-        if (auteur == null) return NotFound("Auteur à l'identifiant " + id + " n'a pas été trouvé.");
+        if (auteur == null) return NotFound("L'auteur à l'identifiant " + id + " n'a pas été trouvé.");
 
         return PartialView("PartialViews/Modals/Auteurs/_DeleteAuteurPartial", auteur);
     }

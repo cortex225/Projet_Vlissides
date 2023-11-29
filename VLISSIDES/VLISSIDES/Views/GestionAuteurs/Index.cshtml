@@ -158,7 +158,7 @@
 /*Script pour la supprimation*/
             function SupprimerAuteur(id = "") {
         fetch(BASE_URL+`/GestionAuteurs/SupprimerAuteur?id=${id}`, {
-                method: 'POST',
+            method: 'Delete',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
