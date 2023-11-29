@@ -30,7 +30,7 @@ namespace VLISSIDES.ViewModels.GestionEvenements
         public GestionEvenementsIndexVM(Evenement evenement)
         {
             Id = evenement.Id;
-            Nom = evenement.Id;
+            Nom = evenement.Nom;
             Description = evenement.Description;
             Image = evenement.Image;
             DateDebut = evenement.DateDebut;

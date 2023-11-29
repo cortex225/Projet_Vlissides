@@ -35,10 +35,11 @@ namespace VLISSIDES.Controllers
             //La liste à afficher
             return View(_context.Evenements.Select(e => new GestionEvenementsIndexVM(e)).ToList());
         }
-        public IActionResult AfficherEvenements() => PartialView("PartialViews/GestionEvenements/_ListeEvenementsPartial", _context.Evenements.Select(e => e));
+        public IActionResult AfficherEvenements() => PartialView("PartialViews/GestionEvenements/_ListeEvenementsPartial",
+                _context.Evenements.Select(e => e).ToList());
         public IActionResult AfficherReservations() => PartialView("PartialViews/GestionEvenements/_ListeReservationsPartial"
             , _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).Where(r => r.EnDemandeAnnuler == true)
-            .Select(r => new GestionEvenementsReservationVM(r)));
+            .Select(r => new GestionEvenementsReservationVM(r)).ToList());
         public IActionResult AjouterEvenement() => PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial",
             new GestionEvenementsAjouterVM());
         [HttpPost]
@@ -100,7 +101,7 @@ namespace VLISSIDES.Controllers
 
         public IActionResult ModifierEvenement(string id) =>
             PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial",
-                new GestionEvenementsModifierVM(_context.Evenements.FirstOrDefault(e => e.Id == id)));
+                new GestionEvenementsModifierVM(_context.Evenements.FirstOrDefault(e => e.Id == id) ?? new() { Id = id }));
         [HttpPost]
         public async Task<IActionResult> ModifierEvenement(GestionEvenementsModifierVM vm)
         {
@@ -175,7 +176,8 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmerDemande(string id)
         {
-            var reservation = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).FirstOrDefault(r => r.Id == id);
+            var reservation = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
+                .FirstOrDefault(r => r.Id == id);
             if (reservation == null)
             {
                 return NotFound();
@@ -200,7 +202,8 @@ namespace VLISSIDES.Controllers
         [HttpPost]
         public async Task<IActionResult> AnnulerDemande(string id)
         {
-            var reservation = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).FirstOrDefault(r => r.Id == id);
+            var reservation = _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
+                .FirstOrDefault(r => r.Id == id);
             if (reservation == null)
             {
                 return NotFound();
