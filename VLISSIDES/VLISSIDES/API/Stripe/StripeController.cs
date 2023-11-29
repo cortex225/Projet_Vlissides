@@ -133,14 +133,16 @@ public class StripeController : Controller
             .ToListAsync();
 
 
-        var nouvelleCommande = new CommandesVM
+            var nouvelleCommande = new CommandesVM
         {
+            Id = _context.Commandes.Count().ToString(),
             DateCommande = DateTime.Now,
             PrixTotal = session.AmountTotal.Value / 100m,
             MembreUserName = customer.UserName,
             AdresseId = customer?.AdressePrincipaleId,
             StatutId = "1"
         };
+
 
         nouvelleCommande.LivreCommandes = panierItems.Select(lc => new LivreCommandeVM
         {
@@ -149,6 +151,8 @@ public class StripeController : Controller
             Quantite = (int)lc.Quantite,
             PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
         }).ToList();
+
+        // Créer la commande
 
         var nbCommandes = _context.Commandes.Count().ToString();
         var commande = new Commande
@@ -161,17 +165,23 @@ public class StripeController : Controller
             StatutCommandeId = nouvelleCommande.StatutId,
             PaymentIntentId = session.PaymentIntentId, //Récupérer le paiement intent id de la session
             EnDemandeAnnulation = false,
-            LivreCommandes = nouvelleCommande.LivreCommandes.Select(lc => new LivreCommande
-            {
-                LivreId = lc.Livre.Id,
-                CommandeId = nouvelleCommande.Id,
-                Quantite = lc.Quantite,
-                PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
-            }).ToList()
+
         };
 
         _context.Commandes.Add(commande);
         await _context.SaveChangesAsync();
+
+        foreach (var item in nouvelleCommande.LivreCommandes)
+        {
+            var livreCommande = new LivreCommande
+            {
+                CommandeId = commande.Id,
+                LivreId = item.Livre.Id,
+                Quantite = item.Quantite,
+                PrixAchat = item.PrixAchat
+            };
+            _context.LivreCommandes.Add(livreCommande);
+        }
 
         // Récupérer l'URL complète du logo à partir de l'application
         var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
