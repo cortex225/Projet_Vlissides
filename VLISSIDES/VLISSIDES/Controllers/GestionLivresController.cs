@@ -253,51 +253,9 @@ public class GestionLivresController : Controller
             _context.MaisonEditions.ToList(), _context.Categories.ToList(), _context.Langues.ToList(), _context.TypeLivres.ToList()));
     }
 
-    // GET: Livre/Details/5
-    public async Task<IActionResult> Details(string id)
-    {
-        if (id == null || _context.Livres == null) return NotFound();
-
-        var livre = await _context.Livres
-            .Include(l => l.LivreAuteurs)
-            .Include(l => l.MaisonEdition)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (livre == null) return NotFound();
-
-        return View(livre);
-    }
-
-    // GET: C
     [Route("2147186/GestionLivres/Ajouter")]
     public IActionResult Ajouter() => PartialView("PartialViews/Modals/InventaireLivres/_AjouterPartial", new AjouterVM(
-            _context.Categories.Select(x => new SelectListItem
-            {
-                Text = x.Nom,
-                Value = x.Id
-            }).ToList(),
-            _context.Auteurs.Select(x => new SelectListItem
-            {
-                Text = x.NomAuteur,
-                Value = x.Id
-            }).ToList(),
-            _context.MaisonEditions.Select(x => new SelectListItem
-            {
-                Text = x.Nom,
-                Value = x.Id
-            }).ToList(),
-            _context.TypeLivres.Select(x => new SelectListItem
-            {
-                Text = x.Nom,
-                Value = x.Id
-            }).ToList(),
-            _context.Langues.Select(x => new SelectListItem
-            {
-                Text = x.Nom,
-                Value = x.Id
-            }).ToList(),
-            null,
-            null
-            ));
+            _context.Categories, _context.Auteurs, _context.MaisonEditions, _context.Langues));
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -352,7 +310,6 @@ public class GestionLivresController : Controller
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
             if (vm.Papier)
-                //var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
                 listeType.Add(new LivreTypeLivre
                 {
                     LivreId = id,
@@ -361,7 +318,6 @@ public class GestionLivresController : Controller
                 });
 
             if (vm.Numerique)
-                //var numerique = _context.TypeLivres.FirstOrDefault(x => x.Id == "2");
                 listeType.Add(new LivreTypeLivre
                 {
                     LivreId = id,
@@ -376,16 +332,13 @@ public class GestionLivresController : Controller
                 NbExemplaires = vm.NbExemplaires,
                 NbPages = vm.NbPages,
                 ISBN = vm.ISBN,
-                //AuteurId = vm.AuteurId,
                 MaisonEdition = _context.MaisonEditions.First(me => me.Id.Equals(vm.MaisonEditionId)),
                 Couverture = vm.CoverImageUrl,
                 UrlNumerique = vm.NumeriqueUrl,
                 LivreTypeLivres = listeType,
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
-                //CategorieId = vm.CategorieId,
                 LangueId = vm.LangueId,
-                //TypeLivreId = vm.TypeLivreId
             };
             //Auteur
             if (vm.AuteurIds != null)
@@ -395,7 +348,6 @@ public class GestionLivresController : Controller
                     livre.LivreAuteurs = new List<LivreAuteur>();
                     foreach (var auteurId in vm.AuteurIds)
                     {
-                        //livre.LivreAuteurs.Add(_context.Auteurs.FirstOrDefault(a => a.Id == auteurId));
                         livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
                         {
                             LivreId = id,
@@ -421,13 +373,9 @@ public class GestionLivresController : Controller
                 }
             }
 
-
-
             _context.Livres.Add(livre);
             _context.SaveChanges();
 
-
-            //return RedirectToAction("Inventaire");
             return Ok();
         }
 
@@ -455,8 +403,11 @@ public class GestionLivresController : Controller
     }
 
     [Route("2147186/GestionLivres/Modifier")]
-    public IActionResult Modifier(string id)
+    public async Task<IActionResult> Modifier(string id)
     {
+        if (await _context.Livres.FindAsync(id) == null) return NotFound("Le livre à l'identifiant " + id
+            + " n'a pas été trouvé.");
+
         var livre = _context.Livres
             .Include(l => l.LivreAuteurs)
             .ThenInclude(la => la.Auteur)
@@ -467,23 +418,7 @@ public class GestionLivresController : Controller
             .ThenInclude(lc => lc.Categorie)
             .FirstOrDefault(x => x.Id == id);
         if (livre == null) return NotFound();
-        var vm = new ModifierVM(livre, _context.Categories.Select(x => new SelectListItem
-        {
-            Text = x.Nom,
-            Value = x.Id
-        }).ToList(), _context.MaisonEditions.Select(x => new SelectListItem
-        {
-            Text = x.Nom,
-            Value = x.Id
-        }).ToList(), _context.MaisonEditions.Select(x => new SelectListItem
-        {
-            Text = x.Nom,
-            Value = x.Id
-        }).ToList(), _context.Langues.Select(x => new SelectListItem
-        {
-            Text = x.Nom,
-            Value = x.Id
-        }).ToList(), null, null);
+        var vm = new ModifierVM(livre, _context.Categories, _context.Auteurs, _context.MaisonEditions, _context.Langues);
         return PartialView("PartialViews/Modals/InventaireLivres/_EditPartial", vm);
     }
 
@@ -637,7 +572,8 @@ public class GestionLivresController : Controller
     [HttpDelete]
     public async Task<IActionResult> Delete(string id)
     {
-        if (id == null || _context.Livres == null) return NotFound();
+        if (await _context.Livres.FindAsync(id) == null) return NotFound("Le livre à l'identifiant " + id
+            + " n'a pas été trouvé.");
 
         var livre = await _context.Livres
             .Include(l => l.LivreAuteurs)
@@ -651,13 +587,14 @@ public class GestionLivresController : Controller
     }
 
     // POST: Livre/Delete/5
-    [HttpPost]
+    [HttpDelete]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(string id)
     {
-        if (_context.Livres == null) return Problem("Entity set 'ApplicationDbContext.Livres'  is null.");
         var livre = await _context.Livres.FindAsync(id);
+        if (livre == null) return NotFound("Le livre à l'identifiant " + id + " n'a pas été trouvé.");
+
         if (livre != null) _context.Livres.Remove(livre);
 
         await _context.SaveChangesAsync();
@@ -668,10 +605,9 @@ public class GestionLivresController : Controller
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
-        if (id == null) return NotFound();
-
         var livre = await _context.Livres.FindAsync(id);
-        if (livre == null) return NotFound();
+        if (await _context.Livres.FindAsync(id) == null) return NotFound("Le livre à l'identifiant " + id
+            + " n'a pas été trouvé.");
 
         return PartialView("PartialViews/Modals/InventaireLivres/_DeleteInventairePartial", livre);
     }
@@ -688,7 +624,9 @@ public class GestionLivresController : Controller
     public async Task<IActionResult> ModifierLivreQuantite(string id, int quantite)
     {
         var livre = await _context.Livres.FindAsync(id);
-        if (livre == null) return BadRequest();
+        if (await _context.Livres.FindAsync(id) == null) return NotFound("Le livre à l'identifiant " + id
+            + " n'a pas été trouvé.");
+
         livre.NbExemplaires = quantite;
         await _context.SaveChangesAsync();
         return Ok();

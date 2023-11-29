@@ -101,9 +101,8 @@ public class AjouterVM
         NumeriqueUrl = "";
         NumeriqueFile = null;
     }
-    public AjouterVM(List<SelectListItem>? selectListCategories, List<SelectListItem>? selectListAuteurs,
-       List<SelectListItem>? selectMaisonEditions, List<SelectListItem>? SelectionTypes,
-       List<SelectListItem>? selectLangues, IFormFile? papierFile, IFormFile? numeriqueFile)
+    public AjouterVM(IEnumerable<Categorie> selectListCategories, IEnumerable<Auteur> selectListAuteurs,
+       IEnumerable<MaisonEdition> selectMaisonEditions, IEnumerable<Langue> selectLangues)
     {
         Titre = "";
         Resume = "";
@@ -114,12 +113,24 @@ public class AjouterVM
         ISBN = "";
         CategorieIds = new();
         Categories = new();
-        SelectListCategories = selectListCategories;
+        SelectListCategories = selectListCategories.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
         AuteurIds = new();
         Auteurs = new();
-        SelectListAuteurs = selectListAuteurs;
+        SelectListAuteurs = selectListAuteurs.Select(x => new SelectListItem
+        {
+            Text = x.NomAuteur,
+            Value = x.Id
+        }).ToList();
         MaisonEditionId = "";
-        SelectMaisonEditions = selectMaisonEditions;
+        SelectMaisonEditions = selectMaisonEditions.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
         TypeLivreId = "";
         Numerique = false;
         PrixNumerique = 0;
@@ -127,10 +138,14 @@ public class AjouterVM
         PrixPapier = 0;
         Types = new();
         LangueId = "";
-        SelectLangues = selectLangues;
+        SelectLangues = selectLangues.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
         CoverImageUrl = "";
-        CoverPhoto = papierFile;
+        CoverPhoto = null;
         NumeriqueUrl = "";
-        NumeriqueFile = numeriqueFile;
+        NumeriqueFile = null;
     }
 }

@@ -25,7 +25,7 @@ public class RechercheController : Controller
     // GET: RechercheController
     //[Route("2147186/Recherche/Index")]
     //[Route("{controller}/{action}")]
-    public ActionResult Index(string? motCles, string? criteres, int page = 1)
+    public async Task<IActionResult> Index(string? motCles, string? criteres, int page = 1)
     {
         var listMotCles = new List<string>();
         if (motCles != null) listMotCles = motCles.Split('|').ToList();
@@ -43,7 +43,7 @@ public class RechercheController : Controller
 
         List<Livre> livresRecherches;
 
-        livresRecherches = _context.Livres
+        livresRecherches = await _context.Livres
             .Include(l => l.LivreAuteurs)
             .ThenInclude(la => la.Auteur)
             .Include(l => l.Categories)
@@ -53,7 +53,7 @@ public class RechercheController : Controller
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
             .ThenInclude(ltl => ltl.TypeLivre)
-            .ToList();
+            .ToListAsync();
 
         if (criteres.IsEmpty()) //Lorsqu'il n'y a pas de criteres spécifiques
             for (var id = 0; id < listMotCles.Count(); ++id)
@@ -149,11 +149,11 @@ public class RechercheController : Controller
 
     // GET: RechercheController
     //[Route("/Recherche/Details")]
-    public ActionResult Details(string id)
+    public async Task<IActionResult> Details(string id)
     {
-        //var listTypeLivres = _context.TypeLivres.ToList();
+        if (await _context.Livres.FindAsync(id) == null) return NotFound("Le livre à l'identifiant " + id + " n'a pas été trouvé.");
 
-        var livre = _context.Livres
+        return View(new DetailsLivreVM(_context.Livres
             .Include(l => l.LivreAuteurs)
             .ThenInclude(la => la.Auteur)
             .Include(l => l.Categories)
@@ -163,10 +163,6 @@ public class RechercheController : Controller
             .Include(l => l.MaisonEdition)
             .Include(l => l.LivreTypeLivres)
             .ThenInclude(ltl => ltl.TypeLivre)
-            .FirstOrDefault(l => l.Id == id);
-
-        if (livre == null) return NotFound();
-
-        return View(new DetailsLivreVM(livre));
+            .FirstOrDefault(l => l.Id == id)));
     }
 }

@@ -20,13 +20,14 @@ public class GestionLivresAfficherVM
 
     public GestionLivresAfficherVM(Livre livre)
     {
+        livre ??= new();
         Id = livre.Id;
         Image = livre.Couverture;
         Titre = livre.Titre;
         ISBN = livre.ISBN;
         Categories = livre.Categories.Select(c => c.Categorie.Nom).ToList();
         LivreTypeLivres = livre.LivreTypeLivres.Select(ltl => ltl.TypeLivre.Nom).ToList();
-        ListAuteur = livre.LivreAuteurs.Select(la => la.Auteur.NomAuteur).ToList();
+        ListAuteur = (livre.LivreAuteurs ?? new()).Select(la => la.Auteur.NomAuteur).ToList();
         Quantite = livre.NbExemplaires;
     }
 }

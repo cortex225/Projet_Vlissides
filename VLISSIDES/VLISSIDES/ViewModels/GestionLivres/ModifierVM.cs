@@ -103,10 +103,10 @@ public class ModifierVM
         NumeriqueUrl = "";
         NumeriqueFile = null;
     }
-    public ModifierVM(Livre livre, List<SelectListItem>? selectListCategories, List<SelectListItem>? selectListAuteurs,
-        List<SelectListItem>? selectMaisonEditions, List<SelectListItem>? selectLangues, IFormFile? coverPhoto,
-        IFormFile? numeriqueFile = null)
+    public ModifierVM(Livre livre, IEnumerable<Categorie> categories, IEnumerable<Auteur> auteurs,
+        IEnumerable<MaisonEdition> maisonEditions, IEnumerable<Langue> langues)
     {
+        livre ??= new();
         Id = livre.Id;
         Titre = livre.Titre;
         Resume = livre.Resume;
@@ -117,12 +117,24 @@ public class ModifierVM
         ISBN = livre.ISBN;
         CategorieIds = livre.Categories.Select(c => c.Categorie.Id).ToList();
         Categories = livre.Categories.Select(c => c.Categorie.Nom).ToList();
-        SelectListCategories = selectListCategories;
+        SelectListCategories = categories.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
         AuteurIds = (livre.LivreAuteurs ?? new()).Select(la => la.AuteurId).ToList();
         Auteurs = (livre.LivreAuteurs ?? new()).Select(la => la.Auteur.NomAuteur).ToList();
-        SelectListAuteurs = selectListAuteurs;
+        SelectListAuteurs = auteurs.Select(x => new SelectListItem
+        {
+            Text = x.NomAuteur,
+            Value = x.Id
+        }).ToList();
         MaisonEditionId = (livre.MaisonEdition ?? new()).Nom;
-        SelectMaisonEditions = selectMaisonEditions;
+        SelectMaisonEditions = maisonEditions.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
         TypeLivreId = "";
         Numerique = livre.LivreTypeLivres.Any(ltl => ltl.TypeLivre.Nom.Equals("Numérique"));
         PrixNumerique = Numerique ? livre.LivreTypeLivres.First(ltl => ltl.TypeLivre.Nom.Equals("Numérique")).Prix : 0;
@@ -130,10 +142,14 @@ public class ModifierVM
         PrixPapier = Papier ? livre.LivreTypeLivres.First(ltl => ltl.TypeLivre.Nom.Equals("Papier")).Prix : 0;
         Types = new();
         LangueId = livre.LangueId;
-        SelectLangues = selectLangues;
+        SelectLangues = langues.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
         CoverImageUrl = livre.Couverture;
-        CoverPhoto = coverPhoto;
+        CoverPhoto = null;
         NumeriqueUrl = livre.UrlNumerique;
-        NumeriqueFile = numeriqueFile;
+        NumeriqueFile = null;
     }
 }
