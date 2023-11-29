@@ -5,7 +5,6 @@ namespace VLISSIDES.Models;
 
 public class Promotion
 {
-
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string Id { get; set; }
@@ -19,7 +18,7 @@ public class Promotion
     public DateTime DateDebut { get; set; }
 
     [Display(Name = "Fin de la promotion")]
-    public DateTime? DateFin { get; set; }=null;
+    public DateTime? DateFin { get; set; } = null;
 
     public string? Image { get; set; }
 
