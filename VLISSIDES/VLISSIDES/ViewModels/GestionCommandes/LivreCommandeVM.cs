@@ -5,7 +5,7 @@ namespace VLISSIDES.ViewModels.GestionCommandes;
 
 public class LivreCommandeVM
 {
-    [DisplayName("Date de commande")] public string Livre { get; set; }
+    [DisplayName("Date de commande")] public Livre Livre { get; set; }
 
     [DisplayName("Date de commande")] public string CommandeId { get; set; }
 
@@ -17,7 +17,7 @@ public class LivreCommandeVM
 
     public LivreCommandeVM()
     {
-        Livre = "";
+        Livre = new();
         CommandeId = "";
         Quantite = 0;
         PrixAchat = 0;
@@ -25,7 +25,7 @@ public class LivreCommandeVM
     }
     public LivreCommandeVM(LivreCommande livreCommande)
     {
-        Livre = livreCommande.Livre.Titre;
+        Livre = livreCommande.Livre;
         CommandeId = livreCommande.CommandeId;
         Quantite = livreCommande.Quantite;
         PrixAchat = livreCommande.PrixAchat;
