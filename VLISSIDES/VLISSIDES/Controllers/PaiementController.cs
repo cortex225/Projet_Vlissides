@@ -137,28 +137,7 @@ public class PaiementController : Controller
                 Quantity = item.Quantite
             };
         }).ToList();
-//Recuperation de l'adresse de la nouvelle adresse de livraison
 
-        // Détermine si vous utilisez une nouvelle adresse ou une adresse existante
-        string adresseId = string.IsNullOrEmpty(_context.Adresses.FirstOrDefault(a => a.Id == model.AdresseId).Id)
-            ? Request.Form["adresseId"]
-            : model.AdresseId;
-        // Récupére l'adresse sélectionnée
-        var selectedAddress = _context.Adresses.FirstOrDefault(a => a.Id == adresseId);
-
-        // Crée un dictionnaire de métadonnées pour stocker les informations sur l'adresse sélectionnée
-        var metadata = new Dictionary<string, string>
-        {
-            { "type", "livre" },
-            { "adresseId", selectedAddress.Id },
-            { "noCivique", selectedAddress.NoCivique },
-            { "rue", selectedAddress.Rue },
-            { "noApartement", selectedAddress.NoApartement },
-            { "ville", selectedAddress.Ville },
-            { "province", selectedAddress.Province },
-            { "pays", selectedAddress.Pays },
-            { "codePostal", selectedAddress.CodePostal }
-        };
 
         var options = new SessionCreateOptions
         {
@@ -179,7 +158,6 @@ public class PaiementController : Controller
                 Name = "auto", // Met à jour le nom du client lorsqu'il passe une commande
                 Shipping = "auto" // Met à jour les informations d'expédition du client lorsqu'il passe une commande
             },
-            Metadata = metadata,
             InvoiceCreation = new SessionInvoiceCreationOptions
             {
                 Enabled = true // Crée une facture pour chaque session de paiement
@@ -188,6 +166,7 @@ public class PaiementController : Controller
             {
                 Enabled = true // Active le calcul automatique des taxes
             },
+            
 
 
             SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),
