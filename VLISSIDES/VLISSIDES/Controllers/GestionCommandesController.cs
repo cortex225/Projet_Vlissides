@@ -125,6 +125,7 @@ public class GestionCommandesController : Controller
             .FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
+        if (livreCommande == null) return BadRequest();
         if (livreCommande.QuantiteARetourner == null) return BadRequest();
         var vm = new RefundVM
         {

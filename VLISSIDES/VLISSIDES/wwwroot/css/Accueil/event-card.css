@@ -1,7 +1,8 @@
 
-p{
-    margin:0;
+p {
+    margin: 0;
 }
+
 .event-card {
     display: flex;
     flex-direction: column; /* Organise le contenu verticalement */
@@ -184,10 +185,10 @@ p{
         gap: 10px;
     }
 
-        .event-date-time .date, .event-date-time .discount-box {
-            width: 100%; /* Assurez-vous que la date et le rabais prennent toute la largeur */
-            text-align: center; /* Centrez le texte pour un meilleur rendu sur mobile */
-        }
+    .event-date-time .date, .event-date-time .discount-box {
+        width: 100%; /* Assurez-vous que la date et le rabais prennent toute la largeur */
+        text-align: center; /* Centrez le texte pour un meilleur rendu sur mobile */
+    }
 
     .sticker {
         position: static;
@@ -203,6 +204,7 @@ p{
         margin-right: auto;
     }
 }
+
 @media only screen and (max-width: 767px) {
     .badge {
         top: 20px;

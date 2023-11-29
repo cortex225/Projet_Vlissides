@@ -1,6 +1,7 @@
-﻿#Description{
-    max-height:75px;
+﻿#Description {
+    max-height: 75px;
 }
+
 @media only screen and (max-width: 880px) {
     .cacher-2 {
         position: absolute;
