@@ -23,6 +23,14 @@ p {
     margin: 12px;
 }
 
+.div-event-img {
+    max-height: 120px !important;
+}
+
+.img-event {
+    max-height: 120px !important;
+}
+
 .event-image {
     object-fit: cover !important;
     border-radius: 15px !important;
