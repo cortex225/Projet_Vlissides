@@ -2,8 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    string myURL = Context.Request.Host.Value;
-    string BASE_URL_RAZOR = Url.Content("~");
+    var myURL = Context.Request.Host.Value;
+    var BASE_URL_RAZOR = Url.Content("~");
 }
 @model VLISSIDES.ViewModels.Evenements.EvenementsVM
 
@@ -11,19 +11,19 @@
 
 
     <div class="row align-items-center my-auto">
-         <div class="d-flex justify-content-center w-100 my-2">
-              @{
-                      if (Model.NbPlacesReservees == Model.NbPlaces)
-                      {
-                          <div class=" stickerIndisponible  badge " style="top: 10px; right: 10px;">Complet</div>
-                      }
-                      <div class=" stickerDisponible  badge  " style="top: 10px; right: 10px;">Disponible</div>
+        <div class="d-flex justify-content-center w-100 my-2">
+            @{
+                if (Model.NbPlacesReservees == Model.NbPlaces)
+                {
+                    <div class=" stickerIndisponible  badge " style="top: 10px; right: 10px;">Complet</div>
+                }
+                <div class=" stickerDisponible  badge  " style="top: 10px; right: 10px;">Disponible</div>
 
-                  }
-            </div>
+            }
+        </div>
         <div class="col-md-3 text-center text-md-left">
             @{
-                string couverture = string.Concat(BASE_URL_RAZOR, Model.Image);
+                var couverture = string.Concat(BASE_URL_RAZOR, Model.Image);
             }
             <img src="@Html.Raw(couverture)" alt="Image de l'événement" class="img-fluid rounded mb-3 mb-md-0">
         </div>
@@ -34,7 +34,6 @@
                 if (Model.NbPlacesReservees != Model.NbPlaces)
                 {
                     <button class="reserve-btn btn btn-primary" onclick="Reserver('@Model.Id')">Réserver Maintenant</button>
-
                 }
 
             }
@@ -49,9 +48,11 @@
             </div>
             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                 <i class="fas fa-chair mr-2 mx-2"></i>
-                <p>Membres : @Model.NbPlacesMembre 
-                    <br />
-                    Totales : @Model.NbPlaces</p>
+                <p>
+                    Membres : @Model.NbPlacesMembre
+                    <br/>
+                    Totales : @Model.NbPlaces
+                </p>
             </div>
             <div class="mb-2 d-flex align-items-center justify-content-center justify-content-md-start">
                 Prix: @Model.Prix

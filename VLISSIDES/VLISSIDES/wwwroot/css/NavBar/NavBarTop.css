@@ -5,24 +5,27 @@
     height: 110px;
     padding-top: 0px;
     box-shadow: none;
+    z-index: 10;
 }
+
 /* Logo */
 #IconeNavBar {
 }
 
-    #IconeNavBar * {
-        width: 100px;
-        height: 100px;
-    }
+#IconeNavBar * {
+    width: 100px;
+    height: 100px;
+}
+
 /*Barre de recherche*/
 #divRecherche {
     width: 100%;
 }
 
-    #divRecherche * {
-        max-width: 100%;
-        height: 40px;
-    }
+#divRecherche * {
+    max-width: 100%;
+    height: 40px;
+}
 
 #divOption * {
     min-width: 90px;
@@ -51,6 +54,7 @@
     position: relative;
     left: -1px
 }
+
 /*Connection*/
 .badge-panier {
     position: relative;
@@ -70,26 +74,27 @@
     flex-wrap: nowrap;
 }
 
-    #boutonseconection * {
-        width: 100%;
-        display: flex;
-        text-align: center;
-        align-items: center;
-    }
+#boutonseconection * {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
 
-    #boutonseconection > * {
-        width: 50%;
-        text-align: center;
-    }
+#boutonseconection > * {
+    width: 50%;
+    text-align: center;
+}
 
 
 .btnconnection1 {
     border-radius: 25rem 0px 0px 25rem !important;
 }
 
-    .btnconnection1 a {
-        padding: 5px;
-    }
+.btnconnection1 a {
+    padding: 5px;
+}
+
 .btnconnection2 {
     border-radius: 0px 25rem 25rem 0px !important;
     padding-right: 5px;
@@ -111,6 +116,7 @@
     #navTop {
         height: 95px;
     }
+
     /*Bouton  connection*/
     #boutonseconection {
         width: 180px;
@@ -118,24 +124,24 @@
         align-self: start;
     }
 
-        #boutonseconection * {
-            width: 100%;
-            height: fit-content;
-            margin: 0px;
-            padding: 0;
-        }
-
-    .btnconnection2 {
-        border-radius: 0 0 0 25rem!important;
+    #boutonseconection * {
+        width: 100%;
+        height: fit-content;
+        margin: 0px;
+        padding: 0;
     }
 
-        .btnconnection2 a {
-            position: relative;
-            right: -20px;
-        }
+    .btnconnection2 {
+        border-radius: 0 0 0 25rem !important;
+    }
+
+    .btnconnection2 a {
+        position: relative;
+        right: -20px;
+    }
 
     .btnconnection1 {
-        border-radius: inherit!important;
+        border-radius: inherit !important;
     }
 }
 
@@ -143,19 +149,20 @@
     #navTop {
         height: 105px;
     }
+
     /*Barre de recherche*/
     #divRecherche {
         width: fit-content;
         max-width: 150px;
     }
 
-        #divRecherche div {
-            width: 100%;
-        }
+    #divRecherche div {
+        width: 100%;
+    }
 
-        #divRecherche * {
-            border-radius: 25rem;
-        }
+    #divRecherche * {
+        border-radius: 25rem;
+    }
 
     #OptionLabel {
         left: 0px;
@@ -174,6 +181,7 @@
         width: 40%;
         border-radius: 0rem 25rem 25rem 0rem;
     }
+
     /*Bouton connection*/
     #boutonseconection i {
         top: 0px;
@@ -191,6 +199,7 @@
     #navTop {
         height: 100px;
     }
+
     /*Logo*/
     #divRecherche {
         width: 0px;
@@ -207,7 +216,7 @@
         top: -15px;
     }
 
-        #boutonseconection * {
-            width: 100%;
-        }
+    #boutonseconection * {
+        width: 100%;
+    }
 }

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
 }
 @model List<VLISSIDES.ViewModels.GestionAuteurs.AuteursAfficherVM>
 
@@ -7,18 +6,18 @@
 
 @if (Model.Count != 0)
 {
-    <div class="list-group col-6" id="list-tab" role="tablist">
+    <div class="listeSujet list-group" id="list-tab" role="tablist">
         @foreach (var auteur in Model)
         {
             <!--onclick pour afficher livres ici-->
-            <div id="@auteur.Id" class="card list-group-item list-group-item-action" data-toggle="list" onclient onclick="AfficherAuteursLivres('@auteur.Id')">
+            <div id="@auteur.Id" class="card list-group-item list-group-item-action mb-2 mx-3 element-hoverable" data-toggle="list" onclient onclick="AfficherAuteursLivres('@auteur.Id')">
                 <div class="card-body row align-items-center p-0">
-                    <div class="col-9 text-center">
+                    <div class="col text-center">
                         <!--Début : Modifier nom d'une maison d'édition-->
                         <input id="@auteur.Id @auteur.Nom" type="text" asp-for="@auteur.Nom" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => auteur.Nom)"
                                onclick="enableButton('@auteur.Id')">
                     </div>
-                    <div class="divButton col-3 text-center d-flex flex-row justify-content-around h-40">
+                    <div class="col-auto text-center d-flex flex-row justify-content-around h-40 mx-1">
                         @* container-fluid temporaire, permet d'avoir des deux boutons qui ne sortent pas du div *@
 
                         <button id="saveButton @auteur.Id" type="button" class="btn btn-success saveButton"
@@ -35,9 +34,9 @@
                 </div>
             </div>
         }
-        <partial name="PartialViews/Utilities/_PaginationIndexPartial" />
+        <partial name="PartialViews/Utilities/_PaginationIndexPartial"/>
     </div>
-    <div id="divListeLivres" class="col-6 card rounded-xl">
+    <div id="divListeLivres" class="mediaQuerryHideOnSmall card rounded-xl">
         <h3 class="text-center my-3">Livres de l'auteur</h3>
 
         <div class="" id="divListeAuteursLivres">
@@ -74,4 +73,3 @@ else
 {
     <h1>Aucun résultat</h1>
 }
-
