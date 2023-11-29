@@ -1,9 +1,9 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
+using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -133,22 +133,22 @@ public class StripeController : Controller
             .ToListAsync();
 
 
-        var nouvelleCommande = new CommandesVM
+        var nouvelleCommande = new CommandesVM(new()
         {
             DateCommande = DateTime.Now,
             PrixTotal = session.AmountTotal.Value / 100m,
-            MembreUserName = customer.UserName,
+            Membre = customer,
             AdresseId = customer?.AdressePrincipaleId,
-            StatutId = "1"
-        };
+            StatutCommandeId = "1"
+        });
 
-        nouvelleCommande.LivreCommandes = panierItems.Select(lc => new LivreCommandeVM
+        nouvelleCommande.LivreCommandes = panierItems.Select(lc => new LivreCommandeVM(new()
         {
             Livre = lc.Livre,
             CommandeId = nouvelleCommande.Id,
             Quantite = (int)lc.Quantite,
             PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
-        }).ToList();
+        })).ToList();
 
         var nbCommandes = _context.Commandes.Count().ToString();
         var commande = new Commande
@@ -243,9 +243,10 @@ public class StripeController : Controller
             Membre = customer,
             Evenement = evenement,
             Description = evenement.Description,
-        PaymentIntentId = session.PaymentIntentId,
-                prixAchat = evenement.Prix,
-                EnDemandeAnnuler = false,};
+            PaymentIntentId = session.PaymentIntentId,
+            prixAchat = evenement.Prix,
+            EnDemandeAnnuler = false,
+        };
         // Ajouter la réservation au contexte
         _context.Reservations.Add(reservation);
 
