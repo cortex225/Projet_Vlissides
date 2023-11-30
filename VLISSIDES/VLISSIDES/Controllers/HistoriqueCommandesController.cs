@@ -1,9 +1,10 @@
-﻿using System.Security.Claims;
-using System.Text;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -12,6 +13,7 @@ using VLISSIDES.ViewModels.HistoriqueCommandes;
 
 namespace VLISSIDES.Controllers;
 
+[Authorize(Roles = RoleName.MEMBRE)]
 [ApiController]
 [Route("[controller]/[action]")]
 public class HistoriqueCommandes : Controller

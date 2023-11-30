@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using VLISSIDES.Data;
 using VLISSIDES.ViewModels;
 using VLISSIDES.ViewModels.Accueil;
@@ -42,35 +42,27 @@ public class AccueilController : Controller
         };
         var evenements = _context.Evenements.Include(e => e.Reservations).ToList();
         var promotions = _context.Promotions.ToList();
-        var vedettes = _context.Livres.Include(v => v.Evaluations).Include(v => v.LivreTypeLivres)
+        var vedettes = _context.Livres
+            .Include(v => v.Evaluations)
+            .Include(v => v.LivreTypeLivres)
             .Include(v => v.LivreAuteurs)
-            .ThenInclude(la => la.Auteur).Include(v => v.Categories).ThenInclude(lc => lc.Categorie).ToList();
+            .ThenInclude(la => la.Auteur)
+            .Include(v => v.Categories)
+            .ThenInclude(lc => lc.Categorie).ToList();
         vedettes.Sort((l1, l2) => decimal.ToInt32(l1.Note - l2.Note));
-        var taille = 12;
         var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-
-        return View(new IndexAccueilVM(services, evenements.Take(taille), promotions.Take(taille),
-            vedettes.Take(taille), user));
+        var taille = 12;
+        return View(new IndexAccueilVM(services, evenements.Take(taille), promotions.Take(taille), vedettes.Take(taille),
+            user));
     }
 
-    public IActionResult Message(string titre, string message)
-    {
-        return View(new MessageVM(titre, message));
-    }
+    public IActionResult Message(string titre, string message) => View(new MessageVM(titre, message));
 
-    public IActionResult Info()
-    {
-        return View();
-    }
+    public IActionResult Info() => View();
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    public IActionResult Privacy() => View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+    public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
 }
