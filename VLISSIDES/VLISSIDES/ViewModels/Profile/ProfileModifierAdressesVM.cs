@@ -16,9 +16,9 @@ public class ProfileModifierAdressesVM
     [DisplayName("Rue")]
     public string Rue { get; set; } = default!;
 
-    [Required(ErrorMessage = "Le numéro apartement est obligatoire")]
+
     [DisplayName("Numéro apartement")]
-    public string NoApartement { get; set; } = default!;
+    public string? NoApartement { get; set; } = default!;
 
     [Required(ErrorMessage = "La ville est obligatoire")]
     [DisplayName("Ville")]
