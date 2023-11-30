@@ -242,6 +242,7 @@ public class PanierController : Controller
                 .FirstOrDefault(lt => lt.LivreId == livre.Id && lt.TypeLivreId == type.Id).Prix;
 
 
+
             var siExiste = false;
 
             if (user.Panier == null) user.Panier = new List<LivrePanier>();
@@ -384,6 +385,7 @@ public class PanierController : Controller
             if (articleBD != null)
             {
                 articleBD.PrixApresPromotion = (decimal)articleVM.PrixApresPromotion;
+                articleBD.PromotionId = promotion.Id;
                 _context.Update(articleBD);
             }
         }

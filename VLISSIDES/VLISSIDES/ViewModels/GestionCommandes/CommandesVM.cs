@@ -24,6 +24,10 @@ public class CommandesVM
 
     [DisplayName("Demande d'annulation")] public bool EnDemandeAnnulation { get; set; }
 
+    [DisplayName("Promotion")] public string? PromotionId { get; set; }
+
+    public Promotion? Promotion { get; set; }
+
     public CommandesVM()
     {
         Id = "";
@@ -35,6 +39,9 @@ public class CommandesVM
         StatutId = "";
         StatutNom = "";
         EnDemandeAnnulation = false;
+        PromotionId = "";
+        Promotion = new();
+
     }
     public CommandesVM(Commande commande)
     {
@@ -47,5 +54,7 @@ public class CommandesVM
         StatutId = commande.StatutCommandeId;
         StatutNom = commande.StatutCommande.Nom;
         EnDemandeAnnulation = commande.EnDemandeAnnulation;
+        PromotionId = commande.PromotionId;
+        Promotion = commande.Promotion;
     }
 }

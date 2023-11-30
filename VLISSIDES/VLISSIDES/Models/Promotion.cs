@@ -32,7 +32,6 @@ public class Promotion
     [Display(Name = "Maison d'édition")] public string? MaisonEditionId { get; set; }
     public MaisonEdition? MaisonEdition { get; set; }
 
-
     [Display(Name = "Type de promotion")] public string TypePromotion { get; set; }
 
     [Display(Name = "Livres à acheter")] public int? LivresAcheter { get; set; }
@@ -42,4 +41,10 @@ public class Promotion
     public int? PourcentageRabais { get; set; }
 
     [Display(Name = "Code promo")] public string CodePromo { get; set; }
+
+    public string? CommandeId { get; set; }
+    public ICollection<Commande>? Commandes { get; set; } = new List<Commande>();
+
+    public string? LivrePanierId { get; set; }
+    public ICollection<LivrePanier>? LivrePaniers { get; set; }
 }

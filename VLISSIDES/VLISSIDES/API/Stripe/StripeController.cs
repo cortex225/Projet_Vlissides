@@ -130,6 +130,7 @@ public class StripeController : Controller
         var panierItems = await _context.LivrePanier
             .Where(lp => lp.UserId == customer.Id)
             .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
+            .Include(lp=>lp.Promotion)
             .ToListAsync();
 
 
@@ -140,7 +141,8 @@ public class StripeController : Controller
             PrixTotal = session.AmountTotal.Value / 100m,
             MembreUserName = customer.UserName,
             AdresseId = customer?.AdressePrincipaleId,
-            StatutId = "1"
+            StatutId = "1",
+            PromotionId = session.Metadata["promotionId"]
         };
 
 
@@ -165,6 +167,7 @@ public class StripeController : Controller
             StatutCommandeId = nouvelleCommande.StatutId,
             PaymentIntentId = session.PaymentIntentId, //Récupérer le paiement intent id de la session
             EnDemandeAnnulation = false,
+            PromotionId = nouvelleCommande.PromotionId
 
         };
 
@@ -382,6 +385,7 @@ public class StripeController : Controller
         // Calculer le sous-total avant taxe
         var sousTotal = nouvelleCommande.PrixTotal / 1.05m;
         var taxe = nouvelleCommande.PrixTotal - sousTotal;
+        var promotion = nouvelleCommande.PromotionId != null ? _context.Promotions.FirstOrDefault(p => p.Id == nouvelleCommande.PromotionId) : null;
 
         body.Append(
             "<div style='font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; max-width: 680px; margin: 20px auto; padding: 40px; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);'>");
@@ -417,6 +421,9 @@ public class StripeController : Controller
 
         body.Append("</tbody>");
         body.Append("</table>");
+        if(promotion != null)
+            body.Append(
+                $"<p style='color: #555; font-size: 16px;'><strong>Code promotionnel appliqué de type:</strong> {promotion.TypePromotion} de {promotion.PourcentageRabais}%</p>");
         body.Append($"<p style='color: #555; font-size: 15px;'>Sous-total : {sousTotal:C}</p>");
         body.Append($"<p style='color: #555; font-size: 15px;'>Taxe (5%) : {taxe:C}</p>");
         body.Append(

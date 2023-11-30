@@ -303,6 +303,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             }
         );
 
+        //liaison entre les promotions et les commandes
+        builder.Entity<Promotion>()
+            .HasMany(p => p.Commandes)
+            .WithOne(c => c.Promotion)
+            .HasForeignKey(c => c.PromotionId);
+
+        //Liaison entre les promotions et les livres dans le panier
+        builder.Entity<Promotion>()
+            .HasMany(p => p.LivrePaniers)
+            .WithOne(lp => lp.Promotion)
+            .HasForeignKey(lp => lp.PromotionId);
+
+
+
         #endregion
     }
 }

@@ -31,4 +31,7 @@ public class Commande
     public string? PaymentIntentId { get; set; } = default!;
 
     public bool EnDemandeAnnulation { get; set; } = default!;
+
+    public string? PromotionId { get; set; } = default!;
+    public Promotion? Promotion { get; set; } = default!;
 }

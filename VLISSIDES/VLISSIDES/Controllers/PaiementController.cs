@@ -165,12 +165,14 @@ public class PaiementController : Controller
 
             });
         }
-
+        //Recuperer la promotionId de livrePanier
+        var promotionId = panierItems.Select(item => item.PromotionId).FirstOrDefault();
 
         // Crée un dictionnaire de métadonnées pour stocker les informations sur l'adresse sélectionnée
         var metadata = new Dictionary<string, string>
         {
             { "type", "livre" },
+            { "promotionId", promotionId }
 
         };
 
