@@ -1,7 +1,17 @@
-﻿namespace VLISSIDES.ViewModels.GestionComptes;
+﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
 
-public class GestionComptesBanVM
+namespace VLISSIDES.ViewModels.GestionComptes
 {
-    public string Id { get; set; }
-    public string Username { get; set; }
+    public class GestionComptesBanVM
+    {
+        [Display(Name = "Identifiant")] public string Id { get; set; }
+        [Display(Name = "Nom utilisateur")] public string Username { get; set; }
+
+        public GestionComptesBanVM(ApplicationUser user)
+        {
+            Id = user.Id;
+            Username = user.UserName;
+        }
+    }
 }

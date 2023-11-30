@@ -1,4 +1,6 @@
 ﻿@model VLISSIDES.ViewModels.Panier.PanierVM
+@inject UserManager<ApplicationUser> UserManager
+
 @{
     ViewData["Title"] = "Panier";
     var myURL = Context.Request.Host.Value;
@@ -115,8 +117,7 @@
     }
             
     async function supprimerLivre(vmIdPanier) {
-        //var button = event.target;
-        //var viewModelId = button.getAttribute("data-vmIdPanier");
+
 
         var csrfToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
@@ -194,8 +195,41 @@ $(document).ready(function () {
         }).then((response) => {
             return response.text();
         }).then((result)=>{
-            window.location = BASE_URL+'/Paiement'
-            //document.querySelector("body").innerHTML = result;
+            //Créer une nuvelle session de paiement
+        createCheckoutSession();
+        }).catch(error => {
+            console.error(error.message);
         });
     }
 </script>
+
+<script type="text/javascript">
+       function createCheckoutSession() {
+            var data = {
+                userId: '@UserManager.GetUserId(User)',
+                customerStripeId: '@Model.CustomerStripeId'
+           };
+        fetch(BASE_URL + '/Paiement/CreateCheckoutSession', {
+               method: 'POST',
+                  headers: {
+                     'Content-Type': 'application/json'
+                },
+               body: JSON.stringify(data)
+           })
+           .then(response => response.json())
+           .then(data => {
+               if (data.id) {
+                   var stripe = Stripe('pk_test_51O3gRDAIrJUcHyNnVbRxxrTEmN0ndzgrocNP008WZgRBHCFJNXhNXnXYyfxU1im6XjmLPKmJT1Tq64eNf5vIysOu00LWHU5Ohx');
+                   stripe.redirectToCheckout({ sessionId: data.id });
+               } else {
+                   console.error('Erreur lors de la création de la session de paiement');
+               }
+           })
+           .catch(error => {
+               console.error('Erreur lors de la communication avec le serveur:', error);
+           });
+       }
+
+    </script>
+
+<script src="https://js.stripe.com/v3/" asp-append-version="true"></script>

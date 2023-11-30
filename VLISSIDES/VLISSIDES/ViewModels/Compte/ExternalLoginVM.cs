@@ -5,10 +5,15 @@ namespace VLISSIDES.ViewModels.Compte;
 
 public class ExternalLoginVM
 {
-    [DisplayName("Adresse email")]
     [Required]
     [EmailAddress]
-    public string Email { get; set; } = default!;
+    [DisplayName("Adresse email")] public string Email { get; set; }
 
-    [DisplayName("Nom")] [Required] public string Name { get; set; } = default!;
+    [DisplayName("Nom")][Required] public string Name { get; set; }
+
+    public ExternalLoginVM(string email, string name)
+    {
+        Email = email;
+        Name = name;
+    }
 }

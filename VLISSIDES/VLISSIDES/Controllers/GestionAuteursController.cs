@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionAuteurs;
@@ -28,8 +28,6 @@ public class GestionAuteursController : Controller
         var itemsPerPage = 10;
         var totalItems = await _context.Auteurs.CountAsync();
 
-        var vm = new AuteursIndexVM();
-        vm.AuteursAjouterVM = new AuteursAjouterVM { NomAuteur = "" };
         var auteurs = _context.Auteurs.Include(a => a.Livres).ThenInclude(la => la.Livre)
             .Include(la => la.Livres)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -52,16 +50,11 @@ public class GestionAuteursController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
 
-        vm.AuteursAfficherVM = auteurs.Select(a => new AuteursAfficherVM
-            { Id = a.Id, Nom = a.NomAuteur, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList();
 
-        return View(vm);
+        return View(new AuteursIndexVM(auteurs));
     }
 
-    public async Task<IActionResult> AfficherLivre(List<Livre> listLivre)
-    {
-        return Json(listLivre);
-    }
+    public async Task<IActionResult> AfficherLivre(List<Livre> listLivre) => Json(listLivre);
 
     public async Task<IActionResult> AfficherListe(string? motCle, int page = 1)
     {
@@ -88,8 +81,7 @@ public class GestionAuteursController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
         return PartialView("PartialViews/GestionAuteurs/_ListeAuteursPartial",
-            auteurs.Select(a => new AuteursAfficherVM
-                { Id = a.Id, Nom = a.NomAuteur, Livres = a.Livres.Select(l => l.Livre.Titre).ToList() }).ToList());
+            auteurs.Select(a => new AuteursAfficherVM(a)).ToList());
     }
 
     //AJOUTER
@@ -104,7 +96,7 @@ public class GestionAuteursController : Controller
             var auteur = new Auteur
             {
                 Id = Guid.NewGuid().ToString(),
-                NomAuteur = vm.AuteursAjouterVM.NomAuteur
+                NomAuteur = vm.AuteurAjouter.Nom,
             };
             _context.Auteurs.Add(auteur);
             _context.SaveChanges();
@@ -115,11 +107,12 @@ public class GestionAuteursController : Controller
     }
 
     [HttpPost]
-    public ActionResult ModifierAuteur(string id, string nom)
+    public async Task<IActionResult> ModifierAuteur(string id, string nom)
     {
+        var auteur = await _context.Auteurs.FindAsync(id);
+        if (auteur == null) return NotFound("L'auteur à l'identifiant " + id + " n'a pas été trouvé.");
         if (ModelState.IsValid)
         {
-            var auteur = _context.Auteurs.FirstOrDefault(a => a.Id == id);
             auteur.NomAuteur = nom;
             _context.SaveChanges();
             return Ok();
@@ -128,13 +121,12 @@ public class GestionAuteursController : Controller
         return View();
     }
 
-    [HttpPost]
-    public ActionResult SupprimerAuteur(string id)
+    [HttpDelete]
+    public async Task<IActionResult> SupprimerAuteur(string id)
     {
-        var auteur = _context.Auteurs.FirstOrDefault(me => me.Id == id);
+        var auteur = await _context.Auteurs.FindAsync(id);
+        if (auteur == null) return NotFound("L'auteur à l'identifiant " + id + " n'a pas été trouvé.");
         //Si l'auteur n'est pas trouvé
-        if (auteur == null)
-            return NotFound();
         //Enlever l'auteur pour chaque livre
         _context.Livres.Where(l => l.LivreAuteurs.Any(a => a.AuteurId.Contains(auteur.Id)))
             .ToList().ForEach(l => l.LivreAuteurs = null);
@@ -146,10 +138,8 @@ public class GestionAuteursController : Controller
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
-        if (id == null) return NotFound();
-
         var auteur = await _context.Auteurs.FindAsync(id);
-        if (auteur == null) return NotFound();
+        if (auteur == null) return NotFound("L'auteur à l'identifiant " + id + " n'a pas été trouvé.");
 
         return PartialView("PartialViews/Modals/Auteurs/_DeleteAuteurPartial", auteur);
     }

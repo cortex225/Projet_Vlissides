@@ -90,7 +90,7 @@ public class GestionPromotionsController : Controller
             }
             else
             {
-                vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
+                vm.CoverImageUrl = "/img/images_Promo/promo2.png";
             }
 
             var id = Guid.NewGuid().ToString();

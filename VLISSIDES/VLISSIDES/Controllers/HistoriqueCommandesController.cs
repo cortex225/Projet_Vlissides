@@ -1,9 +1,9 @@
-﻿using System.Security.Claims;
-using System.Text;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -12,6 +12,7 @@ using VLISSIDES.ViewModels.HistoriqueCommandes;
 
 namespace VLISSIDES.Controllers;
 
+[Authorize(Roles = RoleName.MEMBRE)]
 [ApiController]
 [Route("[controller]/[action]")]
 public class HistoriqueCommandes : Controller
@@ -67,29 +68,9 @@ public class HistoriqueCommandes : Controller
             EnDemandeRetourner = lc.EnDemandeRetourner
         }).ToList();
 
-        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
-        {
-            Id = c.Id.ToString(),
-            DateCommande = c.DateCommande,
-            PrixTotal = c.PrixTotal,
-            MembreUserName = c.Membre.UserName,
-            AdresseId = c.AdresseId,
-            LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
-            StatutId = c.StatutCommande.Id,
-            StatutNom = c.StatutCommande.Nom,
-            EnDemandeAnnulation = c.EnDemandeAnnulation
-        }).OrderBy(c => c.DateCommande).ToList();
+        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).OrderBy(c => c.DateCommande).ToList();
 
-        var affichageCommandes = new AffichageCommandeVM
-        {
-            ListCommandes = listeCommandeVM
-        };
-
-        affichageCommandes.SelectListStatut = _context.StatutCommandes.Select(s => new SelectListItem
-        {
-            Text = s.Nom,
-            Value = s.Id
-        }).ToList();
+        var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, _context.StatutCommandes, "");
 
         return View(affichageCommandes);
     }
@@ -119,18 +100,7 @@ public class HistoriqueCommandes : Controller
             EnDemandeRetourner = lc.EnDemandeRetourner
         }).ToList();
 
-        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM
-        {
-            Id = c.Id.ToString(),
-            DateCommande = c.DateCommande,
-            PrixTotal = c.PrixTotal,
-            MembreUserName = c.Membre.UserName,
-            AdresseId = c.AdresseId,
-            LivreCommandes = livreCommandeVM.Where(lc => lc.CommandeId == c.Id).ToList(),
-            StatutId = c.StatutCommande.Id,
-            StatutNom = c.StatutCommande.Nom,
-            EnDemandeAnnulation = c.EnDemandeAnnulation
-        }).OrderByDescending(c => c.DateCommande).ToList();
+        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).OrderByDescending(c => c.DateCommande).ToList();
 
         if (listCriteres.Any(c => c == "rechercherCommande"))
             if (listCriteresValue[2] != "")
@@ -146,18 +116,9 @@ public class HistoriqueCommandes : Controller
 
         if (listCriteres.Any(c => c == "filtrerStatut"))
             if (listCriteresValue[1] != "0")
-                listeCommandeVM = listeCommandeVM.Where(c => c.StatutId == listCriteresValue[1]).ToList();
+                listeCommandeVM = listeCommandeVM.Where(c => c.StatutCommandeId == listCriteresValue[1]).ToList();
 
-        var affichageCommandes = new AffichageCommandeVM
-        {
-            ListCommandes = listeCommandeVM
-        };
-
-        affichageCommandes.SelectListStatut = _context.StatutCommandes.Select(s => new SelectListItem
-        {
-            Text = s.Nom,
-            Value = s.Id
-        }).ToList();
+        var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, _context.StatutCommandes, "");
 
         return PartialView("PartialViews/HistoriqueCommandes/_ListeHistoriqueCommandesPartial", affichageCommandes);
     }

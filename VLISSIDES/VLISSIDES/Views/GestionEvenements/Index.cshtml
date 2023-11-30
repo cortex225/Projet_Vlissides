@@ -145,7 +145,7 @@
 <script>
     function SupprimerEvenement(id = "") {
         fetch(BASE_URL + "/GestionEvenements/SupprimerEvenement?id="+id, {
-            method: "POST",
+            method: "Delete",
         }).then((response) => {
             return response.text();
         }).then((result) => {

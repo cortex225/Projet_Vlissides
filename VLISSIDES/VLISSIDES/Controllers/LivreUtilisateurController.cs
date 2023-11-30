@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.LivreUtilisateur;
@@ -41,42 +41,30 @@ public class LivreUtilisateurController : Controller
         var vm = new List<LivreUtilisateurIndexVM>();
 
         foreach (var c in userCommandes)
-        foreach (var l in c.LivreCommandes)
-        {
-            var siDejaDansListe = false;
-
-            foreach (var lu_vm in vm)
-                if (lu_vm.Id == l.Livre.Id)
-                    siDejaDansListe = true;
-
-            if (!siDejaDansListe)
+            foreach (var l in c.LivreCommandes)
             {
-                double? eval = null;
-                if (l.Livre.Evaluations != null)
-                    foreach (var e in l.Livre.Evaluations)
-                        if (e.MembreId == userId)
-                        {
-                            eval = e.Note;
-                            break;
-                        }
+                var siDejaDansListe = false;
 
-                vm.Add(new LivreUtilisateurIndexVM
+                foreach (var lu_vm in vm)
+                    if (lu_vm.Id == l.Livre.Id)
+                        siDejaDansListe = true;
+
+                if (!siDejaDansListe)
                 {
-                    Id = l.Livre.Id,
-                    Titre = l.Livre.Titre,
-                    Couverture = l.Livre.Couverture,
-                    monEvaluation = eval,
-                    NumeriqueURL = l.Livre.UrlNumerique,
-                    DateCommande = c.DateCommande
-                });
-            }
-        }
+                    double? eval = null;
+                    if (l.Livre.Evaluations != null)
+                        foreach (var e in l.Livre.Evaluations)
+                            if (e.MembreId == userId)
+                            {
+                                eval = e.Note;
+                                vm.Add(new LivreUtilisateurIndexVM(l.Livre, e, c));
+                                break;
+                            }
 
-        var VM = new ListLivreUtilisateurIndexVM
-        {
-            listVM = vm,
-            livreSelectionneId = id
-        };
+                }
+            }
+
+        var VM = new ListLivreUtilisateurIndexVM(vm, id);
 
         return View(VM);
     }

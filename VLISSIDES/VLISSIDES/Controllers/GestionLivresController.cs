@@ -1,9 +1,9 @@
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionLivres;
@@ -124,32 +124,8 @@ public class GestionLivresController : Controller
 
         var livresVM = livres
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
-            .Take(itemsPerPage)
-            .Select(l => new GestionLivresAfficherVM
-            {
-                Id = l.Id,
-                Image = l.Couverture == null ? "/img/CouvertureLivre/livredefault.png" : l.Couverture,
-                Titre = l.Titre,
-                ISBN = l.ISBN,
-                Categories = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id))
-                    .ToList(),
-                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id))
-                    .ToList(),
-                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre)
-                    .ToList(),
-                Quantite = l.NbExemplaires
-            }).ToList();
-        var livresFiltreVM = livres.OrderBy(l => l.Titre).Select(l => new GestionLivresAfficherVM
-        {
-            Id = l.Id,
-            Image = l.Couverture == null ? "/img/CouvertureLivre/livredefault.png" : l.Couverture,
-            Titre = l.Titre,
-            ISBN = l.ISBN,
-            Categories = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id)).ToList(),
-            ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id)).ToList(),
-            LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre).ToList(),
-            Quantite = l.NbExemplaires,
-        }).ToList();
+            .Take(itemsPerPage).ToList();
+        var livresFiltreVM = livres.OrderBy(l => l.Titre).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
@@ -160,16 +136,7 @@ public class GestionLivresController : Controller
 
         ViewBag.Action = "Inventaire";
 
-        var vm = new GestionLivresInventaireVM
-        {
-            ListeLivres = livresVM,
-            ListeLivresFiltre = livresFiltreVM,
-            ListeCategories = categories,
-            ListeLangue = langues,
-            ListeTypeLivres = typesLivres,
-            ListeAuteurs = auteurs,
-            ListeMaisonEditions = maisonEditions
-        };
+        var vm = new GestionLivresInventaireVM(livresVM, livresFiltreVM, auteurs, maisonEditions, categories, langues, typesLivres);
         return View(vm);
     }
 
@@ -272,21 +239,7 @@ public class GestionLivresController : Controller
 
         var livresVM = livres
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
-            .Take(itemsPerPage)
-            .Select(l => new GestionLivresAfficherVM
-            {
-                Id = l.Id,
-                Image = l.Couverture,
-                Titre = l.Titre,
-                ISBN = l.ISBN,
-                Categories = _context.Categories.Where(c => l.Categories.Select(lc => lc.CategorieId).Contains(c.Id))
-                    .ToList(),
-                ListAuteur = _context.Auteurs.Where(a => l.LivreAuteurs.Select(la => la.AuteurId).Contains(a.Id))
-                    .ToList(),
-                LivreTypeLivres = _context.LivreTypeLivres.Where(lt => lt.LivreId == l.Id).Include(t => t.TypeLivre)
-                    .ToList(),
-                Quantite = l.NbExemplaires
-            }).ToList();
+            .Take(itemsPerPage).ToList();
 
         //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
         //Math.Ceiling permet d'arrondir au nombre supérieur
@@ -295,15 +248,7 @@ public class GestionLivresController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        var vm = new GestionLivresInventaireVM
-        {
-            ListeLivres = livresVM,
-            ListeCategories = categories,
-            ListeLangue = langues,
-            ListeTypeLivres = typesLivres,
-            ListeAuteurs = auteurs,
-            ListeMaisonEditions = maisonEditions
-        };
+        var vm = new GestionLivresInventaireVM(livresVM, livres, auteurs, maisonEditions, categories, langues, typesLivres);
         return PartialView("PartialViews/GestionLivres/_ListeLivresPartial", vm);
     }
 
@@ -380,13 +325,13 @@ public class GestionLivresController : Controller
             var id = Guid.NewGuid().ToString();
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
-            if (vm.Neuf)
+            if (vm.Papier)
                 //var neuf = _context.TypeLivres.FirstOrDefault(x => x.Id == "1");
                 listeType.Add(new LivreTypeLivre
                 {
                     LivreId = id,
                     TypeLivreId = "1",
-                    Prix = vm.PrixNeuf
+                    Prix = vm.PrixPapier
                 });
 
             if (vm.Numerique)
@@ -412,37 +357,43 @@ public class GestionLivresController : Controller
                 DatePublication = vm.DatePublication,
                 DateAjout = DateTime.Now,
                 //CategorieId = vm.CategorieId,
-                LangueId = vm.LangueId
+                LangueId = vm.LangueId,
                 //TypeLivreId = vm.TypeLivreId
             };
             //Auteur
             if (vm.AuteurIds != null)
+            {
                 if (vm.AuteurIds.Count > 0)
                 {
                     livre.LivreAuteurs = new List<LivreAuteur>();
                     foreach (var auteurId in vm.AuteurIds)
+                    {
                         //livre.LivreAuteurs.Add(_context.Auteurs.FirstOrDefault(a => a.Id == auteurId));
-                        livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a =>
-                            new LivreAuteur
-                            {
-                                LivreId = id,
-                                AuteurId = auteurId
-                            }));
+                        livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
+                        {
+                            LivreId = id,
+                            AuteurId = auteurId
+                        }));
+                    }
                 }
-
+            }
             //Categorie
             if (vm.CategorieIds != null)
+            {
                 if (vm.CategorieIds.Count > 0)
                 {
                     livre.Categories = new List<LivreCategorie>();
                     foreach (var categorieId in vm.CategorieIds)
-                        livre.Categories.AddRange(_context.Categories.Where(c => c.Id == categorieId).Select(c =>
-                            new LivreCategorie
-                            {
-                                LivreId = id,
-                                CategorieId = categorieId
-                            }));
+                    {
+                        livre.Categories.AddRange(_context.Categories.Where(c => c.Id == categorieId).Select(c => new LivreCategorie
+                        {
+                            LivreId = id,
+                            CategorieId = categorieId
+                        }));
+                    }
                 }
+            }
+
 
 
             _context.Livres.Add(livre);
@@ -502,19 +453,19 @@ public class GestionLivresController : Controller
         //Remplir les checkbox types
         if (livre.LivreTypeLivres.Count == 0)
         {
-            vm.Neuf = false;
+            vm.Papier = false;
             vm.Numerique = false;
         }
         else
         {
             if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1")))
             {
-                vm.Neuf = true;
-                vm.PrixNeuf = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1").Prix;
+                vm.Papier = true;
+                vm.PrixPapier = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1").Prix;
             }
             else
             {
-                vm.Neuf = false;
+                vm.Papier = false;
             }
 
             if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2")))
@@ -527,7 +478,6 @@ public class GestionLivresController : Controller
                 vm.Numerique = false;
             }
         }
-
         //Préselectionner les auteurs
         vm.AuteurIds = new List<string>();
         vm.AuteurIds.AddRange(livre.LivreAuteurs.Select(a => a.AuteurId));
@@ -583,12 +533,12 @@ public class GestionLivresController : Controller
 
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
-            if (vm.Neuf)
+            if (vm.Papier)
                 listeType.Add(new LivreTypeLivre
                 {
                     LivreId = vm.Id,
                     TypeLivreId = "1",
-                    Prix = vm.PrixNeuf
+                    Prix = vm.PrixPapier
                 });
 
             if (vm.Numerique)
@@ -621,31 +571,37 @@ public class GestionLivresController : Controller
 
             //Auteur
             if (vm.AuteurIds != null)
+            {
                 if (vm.AuteurIds.Count > 0)
                 {
                     livre.LivreAuteurs = new List<LivreAuteur>();
                     foreach (var auteurId in vm.AuteurIds)
-                        livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a =>
-                            new LivreAuteur
-                            {
-                                LivreId = vm.Id,
-                                AuteurId = auteurId
-                            }));
+                    {
+                        livre.LivreAuteurs.AddRange(_context.Auteurs.Where(a => a.Id == auteurId).Select(a => new LivreAuteur
+                        {
+                            LivreId = vm.Id,
+                            AuteurId = auteurId
+                        }));
+                    }
                 }
-
+            }
             //Categorie
             if (vm.CategorieIds != null)
+            {
                 if (vm.CategorieIds.Count > 0)
                 {
                     livre.Categories = new List<LivreCategorie>();
                     await _context.SaveChangesAsync();
                     foreach (var categorieId in vm.CategorieIds)
+                    {
                         _context.LivreCategories.Add(new LivreCategorie
                         {
                             LivreId = vm.Id,
                             CategorieId = categorieId
                         });
+                    }
                 }
+            }
 
             Console.WriteLine("=====================");
             await _context.SaveChangesAsync();

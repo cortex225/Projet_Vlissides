@@ -89,6 +89,7 @@ public class PanierController : Controller
                     panier.TroisiemeChoixDon = true;
                     break;
             }
+        panier.CustomerStripeId = _context.Membres.Where(m => m.Id == currentUserId).FirstOrDefault()?.StripeCustomerId;
 
         await NbArticles();
 

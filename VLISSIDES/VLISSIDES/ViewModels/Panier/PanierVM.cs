@@ -13,4 +13,5 @@ public class PanierVM
     public Promotion? Promotion { get; set; }
 
     public bool PromotionAppliquee { get; set; } = false;
+    public string? CustomerStripeId { get; set; }
 }
