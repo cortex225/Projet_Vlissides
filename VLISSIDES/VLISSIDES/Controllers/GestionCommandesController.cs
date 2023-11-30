@@ -1,15 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
-using VLISSIDES.Data;
-using VLISSIDES.Interfaces;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.GestionCommandes;
-using VLISSIDES.ViewModels.HistoriqueCommandes;
-
-namespace VLISSIDES.Controllers;
+﻿namespace VLISSIDES.Controllers;
 
 [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
 public class GestionCommandesController : Controller
@@ -60,7 +49,7 @@ public class GestionCommandesController : Controller
 
         if (listCriteres.Any(c => c == "rechercherCommande"))
             if (listCriteresValue[3] != "")
-                commandes = commandes.Where(c => c.Id == listCriteresValue[2]).ToList();
+                listeCommandeVM = listeCommandeVM.Where(c => c.Id == listCriteresValue[3]).ToList();
 
         if (listCriteres.Any(c => c == "trierDate"))
         {
