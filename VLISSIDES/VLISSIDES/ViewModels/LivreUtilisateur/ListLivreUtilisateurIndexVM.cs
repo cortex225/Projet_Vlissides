@@ -1,7 +1,17 @@
-﻿namespace VLISSIDES.ViewModels.LivreUtilisateur;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace VLISSIDES.ViewModels.LivreUtilisateur;
 
 public class ListLivreUtilisateurIndexVM
 {
-    public List<LivreUtilisateurIndexVM> listVM { get; set; }
-    public string? livreSelectionneId { get; set; }
+    [Display(Name = "Livres")] public List<LivreUtilisateurIndexVM> Livres { get; set; }
+    [Display(Name = "l'identifiant du livre selectionne" +
+        "")]
+    public string livreSelectionneId { get; set; }
+
+    public ListLivreUtilisateurIndexVM(IEnumerable<LivreUtilisateurIndexVM> livres, string livreSelectionneId)
+    {
+        this.Livres = livres.ToList();
+        this.livreSelectionneId = livreSelectionneId;
+    }
 }

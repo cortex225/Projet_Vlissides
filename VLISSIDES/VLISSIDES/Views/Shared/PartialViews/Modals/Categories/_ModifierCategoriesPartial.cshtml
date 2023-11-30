@@ -13,12 +13,12 @@
             <form asp-action="Modifier" enctype="multipart/form-data" id="FormModifierCategorie">
                 <input type="hidden" asp-for="Id"/>
                 <div>
-                    <label class="control-label" asp-for="Nom"></label>
+                    <label class="control-label" asp-for="Nom"></label>(<span class="text-danger">*</span>)
                     <input class="form-control" asp-for="Nom"/>
                     <span asp-validation-for="Nom" class="text-danger"></span>
                 </div>
                 <div>
-                    <label class="control-label" asp-for="Description"></label>
+                    <label class="control-label" asp-for="Description"></label>(<span class="text-danger">*</span>)
                     <input class="form-control" asp-for="Description"/>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
@@ -31,7 +31,7 @@
 
                     <div id="selectSousCategorie" class="">
                         <label class="control-label" asp-for="ParentId"></label>
-                        <select class="form-control" asp-for="ParentId" asp-items="Model.CategoriesParents">
+                        <select class="form-control" asp-for="ParentId" asp-items="Model.Parent">
                         </select>
                     </div>
                 }
@@ -44,7 +44,7 @@
 
                     <div id="selectSousCategorie" class="visually-hidden">
                         <label class="control-label" asp-for="ParentId"></label>
-                        <select class="form-control" asp-for="ParentId" asp-items="Model.CategoriesParents">
+                        <select class="form-control" asp-for="ParentId" asp-items="Model.Parent">
                         </select>
                     </div>
                 }

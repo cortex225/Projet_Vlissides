@@ -1,40 +1,41 @@
-﻿using VLISSIDES.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.GestionLivres
 {
     public class DetailsLivreVM
     {
-        public string Id { get; set; }
-        public string Titre { get; set; }
-        public List<string> Auteurs { get; set; }
-        public List<string> Categories { get; set; }
-        public DateTime DatePublication { get; set; }
-        public string Couverture { get; set; }
-        public string MaisonEdition { get; set; }
-        public int NbPages { get; set; }
-        public string Resume { get; set; }
-        public int NbExemplaires { get; set; }
-        public Decimal? Papier { get; set; }
-        public Decimal? Numerique { get; set; }
-        public int Note { get; set; }
+        [Display(Name = "Identifiant")] public string Id { get; set; }
+        [Display(Name = "Titre")] public string Titre { get; set; }
+        [Display(Name = "Auteurs")] public List<string> Auteurs { get; set; }
+        [Display(Name = "Catégories")] public List<string> Categories { get; set; }
+        [Display(Name = "Date de publication")] public DateTime DatePublication { get; set; }
+        [Display(Name = "Couverture")] public string Couverture { get; set; }
+        [Display(Name = "Edition")] public string MaisonEdition { get; set; }
+        [Display(Name = "Nombre de page")] public int NbPages { get; set; }
+        [Display(Name = "Resume")] public string Resume { get; set; }
+        [Display(Name = "Nom du livre")] public int NbExemplaires { get; set; }
+        [Display(Name = "Papier")] public Decimal? Papier { get; set; }
+        [Display(Name = "Numerique")] public Decimal? Numerique { get; set; }
+        [Display(Name = "Note")] public int Note { get; set; }
 
-        public string ISBN { get; set; }
+        [Display(Name = "ISBN")] public string ISBN { get; set; }
 
-        public string Langue { get; set; }
+        [Display(Name = "Langue")] public string Langue { get; set; }
 
         public DetailsLivreVM(Livre livre)
         {
+            livre ??= new();
             Id = livre.Id;
             Titre = livre.Titre;
-            Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
+            Auteurs = (livre.LivreAuteurs ?? new()).Select(a => a.Auteur.NomAuteur).ToList();
             Categories = livre.Categories.Select(c => c.Categorie.Nom).ToList();
             DatePublication = livre.DatePublication;
             Couverture = livre.Couverture;
             MaisonEdition = livre.Couverture;
             NbPages = livre.NbPages;
             Resume = livre.Resume;
-            if (!livre.Evaluations.Equals(null))
-                Note = (int)livre.Note;
+            if (livre.Evaluations != null) Note = (int)livre.Note;
             else Note = 0;
             ISBN = livre.ISBN;
             Langue = livre.Langue.Nom;

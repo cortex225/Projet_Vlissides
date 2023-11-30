@@ -1,10 +1,10 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
-using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -47,14 +47,7 @@ public class CompteController : Controller
     [Route("Identity/Account/Login", Order = -1)]
     [Route("Identity/Account/AccessDenied", Order = -1)]
     [Route("{controller}/{action}", Order = -2)]
-    public IActionResult Login(string? returnUrl = null)
-    {
-        var vm = new LoginVM();
-        vm.ReturnUrl = returnUrl;
-        returnUrl = returnUrl ?? Url.Content("~/"); //Permet de retourner en arrière sans le cache
-
-        return View(vm);
-    }
+    public IActionResult Login(string? returnUrl = null) => View(new LoginVM(returnUrl ?? Url.Content("~/")));
 
     // POST: /Compte/Login
     [HttpPost]
@@ -84,11 +77,13 @@ public class CompteController : Controller
                 ModelState.AddModelError(string.Empty, "L'email est encore a être confirmer.");
                 return View(vm);
             }
+
             if (user.IsBanned)
             {
                 ModelState.AddModelError(string.Empty, "Ce compte a été bloqué, veuillez contacter le support.");
                 return View(vm);
             }
+
             var result = await _signInManager.PasswordSignInAsync(user.UserName, vm.Password, vm.RememberMe, false);
 
             if (result.Succeeded)
@@ -132,17 +127,13 @@ public class CompteController : Controller
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> Register(string? returnUrl = null)
-    {
-        var vm = new RegisterVM();
-        vm.ReturnUrl = returnUrl;
-        return View(vm);
-    }
+    public async Task<IActionResult> Register(string? returnUrl = null) => View(new EnregistrerVM(returnUrl
+        ?? Url.Content("~/")));
 
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterVM vm, string? returnUrl = null)
+    public async Task<IActionResult> Register(EnregistrerVM vm, string? returnUrl = null)
     {
         // Vérifie si l'état du modèle est valide.
         if (ModelState.IsValid)
@@ -185,8 +176,7 @@ public class CompteController : Controller
                 PhoneNumber = vm.Phone,
                 DateAdhesion = DateTime.Now,
 
-                IsBanned = false,
-
+                IsBanned = false
             };
 
             user.CoverImageUrl = "/img/UserPhoto/DefaultUser.png";
@@ -254,9 +244,9 @@ public class CompteController : Controller
     }
 
     [HttpGet]
-    public IActionResult ConfirmEmail(string userid, string code)
+    public IActionResult ConfirmEmail(string userId, string code)
     {
-        var user = _context.Users.First(user => user.Id == userid);
+        var user = _context.Users.First(user => user.Id == userId);
         if (user == null) return BadRequest();
         if (_userManager.ConfirmEmailAsync(user, code).IsFaulted) return BadRequest();
         user.EmailConfirmed = true;
@@ -274,29 +264,22 @@ public class CompteController : Controller
     [Authorize(Roles = RoleName.ADMIN + "," + RoleName.MEMBRE)]
     public async Task<ActionResult> RecuperationMDP(string id)
     {
-        var user = new ApplicationUser();
-
         if (string.IsNullOrEmpty(id)) return NotFound();
 
-        user = await _userManager.FindByIdAsync(id);
+        var user = await _userManager.FindByIdAsync(id);
 
         if (user == null) return NotFound();
 
-        var vm = new FindPWD();
+        var vm = new TrouveMotDePasseVM(_userManager.GetUserId(User));
 
-        vm.Id = _userManager.GetUserId(User);
         if (id != vm.Id) return Content("Vous ne pouvez pas modifier le mot de passe des autres!");
-
 
         return View(vm);
     }
 
 
     [HttpGet]
-    public IActionResult ForgotPassword()
-    {
-        return View();
-    }
+    public IActionResult ForgotPassword() => View();
 
     //ForgotPassword: Cette méthode vérifie d'abord si le modèle est valide. Si le modèle est invalide, elle retourne la vue avec le modèle invalide. Sinon, elle trouve l'utilisateur correspondant à l'adresse e-mail fournie, génère un code de réinitialisation de mot de passe, envoie un e-mail contenant le code
     [HttpPost]
@@ -363,7 +346,7 @@ public class CompteController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ResetPassword(ResetPasswordVM model, string? resetCode)
+    public async Task<IActionResult> ResetPassword(ReinitialiseMotDePasseVM model, string? resetCode)
     {
         if (!ModelState.IsValid)
             // Si le modèle n'est pas valide, afficher la vue avec le modèle invalide
@@ -443,7 +426,7 @@ public class CompteController : Controller
         ViewData["ReturnUrl"] = returnurl;
         ViewData["ProviderDisplayName"] = info.ProviderDisplayName;
         var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-        return View("ExternalLoginConfirmation", new ExternalLoginVM { Email = email });
+        return View("ExternalLoginConfirmation", new ExternalLoginVM(email, ""));
     }
 
     [HttpPost]
@@ -492,14 +475,6 @@ public class CompteController : Controller
         {
             Email = email,
             Name = name
-            //Address = new AddressOptions
-            //{
-            //    Line1 = line1,
-            //    City = city,
-            //    State = state,
-            //    PostalCode = postalCode,
-            //    Country = country
-            //}
         };
 
         var service = new CustomerService();

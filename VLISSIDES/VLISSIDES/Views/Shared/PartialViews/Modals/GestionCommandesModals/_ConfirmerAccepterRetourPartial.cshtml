@@ -5,7 +5,7 @@
     <div class="modal-body">
         <p>Êtes-vous sûr d'accepter la demande de retour?</p>
         <p>Id de la commande: @Model.Commande.Id</p>
-        <p>Membre: @Model.Commande.MembreId</p>
+        <p>Membre: @Model.Commande.Membre.Nom</p>
         <ul>
             <li>@Model.Quantite x @Model.Livre.Titre</li>
         </ul>
@@ -13,7 +13,7 @@
         @{
             var urlStripe = $"https://dashboard.stripe.com/test/payments/{Model.PaymentIntent}";
         }
-        <a href="@urlStripe" target="_blank">Allez voir la commande sur stripe</a>
+        <a href="@urlStripe" target="_blank">Allez voir la commande sur Stripe</a>
     </div>
     <div class="modal-footer">
         <a class="btn btn-secondary" href="~/GestionCommandes/Index">Annuler</a>

@@ -49,10 +49,28 @@ public class PaiementController : Controller
     {
         var currentUserId = _userManager.GetUserId(HttpContext.User);
         var adresse = _context.Adresses
-            .Where(a => a.UtilisateurPrincipalId == currentUserId || a.UtilisateurLivraisonId == currentUserId); // Ajout de ToList pour exécuter la requête
+            .Where(a => a.UtilisateurPrincipalId == currentUserId || a.UtilisateurLivraisonId == currentUserId)
+            .Select(a => new AdresseVM
+            {
+                AdresseId = a.Id,
+                NoCivique = a.NoCivique,
+                Rue = a.Rue,
+                NoApartement = a.NoApartement,
+                Ville = a.Ville,
+                Province = a.Province,
+                Pays = a.Pays,
+                CodePostal = a.CodePostal
+            })
+            .ToList(); // Ajout de ToList pour exécuter la requête
 
-        var adresseLivraisonVM = new StripePaiementVM(null, null, null, null, null, null, new PaiementAdresseVM(adresse,
-            new()), null);
+        var adresseLivraisonVM = new StripePaiementVM
+        {
+            PaiementAdresseVM = new PaiementAdresseVM
+            {
+                AdressesExistantes = adresse,
+                NouvelleAdresse = new AdresseVM() // Initialisation de NouvelleAdresse
+            }
+        };
 
         return View(adresseLivraisonVM);
     }
@@ -73,7 +91,7 @@ public class PaiementController : Controller
     {
         // Récupère l'identifiant de l'utilisateur connecté
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var StripeCustomerId = _context.Membres.First(m => m.Id == userId).StripeCustomerId;
+        var StripeCustomerId = _context.Membres.Where(m => m.Id == userId).FirstOrDefault().StripeCustomerId;
 
         // Récupere les données de LivrePanier basées sur l'identifiant de l'utilisateur
         var panierItems = _context.LivrePanier
@@ -82,12 +100,11 @@ public class PaiementController : Controller
             .ThenInclude(livretypelivre => livretypelivre.TypeLivre)
             .ToList();
         //Tax livre
-
         var taxLivreOptions = new TaxRateCreateOptions
         {
             DisplayName = "TPS",
             Inclusive = false,
-            Percentage = 5,
+            Percentage = 5
         };
         var taxLivreService = new TaxRateService();
         var taxLivreRate = taxLivreService.Create(taxLivreOptions);
@@ -116,36 +133,45 @@ public class PaiementController : Controller
                         Images = new List<string> { encodedImgLivreUrl }
                     }
                 },
-                Quantity = item.Quantite
+                Quantity = item.Quantite,
+                TaxRates = new List<string> { taxLivreRate.Id }
             };
         }).ToList();
-        //Recuperation de l'adresse de la nouvelle adresse de livraison
+        var don = _context.Dons.FirstOrDefault(d => d.UserId == userId);
+        var taxDonOptions = new TaxRateCreateOptions
+        {
+            DisplayName = "Don",
+            Inclusive = true,
+            Percentage = 0,
+        };
+        var taxDonService = new TaxRateService();
+        var taxDonRate = taxDonService.Create(taxDonOptions);
+        if (don != null)
+        {
+            lineItems.Add(new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(don.Montant) * 100,
+                    Currency = "cad",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = don.Nom,
 
-        // Détermine si vous utilisez une nouvelle adresse ou une adresse existante
-        string adresseId;
-        try
-        {
-            adresseId = Request.Form["adresseId"];
+                    }
+                },
+                Quantity = 1,
+                TaxRates = new List<string> { taxDonRate.Id }
+
+            });
         }
-        catch (Exception)
-        {
-            adresseId = model.AdresseId ?? "";
-        }
-        // Récupére l'adresse sélectionnée
-        var selectedAddress = _context.Adresses.FirstOrDefault(a => a.Id == adresseId) ?? new();
+
 
         // Crée un dictionnaire de métadonnées pour stocker les informations sur l'adresse sélectionnée
         var metadata = new Dictionary<string, string>
         {
             { "type", "livre" },
-            { "adresseId", selectedAddress.Id },
-            { "noCivique", selectedAddress.NoCivique },
-            { "rue", selectedAddress.Rue },
-            { "noApartement", selectedAddress.NoApartement },
-            { "ville", selectedAddress.Ville },
-            { "province", selectedAddress.Province },
-            { "pays", selectedAddress.Pays },
-            { "codePostal", selectedAddress.CodePostal }
+
         };
 
         var options = new SessionCreateOptions
@@ -174,7 +200,7 @@ public class PaiementController : Controller
             },
             AutomaticTax = new SessionAutomaticTaxOptions
             {
-                Enabled = true // Active le calcul automatique des taxes
+                Enabled = false // Active le calcul automatique des taxes
             },
 
 
@@ -189,9 +215,9 @@ public class PaiementController : Controller
         {
             session = service.Create(options);
         }
-        catch (Exception e)
+        catch (StripeException se)
         {
-            return BadRequest(e.Message);
+            return BadRequest(se);
         }
 
         return Json(new { id = session.Id });

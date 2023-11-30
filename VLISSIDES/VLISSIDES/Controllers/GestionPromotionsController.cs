@@ -51,22 +51,22 @@ public class GestionPromotionsController : Controller
         {
             Text = x.NomAuteur,
             Value = x.Id
-        }).ToList();
+        }).OrderBy(a => a.Text).ToList();
         vm.SelectListMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
         {
             Text = x.Nom,
             Value = x.Id
-        }).ToList();
+        }).OrderBy(m => m.Text).ToList();
         vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
         {
             Text = x.Nom,
             Value = x.Id
-        }).ToList();
+        }).OrderBy(c => c.Text).ToList();
         return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
     }
 
 
-   [HttpPost]
+    [HttpPost]
     [ValidateAntiForgeryToken]
     [Route("2147186/{controller}/{action}")]
     [Route("{controller}/{action}")]
@@ -185,17 +185,17 @@ public class GestionPromotionsController : Controller
         {
             Text = x.NomAuteur,
             Value = x.Id
-        }).ToList();
+        }).OrderBy(a => a.Text).ToList();
         vm.SelectListMaisonEditions = _context.MaisonEditions.Select(x => new SelectListItem
         {
             Text = x.Nom,
             Value = x.Id
-        }).ToList();
+        }).OrderBy(m => m.Text).ToList();
         vm.SelectListCategories = _context.Categories.Select(x => new SelectListItem
         {
             Text = x.Nom,
             Value = x.Id
-        }).ToList();
+        }).OrderBy(c => c.Text).ToList();
         return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
     }
 

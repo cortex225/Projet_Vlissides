@@ -1,44 +1,21 @@
-﻿using System.ComponentModel;
-using VLISSIDES.Models;
+﻿using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Panier;
 
 public class AfficherPanierVM
 {
-    [DisplayName("Identifiant")] public string Id { get; set; }
-    [DisplayName("Identifiant du livre")] public string LivreId { get; set; }
+    public string Id { get; set; }
 
-    [DisplayName("Livre")] public string Livre { get; set; }
-    [DisplayName("Couverture de livre")] public string Couverture { get; set; }
+    public Livre Livre { get; set; }
 
-    [DisplayName("Type de livre")] public string Type { get; set; }
+    public TypeLivre TypeLivre { get; set; } = default!;
 
-    [DisplayName("Prix original")] public decimal PrixOriginal { get; set; }
+    public double PrixOriginal { get; set; }
 
-    [DisplayName("Identifiant de l'utilisateur")] public string? UtilisateurId { get; set; }
+    public string? UserId { get; set; }
 
-    [DisplayName("Quantité")] public int? Quantite { get; set; }
-    [DisplayName("Auteurs")] public List<string>? AuteursIds { get; set; }
-    [DisplayName("Auteurs")] public List<string>? Auteurs { get; set; }
-    [DisplayName("Auteurs")] public List<string>? CategoriesIds { get; set; }
-    [DisplayName("Auteurs")] public string? MaisonEditionId { get; set; }
+    public int? Quantite { get; set; } = default!;
+    public List<LivreAuteur>? LivreAuteurs { get; set; }
 
-    [DisplayName("Prix après promotion")] public decimal PrixApresPromotion { get; set; }
-
-    public AfficherPanierVM(LivrePanier livrePanier)
-    {
-        Id = livrePanier.Id;
-        LivreId = livrePanier.Livre.Id;
-        Livre = livrePanier.Livre.Titre;
-        Livre = livrePanier.Livre.Couverture;
-        Type = livrePanier.TypeLivre.Nom;
-        PrixOriginal = livrePanier.PrixOriginal ?? 0;
-        UtilisateurId = livrePanier.UserId;
-        Quantite = livrePanier.Quantite;
-        AuteursIds = livrePanier.Livre.LivreAuteurs.Select(a => a.Auteur.Id).ToList();
-        Auteurs = livrePanier.Livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
-        CategoriesIds = livrePanier.Livre.Categories.Select(a => a.Categorie.Id).ToList();
-        MaisonEditionId = livrePanier.Livre.MaisonEditionId;
-        PrixApresPromotion = livrePanier.PrixApresPromotion ?? 0;
-    }
+    public double PrixApresPromotion { get; set; }
 }

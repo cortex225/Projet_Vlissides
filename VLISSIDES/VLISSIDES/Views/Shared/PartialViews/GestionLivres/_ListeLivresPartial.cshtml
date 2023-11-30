@@ -38,9 +38,9 @@
             </td>
             <td class="cacher-3">
                 <div>
-                @foreach (var categorie in livre.Categories)
+                    @foreach (var categorie in livre.Categories)
                     {
-                        <p>@Html.DisplayFor(modelItem=>categorie)</p>
+                        <p>@Html.DisplayFor(modelItem => categorie)</p>
                     }
                 </div>
             </td>
@@ -49,13 +49,13 @@
                 {
                     <p>@livre.Papier $</p>
                 }
-                    @if (!livre.Numerique.Equals(null))
-                    {
+                @if (!livre.Numerique.Equals(null))
+                {
                     <p>@livre.Numerique $</p>
                 }
             </td>
             <td class="cacher-1">
-                @if (livre.NbExemplaires>0)
+                @if (livre.NbExemplaires > 0)
                 {
                     <input id="@livre.Id quantite" type="number" asp-for="@livre.NbExemplaires" class="form-control formGroupExampleInput" placeholder="@Html.DisplayFor(modelItem => livre.NbExemplaires)" onclient onclick="enableButton('@livre.Id')">
                 }

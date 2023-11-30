@@ -4,11 +4,16 @@ namespace VLISSIDES.ViewModels.Compte;
 
 public class ForgotPasswordVM
 {
-    public string? UserName { get; set; }
+    [Display(Name = "Nom de l'utilisateur")] public string? UserName { get; set; }
 
 
     [Required]
     [EmailAddress]
-    [Display(Name = "Email")]
-    public string Email { get; set; } = default!;
+    [Display(Name = "Email")] public string Email { get; set; }
+
+    public ForgotPasswordVM(string? userName, string email)
+    {
+        UserName = userName;
+        Email = email;
+    }
 }

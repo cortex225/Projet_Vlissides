@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using Stripe.Checkout;
 using System.Security.Claims;
 using System.Text;
@@ -122,23 +123,11 @@ namespace VLISSIDES.Controllers
 
             return View(vm);
         }
-        public IActionResult Cancel()
-        {
-            return RedirectToAction("Index", "Evenements");
-        }
+        public IActionResult Cancel() => RedirectToAction("Index", "Evenements");
         [Route("Evenements/Success")]
-        public IActionResult Success()
-        {
-            return View();
-        }
-        public IActionResult SuccessAnnuler()
-        {
-            return View();
-        }
-        public IActionResult SuccessDemandeAnnuler()
-        {
-            return View();
-        }
+        public IActionResult Success() => View();
+        public IActionResult SuccessAnnuler() => View();
+        public IActionResult SuccessDemandeAnnuler() => View();
         [HttpPost]
         public async Task<IActionResult> AnnulerEvenement(string id)
         {
@@ -256,29 +245,28 @@ namespace VLISSIDES.Controllers
                 BillingAddressCollection = "required",
                 ShippingAddressCollection = new SessionShippingAddressCollectionOptions
                 {
-                    AllowedCountries = new List<string> { "CA", "US" },
-
+                    AllowedCountries = new List<string> { "CA", "US" }
                 },
                 CustomerUpdate = new SessionCustomerUpdateOptions
                 {
                     Address = "auto",
                     Name = "auto",
-                    Shipping = "auto",
-
+                    Shipping = "auto"
                 },
                 Metadata = new Dictionary<string, string>
+            {
+                { "type", "evenement" }, // Ici, j'indique que le type d'achat est "evenement"
                 {
-                    { "type", "evenement" }, // Ici, vous indiquez que le type d'achat est "evenement"
-                    { "evenementId", evenement.Id }, // Vous pouvez également ajouter d'autres informations utiles, comme l'ID de l'événement
-
-                },
+                    "evenementId", evenement.Id
+                }
+            },
                 InvoiceCreation = new SessionInvoiceCreationOptions
                 {
-                    Enabled = true,
+                    Enabled = true
                 },
                 AutomaticTax = new SessionAutomaticTaxOptions
                 {
-                    Enabled = false,
+                    Enabled = false
                 },
 
                 SuccessUrl = Url.Action("Success", "Evenements", null, Request.Scheme),
@@ -286,7 +274,16 @@ namespace VLISSIDES.Controllers
             };
 
             var service = new SessionService();
-            Session session = service.Create(options);
+            Session session;
+            try
+            {
+                session = service.Create(options);
+
+            }
+            catch (StripeException se)
+            {
+                return BadRequest(se);
+            }
             //var pi_options = new PaymentIntentCreateOptions()
             //{
             //    Amount = (long?)evenement.Prix * 100,
@@ -297,38 +294,6 @@ namespace VLISSIDES.Controllers
             //pi_service.Create(pi_options);
             return Json(new { id = session.Id });
         }
-
-        //public IActionResult ShowRetournerConfirmation(string id)
-        //{
-        //    var userId = _userManager.GetUserId(HttpContext.User);
-
-        //}
-        //[HttpPost]
-        //public async Task<StatusCodeResult> RefundStripe(string evenementId)
-        //{
-        //    var userId = _userManager.GetUserId(HttpContext.User);
-        //    var StripeCustomerId = _context.Membres.FirstOrDefault(m => m.Id == userId).StripeCustomerId;
-
-        //    var reservation = _context.Reservations.Include(r => r.Evenement).FirstOrDefault(r => r.EvenementId == evenementId && r.MembreId == userId);
-
-        //    //Récupérer le paiement intent grâce au PaymentIntentId
-        //    PaymentIntentService servicePaymentIntent = new PaymentIntentService();
-        //    var paymentIntent = servicePaymentIntent.Get(reservation.PaymentIntentId);
-
-        //    StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
-
-        //    var options = new RefundCreateOptions
-        //    {
-        //        PaymentIntent = paymentIntent.Id,
-        //        Amount = (long?)(reservation.Evenement.Prix),
-        //        Currency = "cad"
-        //    };
-
-        //    var service = new RefundService();
-        //    service.Create(options);
-
-        //    return Ok();
-        //}
 
     }
 }

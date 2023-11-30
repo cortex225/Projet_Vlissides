@@ -5,9 +5,11 @@ namespace VLISSIDES.ViewModels.Paiement;
 
 public class StripePaiementVM
 {
-    [DisplayName("Identifiant Utilisateur")] public string? UserId { get; set; }
+    [DisplayName("Identifiant Utilisateur")]
+    public string? UserId { get; set; }
 
-    [DisplayName("Identifiant Client Stripe")] public string? StripeCustomerId { get; set; }
+    [DisplayName("Identifiant Client Stripe")]
+    public string? StripeCustomerId { get; set; }
 
     [DisplayName("Nom")] public string? Name { get; set; }
 
@@ -19,18 +21,5 @@ public class StripePaiementVM
 
     [DisplayName("Adresse Paiement")] public PaiementAdresseVM? PaiementAdresseVM { get; set; }
 
-    [DisplayName("Don écologique")] public string DonEcologie { get; set; }
-
-    public StripePaiementVM(string? userId, string? stripeCustomerId, string? name, List<AfficherPanierVM>? livres,
-        double? prixTotal, string? adresseId, PaiementAdresseVM? paiementAdresseVM, string donEcologie)
-    {
-        UserId = userId;
-        StripeCustomerId = stripeCustomerId;
-        Name = name;
-        Livres = livres;
-        PrixTotal = prixTotal;
-        AdresseId = adresseId;
-        PaiementAdresseVM = paiementAdresseVM;
-        DonEcologie = donEcologie;
-    }
+    public string DonEcologie { get; set; }
 }
