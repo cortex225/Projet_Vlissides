@@ -210,7 +210,15 @@ public class PaiementController : Controller
 
 
         var service = new SessionService();
-        var session = service.Create(options);
+        Session session;
+        try
+        {
+            session = service.Create(options);
+        }
+        catch (StripeException se)
+        {
+            return BadRequest(se);
+        }
 
         return Json(new { id = session.Id });
     }
