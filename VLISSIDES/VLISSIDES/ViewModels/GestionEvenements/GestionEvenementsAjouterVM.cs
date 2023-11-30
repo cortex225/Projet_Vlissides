@@ -28,10 +28,23 @@ public class GestionEvenementsAjouterVM
     [DisplayName("Nombre de places réservé au membre")] public int NbPlacesMembre { get; set; }
 
 
-    [DisplayName("Prix")] public string? Prix { get; set; }
+    [DisplayName("Prix")] public decimal Prix { get; set; }
     [Display(Name = "Image du livre")] public IFormFile? CoverPhoto { get; set; }
 
-    public GestionEvenementsAjouterVM(Evenement evenement, IFormFile? coverPhoto)
+    public GestionEvenementsAjouterVM()
+    {
+        Nom = "";
+        Description = "";
+        Image = "";
+        DateDebut = DateTime.Now;
+        DateFin = DateTime.Now;
+        Lieu = "";
+        NbPlaces = 0;
+        NbPlacesMembre = 0;
+        Prix = 0;
+        CoverPhoto = null;
+    }
+    public GestionEvenementsAjouterVM(Evenement evenement)
     {
         evenement ??= new();
         Nom = evenement.Nom;
@@ -42,7 +55,7 @@ public class GestionEvenementsAjouterVM
         Lieu = evenement.Lieu;
         NbPlaces = evenement.NbPlaces;
         NbPlacesMembre = evenement.NbPlacesMembre;
-        Prix = evenement.Prix.ToString();
-        CoverPhoto = coverPhoto;
+        Prix = evenement.Prix??0;
+        CoverPhoto = null;
     }
 }
