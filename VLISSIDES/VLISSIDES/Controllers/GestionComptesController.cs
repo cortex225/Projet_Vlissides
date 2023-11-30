@@ -305,7 +305,12 @@ namespace VLISSIDES.Controllers
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
-
+            var addressePrincipale = _context.Adresses.FirstOrDefault(x => x.UtilisateurPrincipalId == user.Id);
+            if (addressePrincipale != null)
+            {
+                addressePrincipale.UtilisateurPrincipalId = null;
+                await _context.SaveChangesAsync();
+            }
             await _userManager.DeleteAsync(user);
             await _context.SaveChangesAsync();
             return Ok();
