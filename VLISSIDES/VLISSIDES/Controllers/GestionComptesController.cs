@@ -86,13 +86,17 @@ namespace VLISSIDES.Controllers
                     Prenom = vm.Prenom,
                     UserName = vm.Username,
                     Email = vm.Email,
-                    PhoneNumber = vm.Telephone,
                     NormalizedUserName = vm.Username.ToUpper(),
                     NormalizedEmail = vm.Email.ToUpper(),
-
                     EmailConfirmed = true,
-                    PhoneNumberConfirmed = true,
+                    PhoneNumber = null,
+                    PhoneNumberConfirmed = false,
                 };
+                if (vm.Telephone != null)
+                {
+                    Employe.PhoneNumber = vm.Telephone;
+                    Employe.PhoneNumberConfirmed = true;
+                }
                 var result = await _userManager.CreateAsync(Employe, vm.Password);
                 if (result.Succeeded)
                 {
@@ -182,7 +186,12 @@ namespace VLISSIDES.Controllers
                 user.NormalizedUserName = vm.Username.ToUpper();
                 user.NormalizedEmail = vm.Email.ToUpper();
                 user.Email = vm.Email;
-                user.PhoneNumber = vm.Telephone;
+                user.PhoneNumber = null;
+                if (vm.Telephone != null)
+                {
+                    user.PhoneNumber = vm.Telephone;
+                }
+
                 //Sauvegarde les changements
                 await _context.SaveChangesAsync();
 
@@ -248,7 +257,11 @@ namespace VLISSIDES.Controllers
                 user.NormalizedUserName = vm.Username.ToUpper();
                 user.NormalizedEmail = vm.Email.ToUpper();
                 user.Email = vm.Email;
-                user.PhoneNumber = vm.Telephone;
+                user.PhoneNumber = null;
+                if (vm.Telephone != null)
+                {
+                    user.PhoneNumber = vm.Telephone;
+                }
                 //Sauvegarde les changements
                 await _context.SaveChangesAsync();
                 return Ok();
