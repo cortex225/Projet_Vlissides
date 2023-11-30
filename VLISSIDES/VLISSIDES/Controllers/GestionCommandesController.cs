@@ -118,7 +118,7 @@ public class GestionCommandesController : Controller
 
         if (listCriteres.Any(c => c == "rechercherCommande"))
             if (listCriteresValue[3] != "")
-                listeCommandeVM = listeCommandeVM.Where(c => c.Id == listCriteresValue[2]).ToList();
+                listeCommandeVM = listeCommandeVM.Where(c => c.Id == listCriteresValue[3]).ToList();
 
         if (listCriteres.Any(c => c == "trierDate"))
         {
