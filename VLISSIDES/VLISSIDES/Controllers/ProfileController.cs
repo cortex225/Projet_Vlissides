@@ -30,58 +30,20 @@ public class ProfileController : Controller
         _webHostEnvironment = webHostEnvironment;
     }
 
-    public IActionResult Index()
-    {
-        var userId = _userManager.GetUserId(HttpContext.User);
-        var user = _userManager.FindByIdAsync(userId).Result;
-
-        var vm = new ProfileIndexVM
-        {
-            ProfileModifierInformationVM = new ProfileModifierInformationVM
-            {
-                Prenom = user.Prenom,
-                Nom = user.Nom,
-                NomUtilisateur = user.UserName,
-                DateNaissance = user.DateNaissance,
-                Courriel = user.Email,
-                Id = user.Id,
-                Telephone = user.PhoneNumber,
-                CoverImageUrl = user.CoverImageUrl,
-                CoverPhoto = user.CoverPhoto
-            }
-        };
-        return View(vm);
-    }
+    public IActionResult Index() => View(
+        new ProfileIndexVM(_userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User)).Result));
 
     [Route("2167594/Profile/ModifierInformation")]
     [Route("{controller}/{action}")]
-    public IActionResult ModifierInformation()
-    {
-        var userId = _userManager.GetUserId(HttpContext.User);
-        var user = _userManager.FindByIdAsync(userId).Result;
-
-
-        var vm = new ProfileModifierInformationVM
-        {
-            Prenom = user.Prenom,
-            Nom = user.Nom,
-            NomUtilisateur = user.UserName,
-            DateNaissance = user.DateNaissance,
-            Courriel = user.Email,
-            Id = user.Id,
-            Telephone = user.PhoneNumber,
-            CoverImageUrl = user.CoverImageUrl,
-            CoverPhoto = user.CoverPhoto
-        };
-        return PartialView("PartialViews/Profile/_ProfilePartial", vm);
-    }
+    public IActionResult ModifierInformation() => PartialView("PartialViews/Profile/_ProfilePartial",
+        new ProfileModifierInformationVM(_userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User)).Result));
 
     [HttpPost]
     [Route("2167594/Profile/ModifierInformation")]
     [Route("{controller}/{action}")]
     public async Task<IActionResult> ModifierInformation(ProfileModifierInformationVM vm)
     {
-        var indexVM = new ProfileIndexVM { ProfileModifierInformationVM = vm };
+        var indexVM = new ProfileIndexVM(vm);
         var userId = _userManager.GetUserId(HttpContext.User);
         var userCourant = await _userManager.FindByIdAsync(userId);
         if (userCourant.UserName != vm.NomUtilisateur)
@@ -110,27 +72,6 @@ public class ProfileController : Controller
                 user.NormalizedUserName = vm.NomUtilisateur.ToUpper();
                 userM.UserName = vm.NomUtilisateur;
 
-                // Sauvegarder l'image dans le dossier spécifié
-                //if (vm.CoverPhoto != null)
-                //{
-                //    var wwwRootPath = _webHostEnvironment.WebRootPath;
-                //    var fileName = Path.GetFileNameWithoutExtension(vm.CoverPhoto.FileName);
-                //    var extension = Path.GetExtension(vm.CoverPhoto.FileName);
-                //    fileName = fileName + "_" + Guid.NewGuid().ToString() +
-                //               extension; // Utilisation de Guid pour un nom de fichier unique
-                //    var folderPath =
-                //        Path.Combine(wwwRootPath, _config.GetValue<string>("ImageUrl")); // Chemin du dossier où l'image sera sauvegardée
-                //    var fullPath = Path.Combine(folderPath, fileName); // Chemin complet du fichier
-
-                //    // Sauvegarder l'image
-                //    using (var fileStream = new FileStream(fullPath, FileMode.Create))
-                //    {
-                //        await vm.CoverPhoto.CopyToAsync(fileStream);
-                //    }
-
-                //    userCourant.CoverImageUrl =
-                //        "/img/UserPhoto/" + fileName; 
-                //}
                 if (vm.CoverPhoto != null)
                 {
                     var wwwRootPath = _webHostEnvironment.WebRootPath;
@@ -158,14 +99,8 @@ public class ProfileController : Controller
 
     [Route("2167594/Profile/ModifierPassword")]
     [Route("{controller}/{action}")]
-    public IActionResult ModifierPassword()
-    {
-        var vm = new ProfileModifierPasswordVM
-        {
-            Id = _userManager.GetUserId(HttpContext.User)
-        };
-        return PartialView("PartialViews/Profile/_ModifierPasswordPartial", vm);
-    }
+    public IActionResult ModifierPassword() => PartialView("PartialViews/Profile/_ModifierPasswordPartial",
+        new ProfileModifierPasswordVM(_userManager.GetUserId(HttpContext.User)));
 
     [HttpPost]
     [Route("2167594/Profile/ModifierPassword")]
@@ -176,16 +111,16 @@ public class ProfileController : Controller
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == vm.Id);
             var passswordVerificationResult =
-                new PasswordHasher<ApplicationUser>().VerifyHashedPassword(user, user.PasswordHash, vm.Password);
+                new PasswordHasher<ApplicationUser>().VerifyHashedPassword(user, user.PasswordHash, vm.MotDePasse);
             if (passswordVerificationResult == PasswordVerificationResult.Failed)
                 ModelState.AddModelError("Password", "Mot de passe actuel erroné");
 
-            if (vm.NewPassword != vm.ConfirmPassword)
+            if (vm.NouveauMotDePasse != vm.MotDePasseConfirme)
                 ModelState.AddModelError("ConfirmPassword", "La confirmation du mot de passe n'est pas correcte");
 
             if (ModelState.IsValid)
             {
-                user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, vm.NewPassword);
+                user.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(user, vm.NouveauMotDePasse);
                 _context.SaveChanges();
             }
         }
@@ -193,38 +128,12 @@ public class ProfileController : Controller
         return PartialView("PartialViews/Profile/_ModifierPasswordPartial", vm);
     }
 
-    public IActionResult ModifierAdresses()
-    {
-        var userId = _userManager.GetUserId(HttpContext.User);
-        //var user = _userManager.FindByIdAsync(userId).Result;
-        var user = _context.Users.Include(x => x.AdressePrincipale).Include(x => x.AdressesLivraison)
-            .FirstOrDefault(u => u.Id == userId);
-
-        ProfileModifierAdressesVM vm;
-        if (user.AdressePrincipale != null)
-        {
-            vm = new ProfileModifierAdressesVM
-            {
-                Id = user.Id,
-                //AdressePrincipale = user.AdressePrincipale,
-                NoCivique = user.AdressePrincipale.NoCivique,
-                Rue = user.AdressePrincipale.Rue,
-                CodePostal = user.AdressePrincipale.CodePostal,
-                Pays = user.AdressePrincipale.Pays,
-                Province = user.AdressePrincipale.Province,
-                Ville = user.AdressePrincipale.Ville
-            };
-            if (user.AdressePrincipale.NoApartement != null) vm.NoApartement = user.AdressePrincipale.NoApartement;
-        }
-        else
-        {
-            vm = new ProfileModifierAdressesVM { Id = user.Id };
-        }
-
-        if (user.AdressesLivraison.Count() > 0) vm.AdressesDeLivraison = user.AdressesLivraison.ToList();
-
-        return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
-    }
+    public IActionResult ModifierAdresses() =>
+        PartialView("PartialViews/Profile/_ProfileAdressesPartial",
+            new ProfileModifierAdressesVM(_context.Users.Include(x => x.AdressePrincipale)
+                .Include(x => x.AdressesLivraison)
+                .FirstOrDefault(u => u.Id == _userManager.GetUserId(HttpContext.User)))
+            );
 
     [HttpPost]
     public IActionResult ModifierAdressePrincipale(ProfileModifierAdressesVM vm)
@@ -274,41 +183,18 @@ public class ProfileController : Controller
     }
 
     [HttpPost]
-    public IActionResult EnleverAdressesLivraison(string? id)
+    public async Task<IActionResult> EnleverAdressesLivraison(string? id)
     {
-        if (id == null) return BadRequest();
+        var adresse = await _context.Adresses.FindAsync(id);
+        if (adresse == null) return NotFound("L'adresse à l'identifiant " + id + " n'a pas été trouvé.");
 
-        var ad = _context.Adresses.FirstOrDefault(a => a.Id == id);
-        _context.Adresses.Remove(ad);
+        _context.Adresses.Remove(adresse);
         _context.SaveChanges();
-        var userId = _userManager.GetUserId(HttpContext.User);
-        //var user = _userManager.FindByIdAsync(userId).Result;
-        var user = _context.Users.Include(x => x.AdressePrincipale).Include(x => x.AdressesLivraison)
-            .FirstOrDefault(u => u.Id == userId);
-
-        ProfileModifierAdressesVM vm;
-        if (user.AdressePrincipale != null)
-        {
-            vm = new ProfileModifierAdressesVM
-            {
-                Id = user.Id,
-                //AdressePrincipale = user.AdressePrincipale,
-                NoCivique = user.AdressePrincipale.NoCivique,
-                Rue = user.AdressePrincipale.Rue,
-                CodePostal = user.AdressePrincipale.CodePostal,
-                Pays = user.AdressePrincipale.Pays,
-                Province = user.AdressePrincipale.Province,
-                Ville = user.AdressePrincipale.Ville
-            };
-            if (user.AdressePrincipale.NoApartement != null) vm.NoApartement = user.AdressePrincipale.NoApartement;
-        }
-        else
-        {
-            vm = new ProfileModifierAdressesVM { Id = user.Id };
-        }
-
-        if (user.AdressesLivraison.Count() > 0) vm.AdressesDeLivraison = user.AdressesLivraison.ToList();
-
-        return PartialView("PartialViews/Profile/_ProfileAdressesPartial", vm);
+        return PartialView("PartialViews/Profile/_ProfileAdressesPartial",
+            new ProfileModifierAdressesVM(
+                _context.Users.Include(x => x.AdressePrincipale)
+                .Include(x => x.AdressesLivraison)
+                .FirstOrDefault(u => u.Id == _userManager.GetUserId(HttpContext.User)))
+            );
     }
 }

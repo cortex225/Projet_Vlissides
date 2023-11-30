@@ -119,7 +119,7 @@
     //Multiple fonctions pour reafficher la liste
     function SupprimerCompteMembre(id=""){
         fetch(BASE_URL + "/GestionComptes/SupprimerCompte?id=" + id, {
-            method:"POST",
+            method: "Delete",
         }).then(response => {
             return response.text();
         }).then((results)=>{
@@ -129,7 +129,7 @@
     }
     function SupprimerCompteEmploye(id=""){
         fetch(BASE_URL + "/GestionComptes/SupprimerCompte?id=" + id, {
-            method:"POST",
+            method: "Delete",
         }).then(response => {
             return response.text();
         }).then((results)=>{
@@ -139,7 +139,7 @@
     }
     function SupprimerCompteAdmin(id = "") {
         fetch(BASE_URL + "/GestionComptes/SupprimerCompte?id=" + id, {
-            method: "POST",
+            method: "Delete",
         }).then(response => {
             return response.text();
         }).then((results) => {
