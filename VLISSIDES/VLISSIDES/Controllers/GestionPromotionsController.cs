@@ -221,10 +221,6 @@ public class GestionPromotionsController : Controller
                     await vm.CoverPhoto.CopyToAsync(fileStream);
                 }
             }
-            else
-            {
-                vm.CoverImageUrl = "/img/images_Promo/promo2.png";
-            }
 
             var maPromo = _context.Promotions.Find(vm.Id);
 
