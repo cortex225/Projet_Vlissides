@@ -213,6 +213,16 @@ public class StripeController : Controller
             }
         }
 
+        var promotion = nouvelleCommande.PromotionId != null
+            ? _context.Promotions.FirstOrDefault(p => p.Id == nouvelleCommande.PromotionId)
+            : null;
+
+        // Mettre à jour la dernière utilisation pour la promotion d'anniversaire
+        if(promotion != null && promotion.TypePromotion == "BIRTHDAY")
+        {
+            customer.DerniereUtilisationPromoAnniversaire = DateTime.Now;
+            _context.Membres.Update(customer);
+        }
         await _context.SaveChangesAsync();
     }
 
