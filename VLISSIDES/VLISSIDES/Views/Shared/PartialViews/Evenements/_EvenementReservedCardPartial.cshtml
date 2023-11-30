@@ -56,7 +56,7 @@
                 </p>
             </div>
             <div class="mb-2 d-flex align-items-center justify-content-center justify-content-md-start">
-                Prix: @Model.Prix
+                Prix: @Model.Prix.ToString("F2", CultureInfo.GetCultureInfo("fr-CA")
             </div>
         </div>
     </div>
