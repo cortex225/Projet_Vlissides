@@ -22,14 +22,18 @@
                 <div class="form-group ">
                     <label asp-for="Nom" class="control-label"></label>(<span class="text-danger">*</span>)
                     <input asp-for="Nom" class="form-control"/>
+                    <span asp-validation-for="Nom" class="text-danger"></span>
                 </div>
                 <div class="form-group " id="formDescription">
                     <label asp-for="Description" class="control-label"></label>(<span class="text-danger">*</span>) 
-                    <textarea asp-for="Description" class="form-control" rows="4" style="height:100%;"></textarea>
+                    <textarea asp-for="Description" class="form-control" rows="4" style="height:90%;"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
+                
                 <div class="form-group ">
                     <label asp-for="CodePromo" class="control-label"></label>(<span class="text-danger">*</span>)
                     <input asp-for="CodePromo" class="form-control"/>
+                    <span asp-validation-for="CodePromo" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
@@ -41,14 +45,22 @@
                     </select>
                 </div>
                 <div class="form-group " id="form2pour1" hidden>
-                    <label asp-for="LivresAcheter">Livres à acheter(<span class="text-danger">*</span>):</label>
-                    <input asp-for="LivresAcheter" class="form-control" value="1" min="1" max="99">
-                    <label asp-for="LivresGratuits">Livres gratuits(<span class="text-danger">*</span>):</label>
-                    <input asp-for="LivresGratuits" class="form-control" value="1" min="1" max="99">
+                    <div>
+                        <label asp-for="LivresAcheter">Livres à acheter(<span class="text-danger">*</span>):</label>
+                        <input asp-for="LivresAcheter" class="form-control" min="1" max="99">
+                        <span asp-validation-for="LivresAcheter" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="LivresGratuits">Livres gratuits(<span class="text-danger">*</span>):</label>
+                        <input asp-for="LivresGratuits" class="form-control" min="1" max="99">
+                        <span asp-validation-for="LivresGratuits" class="text-danger"></span>
+                    </div>
+                    
                 </div>
                 <div class="form-group" id="formPourcentage" hidden>
                     <label asp-for="PourcentageRabais">Pourcentage du rabais:</label>(<span class="text-danger">*</span>)
-                    <input asp-for="PourcentageRabais" class="form-control" value="1" min="1" max="99">
+                    <input asp-for="PourcentageRabais" class="form-control" min="1" max="99">
+                    <span asp-validation-for="PourcentageRabais" class="text-danger"></span>
                 </div>
             </div>
 
@@ -74,10 +86,12 @@
                 <div class="form-group mt-4">
                     <label asp-for="DateDebut"></label>(<span class="text-danger">*</span>)
                     <input asp-for="DateDebut" />
+                    <span asp-validation-for="DateDebut" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-4">
                     <label asp-for="DateFin"></label>(<span class="text-danger">*</span>)
-                    <input asp-for="DateFin" />
+                    <input asp-for="DateFin"/>
+                    <span asp-validation-for="DateFin" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -98,7 +112,6 @@
 <script>
     //Script pour URL
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
-    console.log(BASE_URL);
 </script>
 
 <script>
@@ -153,13 +166,14 @@
 
             return response.text();
         }).then((result) => {
-            console.log(result);
+            
             if (result == "") {
 
                 $('.modal').modal('hide');
                 AfficherPromotions();
             } else {
                 document.querySelector('.modal-content').innerHTML = result;
+                changerTypePromotion();
             }
 
         });
@@ -182,13 +196,14 @@
 
             return response.text();
         }).then((result) => {
-            console.log(result);
+            
             if (result == "") {
 
                 $('.modal').modal('hide');
                 AfficherPromotions();
             } else {
                 document.querySelector('.modal-content').innerHTML = result;
+                changerTypePromotion();
             }
 
         });
