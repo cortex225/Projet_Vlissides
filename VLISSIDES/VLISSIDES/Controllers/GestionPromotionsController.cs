@@ -45,7 +45,8 @@ public class GestionPromotionsController : Controller
         var vm = new AjouterPromotionVM();
 
         vm.action = "Ajouter";
-
+        vm.DateDebut = DateTime.Now.Date;
+        vm.DateFin = DateTime.Now.Date;
         //Populer les listes déroulantes
         vm.SelectListAuteurs = _context.Auteurs.Select(x => new SelectListItem
         {
@@ -220,10 +221,6 @@ public class GestionPromotionsController : Controller
                 {
                     await vm.CoverPhoto.CopyToAsync(fileStream);
                 }
-            }
-            else
-            {
-                vm.CoverImageUrl = "/img/images_Promo/promo2.png";
             }
 
             var maPromo = _context.Promotions.Find(vm.Id);
