@@ -177,7 +177,7 @@
 </script>
 <script type="text/javascript">
     function ShowInputsNeuf() {
-        console.log("aloo");
+        
         var cb = document.getElementById("cbNeuf");
         var div = document.getElementById("inputsNeuf");
         if (cb.checked == true) {
@@ -224,7 +224,6 @@
 
             return response.text();
         }).then((result) => {
-            console.log(result);
             if (result == "") {
 
                 $('.modal').modal('hide');

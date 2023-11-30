@@ -388,7 +388,10 @@
         width: auto;
     }
 </style>
-
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
 <script>
     $(window).on('resize', function () {
         var win = $(this);
@@ -596,7 +599,7 @@
 
 
         // Utiliser la valeur dans l'URL pour l'action Inventaire
-        window.location.href = `/GestionLivres/Inventaire?${partieMotCles}&${partieCriteres}`;
+        window.location.href = BASE_URL + `/GestionLivres/Inventaire?${partieMotCles}&${partieCriteres}`;
     }
 </script>
 <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>

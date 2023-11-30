@@ -1,8 +1,18 @@
-﻿namespace VLISSIDES.ViewModels.GestionComptes;
+﻿using System.ComponentModel;
+using VLISSIDES.Models;
+
+namespace VLISSIDES.ViewModels.GestionComptes;
 
 public class GestionComptesEmployeVM
 {
-    public string Id { get; set; }
-    public string Nom { get; set; }
-    public string Courriel { get; set; }
+    [DisplayName("Udentifiant")] public string Id { get; set; }
+    [DisplayName("Nom")] public string Nom { get; set; }
+    [DisplayName("courriel")] public string Courriel { get; set; }
+
+    public GestionComptesEmployeVM(ApplicationUser user)
+    {
+        Id = user.Id;
+        Nom = user.Nom;
+        Courriel = user.Email;
+    }
 }

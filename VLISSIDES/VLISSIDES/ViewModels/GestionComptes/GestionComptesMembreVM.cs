@@ -1,9 +1,20 @@
-﻿namespace VLISSIDES.ViewModels.GestionComptes;
+﻿using VLISSIDES.Models;
 
-public class GestionComptesMembreVM
+namespace VLISSIDES.ViewModels.GestionComptes
 {
-    public string Id { get; set; }
-    public string Nom { get; set; }
-    public string Courriel { get; set; }
-    public bool IsBanned { get; set; }
+    public class GestionComptesMembreVM
+    {
+        public string Id { get; set; }
+        public string Nom { get; set; }
+        public string Courriel { get; set; }
+        public bool IsBanned { get; set; }
+
+        public GestionComptesMembreVM(ApplicationUser user)
+        {
+            Id = user.Id;
+            Nom = user.Nom;
+            Courriel = user.Email;
+            IsBanned = user.IsBanned;
+        }
+    }
 }
