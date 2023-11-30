@@ -12,7 +12,7 @@ public class GestionComptesEmployeVM
     public GestionComptesEmployeVM(ApplicationUser user)
     {
         Id = user.Id;
-        Nom = user.Nom;
+        Nom = user.UserName;
         Courriel = user.Email;
     }
 }

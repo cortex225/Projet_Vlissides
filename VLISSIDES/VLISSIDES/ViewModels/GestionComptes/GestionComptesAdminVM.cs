@@ -12,7 +12,7 @@ public class GestionComptesAdminVM
     public GestionComptesAdminVM(ApplicationUser user)
     {
         Id = user.Id;
-        Nom = user.Nom;
+        Nom = user.UserName;
         Courriel = user.Email;
     }
 }

@@ -9,6 +9,12 @@ public class MaisonEditionsIndexVM
     [Display(Name = "Maison d'édition modifié")] public MaisonEditionsModifierVM? MaisonEditionsModifie { get; set; }
     [Display(Name = "Maison d'édition affiché")] public List<MaisonEditionsAfficherVM>? MaisonEditionsAffiche { get; set; }
 
+    public MaisonEditionsIndexVM()
+    {
+        MaisonEditionsAjoute = null;
+        MaisonEditionsModifie = null;
+        MaisonEditionsAffiche = new();
+    }
     public MaisonEditionsIndexVM(IEnumerable<MaisonEdition> maisonEditions)
     {
         MaisonEditionsAjoute = null;

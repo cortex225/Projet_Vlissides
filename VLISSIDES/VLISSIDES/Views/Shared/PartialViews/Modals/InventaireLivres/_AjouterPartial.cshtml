@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="NbPages" class="control-label"></label>(<span class="text-danger">*</span>)
-                        <input asp-for="NbPages" type="number" class="form-control"/>
+                        <input asp-for="NbPages" type="number" min="0" class="form-control"/>
                         <span asp-validation-for="NbPages" class="text-danger"></span>
                     </div>
 

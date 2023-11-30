@@ -1,4 +1,13 @@
-﻿namespace VLISSIDES.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
+using VLISSIDES.Data;
+using VLISSIDES.Interfaces;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.GestionEvenements;
+
+namespace VLISSIDES.Controllers
 {
     [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
     public class GestionEvenementsController : Controller
@@ -27,7 +36,7 @@
             return View(_context.Evenements.Select(e => new GestionEvenementsIndexVM(e)).ToList());
         }
         public IActionResult AfficherEvenements() => PartialView("PartialViews/GestionEvenements/_ListeEvenementsPartial",
-                _context.Evenements.Select(e => e).ToList());
+                _context.Evenements.Select(e => new GestionEvenementsIndexVM(e)).ToList());
         public IActionResult AfficherReservations() => PartialView("PartialViews/GestionEvenements/_ListeReservationsPartial"
             , _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).Where(r => r.EnDemandeAnnuler == true)
             .Select(r => new GestionEvenementsReservationVM(r)).ToList());

@@ -12,7 +12,7 @@ namespace VLISSIDES.ViewModels.GestionComptes
         public GestionComptesMembreVM(ApplicationUser user)
         {
             Id = user.Id;
-            Nom = user.Nom;
+            Nom = user.UserName;
             Courriel = user.Email;
             IsBanned = user.IsBanned;
         }

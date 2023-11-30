@@ -1,4 +1,8 @@
-﻿namespace VLISSIDES.ViewModels.Profile;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
+
+namespace VLISSIDES.ViewModels.Profile;
 
 public class ProfileModifierAdressesVM
 {

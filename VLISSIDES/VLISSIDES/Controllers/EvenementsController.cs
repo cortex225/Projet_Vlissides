@@ -1,4 +1,16 @@
-﻿namespace VLISSIDES.Controllers
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Stripe;
+using Stripe.Checkout;
+using System.Security.Claims;
+using System.Text;
+using VLISSIDES.Data;
+using VLISSIDES.Interfaces;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Evenements;
+
+namespace VLISSIDES.Controllers
 {
     public class EvenementsController : Controller
     {
@@ -262,7 +274,16 @@
             };
 
             var service = new SessionService();
-            Session session = service.Create(options);
+            Session session;
+            try
+            {
+                session = service.Create(options);
+
+            }
+            catch (StripeException se)
+            {
+                return BadRequest(se);
+            }
             //var pi_options = new PaymentIntentCreateOptions()
             //{
             //    Amount = (long?)evenement.Prix * 100,

@@ -9,6 +9,8 @@ public class EvenementsIndexVM
 
     public EvenementsIndexVM(IEnumerable<EvenementsVM> evenements = null, IEnumerable<EvenementsVM> mesEvenements = null)
     {
+        evenements ??= new List<EvenementsVM>();
+        mesEvenements ??= new List<EvenementsVM>();
         Evenements = evenements.ToList();
         MesEvenements = mesEvenements.ToList();
     }
