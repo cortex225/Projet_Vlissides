@@ -52,11 +52,15 @@ public class ProfileController : Controller
 
         if (ModelState.IsValid)
         {
-            if (!Regex.Match(vm.Telephone, "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$").Success)
+            if (vm.Telephone != null)
             {
-                ModelState.AddModelError("Telephone", "Le numéro de téléphone doit avoir le format : 123-456-7890");
-                return View("Index", indexVM);
+                if (!Regex.Match(vm.Telephone, "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$").Success)
+                {
+                    ModelState.AddModelError("Telephone", "Le numéro de téléphone doit avoir le format : 123-456-7890");
+                    return View("Index", indexVM);
+                }
             }
+
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == vm.Id);
             var userM = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == vm.Id);
 
@@ -64,7 +68,8 @@ public class ProfileController : Controller
             {
                 user.Prenom = vm.Prenom;
                 user.Nom = vm.Nom;
-                user.PhoneNumber = vm.Telephone;
+                user.PhoneNumber = null;
+                if (vm.Telephone != null) { user.PhoneNumber = vm.Telephone; }
                 user.DateNaissance = vm.DateNaissance;
                 user.Email = vm.Courriel;
                 user.NormalizedEmail = vm.Courriel.ToUpper();

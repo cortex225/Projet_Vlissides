@@ -17,8 +17,8 @@ public class GestionComptesModifierVM
     [Required(ErrorMessage = "Le Nom d'utilisateur est obligatoire")]
     [DisplayName("Nom d'utilisateur")] public string Username { get; set; }
 
-    [Required(ErrorMessage = "Le Téléphone est obligatoire")]
-    [DisplayName("Téléphone")] public string Telephone { get; set; }
+
+    [DisplayName("Téléphone")] public string? Telephone { get; set; }
 
     [Required(ErrorMessage = "L'Adresse Courriel est obligatoire")]
     [DisplayName("Adresse Courriel")] public string Email { get; set; }
