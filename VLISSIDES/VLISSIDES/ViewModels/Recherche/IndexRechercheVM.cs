@@ -1,24 +1,25 @@
-﻿using VLISSIDES.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Recherche;
 
 public class IndexRechercheVM
 {
-    public string MotRecherche { get; set; }
-    public string Criteres { get; set; }
+    [Display(Name = "Mot rechercé")] public string MotRecherche { get; set; }
+    [Display(Name = "Critères")] public string Criteres { get; set; }
 
     //"Résultat de recherche pour "MotRecherche"
-    public List<string> ResultatRecherche { get; set; }
-    public List<DetailsLivreVM> LivrePartials { get; set; }
-    public List<string> Livres { get; set; }
-    public List<string> Auteurs { get; set; }
-    public List<string> MaisonEditions { get; set; }
-    public List<string> Categories { get; set; }
-    public List<string> Langues { get; set; }
-    public List<string> TypeLivres { get; set; }
+    [Display(Name = "Resultat de la recherche")] public List<string> ResultatRecherche { get; set; }
+    [Display(Name = "Livre partials")] public List<DetailsLivreVM> LivrePartials { get; set; }
+    [Display(Name = "Livres")] public List<string> Livres { get; set; }
+    [Display(Name = "Auteurs")] public List<string> Auteurs { get; set; }
+    [Display(Name = "Editions")] public List<string> MaisonEditions { get; set; }
+    [Display(Name = "Catégories")] public List<string> Categories { get; set; }
+    [Display(Name = "Langues")] public List<string> Langues { get; set; }
+    [Display(Name = "Types de livre")] public List<string> TypeLivres { get; set; }
 
-    public double minPrix { get; set; }
-    public double maxPrix { get; set; }
+    [Display(Name = "Prix minimal")] public double minPrix { get; set; }
+    [Display(Name = "Prix maximal")] public double maxPrix { get; set; }
 
     public IndexRechercheVM(string motRecherche, string criteres, List<Livre> resultatRecherche, List<Livre> livres,
         List<Auteur> auteurs, List<MaisonEdition> maisonEditions, List<Categorie> categories,
@@ -38,12 +39,7 @@ public class IndexRechercheVM
         MotRecherche = motRecherche.Replace("|", ", ");
         Criteres = criteres.Replace("|", ", ");
         ResultatRecherche = resultatRecherche.Select(rr => rr.Titre).ToList();
-        LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr.Id, rr.Titre,
-            rr.LivreAuteurs.Select(la => la.Auteur),
-            rr.Categories.Select(lc => lc.Categorie), rr.Evaluations.Select(le => le.Note),
-            rr.DatePublication, rr.Couverture, rr.MaisonEdition, rr.NbPages, rr.Resume,
-            rr.NbExemplaires, rr.LivreTypeLivres, rr.ISBN, rr.Langue.Nom
-            )).ToList();
+        LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr)).ToList();
         Livres = livres.Select(l => l.Titre).ToList();
         Auteurs = auteurs.Select(a => a.NomAuteur).ToList();
         MaisonEditions = maisonEditions.Select(me => me.Nom).ToList();

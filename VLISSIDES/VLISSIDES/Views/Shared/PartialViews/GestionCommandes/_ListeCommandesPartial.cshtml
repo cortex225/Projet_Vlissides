@@ -1,11 +1,11 @@
-﻿@using System.Globalization;
+﻿@using System.Globalization
 @model VLISSIDES.ViewModels.GestionCommandes.AffichageCommandeVM
 @{
 }
 
 <link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
 <div id="accordion">
-    @foreach (var commande in @Model.Commandes)
+    @foreach (var commande in Model.ListCommandes)
     {
         <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable">
             <div class="row d-flex p-2">
@@ -21,10 +21,10 @@
                 <div class="mediaQuerryHideOnSmall col d-flex justify-content-center">
                     <p class="my-auto">@commande.DateCommande</p>
                 </div>
-                <div class="mediaQuerryHideOnMedium col-2 form-group d-flex justify-content-center">
+                <div class="mediaQuerryHideOnMedium col form-group d-flex justify-content-center">
                     <div>
                         <select id="@commande.Id statutSelectList" class="form-select my-auto" style="width:auto;" onchange="enableButton('@commande.Id')" name="StatutId">
-                            @foreach (var statut in Model.ListStatut)
+                            @foreach (var statut in Model.SelectListStatut)
                             {
                                 if (statut.Value == commande.StatutId)
                                 {
@@ -41,28 +41,29 @@
                                                     saveStatut('@commande.Id')
                                                     disableButton('@commande.Id')">
 
-                        <span class="fa-solid fa-check fa-2x" ></span>
+                        <span class="fa-solid fa-check fa-2x"></span>
                     </button>
                 </div>
-                <div class="mediaQuerryHideOnSuperSmall col-2 d-flex justify-content-start align-self-md-center">
+                <div class="mediaQuerryHideOnSuperSmall col-2 pl-3 d-flex justify-content-between align-self-md-center">
 
-                    <div class="mediaQuerryHideOnMediumSmall">
+                    <div class="mediaQuerryHideOnMediumSmall pl-3">
                         <i class="fa-solid fa-circle-info fa-2xl" style="color: #386bc0!important;" type="button" onclick="collapse('@commande.Id')"></i>
                     </div>
-                    
-                    @if(commande.EnDemandeAnnulation == true)
-                    {
-                        <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Annulation</span>
-                    }
-                    @if(commande.LivreCommandes.Any(lc => lc.EnDemandeRetourne == true))
-                    {
-                        <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Retour</span>
-                    }
 
+                    <div class="d-flex flex-column">
+                        @if (commande.EnDemandeAnnulation)
+                        {
+                            <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Annulation</span>
+                        }
+                        @if (commande.LivreCommandes.Any(lc => lc.EnDemandeRetourner))
+                        {
+                            <span class="text-danger font-weight-bold"><i class="fa-solid fa-circle-exclamation" style="color: #DC3545 !important;"></i> Retour</span>
+                        }
+                    </div>
                 </div>
 
             </div>
-            <div class="collapse" id="collapseCommandeLivres_@commande.Id">
+            <div id="collapseCommandeLivres_@commande.Id" style="display:none">
                 <hr>
                 <div class="p-2">
                     <h5 class="">Articles:</h5>
@@ -76,31 +77,31 @@
                                 <div class="col-sm-2">
                                 </div>
                                 <div class="col-sm-1 d-flex justify-content-center">
-                                    @{var prix = item.PrixAchat * item.Quantite;}
+                                    @{ var prix = item.PrixAchat * item.Quantite; }
                                     @prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))
                                 </div>
-                                <div class="mediaQuerryHideOnMediumSmall">
-                                    @if (item.EnDemandeRetourne == true)
+                                <div class="mediaQuerryHideOnMediumSmall col-sm-3 d-flex justify-content-center">
+                                    @if (item.EnDemandeRetourner)
                                     {
                                         <div class="col-sm-3 d-flex justify-content-center my-auto">
-                                            <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowAccepterRetourConfirmation", "GestionCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Accepter</button>
-                                            <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("ShowRefuserRetourConfirmation", "GestionCommandes" , new { commandeId=item.CommandeId, livreId=item.Livre.Id})')">Refuser</button>
+                                            <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowAccepterRetourConfirmation", "GestionCommandes", new { commandeId = item.CommandeId, livreId = item.Livre.Id })')">Accepter</button>
+                                            <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("ShowRefuserRetourConfirmation", "GestionCommandes", new { commandeId = item.CommandeId, livreId = item.Livre.Id })')">Refuser</button>
                                         </div>
                                     }
                                 </div>
-                                                           
+
                             </div>
                         }
                     </div>
                     <div class="mediaQuerryHideOnMediumSmall">
-                        @if (commande.EnDemandeAnnulation == true)
+                        @if (commande.EnDemandeAnnulation)
                         {
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowAccepterAnnulationConfirmation", "GestionCommandes" , new { commandeId=commande.Id })')">Accepter l'annulation</button>
-                                <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("ShowRefuserAnnulationConfirmation", "GestionCommandes" , new { commandeId=commande.Id })')">Refuser l'annulation</button>
+                                <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowAccepterAnnulationConfirmation", "GestionCommandes", new { commandeId = commande.Id })')">Accepter l'annulation</button>
+                                <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("ShowRefuserAnnulationConfirmation", "GestionCommandes", new { commandeId = commande.Id })')">Refuser l'annulation</button>
                             </div>
                         }
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ public class CategoriesIndexVM
         Id = categorie.Id;
         Nom = categorie.Nom;
         Description = categorie.Description;
-        Livres = categorie.Livres.Select(l => l.Livre.Titre).ToList();
-        Enfants = categorie.Enfants.Select(l => l.Nom).ToList();
+        Livres = (categorie.Livres ?? new List<LivreCategorie>()).Select(l => l.Livre.Titre).ToList();
+        Enfants = (categorie.Enfants ?? new List<Categorie>()).Select(l => l.Nom).ToList();
     }
 }

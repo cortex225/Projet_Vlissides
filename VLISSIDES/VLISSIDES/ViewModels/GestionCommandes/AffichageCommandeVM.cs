@@ -6,15 +6,20 @@ namespace VLISSIDES.ViewModels.GestionCommandes;
 
 public class AffichageCommandeVM
 {
-    [Display(Name = "Commande")] public List<CommandesVM> Commandes { get; set; }
+    [Display(Name = "Commandes")] public List<CommandesVM> ListCommandes { get; set; }
 
     [Display(Name = "Statut:")] public string StatutId { get; set; }
-    [Display(Name = "Liste statue")] public List<SelectListItem> ListStatut { get; set; }
+    [Display(Name = "Statuts")] public List<SelectListItem> SelectListStatut { get; set; }
 
-    public AffichageCommandeVM(IEnumerable<CommandesVM> commandes, string statutId, IEnumerable<StatutCommande> listStatut)
+    public AffichageCommandeVM(IEnumerable<Commande> listCommandes, IEnumerable<StatutCommande> selectListStatut,
+        string statutId="")
     {
-        Commandes = commandes.ToList();
+        ListCommandes = listCommandes.Select(c => new CommandesVM(c)).OrderByDescending(c => c.DateCommande).ToList();
         StatutId = statutId;
-        ListStatut = listStatut.Select(ls=>new SelectListItem(ls.Nom,ls.Id)).ToList();
+        SelectListStatut = selectListStatut.Select(s => new SelectListItem
+        {
+            Text = s.Nom,
+            Value = s.Id
+        }).ToList();
     }
 }

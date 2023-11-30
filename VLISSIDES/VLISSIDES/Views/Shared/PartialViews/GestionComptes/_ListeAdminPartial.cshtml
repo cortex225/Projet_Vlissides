@@ -7,20 +7,20 @@
 <h1 class="text-center">Admins</h1>
 <table class="table">
     <thead>
-        <tr>
-            <th scope="col">Nom</th>
-            <th class="cacher" scope="col">Courriel</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
+    <tr>
+        <th scope="col">Nom</th>
+        <th class="cacher" scope="col">Courriel</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <th scope="row">@item.Nom</th>
-                <td class="cacher">@item.Courriel</td>
-                @*
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th scope="row">@item.Nom</th>
+            <td class="cacher">@item.Courriel</td>
+            @*
                 <td>
                     <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompte", "GestionComptes" , new { id=item.Id })')">a</button>
                 </td>
@@ -28,10 +28,10 @@
                     <button class="btn btn-danger" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationAdmin", "GestionComptes" , new { id=item.Id })')">a</button>
                 </td>
                 *@
-                    
 
-                
-            </tr>
-        }
+
+
+        </tr>
+    }
     </tbody>
 </table>

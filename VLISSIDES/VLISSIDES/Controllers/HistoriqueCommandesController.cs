@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -11,6 +12,7 @@ using VLISSIDES.ViewModels.HistoriqueCommandes;
 
 namespace VLISSIDES.Controllers;
 
+[Authorize(Roles = RoleName.MEMBRE)]
 [ApiController]
 [Route("[controller]/[action]")]
 public class HistoriqueCommandes : Controller
@@ -57,12 +59,18 @@ public class HistoriqueCommandes : Controller
             .Include(c => c.Membre);
         var livreCommandes = _context.LivreCommandes;
 
-        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc)).ToList();
+        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
+        {
+            Livre = lc.Livre,
+            CommandeId = lc.CommandeId,
+            Quantite = lc.Quantite,
+            PrixAchat = lc.PrixAchat,
+            EnDemandeRetourner = lc.EnDemandeRetourner
+        }).ToList();
 
-        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM(c)).OrderBy(c => c.DateCommande).ToList();
+        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).OrderBy(c => c.DateCommande).ToList();
 
-        var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, "", _context.StatutCommandes);
-
+        var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, _context.StatutCommandes, "");
 
         return View(affichageCommandes);
     }
@@ -83,9 +91,16 @@ public class HistoriqueCommandes : Controller
             .Include(c => c.Membre);
         var livreCommandes = _context.LivreCommandes;
 
-        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc));
+        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
+        {
+            Livre = lc.Livre,
+            CommandeId = lc.CommandeId,
+            Quantite = lc.Quantite,
+            PrixAchat = lc.PrixAchat,
+            EnDemandeRetourner = lc.EnDemandeRetourner
+        }).ToList();
 
-        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).AsEnumerable().Select(c => new CommandesVM(c));
+        var listeCommandeVM = commandes.Where(c => c.MembreId == userId).OrderByDescending(c => c.DateCommande).ToList();
 
         if (listCriteres.Any(c => c == "rechercherCommande"))
             if (listCriteresValue[2] != "")
@@ -101,9 +116,9 @@ public class HistoriqueCommandes : Controller
 
         if (listCriteres.Any(c => c == "filtrerStatut"))
             if (listCriteresValue[1] != "0")
-                listeCommandeVM = listeCommandeVM.Where(c => c.StatutId == listCriteresValue[1]).ToList();
+                listeCommandeVM = listeCommandeVM.Where(c => c.StatutCommandeId == listCriteresValue[1]).ToList();
 
-        var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, "", _context.StatutCommandes);
+        var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, _context.StatutCommandes, "");
 
         return PartialView("PartialViews/HistoriqueCommandes/_ListeHistoriqueCommandesPartial", affichageCommandes);
     }
@@ -150,7 +165,13 @@ public class HistoriqueCommandes : Controller
             .FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
         if (lc == null) return BadRequest();
 
-        var model = new LivreCommandeVM(lc);
+        var model = new LivreCommandeVM
+        {
+            Livre = lc.Livre,
+            CommandeId = lc.CommandeId,
+            PrixAchat = lc.PrixAchat,
+            Quantite = quantite
+        };
 
         //Send email
         var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
@@ -191,7 +212,14 @@ public class HistoriqueCommandes : Controller
             var lc = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId);
             if (lc == null || commande == null) return BadRequest();
 
-            var livresCommandes = lc.Select(lc => new LivreCommandeVM(lc));
+            var livresCommandes = lc.Select(lc => new LivreCommandeVM
+            {
+                Livre = lc.Livre,
+                CommandeId = lc.CommandeId,
+                Quantite = lc.Quantite,
+                PrixAchat = lc.PrixAchat,
+                EnDemandeRetourner = lc.EnDemandeRetourner
+            }).ToList();
 
             //Send email
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
@@ -242,7 +270,7 @@ public class HistoriqueCommandes : Controller
     }
 
     private async Task SendConfirmationEmailAnnule(Membre customer, string commandeId,
-        IEnumerable<LivreCommandeVM> livreCommande, string logoUrl)
+        List<LivreCommandeVM> livreCommande, string logoUrl)
     {
         var subject = "Retour de livres";
 
@@ -309,7 +337,7 @@ public class HistoriqueCommandes : Controller
         return body.ToString();
     }
 
-    private string BuildEmailBodyAnnule(Membre customer, string commandeId, IEnumerable<LivreCommandeVM> livreCommande,
+    private string BuildEmailBodyAnnule(Membre customer, string commandeId, List<LivreCommandeVM> livreCommande,
         string logoUrl)
     {
         var body = new StringBuilder();

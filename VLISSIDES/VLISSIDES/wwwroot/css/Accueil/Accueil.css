@@ -115,8 +115,8 @@
 .cardServiceOffert {
     min-width: 100px;
     width: 80%;
-    max-height: inherit!important;
-    min-height: inherit!important;
+    max-height: inherit !important;
+    min-height: inherit !important;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -255,21 +255,25 @@
     background-color: #4e7fd0;
 !important;
 }
+
 .cardLivre {
     height: 455px;
 }
+
 .categorie, .auteur, .titre {
     max-height: 70px;
     overflow-y: auto;
 }
+
 .titre {
     max-height: 40px;
 }
-    .voirPlus {
-        margin: 0;
-        position: relative;
-        right: 0;
-    }
+
+.voirPlus {
+    margin: 0;
+    position: relative;
+    right: 0;
+}
 
 @media only screen and (max-width: 1010px) {
     .cardServiceOffert {
@@ -279,6 +283,7 @@
     }
 }
 
+/*
 @media only screen and (max-width: 1360px) {
     .cacher {
         position: absolute !important;
@@ -313,9 +318,11 @@
         visibility: hidden;
     }
 }
+
 @media (max-width: 508px) {
     .cacher-1 {
         position: absolute !important;
         visibility: hidden;
     }
 }
+    */

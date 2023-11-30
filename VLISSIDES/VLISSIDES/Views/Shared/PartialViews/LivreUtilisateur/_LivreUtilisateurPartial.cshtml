@@ -7,42 +7,37 @@
     <div class="row g-0">
         <div class="col-md-3 divIMG_LU">
             @{
-                string couverture = string.Concat(BASE_URL_RAZOR, @Model.Couverture);
+                var couverture = string.Concat(BASE_URL_RAZOR, Model.Couverture);
             }
             <img src="@Html.Raw(couverture)" alt="Couverture de @Model.Titre" class="card-img-left imgLU">
         </div>
         <div class="col-md-9">
             <div class="card-body">
                 <div class="card-lu card-lu-download-titre">
-                    
-                        <div class="col-8">
-                            <h5>@Model.Titre</h5>
-                        </div>
-                        <div class="col-4 ">
-                            @{
-                                string pdf = string.Concat(BASE_URL_RAZOR, @Model.NumeriqueURL);
-                            }
-                            @if (Model.DateCommande.AddDays(7) >= DateTime.Now)
-                            {
 
-                                <a href="@Html.Raw(pdf)" download >
+                    <div class="col-8">
+                        <h5>@Model.Titre</h5>
+                    </div>
+                    <div class="col-4 ">
+                        @{
+                            var pdf = string.Concat(BASE_URL_RAZOR, Model.NumeriqueURL);
+                        }
+                        @if (Model.DateCommande.AddDays(10) >= DateTime.Now)
+                        {
+                            <a href="@Html.Raw(pdf)" download>
                                 <i class="fa-solid fa-file-arrow-down fa-2x float-end" style="color: #358bff;"></i>
-                                </a>
-                            }
-                            else
-                            {
+                            </a>
+                        }
+                        else
+                        {
                             <h6 class="text-danger float-end">Délai de téléchargement dépassé</h6>
-                            }
-                        </div>
-                    
-                    
-                   
+                        }
+                    </div>
 
-                    
-                   
+
                 </div>
                 <div class="card-lu card-lu-btn-rating">
-                    @if (Model.monEvaluation == null)
+                    @if (Model.MonEvaluation == null)
                     {
                         <button type="button" id="@Model.Id" onclick="MontrerBoiteEvaluation('@Model.Id')" class="btn btn-primary">Notez ce livre!</button>
                     }
@@ -50,7 +45,7 @@
                     {
                         <span>Votre évaluation: </span>
 
-                        <partial name="../Accueil/_Etoiles.cshtml" model=@Model.monEvaluation/>
+                        <partial name="../Accueil/_Etoiles.cshtml" model=@Model.MonEvaluation/>
 
                         <div>
                             <a class="btn btn-primary p-2" onclick="MontrerBoiteEvaluation('@Model.Id')" data-toggle="tooltip" title="Modifier le livre">

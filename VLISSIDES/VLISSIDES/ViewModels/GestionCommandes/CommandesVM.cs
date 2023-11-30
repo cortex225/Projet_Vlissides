@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.GestionCommandes;
 
 public class CommandesVM
 {
-    public string Id { get; set; }
+    [Display(Name = "Identifiant")] public string Id { get; set; }
 
     [DisplayName("Date de commande")] public DateTime DateCommande { get; set; }
 
@@ -23,6 +24,18 @@ public class CommandesVM
 
     [DisplayName("Demande d'annulation")] public bool EnDemandeAnnulation { get; set; }
 
+    public CommandesVM()
+    {
+        Id = "";
+        DateCommande = DateTime.Now;
+        PrixTotal = 0;
+        MembreUserName = "";
+        AdresseId = "";
+        LivreCommandes = new();
+        StatutId = "";
+        StatutNom = "";
+        EnDemandeAnnulation = false;
+    }
     public CommandesVM(Commande commande)
     {
         Id = commande.Id;
@@ -30,7 +43,7 @@ public class CommandesVM
         PrixTotal = commande.PrixTotal;
         MembreUserName = commande.Membre.UserName;
         AdresseId = commande.AdresseId;
-        LivreCommandes = commande.LivreCommandes.Select(lc=>new LivreCommandeVM(lc)).ToList();
+        LivreCommandes = commande.LivreCommandes.ToList().Select(lc=>new LivreCommandeVM(lc)).ToList();
         StatutId = commande.StatutCommandeId;
         StatutNom = commande.StatutCommande.Nom;
         EnDemandeAnnulation = commande.EnDemandeAnnulation;

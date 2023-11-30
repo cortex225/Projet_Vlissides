@@ -1,4 +1,5 @@
-﻿using VLISSIDES.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Recherche;
 
 namespace VLISSIDES.ViewModels.GestionLivres;
@@ -6,17 +7,17 @@ namespace VLISSIDES.ViewModels.GestionLivres;
 public class GestionLivresInventaireVM
 {
 
-    public List<string> ResultatRecherche { get; set; }
-    public List<DetailsLivreVM> LivrePartials { get; set; }
-    public List<string> Livres { get; set; }
-    public List<string> Auteurs { get; set; }
-    public List<string> MaisonEditions { get; set; }
-    public List<string> Categories { get; set; }
-    public List<string> Langues { get; set; }
-    public List<string> TypeLivres { get; set; }
+    [Display(Name = "Resultat de recherche")] public List<DetailsLivreVM> ResultatRecherche { get; set; }
+    [Display(Name = "Livreà afficher")] public List<DetailsLivreVM> LivrePartials { get; set; }
+    [Display(Name = "Livres")] public List<string> Livres { get; set; }
+    [Display(Name = "Auteurs")] public List<string> Auteurs { get; set; }
+    [Display(Name = "Editions")] public List<string> MaisonEditions { get; set; }
+    [Display(Name = "Categories")] public List<string> Categories { get; set; }
+    [Display(Name = "Langues")] public List<string> Langues { get; set; }
+    [Display(Name = "Type des Livres")] public List<string> TypeLivres { get; set; }
 
-    public double minPrix { get; set; }
-    public double maxPrix { get; set; }
+    [Display(Name = "Prix minimum")] public double minPrix { get; set; }
+    [Display(Name = "Prix maximum")] public double maxPrix { get; set; }
 
     public GestionLivresInventaireVM(List<Livre> resultatRecherche, List<Livre> livres, List<Auteur> auteurs, List<MaisonEdition> maisonEditions, List<Categorie> categories,
         List<Langue> langues, List<TypeLivre> typeLivres, double minPrix = 0, double maxPrix = 199.99)
@@ -29,7 +30,7 @@ public class GestionLivresInventaireVM
         categories ??= new();
         langues ??= new();
         typeLivres ??= new();
-        ResultatRecherche = resultatRecherche.Select(rr => rr.Titre).ToList();
+        ResultatRecherche = resultatRecherche.Select(rr => new DetailsLivreVM(rr)).ToList();
         LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr)).ToList();
         Livres = livres.Select(l => l.Titre).ToList();
         Auteurs = auteurs.Select(a => a.NomAuteur).ToList();

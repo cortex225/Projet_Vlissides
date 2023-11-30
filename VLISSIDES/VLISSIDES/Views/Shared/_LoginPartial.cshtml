@@ -1,5 +1,8 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@{
+    var nbArticles = Context.Session.GetInt32("NbArticles") ?? 0;
+}
 
 @*
     Cette vue partielle sert à afficher les liens pour se connecter.
@@ -15,17 +18,50 @@
         Un lien pour s'inscrire
 *@
 
-<div id="boutonseconection">
+<ul class="navbar-nav align-items-center">
     @if (SignInManager.IsSignedIn(User))
     {
-        <button class=" btnconnection1 nav-link flex-nowrap"><a class=" text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">👋 Salut @UserManager.GetUserAsync(User).Result.UserName.Split("@")[0]!</a></button>
-        <form class=" form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-            <button type="submit" class=" btnconnection2 nav-link  btn btn-link flex-nowrap rounded-pill  bg-secondary  flex-nowrap"><i class="fa-solid fa-arrow-right-from-bracket text-white"></i><a class="text-white">Se déconnecter</a></button>
-        </form>
+        <!-- Utilisateur Connecté : Affichage du compte utilisateur et option de déconnexion -->
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="index">
+                <i class="fas fa-user"></i> Salut @UserManager.GetUserAsync(User).Result.UserName.Split("@")[0]👋
+            </a>
+        </li>
+        <!--
+        Gérer panier
+        -->
+        @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
+                    Consulter le panier
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="badge badge-panier  " id="nbArticles"></span>
+                </a>
+            </li>
+        }
+        <li class="nav-item">
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="btn  btn-link nav-link">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter
+                </button>
+            </form>
+        </li>
     }
+
     else
     {
-        <button class="btnconnection1 nav-link btn btn-outline-secondary flex-nowrap rounded-pill"><a asp-area="" asp-controller="Compte" asp-action="Login">Se connecter</a></button>
-        <button class="btnconnection2 nav-link btn bg-primary flex-nowrap rounded-pill"><a id="btnRegister" class="text-white" asp-area="" asp-Controller="Compte" asp-action="Register">S'inscrire</a></button>
+        <!-- Utilisateur Non Connecté : Options de connexion et d'inscription -->
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-controller="Compte" asp-action="Login">
+                <i class="fas fa-sign-in-alt"></i> Se connecter
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register">
+                <i class="fas fa-user-plus"></i> S'inscrire
+            </a>
+        </li>
     }
-</div>
+
+</ul>

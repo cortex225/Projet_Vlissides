@@ -1,10 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
-using VLISSIDES.ViewModels;
 using VLISSIDES.ViewModels.MaisonEditions;
 
 namespace VLISSIDES.Controllers;
@@ -29,8 +28,6 @@ public class GestionMaisonEditionsController : Controller
         var itemsPerPage = 10;
         var totalItems = await _context.MaisonEditions.CountAsync();
 
-        var vm = new MaisonEditionsIndexVM();
-        vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
         var editions = _context.MaisonEditions.Include(me => me.Livres)
             .OrderBy(me => me.Nom)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -51,9 +48,7 @@ public class GestionMaisonEditionsController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM
-            { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
-        return View(vm);
+        return View(new MaisonEditionsIndexVM(editions));
     }
 
     public async Task<IActionResult> AfficherListe(string? motCle, int page = 1)
@@ -61,8 +56,6 @@ public class GestionMaisonEditionsController : Controller
         var itemsPerPage = 10;
         var totalItems = await _context.MaisonEditions.CountAsync();
 
-        var vm = new MaisonEditionsIndexVM();
-        vm.MaisonEditionsAjouterVM = new MaisonEditionsAjouterVM { Nom = "" };
         var editions = _context.MaisonEditions.Include(me => me.Livres)
             .OrderBy(me => me.Nom)
             .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
@@ -83,9 +76,8 @@ public class GestionMaisonEditionsController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
 
-        vm.MaisonEditionsAfficherVM = editions.Select(e => new MaisonEditionsAfficherVM
-            { Id = e.Id, Nom = e.Nom, Livres = e.Livres.Select(l => l.Titre).ToList() }).ToList();
-        return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial", vm);
+        return PartialView("PartialViews/GestionMaisonEdition/_ListeMaisonEditionPartial",
+            new MaisonEditionsIndexVM(editions));
     }
 
     [HttpPost]
@@ -101,7 +93,7 @@ public class GestionMaisonEditionsController : Controller
             var maisonEdition = new MaisonEdition
             {
                 Id = Guid.NewGuid().ToString(),
-                Nom = vm.MaisonEditionsAjouterVM.Nom
+                Nom = vm.MaisonEditionsAjoute.Nom
             };
             _context.MaisonEditions.Add(maisonEdition);
             _context.SaveChanges();
@@ -112,11 +104,13 @@ public class GestionMaisonEditionsController : Controller
     }
 
     [HttpPost]
-    public ActionResult ModifierMaison(string id, string nom)
+    public async Task<IActionResult> ModifierMaison(string id, string nom)
     {
+        var maisonEdition = await _context.MaisonEditions.FindAsync(id);
+        if (maisonEdition == null) return NotFound("La maison d'édition à l'identifiant " + id + " n'a pas été trouvé.");
+
         if (ModelState.IsValid)
         {
-            var maisonEdition = _context.MaisonEditions.FirstOrDefault(me => me.Id == id);
             maisonEdition.Nom = nom;
             _context.SaveChanges();
             return Ok();
@@ -125,13 +119,11 @@ public class GestionMaisonEditionsController : Controller
         return View();
     }
 
-    [HttpPost]
-    public ActionResult SupprimerMaison(string id)
+    [HttpDelete]
+    public async Task<IActionResult> SupprimerMaison(string id)
     {
-        var maisonEdition = _context.MaisonEditions.FirstOrDefault(me => me.Id == id);
-        //Si la maison d'édition n'est pas trouvé
-        if (maisonEdition == null)
-            return NotFound();
+        var maisonEdition = await _context.MaisonEditions.FindAsync(id);
+        if (maisonEdition == null) return NotFound("La maison d'édition à l'identifiant " + id + " n'a pas été trouvé.");
         //Enlever la maison d'édition pour chaque livre
         _context.Livres.Where(l => l.MaisonEdition.Id == maisonEdition.Id)
             .ToList().ForEach(l => l.MaisonEdition = null);
@@ -143,11 +135,8 @@ public class GestionMaisonEditionsController : Controller
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
     {
-        if (id == null) return NotFound();
-
         var maisonEdition = await _context.MaisonEditions.FindAsync(id);
-        if (maisonEdition == null) return NotFound();
-
+        if (maisonEdition == null) return NotFound("La maison d'édition à l'identifiant " + id + " n'a pas été trouvé.");
         return PartialView("PartialViews/Modals/MaisonEditions/_DeleteMaisonEditionPartial", maisonEdition);
     }
 }

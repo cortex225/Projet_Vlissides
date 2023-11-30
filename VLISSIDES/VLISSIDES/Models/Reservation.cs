@@ -24,5 +24,4 @@ public class Reservation
     public string? PaymentIntentId { get; set; } = default!;
 
     public bool? EnDemandeAnnuler { get; set; } = default!;
-
 }

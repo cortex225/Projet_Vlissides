@@ -20,12 +20,21 @@ public class CategoriesModifierVM
 
     [DisplayName("Est une sous catégorie?")] public bool ASousCategorie { get; set; }
 
-    public CategoriesModifierVM(Categorie categorie)
+    public CategoriesModifierVM()
+    {
+        Id = "";
+        Nom = "";
+        Description = "";
+        Parent = new();
+        ParentId = "";
+        ASousCategorie = false;
+    }
+    public CategoriesModifierVM(Categorie categorie, IEnumerable<Categorie> categories)
     {
         Id = categorie.Id;
         Nom = categorie.Nom;
         Description = categorie.Description;
-        Parent = categorie.Enfants.Select(c => new SelectListItem(c.Nom, c.Id)).ToList();
+        Parent = categories.Select(c => new SelectListItem(c.Nom, c.Id)).ToList();
         ParentId = categorie.ParentId;
         ASousCategorie = categorie.Parent != null;
     }

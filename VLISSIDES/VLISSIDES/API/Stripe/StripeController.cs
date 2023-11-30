@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
-using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -133,22 +133,26 @@ public class StripeController : Controller
             .ToListAsync();
 
 
-        var nouvelleCommande = new CommandesVM(new()
+            var nouvelleCommande = new CommandesVM
         {
+            Id = _context.Commandes.Count().ToString(),
             DateCommande = DateTime.Now,
             PrixTotal = session.AmountTotal.Value / 100m,
-            Membre = customer,
+            MembreUserName = customer.UserName,
             AdresseId = customer?.AdressePrincipaleId,
-            StatutCommandeId = "1"
-        });
+            StatutId = "1"
+        };
 
-        nouvelleCommande.LivreCommandes = panierItems.Select(lc => new LivreCommandeVM(new()
+
+        nouvelleCommande.LivreCommandes = panierItems.Select(lc => new LivreCommandeVM
         {
             Livre = lc.Livre,
             CommandeId = nouvelleCommande.Id,
             Quantite = (int)lc.Quantite,
             PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
-        })).ToList();
+        }).ToList();
+
+        // Créer la commande
 
         var nbCommandes = _context.Commandes.Count().ToString();
         var commande = new Commande
@@ -161,17 +165,23 @@ public class StripeController : Controller
             StatutCommandeId = nouvelleCommande.StatutId,
             PaymentIntentId = session.PaymentIntentId, //Récupérer le paiement intent id de la session
             EnDemandeAnnulation = false,
-            LivreCommandes = nouvelleCommande.LivreCommandes.Select(lc => new LivreCommande
-            {
-                LivreId = lc.Livre.Id,
-                CommandeId = nouvelleCommande.Id,
-                Quantite = lc.Quantite,
-                PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
-            }).ToList()
+
         };
 
         _context.Commandes.Add(commande);
         await _context.SaveChangesAsync();
+
+        foreach (var item in nouvelleCommande.LivreCommandes)
+        {
+            var livreCommande = new LivreCommande
+            {
+                CommandeId = commande.Id,
+                LivreId = item.Livre.Id,
+                Quantite = item.Quantite,
+                PrixAchat = item.PrixAchat
+            };
+            _context.LivreCommandes.Add(livreCommande);
+        }
 
         // Récupérer l'URL complète du logo à partir de l'application
         var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
@@ -245,7 +255,7 @@ public class StripeController : Controller
             Description = evenement.Description,
             PaymentIntentId = session.PaymentIntentId,
             prixAchat = evenement.Prix,
-            EnDemandeAnnuler = false,
+            EnDemandeAnnuler = false
         };
         // Ajouter la réservation au contexte
         _context.Reservations.Add(reservation);
@@ -355,7 +365,7 @@ public class StripeController : Controller
         body.Append(
             "<p style='color: #555; font-size: 16px;'>Si vous avez des questions ou si vous avez besoin d'informations supplémentaires, veuillez ne pas hésiter à nous contacter.</p>");
         body.Append(
-            "<p style='text-align: center; margin-top: 40px;'><a href='https://votresite.com' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
+            "<p style='text-align: center; margin-top: 40px;'><a href='https://sqlinfocg.cegepgranby.qc.ca/2147186' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
         body.Append("<footer style='text-align: center; color: #888; margin-top: 40px; font-size: 14px;'>");
         body.Append("<p>Merci de faire confiance à La Fourmi Aillée.</p>");
         body.Append("<p style='color: #146ec3;'>La Fourmi Aillée, 235 Rue Saint-Jacques, Granby, QC J2G 3N1</p>");
@@ -414,7 +424,7 @@ public class StripeController : Controller
         body.Append(
             "<p style='color: #555; font-size: 16px;'>Votre commande sera traitée rapidement et vous recevrez une notification dès qu'elle sera expédiée.</p>");
         body.Append(
-            "<p style='text-align: center; margin-top: 40px;'><a href='https://votresite.com' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
+            "<p style='text-align: center; margin-top: 40px;'><a href='https://sqlinfocg.cegepgranby.qc.ca/2147186' style='font-size: 18px; color: #146ec3; text-decoration: none;'><strong>Visitez notre site</strong></a></p>");
         body.Append("<footer style='text-align: center; color: #888; margin-top: 40px; font-size: 14px;'>");
         body.Append("<p>Merci de faire confiance à La Fourmie Aillée.</p>");
         body.Append("<p>La Fourmie Aillée, 235 Rue Saint-Jacques, Granby, QC J2G 3N1</p>");

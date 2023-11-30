@@ -36,20 +36,11 @@ public class GestionCommandesController : Controller
         _sendGridEmail = sendGridEmail;
     }
 
-    public IActionResult Index(string? motCles, string? criteres)
-    {
-        var commandes = _context.Commandes
+    public IActionResult Index(string? motCles, string? criteres) => View(new AffichageCommandeVM(_context.Commandes
             .Include(c => c.StatutCommande)
-            .Include(c => c.Membre);
-        var livreCommandes = _context.LivreCommandes;
-
-        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc)).ToList();
-
-        var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM(c)).OrderBy(c => c.DateCommande).ToList();
-
-        return View(new AffichageCommandeVM(listeCommandeVM, "", _context.StatutCommandes));
-    }
-
+            .Include(c => c.Membre)
+        .OrderBy(c => c.DateCommande).ToList(),
+            _context.StatutCommandes));
     public IActionResult AfficherCommandes(string? motCles, string? criteres)
     {
         var listCriteresValue = new List<string>();
@@ -59,42 +50,42 @@ public class GestionCommandesController : Controller
         if (criteres != null) listCriteres = criteres.Split('|').ToList();
 
         //var currentUserId = _userManager.GetUserId(HttpContext.User);
-        var commandes = _context.Commandes
+        List<Commande> commandes = _context.Commandes
             .Include(c => c.StatutCommande)
-            .Include(c => c.Membre);
+            .Include(c => c.Membre).ToList();
         var livreCommandes = _context.LivreCommandes;
 
         var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc)).ToList();
 
-        var listeCommandeVM = commandes.AsEnumerable().Select(c => new CommandesVM(c)).OrderByDescending(c => c.DateCommande).ToList();
 
         if (listCriteres.Any(c => c == "rechercherCommande"))
             if (listCriteresValue[3] != "")
-                listeCommandeVM = listeCommandeVM.Where(c => c.Id == listCriteresValue[2]).ToList();
+                commandes = commandes.Where(c => c.Id == listCriteresValue[2]).ToList();
 
         if (listCriteres.Any(c => c == "trierDate"))
         {
             if (listCriteresValue[0] == "2")
-                listeCommandeVM = listeCommandeVM.OrderBy(c => c.DateCommande).ToList();
+                commandes = commandes.OrderBy(c => c.DateCommande).ToList();
             else
-                listeCommandeVM = listeCommandeVM.OrderByDescending(c => c.DateCommande).ToList();
+                commandes = commandes.OrderByDescending(c => c.DateCommande).ToList();
         }
 
         if (listCriteres.Any(c => c == "filtrerStatut"))
             if (listCriteresValue[1] != "0")
-                listeCommandeVM = listeCommandeVM.Where(c => c.StatutId == listCriteresValue[1]).ToList();
+                commandes = commandes.Where(c => c.StatutCommandeId == listCriteresValue[1]).ToList();
 
         if (listCriteres.Any(c => c == "demandeRemboursement"))
         {
             if (listCriteresValue[2] == "2")
-                listeCommandeVM = listeCommandeVM.Where(c => c.EnDemandeAnnulation).ToList();
+                commandes = commandes.Where(c => c.EnDemandeAnnulation).ToList();
             if (listCriteresValue[2] == "3")
-                listeCommandeVM = listeCommandeVM.Where(c => c.LivreCommandes.Any(lc => lc.EnDemandeRetourne))
+                commandes = commandes.Where(c => c.LivreCommandes.Any(lc => lc.EnDemandeRetourner))
                     .ToList();
         }
 
+        var affichageCommandes = new AffichageCommandeVM(commandes, _context.StatutCommandes);
 
-        return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", new AffichageCommandeVM(listeCommandeVM, "", _context.StatutCommandes));
+        return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
     }
 
     [HttpPost]
@@ -109,7 +100,7 @@ public class GestionCommandesController : Controller
 
     public async Task<IActionResult> ShowAccepterRetourConfirmation(string commandeId, string livreId)
     {
-        var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande)
+        var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).Include(lc => lc.Commande.Membre)
             .FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -134,6 +125,7 @@ public class GestionCommandesController : Controller
             .FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
+        if (livreCommande == null) return BadRequest();
         if (livreCommande.QuantiteARetourner == null) return BadRequest();
         var vm = new RefundVM
         {
@@ -185,6 +177,9 @@ public class GestionCommandesController : Controller
     {
         var livreCommande =
             _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+
+        var commande = _context.Commandes.FirstOrDefault(c => c.Id == livreCommande.CommandeId);
+        var customer = _context.Membres.FirstOrDefault(m => m.Id == commande.MembreId);
 
         var quantite = livreCommande.QuantiteARetourner;
         if (quantite is not null)
@@ -389,7 +384,7 @@ public class GestionCommandesController : Controller
         foreach (var item in livreCommande)
         {
             body.Append("<tr>");
-            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
+            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre}</td>");
             body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Quantite}</td>");
             body.Append(
                 $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.PrixAchat:C}</td>");
@@ -445,7 +440,7 @@ public class GestionCommandesController : Controller
         foreach (var item in livreCommande)
         {
             body.Append("<tr>");
-            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
+            body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre}</td>");
             body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Quantite}</td>");
             body.Append(
                 $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.PrixAchat:C}</td>");
@@ -497,7 +492,7 @@ public class GestionCommandesController : Controller
         body.Append("<tbody>");
 
         body.Append("<tr>");
-        body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{livreCommande.Livre.Titre}</td>");
+        body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{livreCommande.Livre}</td>");
         body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{livreCommande.Quantite}</td>");
         body.Append(
             $"<td style='padding: 15px; border: 1px solid #ddd;'>{livreCommande.PrixAchat:C}</td>");
@@ -554,7 +549,7 @@ public class GestionCommandesController : Controller
         body.Append("<tbody>");
 
         body.Append("<tr>");
-        body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{livreCommande.Livre.Titre}</td>");
+        body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{livreCommande.Livre}</td>");
         body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{livreCommande.Quantite}</td>");
         body.Append(
             $"<td style='padding: 15px; border: 1px solid #ddd;'>{livreCommande.PrixAchat:C}</td>");
