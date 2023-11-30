@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="~/css/Accueil/promo-card.css">
 
 @{
-    var isIncompleteBirthday = User.Identity.IsAuthenticated && Model.User?.DateNaissance == null;
+    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.Utilisateur?.DateNaissance == null;
 
 }
 <!--
@@ -133,7 +133,7 @@ Un bouton pour cacher/montrer les services de l'entreprise
 
 
     <!-- Carousel contenant les promotion -->
-    @if (Model.Promotions.Count > 1)
+    @if (Model.Promotions.Count > 0)
     {
         <section class="promotion-section">
             <h2 class="titreSections">Offres spéciales juste pour vous!</h2>
