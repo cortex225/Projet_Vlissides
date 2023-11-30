@@ -7,7 +7,7 @@ namespace VLISSIDES.ViewModels.Livres;
 public class AjouterVM
 {
     [Required(ErrorMessage = "Le titre est obligatoire")]
-    [Display(Name = "Nom du livre")] public string Titre { get; set; }
+    [Display(Name = "Titre")] public string Titre { get; set; }
 
     [Required(ErrorMessage = "La description est obligatoire")]
     [Display(Name = "Description")] public string Resume { get; set; }
@@ -71,9 +71,7 @@ public class AjouterVM
     [Display(Name = "Chemin du pdf")] public string? NumeriqueUrl { get; set; }
     [Display(Name = "Fichier numérique")] public IFormFile? NumeriqueFile { get; set; }
 
-    public AjouterVM(List<SelectListItem>? selectListCategories, List<SelectListItem>? selectListAuteurs,
-       List<SelectListItem>? selectMaisonEditions, List<SelectListItem>? SelectionTypes,
-       List<SelectListItem>? selectLangues, IFormFile? papierFile, IFormFile? numeriqueFile)
+    public AjouterVM()
     {
         Titre = "";
         Resume = "";
@@ -84,12 +82,12 @@ public class AjouterVM
         ISBN = "";
         CategorieIds = new();
         Categories = new();
-        SelectListCategories = selectListCategories;
+        SelectListCategories = new();
         AuteurIds = new();
         Auteurs = new();
-        SelectListAuteurs = selectListAuteurs;
+        SelectListAuteurs = new();
         MaisonEditionId = "";
-        SelectMaisonEditions = selectMaisonEditions;
+        SelectMaisonEditions = new();
         TypeLivreId = "";
         Numerique = false;
         PrixNumerique = 0;
@@ -97,10 +95,57 @@ public class AjouterVM
         PrixPapier = 0;
         Types = new();
         LangueId = "";
-        SelectLangues = selectLangues;
+        SelectLangues = new();
         CoverImageUrl = "";
-        CoverPhoto = papierFile;
+        CoverPhoto = null;
         NumeriqueUrl = "";
-        NumeriqueFile = numeriqueFile;
+        NumeriqueFile = null;
+    }
+    public AjouterVM(IEnumerable<Categorie> selectListCategories, IEnumerable<Auteur> selectListAuteurs,
+       IEnumerable<MaisonEdition> selectMaisonEditions, IEnumerable<Langue> selectLangues)
+    {
+        Titre = "";
+        Resume = "";
+        Couverture = "";
+        NbExemplaires = 0;
+        NbPages = 0;
+        DatePublication = new();
+        ISBN = "";
+        CategorieIds = new();
+        Categories = new();
+        SelectListCategories = selectListCategories.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        AuteurIds = new();
+        Auteurs = new();
+        SelectListAuteurs = selectListAuteurs.Select(x => new SelectListItem
+        {
+            Text = x.NomAuteur,
+            Value = x.Id
+        }).ToList();
+        MaisonEditionId = "";
+        SelectMaisonEditions = selectMaisonEditions.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        TypeLivreId = "";
+        Numerique = false;
+        PrixNumerique = 0;
+        Papier = false;
+        PrixPapier = 0;
+        Types = new();
+        LangueId = "";
+        SelectLangues = selectLangues.Select(x => new SelectListItem
+        {
+            Text = x.Nom,
+            Value = x.Id
+        }).ToList();
+        CoverImageUrl = "";
+        CoverPhoto = null;
+        NumeriqueUrl = "";
+        NumeriqueFile = null;
     }
 }

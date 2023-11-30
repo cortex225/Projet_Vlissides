@@ -1,7 +1,21 @@
-﻿namespace VLISSIDES.ViewModels.GestionAuteurs;
+﻿using System.ComponentModel;
+using VLISSIDES.Models;
+
+namespace VLISSIDES.ViewModels.GestionAuteurs;
 
 public class AuteursIndexVM
 {
-    public List<AuteursAfficherVM>? AuteursAfficherVM { get; set; }
-    public AuteursAjouterVM? AuteursAjouterVM { get; set; }
+    [DisplayName("Auteurs")] public List<AuteursAfficherVM> Auteurs { get; set; }
+    [DisplayName("Auteur ajouter")] public AuteursAjouterVM AuteurAjouter { get; set; }
+    public AuteursIndexVM()
+    {
+        Auteurs = new List<AuteursAfficherVM>();
+        AuteurAjouter = new AuteursAjouterVM();
+    }
+    public AuteursIndexVM(List<Auteur> auteurs)
+    {
+        auteurs ??= new List<Auteur>();
+        Auteurs = auteurs.Select(a => new AuteursAfficherVM(a)).ToList();
+        AuteurAjouter = new AuteursAjouterVM();
+    }
 }

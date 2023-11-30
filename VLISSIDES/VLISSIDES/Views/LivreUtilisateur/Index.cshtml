@@ -13,7 +13,7 @@
     <h2 id="titreMesLivres">Mes livres: </h2>
     <div id="LU_Etoiles" class="container">
         <div class="row listLivresLU">
-            @foreach (var l in Model.listVM)
+            @foreach (var l in Model.Livres)
             {
                 <partial name="PartialViews/LivreUtilisateur/_LivreUtilisateurPartial" model="@l"/>
             }
@@ -23,7 +23,7 @@
                 @if (Model.livreSelectionneId != null)
                 {
                     <h3 class="text-center my-3">
-                        Notez @Model.listVM.FirstOrDefault(x => x.Id == Model.livreSelectionneId).Titre !
+                        Notez @Model.Livres.FirstOrDefault(x => x.Id == Model.livreSelectionneId).Titre !
                     </h3>
                     <form>
                         <fieldset class="" id="starsRadioGroup">

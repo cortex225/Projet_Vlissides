@@ -73,9 +73,9 @@
                     <label for="specificationTitre">Titre:</label>
                     <input id="specificationTitre" class="form-control" name="specificationTitre" type="text" list="ListeLivres">
                     <datalist id="ListeLivres">
-                        @foreach (var livre in Model.ResultatRecherche)
+                        @foreach (var livre in Model.Livres)
                         {
-                            <option value="@livre.Titre" />
+                            <option value="@livre" />
                         }
                     </datalist>
                 </div>
@@ -133,7 +133,7 @@
                     <datalist id="ListeTypeLivres">
                         @foreach (var typeLivre in Model.TypeLivres)
                         {
-                            <option value="@typeLivre" />
+                            <option value="@typeLivre." />
                         }
                     </datalist>
                 </div>
@@ -155,7 +155,7 @@
                         <datalist id="ListeLivres">
                             @foreach (var livre in Model.ResultatRecherche)
                             {
-                                <option value="@livre.Titre" />
+                                <option value="@livre" />
                             }
                         </datalist>
                     </div>
@@ -264,14 +264,14 @@
                 </div>
 
                 @* Results *@
-                @foreach (var item in Model.LivrePartials)
+                @foreach (var item in Model.ResultatRecherche)
                 {
                     <div id="@item.Id" class="card mb-2 mx-3 element-hoverable">
                         <div class="card-body row p-2 align-items-center">
                             <div class="LivreCol col">
                                 <div class="imgDiv text-center">
                                     @{
-                                        string couverture = string.Concat(BASE_URL_RAZOR, item);
+                                        string couverture = string.Concat(BASE_URL_RAZOR, item.Couverture);
                                     }
                                     <img src="@Html.Raw(couverture)" alt="..." class="imagesLivre" height="50px">
                                     <p>@Html.DisplayFor(modelItem => item.Titre)</p>
@@ -388,7 +388,10 @@
         width: auto;
     }
 </style>
-
+<script>
+    //Script pour URL
+    const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
+</script>
 <script>
     $(window).on('resize', function () {
         var win = $(this);
@@ -596,7 +599,7 @@
 
 
         // Utiliser la valeur dans l'URL pour l'action Inventaire
-        window.location.href = `/GestionLivres/Inventaire?${partieMotCles}&${partieCriteres}`;
+        window.location.href = BASE_URL + `/GestionLivres/Inventaire?${partieMotCles}&${partieCriteres}`;
     }
 </script>
 <script type="text/javascript" src="~/js/InventaireModifierQuantite.js"></script>

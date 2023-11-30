@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Recherche;
 
 namespace VLISSIDES.ViewModels.GestionLivres;
 

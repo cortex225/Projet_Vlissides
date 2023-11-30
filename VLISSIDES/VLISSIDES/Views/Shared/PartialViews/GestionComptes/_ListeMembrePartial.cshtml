@@ -30,48 +30,42 @@
     </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <th scope="row">@item.Nom</th>
-                <td class="cacher">@item.Courriel</td>
-                <td class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Actions
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowModifierCompteMembre", "GestionComptes" , new { id=item.Id })')">Modifier</a></li>
-                        <li>
-                            @if (item.IsBanned)
-                            {
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th scope="row">@item.Nom</th>
+            <td class="cacher">@item.Courriel</td>
+            <td class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Actions
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowModifierCompteMembre", "GestionComptes", new { id = item.Id })')">Modifier</a>
+                    </li>
+                    <li>
+                        @if (item.IsBanned)
+                        {
+                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowUnbanMembre", "GestionComptes", new { id = item.Id })')">Débloquer</a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowBanMembre", "GestionComptes", new { id = item.Id })')">Bloquer</a>
+                        }
+                    </li>
+                    <li>
+                        <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationMembre", "GestionComptes", new { id = item.Id })')">
+                            Supprimer
+                        </a>
+                    </li>
 
-                                <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowUnbanMembre","GestionComptes",new {id=item.Id})')">Débloquer</a>
-
-                            }
-                            else
-                            {
-
-                                <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowBanMembre","GestionComptes",new {id=item.Id})')">Bloquer</a>
-
-                            }
-                        </li>
-                        <li>
-                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowDeleteConfirmationMembre", "GestionComptes" , new { id=item.Id })')">
-                                Supprimer
-                            </a>
-                        </li>
-
-                    </ul>
+                </ul>
 
 
+            </td>
 
 
-                </td>
-
-
-
-
-            </tr>
-        }
+        </tr>
+    }
     </tbody>
 </table>

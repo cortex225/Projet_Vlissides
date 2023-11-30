@@ -25,17 +25,17 @@ namespace VLISSIDES.ViewModels.GestionLivres
 
         public DetailsLivreVM(Livre livre)
         {
+            livre ??= new();
             Id = livre.Id;
             Titre = livre.Titre;
-            Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
+            Auteurs = (livre.LivreAuteurs ?? new()).Select(a => a.Auteur.NomAuteur).ToList();
             Categories = livre.Categories.Select(c => c.Categorie.Nom).ToList();
             DatePublication = livre.DatePublication;
             Couverture = livre.Couverture;
             MaisonEdition = livre.Couverture;
             NbPages = livre.NbPages;
             Resume = livre.Resume;
-            if (!livre.Evaluations.Equals(null))
-                Note = (int)livre.Note;
+            if (livre.Evaluations != null) Note = (int)livre.Note;
             else Note = 0;
             ISBN = livre.ISBN;
             Langue = livre.Langue.Nom;

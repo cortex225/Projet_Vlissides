@@ -13,11 +13,10 @@
 
 
 body {
-    min-width: 360px !important;
     margin-bottom: 60px;
-    position: relative;
     background-color: #f8f4f1 !important;
-    overflow-x: hidden;
+    overflow-x: hidden!important;
+    width: 100% !important;
 }
 
 li {

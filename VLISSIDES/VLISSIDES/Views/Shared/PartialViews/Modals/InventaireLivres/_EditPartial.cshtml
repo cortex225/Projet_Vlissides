@@ -62,15 +62,15 @@
                     <fieldset>
                         @*  <legend>Type de livre</legend> *@
                         <div>
-                            <input id="cbNeuf" class="form-check-input" type="checkbox" asp-for="@Model.Neuf" onclick="ShowInputsNeuf()">
-                            <label asp-for="@Model.Neuf"></label>
-                            @if (Model.Neuf)
+                            <input id="cbNeuf" class="form-check-input" type="checkbox" asp-for="@Model.Papier" onclick="ShowInputsNeuf()">
+                            <label asp-for="@Model.Papier"></label>
+                            @if (Model.Papier)
                             {
                                 <div id="inputsNeuf" class="">
                                     <div class="form-group">
-                                        <label asp-for="PrixNeuf" class="control-label"></label>(<span class="text-danger">*</span>)
-                                        <input asp-for="PrixNeuf"  class="form-control" />
-                                        <span asp-validation-for="PrixNeuf" class="text-danger"></span>
+                                        <label asp-for="PrixPapier" class="control-label"></label>
+                                        <input asp-for="PrixPapier" class="form-control" />
+                                        <span asp-validation-for="PrixPapier" class="text-danger"></span>
                                     </div>
                                     <div>
                                         <label asp-for="NbExemplaires" class="control-label"></label>(<span class="text-danger">*</span>)
@@ -82,9 +82,9 @@
                             {
                                 <div id="inputsNeuf" class="visually-hidden">
                                     <div class="form-group">
-                                        <label asp-for="PrixNeuf" class="control-label"></label>(<span class="text-danger">*</span>)
-                                        <input asp-for="PrixNeuf"  class="form-control" />
-                                        <span asp-validation-for="PrixNeuf" class="text-danger"></span>
+                                        <label asp-for="PrixPapier" class="control-label"></label>
+                                        <input asp-for="PrixPapier" class="form-control" />
+                                        <span asp-validation-for="PrixPapier" class="text-danger"></span>
                                     </div>
                                     <div>
                                         <label asp-for="NbExemplaires" class="control-label"></label>(<span class="text-danger">*</span>)
@@ -177,7 +177,7 @@
 </script>
 <script type="text/javascript">
     function ShowInputsNeuf() {
-        console.log("aloo");
+        
         var cb = document.getElementById("cbNeuf");
         var div = document.getElementById("inputsNeuf");
         if (cb.checked == true) {
@@ -224,7 +224,6 @@
 
             return response.text();
         }).then((result) => {
-            console.log(result);
             if (result == "") {
 
                 $('.modal').modal('hide');

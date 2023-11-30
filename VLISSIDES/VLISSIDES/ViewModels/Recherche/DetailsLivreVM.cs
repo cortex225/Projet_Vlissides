@@ -19,7 +19,7 @@ public class DetailsLivreVM
     [Display(Name = "Papier")] public decimal? Papier { get; set; }
     [Display(Name = "Numerique")] public decimal? Numerique { get; set; }
 
-    [Display(Name = "Note")] public decimal Note { get; set; }
+    [Display(Name = "Note")] public double Note { get; set; }
 
     [Display(Name = "ISBN")] public string ISBN { get; set; }
 
@@ -29,9 +29,9 @@ public class DetailsLivreVM
     {
         Id = livre.Id;
         Titre = livre.Titre;
-        Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
-        Categories = livre.Categories.Select(c => c.Categorie.Nom).ToList();
-        Note = livre.Note;
+        Auteurs = (livre.LivreAuteurs ?? new()).Select(a => a.Auteur.NomAuteur).ToList();
+        Categories = (livre.Categories ?? new List<LivreCategorie>()).Select(c => c.Categorie.Nom).ToList();
+        Note = (double)livre.Note;
         DatePublication = livre.DatePublication;
         Couverture = livre.Couverture;
         MaisonEdition = livre.MaisonEdition != null ? livre.MaisonEdition.Nom : "";
@@ -51,5 +51,4 @@ public class DetailsLivreVM
                     break;
             }
     }
-
 }

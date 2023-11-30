@@ -1,9 +1,20 @@
-﻿namespace VLISSIDES.ViewModels.GestionEvenements;
+﻿using System.ComponentModel;
+using VLISSIDES.Models;
 
-public class GestionEvenementsReservationVM
+namespace VLISSIDES.ViewModels.GestionEvenements
 {
-    public string Id { get; set; }
+    public class GestionEvenementsReservationVM
+    {
+        [DisplayName("Identifiant")] public string Id { get; set; }
 
-    public string NomUtilisateur { get; set; }
-    public string NomEvenement { get; set; }
+        [DisplayName("Nom de l'utilisateur")] public string NomUtilisateur { get; set; }
+        [DisplayName("Nom de l'évènement")] public string NomEvenement { get; set; }
+
+        public GestionEvenementsReservationVM(Reservation reservation)
+        {
+            Id = reservation.Id;
+            NomUtilisateur = reservation.Membre.Id;
+            NomEvenement = reservation.Evenement.Nom;
+        }
+    }
 }
