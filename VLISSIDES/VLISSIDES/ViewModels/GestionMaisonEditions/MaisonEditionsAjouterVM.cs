@@ -1,6 +1,13 @@
-﻿namespace VLISSIDES.ViewModels.MaisonEditions;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace VLISSIDES.ViewModels.MaisonEditions;
 
 public class MaisonEditionsAjouterVM
 {
-    public string Nom { get; set; }
+    [Display(Name = "Nom")] public string Nom { get; set; }
+
+    public MaisonEditionsAjouterVM()
+    {
+        Nom = "";
+    }
 }
