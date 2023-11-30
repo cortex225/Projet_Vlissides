@@ -1,3 +1,16 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Stripe;
+using System.Security.Claims;
+using VLISSIDES.Data;
+using VLISSIDES.Interfaces;
+using VLISSIDES.Models;
+using VLISSIDES.ViewModels.Accueil;
+using VLISSIDES.ViewModels.Compte;
+
 namespace VLISSIDES.Controllers;
 
 public class CompteController : Controller
