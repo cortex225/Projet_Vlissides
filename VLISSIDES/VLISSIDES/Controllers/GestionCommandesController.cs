@@ -100,7 +100,7 @@ public class GestionCommandesController : Controller
 
     public async Task<IActionResult> ShowAccepterRetourConfirmation(string commandeId, string livreId)
     {
-        var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande)
+        var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).Include(lc => lc.Commande.Membre)
             .FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -177,6 +177,9 @@ public class GestionCommandesController : Controller
     {
         var livreCommande =
             _context.LivreCommandes.FirstOrDefault(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
+
+        var commande = _context.Commandes.FirstOrDefault(c => c.Id == livreCommande.CommandeId);
+        var customer = _context.Membres.FirstOrDefault(m => m.Id == commande.MembreId);
 
         var quantite = livreCommande.QuantiteARetourner;
         if (quantite is not null)

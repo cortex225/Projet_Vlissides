@@ -6,7 +6,7 @@
 }
 
 
-<link rel="stylesheet" href="~/css/ListeLivres.css" />
+<link rel="stylesheet" href="~/css/ListeLivres.css"/>
 <link rel="stylesheet" href="~/css/Responsive/BasicHideMediaQuerry.css" asp-append-version="true">
 <link rel="stylesheet" href="~/css/Responsive/ListeGestion.css" asp-append-version="true">
 
@@ -19,7 +19,7 @@
 </div>
 
 <!-- Barre latérale coulissante -->
-<partial name="PartialViews/Dashboard/_SideBarPartial" />
+<partial name="PartialViews/Dashboard/_SideBarPartial"/>
 
 <div class="d-block p-4 p-4">
 
@@ -32,13 +32,13 @@
         </button>
 
         <form class="collapse" id="champAjouter" enctype="multipart/form-data">
-            <br />
+            <br/>
             @* @Html.AntiForgeryToken() *@
             @*<label asp-for="MaisonEditionsAjouterVM.Nom" class="control-label"></label>*@
             <div class="input-group">
-                <input class="form-control" asp-for="AuteursAjouterVM.NomAuteur" id="inputNom" placeholder="Nom" />
-                <span asp-validation-for="AuteursAjouterVM.NomAuteur" class="text-danger"></span>
-                <button class="btn btn-primary p-2" type="button" onclick="AjouterAuteur()" data-toggle="tooltip" title="Ajouter le livre">
+                <input class="form-control" asp-for="AuteurAjouter.Nom" id="inputNom" placeholder="Nom"/>
+                <span asp-validation-for="AuteurAjouter.Nom" class="text-danger"></span>
+                <button class="btn btn-primary" type="button" onclick="AjouterAuteur()" data-toggle="tooltip" title="Ajouter le livre">
                     Ajouter
                 </button>
             </div>
@@ -46,7 +46,7 @@
         </form>
 
     </div>
-    <br />
+    <br/>
     <!--Fin : Ajouter maison edition-->
     <!--Fin : Rechercher auteur-->
     <div class="container-fluid">
@@ -56,9 +56,9 @@
         </button>
 
         <form class="collapse" id="rechercherAuteur" enctype="multipart/form-data">
-            <br />
+            <br/>
             <div class="input-group">
-                <input class="form-control" id="inputRechercherAuteur" placeholder="Rechercher..." />
+                <input class="form-control" id="inputRechercherAuteur" placeholder="Rechercher..."/>
                 <button class="btn btn-primary p-2" type="button" onclick="AfficherListe()" data-toggle="tooltip" title="Rechercher la auteur">
                     Rechercher
                 </button>
@@ -67,7 +67,7 @@
         </form>
 
     </div>
-    <br />
+    <br/>
     <!--Fin : Rechercher auteur-->
 
     <div class="d-block p-4 p-4">
@@ -80,7 +80,6 @@
             <h3>Liste des auteurs</h3>
             <div class="row p-0" id="ListeAuteurPartial">
             </div>
-
 
 
         </div>
@@ -138,11 +137,11 @@
         //var csrfToken = form.querySelector(­'[name="__RequestVerificationToken"]').value;
         fetch(BASE_URL + '/GestionAuteurs/Ajouter', {
             method: "POST",
-            body: data
+            body: data,
             // headers: {
             //    RequestVerificationToken: csrfToken,
             // },
-        }).catch(error => {
+        }).catch((error) => {
             console.error('Échec du fetch pour ajouter auteur', error);
         }).then((response) => {
             AfficherListe();
@@ -179,25 +178,22 @@
                 disableButton(id);
                 document.getElementById("NomAuteur_" + id).innerText = document.getElementById(id + " " + nom).value;
             });
-    }
-</script>
-
-<!--Script pour la supprimation-->
-<script type="text/javascript">
-    function SupprimerAuteur(id = "") {
-        fetch(BASE_URL + `/GestionAuteurs/SupprimerAuteur?id=${id}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).catch(error => {
-            console.error('Échec du fetch pour supprimer la maison', error);
-        }).then(() => {
-            document.getElementById(`${id}`).remove();
-            $('#ModalId').modal('hide'); // Ferme la modale
-        });
-    }
+        }
+/*Script pour la supprimation*/
+            function SupprimerAuteur(id = "") {
+        fetch(BASE_URL+`/GestionAuteurs/SupprimerAuteur?id=${id}`, {
+            method: 'Delete',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).catch(error => {
+                console.error('Échec du fetch pour supprimer la maison', error);
+            }).then(() => {
+                document.getElementById(`${id}`).remove();
+                $('#ModalId').modal('hide'); // Ferme la modale
+            });
+        }
 
 
     // ModalScript

@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
-using VLISSIDES.Data;
-using VLISSIDES.Interfaces;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.GestionEvenements;
-
-namespace VLISSIDES.Controllers
+﻿namespace VLISSIDES.Controllers
 {
     [Authorize(Roles = RoleName.EMPLOYE + ", " + RoleName.ADMIN)]
     public class GestionEvenementsController : Controller
