@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.GestionPromotions;
@@ -9,10 +9,10 @@ public class AjouterPromotionVM
     public string action { get; set; }
 
     public string? Id { get; set; }
-
+    [Required(ErrorMessage = "Le nom est obligatoire")]
     [Display(Name = "Nom de la promotion")]
     public string Nom { get; set; }
-
+    [Required(ErrorMessage = "La description est obligatoire")]
     [Display(Name = "Description")] public string Description { get; set; }
 
     [Display(Name = "Début de la promotion")]
@@ -43,7 +43,7 @@ public class AjouterPromotionVM
 
     [Display(Name = "Pourcentage du rabais")]
     public int? PourcentageRabais { get; set; }
-
+    [Required(ErrorMessage = "Le code de la promotion est obligatoire")]
     [Display(Name = "Code promo")] public string CodePromo { get; set; }
 
     //Select lists
