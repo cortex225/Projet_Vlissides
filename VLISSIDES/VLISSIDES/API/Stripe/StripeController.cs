@@ -218,7 +218,7 @@ public class StripeController : Controller
             : null;
 
         // Mettre à jour la dernière utilisation pour la promotion d'anniversaire
-        if(promotion != null && promotion.TypePromotion == "BIRTHDAY")
+        if( promotion!.CodePromo == "BIRTHDAY")
         {
             customer.DerniereUtilisationPromoAnniversaire = DateTime.Now;
             _context.Membres.Update(customer);
@@ -433,7 +433,7 @@ public class StripeController : Controller
         body.Append("</table>");
         if(promotion != null)
             body.Append(
-                $"<p style='color: #555; font-size: 16px;'><strong>Code promotionnel appliqué de type:</strong> {promotion.TypePromotion} de {promotion.PourcentageRabais}%</p>");
+                $"<p style='color: #555; font-size: 16px;'><strong>Code promotionnel appliqué :</strong> {promotion.Nom} de {promotion.PourcentageRabais}%</p>");
         body.Append($"<p style='color: #555; font-size: 15px;'>Sous-total : {sousTotal:C}</p>");
         body.Append($"<p style='color: #555; font-size: 15px;'>Taxe (5%) : {taxe:C}</p>");
         body.Append(
