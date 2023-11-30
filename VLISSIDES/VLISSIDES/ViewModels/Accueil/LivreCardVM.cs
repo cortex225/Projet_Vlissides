@@ -16,7 +16,7 @@ public class LivreCardVM
 
     [DisplayName("Auteurs")] public List<string> Auteurs { get; set; }
 
-    [DisplayName("Score")] public double Score { get; set; }
+    [DisplayName("Score")] public double Note { get; set; }
 
     [DisplayName("Catégories associés")] public List<string> Categories { get; set; }
 
@@ -30,7 +30,7 @@ public class LivreCardVM
         Titre = livre.Titre;
         Prix = livre.LivreTypeLivres.First().Prix;
         Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
-        Score = (int)livre.Note;
+        Note = (int)livre.Note;
         Categories = livre.Categories.Select(lc => lc.Categorie.Nom).ToList();
     }
 }

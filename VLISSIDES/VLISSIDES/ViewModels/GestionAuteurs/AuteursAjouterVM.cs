@@ -1,6 +1,13 @@
-﻿namespace VLISSIDES.ViewModels.GestionAuteurs;
+﻿using System.ComponentModel;
+
+namespace VLISSIDES.ViewModels.GestionAuteurs;
 
 public class AuteursAjouterVM
 {
-    public string NomAuteur { get; set; }
+    [DisplayName("Nom")] public string Nom { get; set; }
+
+    public AuteursAjouterVM()
+    {
+        Nom = "";
+    }
 }

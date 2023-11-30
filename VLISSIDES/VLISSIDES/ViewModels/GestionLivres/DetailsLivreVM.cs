@@ -50,5 +50,4 @@ public class DetailsLivreVM
     public string ISBN { get; set; }
 
     public string Langue { get; set; }
-
 }

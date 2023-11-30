@@ -9,35 +9,13 @@
 <link rel="stylesheet" href="~/css/Accueil/promo-card.css">
 
 @{
-    var isIncompleteBirthday = User.Identity.IsAuthenticated && Model.User?.DateNaissance == null;
+    bool isIncompleteBirthday = User.Identity.IsAuthenticated && Model.Utilisateur?.DateNaissance == null;
 
 }
 <!--
 Ceci est le div qui contient une image large avec le titre
 -->
-@* <div id="photoPageAccueilDiv" class="col-md-12 mb-6 img-fluid justify-content-center text-center d-flex flex-row container-fluid"> *@
-@*     <div class="container-fluid "> *@
-@*         <div class="row justify-content-around d-flex"> *@
-@*             <h1 id="Titre" class="d-block"> *@
-@*                 La fourmi ailée *@
-@*             </h1> *@
-@*         </div> *@
-@*         <!-- *@
-@*         Un div pour le Slogan de l'entreprise. *@
-@*         --> *@
-@*         <div class="row my-4"> *@
-@*             <h3 class="slogan"> *@
-@*                 Découvrez de nouveaux horizons littéraires *@
-@*             </h3> *@
-@*         </div> *@
-@*         <a href="#" type="btn" class="acheter btn btn-lg "> *@
-@*             Achetez maintenant *@
-@*         </a> *@
-@* *@
-@*     </div> *@
-@* *@
-@* </div> *@
-@* <!-- Hero --> *@
+<!-- Hero -->
 <div class="col-md-12">
     <div class="text-center bg-image col-md-12 img-fluid" id="photoPageAccueilDiv">
         <div class="d-flex justify-content-center align-items-center h-100">
@@ -50,10 +28,10 @@ Ceci est le div qui contient une image large avec le titre
     </div>
 </div>
 
-@* <!-- Hero --> *@
+<!-- Hero -->
 
 <!--
-Un bouton pour cacher/montrer les services de l'entreprises'
+Un bouton pour cacher/montrer les services de l'entreprise
 -->
 <div class="container-fluid justify-content-center d-flex">
     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#serviceCollapse">
@@ -108,28 +86,28 @@ Un bouton pour cacher/montrer les services de l'entreprises'
             <div class="carousel-inner">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <div class="cards-wrapper d-flex justify-content-around">
-                            <div class="cacher-0">
-                                <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[0]"/>
+                        <div class="cards-wrapper d-flex justify-content-around event-caroussel-item">
+                            <div class="event-card-parentDiv">
+                                <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[0]" />
                             </div>
                             @if (Model.Evenements.Count > 1)
                             {
-                                <div class="cacher-1">
-                                    <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[1]"/>
+                                <div class="event-card-parentDiv">
+                                    <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[1]" />
                                 </div>
                             }
                         </div>
                     </div>
-                    @for (var indexEvenement = 2; indexEvenement < (float)Model.Evenements.Count / 2; indexEvenement++)
+                    @for (var indexEvenement = 2; indexEvenement < (float)Model.Evenements.Count; indexEvenement += 2)
                     {
                         <div class="carousel-item">
-                            <div class="cards-wrapper d-flex justify-content-around">
-                                @for (var indexLivre2 = 1; indexLivre2 < 2; indexLivre2++)
+                            <div class="cards-wrapper d-flex justify-content-around event-caroussel-item">
+                                @for (var indexLivre2 = 0; indexLivre2 < 2; indexLivre2++)
                                 {
-                                    @if (Model.Evenements.Count > indexEvenement * 2 + indexLivre2)
+                                    @if (Model.Evenements.Count > indexEvenement + indexLivre2)
                                     {
-                                        <div class="cacher-@indexLivre2">
-                                            <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement * 2 + indexLivre2]"/>
+                                        <div class="event-card-parentDiv">
+                                            <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement + indexLivre2]" />
                                         </div>
                                     }
                                     else
@@ -155,7 +133,7 @@ Un bouton pour cacher/montrer les services de l'entreprises'
 
 
     <!-- Carousel contenant les promotion -->
-    @if (Model.Promotions.Count > 1)
+    @if (Model.Promotions.Count > 0)
     {
         <section class="promotion-section">
             <h2 class="titreSections">Offres spéciales juste pour vous!</h2>

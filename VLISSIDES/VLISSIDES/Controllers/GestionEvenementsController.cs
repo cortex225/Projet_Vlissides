@@ -1,7 +1,7 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -98,8 +98,18 @@ public class GestionEvenementsController : Controller
     {
         decimal prix = 0;
         if (vm.Prix != null)
+        {
+            if (vm.Prix.Contains(","))
+            {
+                vm.Prix.Replace(",", ".");
+            }
             if (!decimal.TryParse(vm.Prix, out prix))
+            {
                 ModelState.AddModelError("Prix", "Le prix est invalide");
+            }
+
+        }
+
 
 
         if (ModelState.IsValid)

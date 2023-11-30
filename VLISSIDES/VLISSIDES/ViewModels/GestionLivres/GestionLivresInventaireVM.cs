@@ -11,7 +11,4 @@ public class GestionLivresInventaireVM
     public List<TypeLivre> ListeTypeLivres { get; set; }
     public List<Auteur> ListeAuteurs { get; set; }
     public List<MaisonEdition> ListeMaisonEditions { get; set; }
-
-
-
 }

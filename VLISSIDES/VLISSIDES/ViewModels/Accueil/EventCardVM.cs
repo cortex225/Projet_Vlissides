@@ -35,6 +35,7 @@ public class EventCardVM
     public EventCardVM(Evenement evenement)
     {
         evenement = evenement ?? new();
+        Id = evenement.Id;
         Image = evenement.Image;
         Nom = evenement.Nom;
         Description = evenement.Description;

@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using VLISSIDES.Models;
-
-namespace VLISSIDES.ViewModels.Profile;
+﻿namespace VLISSIDES.ViewModels.Profile;
 
 public class ProfileModifierAdressesVM
 {
@@ -13,8 +9,6 @@ public class ProfileModifierAdressesVM
 
     [Required(ErrorMessage = "La rue est obligatoire")]
     [DisplayName("Rue")] public string Rue { get; set; }
-
-    [Required(ErrorMessage = "Le numéro apartement est obligatoire")]
     [DisplayName("Numéro apartement")] public string NoApartement { get; set; }
 
     [Required(ErrorMessage = "La ville est obligatoire")]
