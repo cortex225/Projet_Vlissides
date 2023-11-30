@@ -92,7 +92,7 @@ public class GestionCommandesController : Controller
     public async Task<IActionResult> ModifierStatut(string id, string statut)
     {
         var commande = await _context.Commandes.FindAsync(id);
-        if (commande == null) return BadRequest();
+        if (commande == null) return NotFound("La commmande à l'identifiant " + id + " n'a pas été trouvé.");
         commande.StatutCommandeId = statut;
         await _context.SaveChangesAsync();
         return Ok();
