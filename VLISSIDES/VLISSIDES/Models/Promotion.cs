@@ -43,7 +43,7 @@ public class Promotion
     [Display(Name = "Code promo")] public string CodePromo { get; set; }
 
     public string? CommandeId { get; set; }
-    public ICollection<Commande>? Commandes { get; set; } = new List<Commande>();
+    public ICollection<Commande>? Commandes { get; set; }
 
     public string? LivrePanierId { get; set; }
     public ICollection<LivrePanier>? LivrePaniers { get; set; }

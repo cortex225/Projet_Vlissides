@@ -73,7 +73,7 @@ namespace VLISSIDES.Controllers
                         Image = reservation.Evenement.Image,
                         Lieu = reservation.Evenement.Lieu,
                         NbPlaces = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlaces.ToString() + "/" + reservation.Evenement.NbPlaces.ToString() : (reservation.Evenement.NbPlaces - reservation.Evenement.Reservations.Count).ToString() + "/" + reservation.Evenement.NbPlaces.ToString(),
-                        NbPlacesMembre = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlacesMembre.ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString() : (reservation.Evenement.NbPlacesMembre - reservation.Evenement.Reservations.Count()).ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString(),
+                        NbPlacesMembre = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlacesMembre.ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString() : (reservation.Evenement.NbPlacesMembre - reservation.Evenement.Reservations.Select(rq => rq.Quantite).Sum()).ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString(),
                         Prix = reservation.Evenement.Prix,
                         EstEnDemandeAnnuler = (bool)reservation.EnDemandeAnnuler
                     });
@@ -97,7 +97,7 @@ namespace VLISSIDES.Controllers
                         Image = e.Image,
                         Lieu = e.Lieu,
                         NbPlaces = e.Reservations == null ? e.NbPlaces.ToString() + "/" + e.NbPlaces.ToString() : (e.NbPlaces - e.Reservations.Count).ToString() + "/" + e.NbPlaces.ToString(),
-                        NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Count()).ToString() + "/" + e.NbPlacesMembre.ToString(),
+                        NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Select(rq=> rq.Quantite).Sum()).ToString() + "/" + e.NbPlacesMembre.ToString(),
                         Prix = e.Prix,
                         EstEnDemandeAnnuler = false
                     }).OrderBy(e => e.DateDebut).ToList();

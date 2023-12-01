@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -25,18 +26,23 @@ public class GestionPromotionsController : Controller
 
     public IActionResult Index()
     {
-        var vm = _context.Promotions.Select(p => new GestionPromotionsIndexVM
-        {
-            Id = p.Id,
-            Nom = p.Nom,
-            Description = p.Description,
-            DateDebut = p.DateDebut,
-            DateFin = p.DateFin,
-            Image = p.Image,
-            Rabais = (decimal)p.PourcentageRabais,
-            TypePromotion = p.TypePromotion
-        }).ToList();
-        return View(vm);
+
+            var vm = _context.Promotions
+                .Include(p=>p.Commandes)
+                .Include(p=>p.LivrePaniers)
+                .Select(p => new GestionPromotionsIndexVM
+            {
+                Id = p.Id,
+                Nom = p.Nom,
+                Description = p.Description,
+                DateDebut = p.DateDebut,
+                DateFin = p.DateFin,
+                Image = p.Image,
+                Rabais = (decimal)(p.PourcentageRabais??0),
+                TypePromotion = p.TypePromotion,
+            }).ToList();
+            return View(vm);
+
     }
 
     [Route("2147186/{controller}/{action}")]
@@ -111,24 +117,13 @@ public class GestionPromotionsController : Controller
                 TypePromotion = vm.TypePromotion,
                 LivresAcheter = vm.LivresAcheter,
                 LivresGratuits = vm.LivresGratuits,
-                PourcentageRabais = vm.PourcentageRabais
+                PourcentageRabais = vm.PourcentageRabais,
+
             };
 
 
             _context.Promotions.Add(promo);
             _context.SaveChanges();
-
-            // Création de la promotion dans Stripe
-            var options = new CouponCreateOptions
-            {
-                PercentOff = promo.PourcentageRabais,
-                Duration = "once",
-                Id = promo.Id,
-                Currency = "cad"
-            };
-            var service = new CouponService();
-            var coupon = service.Create(options);
-
 
             return Ok();
         }
