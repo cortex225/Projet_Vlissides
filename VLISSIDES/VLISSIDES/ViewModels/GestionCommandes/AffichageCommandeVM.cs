@@ -12,8 +12,10 @@ public class AffichageCommandeVM
     [Display(Name = "Statuts")] public List<SelectListItem> SelectListStatut { get; set; }
 
     public AffichageCommandeVM(IEnumerable<Commande> listCommandes, IEnumerable<StatutCommande> selectListStatut,
-        string statutId="")
+        string statutId = "")
     {
+        listCommandes ??= new List<Commande>();
+        selectListStatut ??= new List<StatutCommande>();
         ListCommandes = listCommandes.Select(c => new CommandesVM(c)).OrderByDescending(c => c.DateCommande).ToList();
         StatutId = statutId;
         SelectListStatut = selectListStatut.Select(s => new SelectListItem

@@ -25,6 +25,7 @@ public class LivreCommandeVM
     }
     public LivreCommandeVM(LivreCommande livreCommande)
     {
+        livreCommande ??= new();
         Livre = livreCommande.Livre;
         CommandeId = livreCommande.CommandeId;
         Quantite = livreCommande.Quantite;
