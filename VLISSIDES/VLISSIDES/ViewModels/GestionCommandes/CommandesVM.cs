@@ -45,14 +45,15 @@ public class CommandesVM
     }
     public CommandesVM(Commande commande)
     {
+        commande ??= new();
         Id = commande.Id;
         DateCommande = commande.DateCommande;
         PrixTotal = commande.PrixTotal;
-        MembreUserName = commande.Membre.UserName;
+        MembreUserName = (commande.Membre ?? new()).UserName;
         AdresseId = commande.AdresseId;
-        LivreCommandes = commande.LivreCommandes.ToList().Select(lc=>new LivreCommandeVM(lc)).ToList();
+        LivreCommandes = (commande.LivreCommandes ?? new List<LivreCommande>()).ToList().Select(lc => new LivreCommandeVM(lc)).ToList();
         StatutId = commande.StatutCommandeId;
-        StatutNom = commande.StatutCommande.Nom;
+        StatutNom = (commande.StatutCommande ?? new()).Nom;
         EnDemandeAnnulation = commande.EnDemandeAnnulation;
         PromotionId = commande.PromotionId;
         Promotion = commande.Promotion;
