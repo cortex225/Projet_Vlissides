@@ -268,7 +268,8 @@ public class StripeController : Controller
             Description = evenement.Description,
             PaymentIntentId = session.PaymentIntentId,
             prixAchat = evenement.Prix,
-            EnDemandeAnnuler = false
+            EnDemandeAnnuler = false,
+            Quantite = Convert.ToInt32(session.Metadata["quantite"])
         };
         // Ajouter la réservation au contexte
         _context.Reservations.Add(reservation);
@@ -286,6 +287,7 @@ public class StripeController : Controller
             DateFin = evenement.DateFin,
             Lieu = evenement.Lieu,
             NombreDePlaces = evenement.NbPlaces,
+            Quantite = reservation.Quantite,
             PrixTotal = session.AmountTotal.Value /
                         100m // Ajuste la division si vous n'utilisez pas les centimes dans Stripe
         };
@@ -297,7 +299,7 @@ public class StripeController : Controller
 
 
         var nbPlacesReservees = _context.Reservations.Count(r => r.EvenementId == evenement.Id);
-        evenement.NbPlacesReservees = nbPlacesReservees;
+        evenement.NbPlacesReservees = nbPlacesReservees + reservation.Quantite;
         _context.Evenements.Update(evenement);
         await _context.SaveChangesAsync();
     }
@@ -372,7 +374,7 @@ public class StripeController : Controller
         body.Append(
             $"<p style='color: #555; font-size: 16px;'><strong>Description :</strong> {reservationVM.Description}</p>");
         body.Append(
-            $"<p style='color: #555; font-size: 16px;'><strong>Nombre de places :</strong> {reservationVM.NombreDePlaces}</p>");
+            $"<p style='color: #555; font-size: 16px;'><strong>Nombre de places réservée(s):</strong> {reservationVM.Quantite}</p>");
         body.Append(
             $"<p style='color: #555; font-size: 16px;'><strong>Total payé :</strong> {reservationVM.PrixTotal:C}</p>");
         body.Append(

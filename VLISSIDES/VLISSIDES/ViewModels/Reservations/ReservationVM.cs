@@ -10,4 +10,5 @@ public class ReservationVM
     public int NombreDePlaces { get; set; }
     public decimal? PrixTotal { get; set; }
     public string? Id { get; set; }
+    public int? Quantite { get; set; }
 }

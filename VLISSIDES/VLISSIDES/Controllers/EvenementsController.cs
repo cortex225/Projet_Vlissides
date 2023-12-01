@@ -203,7 +203,7 @@ namespace VLISSIDES.Controllers
             return body.ToString();
         }
         [HttpPost]
-        public ActionResult CreateCheckoutSessionEvenement(string id)
+        public ActionResult CreateCheckoutSessionEvenement(string id, int quantite)
         {
             // Récupère l'identifiant de l'utilisateur connecté
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -231,7 +231,7 @@ namespace VLISSIDES.Controllers
                     }
 
                 },
-                Quantity = 1,
+                Quantity = quantite,
             };
             //Les options pour ouvrir la session
             var options = new SessionCreateOptions
@@ -240,7 +240,6 @@ namespace VLISSIDES.Controllers
                 LineItems = new List<SessionLineItemOptions> { lineItem },
                 Mode = "payment",
                 Customer = StripeCustomerId,
-                AllowPromotionCodes = true,
 
                 BillingAddressCollection = "required",
                 ShippingAddressCollection = new SessionShippingAddressCollectionOptions
@@ -258,7 +257,8 @@ namespace VLISSIDES.Controllers
                 { "type", "evenement" }, // Ici, j'indique que le type d'achat est "evenement"
                 {
                     "evenementId", evenement.Id
-                }
+                },
+                {"quantite", quantite.ToString() }//j'indique la quantité de place achetée
             },
                 InvoiceCreation = new SessionInvoiceCreationOptions
                 {
