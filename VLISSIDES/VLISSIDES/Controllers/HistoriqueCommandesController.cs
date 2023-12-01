@@ -56,7 +56,8 @@ public class HistoriqueCommandes : Controller
 
         var commandes = _context.Commandes
             .Include(c => c.StatutCommande)
-            .Include(c => c.Membre);
+            .Include(c => c.Membre)
+            .Include(c => c.LivreCommandes).ThenInclude(c => c.Livre);
         var livreCommandes = _context.LivreCommandes;
 
         var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
@@ -88,7 +89,8 @@ public class HistoriqueCommandes : Controller
         //var currentUserId = _userManager.GetUserId(HttpContext.User);
         var commandes = _context.Commandes
             .Include(c => c.StatutCommande)
-            .Include(c => c.Membre);
+            .Include(c => c.Membre)
+            .Include(c => c.LivreCommandes).ThenInclude(c => c.Livre);
         var livreCommandes = _context.LivreCommandes;
 
         var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM

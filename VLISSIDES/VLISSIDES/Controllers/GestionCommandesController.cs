@@ -39,6 +39,7 @@ public class GestionCommandesController : Controller
     public IActionResult Index(string? motCles, string? criteres) => View(new AffichageCommandeVM(_context.Commandes
             .Include(c => c.StatutCommande)
             .Include(c => c.Membre)
+            .Include(c => c.LivreCommandes).ThenInclude(c => c.Livre)
         .OrderBy(c => c.DateCommande).ToList(),
             _context.StatutCommandes));
     public IActionResult AfficherCommandes(string? motCles, string? criteres)
@@ -51,7 +52,7 @@ public class GestionCommandesController : Controller
 
         //var currentUserId = _userManager.GetUserId(HttpContext.User);
         List<Commande> commandes = _context.Commandes
-            .Include(c => c.StatutCommande)
+            .Include(c => c.StatutCommande).Include(c => c.LivreCommandes).ThenInclude(c => c.Livre)
             .Include(c => c.Membre).ToList();
         var livreCommandes = _context.LivreCommandes;
 
