@@ -22,8 +22,8 @@ public class ProfileModifierInformationVM
     [Required(ErrorMessage = "Le courriel est obligatoire")]
     [Display(Name = "Courriel")] public string Courriel { get; set; }
 
-    [Required(ErrorMessage = "Le téléphone est obligatoire")]
-    [Display(Name = "Téléphone")] public string Telephone { get; set; }
+
+    [Display(Name = "Téléphone")] public string? Telephone { get; set; }
 
     [Display(Name = "Chemain de l'image")] public string? CoverImageUrl { get; set; }
 

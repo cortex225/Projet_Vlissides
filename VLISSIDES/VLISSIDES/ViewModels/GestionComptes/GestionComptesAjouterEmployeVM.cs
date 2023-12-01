@@ -17,9 +17,8 @@ public class GestionComptesAjouterEmployeVM
     [DisplayName("Nom d'utilisateur")]
     public string Username { get; set; } = default!;
 
-    [Required(ErrorMessage = "Le Téléphone est obligatoire")]
     [DisplayName("Téléphone")]
-    public string Telephone { get; set; } = default!;
+    public string? Telephone { get; set; } = default!;
 
     [Required(ErrorMessage = "L'Adresse Courriel est obligatoire")]
     [DisplayName("Adresse Courriel")]
