@@ -51,13 +51,17 @@
             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                 <i class="fas fa-chair mr-2 mx-2"></i>
                 <p>
-                    Membre : @Model.NbPlacesMembre
+                    Nombre de places réservée(s):
+                    @{
+                        System.Diagnostics.Debug.Assert(Model.Reservation != null, "Model.Reservation != null");
+                    }
+                    @Model.Reservation.Quantite
                     <br/>
-                    Totale : @Model.NbPlaces
+                    Places restantes : @Model.NbPlaces
                 </p>
             </div>
             <div class="mb-2 d-flex align-items-center justify-content-center justify-content-md-start">
-                Prix: @Model.Prix $
+                Prix Unitaire: @Model.Prix $
             </div>
         </div>
     </div>

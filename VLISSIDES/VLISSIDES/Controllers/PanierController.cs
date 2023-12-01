@@ -242,6 +242,7 @@ public class PanierController : Controller
                 .FirstOrDefault(lt => lt.LivreId == livre.Id && lt.TypeLivreId == type.Id).Prix;
 
 
+
             var siExiste = false;
 
             if (user.Panier == null) user.Panier = new List<LivrePanier>();
@@ -335,6 +336,7 @@ public class PanierController : Controller
                 { success = false, message = "Vous avez déjà utilisé ce code promo cette année." });
 
 
+
         var panierVM = new PanierVM
         {
             ListeArticles = _context.LivrePanier
@@ -350,18 +352,21 @@ public class PanierController : Controller
                 }).ToList()
         };
 
+
         // Vérifie si une promotion a déjà été appliquée
         if (panierVM.PromotionAppliquee)
             return Json(new { success = false, message = "Une promotion a déjà été appliquée à ce panier." });
 
         double prixTotal = 0;
 
+        // Traitement de la promotion 2pour1
         if (promotion.TypePromotion == "2pour1")
         {
             AppliquerPromotionDeuxPourUn(panierVM, promotion);
             prixTotal = panierVM.ListeArticles.Sum(a => a.PrixApresPromotion * (a.Quantite ?? 1));
         }
-        else if (promotion.TypePromotion == "pourcentage")
+        // Traitement de la promotion BIRTHDAY avec la logique de pourcentage
+        else if (promotion.CodePromo == "BIRTHDAY" || promotion.TypePromotion == "pourcentage")
         {
             foreach (var article in panierVM.ListeArticles)
             {
@@ -384,15 +389,14 @@ public class PanierController : Controller
             if (articleBD != null)
             {
                 articleBD.PrixApresPromotion = (decimal)articleVM.PrixApresPromotion;
+                articleBD.PromotionId = promotion.Id;
                 _context.Update(articleBD);
             }
         }
 
         // Si la promotion est appliquée avec succès, marquez-la comme appliquée
         panierVM.PromotionAppliquee = true;
-        // Mettre à jour la dernière utilisation
-        utilisateur.DerniereUtilisationPromoAnniversaire = DateTime.Now;
-        _context.Update(utilisateur);
+
         await _context.SaveChangesAsync();
 
         return Json(new

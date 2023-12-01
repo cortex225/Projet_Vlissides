@@ -15,7 +15,7 @@ namespace VLISSIDES.Controllers;
 [Authorize(Roles = RoleName.MEMBRE)]
 [ApiController]
 [Route("[controller]/[action]")]
-public class HistoriqueCommandes : Controller
+public class HistoriqueCommandesController : Controller
 {
     private readonly IConfiguration _config;
     private readonly IConfiguration _configuration;
@@ -29,7 +29,7 @@ public class HistoriqueCommandes : Controller
     private readonly string _webhookSecretApi;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public HistoriqueCommandes(ApplicationDbContext context,
+    public HistoriqueCommandesController(ApplicationDbContext context,
         IWebHostEnvironment webHostEnvironment,
         IConfiguration config,
         UserManager<ApplicationUser> userManager,

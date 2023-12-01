@@ -15,9 +15,9 @@ public class GestionPromotionsIndexVM
 
     public DateTime? DateFin { get; set; }
 
-
-    public ICollection<Livre>? Livres { get; set; }
     public string? Image { get; set; }
 
-    public string TypePromotion { get; set; }
+    public string? TypePromotion { get; set; }
+
+
 }

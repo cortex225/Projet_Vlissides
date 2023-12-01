@@ -295,13 +295,27 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 Description = "Ce code promo est uniquement valide durant votre mois d'anniversaire.",
                 DateDebut = DateTime.Now,
                 DateFin = DateTime.Now.AddYears(1),
-                TypePromotion = "Pourcentage",
+                TypePromotion = "pourcentage",
                 PourcentageRabais = 10,
                 Image = "/img/images_Promo/birthday.jpg",
 
                 CodePromo = "BIRTHDAY"
             }
         );
+
+        //liaison entre les promotions et les commandes
+        builder.Entity<Promotion>()
+            .HasMany(p => p.Commandes)
+            .WithOne(c => c.Promotion)
+            .HasForeignKey(c => c.PromotionId);
+
+        //Liaison entre les promotions et les livres dans le panier
+        builder.Entity<Promotion>()
+            .HasMany(p => p.LivrePaniers)
+            .WithOne(lp => lp.Promotion)
+            .HasForeignKey(lp => lp.PromotionId);
+
+
 
         #endregion
     }
