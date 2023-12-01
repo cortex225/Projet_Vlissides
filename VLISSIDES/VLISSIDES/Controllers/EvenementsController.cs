@@ -72,10 +72,12 @@ namespace VLISSIDES.Controllers
                         DateFin = reservation.Evenement.DateFin,
                         Image = reservation.Evenement.Image,
                         Lieu = reservation.Evenement.Lieu,
-                        NbPlaces = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlaces.ToString() + "/" + reservation.Evenement.NbPlaces.ToString() : (reservation.Evenement.NbPlaces - reservation.Evenement.Reservations.Count).ToString() + "/" + reservation.Evenement.NbPlaces.ToString(),
+                        NbPlaces = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlaces.ToString() + "/" + reservation.Evenement.NbPlaces.ToString() : (reservation.Evenement.NbPlaces -
+                            reservation.Evenement.Reservations.Select(rq => rq.Quantite).Sum()).ToString() + "/" + reservation.Evenement.NbPlaces.ToString(),
                         NbPlacesMembre = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlacesMembre.ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString() : (reservation.Evenement.NbPlacesMembre - reservation.Evenement.Reservations.Select(rq => rq.Quantite).Sum()).ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString(),
                         Prix = reservation.Evenement.Prix,
-                        EstEnDemandeAnnuler = (bool)reservation.EnDemandeAnnuler
+                        EstEnDemandeAnnuler = (bool)reservation.EnDemandeAnnuler!,
+                        Reservation = _context.Reservations.FirstOrDefault(r => r.EvenementId == reservation.EvenementId && r.MembreId == userId)
                     });
                 }
                 vm.MesEvenements = mesEvenements;
