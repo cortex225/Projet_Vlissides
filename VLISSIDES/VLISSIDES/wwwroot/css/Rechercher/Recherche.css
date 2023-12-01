@@ -12,6 +12,14 @@
 
 }
 
+.card:hover {
+    transform: translateY(-5px);
+    scale: 1.01;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-color: rgba(197, 223, 249, 0.6);
+    transition-duration: 0.5s;
+}
+
 /* Styles pour l'image du livre */
 .divIMG {
     height: 270px;
