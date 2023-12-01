@@ -149,7 +149,7 @@ public class StripeController : Controller
             Livre = lc.Livre,
             CommandeId = nouvelleCommande.Id,
             Quantite = (int)lc.Quantite,
-            PrixAchat = (double)lc.Livre.LivreTypeLivres.FirstOrDefault()?.Prix!
+            PrixAchat = (double)(panierItems.FirstOrDefault(p => p.LivreId == lc.LivreId)?.PrixApresPromotion ?? lc.PrixOriginal)!
         }).ToList();
 
         // Créer la commande
@@ -411,7 +411,7 @@ public class StripeController : Controller
             body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.Titre}</td>");
             body.Append($"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Quantite}</td>");
             body.Append(
-                $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.Livre.LivreTypeLivres.FirstOrDefault()?.Prix:C}</td>");
+                $"<td style='padding: 15px; border: 1px solid #ddd;'>{item.PrixAchat:C}</td>");
             body.Append("</tr>");
         }
 

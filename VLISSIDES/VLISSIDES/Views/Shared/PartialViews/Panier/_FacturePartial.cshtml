@@ -14,8 +14,8 @@
         <div class="article d-flex justify-content-between">
             <div class="w-75">@article.Livre - @article.Type</div>
             <div class="quantite">@article.Quantite x</div>
-            <div class="prix-original">@article.PrixOriginal.ToString("F2", CultureInfo.GetCultureInfo("fr-CA"))</div>
-            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("F2", CultureInfo.GetCultureInfo("fr-CA"))</div>
+            <div class="prix-original">@article.PrixOriginal.ToString("F2", CultureInfo.GetCultureInfo("fr-CA")) $</div>
+            <div class="prix-promo" style="display: none;">@article.PrixApresPromotion.ToString("F2", CultureInfo.GetCultureInfo("fr-CA")) $</div>
         </div>
     }
 
@@ -73,10 +73,10 @@
             </div>
         </div>
         <div id="prixDonEco">
-            +5,00$
+            +5,00 $
         </div>
     </div>
-
+        
 </div>
 
 @* Rajout de l'input pour le code promo *@
@@ -100,7 +100,7 @@
         <div class="">Total <span class="text-danger">(sans taxe)</span>: </div>
         <div class="d-flex">
             <div id="prixTotal" class="">
-                @prixtotal
+                @prixtotal $
             </div>
         </div>
 

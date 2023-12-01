@@ -100,7 +100,7 @@ namespace VLISSIDES.Controllers
                         NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Count()).ToString() + "/" + e.NbPlacesMembre.ToString(),
                         Prix = e.Prix,
                         EstEnDemandeAnnuler = false
-                    }).ToList();
+                    }).OrderBy(e => e.DateDebut).ToList();
 
             }
             else
@@ -117,7 +117,7 @@ namespace VLISSIDES.Controllers
                     NbPlaces = e.Reservations == null ? e.NbPlaces.ToString() + "/" + e.NbPlaces.ToString() : (e.NbPlaces - e.Reservations.Count).ToString() + "/" + e.NbPlaces.ToString(),
                     NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Count()).ToString() + "/" + e.NbPlacesMembre.ToString(),
                     Prix = e.Prix,
-                }).ToList();
+                }).OrderBy(e => e.DateDebut).ToList();
                 vm.MesEvenements = new List<EvenementsVM>();
             }
 

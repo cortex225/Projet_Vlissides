@@ -39,15 +39,13 @@
                 <i class="fas fa-calendar-alt mr-2 mx-2"></i> @Model.DateDebut.Day / @Model.DateDebut.Month / @Model.DateDebut.Year
             </div>
             <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                <i class="fas fa-clock mr-2 mx-2"></i> @Model.DateDebut.Hour : @Model.DateDebut.Minute
+                <i class="fas fa-clock mr-2 mx-2"></i> @Model.DateDebut.Hour h @Model.DateDebut.Minute
             </div>
             <div class="d-flex align-items-center justify-content-center justify-content-md-start places-restantes">
-                <i class="fas fa-chair mr-2 mx-2"></i>Places restantes:
-                @Model.NbPlacesReservees/@Model.NbPlaces
+                <i class="fas fa-chair mr-2 mx-2"></i>Places restantes: @Model.NbPlacesReservees  @Model.NbPlaces
             </div>
             <div class="d-flex align-items-center justify-content-center justify-content-md-start places-restantes">
-                <i class="fas fa-chair mr-2 mx-2"></i>Places restantes (membres):
-                @Model.NbPlacesMembre
+                <i class="fas fa-chair mr-2 mx-2"></i>Places restantes (membres): @Model.NbPlacesMembre
             </div>
         </div>
     </div>
