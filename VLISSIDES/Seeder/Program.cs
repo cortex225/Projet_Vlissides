@@ -125,6 +125,7 @@ public class DatabaseSeeder
         string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ressources", "DonneesLivres.xlsx");
         SeedFromExcel(fileName);
         GenerateEvenements();
+        GeneratePromotions();
         //Signaler la fin de la lecture du fichier Excel
         Console.WriteLine("************ Succès!************* ");
 
@@ -398,7 +399,7 @@ public class DatabaseSeeder
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
-            Image = "/images_Events/pinocio.png",
+            Image = "/img/images_Events/pinocio.png",
             Nom = "Projet Pinochio (5 ans et plus)",
             Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
             " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
@@ -413,7 +414,7 @@ public class DatabaseSeeder
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
-            Image = "/images_Events/reve.png",
+            Image = "/img/images_Events/reve.png",
             Nom = "Rêves à colorier",
             Description = "Aventure musicale haute-voltige qui allie la chanson, le théâtre d’objets et la littérature.",
             Prix = 8,
@@ -426,7 +427,7 @@ public class DatabaseSeeder
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
-            Image = "/images_Events/Heli.png",
+            Image = "/img/images_Events/Heli.png",
             Nom = "Héli, l’enfant cerf-volant",
             Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
 
@@ -440,7 +441,7 @@ public class DatabaseSeeder
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
-            Image = "/images_Events/michel.png",
+            Image = "/img/images_Events/michel.png",
             Nom = "Conversation avec Michel Tremblay",
             Description = "",
 
@@ -454,7 +455,7 @@ public class DatabaseSeeder
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
-            Image = "/images_Events/simon.png",
+            Image = "/img/images_Events/simon.png",
             Nom = "Conversation avec Simon Boulerice",
             Description = "",
 
@@ -467,5 +468,100 @@ public class DatabaseSeeder
         });
         _context.SaveChanges();
     }
+    private void GeneratePromotions()
+    {
+        _context.Promotions.Add(new Promotion()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Tout pour la lecture",
+            Description = "2 pour 1 sur tout les livres québécois",
+            Image = "/img/images_Promo/promo1.png",
+            DateDebut = new DateTime(2023, 10, 11, 0, 0, 0),
+            DateFin = new DateTime(2023, 10, 11, 23, 59, 59),
+            LivresAcheter = 1,
+            LivresGratuits = 1,
+            CodePromo = "2POUR1QC",
+            TypePromotion = "2pour1",
+            Categorie = _context.Categories.FirstOrDefault(c => c.Nom == "Roman québécois"),
+        });
+        _context.Promotions.Add(new Promotion()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Tout pour la lecture",
+            Description = "Les grands soldes sont arrivés. Du 17 au 23 décembre 2023, 30% sur tous les livres",
+            Image = "/img/images_Promo/promo2.png",
+            DateDebut = new DateTime(2023, 12, 17, 0, 0, 0),
+            DateFin = new DateTime(2023, 12, 23, 23, 59, 59),
+            CodePromo = "SOLDES30",
+            PourcentageRabais = 30,
+            TypePromotion = "pourcentage",
 
+        });
+        _context.Promotions.Add(new Promotion()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Promotion éclair d'une journée",
+            Description = "25% de rabais sur tous les livres avec le code promo OHE25",
+            Image = "/img/images_Promo/promo3.png",
+            DateDebut = new DateTime(2023, 10, 1, 0, 0, 0),
+            DateFin = new DateTime(2023, 10, 1, 23, 59, 59),
+            CodePromo = "OHE25",
+            PourcentageRabais = 25,
+            TypePromotion = "pourcentage",
+
+        });
+        _context.Promotions.Add(new Promotion()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Promotion éclair d'une journée",
+            Description = "30% de rabais sur tous les romans policiers avec le code promo OHE30",
+            Image = "/img/images_Promo/promo3.png",
+            DateDebut = new DateTime(2023, 10, 27, 0, 0, 0),
+            DateFin = new DateTime(2023, 10, 27, 23, 59, 59),
+            CodePromo = "OHE30",
+            PourcentageRabais = 30,
+            TypePromotion = "pourcentage",
+            Categorie = _context.Categories.FirstOrDefault(c => c.Nom == "Roman policier")
+        });
+        _context.Promotions.Add(new Promotion()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Promotion éclair sur 2 jours",
+            Description = "20% de rabais sur tous les livres de pédagogie avec le code promo OHE20",
+            Image = "/img/images_Promo/promo3.png",
+            DateDebut = new DateTime(2024, 1, 15, 0, 0, 0),
+            DateFin = new DateTime(2024, 1, 16, 23, 59, 59),
+            CodePromo = "OHE20",
+            PourcentageRabais = 20,
+            TypePromotion = "pourcentage",
+            Categorie = _context.Categories.FirstOrDefault(c => c.Nom == "Pédagogie")
+        });
+        _context.Promotions.Add(new Promotion()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Tout pour la lecture",
+            Description = "Les grands soldes de décembre,Du 1er au 16 décembre 2023, 10% sur tous les livres avec le code promo PROMO10DEC ",
+            Image = "/img/images_Promo/promo2.png",
+            DateDebut = new DateTime(2023, 12, 1, 0, 0, 0),
+            DateFin = new DateTime(2023, 12, 16, 23, 59, 59),
+            CodePromo = "PROMO10DEC",
+            PourcentageRabais = 10,
+            TypePromotion = "pourcentage",
+
+        });
+        _context.Promotions.Add(new Promotion()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Tout pour la lecture",
+            Description = "Les grands soldes de janvier. Du 4 au 10 janvier 2024, 20% sur tous les livres avec le code promo PROMO20JAN",
+            Image = "/img/images_Promo/promo2.png",
+            DateDebut = new DateTime(2024, 1, 4, 0, 0, 0),
+            DateFin = new DateTime(2024, 1, 10, 23, 59, 59),
+            CodePromo = "PROMO20JAN",
+            PourcentageRabais = 20,
+            TypePromotion = "pourcentage",
+
+        });
+        _context.SaveChanges();
+    }
 }
