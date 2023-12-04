@@ -261,7 +261,7 @@ public class StripeController : Controller
         var nbReservations = _context.Reservations.Count().ToString();
         var reservation = new Reservation
         {
-            Id = "R_" + evenement.Nom + "#" + nbReservations + "-" + DateTime.Now.ToString("yyyyMMddHH"),
+            Id = nbReservations,
             DateReservation = DateTime.Now,
             Membre = customer,
             Evenement = evenement,
