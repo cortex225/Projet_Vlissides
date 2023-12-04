@@ -37,7 +37,9 @@
             <td class="cacher-1">
                 @Html.DisplayFor(modelItem => evenement.Prix) $
             </td>
-            <td class="groupeBoutton">
+
+
+            <td class="groupeBoutton d-none">
                 <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("ModifierEvenement", "GestionEvenements", new { id = evenement.Id })')" data-toggle="tooltip" title="Modifier le livre">
                     <span class="fa-solid fa-pen fa-2x"></span>
                 </a>
@@ -48,3 +50,4 @@
         </tr>
     }
 </table>
+

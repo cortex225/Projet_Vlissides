@@ -25,6 +25,7 @@ namespace VLISSIDES.ViewModels.GestionEvenements
         [DisplayName("Nombre de places réservé au membre")] public int NbPlacesMembre { get; set; }
         [DisplayName("Nombre de réservations")] public int NbPlacesMembreReserve { get; set; }
 
+
         [DisplayName("Prix")] public decimal? Prix { get; set; }
 
         public GestionEvenementsIndexVM(Evenement evenement)
