@@ -126,6 +126,7 @@ public class DatabaseSeeder
         SeedFromExcel(fileName);
         GenerateEvenements();
         GeneratePromotions();
+        GenerateAdresses();
         //Signaler la fin de la lecture du fichier Excel
         Console.WriteLine("************ Succès!************* ");
 
@@ -564,4 +565,53 @@ public class DatabaseSeeder
         });
         _context.SaveChanges();
     }
+    private void GenerateAdresses()
+    {
+        _context.Adresses.Add(new Adresse()
+        {
+            Id = Guid.NewGuid().ToString(),
+            NoCivique = 235,
+            Rue = "rue des Tilleuls",
+            NoApartement = "#45",
+            Ville = "Granby",
+            Province = "Québec",
+            Pays = "Canada",
+            CodePostal = "J1H 7U8",
+            UtilisateurPrincipal = _context.Users.FirstOrDefault(x => x.UserName == "MGosselin@gmail.com")
+        });
+        _context.Adresses.Add(new Adresse()
+        {
+            Id = Guid.NewGuid().ToString(),
+            NoCivique = 24,
+            Rue = "avenue du Parc",
+            NoApartement = "",
+            Ville = "Shefford",
+            Province = "Québec",
+            Pays = "Canada",
+            CodePostal = "T6Y 2T7",
+            UtilisateurPrincipal = _context.Users.FirstOrDefault(x => x.UserName == "SFallu@gmail.com")
+        }) ;
+        _context.Adresses.Add(new Adresse()
+        {
+            Id = Guid.NewGuid().ToString(),
+            NoCivique = 6,
+            Rue = "rue Henri-Bourassa",
+            NoApartement = "",
+            Ville = "Montréal",
+            Province = "Québec",
+            Pays = "Canada",
+            CodePostal = "Y8h 9U7",
+            UtilisateurPrincipal = _context.Users.FirstOrDefault(x => x.UserName == "SDemers@gmail.com")
+        });
+        _context.SaveChanges();
+    }
+    //private void GenerateTransactions()
+    //{
+    //    _context.Commandes.Add(new Commande() 
+    //    {
+    //        Id = Guid.NewGuid().ToString(),
+    //        Membre = _context.Membres.FirstOrDefault(m=>m.UserName=="MGosselin@gmail.com"),
+            
+    //    })
+    //}
 }
