@@ -43,7 +43,7 @@
             </li>
         }
         <li class="nav-item">
-            <form asp-area="Identity" asp-page="/Account/Deconnecter" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
                 <button type="submit" class="btn  btn-link nav-link" data-toggle="tooltip" data-placement="left" title="Se déconnecter">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="login-text">Se déconnecter </span>
                 </button>
@@ -55,12 +55,12 @@
     {
         <!-- Utilisateur Non Connecté : Options de connexion et d'inscription -->
         <li class="nav-item">
-            <a class="nav-link" asp-area="" asp-controller="Compte" asp-action="Login" data-toggle="tooltip" data-placement="left" title="Se connecter">
+            <a class="nav-link" asp-area="" asp-controller="Compte" asp-action="Connecter" data-toggle="tooltip" data-placement="left" title="Se connecter">
                 <i class="fas fa-sign-in-alt"></i> <span class="login-text">Se connecter</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register" data-toggle="tooltip" data-placement="left" title="S'inscrire">
+            <a class="nav-link" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Enregistrer" data-toggle="tooltip" data-placement="left" title="S'inscrire">
                 <i class="fas fa-user-plus"></i> <span class="login-text">S'inscrire</span>
             </a>
         </li>
