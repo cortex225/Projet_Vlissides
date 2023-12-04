@@ -13,7 +13,7 @@ namespace VLISSIDES.ViewModels.GestionEvenements
         public GestionEvenementsReservationVM(Reservation reservation)
         {
             Id = reservation.Id;
-            NomUtilisateur = reservation.Membre.Id;
+            NomUtilisateur = reservation.Membre.Nom;
             NomEvenement = reservation.Evenement.Nom;
         }
     }
