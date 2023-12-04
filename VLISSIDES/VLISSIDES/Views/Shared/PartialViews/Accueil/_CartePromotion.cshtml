@@ -11,7 +11,9 @@
             <div class="col-md-5">
                 <h2 class="font-weight-bold mb-2">@Model.Description</h2>
                 <p class="text-muted mb-3">Profitez de cette offre exceptionnelle !</p>
-                <button class="reserve-btn btn btn-primary btn-block" asp-action="Index" asp-controller="Recherche">Acheter Maintenant</button>
+                <a asp-action="Index" asp-controller="Recherche">
+                    <button class="reserve-btn btn btn-primary btn-block">Acheter Maintenant</button>
+                </a>
             </div>
             <!-- Date et rabais -->
             <div class="col-md-4">
