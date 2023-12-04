@@ -607,10 +607,11 @@ public class DatabaseSeeder
     }
     //private void GenerateTransactions()
     //{
-    //    _context.Commandes.Add(new Commande() 
+
+    //    _context.Commandes.Add(new Commande()
     //    {
     //        Id = Guid.NewGuid().ToString(),
-    //        Membre = _context.Membres.FirstOrDefault(m=>m.UserName=="MGosselin@gmail.com"),
+    //        Membre = _context.Membres.FirstOrDefault(m => m.UserName == "MGosselin@gmail.com"),
             
     //    })
     //}
