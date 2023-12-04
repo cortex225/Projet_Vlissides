@@ -20,7 +20,7 @@
             @{
                 if (Model.NbPlacesReservees != Model.NbPlaces)
                 {
-                    <button class="reserve-btn btn btn-primary" onclick="Reserver('@Model.Id')">Réserver Maintenant</button>
+                    <button class="reserve-btn btn btn-primary" asp-action="Index" asp-controller="Recherche">Réserver Maintenant</button>
 
                 }
             }
