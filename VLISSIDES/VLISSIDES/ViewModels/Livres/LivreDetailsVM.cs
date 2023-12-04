@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using VLISSIDES.Models;
 
-namespace VLISSIDES.ViewModels.Recherche;
+namespace VLISSIDES.ViewModels.Livres;
 
-public class DetailsLivreVM
+public class LivreDetailsVM
 {
 
     [Display(Name = "Identifié")] public string Id { get; set; }
@@ -25,7 +25,7 @@ public class DetailsLivreVM
 
     [Display(Name = "Langue")] public string Langue { get; set; }
     [Display(Name = "Quantite")] public int Quantite { get; set; }
-    public DetailsLivreVM(Livre livre)
+    public LivreDetailsVM(Livre livre)
     {
         Id = livre.Id;
         Titre = livre.Titre;

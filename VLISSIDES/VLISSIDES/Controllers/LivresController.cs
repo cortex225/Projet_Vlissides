@@ -4,17 +4,17 @@ using System.Text.RegularExpressions;
 using System.Web.WebPages;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Recherche;
+using VLISSIDES.ViewModels.Livres;
 
 namespace VLISSIDES.Controllers;
 
-public class LivreController : Controller
+public class LivresController : Controller
 {
     private readonly IConfiguration _config;
     private readonly ApplicationDbContext _context;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public LivreController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
+    public LivresController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
         IConfiguration config)
     {
         _context = context;
@@ -146,10 +146,10 @@ public class LivreController : Controller
         ViewBag.TotalPages = Math.Ceiling((double)livresRecherches.Count / itemsPerPage);
 
 
-        return View(new IndexRechercheVM(motCles, criteres, livresRecherches
+        return View(new LivreIndexVM(motCles, criteres, livresRecherches
                 .Skip((page - 1) * itemsPerPage).Take(itemsPerPage).ToList(), livres, auteurs, maisonEditions,
             categories,
-            langues, typeLivres, new List<DetailsLivreVM>()));
+            langues, typeLivres, new List<LivreDetailsVM>()));
     }
 
     // GET: RechercheController
@@ -172,6 +172,6 @@ public class LivreController : Controller
 
         if (livre == null) return NotFound();
 
-        return View(new DetailsLivreVM(livre));
+        return View(new LivreDetailsVM(livre));
     }
 }

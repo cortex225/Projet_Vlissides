@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using VLISSIDES.Models;
 
-namespace VLISSIDES.ViewModels.Recherche;
+namespace VLISSIDES.ViewModels.Livres;
 
-public class IndexRechercheVM
+public class LivreIndexVM
 {
     [Display(Name = "Mot rechercé")] public string MotRecherche { get; set; }
     [Display(Name = "Critères")] public string Criteres { get; set; }
 
     //"Résultat de recherche pour "MotRecherche"
     [Display(Name = "Resultat de la recherche")] public List<string> ResultatRecherche { get; set; }
-    [Display(Name = "Livre partials")] public List<DetailsLivreVM> LivrePartials { get; set; }
+    [Display(Name = "Livre partials")] public List<LivreDetailsVM> LivrePartials { get; set; }
     [Display(Name = "Livres")] public List<string> Livres { get; set; }
     [Display(Name = "Auteurs")] public List<string> Auteurs { get; set; }
     [Display(Name = "Editions")] public List<string> MaisonEditions { get; set; }
@@ -21,15 +21,15 @@ public class IndexRechercheVM
     [Display(Name = "Prix minimal")] public double minPrix { get; set; }
     [Display(Name = "Prix maximal")] public double maxPrix { get; set; }
 
-    public IndexRechercheVM(string motRecherche, string criteres, List<Livre> resultatRecherche, List<Livre> livres,
+    public LivreIndexVM(string motRecherche, string criteres, List<Livre> resultatRecherche, List<Livre> livres,
         List<Auteur> auteurs, List<MaisonEdition> maisonEditions, List<Categorie> categories,
-        List<Langue> langues, List<TypeLivre> typeLivres, List<DetailsLivreVM> livresPartials,
+        List<Langue> langues, List<TypeLivre> typeLivres, List<LivreDetailsVM> livresPartials,
         double minPrix = 0, double maxPrix = 199.99)
     {
         motRecherche ??= "";
         criteres ??= "";
         resultatRecherche ??= new List<Livre>();
-        LivrePartials ??= new List<DetailsLivreVM>();
+        LivrePartials ??= new List<LivreDetailsVM>();
         livres ??= new();
         auteurs ??= new();
         maisonEditions ??= new();
@@ -39,7 +39,7 @@ public class IndexRechercheVM
         MotRecherche = motRecherche.Replace("|", ", ");
         Criteres = criteres.Replace("|", ", ");
         ResultatRecherche = resultatRecherche.Select(rr => rr.Titre).ToList();
-        LivrePartials = resultatRecherche.Select(rr => new DetailsLivreVM(rr)).ToList();
+        LivrePartials = resultatRecherche.Select(rr => new LivreDetailsVM(rr)).ToList();
         Livres = livres.Select(l => l.Titre).ToList();
         Auteurs = auteurs.Select(a => a.NomAuteur).ToList();
         MaisonEditions = maisonEditions.Select(me => me.Nom).ToList();
