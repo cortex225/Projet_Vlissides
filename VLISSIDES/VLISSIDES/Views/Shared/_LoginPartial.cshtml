@@ -42,14 +42,13 @@
                 </a>
             </li>
         }
+
         <li class="nav-item">
-            @* <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post"> *@
-                <a asp-action="Index" asp-controller="Accueil">
-                    <button type="submit" class="btn  btn-link nav-link" data-toggle="tooltip" data-placement="left" title="Se déconnecter">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="login-text">Se déconnecter </span>
-                    </button>
-                </a>
-            @* </form> *@
+            <form asp-area="" asp-controller="Compte" asp-action="Logout" method="post">
+                <button type="submit" class="nav-link btn stylish-button" data-toggle="tooltip" data-placement="left" title="Se Déconnecter">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="login-text">Se Déconnecter</span>
+                </button>
+            </form>
         </li>
     }
 
