@@ -570,7 +570,7 @@ public class DatabaseSeeder
         _context.Adresses.Add(new Adresse()
         {
             Id = Guid.NewGuid().ToString(),
-            NoCivique = 235,
+            NoCivique = "235",
             Rue = "rue des Tilleuls",
             NoApartement = "#45",
             Ville = "Granby",
@@ -582,7 +582,7 @@ public class DatabaseSeeder
         _context.Adresses.Add(new Adresse()
         {
             Id = Guid.NewGuid().ToString(),
-            NoCivique = 24,
+            NoCivique = "24",
             Rue = "avenue du Parc",
             NoApartement = "",
             Ville = "Shefford",
@@ -590,11 +590,11 @@ public class DatabaseSeeder
             Pays = "Canada",
             CodePostal = "T6Y 2T7",
             UtilisateurPrincipal = _context.Users.FirstOrDefault(x => x.UserName == "SFallu@gmail.com")
-        }) ;
+        });
         _context.Adresses.Add(new Adresse()
         {
             Id = Guid.NewGuid().ToString(),
-            NoCivique = 6,
+            NoCivique = "6",
             Rue = "rue Henri-Bourassa",
             NoApartement = "",
             Ville = "Montréal",
@@ -612,7 +612,7 @@ public class DatabaseSeeder
     //    {
     //        Id = Guid.NewGuid().ToString(),
     //        Membre = _context.Membres.FirstOrDefault(m => m.UserName == "MGosselin@gmail.com"),
-            
+
     //    })
     //}
 }
