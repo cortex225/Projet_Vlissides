@@ -4,16 +4,16 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.Services;
 
-public class BirthdayService : BackgroundService // Service qui peut tourner en arrière plan
+public class FeteService : BackgroundService // Service qui peut tourner en arrière plan
 {
-    private readonly ILogger<BirthdayService> _logger;
+    private readonly ILogger<FeteService> _logger;
 
     private readonly IServiceScopeFactory
         _scopeFactory; // va permettre de créer un nouveau scope pour chaque itération de la boucle, le scope qui sera utilisé pour accéder à la base de données
 
     private readonly ISendGridEmailAdvance _sendGridEmailAdvance;
 
-    public BirthdayService(ILogger<BirthdayService> logger, IServiceScopeFactory scopeFactory,
+    public FeteService(ILogger<FeteService> logger, IServiceScopeFactory scopeFactory,
         ISendGridEmailAdvance sendGridEmailAdvance)
     {
         _logger = logger;

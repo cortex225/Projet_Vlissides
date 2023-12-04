@@ -1,6 +1,6 @@
 namespace VLISSIDES.ViewModels;
 
-public class ErrorViewModel
+public class ErreurVM
 {
     public string? RequestId { get; set; }
 

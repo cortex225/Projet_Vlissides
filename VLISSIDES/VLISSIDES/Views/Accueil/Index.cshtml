@@ -88,12 +88,12 @@ Un bouton pour cacher/montrer les services de l'entreprise
                     <div class="carousel-item active">
                         <div class="cards-wrapper d-flex justify-content-around event-caroussel-item">
                             <div class="event-card-parentDiv">
-                                <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[0]" />
+                                <partial name="PartialViews/Accueil/_CarteEvenement" model="Model.Evenements[0]" />
                             </div>
                             @if (Model.Evenements.Count > 1)
                             {
                                 <div class="event-card-parentDiv">
-                                    <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[1]" />
+                                    <partial name="PartialViews/Accueil/_CarteEvenement" model="Model.Evenements[1]" />
                                 </div>
                             }
                         </div>
@@ -107,7 +107,7 @@ Un bouton pour cacher/montrer les services de l'entreprise
                                     @if (Model.Evenements.Count > indexEvenement + indexLivre2)
                                     {
                                         <div class="event-card-parentDiv">
-                                            <partial name="PartialViews/Accueil/_CarteEvenement2" model="Model.Evenements[indexEvenement + indexLivre2]" />
+                                            <partial name="PartialViews/Accueil/_CarteEvenement" model="Model.Evenements[indexEvenement + indexLivre2]" />
                                         </div>
                                     }
                                     else

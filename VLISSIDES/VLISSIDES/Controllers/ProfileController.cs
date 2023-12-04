@@ -104,7 +104,7 @@ public class ProfileController : Controller
 
     [Route("2167594/Profile/ModifierPassword")]
     [Route("{controller}/{action}")]
-    public IActionResult ModifierPassword() => PartialView("PartialViews/Profile/_ModifierPasswordPartial",
+    public IActionResult ModifierPassword() => PartialView("PartialViews/Profile/_ModifierMotDePassePartial",
         new ProfileModifierPasswordVM(_userManager.GetUserId(HttpContext.User)));
 
     [HttpPost]
@@ -130,7 +130,7 @@ public class ProfileController : Controller
             }
         }
 
-        return PartialView("PartialViews/Profile/_ModifierPasswordPartial", vm);
+        return PartialView("PartialViews/Profile/_ModifierMotDePassePartial", vm);
     }
 
     public IActionResult ModifierAdresses() =>

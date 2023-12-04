@@ -29,7 +29,7 @@ namespace VLISSIDES.Controllers
         }
         public IActionResult Index() => View(_context.Membres.Select(m => new GestionComptesMembreVM(m)).ToList());
         #region Lister les comptes
-        public IActionResult ShowMembres(string? motCle)
+        public IActionResult MontrerNembres(string? motCle)
         {
             var Membres = _context.Membres.Select(m => new GestionComptesMembreVM(m)).ToList();
             if (motCle != null && motCle != "")
@@ -41,12 +41,12 @@ namespace VLISSIDES.Controllers
 
             return PartialView("PartialViews/GestionComptes/_ListeMembrePartial", Membres);
         }
-        public IActionResult ShowEmployes()
+        public IActionResult MontrerEmployes()
         {
             var Employes = _context.Employes.Select(e => new GestionComptesEmployeVM(e)).ToList();
             return PartialView("PartialViews/GestionComptes/_ListeEmployePartial", Employes);
         }
-        public IActionResult ShowAdmins()
+        public IActionResult MontrerAdmins()
         {
             //Il y a seulement un admin
             var Admin = _context.Users.Where(u => u.Id == "0").Select(u => new GestionComptesAdminVM(u)).ToList();
@@ -54,7 +54,7 @@ namespace VLISSIDES.Controllers
         }
         #endregion
         #region Ajouter Employe
-        public IActionResult ShowAjouterEmploye() => PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial",
+        public IActionResult MontrerAjouterEmploye() => PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial",
             new GestionComptesAjouterEmployeVM());
         [HttpPost]
         public async Task<IActionResult> AjouterEmploye(GestionComptesAjouterEmployeVM vm)
@@ -114,7 +114,7 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Comptes/_AjouterEmployePartial", vm);
         }
         #endregion
-        public async Task<IActionResult> ShowModifierCompteMembre(string id)
+        public async Task<IActionResult> MontrerModifierCompteMembre(string id)
         {
             var user = await _context.Membres.FindAsync(id);
             if (user == null) return NotFound("Le membre à l'identifiant " + id + " n'a pas été trouvé.");
@@ -122,7 +122,7 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Comptes/_ModifierCompteMembrePartial",
                 new GestionComptesModifierVM(user));
         }
-        public async Task<IActionResult> ShowModifierCompteEmploye(string id)
+        public async Task<IActionResult> MontrerModifierCompteEmploye(string id)
         {
             var user = await _context.Employes.FindAsync(id);
             if (user == null) return NotFound("L'employe à l'identifiant " + id + " n'a pas été trouvé.");
@@ -282,7 +282,7 @@ namespace VLISSIDES.Controllers
             }
 
 
-            return PartialView("PartialViews/Modals/Comptes/_DeleteMembrePartial", vm);
+            return PartialView("PartialViews/Modals/Comptes/_SupprimerMembrePartial", vm);
         }
         public async Task<IActionResult> ShowDeleteConfirmationEmploye(string id)
         {
@@ -297,7 +297,7 @@ namespace VLISSIDES.Controllers
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
 
-            return PartialView("PartialViews/Modals/Comptes/_DeleteAdminPartial", new GestionComptesDeleteVM(user));
+            return PartialView("PartialViews/Modals/Comptes/_SupprimerAdminPartial", new GestionComptesDeleteVM(user));
         }
         #endregion
         [HttpDelete]
@@ -315,20 +315,20 @@ namespace VLISSIDES.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-        public async Task<IActionResult> ShowBanMembre(string id)
+        public async Task<IActionResult> MontrerBanniMembre(string id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
-            return PartialView("PartialViews/Modals/Comptes/_BanMemberPartial", new GestionComptesBanVM(user));
+            return PartialView("PartialViews/Modals/Comptes/_BanniMemberPartial", new GestionComptesBanVM(user));
         }
-        public async Task<IActionResult> ShowUnbanMembre(string id)
+        public async Task<IActionResult> MontrerUnbanniMembre(string id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound("L'utilisateur à l'identifiant " + id + " n'a pas été trouvé.");
-            return PartialView("PartialViews/Modals/Comptes/_UnbanMemberPartial", new GestionComptesBanVM(user));
+            return PartialView("PartialViews/Modals/Comptes/_DebanniMemberPartial", new GestionComptesBanVM(user));
         }
         [HttpPost]
-        public async Task<IActionResult> BanMembre(string id)
+        public async Task<IActionResult> BanirMembre(string id)
         {
             var user = await _context.Membres.FindAsync(id);
             if (user == null) return NotFound("Le membre à l'identifiant " + id + " n'a pas été trouvé.");

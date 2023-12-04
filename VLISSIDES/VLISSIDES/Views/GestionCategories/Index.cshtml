@@ -16,7 +16,7 @@
 </div>
 
 <!-- Barre latérale coulissante -->
-<partial name="PartialViews/Dashboard/_SideBarPartial"/>
+<partial name="PartialViews/BureauDeBord/_BarCotePartial" />
 
 <div class="d-block p-4 p-4">
 
@@ -25,7 +25,7 @@
     </div>
 
     <div class="container-fluid">
-        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowAjouter", "GestionCategories")')">Ajouter une catégorie</button>
+        <button class="btn btn-primary" onclick="ShowModal('@Url.Action("MontrerAjouter", "GestionCategories")')">Ajouter une catégorie</button>
     </div>
 
     <br/>
@@ -61,7 +61,7 @@
             <div class="listeSujet list-group" id="list-tab" role="tablist">
                 @foreach (var categorie in Model)
                 {
-                    <partial name="PartialViews/GestionCategories/_CardCategorie" model="categorie"/>
+                    <partial name="PartialViews/GestionCategories/_CarteCategorie" model="categorie"/>
                 }
                 <partial name="PartialViews/Utilities/_PaginationIndexPartial"/>
 

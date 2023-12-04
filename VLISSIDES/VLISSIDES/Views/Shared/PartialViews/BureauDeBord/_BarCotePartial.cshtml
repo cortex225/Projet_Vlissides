@@ -26,7 +26,7 @@
             <!-- Chaque élément de navigation est maintenant enveloppé dans une "card" -->
             <li class="nav-item">
                 <div class="card  card-menu-dash">
-                    <a asp-controller="GestionLivres" asp-action="Inventaire" class="nav-link-dash   card-body @Html.IsActive("GestionLivres", "Inventaire")">
+                    <a asp-controller="GestionLivres" asp-action="Inventaire" class="nav-link-dash   card-body @Html.IsActive("GestionLivres", "Index")">
                         <i class="fas fa-home"></i> L'Inventaire des livres
                     </a>
                 </div>
@@ -85,7 +85,7 @@
             }
         </ul>
         <div class="">
-            <form class="form-inline" method="post" asp-area="" asp-controller="Compte" asp-action="Logout" asp-route-returnUrl="@Url.Action("Login", "Compte", new { area = "" })">
+            <form class="form-inline" method="post" asp-area="" asp-controller="Compte" asp-action="Deconnecter" asp-route-returnUrl="@Url.Action("Login", "Compte", new { area = "" })">
                 <button type="submit" class="btn btn-primary w-100 ">Se Déconnecter</button>
             </form>
         </div>

@@ -85,8 +85,8 @@
                                     @if (item.EnDemandeRetourner)
                                     {
                                         <div class="d-flex justify-content-center my-auto">
-                                            <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowAccepterRetourConfirmation", "GestionCommandes", new { commandeId = item.CommandeId, livreId = item.Livre.Id })')">Accepter</button>
-                                            <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("ShowRefuserRetourConfirmation", "GestionCommandes", new { commandeId = item.CommandeId, livreId = item.Livre.Id })')">Refuser</button>
+          MontrerAccepterRetourConfirmation    <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowAccepterRetourConfirmation", "GestionCommandes", new { commandeId = item.CommandeId, livreId = item.Livre.Id })')">Accepter</button>
+                                            <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("MontrerRefuserRetourConfirmation", "GestionCommandes", new { commandeId = item.CommandeId, livreId = item.Livre.Id })')">Refuser</button>
                                         </div>
                                     }
                                 </div>
@@ -103,8 +103,8 @@
                         @if (commande.EnDemandeAnnulation)
                         {
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("ShowAccepterAnnulationConfirmation", "GestionCommandes", new { commandeId = commande.Id })')">Accepter l'annulation</button>
-                                <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("ShowRefuserAnnulationConfirmation", "GestionCommandes", new { commandeId = commande.Id })')">Refuser l'annulation</button>
+                                <button class="btn btn-success mx-2" onclick="ShowModal('@Url.Action("MontrerAccepterAnnulationConfirmation", "GestionCommandes", new { commandeId = commande.Id })')">Accepter l'annulation</button>
+                                <button class="btn btn-danger mx-2" onclick="ShowModal('@Url.Action("MontrerRefuserAnnulationConfirmation", "GestionCommandes", new { commandeId = commande.Id })')">Refuser l'annulation</button>
                             </div>
                         }
                     </div>

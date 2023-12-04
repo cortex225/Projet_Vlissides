@@ -1,9 +1,9 @@
-﻿@model VLISSIDES.ViewModels.GestionLivres.GestionLivresInventaireVM
+﻿@model VLISSIDES.ViewModels.GestionLivres.GestionLivresIndexVM
 <link rel="stylesheet" href="~/css/style-hover.css" asp-append-version="true">
 
 
 @{
-    ViewData["Title"] = "Inventaire";
+    ViewData["Title"] = "Index";
     string myURL = Context.Request.Host.Value;
     string BASE_URL_RAZOR = Url.Content("~");
 }
@@ -25,7 +25,7 @@
 </div>
 
 <!-- Barre latérale coulissante -->
-<partial name="PartialViews/Dashboard/_SideBarPartial" />
+<partial name="PartialViews/BureauDeBord/_BarCotePartial" />
 @*  ============================================================================= *@
 @*  ============================================================================= *@
 @*  ============================================================================= *@
@@ -347,7 +347,7 @@
                                     <a class="btn btn-primary p-2 m-2" onclick="ShowModal('@Url.Action("Modifier", "GestionLivres", new { id = item.Id })')" data-toggle="tooltip" title="Modifier le livre">
                                         <span class="fa-solid fa-pen fa-2x"></span>
                                     </a>
-                                    <a class="btn btn-danger p-2 m-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("ShowDeleteConfirmation", "GestionLivres", new { id = item.Id })')">
+                                    <a class="btn btn-danger p-2 m-2" data-toggle="tooltip" title="Supprimer le livre" onclick="ShowModal('@Url.Action("MontrerConfirmationSuppression", "GestionLivres", new { id = item.Id })')">
                                         <span class="fa-solid fa-trash fa-2x"></span>
                                     </a>
                                 </div>

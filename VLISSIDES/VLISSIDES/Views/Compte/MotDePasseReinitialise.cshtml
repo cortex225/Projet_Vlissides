@@ -31,7 +31,7 @@
                             <div class="card-footer">
                                 @*Affichage du résumé des validations*@
                                 <div asp-validation-summary="All" class="text-danger"></div>
-                                <form asp-controller="Compte" asp-action="ResetPassword" method="post" role="form">
+                                    <form asp-controller="Compte" asp-action="MotDePasseReinitialise" method="post" role="form">
                                     <div class="mb-3">
                                         <label class="form-label" asp-for="@Model.Email"></label>
                                         <input type="email" asp-for="@Model.Email" class="form-control" autocomplete="Email"/>

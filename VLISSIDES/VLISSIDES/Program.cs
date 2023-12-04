@@ -48,7 +48,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 //Service qui permet d'envoyer un mail d'anniversaire
-builder.Services.AddHostedService<BirthdayService>();
+builder.Services.AddHostedService<FeteService>();
 
 
 var app = builder.Build();

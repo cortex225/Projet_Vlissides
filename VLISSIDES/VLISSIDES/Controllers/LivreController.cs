@@ -8,13 +8,13 @@ using VLISSIDES.ViewModels.Recherche;
 
 namespace VLISSIDES.Controllers;
 
-public class RechercheController : Controller
+public class LivreController : Controller
 {
     private readonly IConfiguration _config;
     private readonly ApplicationDbContext _context;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public RechercheController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
+    public LivreController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
         IConfiguration config)
     {
         _context = context;

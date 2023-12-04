@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VLISSIDES.ViewModels.Compte;
 
-public class ExternalLoginVM
+public class ConnectionExterneVM
 {
     [Required]
     [EmailAddress]
@@ -11,7 +11,7 @@ public class ExternalLoginVM
 
     [DisplayName("Nom")][Required] public string Name { get; set; }
 
-    public ExternalLoginVM(string email, string name)
+    public ConnectionExterneVM(string email, string name)
     {
         Email = email;
         Name = name;

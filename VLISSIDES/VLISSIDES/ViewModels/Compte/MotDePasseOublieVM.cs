@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VLISSIDES.ViewModels.Compte;
 
-public class ForgotPasswordVM
+public class MotDePasseOublieVM
 {
     [Display(Name = "Nom de l'utilisateur")] public string? UserName { get; set; }
 
@@ -11,7 +11,7 @@ public class ForgotPasswordVM
     [EmailAddress]
     [Display(Name = "Email")] public string Email { get; set; }
 
-    public ForgotPasswordVM(string? userName, string email)
+    public MotDePasseOublieVM(string? userName, string email)
     {
         UserName = userName;
         Email = email;

@@ -2,9 +2,11 @@
 
 namespace VLISSIDES.ViewModels.HistoriqueCommandes;
 
-public class CancelVM
+public class RembourserVM
 {
     public Commande Commande { get; set; }
-    public List<LivreCommande> Livres { get; set; }
+    public Livre Livre { get; set; }
+    public double Prix { get; set; }
+    public int Quantite { get; set; }
     public string PaymentIntent { get; set; }
 }

@@ -60,9 +60,9 @@ public class AccueilController : Controller
 
     public IActionResult Info() => View();
 
-    public IActionResult Privacy() => View();
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    [Route("Identity/Accueil/Error", Order = -1)]
+    [Route("{controller}/{action}", Order = -2)]
+    public IActionResult Erreur() => View(new ErreurVM { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
 }

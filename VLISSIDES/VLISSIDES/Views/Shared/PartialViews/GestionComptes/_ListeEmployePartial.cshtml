@@ -6,7 +6,7 @@
 @model List<VLISSIDES.ViewModels.GestionComptes.GestionComptesEmployeVM>
 <h1 class="text-center">Employés</h1>
 <div class="container">
-    <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowAjouterEmploye", "GestionComptes")')">
+    <button class="btn btn-primary" onclick="ShowModal('@Url.Action("MontrerAjouterEmploye", "GestionComptes")')">
         Ajouter un employé
     </button>
 </div>
@@ -27,7 +27,7 @@
             <th scope="row">@item.Nom</th>
             <td class="cacher">@item.Courriel</td>
             <td >
-                <button class="btn btn-primary" onclick="ShowModal('@Url.Action("ShowModifierCompteEmploye", "GestionComptes", new { id = item.Id })')">Modifier</button>
+                <button class="btn btn-primary" onclick="ShowModal('@Url.Action("MontrerModifierCompteEmploye", "GestionComptes", new { id = item.Id })')">Modifier</button>
             </td>
             <td>
 

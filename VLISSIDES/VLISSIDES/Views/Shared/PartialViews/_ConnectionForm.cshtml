@@ -1,6 +1,6 @@
 @model LoginVM
 
-<form id="account" method="post" asp-controller="Compte" asp-action="Login">
+<form id="account" method="post" asp-controller="Compte" asp-action="Connecter">
     @Html.AntiForgeryToken()
     <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -30,7 +30,7 @@
 
         <div class="col-md-6 d-flex justify-content-center">
             <!-- Simple link -->
-            <a asp-action="ForgotPassword">Mot de passe oublié ?</a>
+            <a asp-action="MotDePasseOublie">Mot de passe oublié ?</a>
         </div>
     </div>
 

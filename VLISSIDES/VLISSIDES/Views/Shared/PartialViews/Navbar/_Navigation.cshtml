@@ -1,7 +1,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
-    var nbArticles = Context.Session.GetInt32("NbArticles") ?? 0;
+    var nbArticles = Context.Session.GetInt32("NombreArticles") ?? 0;
 }
 
 

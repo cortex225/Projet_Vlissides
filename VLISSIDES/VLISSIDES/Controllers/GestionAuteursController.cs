@@ -136,11 +136,11 @@ public class GestionAuteursController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    public async Task<IActionResult> MontrerConfirmationSuppression(string id)
     {
         var auteur = await _context.Auteurs.FindAsync(id);
         if (auteur == null) return NotFound("L'auteur à l'identifiant " + id + " n'a pas été trouvé.");
 
-        return PartialView("PartialViews/Modals/Auteurs/_DeleteAuteurPartial", auteur);
+        return PartialView("PartialViews/Modals/Auteurs/_SupprimerAuteurPartial", auteur);
     }
 }

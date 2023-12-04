@@ -41,16 +41,16 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowModifierCompteMembre", "GestionComptes", new { id = item.Id })')">Modifier</a>
+                        <a class="dropdown-item" onclick="ShowModal('@Url.Action("MontrerModifierCompteMembre", "GestionComptes", new { id = item.Id })')">Modifier</a>
                     </li>
                     <li>
                         @if (item.IsBanned)
                         {
-                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowUnbanMembre", "GestionComptes", new { id = item.Id })')">Débloquer</a>
+                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("MontrerUnbanniMembre", "GestionComptes", new { id = item.Id })')">Débloquer</a>
                         }
                         else
                         {
-                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("ShowBanMembre", "GestionComptes", new { id = item.Id })')">Bloquer</a>
+                            <a class="dropdown-item" onclick="ShowModal('@Url.Action("MontrerBanniMembre", "GestionComptes", new { id = item.Id })')">Bloquer</a>
                         }
                     </li>
                     <li>

@@ -56,7 +56,7 @@ public class GestionCategoriesController : Controller
 
     //[Route("2167594/GestionCategories/Ajouter")]
     //[Route("{controller}/{action}")]
-    public ActionResult ShowAjouter()
+    public ActionResult MontrerAjouter()
     {
         var vm = new CategoriesAjouterVM();
         vm.CategoriesParents = _context.Categories.Select(c => new SelectListItem
@@ -175,12 +175,12 @@ public class GestionCategoriesController : Controller
         return View();
     }
 
-    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    public async Task<IActionResult> MontrerConfirmationSuppression(string id)
     {
         var categorie = await _context.Categories.FindAsync(id);
         if (categorie == null) return NotFound("La catégorie à l'identifiant " + id + " n'a pas été trouvé.");
 
-        return PartialView("PartialViews/Modals/Categories/_DeleteCategoriesPartial", categorie);
+        return PartialView("PartialViews/Modals/Categories/_SupprimerCategoriesPartial", categorie);
     }
 
     [HttpDelete]

@@ -15,7 +15,7 @@ namespace VLISSIDES.Controllers;
 [Authorize(Roles = RoleName.MEMBRE)]
 [ApiController]
 [Route("[controller]/[action]")]
-public class HistoriqueCommandesController : Controller
+public class CommandesController : Controller
 {
     private readonly IConfiguration _config;
     private readonly IConfiguration _configuration;
@@ -29,7 +29,7 @@ public class HistoriqueCommandesController : Controller
     private readonly string _webhookSecretApi;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public HistoriqueCommandesController(ApplicationDbContext context,
+    public CommandesController(ApplicationDbContext context,
         IWebHostEnvironment webHostEnvironment,
         IConfiguration config,
         UserManager<ApplicationUser> userManager,
@@ -122,15 +122,15 @@ public class HistoriqueCommandesController : Controller
 
         var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, _context.StatutCommandes, "");
 
-        return PartialView("PartialViews/HistoriqueCommandes/_ListeHistoriqueCommandesPartial", affichageCommandes);
+        return PartialView("PartialViews/Commandes/_ListeCommandesPartial", affichageCommandes);
     }
 
-    public async Task<IActionResult> ShowRetournerConfirmation(string commandeId, string livreId)
+    public async Task<IActionResult> MontrerRetournerConfirmation(string commandeId, string livreId)
     {
         var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande)
             .FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
-        var vm = new RefundVM
+        var vm = new RembourserVM
         {
             Commande = livreCommande.Commande,
             Livre = livreCommande.Livre,
@@ -141,13 +141,13 @@ public class HistoriqueCommandesController : Controller
         return PartialView("PartialViews/Modals/HistoriqueCommandesModals/_ConfirmerRetournerPartial", vm);
     }
 
-    public async Task<IActionResult> ShowAnnuleConfirmation(string commandeId)
+    public async Task<IActionResult> MontrerAnnuleConfirmation(string commandeId)
     {
         var commande = _context.Commandes.FirstOrDefault(c => c.Id == commandeId);
         var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId)
             .ToList();
 
-        var vm = new CancelVM
+        var vm = new AnnulerlVM
         {
             Commande = commande,
             Livres = livresList
@@ -187,7 +187,7 @@ public class HistoriqueCommandesController : Controller
                 Url.Content(
                     "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
             // Envoi du mail de confirmation de commande
-            await SendConfirmationEmailRetour(customer, model, logoUrl);
+            await CourrielConfirmationRetour(customer, model, logoUrl);
         }
         catch (Exception e)
         {
@@ -202,7 +202,7 @@ public class HistoriqueCommandesController : Controller
     }
 
     [HttpPost]
-    public async Task<StatusCodeResult> Cancel(string commandeId)
+    public async Task<StatusCodeResult> Annuler(string commandeId)
     {
         try
         {
@@ -235,7 +235,7 @@ public class HistoriqueCommandesController : Controller
                 Url.Content(
                     "http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
             // Envoi du mail de confirmation de commande
-            await SendConfirmationEmailAnnule(customer, commandeId, livresCommandes, logoUrl);
+            await CourrielConfirmationAnnule(customer, commandeId, livresCommandes, logoUrl);
 
 
             commande.EnDemandeAnnulation = true;
@@ -250,12 +250,12 @@ public class HistoriqueCommandesController : Controller
         return Ok();
     }
 
-    private async Task SendConfirmationEmailRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+    private async Task CourrielConfirmationRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
     {
         var subject = "Retour de livres";
 
         // Construire le corps du courriel
-        var body = BuildEmailBodyRetour(customer, livreCommande, logoUrl);
+        var body = ConstruireCourrielRetour(customer, livreCommande, logoUrl);
 
 
         var admin = _context.Users.FirstOrDefault(u => u.Id == "0");
@@ -271,7 +271,7 @@ public class HistoriqueCommandesController : Controller
         //}
     }
 
-    private async Task SendConfirmationEmailAnnule(Membre customer, string commandeId,
+    private async Task CourrielConfirmationAnnule(Membre customer, string commandeId,
         List<LivreCommandeVM> livreCommande, string logoUrl)
     {
         var subject = "Retour de livres";
@@ -293,7 +293,7 @@ public class HistoriqueCommandesController : Controller
         //}
     }
 
-    private string BuildEmailBodyRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+    private string ConstruireCourrielRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
     {
         var myURL = _httpContextAccessor.HttpContext.Request.Host.Value; //_httpContextAccessor.Request.Host.Value;
         var BASE_URL_RAZOR = Url.Content("~");

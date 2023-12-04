@@ -1,4 +1,4 @@
-@model ForgotPasswordVM
+@model MotDePasseOublieVM
 
 @{
     ViewData["Title"] = "Mot de passe oublié";
@@ -31,7 +31,7 @@
                             <div class="card-footer">
                                 @*Affichage du résumé des validations*@
                                 <div asp-validation-summary="All" class="text-danger"></div>
-                                <form asp-controller="Compte" asp-action="ForgotPassword" method="post" role="form" asp-ajax="true">
+                                    <form asp-controller="Compte" asp-action="MotDePasseOublie" method="post" role="form" asp-ajax="true">
                                     <div class="mb-3">
                                         <label class="form-label" asp-for="@Model.Email"></label>
                                         <input type="email" asp-for="@Model.Email" class="form-control" autocomplete="Email"/>

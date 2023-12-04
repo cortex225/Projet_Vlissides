@@ -27,7 +27,7 @@ public class GestionLivresController : Controller
     }
 
     // GET: Livre
-    public async Task<IActionResult> Inventaire(string? motCles, string? criteres, int page = 1)
+    public async Task<IActionResult> Index(string? motCles, string? criteres, int page = 1)
     {
         //Récuppérer les mot clés et les critères de recherches
         var listMotCles = new List<string>();
@@ -134,9 +134,9 @@ public class GestionLivresController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        ViewBag.Action = "Inventaire";
+        ViewBag.Action = "Index";
 
-        var vm = new GestionLivresInventaireVM(livresVM, livresFiltreVM, auteurs, maisonEditions, categories, langues, typesLivres);
+        var vm = new GestionLivresIndexVM(livresVM, livresFiltreVM, auteurs, maisonEditions, categories, langues, typesLivres);
         return View(vm);
     }
 
@@ -248,7 +248,7 @@ public class GestionLivresController : Controller
         // ReSharper disable once HeapView.BoxingAllocation
         ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-        var vm = new GestionLivresInventaireVM(livresVM, livres, auteurs, maisonEditions, categories, langues, typesLivres);
+        var vm = new GestionLivresIndexVM(livresVM, livres, auteurs, maisonEditions, categories, langues, typesLivres);
         return PartialView("PartialViews/GestionLivres/_ListeLivresPartial", vm);
     }
 
@@ -412,7 +412,7 @@ public class GestionLivresController : Controller
             _context.SaveChanges();
 
 
-            //return RedirectToAction("Inventaire");
+            //return RedirectToAction("Index");
             return Ok();
         }
 
@@ -517,7 +517,7 @@ public class GestionLivresController : Controller
             Text = x.Nom,
             Value = x.Id
         }).ToList();
-        return PartialView("PartialViews/Modals/InventaireLivres/_EditPartial", vm);
+        return PartialView("PartialViews/Modals/InventaireLivres/_ModifierPartial", vm);
     }
 
     [HttpPost]
@@ -656,9 +656,9 @@ public class GestionLivresController : Controller
         return PartialView("PartialViews/Modals/InventaireLivres/_EditPartial", vm);
     }
 
-    // GET: Livre/Delete/5
+    // GET: Livre/Supprimer/5
     [HttpDelete]
-    public async Task<IActionResult> Delete(string id)
+    public async Task<IActionResult> Supprimer(string id)
     {
         if (id == null || _context.Livres == null) return NotFound();
 
@@ -673,11 +673,11 @@ public class GestionLivresController : Controller
         return Ok();
     }
 
-    // POST: Livre/Delete/5
+    // POST: Livre/Supprimer/5
     [HttpPost]
-    [ActionName("Delete")]
+    [ActionName("Supprimer")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(string id)
+    public async Task<IActionResult> SuppressionConfirmee(string id)
     {
         if (_context.Livres == null) return Problem("Entity set 'ApplicationDbContext.Livres'  is null.");
         var livre = await _context.Livres.FindAsync(id);
@@ -689,18 +689,18 @@ public class GestionLivresController : Controller
 
     //Pour montrer la partial view de confirmation de suppression
     [HttpGet]
-    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    public async Task<IActionResult> MontreSupprimeConfirmation(string id)
     {
         if (id == null) return NotFound();
 
         var livre = await _context.Livres.FindAsync(id);
         if (livre == null) return NotFound();
 
-        return PartialView("PartialViews/Modals/InventaireLivres/_DeleteInventairePartial", livre);
+        return PartialView("PartialViews/Modals/InventaireLivres/SupprimerLivrePartial", livre);
     }
 
 
-    private bool LivreExists(string id)
+    private bool LivresExistent(string id)
     {
         return (_context.Livres?.Any(e => e.Id == id)).GetValueOrDefault();
     }

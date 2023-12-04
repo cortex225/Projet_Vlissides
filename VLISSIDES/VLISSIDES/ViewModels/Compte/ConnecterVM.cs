@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VLISSIDES.ViewModels.Compte;
 
-public class LoginVM
+public class ConnecterVM
 {
     [Display(Name = "Nom d'utilisateur")] public string? UserName { get; set; }
 
@@ -21,7 +21,7 @@ public class LoginVM
 
     [Display(Name = "Chemin de retour")] public string? ReturnUrl { get; set; }
 
-    public LoginVM()
+    public ConnecterVM()
     {
         UserName = "";
         EmailOrUserName = "";
@@ -29,7 +29,7 @@ public class LoginVM
         RememberMe = false;
         ReturnUrl = "";
     }
-    public LoginVM(string? returnUrl = "", string? userName = null, string emailOrUserName = "",
+    public ConnecterVM(string? returnUrl = "", string? userName = null, string emailOrUserName = "",
         string password = "", bool rememberMe = false)
     {
         UserName = userName;

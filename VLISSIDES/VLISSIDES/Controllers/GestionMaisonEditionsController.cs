@@ -133,10 +133,10 @@ public class GestionMaisonEditionsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    public async Task<IActionResult> MontrerSupprimerConfirmation(string id)
     {
         var maisonEdition = await _context.MaisonEditions.FindAsync(id);
         if (maisonEdition == null) return NotFound("La maison d'édition à l'identifiant " + id + " n'a pas été trouvé.");
-        return PartialView("PartialViews/Modals/MaisonEditions/_DeleteMaisonEditionPartial", maisonEdition);
+        return PartialView("PartialViews/Modals/MaisonEditions/_SupprimerMaisonEditionPartial", maisonEdition);
     }
 }

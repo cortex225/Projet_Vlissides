@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Stripe;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.GestionPromotions;
@@ -27,10 +26,10 @@ public class GestionPromotionsController : Controller
     public IActionResult Index()
     {
 
-            var vm = _context.Promotions
-                .Include(p=>p.Commandes)
-                .Include(p=>p.LivrePaniers)
-                .Select(p => new GestionPromotionsIndexVM
+        var vm = _context.Promotions
+            .Include(p => p.Commandes)
+            .Include(p => p.LivrePaniers)
+            .Select(p => new GestionPromotionsIndexVM
             {
                 Id = p.Id,
                 Nom = p.Nom,
@@ -38,10 +37,10 @@ public class GestionPromotionsController : Controller
                 DateDebut = p.DateDebut,
                 DateFin = p.DateFin,
                 Image = p.Image,
-                Rabais = (decimal)(p.PourcentageRabais??0),
+                Rabais = (decimal)(p.PourcentageRabais ?? 0),
                 TypePromotion = p.TypePromotion,
             }).ToList();
-            return View(vm);
+        return View(vm);
 
     }
 
@@ -71,7 +70,6 @@ public class GestionPromotionsController : Controller
         }).OrderBy(c => c.Text).ToList();
         return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", vm);
     }
-
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -150,7 +148,6 @@ public class GestionPromotionsController : Controller
         }).ToList();
         return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
     }
-
 
     [Route("2147186/{controller}/{action}")]
     public IActionResult ModifierPromotion(string id)
@@ -282,9 +279,9 @@ public class GestionPromotionsController : Controller
         return PartialView("PartialViews/Modals/Promotions/_AjouterPromotionPartial", VM);
     }
 
-    // POST: Livre/Delete/5
+    // POST: Livre/Supprimer/5
     [HttpDelete]
-    public async Task<IActionResult> DeleteConfirmed(string id)
+    public async Task<IActionResult> SupprimerConfirmation(string id)
     {
         if (_context.Promotions == null) return Problem("Entity set 'ApplicationDbContext.Promotion'  is null.");
         var promo = await _context.Promotions.FindAsync(id);
@@ -305,7 +302,7 @@ public class GestionPromotionsController : Controller
 
     //Pour montrer la partial view de confirmation de suppression
     [HttpGet]
-    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    public async Task<IActionResult> MontrerSupprimerConfirmation(string id)
     {
         if (id == null) return NotFound();
 

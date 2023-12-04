@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Recherche;
 
 namespace VLISSIDES.ViewModels.GestionLivres;
 
-public class GestionLivresInventaireVM
+public class GestionLivresIndexVM
 {
 
     [Display(Name = "Resultat de recherche")] public List<DetailsLivreVM> ResultatRecherche { get; set; }
@@ -19,7 +18,7 @@ public class GestionLivresInventaireVM
     [Display(Name = "Prix minimum")] public double minPrix { get; set; }
     [Display(Name = "Prix maximum")] public double maxPrix { get; set; }
 
-    public GestionLivresInventaireVM(List<Livre> resultatRecherche, List<Livre> livres, List<Auteur> auteurs, List<MaisonEdition> maisonEditions, List<Categorie> categories,
+    public GestionLivresIndexVM(List<Livre> resultatRecherche, List<Livre> livres, List<Auteur> auteurs, List<MaisonEdition> maisonEditions, List<Categorie> categories,
         List<Langue> langues, List<TypeLivre> typeLivres, double minPrix = 0, double maxPrix = 199.99)
     {
         resultatRecherche ??= new();

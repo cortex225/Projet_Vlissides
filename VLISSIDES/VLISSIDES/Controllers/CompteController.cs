@@ -11,19 +11,6 @@ using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Accueil;
 using VLISSIDES.ViewModels.Compte;
 
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Stripe;
-using VLISSIDES.Data;
-using VLISSIDES.Interfaces;
-using VLISSIDES.Models;
-using VLISSIDES.ViewModels.Accueil;
-using VLISSIDES.ViewModels.Compte;
-
 namespace VLISSIDES.Controllers;
 
 public class CompteController : Controller
@@ -60,7 +47,7 @@ public class CompteController : Controller
     [Route("Identity/Account/Login", Order = -1)]
     [Route("Identity/Account/AccessDenied", Order = -1)]
     [Route("{controller}/{action}", Order = -2)]
-    public IActionResult Login(string? returnUrl = null) => View(new LoginVM(returnUrl ?? Url.Content("~/")));
+    public IActionResult Connecter(string? returnUrl = null) => View(new ConnecterVM(returnUrl ?? Url.Content("~/")));
 
     // POST: /Compte/Login
     [HttpPost]
@@ -69,7 +56,7 @@ public class CompteController : Controller
     [Route("Identity/Account/Login", Order = -1)]
     [Route("Identity/Account/AccessDenied", Order = -1)]
     [Route("{controller}/{action}", Order = -2)]
-    public async Task<ActionResult> Login(LoginVM vm, string? returnUrl = null)
+    public async Task<ActionResult> Connecter(ConnecterVM vm, string? returnUrl = null)
     {
         if (ModelState.IsValid)
         {
@@ -140,13 +127,13 @@ public class CompteController : Controller
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> Register(string? returnUrl = null) => View(new EnregistrerVM(returnUrl
+    public async Task<IActionResult> Enregistrer(string? returnUrl = null) => View(new EnregistrerVM(returnUrl
         ?? Url.Content("~/")));
 
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(EnregistrerVM vm, string? returnUrl = null)
+    public async Task<IActionResult> Enregistrer(EnregistrerVM vm, string? returnUrl = null)
     {
         // Vérifie si l'état du modèle est valide.
         if (ModelState.IsValid)
@@ -201,7 +188,7 @@ public class CompteController : Controller
             //user.AdressePrincipale.Province = "ProvinceTest";
             //user.AdressePrincipale.Pays = "PaysTest";
             //user.AdressePrincipale.CodePostal = "CodePostalTest";
-            var stripeCustomerId = await CreateStripeCustomer(user.Email,
+            var stripeCustomerId = await CreerClientStripe(user.Email,
                 $"{user.Prenom} {user.Nom}" /*, user.AdressePrincipale.Rue, user.AdressePrincipale.Ville, user.AdressePrincipale.Province, user.AdressePrincipale.CodePostal, user.AdressePrincipale.Pays*/);
             // Stocker l'ID de client Stripe dans votre base de données
             ((Membre)user).StripeCustomerId = stripeCustomerId;
@@ -216,7 +203,7 @@ public class CompteController : Controller
                 //Générer l'email de confirmatuion et l'envoyer
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callbackUrl = Url.Action(
-                    "ConfirmEmail", "Compte",
+                    "ConfirmerCourriel", "Compte",
                     new { userId = user.Id, code },
                     Request.Scheme);
 
@@ -250,32 +237,32 @@ public class CompteController : Controller
             foreach (var error in result.Errors) ModelState.AddModelError("", error.Description);
         }
 
-        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") return PartialView("_RegisterForm", vm);
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") return PartialView("_EnregistrerForm", vm);
 
         // Retourne la vue avec le modèle d'inscription si l'état du modèle est invalide.
         return View(vm);
     }
 
     [HttpGet]
-    public IActionResult ConfirmEmail(string userId, string code)
+    public IActionResult ConfirmerCourriel(string userId, string code)
     {
         var user = _context.Users.First(user => user.Id == userId);
         if (user == null) return BadRequest();
         if (_userManager.ConfirmEmailAsync(user, code).IsFaulted) return BadRequest();
         user.EmailConfirmed = true;
         _signInManager.SignInAsync(user, false);
-        return RedirectToAction("Login", "Compte");
+        return RedirectToAction("Connecter", "Compte");
     }
 
     [HttpPost]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Deconnecter()
     {
         await _signInManager.SignOutAsync();
-        return RedirectToAction("Login", "Compte");
+        return RedirectToAction("Connecter", "Compte");
     }
 
     [Authorize(Roles = RoleName.ADMIN + "," + RoleName.MEMBRE)]
-    public async Task<ActionResult> RecuperationMDP(string id)
+    public async Task<ActionResult> RecuperationMotDePasse(string id)
     {
         if (string.IsNullOrEmpty(id)) return NotFound();
 
@@ -292,12 +279,12 @@ public class CompteController : Controller
 
 
     [HttpGet]
-    public IActionResult ForgotPassword() => View();
+    public IActionResult MotDePasseOublie() => View();
 
     //ForgotPassword: Cette méthode vérifie d'abord si le modèle est valide. Si le modèle est invalide, elle retourne la vue avec le modèle invalide. Sinon, elle trouve l'utilisateur correspondant à l'adresse e-mail fournie, génère un code de réinitialisation de mot de passe, envoie un e-mail contenant le code
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ForgotPassword(ForgotPasswordVM model)
+    public async Task<IActionResult> MotDePasseOublie(MotDePasseOublieVM model)
     {
         if (!ModelState.IsValid)
             // Si le modèle n'est pas valide, afficher la vue avec le modèle invalide
@@ -312,7 +299,7 @@ public class CompteController : Controller
         }
 
         var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-        var callbackUrl = Url.Action("ResetPassword", "Compte", new { userId = user.Id, code },
+        var callbackUrl = Url.Action("MotDePasseReinitialise", "Compte", new { userId = user.Id, code },
             HttpContext.Request.Scheme); //Ici je passe le code de réinitialisation en paramètre de l'URL
 
         // Récupérer l'URL complète du logo à partir de l'application
@@ -341,7 +328,7 @@ public class CompteController : Controller
 
 
     [HttpGet]
-    public IActionResult ResetPassword(string code = null)
+    public IActionResult MotDePasseReinitialise(string code = null)
     {
         var resetCode = HttpContext.Session.GetString("resetCode");
         if (resetCode == null || resetCode != code)
@@ -359,7 +346,7 @@ public class CompteController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ResetPassword(ReinitialiseMotDePasseVM model, string? resetCode)
+    public async Task<IActionResult> MotDePasseReinitialise(ReinitialiseMotDePasseVM model, string? resetCode)
     {
         if (!ModelState.IsValid)
             // Si le modèle n'est pas valide, afficher la vue avec le modèle invalide
@@ -388,7 +375,7 @@ public class CompteController : Controller
                 TempData["ResetPasswordConfirmation"] = true;
 
                 // Rediriger vers la page de connexion
-                return RedirectToAction("Login", "Compte");
+                return RedirectToAction("Connecter", "Compte");
             }
 
             // Si la réinitialisation du mot de passe a échoué, ajouter les erreurs à ModelState
@@ -403,15 +390,15 @@ public class CompteController : Controller
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
-    public IActionResult ExternalLogin(string provider, string returnurl = null)
+    public IActionResult ConnectionExterne(string provider, string returnurl = null)
     {
-        var redirect = Url.Action("ExternalLoginCallback", "Compte", new { returnurl });
+        var redirect = Url.Action("ConnectionExterneRappel", "Compte", new { returnurl });
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirect);
         return Challenge(properties, provider);
     }
 
     [HttpGet]
-    public async Task<IActionResult> ExternalLoginCallback(string returnurl = null, string remoteError = null)
+    public async Task<IActionResult> ConnectionExterneRappel(string returnurl = null, string remoteError = null)
     {
         //If there is an error in the external login, return a message
         if (remoteError != null)
@@ -425,7 +412,7 @@ public class CompteController : Controller
         //Get the external login info
         var info = await _signInManager.GetExternalLoginInfoAsync();
         //If there is no login info, redirect to the sign in page
-        if (info == null) return RedirectToAction("Login");
+        if (info == null) return RedirectToAction("Connecter");
         //Try to sign in the user using the login info
         var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
         //If the sign in is successful, update the external authentication tokens and redirect to the return url
@@ -435,17 +422,17 @@ public class CompteController : Controller
             return LocalRedirect(returnurl);
         }
 
-        //Si l'utilisateur n'a pas de compte, montrez-lui la page ExternalLoginConfirmation
+        //Si l'utilisateur n'a pas de compte, montrez-lui la page ConfirmationConnectionExterne
         ViewData["ReturnUrl"] = returnurl;
         ViewData["ProviderDisplayName"] = info.ProviderDisplayName;
         var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-        return View("ExternalLoginConfirmation", new ExternalLoginVM(email, ""));
+        return View("ConfirmationConnectionExterne", new ConnectionExterneVM(email, ""));
     }
 
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginVM vm, string? returnurl = null)
+    public async Task<IActionResult> ConfirmationConnectionExterne(ConnectionExterneVM vm, string? returnurl = null)
     {
         returnurl = returnurl ?? Url.Content("~/");
 
@@ -482,7 +469,7 @@ public class CompteController : Controller
         return View(vm);
     }
 
-    public async Task<string> CreateStripeCustomer(string email, string name)
+    public async Task<string> CreerClientStripe(string email, string name)
     {
         var options = new CustomerCreateOptions
         {
