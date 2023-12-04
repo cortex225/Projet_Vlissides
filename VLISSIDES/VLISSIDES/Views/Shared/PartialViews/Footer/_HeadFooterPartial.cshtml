@@ -57,9 +57,9 @@
                         <li>
                             <a asp-action="Info" asp-controller="Accueil">À propos de nous</a>
                         </li>
-                        <li>
+                        @* <li>
                             <a href="/Accueil#serviceCollapse">Services</a>
-                        </li>
+                        </li> *@
                         <li>
                             <a asp-action="Index" asp-controller="Recherche">Catalogue des livres</a>
                         </li>
@@ -78,7 +78,7 @@
                             <a href="#">Contactez-nous</a>
                         </li>
                         <li>
-                            <a href="#">Retourner un livre</a>
+                            <a asp-action="Index" asp-controller="HistoriqueCommandes">Retourner un livre</a>
                         </li>
 
 
