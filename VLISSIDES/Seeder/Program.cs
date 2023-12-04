@@ -5,10 +5,6 @@
 
 
 using ExcelDataReader;
-using Faker;
-using FizzWare.NBuilder;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging;
 using Seeder;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -128,6 +124,7 @@ public class DatabaseSeeder
         Console.WriteLine("************ Début de la lecture du fichier Excel!************* ");
         string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ressources", "DonneesLivres.xlsx");
         SeedFromExcel(fileName);
+        GenerateEvenements();
         //Signaler la fin de la lecture du fichier Excel
         Console.WriteLine("************ Succès!************* ");
 
@@ -191,7 +188,7 @@ public class DatabaseSeeder
                 {
                     // Créer une nouvelle maison d'édition et l'ajouter à la base de données
                     var nouvelleMaisonEdition = new MaisonEdition
-                        { Id = Guid.NewGuid() + "new", Nom = nomMaisonEdition };
+                    { Id = Guid.NewGuid() + "new", Nom = nomMaisonEdition };
                     _context.MaisonEditions.Add(nouvelleMaisonEdition);
 
                     // Utiliser l'ID de la nouvelle maison d'édition
@@ -266,7 +263,7 @@ public class DatabaseSeeder
                 if (existingCategory == null) // Si la catégorie n'existe pas, créez une nouvelle catégorie
                 {
                     existingCategory = new Categorie
-                        { Id = Guid.NewGuid() + "new", Nom = categoryName, Description = "" };
+                    { Id = Guid.NewGuid() + "new", Nom = categoryName, Description = "" };
                     _context.Categories
                         .Add(existingCategory); // Ici j'ajoute la nouvelle catégorie à la base de données
                 }
@@ -387,15 +384,88 @@ public class DatabaseSeeder
             var livres = _context.Livres.ToList();
 
             var NouvelleAssociation = from book in livres
-                from category in categories
-                where !_context.LivreCategories.Any(lc => lc.LivreId == book.Id && lc.CategorieId == category.Id)
-                select new LivreCategorie { LivreId = book.Id, CategorieId = category.Id };
+                                      from category in categories
+                                      where !_context.LivreCategories.Any(lc => lc.LivreId == book.Id && lc.CategorieId == category.Id)
+                                      select new LivreCategorie { LivreId = book.Id, CategorieId = category.Id };
 
-            _context.LivreCategories.AddRange(NouvelleAssociation);_context.SaveChanges();
+            _context.LivreCategories.AddRange(NouvelleAssociation); _context.SaveChanges();
         }
 
     }
 
+    private void GenerateEvenements()
+    {
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus)",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 9, 7, 14, 0, 0),
+            DateFin = new DateTime(2024, 9, 7, 16, 30, 0),
+            Lieu = "À déterminer"
 
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/images_Events/reve.png",
+            Nom = "Rêves à colorier",
+            Description = "Aventure musicale haute-voltige qui allie la chanson, le théâtre d’objets et la littérature.",
+            Prix = 8,
+            NbPlaces = 25,
+            NbPlacesMembre = 15,
+            DateDebut = new DateTime(2024, 11, 26, 15, 0, 0),
+            DateFin = new DateTime(2024, 11, 26, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 3, 7, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 7, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/images_Events/michel.png",
+            Nom = "Conversation avec Michel Tremblay",
+            Description = "",
+
+            Prix = 25,
+            NbPlaces = 50,
+            NbPlacesMembre = 35,
+            DateDebut = new DateTime(2024, 2, 14, 20, 0, 0),
+            DateFin = new DateTime(2024, 2, 14, 20, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/images_Events/simon.png",
+            Nom = "Conversation avec Simon Boulerice",
+            Description = "",
+
+            Prix = 15,
+            NbPlaces = 50,
+            NbPlacesMembre = 10,
+            DateDebut = new DateTime(2023, 12, 15, 19, 0, 0),
+            DateFin = new DateTime(2023, 12, 15, 19, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.SaveChanges();
+    }
 
 }
