@@ -138,7 +138,7 @@ public class PaiementController : Controller
             };
         }).ToList();
         //Frais de livraison
-        var prixlivres = panierItems.Select(p => p.Quantite * p.PrixApresPromotion ?? p.PrixOriginal).Sum();
+        var prixlivres = panierItems.Select(p => p.Quantite * (p.PrixApresPromotion ?? p.PrixOriginal)).Sum();
         if (prixlivres < 45)
         {
             lineItems.Add(new SessionLineItemOptions
