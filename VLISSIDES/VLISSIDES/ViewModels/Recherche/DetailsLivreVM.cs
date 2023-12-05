@@ -25,6 +25,8 @@ public class DetailsLivreVM
 
     [Display(Name = "Langue")] public string Langue { get; set; }
     [Display(Name = "Quantite")] public int Quantite { get; set; }
+    public bool ?NotificationDemandee { get; set; }
+
     public DetailsLivreVM(Livre livre)
     {
         Id = livre.Id;

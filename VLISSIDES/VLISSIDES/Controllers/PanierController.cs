@@ -15,15 +15,18 @@ public class PanierController : Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly ILogger<PanierController> _logger;
 
     public PanierController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
-        IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+        IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor,
+        ILogger<PanierController> logger)
     {
         _context = context;
         _webHostEnvironment = webHostEnvironment;
         _config = config;
         _userManager = userManager;
         _httpContextAccessor = httpContextAccessor;
+        _logger = logger;
     }
 
     public async Task<IActionResult> Index()
@@ -89,6 +92,7 @@ public class PanierController : Controller
                     panier.TroisiemeChoixDon = true;
                     break;
             }
+
         panier.CustomerStripeId = _context.Membres.Where(m => m.Id == currentUserId).FirstOrDefault()?.StripeCustomerId;
 
         await NbArticles();
@@ -242,7 +246,6 @@ public class PanierController : Controller
                 .FirstOrDefault(lt => lt.LivreId == livre.Id && lt.TypeLivreId == type.Id).Prix;
 
 
-
             var siExiste = false;
 
             if (user.Panier == null) user.Panier = new List<LivrePanier>();
@@ -289,6 +292,44 @@ public class PanierController : Controller
         return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
     }
 
+
+    [HttpPost]
+    public ActionResult EnregistrerDemandeNotification(string livreId)
+    {
+        var membreId = _userManager.GetUserId(HttpContext.User);
+
+        if (string.IsNullOrEmpty(membreId) || string.IsNullOrEmpty(livreId))
+        {
+            return Json(new { success = false, message = "Identifiant de membre ou de livre manquant" });
+        }
+
+        var demandeExiste = _context.DemandesNotifications.Any(dn => dn.LivreId == livreId && dn.MembreId == membreId);
+        if (demandeExiste)
+        {
+            return Json(new { success = false, message = "Une demande pour ce livre a déjà été enregistrée." });
+        }
+
+        var demande = new DemandeNotification
+            { LivreId = livreId, MembreId = membreId, Id = Guid.NewGuid().ToString() };
+
+        _context.DemandesNotifications.Add(demande);
+
+        try
+        {
+            _context.SaveChanges();
+            return Json(new { success = true, message = "Votre demande a été enregistrée avec succès." });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erreur lors de l'enregistrement de la demande de notification: {ex.Message}");
+            return Json(new
+            {
+                success = false, message = "Une erreur interne est survenue lors de l'enregistrement de votre demande."
+            });
+        }
+    }
+
+
     //Pour montrer la partial view de confirmation de suppression
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
@@ -334,7 +375,6 @@ public class PanierController : Controller
             promotion.CodePromo == "BIRTHDAY")
             return Json(new
                 { success = false, message = "Vous avez déjà utilisé ce code promo cette année." });
-
 
 
         var panierVM = new PanierVM
