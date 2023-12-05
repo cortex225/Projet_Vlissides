@@ -208,3 +208,27 @@
     transform: scale(1.01) !important;
     transition-duration: 0.2s!important;
 }
+
+.nav-item {
+    margin: 0 10px;
+}
+
+.nav-link {
+    text-decoration: none!important;
+    font-size: 1.2rem!important;
+    transition-duration: 0.2s!important;
+    font-family: "ITF Devanagari Marathi", sans-serif;
+
+}
+
+.nav-link:hover,.nav-link:focus, .nav-link:active {
+    color: #4e80d0!important;
+    border-bottom: 3px solid #4e80d0!important;
+    transition-duration: 0.2s!important;
+
+}
+
+.fas {
+    margin-right: 5px!important;
+}
+

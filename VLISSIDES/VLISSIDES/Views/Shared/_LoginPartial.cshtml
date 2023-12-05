@@ -23,7 +23,7 @@
     {
         <!-- Utilisateur Connecté : Affichage du compte utilisateur et option de déconnexion -->
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="index" data-toggle="tooltip" data-placement="left" title="Profil">
+            <a class="nav-link nav-top-text" asp-area="" asp-controller="Profile" asp-action="index" data-toggle="tooltip" data-placement="left" title="Profil">
                 <i class="fas fa-user"></i> <span class="login-text">Salut @UserManager.GetUserAsync(User).Result.UserName.Split("@")[0]👋</span>
             </a>
         </li>
@@ -34,7 +34,7 @@
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index" data-toggle="tooltip"  data-placement="left" title="Consulter le panier">
-                    <span class="login-text">
+                    <span class="nav-top-text">
                         Consulter le panier
                     </span>
                     <i class="fa-solid fa-cart-shopping"></i>
@@ -45,7 +45,7 @@
 
         <li class="nav-item">
             <form asp-area="" asp-controller="Compte" asp-action="Logout" method="post">
-                <button type="submit" class="nav-link btn stylish-button" data-toggle="tooltip" data-placement="left" title="Se Déconnecter">
+                <button type="submit" class="btn stylish-button" data-toggle="tooltip" data-placement="left" title="Se Déconnecter">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="login-text">Se Déconnecter</span>
                 </button>
             </form>
@@ -56,12 +56,12 @@
     {
         <!-- Utilisateur Non Connecté : Options de connexion et d'inscription -->
         <li class="nav-item">
-            <a class="nav-link" asp-area="" asp-controller="Compte" asp-action="Login" data-toggle="tooltip" data-placement="left" title="Se connecter">
+            <a class="nav-link nav-top-text" asp-area="" asp-controller="Compte" asp-action="Login" data-toggle="tooltip" data-placement="left" title="Se connecter">
                 <i class="fas fa-sign-in-alt"></i> <span class="login-text">Se connecter</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register" data-toggle="tooltip" data-placement="left" title="S'inscrire">
+            <a class="nav-link nav-top-text" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register" data-toggle="tooltip" data-placement="left" title="S'inscrire">
                 <i class="fas fa-user-plus"></i> <span class="login-text">S'inscrire</span>
             </a>
         </li>
