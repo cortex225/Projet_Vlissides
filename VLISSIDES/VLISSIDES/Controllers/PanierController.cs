@@ -298,17 +298,20 @@ public class PanierController : Controller
     {
         var membreId = _userManager.GetUserId(HttpContext.User);
 
+        //Vérifie si le membreId et le livreId sont null ou vide
         if (string.IsNullOrEmpty(membreId) || string.IsNullOrEmpty(livreId))
         {
             return Json(new { success = false, message = "Identifiant de membre ou de livre manquant" });
         }
 
+        // Vérifie si la demande existe déjà
         var demandeExiste = _context.DemandesNotifications.Any(dn => dn.LivreId == livreId && dn.MembreId == membreId);
         if (demandeExiste)
         {
             return Json(new { success = false, message = "Une demande pour ce livre a déjà été enregistrée." });
         }
 
+        // Crée une nouvelle demande de notification
         var demande = new DemandeNotification
             { LivreId = livreId, MembreId = membreId, Id = Guid.NewGuid().ToString() };
 
@@ -492,14 +495,14 @@ public class PanierController : Controller
     private void AppliquerPromotionDeuxPourUn(PanierVM panierVM, Promotion promo)
     {
         if (!promo.LivresAcheter.HasValue || !promo.LivresGratuits.HasValue) return;
-        // Récupérer tous les articles éligibles pour la promotion
+        // Récupére tous les articles éligibles pour la promotion
         var articlesEligibles = panierVM.ListeArticles
             .Where(a => EstEligiblePourPromotion(a, promo))
             .SelectMany(a => Enumerable.Repeat(a, a.Quantite ?? 1))
             .OrderBy(a => a.PrixOriginal)
             .ToList();
 
-        // Initialisez PrixApresPromotion pour tous les articles éligibles
+        // Initialise PrixApresPromotion pour tous les articles éligibles
         foreach (var article in articlesEligibles) article.PrixApresPromotion = article.PrixOriginal;
 
         var nombreTotalArticles = articlesEligibles.Count;
@@ -507,7 +510,7 @@ public class PanierController : Controller
         var nombreDeGroupes = nombreTotalArticles / tailleGroupe;
         var nombreArticlesGratuits = nombreDeGroupes * promo.LivresGratuits.Value;
 
-        // Appliquer la promotion aux articles gratuits
+        // Applique la promotion aux articles gratuits
         for (var i = 0; i < nombreArticlesGratuits; i++) articlesEligibles[i].PrixApresPromotion = 0;
     }
 
@@ -560,7 +563,7 @@ public class PanierController : Controller
     }
 
     [HttpGet]
-    public async Task<int> NbArticles()
+    public async Task<int> NbArticles()//Retourne le nombre d'articles dans le panier à chaque fois qu'elle est appelée
     {
         var currentUserId = _userManager.GetUserId(HttpContext.User);
         var nbArticles = await _context.LivrePanier
