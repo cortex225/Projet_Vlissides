@@ -1,4 +1,3 @@
-
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -10,8 +9,8 @@ public class NotificationStockService : BackgroundService
     private readonly ILogger<NotificationStockService> _logger;
 
     public NotificationStockService(IServiceScopeFactory serviceScopeFactory,
-                                    ISendGridEmailAdvance sendGridEmailAdvance,
-                                    ILogger<NotificationStockService> logger)
+        ISendGridEmailAdvance sendGridEmailAdvance,
+        ILogger<NotificationStockService> logger)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _sendGridEmailAdvance = sendGridEmailAdvance;
@@ -26,7 +25,6 @@ public class NotificationStockService : BackgroundService
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 await VerifierStockEtEnvoyerNotifications(dbContext, stoppingToken);
-
             }
 
 
@@ -34,7 +32,8 @@ public class NotificationStockService : BackgroundService
         }
     }
 
-    private async Task VerifierStockEtEnvoyerNotifications(ApplicationDbContext dbContext, CancellationToken cancellationToken)
+    private async Task VerifierStockEtEnvoyerNotifications(ApplicationDbContext dbContext,
+        CancellationToken cancellationToken)
     {
         // Assurez-vous de vérifier si l'opération a été annulée
         if (cancellationToken.IsCancellationRequested) return;
@@ -70,7 +69,6 @@ public class NotificationStockService : BackgroundService
     {
         string subject = "Livre Disponible : " + titreLivre;
         await _sendGridEmailAdvance.SendEmailAsync(email, subject, content, true, null);
-
     }
 
     private string GenerateStockNotificationEmailContent(ApplicationUser user, Livre livre)
@@ -92,5 +90,4 @@ public class NotificationStockService : BackgroundService
             return "Contenu d'email par défaut pour la notification de stock";
         }
     }
-
 }

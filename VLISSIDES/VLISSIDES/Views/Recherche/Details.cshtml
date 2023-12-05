@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('demanderNotification').addEventListener('click', function() {
     var livreId = this.getAttribute('data-livre-id');
     // Appel AJAX pour enregistrer la demande de notification
-    fetch('/Panier/EnregistrerDemandeNotification?livreId=' + livreId, {
+    fetch(BASE_URL +'/Panier/EnregistrerDemandeNotification?livreId=' + livreId, {
         method: 'POST',
         body: JSON.stringify({ livreId: livreId }),
         headers: {
@@ -395,20 +395,18 @@ document.getElementById('demanderNotification').addEventListener('click', functi
     }).then(response => {
          return response.json();
                 }).then(data => {
-                    // Utilise les données JSON pour afficher l'alerte
+                    // Utilise les données JSON pour afficher l'alerte avec SweetAlert2
                     if (data.success) {
                         Swal.fire({
                             title: 'Demande enregistrée',
                             text: data.message,
                             icon: 'success',
-                            confirmButtonColor: '#3085d6',
                         });
                     } else {
                         Swal.fire({
                             title: 'Erreur',
                             text: data.message,
                             icon: 'error',
-                            confirmButtonColor: '#3085d6',
                         });
                     }
                 }).catch(error => {
