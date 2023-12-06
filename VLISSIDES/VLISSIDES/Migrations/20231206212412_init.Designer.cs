@@ -12,8 +12,8 @@ using VLISSIDES.Data;
 namespace VLISSIDES.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231201130431_NullableCommandePromo")]
-    partial class NullableCommandePromo
+    [Migration("20231206212412_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,21 +54,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "1112374f-5d74-4290-a149-606b328505e5",
+                            ConcurrencyStamp = "17b24525-abf8-4438-8a81-13a63d230e1b",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "edda9b03-f34f-46bf-b368-4b653f9cd78e",
+                            ConcurrencyStamp = "96645182-f6b2-4493-8b3a-846a680971cf",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "0dd0b576-7e2b-4493-8ba5-766ac84b0d0c",
+                            ConcurrencyStamp = "d58801a6-0aaf-4db6-b027-c3d25ad79d34",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -177,6 +177,36 @@ namespace VLISSIDES.Migrations
                         {
                             UserId = "0",
                             RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "f67e44a0-d918-401a-a93b-11437a5442d4",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "db95cab7-415b-49d1-bf8c-5a68fee9efca",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "b1748db6-93c3-43bc-a4f7-8beda01e40f4",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "b0de1878-35ab-41b9-b215-3ff792447583",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "e364919f-cc22-4330-95f5-647285541a27",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "c2f99eba-db6a-47c8-86d6-df9b072777fa",
+                            RoleId = "1"
                         });
                 });
 
@@ -348,20 +378,20 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0aef368d-8e0a-46c7-b1b1-1e5b5dadbec7",
-                            Email = "admin@admin.com",
+                            ConcurrencyStamp = "6c2e3364-bf2a-4321-9a71-debaa4f24994",
+                            Email = "Admin@LaFourmiAilee.com",
                             EmailConfirmed = true,
                             IsBanned = false,
                             LockoutEnabled = false,
                             Nom = "ADMIN",
-                            NormalizedEmail = "ADMIN@ADMIN.COM",
-                            NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
+                            NormalizedEmail = "ADMIN@LAFOURMIAILEE.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDECq8GajNrEmH62YCMWvuhA+5wChHzcvT+WMg0umJqlDUwA5vj9XutWgZXzQ1/onQ==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "edb9be11-f703-4a46-a76d-310133733ca3",
+                            SecurityStamp = "6b16b4a9-0322-4284-bef8-dffa96829613",
                             TwoFactorEnabled = false,
-                            UserName = "admin@admin.com"
+                            UserName = "Admin"
                         });
                 });
 
@@ -1008,9 +1038,17 @@ namespace VLISSIDES.Migrations
                     b.Property<int?>("QuantiteARetourner")
                         .HasColumnType("int");
 
+                    b.Property<string>("TypeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeLivreId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("LivreId", "CommandeId");
 
                     b.HasIndex("CommandeId");
+
+                    b.HasIndex("TypeLivreId");
 
                     b.ToTable("LivreCommandes");
                 });
@@ -1162,8 +1200,8 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             CodePromo = "BIRTHDAY",
-                            DateDebut = new DateTime(2023, 12, 1, 8, 4, 31, 413, DateTimeKind.Local).AddTicks(6100),
-                            DateFin = new DateTime(2024, 12, 1, 8, 4, 31, 413, DateTimeKind.Local).AddTicks(6110),
+                            DateDebut = new DateTime(2023, 12, 6, 16, 24, 12, 5, DateTimeKind.Local).AddTicks(4214),
+                            DateFin = new DateTime(2024, 12, 6, 16, 24, 12, 5, DateTimeKind.Local).AddTicks(4242),
                             Description = "Ce code promo est uniquement valide durant votre mois d'anniversaire.",
                             Image = "/img/images_Promo/birthday.jpg",
                             Nom = "Promotion Anniversaire",
@@ -1298,7 +1336,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "dd4ffea7-3c2e-4516-ae68-e5e3e6a6a57b",
+                            ConcurrencyStamp = "8c4883fc-6f9c-462d-93c8-1a1817de22b8",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -1309,7 +1347,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "820cc7ee-8def-4a6a-a177-97f03a7ea20a",
+                            SecurityStamp = "12189437-462c-48b4-8aca-b692ea88cd33",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1344,7 +1382,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "b849293e-c7be-4779-b194-705a534eebe1",
+                            ConcurrencyStamp = "e33e69e2-d631-4944-bd23-d336409f8657",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -1355,11 +1393,149 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "fff61986-5e5c-45a7-beb8-957ce626b409",
+                            SecurityStamp = "cfc5f315-9bc3-47eb-bbc3-50a6a9e6face",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 12, 1, 8, 4, 31, 412, DateTimeKind.Local).AddTicks(690),
+                            DateAdhesion = new DateTime(2023, 12, 6, 16, 24, 11, 972, DateTimeKind.Local).AddTicks(1752),
                             NoMembre = "123456"
+                        },
+                        new
+                        {
+                            Id = "f67e44a0-d918-401a-a93b-11437a5442d4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a1c49812-1420-45f4-a9ea-f8dd77ac5ab8",
+                            DateNaissance = new DateTime(2001, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "MGosselin@gmail.com",
+                            EmailConfirmed = true,
+                            IsBanned = false,
+                            LockoutEnabled = false,
+                            Nom = "Gosselin",
+                            NormalizedEmail = "MGOSSELIN@GMAIL.COM",
+                            NormalizedUserName = "MGOSSELIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAECXbXpu4edaVMA5Uy4s/JDLEcmifn8Oi+QLrDKb0zzeVjCjLT8K/tsuI7c02OcYADQ==",
+                            PhoneNumberConfirmed = false,
+                            Prenom = "Marcel",
+                            SecurityStamp = "d5bee03d-8b34-4cf0-a315-93cd25eca788",
+                            TwoFactorEnabled = false,
+                            UserName = "MGosselin@gmail.com",
+                            DateAdhesion = new DateTime(2023, 12, 6, 16, 24, 11, 972, DateTimeKind.Local).AddTicks(1821),
+                            NoMembre = "7781a029-0b58-4103-90af-066d9a15b413",
+                            StripeCustomerId = "7"
+                        },
+                        new
+                        {
+                            Id = "db95cab7-415b-49d1-bf8c-5a68fee9efca",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f8367a44-3820-42e0-a636-9ff91f11ae81",
+                            DateNaissance = new DateTime(1993, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "SFallu@gmail.com",
+                            EmailConfirmed = true,
+                            IsBanned = false,
+                            LockoutEnabled = false,
+                            Nom = "Fallu",
+                            NormalizedEmail = "SFALLU@GMAIL.COM",
+                            NormalizedUserName = "SFALLU@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBL/rzKcBDOrpH1ovv5zDPGANqpcIk9SFOJVreUo32lHWzlbzZwtvIc0Voqd8N71xQ==",
+                            PhoneNumberConfirmed = false,
+                            Prenom = "Stephane",
+                            SecurityStamp = "6679793d-ceff-489b-bf7d-16cea8d00439",
+                            TwoFactorEnabled = false,
+                            UserName = "SFallu@gmail.com",
+                            DateAdhesion = new DateTime(2023, 12, 6, 16, 24, 11, 978, DateTimeKind.Local).AddTicks(4674),
+                            NoMembre = "20aa097d-9abf-44c3-a947-cef30edd4b00",
+                            StripeCustomerId = "8"
+                        },
+                        new
+                        {
+                            Id = "b1748db6-93c3-43bc-a4f7-8beda01e40f4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d2ff6419-cd2d-4d08-a05c-a356f7d6ca25",
+                            DateNaissance = new DateTime(2002, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "SDemers@gmail.com",
+                            EmailConfirmed = true,
+                            IsBanned = false,
+                            LockoutEnabled = false,
+                            Nom = "Demers",
+                            NormalizedEmail = "SDEMERS@GMAIL.COM",
+                            NormalizedUserName = "SDEMERS@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPwYRFDuJbGLmLkdwEHc4SKW/OnvWaHUDyqoORW/0i+po4tFWMeOZu1aVJOLscy+sg==",
+                            PhoneNumberConfirmed = false,
+                            Prenom = "Sylvie",
+                            SecurityStamp = "26443754-5bee-4fad-b01b-8677ae9bb651",
+                            TwoFactorEnabled = false,
+                            UserName = "SDemers@gmail.com",
+                            DateAdhesion = new DateTime(2023, 12, 6, 16, 24, 11, 984, DateTimeKind.Local).AddTicks(8604),
+                            NoMembre = "2924f7a5-ae13-4749-a1e7-4a09cbac90a0",
+                            StripeCustomerId = "9"
+                        },
+                        new
+                        {
+                            Id = "b0de1878-35ab-41b9-b215-3ff792447583",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2c0f92d5-da0a-41b8-b364-52a0ae577fcb",
+                            DateNaissance = new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "tonyhuynh0412@gmail.com",
+                            EmailConfirmed = true,
+                            IsBanned = false,
+                            LockoutEnabled = false,
+                            Nom = "Huynh",
+                            NormalizedEmail = "TONYHUYNH0412@GMAIL.COM",
+                            NormalizedUserName = "TONYHUYNH0412@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
+                            PhoneNumberConfirmed = false,
+                            Prenom = "Tony",
+                            SecurityStamp = "d95fd0a4-ac29-4e36-ac74-0c2f6a513f01",
+                            TwoFactorEnabled = false,
+                            UserName = "tonyhuynh0412@gmail.com",
+                            DateAdhesion = new DateTime(2023, 12, 6, 16, 24, 11, 991, DateTimeKind.Local).AddTicks(2576),
+                            NoMembre = "ce50ce3d-1093-4b99-9aa1-78f27d0cd0fe",
+                            StripeCustomerId = "10"
+                        },
+                        new
+                        {
+                            Id = "c2f99eba-db6a-47c8-86d6-df9b072777fa",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "919c62d8-84fa-43c5-9544-564c810618c4",
+                            DateNaissance = new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "julien.landry1800@gmail.com",
+                            EmailConfirmed = true,
+                            IsBanned = false,
+                            LockoutEnabled = false,
+                            Nom = "Landry",
+                            NormalizedEmail = "JULIEN.LANDRY1800@GMAIL.COM",
+                            NormalizedUserName = "JULIEN.LANDRY1800@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
+                            PhoneNumberConfirmed = false,
+                            Prenom = "Julien",
+                            SecurityStamp = "246671ac-dced-402d-91cb-3db08f9b127a",
+                            TwoFactorEnabled = false,
+                            UserName = "julien.landry1800@gmail.com",
+                            DateAdhesion = new DateTime(2023, 12, 6, 16, 24, 12, 2, DateTimeKind.Local).AddTicks(6658),
+                            NoMembre = "0bc3dd14-c001-485d-90c5-e3774671a9da",
+                            StripeCustomerId = "11"
+                        },
+                        new
+                        {
+                            Id = "e364919f-cc22-4330-95f5-647285541a27",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ab82de1b-8381-4e7d-b82b-7d2310364b4e",
+                            DateNaissance = new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "jlgouaho@gmail.com",
+                            EmailConfirmed = true,
+                            IsBanned = false,
+                            LockoutEnabled = false,
+                            Nom = "JEAN-LUC GOUAHO",
+                            NormalizedEmail = "JLGOUAHO@GMAIL.COM",
+                            NormalizedUserName = "JLGOUAHO@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
+                            PhoneNumberConfirmed = false,
+                            Prenom = "Deto",
+                            SecurityStamp = "37f4e21d-7dc2-4f66-8c1d-0c2848856225",
+                            TwoFactorEnabled = false,
+                            UserName = "jlgouaho@gmail.com",
+                            DateAdhesion = new DateTime(2023, 12, 6, 16, 24, 12, 2, DateTimeKind.Local).AddTicks(9988),
+                            NoMembre = "9628e5d4-6115-47a6-b9ea-21ef4cef1bbd",
+                            StripeCustomerId = "12"
                         });
                 });
 
@@ -1593,9 +1769,15 @@ namespace VLISSIDES.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("VLISSIDES.Models.TypeLivre", "TypeLivre")
+                        .WithMany()
+                        .HasForeignKey("TypeLivreId");
+
                     b.Navigation("Commande");
 
                     b.Navigation("Livre");
+
+                    b.Navigation("TypeLivre");
                 });
 
             modelBuilder.Entity("VLISSIDES.Models.LivrePanier", b =>

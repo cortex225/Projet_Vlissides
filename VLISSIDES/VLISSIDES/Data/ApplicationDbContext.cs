@@ -1,4 +1,10 @@
-﻿namespace VLISSIDES.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Stripe;
+using VLISSIDES.Models;
+
+namespace VLISSIDES.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
