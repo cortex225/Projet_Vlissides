@@ -64,8 +64,8 @@ public class DatabaseSeeder
         // _context.SaveChanges();
         // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
         // _context.SaveChanges();
-         _context.Commandes.RemoveRange(_context.Commandes);
-         _context.SaveChanges();
+        _context.Commandes.RemoveRange(_context.Commandes);
+        _context.SaveChanges();
 
 
 
@@ -1228,45 +1228,45 @@ public class DatabaseSeeder
         });
         _context.SaveChanges();
         //Commandes 3
-        var SDemersCommandes3 = new List<LivreCommande>
-        {
-            new LivreCommande()
-            {
-                // Livre = GetBookByTitleAndType("L'École du Colibri", "Numérique"),
-                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").Id,
-                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Numérique"),
-                CommandeId = "9",
-                Quantite = 1,
-                PrixAchat = 20
-            },
-            new LivreCommande()
-            {
-                // Livre = GetBookByTitleAndType("L'École du Colibri", "Papier"),
-                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").Id,
-                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier"),
-                CommandeId = "9",
-                Quantite = 1,
-                PrixAchat = 20
-            },
-            new LivreCommande()
-            {
-                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le journal de Kurt Cobain").Id,
-                CommandeId = "9",
-                Quantite = 1,
-                PrixAchat = 20
-            },
-        };
-        _context.Commandes.Add(new Commande()
-        {
-            Id = "9",
-            Membre = membre,
-            AdresseLivraison = membre.AdressePrincipale,
-            EnDemandeAnnulation = false,
-            DateCommande = new DateTime(2023, 12, 3),
-            LivreCommandes = SDemersCommandes3,
-            StatutCommandeId = "4",
-            PrixTotal = 100,
-        });
+        //var SDemersCommandes3 = new List<LivreCommande>
+        //{
+        //    new LivreCommande()
+        //    {
+        //        // Livre = GetBookByTitleAndType("L'École du Colibri", "Numérique"),
+        //        LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").Id,
+        //        TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Numérique"),
+        //        CommandeId = "9",
+        //        Quantite = 1,
+        //        PrixAchat = 20
+        //    },
+        //    new LivreCommande()
+        //    {
+        //        // Livre = GetBookByTitleAndType("L'École du Colibri", "Papier"),
+        //        LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").Id,
+        //        TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier"),
+        //        CommandeId = "9",
+        //        Quantite = 1,
+        //        PrixAchat = 20
+        //    },
+        //    new LivreCommande()
+        //    {
+        //        LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le journal de Kurt Cobain").Id,
+        //        CommandeId = "9",
+        //        Quantite = 1,
+        //        PrixAchat = 20
+        //    },
+        //};
+        //_context.Commandes.Add(new Commande()
+        //{
+        //    Id = "9",
+        //    Membre = membre,
+        //    AdresseLivraison = membre.AdressePrincipale,
+        //    EnDemandeAnnulation = false,
+        //    DateCommande = new DateTime(2023, 12, 3),
+        //    LivreCommandes = SDemersCommandes3,
+        //    StatutCommandeId = "4",
+        //    PrixTotal = 100,
+        //});
         _context.SaveChanges();
 
     }
