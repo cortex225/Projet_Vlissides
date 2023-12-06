@@ -117,6 +117,7 @@
     </div>
 
 </div>
+
 <script>
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 </script>
@@ -130,15 +131,6 @@
 
         var partieMotCles = "motCles=";
         var partieCriteres = "criteres=";
-
-        //Recherche générale
-        var searchGeneral = document.getElementById("rechercheGeneral");
-        var searchTerm = searchGeneral.value.trim(); // Récupérer la valeur de la barre de recherche
-
-        if (searchTerm != "") {
-            artieMotCles = partieMotCles.concat(`${searchTerm}|`);
-            partieCriteres = partieCriteres.concat("general|");
-        }
 
         //Titre
         var titreSpecification = document.getElementById("specificationTitre");
