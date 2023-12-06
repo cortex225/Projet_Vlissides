@@ -5,6 +5,7 @@
 
 
 using ExcelDataReader;
+using Microsoft.EntityFrameworkCore;
 using Seeder;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -53,8 +54,8 @@ public class DatabaseSeeder
 
 
         //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
-        // _context.Livres.RemoveRange(_context.Livres);
-        // _context.SaveChanges();
+        _context.Livres.RemoveRange(_context.Livres);
+        _context.SaveChanges();
         // _context.Auteurs.RemoveRange(_context.Auteurs);
         // _context.SaveChanges();
         // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
@@ -63,6 +64,8 @@ public class DatabaseSeeder
         // _context.SaveChanges();
         // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
         // _context.SaveChanges();
+        _context.Commandes.RemoveRange(_context.Commandes);
+        _context.SaveChanges();
 
 
 
@@ -127,6 +130,8 @@ public class DatabaseSeeder
         GenerateEvenements();
         GeneratePromotions();
         GenerateAdresses();
+        GenerateTransactions();
+        GenerateReservations();
         //Signaler la fin de la lecture du fichier Excel
         Console.WriteLine("************ Succès!************* ");
 
@@ -221,7 +226,10 @@ public class DatabaseSeeder
             #endregion
 
             #region Couverture
-
+            if (reader.GetValue(0) == null)
+            {
+                break;
+            }
             string titre = reader.GetString(0).Trim().Trim('"').Trim();
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Couvertures",
                 titre + ".png");
@@ -397,6 +405,8 @@ public class DatabaseSeeder
 
     private void GenerateEvenements()
     {
+        #region pinochio
+        //pinochio
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
@@ -415,6 +425,106 @@ public class DatabaseSeeder
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 2",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 9, 14, 14, 0, 0),
+            DateFin = new DateTime(2024, 9, 14, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 3",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 9, 21, 14, 0, 0),
+            DateFin = new DateTime(2024, 9, 21, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 4",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 9, 28, 14, 0, 0),
+            DateFin = new DateTime(2024, 9, 28, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 5",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 10, 5, 14, 0, 0),
+            DateFin = new DateTime(2024, 10, 5, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 6",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 10, 12, 14, 0, 0),
+            DateFin = new DateTime(2024, 10, 12, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 7",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 10, 19, 14, 0, 0),
+            DateFin = new DateTime(2024, 10, 19, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 8",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 10, 26, 14, 0, 0),
+            DateFin = new DateTime(2024, 10, 26, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        #endregion
+        //Reve
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
             Image = "/img/images_Events/reve.png",
             Nom = "Rêves à colorier",
             Description = "Aventure musicale haute-voltige qui allie la chanson, le théâtre d’objets et la littérature.",
@@ -425,6 +535,7 @@ public class DatabaseSeeder
             DateFin = new DateTime(2024, 11, 26, 15, 55, 0),
             Lieu = "À déterminer"
         });
+        #region Héli
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
@@ -435,10 +546,123 @@ public class DatabaseSeeder
             Prix = 0,
             NbPlaces = 25,
             NbPlacesMembre = 25,
-            DateDebut = new DateTime(2024, 3, 7, 15, 0, 0),
-            DateFin = new DateTime(2024, 3, 7, 15, 55, 0),
+            DateDebut = new DateTime(2024, 3, 3, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 3, 15, 55, 0),
             Lieu = "À déterminer"
         });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 2",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 3, 10, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 10, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 3",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 3, 17, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 17, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 4",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 3, 24, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 24, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 5",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 3, 31, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 31, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 6",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 4, 7, 15, 0, 0),
+            DateFin = new DateTime(2024, 4, 7, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 7",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 4, 14, 15, 0, 0),
+            DateFin = new DateTime(2024, 4, 14, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 8",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 4, 21, 15, 0, 0),
+            DateFin = new DateTime(2024, 4, 21, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 9",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 4, 28, 15, 0, 0),
+            DateFin = new DateTime(2024, 4, 28, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        #endregion
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
@@ -466,6 +690,121 @@ public class DatabaseSeeder
             DateDebut = new DateTime(2023, 12, 15, 19, 0, 0),
             DateFin = new DateTime(2023, 12, 15, 19, 55, 0),
             Lieu = "À déterminer"
+        });
+        _context.SaveChanges();
+    }
+    private void GenerateReservations()
+    {
+        //Marcel Gosselin
+        var membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "MGosselin@gmail.com");
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 3,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Projet Pinochio (5 ans et plus) 5"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Projet Pinochio (5 ans et plus) 5").Description,
+            EnDemandeAnnuler = false,
+        });
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 3,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Projet Pinochio (5 ans et plus) 6"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Projet Pinochio (5 ans et plus) 6").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 8,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Rêves à colorier"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Rêves à colorier").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 3"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 3").Description,
+            EnDemandeAnnuler = false,
+        });
+        //Stephane Fallu
+        membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "SFallu@gmail.com");
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 8,
+            Quantite = 1,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Rêves à colorier"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Rêves à colorier").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 3"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 3").Description,
+            EnDemandeAnnuler = false,
+        });
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 4"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 4").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 7"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 7").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 8"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 8").Description,
+            EnDemandeAnnuler = false,
         });
         _context.SaveChanges();
     }
@@ -605,14 +944,333 @@ public class DatabaseSeeder
         });
         _context.SaveChanges();
     }
-    //private void GenerateTransactions()
-    //{
+    private void GenerateTransactions()
+    {
+        //Marcel Gosselin
+        var membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "MGosselin@gmail.com");
+        //Commande 1 
+        var MGosselinCommandes1 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le petit prince").Id,
+                CommandeId="1",
+                Quantite=1,
+                PrixAchat=20,
 
-    //    _context.Commandes.Add(new Commande()
-    //    {
-    //        Id = Guid.NewGuid().ToString(),
-    //        Membre = _context.Membres.FirstOrDefault(m => m.UserName == "MGosselin@gmail.com"),
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Harry Potter à l'école des sorciers").Id,
+                CommandeId="1",
+                Quantite=2,
+                PrixAchat=20,
 
-    //    })
-    //}
+            },
+            new LivreCommande()
+            {
+                LivreId=_context.Livres.FirstOrDefault(l => l.Titre == "1984").Id,
+                CommandeId="1",
+                Quantite=1,
+                PrixAchat=20,
+
+            }
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "1",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 18),
+            LivreCommandes = MGosselinCommandes1,
+            StatutCommandeId = "4",
+            PrixTotal = 80
+        });
+
+        //Commande 2
+        var MGosselinCommandes2 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId= _context.Livres.FirstOrDefault(l => l.Titre == "L'écume des Jours").Id,
+                CommandeId="2",
+                Quantite=2,
+                PrixAchat=20,
+
+            },
+            new LivreCommande()
+            {
+                LivreId=_context.Livres.FirstOrDefault(l => l.Titre == "Le parfum").Id,
+                CommandeId="2",
+                Quantite=1,
+                PrixAchat=20,
+            }
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "2",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 25),
+            LivreCommandes = MGosselinCommandes2,
+            StatutCommandeId = "4",
+            PrixTotal = 60
+        });
+        //Commande 3
+        var MGosselinCommandes3 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId= _context.Livres.FirstOrDefault(l => l.Titre == "La Ferme des Animaux").Id,
+                CommandeId="3",
+                Quantite=1,
+                PrixAchat=20,
+
+            },
+            new LivreCommande()
+            {
+                LivreId=_context.Livres.FirstOrDefault(l => l.Titre == "L'Odyssée").Id,
+                CommandeId="3",
+                Quantite=1,
+                PrixAchat=20,
+            }
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "3",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 11, 18),
+            LivreCommandes = MGosselinCommandes3,
+            StatutCommandeId = "4",
+            PrixTotal = 40
+        });
+
+        //Stephane Fallu
+        membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "SFallu@gmail.com");
+        //Commande 1
+        var SFalluCommandes1 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le rouge et le noir").Id,
+                CommandeId="4",
+                Quantite=1,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "La nuit des temps").Id,
+                CommandeId="4",
+                Quantite=2,
+                PrixAchat=20,
+
+            },
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "4",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 30),
+            LivreCommandes = SFalluCommandes1,
+            StatutCommandeId = "4",
+            PrixTotal = 60
+        });
+        _context.SaveChanges();
+
+        //Commande 2
+        var SFalluCommandes2 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le vieil homme et la mer").Id,
+                CommandeId="5",
+                Quantite=1,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le parfum").Id,
+                CommandeId="5",
+                Quantite=1,
+                PrixAchat=20,
+
+            },
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "5",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 31),
+            LivreCommandes = SFalluCommandes2,
+            StatutCommandeId = "4",
+            PrixTotal = 40
+        });
+        _context.SaveChanges();
+
+        //Commande 3
+
+        var SFalluCommandes3 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "La Ferme des Animaux").Id,
+                CommandeId="6",
+                Quantite=1,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Les Trois Mousquetaires").Id,
+                CommandeId="6",
+                Quantite=2,
+                PrixAchat=20,
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'Odyssée").Id,
+                CommandeId="6",
+                Quantite=1,
+                PrixAchat=20,
+
+            }
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "6",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 12, 2),
+            LivreCommandes = SFalluCommandes3,
+            StatutCommandeId = "4",
+            PrixTotal = 40
+        });
+        _context.SaveChanges();
+
+
+        //Sylvie Demers
+        membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "SDemers@gmail.com");
+        //Commande 1
+        var SDemersCommandes1 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "La nuit des temps").Id,
+                CommandeId="7",
+                Quantite=1,
+                PrixAchat=20
+            },
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "7",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 1),
+            LivreCommandes = SDemersCommandes1,
+            StatutCommandeId = "4",
+            PrixTotal = 20,
+        });
+        _context.SaveChanges();
+
+        //Commandes 2
+        var SDemersCommandes2 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Contes de Perrault").Id,
+                CommandeId="8",
+                Quantite=2,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Les Contes d'Andersen").Id,
+                CommandeId="8",
+                Quantite=1,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Contes des Mille et Une Nuits").Id,
+                CommandeId="8",
+                Quantite=2,
+                PrixAchat=20
+            },
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "8",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 11, 26),
+            LivreCommandes = SDemersCommandes2,
+            StatutCommandeId = "4",
+            PrixTotal = 100,
+        });
+        _context.SaveChanges();
+        //Commandes 3
+        //var SDemersCommandes3 = new List<LivreCommande>
+        //{
+        //    new LivreCommande()
+        //    {
+        //        // Livre = GetBookByTitleAndType("L'École du Colibri", "Numérique"),
+        //        LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").Id,
+        //        TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Numérique"),
+        //        CommandeId = "9",
+        //        Quantite = 1,
+        //        PrixAchat = 20
+        //    },
+        //    new LivreCommande()
+        //    {
+        //        // Livre = GetBookByTitleAndType("L'École du Colibri", "Papier"),
+        //        LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").Id,
+        //        TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier"),
+        //        CommandeId = "9",
+        //        Quantite = 1,
+        //        PrixAchat = 20
+        //    },
+        //    new LivreCommande()
+        //    {
+        //        LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le journal de Kurt Cobain").Id,
+        //        CommandeId = "9",
+        //        Quantite = 1,
+        //        PrixAchat = 20
+        //    },
+        //};
+        //_context.Commandes.Add(new Commande()
+        //{
+        //    Id = "9",
+        //    Membre = membre,
+        //    AdresseLivraison = membre.AdressePrincipale,
+        //    EnDemandeAnnulation = false,
+        //    DateCommande = new DateTime(2023, 12, 3),
+        //    LivreCommandes = SDemersCommandes3,
+        //    StatutCommandeId = "4",
+        //    PrixTotal = 100,
+        //});
+        _context.SaveChanges();
+
+    }
+
+
+
 }
