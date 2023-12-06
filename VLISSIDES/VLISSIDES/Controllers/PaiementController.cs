@@ -137,15 +137,29 @@ public class PaiementController : Controller
                 TaxRates = new List<string> { taxLivreRate.Id }
             };
         }).ToList();
-        var don = _context.Dons.FirstOrDefault(d => d.UserId == userId);
-        var taxDonOptions = new TaxRateCreateOptions
+        //Frais de livraison
+        var prixlivres = panierItems.Select(p => p.Quantite * p.PrixApresPromotion ?? p.PrixOriginal).Sum();
+        if (prixlivres < 45)
         {
-            DisplayName = "Don",
-            Inclusive = true,
-            Percentage = 0,
-        };
-        var taxDonService = new TaxRateService();
-        var taxDonRate = taxDonService.Create(taxDonOptions);
+            lineItems.Add(new SessionLineItemOptions
+            {
+
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmountDecimal = (prixlivres * 100) * (decimal)0.05,
+                    Currency = "cad",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = "Frais de livraison(5%)"
+                    },
+
+                },
+                Quantity = 1,
+            });
+        }
+        //Don
+        var don = _context.Dons.FirstOrDefault(d => d.UserId == userId);
+
         if (don != null)
         {
             lineItems.Add(new SessionLineItemOptions
@@ -161,7 +175,7 @@ public class PaiementController : Controller
                     }
                 },
                 Quantity = 1,
-                TaxRates = new List<string> { taxDonRate.Id }
+
 
             });
         }

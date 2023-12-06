@@ -38,7 +38,7 @@ namespace VLISSIDES.Controllers
         public IActionResult AfficherEvenements() => PartialView("PartialViews/GestionEvenements/_ListeEvenementsPartial",
                 _context.Evenements.Select(e => new GestionEvenementsIndexVM(e)).ToList());
         public IActionResult AfficherReservations() => PartialView("PartialViews/GestionEvenements/_ListeReservationsPartial"
-            , _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre).Where(r => r.EnDemandeAnnuler == true)
+            , _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
             .Select(r => new GestionEvenementsReservationVM(r)).ToList());
         public IActionResult AjouterEvenement() => PartialView("PartialViews/Modals/Evenements/_AjouterEvenementsPartial",
             new GestionEvenementsAjouterVM());
@@ -166,12 +166,13 @@ namespace VLISSIDES.Controllers
 
         public async Task<IActionResult> MontrerConfirmerDemande(string id)
         {
-            if (await _context.Evenements.FindAsync(id) == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
+            var reservation = await _context.Reservations.SingleOrDefaultAsync(e => e.Id == id);
+            if (reservation == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
             return PartialView("PartialViews/Modals/Evenements/_ConfirmerReservationPartial",
-                new GestionEvenementsReservationVM(_context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
+                new GestionEvenementsReservationVM(_context.Reservations.Include(r => r.Evenement)
+                    .Include(r => r.Membre)
                     .FirstOrDefault(r => r.Id == id)));
         }
-
         [HttpPost]
         public async Task<IActionResult> ConfirmerDemande(string id)
         {
@@ -227,7 +228,7 @@ namespace VLISSIDES.Controllers
         }
         private async Task CourrielConfirmationMembreConfirme(string? username, Reservation reservation, string logoUrl)
         {
-            var subject = "Demande d'annulation de reservation";
+            var subject = "Demande d'annulation de réservation";
 
             // Construire le corps du courriel
             var body = ConstruireCourrielConfirmationMembreConfirme(username, reservation, logoUrl);

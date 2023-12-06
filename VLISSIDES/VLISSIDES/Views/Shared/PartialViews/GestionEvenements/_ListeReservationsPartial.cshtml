@@ -18,7 +18,7 @@
             Nom de l'évenement
         </div>
         <div class="col-3 text-center">
-
+            Demande d'annulation
         </div>
 
     </div>
@@ -38,7 +38,9 @@
             <div class="col-3 text-center">
                 @Html.DisplayFor(modelItem => item.NomEvenement)
             </div>
-            <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
+            @if (item.EnDemandeAnnuler == true)
+            {
+                <div class="col-3 text-center d-flex flex-row justify-content-around h-40">
 
                 <a class="btn btn-primary p-2" onclick="ShowModal('@Url.Action("MontrerConfirmerDemande", "GestionEvenements", new { id = item.Id })')" data-toggle="tooltip" title="Confirmer">
                     Confirmer
@@ -48,7 +50,9 @@
                 </a>
 
 
-            </div>
+                </div>
+            }
+
         </div>
     </div>
 }

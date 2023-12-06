@@ -9,12 +9,15 @@ namespace VLISSIDES.ViewModels.GestionEvenements
 
         [DisplayName("Nom de l'utilisateur")] public string NomUtilisateur { get; set; }
         [DisplayName("Nom de l'évènement")] public string NomEvenement { get; set; }
+        public bool? EnDemandeAnnuler { get; set; } = default!;
+
 
         public GestionEvenementsReservationVM(Reservation reservation)
         {
             Id = reservation.Id;
-            NomUtilisateur = reservation.Membre.Id;
+            NomUtilisateur = reservation.Membre.Nom;
             NomEvenement = reservation.Evenement.Nom;
+            EnDemandeAnnuler = reservation.EnDemandeAnnuler;
         }
     }
 }

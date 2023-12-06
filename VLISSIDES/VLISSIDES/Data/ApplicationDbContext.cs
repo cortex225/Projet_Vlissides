@@ -168,15 +168,18 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Id = "0",
             Nom = "ADMIN",
             Prenom = "Admin",
-            Email = "admin@admin.com",
-            UserName = "admin@admin.com",
-            NormalizedEmail = "admin@admin.com".ToUpper(),
-            NormalizedUserName = "admin@admin.com".ToUpper(),
+            Email = "Admin@LaFourmiAilee.com",
+            UserName = "Admin",
+            NormalizedEmail = "Admin@LaFourmiAilee.com".ToUpper(),
+            NormalizedUserName = "Admin".ToUpper(),
             EmailConfirmed = true,
             IsBanned = false
         };
-        //var adminHasher = password.HashPassword(UserAdmin, "Jaimelaprog1!");
-        UserAdmin.PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
+        var password = new PasswordHasher<ApplicationUser>();
+        var adminHasher = password.HashPassword(UserAdmin, "FourmiAilee1!");
+        UserAdmin.PasswordHash = adminHasher;
+
+        //UserAdmin.PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
         builder.Entity<ApplicationUser>().HasData(UserAdmin);
 
         var UserEmploye = new Employe
@@ -217,7 +220,120 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         UserMembre.PasswordHash =
             "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==";
         builder.Entity<Membre>().HasData(UserMembre);
+        //Marcel Gosselin
+        var UserMarcelGosselin = new Membre
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Gosselin",
+            Prenom = "Marcel",
+            NoMembre = Guid.NewGuid().ToString(),
+            Email = "MGosselin@gmail.com",
+            NormalizedEmail = "MGosselin@gmail.com".ToUpper(),
+            UserName = "MGosselin@gmail.com",
+            NormalizedUserName = "MGosselin@gmail.com".ToUpper(),
+            EmailConfirmed = true,
+            DateAdhesion = DateTime.Now,
+            IsBanned = false,
+            DateNaissance = new DateTime(2001, 4, 21),
 
+
+        };
+        UserMarcelGosselin.PasswordHash = password.HashPassword(UserMarcelGosselin, "MGosselin11!");
+        builder.Entity<Membre>().HasData(UserMarcelGosselin);
+        //Stephane Fallu
+        var UserStephaneFallu = new Membre
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Fallu",
+            Prenom = "Stephane",
+            NoMembre = Guid.NewGuid().ToString(),
+            Email = "SFallu@gmail.com",
+            NormalizedEmail = "SFallu@gmail.com".ToUpper(),
+            UserName = "SFallu@gmail.com",
+            NormalizedUserName = "SFallu@gmail.com".ToUpper(),
+            EmailConfirmed = true,
+            DateAdhesion = DateTime.Now,
+            IsBanned = false,
+            DateNaissance = new DateTime(1993, 12, 6),
+
+
+        };
+        UserStephaneFallu.PasswordHash = password.HashPassword(UserStephaneFallu, "SFallu11!");
+        builder.Entity<Membre>().HasData(UserStephaneFallu);
+        //Sylvie Demers
+        var UserSylvieDemers = new Membre
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Demers",
+            Prenom = "Sylvie",
+            NoMembre = Guid.NewGuid().ToString(),
+            Email = "SDemers@gmail.com",
+            NormalizedEmail = "SDemers@gmail.com".ToUpper(),
+            UserName = "SDemers@gmail.com",
+            NormalizedUserName = "SDemers@gmail.com".ToUpper(),
+            EmailConfirmed = true,
+            DateAdhesion = DateTime.Now,
+            IsBanned = false,
+            DateNaissance = new DateTime(2002, 12, 7),
+
+
+        };
+        UserSylvieDemers.PasswordHash = password.HashPassword(UserSylvieDemers, "SDemers11!");
+        builder.Entity<Membre>().HasData(UserSylvieDemers);
+        //Tony Huynh
+        var UserTonyHuynh = new Membre
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Huynh",
+            Prenom = "Tony",
+            NoMembre = Guid.NewGuid().ToString(),
+            Email = "tonyhuynh0412@gmail.com",
+            NormalizedEmail = "tonyhuynh0412@gmail.com".ToUpper(),
+            UserName = "tonyhuynh0412@gmail.com",
+            NormalizedUserName = "tonyhuynh0412@gmail.com".ToUpper(),
+            EmailConfirmed = true,
+            DateAdhesion = DateTime.Now,
+            IsBanned = false,
+            DateNaissance = new DateTime(2004, 04, 12),
+            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA=="
+        };
+        builder.Entity<Membre>().HasData(UserTonyHuynh);
+        //Julien Landry
+        var UserJulienLandry = new Membre
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "Landry",
+            Prenom = "Julien",
+            NoMembre = Guid.NewGuid().ToString(),
+            Email = "julien.landry1800@gmail.com",
+            NormalizedEmail = "julien.landry1800@gmail.com".ToUpper(),
+            UserName = "julien.landry1800@gmail.com",
+            NormalizedUserName = "julien.landry1800@gmail.com".ToUpper(),
+            EmailConfirmed = true,
+            DateAdhesion = DateTime.Now,
+            IsBanned = false,
+            DateNaissance = new DateTime(2004, 04, 12),
+            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA=="
+        };
+        builder.Entity<Membre>().HasData(UserJulienLandry);
+        //Jean-luc
+        var UserJeanLuc = new Membre
+        {
+            Id = Guid.NewGuid().ToString(),
+            Nom = "JEAN-LUC GOUAHO",
+            Prenom = "Deto",
+            NoMembre = Guid.NewGuid().ToString(),
+            Email = "jlgouaho@gmail.com",
+            NormalizedEmail = "jlgouaho@gmail.com".ToUpper(),
+            UserName = "jlgouaho@gmail.com",
+            NormalizedUserName = "jlgouaho@gmail.com".ToUpper(),
+            EmailConfirmed = true,
+            DateAdhesion = DateTime.Now,
+            IsBanned = false,
+            DateNaissance = new DateTime(2004, 04, 12),
+            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA=="
+        };
+        builder.Entity<Membre>().HasData(UserJeanLuc);
         //Connecte les rôles aux users pré-créés
         //Roles de l'application
         var roleEmploye = new IdentityRole { Id = "0", Name = "Employe", NormalizedName = "Employe".ToUpper() };
@@ -228,7 +344,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<IdentityUserRole<string>>().HasData(
             new IdentityUserRole<string> { RoleId = roleEmploye.Id, UserId = UserEmploye.Id },
             new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserMembre.Id },
-            new IdentityUserRole<string> { RoleId = roleAdmin.Id, UserId = UserAdmin.Id }
+            new IdentityUserRole<string> { RoleId = roleAdmin.Id, UserId = UserAdmin.Id },
+            new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserMarcelGosselin.Id },
+            new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserStephaneFallu.Id },
+            new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserSylvieDemers.Id },
+            new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserTonyHuynh.Id },
+            new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserJeanLuc.Id },
+            new IdentityUserRole<string> { RoleId = roleMembre.Id, UserId = UserJulienLandry.Id }
         );
         // Configuration pour l' adresse principale car un utilisateur peut avoir une adresse principale
         builder.Entity<ApplicationUser>()

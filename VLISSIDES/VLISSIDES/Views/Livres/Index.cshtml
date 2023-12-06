@@ -22,13 +22,6 @@ r/Recherche.css" asp-append-version="true">
     }
     <div class="container-fluid">
         @* Les recherches *@
-        @* Research bar *@
-        <div class="row text-center" id="rechercheDIV">
-            <a id="rechercherBTN" class="container-fluid btn btn-primary" asp-controller="Livres" asp-action="Index">
-                Rechercher
-            </a>
-            <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale" onkeyup="RechercheRapide()">
-        </div>
         <button class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="filtre">
             Filtres
         </button>
