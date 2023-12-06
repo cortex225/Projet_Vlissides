@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using VLISSIDES.Models;
 
 namespace VLISSIDES.Data;
@@ -238,6 +239,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
 
         };
+        var stripeCustomerId = CreateStripeCustomer(UserMarcelGosselin.Email,
+                $"{UserMarcelGosselin.Prenom} {UserMarcelGosselin.Nom}");
+        // Stocker l'ID de client Stripe dans votre base de données
+        ((Membre)UserMarcelGosselin).StripeCustomerId = stripeCustomerId;
         UserMarcelGosselin.PasswordHash = password.HashPassword(UserMarcelGosselin, "MGosselin11!");
         builder.Entity<Membre>().HasData(UserMarcelGosselin);
         //Stephane Fallu
@@ -258,6 +263,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
 
         };
+        stripeCustomerId = CreateStripeCustomer(UserStephaneFallu.Email,
+               $"{UserStephaneFallu.Prenom} {UserStephaneFallu.Nom}");
+        ((Membre)UserStephaneFallu).StripeCustomerId = stripeCustomerId;
         UserStephaneFallu.PasswordHash = password.HashPassword(UserStephaneFallu, "SFallu11!");
         builder.Entity<Membre>().HasData(UserStephaneFallu);
         //Sylvie Demers
@@ -278,6 +286,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
 
         };
+        stripeCustomerId = CreateStripeCustomer(UserSylvieDemers.Email,
+                $"{UserSylvieDemers.Prenom} {UserSylvieDemers.Nom}");
+        ((Membre)UserSylvieDemers).StripeCustomerId = stripeCustomerId;
+
         UserSylvieDemers.PasswordHash = password.HashPassword(UserSylvieDemers, "SDemers11!");
         builder.Entity<Membre>().HasData(UserSylvieDemers);
         //Tony Huynh
@@ -297,6 +309,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             DateNaissance = new DateTime(2004, 04, 12),
             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA=="
         };
+        stripeCustomerId = CreateStripeCustomer(UserTonyHuynh.Email,
+               $"{UserTonyHuynh.Prenom} {UserTonyHuynh.Nom}");
+        // Stocker l'ID de client Stripe dans votre base de données
+        ((Membre)UserTonyHuynh).StripeCustomerId = stripeCustomerId;
         builder.Entity<Membre>().HasData(UserTonyHuynh);
         //Julien Landry
         var UserJulienLandry = new Membre
@@ -315,6 +331,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             DateNaissance = new DateTime(2004, 04, 12),
             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA=="
         };
+        stripeCustomerId = CreateStripeCustomer(UserJulienLandry.Email,
+                $"{UserJulienLandry.Prenom} {UserJulienLandry.Nom}");
+        // Stocker l'ID de client Stripe dans votre base de données
+        ((Membre)UserJulienLandry).StripeCustomerId = stripeCustomerId;
         builder.Entity<Membre>().HasData(UserJulienLandry);
         //Jean-luc
         var UserJeanLuc = new Membre
@@ -333,6 +353,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             DateNaissance = new DateTime(2004, 04, 12),
             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA=="
         };
+        stripeCustomerId = CreateStripeCustomer(UserJeanLuc.Email,
+                $"{UserJeanLuc.Prenom} {UserJeanLuc.Nom}");
+        // Stocker l'ID de client Stripe dans votre base de données
+        ((Membre)UserJeanLuc).StripeCustomerId = stripeCustomerId;
         builder.Entity<Membre>().HasData(UserJeanLuc);
         //Connecte les rôles aux users pré-créés
         //Roles de l'application
@@ -440,5 +464,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
 
         #endregion
+    }
+    public string CreateStripeCustomer(string email, string name)
+    {
+        var options = new CustomerCreateOptions
+        {
+            Email = email,
+            Name = name
+        };
+        var service = new CustomerService();
+        var customer = service.CreateAsync(options);
+        return customer.Id.ToString();
+
     }
 }
