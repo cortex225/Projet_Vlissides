@@ -125,10 +125,11 @@ public class DatabaseSeeder
         Console.WriteLine("************ Début de la lecture du fichier Excel!************* ");
         string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ressources", "DonneesLivres.xlsx");
         SeedFromExcel(fileName);
-        //GenerateEvenements();
-        //GeneratePromotions();
-        //GenerateAdresses();
+        GenerateEvenements();
+        GeneratePromotions();
+        GenerateAdresses();
         GenerateTransactions();
+        GenerateReservations();
         //Signaler la fin de la lecture du fichier Excel
         Console.WriteLine("************ Succès!************* ");
 
@@ -402,6 +403,8 @@ public class DatabaseSeeder
 
     private void GenerateEvenements()
     {
+        #region pinochio
+        //pinochio
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
@@ -420,6 +423,106 @@ public class DatabaseSeeder
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 2",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 9, 14, 14, 0, 0),
+            DateFin = new DateTime(2024, 9, 14, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 3",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 9, 21, 14, 0, 0),
+            DateFin = new DateTime(2024, 9, 21, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 4",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 9, 28, 14, 0, 0),
+            DateFin = new DateTime(2024, 9, 28, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 5",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 10, 5, 14, 0, 0),
+            DateFin = new DateTime(2024, 10, 5, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 6",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 10, 12, 14, 0, 0),
+            DateFin = new DateTime(2024, 10, 12, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 7",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 10, 19, 14, 0, 0),
+            DateFin = new DateTime(2024, 10, 19, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/pinocio.png",
+            Nom = "Projet Pinochio (5 ans et plus) 8",
+            Description = "Matières chorégraphiques d’exception, ces métamorphoses fantastiques permettent d’évoquer les tourments du corps, les revirements de l’âme," +
+            " les changements auxquels nous sommes toutes et tous confrontés. La chorégraphe déconstruit le récit pour en extraire sa subtile essence.",
+            Prix = 0,
+            NbPlaces = 20,
+            NbPlacesMembre = 20,
+            DateDebut = new DateTime(2024, 10, 26, 14, 0, 0),
+            DateFin = new DateTime(2024, 10, 26, 16, 30, 0),
+            Lieu = "À déterminer"
+        });
+        #endregion
+        //Reve
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
             Image = "/img/images_Events/reve.png",
             Nom = "Rêves à colorier",
             Description = "Aventure musicale haute-voltige qui allie la chanson, le théâtre d’objets et la littérature.",
@@ -430,6 +533,7 @@ public class DatabaseSeeder
             DateFin = new DateTime(2024, 11, 26, 15, 55, 0),
             Lieu = "À déterminer"
         });
+        #region Héli
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
@@ -440,10 +544,123 @@ public class DatabaseSeeder
             Prix = 0,
             NbPlaces = 25,
             NbPlacesMembre = 25,
-            DateDebut = new DateTime(2024, 3, 7, 15, 0, 0),
-            DateFin = new DateTime(2024, 3, 7, 15, 55, 0),
+            DateDebut = new DateTime(2024, 3, 3, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 3, 15, 55, 0),
             Lieu = "À déterminer"
         });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 2",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 3, 10, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 10, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 3",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 3, 17, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 17, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 4",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 3, 24, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 24, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 5",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 3, 31, 15, 0, 0),
+            DateFin = new DateTime(2024, 3, 31, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 6",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 4, 7, 15, 0, 0),
+            DateFin = new DateTime(2024, 4, 7, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 7",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 4, 14, 15, 0, 0),
+            DateFin = new DateTime(2024, 4, 14, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 8",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 4, 21, 15, 0, 0),
+            DateFin = new DateTime(2024, 4, 21, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        _context.Evenements.Add(new Evenement()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Image = "/img/images_Events/Heli.png",
+            Nom = "Héli, l’enfant cerf-volant 9",
+            Description = "À l’ère du numérique et des fausses nouvelles, ce spectacle foisonnant interroge notre rapport à la mémoire et braque les projecteurs sur les limites parfois floues entre la fiction et la réalité. Atelier d’écriture pour les 12-16 ans",
+
+            Prix = 0,
+            NbPlaces = 25,
+            NbPlacesMembre = 25,
+            DateDebut = new DateTime(2024, 4, 28, 15, 0, 0),
+            DateFin = new DateTime(2024, 4, 28, 15, 55, 0),
+            Lieu = "À déterminer"
+        });
+        #endregion
         _context.Evenements.Add(new Evenement()
         {
             Id = Guid.NewGuid().ToString(),
@@ -471,6 +688,121 @@ public class DatabaseSeeder
             DateDebut = new DateTime(2023, 12, 15, 19, 0, 0),
             DateFin = new DateTime(2023, 12, 15, 19, 55, 0),
             Lieu = "À déterminer"
+        });
+        _context.SaveChanges();
+    }
+    private void GenerateReservations()
+    {
+        //Marcel Gosselin
+        var membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "MGosselin@gmail.com");
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 3,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Projet Pinochio (5 ans et plus) 5"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Projet Pinochio (5 ans et plus) 5").Description,
+            EnDemandeAnnuler = false,
+        });
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 3,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Projet Pinochio (5 ans et plus) 6"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Projet Pinochio (5 ans et plus) 6").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 8,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Rêves à colorier"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Rêves à colorier").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 3"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 3").Description,
+            EnDemandeAnnuler = false,
+        });
+        //Stephane Fallu
+        membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "SFallu@gmail.com");
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 8,
+            Quantite = 1,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Rêves à colorier"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Rêves à colorier").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 3"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 3").Description,
+            EnDemandeAnnuler = false,
+        });
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 4"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 4").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 7"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 7").Description,
+            EnDemandeAnnuler = false,
+        });
+
+        _context.Reservations.Add(new Reservation()
+        {
+            Id = Guid.NewGuid().ToString(),
+            DateReservation = DateTime.Now,
+            prixAchat = 0,
+            Quantite = 2,
+            Membre = membre,
+            Evenement = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 8"),
+            Description = _context.Evenements.FirstOrDefault(e => e.Nom == "Héli, l’enfant cerf-volant 8").Description,
+            EnDemandeAnnuler = false,
         });
         _context.SaveChanges();
     }
