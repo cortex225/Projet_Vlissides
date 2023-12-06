@@ -54,8 +54,8 @@ public class DatabaseSeeder
 
 
         //Supprimer les donnés qui avait avant pour créer les nouvelles donnés
-        // _context.Livres.RemoveRange(_context.Livres);
-        // _context.SaveChanges();
+        _context.Livres.RemoveRange(_context.Livres);
+        _context.SaveChanges();
         // _context.Auteurs.RemoveRange(_context.Auteurs);
         // _context.SaveChanges();
         // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
@@ -64,6 +64,8 @@ public class DatabaseSeeder
         // _context.SaveChanges();
         // _context.MaisonEditions.RemoveRange(_context.MaisonEditions);
         // _context.SaveChanges();
+         _context.Commandes.RemoveRange(_context.Commandes);
+         _context.SaveChanges();
 
 
 
@@ -1082,6 +1084,8 @@ public class DatabaseSeeder
             StatutCommandeId = "4",
             PrixTotal = 60
         });
+        _context.SaveChanges();
+
         //Commande 2
         var SFalluCommandes2 = new List<LivreCommande>
         {
@@ -1113,6 +1117,8 @@ public class DatabaseSeeder
             StatutCommandeId = "4",
             PrixTotal = 40
         });
+        _context.SaveChanges();
+
         //Commande 3
 
         var SFalluCommandes3 = new List<LivreCommande>
@@ -1141,8 +1147,6 @@ public class DatabaseSeeder
             }
 
         };
-
-
         _context.Commandes.Add(new Commande()
         {
             Id = "6",
@@ -1154,6 +1158,9 @@ public class DatabaseSeeder
             StatutCommandeId = "4",
             PrixTotal = 40
         });
+        _context.SaveChanges();
+
+
         //Sylvie Demers
         membre = _context.Membres.Include(m => m.AdressePrincipale)
             .FirstOrDefault(x => x.UserName == "SDemers@gmail.com");
@@ -1180,6 +1187,8 @@ public class DatabaseSeeder
             StatutCommandeId = "4",
             PrixTotal = 20,
         });
+        _context.SaveChanges();
+
         //Commandes 2
         var SDemersCommandes2 = new List<LivreCommande>
         {
@@ -1217,32 +1226,35 @@ public class DatabaseSeeder
             StatutCommandeId = "4",
             PrixTotal = 100,
         });
+        _context.SaveChanges();
         //Commandes 3
         var SDemersCommandes3 = new List<LivreCommande>
         {
-            //new LivreCommande()
-            //{
-            //    Livre = 
-            //    _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").LivreTypeLivres.Any(lt=>lt.TypeLivre.Nom=="Numérique"),
-            //    CommandeId="9",
-            //    Quantite=1,
-            //    PrixAchat=20
-            //},
             new LivreCommande()
             {
+                // Livre = GetBookByTitleAndType("L'École du Colibri", "Numérique"),
                 LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").Id,
-                CommandeId="9",
-                Quantite=1,
-                PrixAchat=20
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Numérique"),
+                CommandeId = "9",
+                Quantite = 1,
+                PrixAchat = 20
+            },
+            new LivreCommande()
+            {
+                // Livre = GetBookByTitleAndType("L'École du Colibri", "Papier"),
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").Id,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier"),
+                CommandeId = "9",
+                Quantite = 1,
+                PrixAchat = 20
             },
             new LivreCommande()
             {
                 LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le journal de Kurt Cobain").Id,
-                CommandeId="9",
-                Quantite=1,
-                PrixAchat=20
+                CommandeId = "9",
+                Quantite = 1,
+                PrixAchat = 20
             },
-
         };
         _context.Commandes.Add(new Commande()
         {
@@ -1258,4 +1270,7 @@ public class DatabaseSeeder
         _context.SaveChanges();
 
     }
+
+
+
 }

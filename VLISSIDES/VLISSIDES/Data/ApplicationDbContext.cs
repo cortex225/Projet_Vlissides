@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Stripe;
-using VLISSIDES.Models;
-
-namespace VLISSIDES.Data;
+﻿namespace VLISSIDES.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
@@ -390,6 +384,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithOne(a => a.UtilisateurLivraison)
             .HasForeignKey(a => a.UtilisateurLivraisonId)
             .OnDelete(DeleteBehavior.Restrict);
+
 
         #endregion
 
