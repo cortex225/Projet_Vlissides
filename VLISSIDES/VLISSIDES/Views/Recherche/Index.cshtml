@@ -92,7 +92,7 @@
                         }
                     </datalist>
                 </div>
-                <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary">
+                <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary" onclick="RechercheGenerale(event)">
                     Rechercher
                 </button>
             </div>
@@ -123,8 +123,6 @@
 </script>
 <script type="text/javascript">
     //Script pour la recherche
-    var btnSearch = document.getElementById("rechercherBTN").addEventListener("click", RechercheGenerale);
-    var btnFiltreSearch = document.getElementById("rechercherBTNFiltre").addEventListener("click", RechercheGenerale);
 
     async function RechercheGenerale(ev) {
         ev.preventDefault();
