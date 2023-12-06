@@ -1,14 +1,14 @@
 ﻿@model VLISSIDES.ViewModels.Accueil.PromotionCardVM;
 
-<div class="item">
+<div class="item promo-card">
     <div class="event-card shadow-sm bg-white">
         <div class="row align-items-center">
             <!-- Image de l'événement -->
-            <div class="col-md-3">
-                <img src="@Model.Image" alt="Image de l'événement" class="img-fluid rounded">
+            <div class="col-md-3 text-center text-md-left div-event-img">
+                <img src="@Model.Image" alt="Image de l'événement" class="img-fluid rounded mb-3 mb-md- img-event">
             </div>
             <!-- Description et bouton -->
-            <div class="col-md-5">
+            <div class="col-md-5 text-center text-md-left div-event-nom">
                 <h2 class="font-weight-bold mb-2">@Model.Description</h2>
                 <p class="text-muted mb-3">Profitez de cette offre exceptionnelle !</p>
                 <a asp-action="Index" asp-controller="Recherche">
@@ -16,7 +16,7 @@
                 </a>
             </div>
             <!-- Date et rabais -->
-            <div class="col-md-4">
+            <div class="col-md-4 text-center text-md-left event-date-time">
                 <div class="date-box mb-3 p-3 rounded">
                     <i class="fas fa-calendar-alt mr-2"></i>
                     Du: <span class="font-weight-bold">@Model.DateDebut.ToString("f")</span>
