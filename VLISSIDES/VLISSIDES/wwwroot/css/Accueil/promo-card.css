@@ -20,3 +20,12 @@
 h3 {
     font-size: 1.2em;
 }
+
+.promo-card-parent {
+    width: 50%;
+}
+
+.promo-card {
+    height: 100%;
+    margin: 8px;
+}

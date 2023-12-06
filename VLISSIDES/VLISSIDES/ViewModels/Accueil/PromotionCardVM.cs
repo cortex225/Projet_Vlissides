@@ -16,7 +16,7 @@ public class PromotionCardVM
 
     public PromotionCardVM(Promotion promotion)
     {
-        Description = promotion.Description;
+        Description = promotion.Nom;
         Rabais = (decimal)(promotion.PourcentageRabais ?? 0);
         DateDebut = promotion.DateDebut;
         DateFin = promotion.DateFin ?? new();
