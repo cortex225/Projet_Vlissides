@@ -5,6 +5,7 @@
 
 
 using ExcelDataReader;
+using Microsoft.EntityFrameworkCore;
 using Seeder;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
@@ -124,9 +125,10 @@ public class DatabaseSeeder
         Console.WriteLine("************ Début de la lecture du fichier Excel!************* ");
         string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ressources", "DonneesLivres.xlsx");
         SeedFromExcel(fileName);
-        GenerateEvenements();
-        GeneratePromotions();
-        GenerateAdresses();
+        //GenerateEvenements();
+        //GeneratePromotions();
+        //GenerateAdresses();
+        GenerateTransactions();
         //Signaler la fin de la lecture du fichier Excel
         Console.WriteLine("************ Succès!************* ");
 
@@ -221,7 +223,10 @@ public class DatabaseSeeder
             #endregion
 
             #region Couverture
-
+            if (reader.GetValue(0) == null)
+            {
+                break;
+            }
             string titre = reader.GetString(0).Trim().Trim('"').Trim();
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Couvertures",
                 titre + ".png");
@@ -605,14 +610,320 @@ public class DatabaseSeeder
         });
         _context.SaveChanges();
     }
-    //private void GenerateTransactions()
-    //{
+    private void GenerateTransactions()
+    {
+        //Marcel Gosselin
+        var membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "MGosselin@gmail.com");
+        //Commande 1 
+        var MGosselinCommandes1 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le petit prince").Id,
+                CommandeId="1",
+                Quantite=1,
+                PrixAchat=20,
 
-    //    _context.Commandes.Add(new Commande()
-    //    {
-    //        Id = Guid.NewGuid().ToString(),
-    //        Membre = _context.Membres.FirstOrDefault(m => m.UserName == "MGosselin@gmail.com"),
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Harry Potter à l'école des sorciers").Id,
+                CommandeId="1",
+                Quantite=2,
+                PrixAchat=20,
 
-    //    })
-    //}
+            },
+            new LivreCommande()
+            {
+                LivreId=_context.Livres.FirstOrDefault(l => l.Titre == "1984").Id,
+                CommandeId="1",
+                Quantite=1,
+                PrixAchat=20,
+
+            }
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "1",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 18),
+            LivreCommandes = MGosselinCommandes1,
+            StatutCommandeId = "4",
+            PrixTotal = 80
+        });
+
+        //Commande 2
+        var MGosselinCommandes2 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId= _context.Livres.FirstOrDefault(l => l.Titre == "L'écume des Jours").Id,
+                CommandeId="2",
+                Quantite=2,
+                PrixAchat=20,
+
+            },
+            new LivreCommande()
+            {
+                LivreId=_context.Livres.FirstOrDefault(l => l.Titre == "Le parfum").Id,
+                CommandeId="2",
+                Quantite=1,
+                PrixAchat=20,
+            }
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "2",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 25),
+            LivreCommandes = MGosselinCommandes2,
+            StatutCommandeId = "4",
+            PrixTotal = 60
+        });
+        //Commande 3
+        var MGosselinCommandes3 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId= _context.Livres.FirstOrDefault(l => l.Titre == "La Ferme des Animaux").Id,
+                CommandeId="3",
+                Quantite=1,
+                PrixAchat=20,
+
+            },
+            new LivreCommande()
+            {
+                LivreId=_context.Livres.FirstOrDefault(l => l.Titre == "L'Odyssée").Id,
+                CommandeId="3",
+                Quantite=1,
+                PrixAchat=20,
+            }
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "3",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 11, 18),
+            LivreCommandes = MGosselinCommandes3,
+            StatutCommandeId = "4",
+            PrixTotal = 40
+        });
+
+        //Stephane Fallu
+        membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "SFallu@gmail.com");
+        //Commande 1
+        var SFalluCommandes1 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le rouge et le noir").Id,
+                CommandeId="4",
+                Quantite=1,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "La nuit des temps").Id,
+                CommandeId="4",
+                Quantite=2,
+                PrixAchat=20,
+
+            },
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "4",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 30),
+            LivreCommandes = SFalluCommandes1,
+            StatutCommandeId = "4",
+            PrixTotal = 60
+        });
+        //Commande 2
+        var SFalluCommandes2 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le vieil homme et la mer").Id,
+                CommandeId="5",
+                Quantite=1,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le parfum").Id,
+                CommandeId="5",
+                Quantite=1,
+                PrixAchat=20,
+
+            },
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "5",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 31),
+            LivreCommandes = SFalluCommandes2,
+            StatutCommandeId = "4",
+            PrixTotal = 40
+        });
+        //Commande 3
+
+        var SFalluCommandes3 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "La Ferme des Animaux").Id,
+                CommandeId="6",
+                Quantite=1,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Les Trois Mousquetaires").Id,
+                CommandeId="6",
+                Quantite=2,
+                PrixAchat=20,
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'Odyssée").Id,
+                CommandeId="6",
+                Quantite=1,
+                PrixAchat=20,
+
+            }
+
+        };
+
+
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "6",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 12, 2),
+            LivreCommandes = SFalluCommandes3,
+            StatutCommandeId = "4",
+            PrixTotal = 40
+        });
+        //Sylvie Demers
+        membre = _context.Membres.Include(m => m.AdressePrincipale)
+            .FirstOrDefault(x => x.UserName == "SDemers@gmail.com");
+        //Commande 1
+        var SDemersCommandes1 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "La nuit des temps").Id,
+                CommandeId="7",
+                Quantite=1,
+                PrixAchat=20
+            },
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "7",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 10, 1),
+            LivreCommandes = SDemersCommandes1,
+            StatutCommandeId = "4",
+            PrixTotal = 20,
+        });
+        //Commandes 2
+        var SDemersCommandes2 = new List<LivreCommande>
+        {
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Contes de Perrault").Id,
+                CommandeId="8",
+                Quantite=2,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Les Contes d'Andersen").Id,
+                CommandeId="8",
+                Quantite=1,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Contes des Mille et Une Nuits").Id,
+                CommandeId="8",
+                Quantite=2,
+                PrixAchat=20
+            },
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "8",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 11, 26),
+            LivreCommandes = SDemersCommandes2,
+            StatutCommandeId = "4",
+            PrixTotal = 100,
+        });
+        //Commandes 3
+        var SDemersCommandes3 = new List<LivreCommande>
+        {
+            //new LivreCommande()
+            //{
+            //    Livre = 
+            //    _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").LivreTypeLivres.Any(lt=>lt.TypeLivre.Nom=="Numérique"),
+            //    CommandeId="9",
+            //    Quantite=1,
+            //    PrixAchat=20
+            //},
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "L'École du Colibri").Id,
+                CommandeId="9",
+                Quantite=1,
+                PrixAchat=20
+            },
+            new LivreCommande()
+            {
+                LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le journal de Kurt Cobain").Id,
+                CommandeId="9",
+                Quantite=1,
+                PrixAchat=20
+            },
+
+        };
+        _context.Commandes.Add(new Commande()
+        {
+            Id = "9",
+            Membre = membre,
+            AdresseLivraison = membre.AdressePrincipale,
+            EnDemandeAnnulation = false,
+            DateCommande = new DateTime(2023, 12, 3),
+            LivreCommandes = SDemersCommandes3,
+            StatutCommandeId = "4",
+            PrixTotal = 100,
+        });
+        _context.SaveChanges();
+
+    }
 }
