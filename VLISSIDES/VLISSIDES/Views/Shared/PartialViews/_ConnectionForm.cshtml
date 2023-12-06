@@ -1,0 +1,53 @@
+@model VLISSIDES.ViewModels.Compte.ConnecterVM
+
+<form id="account" method="post" asp-controller="Compte" asp-action="Connecter">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <!-- EmailOrUserName input -->
+    <div class="form-outline mb-4">
+        <label asp-for="@Model.EmailOrUserName"></label>
+        <input asp-for="@Model.EmailOrUserName" class="form-control"/>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+        <label asp-for="@Model.Password"></label>
+        <input asp-for="@Model.Password" class="form-control"/>
+    </div>
+
+    <!-- 2 column grid layout -->
+    <div class="row mb-4">
+        <div class="col-md-6 d-flex justify-content-center">
+            <!-- Checkbox -->
+            <div class="form-check form-switch d-flex mb-3 mb-md-0">
+                <label asp-for="@Model.RememberMe">
+                    <input asp-for="@Model.RememberMe"/>
+                    @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-6 d-flex justify-content-center">
+            <!-- Simple link -->
+            <a asp-action="MotDePasseOublie">Mot de passe oublié ?</a>
+        </div>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-lg btn-block w-100 mb-4">Se connecter</button>
+
+    <!-- Register buttons -->
+    <div class="text-center">
+        <p>
+            Vous n'êtes pas membre ?
+            <a asp-controller="Compte" asp-action="Register" class="text-primary text-gradient font-weight-bold">S'inscrire</a>
+        </p>
+    </div>
+</form>
+
+<style>
+    input {
+    border: 1px solid #ced4da !important;
+    }
+</style>

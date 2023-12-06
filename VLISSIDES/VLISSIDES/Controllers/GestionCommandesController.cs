@@ -99,14 +99,14 @@ public class GestionCommandesController : Controller
         return Ok();
     }
 
-    public async Task<IActionResult> ShowAccepterRetourConfirmation(string commandeId, string livreId)
+    public async Task<IActionResult> MontrerAccepterRetourConfirmation(string commandeId, string livreId)
     {
         var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande).Include(lc => lc.Commande.Membre)
             .FirstOrDefaultAsync(lc => lc.CommandeId == commandeId && lc.LivreId == livreId);
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         if (livreCommande.QuantiteARetourner == null) return BadRequest();
-        var vm = new RefundVM
+        var vm = new RembourserVM
         {
             Commande = livreCommande.Commande,
             Livre = livreCommande.Livre,
@@ -119,7 +119,7 @@ public class GestionCommandesController : Controller
         return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerAccepterRetourPartial", vm);
     }
 
-    public async Task<IActionResult> ShowRefuserRetourConfirmation(string commandeId, string livreId)
+    public async Task<IActionResult> MontrerRefuserRetourConfirmation(string commandeId, string livreId)
     {
         var livreCommande = await _context.LivreCommandes.Include(lc => lc.Livre).Include(lc => lc.Commande)
             .Include(lc => lc.Commande.Membre)
@@ -128,7 +128,7 @@ public class GestionCommandesController : Controller
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         if (livreCommande == null) return BadRequest();
         if (livreCommande.QuantiteARetourner == null) return BadRequest();
-        var vm = new RefundVM
+        var vm = new RembourserVM
         {
             Commande = livreCommande.Commande,
             Livre = livreCommande.Livre,
@@ -141,13 +141,13 @@ public class GestionCommandesController : Controller
         return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerRefuserRetourPartial", vm);
     }
 
-    public IActionResult ShowAccepterAnnulationConfirmation(string commandeId)
+    public IActionResult MontrerAccepterAnnulationConfirmation(string commandeId)
     {
         var commande = _context.Commandes.FirstOrDefault(c => c.Id == commandeId);
         var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId)
             .ToList();
 
-        var vm = new CancelVM
+        var vm = new AnnulerlVM
         {
             Commande = commande,
             Livres = livresList,
@@ -157,13 +157,13 @@ public class GestionCommandesController : Controller
         return PartialView("PartialViews/Modals/GestionCommandesModals/_ConfirmerAccepterAnnulationPartial", vm);
     }
 
-    public IActionResult ShowRefuserAnnulationConfirmation(string commandeId)
+    public IActionResult MontrerRefuserAnnulationConfirmation(string commandeId)
     {
         var commande = _context.Commandes.FirstOrDefault(c => c.Id == commandeId);
         var livresList = _context.LivreCommandes.Include(lc => lc.Livre).Where(lc => lc.CommandeId == commandeId)
             .ToList();
 
-        var vm = new CancelVM
+        var vm = new AnnulerlVM
         {
             Commande = commande,
             Livres = livresList,
@@ -221,7 +221,7 @@ public class GestionCommandesController : Controller
 
             // Envoi du mail de confirmation de commande
 #pragma warning disable CS8604 // Possible null reference argument.
-            await SendConfirmationEmailAccepterAnnulation(customer, commandeId, livresCommandes, logoUrl);
+            await CourrielConfirmationAccepterAnnulation(customer, commandeId, livresCommandes, logoUrl);
 #pragma warning restore CS8604 // Possible null reference argument.
         }
 
@@ -264,7 +264,7 @@ public class GestionCommandesController : Controller
             commande.EnDemandeAnnulation = false;
             _context.SaveChanges();
 
-            SendConfirmationEmailRefuserAnnulation(customer, commandeId, livresCommandes, logoUrl);
+            CourrielConfirmationRefuserAnnulation(customer, commandeId, livresCommandes, logoUrl);
         }
 
         return Ok();
@@ -274,13 +274,13 @@ public class GestionCommandesController : Controller
     //===================================================================
     //===================================================================
 
-    private async Task SendConfirmationEmailAccepterAnnulation(Membre customer, string commandeId,
-        List<LivreCommandeVM> livreCommande, string logoUrl)
+    private async Task CourrielConfirmationAccepterAnnulation(Membre customer, string commandeId,
+        List<ViewModels.GestionCommandes.LivreCommandeVM> livreCommande, string logoUrl)
     {
         var subject = "Retour de livres";
 
         // Construire le corps du courriel
-        var body = BuildEmailBodyAccepterAnnulation(customer, commandeId, livreCommande, logoUrl);
+        var body = ConstruireCourrielAccepterAnnulation(customer, commandeId, livreCommande, logoUrl);
 
         // Envoyer le courriel avec la facture en pièce jointe
         await _sendGridEmail.SendEmailAsync(customer.Email, subject, body);
@@ -293,13 +293,13 @@ public class GestionCommandesController : Controller
         //}
     }
 
-    private async Task SendConfirmationEmailRefuserAnnulation(Membre customer, string commandeId,
-        List<LivreCommandeVM> livreCommande, string logoUrl)
+    private async Task CourrielConfirmationRefuserAnnulation(Membre customer, string commandeId,
+        List<ViewModels.GestionCommandes.LivreCommandeVM> livreCommande, string logoUrl)
     {
         var subject = "Retour de livres";
 
         // Construire le corps du courriel
-        var body = BuildEmailBodyRefuserAnnulation(customer, commandeId, livreCommande, logoUrl);
+        var body = ConstruireCourrielRefuserAnnulation(customer, commandeId, livreCommande, logoUrl);
 
         // Envoyer le courriel avec la facture en pièce jointe
         await _sendGridEmail.SendEmailAsync(customer.Email, subject, body);
@@ -312,13 +312,13 @@ public class GestionCommandesController : Controller
         //}
     }
 
-    private async Task SendConfirmationEmailAccepterRetour(Membre customer, LivreCommandeVM livreCommande,
+    private async Task CourrielConfirmationAccepterRetour(Membre customer, ViewModels.GestionCommandes.LivreCommandeVM livreCommande,
         string logoUrl)
     {
         var subject = "Retour de livres";
 
         // Construire le corps du courriel
-        var body = BuildEmailBodyAccepterRetour(customer, livreCommande, logoUrl);
+        var body = ConstruireCourrielAccepterRetour(customer, livreCommande, logoUrl);
 
         // Envoyer le courriel avec la facture en pièce jointe
         await _sendGridEmail.SendEmailAsync(customer.Email, subject, body);
@@ -331,13 +331,13 @@ public class GestionCommandesController : Controller
         //}
     }
 
-    private async Task SendConfirmationEmailRefuserRetour(Membre customer, LivreCommandeVM livreCommande,
+    private async Task CourrielConfirmationRefuserRetour(Membre customer, ViewModels.GestionCommandes.LivreCommandeVM livreCommande,
         string logoUrl)
     {
         var subject = "Retour de livres";
 
         // Construire le corps du courriel
-        var body = BuildEmailBodyRefuserRetour(customer, livreCommande, logoUrl);
+        var body = ConstruireCourrielRefuserRetour(customer, livreCommande, logoUrl);
 
         // Envoyer le courriel avec la facture en pièce jointe
         await _sendGridEmail.SendEmailAsync(customer.Email, subject, body);
@@ -354,8 +354,8 @@ public class GestionCommandesController : Controller
     //===================================================================
     //===================================================================
 
-    private string BuildEmailBodyAccepterAnnulation(Membre customer, string commandeId,
-        List<LivreCommandeVM> livreCommande, string logoUrl)
+    private string ConstruireCourrielAccepterAnnulation(Membre customer, string commandeId,
+        List<ViewModels.GestionCommandes.LivreCommandeVM> livreCommande, string logoUrl)
     {
         var body = new StringBuilder();
 
@@ -410,8 +410,8 @@ public class GestionCommandesController : Controller
         return body.ToString();
     }
 
-    private string BuildEmailBodyRefuserAnnulation(Membre customer, string commandeId,
-        List<LivreCommandeVM> livreCommande, string logoUrl)
+    private string ConstruireCourrielRefuserAnnulation(Membre customer, string commandeId,
+        List<ViewModels.GestionCommandes.LivreCommandeVM> livreCommande, string logoUrl)
     {
         var body = new StringBuilder();
 
@@ -462,7 +462,7 @@ public class GestionCommandesController : Controller
         return body.ToString();
     }
 
-    private string BuildEmailBodyAccepterRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+    private string ConstruireCourrielAccepterRetour(Membre customer, ViewModels.GestionCommandes.LivreCommandeVM livreCommande, string logoUrl)
     {
         var myURL = _httpContextAccessor.HttpContext.Request.Host.Value; //_httpContextAccessor.Request.Host.Value;
         var BASE_URL_RAZOR = Url.Content("~");
@@ -519,7 +519,7 @@ public class GestionCommandesController : Controller
         return body.ToString();
     }
 
-    private string BuildEmailBodyRefuserRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+    private string ConstruireCourrielRefuserRetour(Membre customer, ViewModels.GestionCommandes.LivreCommandeVM livreCommande, string logoUrl)
     {
         var myURL = _httpContextAccessor.HttpContext.Request.Host.Value; //_httpContextAccessor.Request.Host.Value;
         var BASE_URL_RAZOR = Url.Content("~");

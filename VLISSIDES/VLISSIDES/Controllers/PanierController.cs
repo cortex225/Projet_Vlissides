@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using VLISSIDES.Data;
 using VLISSIDES.Models;
 using VLISSIDES.ViewModels.Panier;
@@ -91,7 +91,7 @@ public class PanierController : Controller
             }
         panier.CustomerStripeId = _context.Membres.Where(m => m.Id == currentUserId).FirstOrDefault()?.StripeCustomerId;
 
-        await NbArticles();
+        await NombreArticles();
 
         // Retourner la vue avec le ViewModel du panier
         return View(panier);
@@ -284,14 +284,14 @@ public class PanierController : Controller
         }
 
         //Set le nombre d'articles dans le panier
-        await NbArticles();
+        await NombreArticles();
 
         return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
     }
 
     //Pour montrer la partial view de confirmation de suppression
     [HttpGet]
-    public async Task<IActionResult> ShowDeleteConfirmation(string id)
+    public async Task<IActionResult> MontrerSupprimerConfirmation(string id)
     {
         if (id == null) return NotFound();
 
@@ -305,7 +305,7 @@ public class PanierController : Controller
         };
 
 
-        return PartialView("PartialViews/Modals/Panier/_DeletePanierConfirmation", vm);
+        return PartialView("PartialViews/Modals/Panier/_SupprimerPanierConfirmation", vm);
     }
 
 
@@ -333,7 +333,7 @@ public class PanierController : Controller
             utilisateur.DerniereUtilisationPromoAnniversaire.Value.Year == DateTime.Now.Year &&
             promotion.CodePromo == "BIRTHDAY")
             return Json(new
-                { success = false, message = "Vous avez déjà utilisé ce code promo cette année." });
+            { success = false, message = "Vous avez déjà utilisé ce code promo cette année." });
 
 
 
@@ -400,7 +400,7 @@ public class PanierController : Controller
         await _context.SaveChangesAsync();
 
         return Json(new
-            { success = true, nouveauTotal = prixTotal, isValid = true, message = "Code promo appliqué avec succès." });
+        { success = true, nouveauTotal = prixTotal, isValid = true, message = "Code promo appliqué avec succès." });
     }
 
     //Annuler la promotion
@@ -520,7 +520,7 @@ public class PanierController : Controller
     }
 
     [HttpGet]
-    public async Task<int> NbArticles()
+    public async Task<int> NombreArticles()
     {
         var currentUserId = _userManager.GetUserId(HttpContext.User);
         var nbArticles = await _context.LivrePanier

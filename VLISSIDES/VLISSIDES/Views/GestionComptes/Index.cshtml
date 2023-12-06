@@ -62,7 +62,7 @@
 <script>
     
     function showMembres() {
-        fetch(BASE_URL + "/GestionComptes/ShowMembres", {
+        fetch(BASE_URL + "/GestionComptes/MontrerMembres", {
             method: "GET"
         }).then(response => {
             return response.text();
@@ -71,7 +71,7 @@
         });
     }
     function showEmployes() {
-        fetch(BASE_URL + "/GestionComptes/ShowEmployes", {
+        fetch(BASE_URL + "/GestionComptes/MontrerEmployes", {
             method: "GET"
         }).then(response => {
             return response.text();
@@ -80,7 +80,7 @@
         });
     }
     function showAdmins() {
-        fetch(BASE_URL + "/GestionComptes/ShowAdmins", {
+        fetch(BASE_URL + "/GestionComptes/MontrerAdmins", {
             method: "GET"
         }).then(response => {
             return response.text();
@@ -93,7 +93,7 @@
 <script>
     
     function RechercherMembre(){
-        fetch(BASE_URL + "/GestionComptes/ShowMembres?motCle=" + document.getElementById("inputRechercherMembre").value,{
+        fetch(BASE_URL + "/GestionComptes/MontrerMembres?motCle=" + document.getElementById("inputRechercherMembre").value, {
             method:"GET"
         }).then(response => {
                 return response.text();
@@ -214,7 +214,7 @@
 <script>
     function BanMembre(id = "") {
 
-        fetch(BASE_URL + "/GestionComptes/BanMembre?id=" + id, {
+        fetch(BASE_URL + "/GestionComptes/BanirMembre?id=" + id, {
             method:"POST",
 
         }).then((response) => {

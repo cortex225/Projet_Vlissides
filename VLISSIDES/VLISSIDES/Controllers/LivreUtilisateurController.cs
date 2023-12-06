@@ -70,8 +70,8 @@ public class LivreUtilisateurController : Controller
     }
 
     [HttpPost]
-    [Route("/LivreUtilisateur/SelectLivre")]
-    public async Task<IActionResult> SelectLivre(string? id)
+    [Route("/LivreUtilisateur/ChoisirLivre")]
+    public async Task<IActionResult> ChoisirLivre(string? id)
     {
         return RedirectToAction("/LivreUtilisateur/Index?id=" + id);
     }

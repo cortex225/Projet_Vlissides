@@ -75,19 +75,19 @@ public class PaiementController : Controller
         return View(adresseLivraisonVM);
     }
 
-    public IActionResult Cancel()
+    public IActionResult Annuler()
     {
         return RedirectToAction("Index", "Panier");
     }
 
-    [Route("Paiement/Success")]
-    public IActionResult Success()
+    [Route("Paiement/Succes")]
+    public IActionResult Succes()
     {
         return View();
     }
 
     [HttpPost]
-    public ActionResult CreateCheckoutSession([FromBody] StripePaiementVM model)
+    public ActionResult PaimentSession([FromBody] StripePaiementVM model)
     {
         // Récupère l'identifiant de l'utilisateur connecté
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -220,8 +220,8 @@ public class PaiementController : Controller
             },
 
 
-            SuccessUrl = Url.Action("Success", "Paiement", null, Request.Scheme),
-            CancelUrl = Url.Action("Cancel", "Paiement", null, Request.Scheme)
+            SuccessUrl = Url.Action("Succes", "Paiement", null, Request.Scheme),
+            CancelUrl = Url.Action("Annuler", "Paiement", null, Request.Scheme)
         };
 
 

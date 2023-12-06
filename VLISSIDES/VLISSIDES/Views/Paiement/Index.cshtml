@@ -216,7 +216,7 @@
                adresseId: adresseId,
                 userId: '@UserManager.GetUserId(User)'
            };
-           fetch('@Url.Action("CreateCheckoutSession", "Paiement")', {
+           fetch('@Url.Action("PaimentSession", "Paiement")', {
                method: 'POST',
                headers: {
                    'Content-Type': 'application/json',

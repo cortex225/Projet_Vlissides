@@ -1,0 +1,102 @@
+@model ConnecterVM
+@inject SignInManager<ApplicationUser> signInManager
+@{
+    var schemes = await signInManager.GetExternalAuthenticationSchemesAsync();
+    var loginProivders = schemes.ToList();
+}
+@{
+    ViewData["Title"] = "Connection";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <partial name="PartialViews/_HeadPartial"/>
+    <link href="~/assets/css/Register.css" rel="stylesheet"/>
+
+</head>
+
+<body class="">
+
+<main class="main-content  mt-0">
+    <section>
+        <div class="page-header min-vh-100">
+            <div class="container-fluid">
+                <div class="row g-0">
+                    <div class="col-lg-6 d-none d-lg-block">
+                        <img class="bg-image my-lg-3" src="~/img/bg_Register.jpeg">
+                        <!-- Contenu de l'image ici -->
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <div class="d-flex flex-column justify-content-center h-100 py-2">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 col-md-10 col-sm-12">
+                                    <div class="card shadow border-0">
+                                        <div class="card-body">
+                                            <div class="row justify-content-start mb-1">
+                                                <a asp-controller="Accueil" asp-action="Index">
+                                                    <i class="fa-solid fa-house fa-xl"></i>
+                                                </a>
+                                            </div>
+                                            <div class="row justify-content-center mb-4">
+                                                <img class="logo" src="~/img/Logo/Logo_sans_fond.png" style="width: 15em" alt="Logo ">
+                                            </div>
+                                            <div class="mb-3 text-center">
+                                                <h4>Se Connecter</h4>
+                                                <p class="mb-0">Saisissez les informations ci-dessous</p>
+                                            </div>
+                                            @Html.AntiForgeryToken()
+                                            <!--<div asp-validation-summary="All" class="text-danger"></div>-->
+                                            <form asp-controller="Compte" asp-action="Connecter" asp-ajax="true" method="post" role="form">
+                                                    <partial name="PartialViews/_ConnectionForm" />
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<style>
+        .bg-image {
+            width: 100%;
+            height: 95vh;
+            background: no-repeat center center/cover;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            margin-left: 1em;
+            padding: 0px;
+        }
+
+        .logo {
+            width: 360px;
+            height: auto;
+        }
+
+        .card {
+            border-radius: auto;
+        }
+    </style>
+
+
+<script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+            //Ici on gère l'affichage du champ companyName en fonction de la sélection de l'utilisateur
+    </script>
+
+</body>
+
+</html>

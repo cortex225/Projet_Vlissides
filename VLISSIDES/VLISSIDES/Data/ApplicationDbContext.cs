@@ -125,7 +125,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         #region Livre Commandé
 
-        // Configuration de la relation entre Livre et Commande et la table de liaison LivreCommande
+        // Configuration de la relation entre Livre et CommandeId et la table de liaison LivreCommande
         builder.Entity<LivreCommande>()
             .HasKey(lc => new { lc.LivreId, lc.CommandeId });
 

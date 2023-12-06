@@ -63,22 +63,7 @@ namespace VLISSIDES.Controllers
                 List<EvenementsVM> mesEvenements = new List<EvenementsVM>();
                 foreach (var reservation in reservations)
                 {
-                    mesEvenements.Add(new EvenementsVM()
-                    {
-                        Id = reservation.Evenement.Id,
-                        Nom = reservation.Evenement.Nom,
-                        Description = reservation.Evenement.Description,
-                        DateDebut = reservation.Evenement.DateDebut,
-                        DateFin = reservation.Evenement.DateFin,
-                        Image = reservation.Evenement.Image,
-                        Lieu = reservation.Evenement.Lieu,
-                        NbPlaces = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlaces.ToString() + "/" + reservation.Evenement.NbPlaces.ToString() : (reservation.Evenement.NbPlaces -
-                            reservation.Evenement.Reservations.Select(rq => rq.Quantite).Sum()).ToString() + "/" + reservation.Evenement.NbPlaces.ToString(),
-                        NbPlacesMembre = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlacesMembre.ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString() : (reservation.Evenement.NbPlacesMembre - reservation.Evenement.Reservations.Select(rq => rq.Quantite).Sum()).ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString(),
-                        Prix = reservation.Evenement.Prix,
-                        EstEnDemandeAnnuler = (bool)reservation.EnDemandeAnnuler!,
-                        Reservation = _context.Reservations.FirstOrDefault(r => r.EvenementId == reservation.EvenementId && r.MembreId == userId)
-                    });
+                    mesEvenements.Add(new EvenementsVM(reservation));
                 }
                 vm.MesEvenements = mesEvenements;
 
@@ -89,7 +74,7 @@ namespace VLISSIDES.Controllers
 
                 vm.Evenements = _context.Evenements.Include(e => e.Reservations).ThenInclude(r => r.Membre).ToList()
                     .Where(e => e.Reservations.Where(r => r.MembreId == userId) != null)
-                    .Select(e => new EvenementsVM
+                    .Select(e => new EvenementsVM(e)
                     {
                         Id = e.Id,
                         Nom = e.Nom,
@@ -99,7 +84,7 @@ namespace VLISSIDES.Controllers
                         Image = e.Image,
                         Lieu = e.Lieu,
                         NbPlaces = e.Reservations == null ? e.NbPlaces.ToString() + "/" + e.NbPlaces.ToString() : (e.NbPlaces - e.Reservations.Count).ToString() + "/" + e.NbPlaces.ToString(),
-                        NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Select(rq=> rq.Quantite).Sum()).ToString() + "/" + e.NbPlacesMembre.ToString(),
+                        NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Select(rq => rq.Quantite).Sum()).ToString() + "/" + e.NbPlacesMembre.ToString(),
                         Prix = e.Prix,
                         EstEnDemandeAnnuler = false
                     }).OrderBy(e => e.DateDebut).ToList();
@@ -107,7 +92,7 @@ namespace VLISSIDES.Controllers
             }
             else
             {
-                vm.Evenements = _context.Evenements.Include(e => e.Reservations).Select(e => new EvenementsVM
+                vm.Evenements = _context.Evenements.Include(e => e.Reservations).Select(e => new EvenementsVM(e)
                 {
                     Id = e.Id,
                     Nom = e.Nom,
@@ -125,11 +110,11 @@ namespace VLISSIDES.Controllers
 
             return View(vm);
         }
-        public IActionResult Cancel() => RedirectToAction("Index", "Evenements");
-        [Route("Evenements/Success")]
-        public IActionResult Success() => View();
-        public IActionResult SuccessAnnuler() => View();
-        public IActionResult SuccessDemandeAnnuler() => View();
+        public IActionResult Annuler() => RedirectToAction("Index", "Evenements");
+        [Route("Evenements/Succes")]
+        public IActionResult Succes() => View();
+        public IActionResult SuccesAnnuler() => View();
+        public IActionResult SuccesDemandeAnnuler() => View();
         [HttpPost]
         public async Task<IActionResult> AnnulerEvenement(string id)
         {
@@ -142,7 +127,7 @@ namespace VLISSIDES.Controllers
                 {
                     _context.Remove(reservation);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("SuccessAnnuler", "Evenements");
+                    return RedirectToAction("SuccesAnnuler", "Evenements");
                 }
                 else
                 {
@@ -152,23 +137,23 @@ namespace VLISSIDES.Controllers
                     var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
                     //Nom de l'utilisateur
                     var username = _context.Users.FirstOrDefault(u => u.Id == userId).UserName;
-                    await SendConfirmationEmailAdminAnnuler(username, reservation, logoUrl);
-                    return RedirectToAction("SuccessDemandeAnnuler", "Evenements");
+                    await EnvoyeConfirmationAnnulerAAdmin(username, reservation, logoUrl);
+                    return RedirectToAction("SuccesDemandeAnnuler", "Evenements");
                 }
             }
             return NotFound();
         }
-        private async Task SendConfirmationEmailAdminAnnuler(string? username, Reservation reservation, string logoUrl)
+        private async Task EnvoyeConfirmationAnnulerAAdmin(string? username, Reservation reservation, string logoUrl)
         {
             var subject = "Demande d'annulation de reservation";
 
             // Construire le corps du courriel
-            var body = BuildEmailAdminAnnulerBody(username, reservation, logoUrl);
+            var body = ContruireCourrielConfirmationAnnulerAAdmin(username, reservation, logoUrl);
             var emailAddress = _context.Users.FirstOrDefault(u => u.Id == "0").Email;
             // Envoyer le courriel avec la facture en pièce jointe
             await _sendGridEmail.SendEmailAsync(emailAddress, subject, body);
         }
-        private string BuildEmailAdminAnnulerBody(string username, Reservation reservation, string logoUrl)
+        private string ContruireCourrielConfirmationAnnulerAAdmin(string username, Reservation reservation, string logoUrl)
         {
             var body = new StringBuilder();
             body.Append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>");
@@ -205,7 +190,7 @@ namespace VLISSIDES.Controllers
             return body.ToString();
         }
         [HttpPost]
-        public ActionResult CreateCheckoutSessionEvenement(string id, int quantite)
+        public ActionResult SessionDePaiment(string id, int quantite)
         {
             // Récupère l'identifiant de l'utilisateur connecté
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -271,8 +256,8 @@ namespace VLISSIDES.Controllers
                     Enabled = false
                 },
 
-                SuccessUrl = Url.Action("Success", "Evenements", null, Request.Scheme),
-                CancelUrl = Url.Action("Cancel", "Evenements", null, Request.Scheme),
+                SuccessUrl = Url.Action("Succes", "Evenements", null, Request.Scheme),
+                CancelUrl = Url.Action("Annuler", "Evenements", null, Request.Scheme),
             };
 
             var service = new SessionService();

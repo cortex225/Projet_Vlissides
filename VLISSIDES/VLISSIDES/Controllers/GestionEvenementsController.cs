@@ -156,7 +156,7 @@ namespace VLISSIDES.Controllers
             }
             return PartialView("PartialViews/Modals/Evenements/_ModifierEvenementsPartial", vm);
         }
-        public async Task<IActionResult> ShowSupprimerEvenement(string id)
+        public async Task<IActionResult> MontrerSupprimerEvenement(string id)
         {
             var evenement = await _context.Evenements.FindAsync(id);
             if (evenement == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
@@ -164,7 +164,7 @@ namespace VLISSIDES.Controllers
                 new GestionEvenementSupprimerVM(evenement));
         }
 
-        public async Task<IActionResult> ShowConfirmerDemande(string id)
+        public async Task<IActionResult> MontrerConfirmerDemande(string id)
         {
             var reservation = await _context.Reservations.SingleOrDefaultAsync(e => e.Id == id);
             if (reservation == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
@@ -187,10 +187,10 @@ namespace VLISSIDES.Controllers
             var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
             //Nom utilisateur du membre
             var username = reservation.Membre.UserName;
-            await SendConfirmationEmailMembreConfirmed(username, reservation, logoUrl);
+            await CourrielConfirmationMembreConfirme(username, reservation, logoUrl);
             return Ok();
         }
-        public async Task<IActionResult> ShowAnnulerDemande(string id)
+        public async Task<IActionResult> MontrerAnnulerDemande(string id)
         {
             if (await _context.Evenements.FindAsync(id) == null) return NotFound("L'évènement à l'identifiant " + id + " n'a pas été trouvé.");
 
@@ -213,7 +213,7 @@ namespace VLISSIDES.Controllers
             var logoUrl = Url.Content("http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png");
             //Nom utilisateur du membre
             var username = reservation.Membre.UserName;
-            await SendConfirmationEmailMembreCancelled(username, reservation, logoUrl);
+            await CourrielConfirmationMembreAnnule(username, reservation, logoUrl);
             return Ok();
         }
         [HttpDelete]
@@ -226,18 +226,18 @@ namespace VLISSIDES.Controllers
             _context.SaveChanges();
             return Ok();
         }
-        private async Task SendConfirmationEmailMembreConfirmed(string? username, Reservation reservation, string logoUrl)
+        private async Task CourrielConfirmationMembreConfirme(string? username, Reservation reservation, string logoUrl)
         {
             var subject = "Demande d'annulation de réservation";
 
             // Construire le corps du courriel
-            var body = BuildConfirmationEmailMembreConfirmedBody(username, reservation, logoUrl);
+            var body = ConstruireCourrielConfirmationMembreConfirme(username, reservation, logoUrl);
 
             var emailAddress = _context.Users.FirstOrDefault(u => u.Id == reservation.MembreId).Email;
             // Envoyer le courriel avec la facture en pièce jointe
             await _sendGridEmail.SendEmailAsync(emailAddress, subject, body);
         }
-        private string BuildConfirmationEmailMembreConfirmedBody(string username, Reservation reservation, string logoUrl)
+        private string ConstruireCourrielConfirmationMembreConfirme(string username, Reservation reservation, string logoUrl)
         {
             var body = new StringBuilder();
 
@@ -279,18 +279,18 @@ namespace VLISSIDES.Controllers
             return body.ToString();
 
         }
-        private async Task SendConfirmationEmailMembreCancelled(string? username, Reservation reservation, string logoUrl)
+        private async Task CourrielConfirmationMembreAnnule(string? username, Reservation reservation, string logoUrl)
         {
             var subject = "Demande d'annulation de reservation";
 
             // Construire le corps du courriel
-            var body = BuildConfirmationEmailMembreCancelledBody(username, reservation, logoUrl);
+            var body = ConstruireCourrielldConfirmationMembreAnnule(username, reservation, logoUrl);
 
             var emailAddress = _context.Users.FirstOrDefault(u => u.Id == reservation.MembreId).Email;
             // Envoyer le courriel avec la facture en pièce jointe
             await _sendGridEmail.SendEmailAsync(emailAddress, subject, body);
         }
-        private string BuildConfirmationEmailMembreCancelledBody(string username, Reservation reservation, string logoUrl)
+        private string ConstruireCourrielldConfirmationMembreAnnule(string username, Reservation reservation, string logoUrl)
         {
             var body = new StringBuilder();
 

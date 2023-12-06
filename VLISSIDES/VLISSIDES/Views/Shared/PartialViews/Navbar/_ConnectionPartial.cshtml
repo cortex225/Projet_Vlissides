@@ -1,0 +1,70 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var nbArticles = Context.Session.GetInt32("NombreArticles") ?? 0;
+}
+
+@*
+    Cette vue partielle sert à afficher les liens pour se connecter.
+
+    Il y a un if qui détermine si l'utilisateur est connecté
+
+    Si connecté:
+        Un message de bienvenue disant "Hello [NOM UTILISATEUR]"
+        Un lien pour se déconnecter
+
+    Si non connecté:
+        Un lien pour se connecter
+        Un lien pour s'inscrire
+*@
+
+<ul class="navbar-nav login-partial">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <!-- Utilisateur Connecté : Affichage du compte utilisateur et option de déconnexion -->
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="index" data-toggle="tooltip" data-placement="left" title="Profil">
+                <i class="fas fa-user"></i> <span class="login-text">Salut @UserManager.GetUserAsync(User).Result.UserName.Split("@")[0]👋</span>
+            </a>
+        </li>
+        <!--
+        Gérer panier
+        -->
+        @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index" data-toggle="tooltip"  data-placement="left" title="Consulter le panier">
+                    <span class="login-text">
+                        Consulter le panier
+                    </span>
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="badge badge-panier  " id="nbArticles"></span>
+                </a>
+            </li>
+        }
+
+        <li class="nav-item">
+            <form asp-area="" asp-controller="Compte" asp-action="Deconnecter" method="post">
+                <button type="submit" class="nav-link btn stylish-button" data-toggle="tooltip" data-placement="left" title="Se Déconnecter">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="login-text">Se Déconnecter</span>
+                </button>
+            </form>
+        </li>
+    }
+
+    else
+    {
+        <!-- Utilisateur Non Connecté : Options de connexion et d'inscription -->
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-controller="Compte" asp-action="Connecter" data-toggle="tooltip" data-placement="left" title="Se connecter">
+                <i class="fas fa-sign-in-alt"></i> <span class="login-text">Se connecter</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Enregistrer" data-toggle="tooltip" data-placement="left" title="S'inscrire">
+                <i class="fas fa-user-plus"></i> <span class="login-text">S'inscrire</span>
+            </a>
+        </li>
+    }
+
+</ul>

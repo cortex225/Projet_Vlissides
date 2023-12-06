@@ -14,8 +14,6 @@
 <div class="container-fluid">
     @if (User.Identity.IsAuthenticated)
     {
-        @if (Model.MesEvenements != null)
-        {
             @if (Model.MesEvenements.Count != 0)
             {
                 <h1>Mes événements</h1>
@@ -24,14 +22,13 @@
                         @foreach (var item in Model.MesEvenements)
                         {
                             <div style="width:40%; ">
-                                <partial name="PartialViews/Evenements/_EvenementReservedCardPartial" model="@item"/>
+                                <partial name="PartialViews/Evenements/_EvenementReserveCartePartial" model="@item" />
                             </div>
                         }
                     </div>
 
                 </div>
             }
-        }
     }
 
     <h1>Les événements</h1>
@@ -45,7 +42,7 @@
                 else
                 {
                     <div style="width:40%; ">
-                        <partial name="PartialViews/Evenements/_EvenementCardPartial" model="item"/>
+                        <partial name="PartialViews/Evenements/_EvenementCartePartial" model="item"/>
                     </div>
                 }
             }

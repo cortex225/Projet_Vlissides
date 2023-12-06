@@ -52,21 +52,21 @@ namespace VLISSIDES.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "13296ef8-da74-4d00-8b11-fdddf98348b2",
+                            ConcurrencyStamp = "f49c29b5-4efd-47f1-9bbe-16c7d1f8eed7",
                             Name = "Employe",
                             NormalizedName = "EMPLOYE"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "accb2fd9-39dc-4f84-ab3b-499dbec92037",
+                            ConcurrencyStamp = "25bacb3b-1022-4bef-9b1f-03ff483b2d7f",
                             Name = "Membre",
                             NormalizedName = "MEMBRE"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "11aba193-6067-475a-be4a-08035a22d78e",
+                            ConcurrencyStamp = "8f08a851-1d74-49cd-b776-0693f3fe26fd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -175,36 +175,6 @@ namespace VLISSIDES.Migrations
                         {
                             UserId = "0",
                             RoleId = "2"
-                        },
-                        new
-                        {
-                            UserId = "92161059-8ae9-42eb-953e-17df93e25484",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            UserId = "4e62b674-1202-407d-b014-28c069b271ff",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            UserId = "5e356b43-70cd-47c1-83ea-a9e7cea94aeb",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            UserId = "ed674c44-baf5-4a16-8573-33459ac1b1b1",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            UserId = "824dab2a-fa73-4f0a-873a-d9d4e8890537",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            UserId = "8f8ee25b-1f6e-4673-ba69-35470d80b471",
-                            RoleId = "1"
                         });
                 });
 
@@ -376,20 +346,20 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2eb68eda-8b65-4098-ad83-3ecccb0c956e",
-                            Email = "Admin@LaFourmiAilee.com",
+                            ConcurrencyStamp = "ab191d18-45d5-4691-9091-e8f5e91baf4c",
+                            Email = "admin@admin.com",
                             EmailConfirmed = true,
                             IsBanned = false,
                             LockoutEnabled = false,
                             Nom = "ADMIN",
-                            NormalizedEmail = "ADMIN@LAFOURMIAILEE.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOXi3zx88svzJnjrrgIjWezeAP5AV6xLWjbOy+BXluDVgDmMl8898EdbaPXwpHW/eA==",
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Admin",
-                            SecurityStamp = "e25c5014-3f23-4630-9e5d-c8c5af49b04c",
+                            SecurityStamp = "98f7b8a0-f1bf-4250-957c-57f04a661bf8",
                             TwoFactorEnabled = false,
-                            UserName = "Admin"
+                            UserName = "admin@admin.com"
                         });
                 });
 
@@ -1190,8 +1160,8 @@ namespace VLISSIDES.Migrations
                         {
                             Id = "0",
                             CodePromo = "BIRTHDAY",
-                            DateDebut = new DateTime(2023, 12, 4, 10, 54, 10, 878, DateTimeKind.Local).AddTicks(6131),
-                            DateFin = new DateTime(2024, 12, 4, 10, 54, 10, 878, DateTimeKind.Local).AddTicks(6148),
+                            DateDebut = new DateTime(2023, 12, 6, 8, 11, 28, 372, DateTimeKind.Local).AddTicks(838),
+                            DateFin = new DateTime(2024, 12, 6, 8, 11, 28, 372, DateTimeKind.Local).AddTicks(868),
                             Description = "Ce code promo est uniquement valide durant votre mois d'anniversaire.",
                             Image = "/img/images_Promo/birthday.jpg",
                             Nom = "Promotion Anniversaire",
@@ -1326,7 +1296,7 @@ namespace VLISSIDES.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "38d51f1f-b06f-4027-8255-0b2826497bc7",
+                            ConcurrencyStamp = "0b9bb05b-6afe-4f47-af3b-9bbd222f92de",
                             Email = "employe@employe.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -1337,7 +1307,7 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Employe",
-                            SecurityStamp = "55478378-2981-4952-85cc-f32ecbf053a2",
+                            SecurityStamp = "bbc65a47-252d-4023-b4fe-da08844b57ce",
                             TwoFactorEnabled = false,
                             UserName = "employe@employe.com",
                             NoEmploye = "007"
@@ -1372,7 +1342,7 @@ namespace VLISSIDES.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             AdressePrincipaleId = "",
-                            ConcurrencyStamp = "541107a0-2591-43e0-8889-421a226b66f6",
+                            ConcurrencyStamp = "1dbbe8b1-8830-4495-b4d8-409e937cc2d8",
                             Email = "membre@membre.com",
                             EmailConfirmed = true,
                             IsBanned = false,
@@ -1383,143 +1353,11 @@ namespace VLISSIDES.Migrations
                             PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
                             PhoneNumberConfirmed = false,
                             Prenom = "Membre",
-                            SecurityStamp = "26ee9ec9-6e2f-47df-85fd-4df6ecee7e5c",
+                            SecurityStamp = "d901b3de-64e1-4045-8ba0-662478696265",
                             TwoFactorEnabled = false,
                             UserName = "membre@membre.com",
-                            DateAdhesion = new DateTime(2023, 12, 4, 10, 54, 10, 858, DateTimeKind.Local).AddTicks(3090),
+                            DateAdhesion = new DateTime(2023, 12, 6, 8, 11, 28, 369, DateTimeKind.Local).AddTicks(8318),
                             NoMembre = "123456"
-                        },
-                        new
-                        {
-                            Id = "92161059-8ae9-42eb-953e-17df93e25484",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "95e5de4e-b799-4a51-bf37-22d39a432f5c",
-                            DateNaissance = new DateTime(2001, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "MGosselin@gmail.com",
-                            EmailConfirmed = true,
-                            IsBanned = false,
-                            LockoutEnabled = false,
-                            Nom = "Gosselin",
-                            NormalizedEmail = "MGOSSELIN@GMAIL.COM",
-                            NormalizedUserName = "MGOSSELIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM80gjmoEciwE+JxzHnEHRtwNdumPHncQym35IccCyFMcGU1fH5mWKp5e1KNXzU9hA==",
-                            PhoneNumberConfirmed = false,
-                            Prenom = "Marcel",
-                            SecurityStamp = "4cacdd04-a591-4d43-b24f-a9d2cf6acfeb",
-                            TwoFactorEnabled = false,
-                            UserName = "MGosselin@gmail.com",
-                            DateAdhesion = new DateTime(2023, 12, 4, 10, 54, 10, 858, DateTimeKind.Local).AddTicks(3158),
-                            NoMembre = "2969adbd-1832-46eb-a6cd-5e37780ec2a3"
-                        },
-                        new
-                        {
-                            Id = "4e62b674-1202-407d-b014-28c069b271ff",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "00d2318b-5e00-4ae2-bcbc-131126e797f4",
-                            DateNaissance = new DateTime(1993, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "SFallu@gmail.com",
-                            EmailConfirmed = true,
-                            IsBanned = false,
-                            LockoutEnabled = false,
-                            Nom = "Fallu",
-                            NormalizedEmail = "SFALLU@GMAIL.COM",
-                            NormalizedUserName = "SFALLU@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBGC1jP/z0J0iiEI+ds/PoRkUl20/b0XJs8uux470lTL+TCIBEmGbRenPAMEkXrCNQ==",
-                            PhoneNumberConfirmed = false,
-                            Prenom = "Stephane",
-                            SecurityStamp = "b656234e-6e65-4fae-92d0-fbef3010a1db",
-                            TwoFactorEnabled = false,
-                            UserName = "SFallu@gmail.com",
-                            DateAdhesion = new DateTime(2023, 12, 4, 10, 54, 10, 864, DateTimeKind.Local).AddTicks(2674),
-                            NoMembre = "4d845512-fdc4-4e1e-82e5-cd07b4077058"
-                        },
-                        new
-                        {
-                            Id = "5e356b43-70cd-47c1-83ea-a9e7cea94aeb",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "ea7ecefc-ae31-4300-86c8-73fb0378949e",
-                            DateNaissance = new DateTime(2002, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "SDemers@gmail.com",
-                            EmailConfirmed = true,
-                            IsBanned = false,
-                            LockoutEnabled = false,
-                            Nom = "Demers",
-                            NormalizedEmail = "SDEMERS@GMAIL.COM",
-                            NormalizedUserName = "SDEMERS@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN+pbHM3azfRvDM0JZ3oO0c3TNJWbuNacr+gwq1z96TwYGbwjmWPb3v5jWZ2APQacQ==",
-                            PhoneNumberConfirmed = false,
-                            Prenom = "Sylvie",
-                            SecurityStamp = "63357b51-ebef-4940-bfc1-c4dc3f357793",
-                            TwoFactorEnabled = false,
-                            UserName = "SDemers@gmail.com",
-                            DateAdhesion = new DateTime(2023, 12, 4, 10, 54, 10, 870, DateTimeKind.Local).AddTicks(3055),
-                            NoMembre = "8521678a-c1c9-4597-b761-e9d37811b4c5"
-                        },
-                        new
-                        {
-                            Id = "ed674c44-baf5-4a16-8573-33459ac1b1b1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "e78d139a-d95e-425e-b3de-bb08b4f8804c",
-                            DateNaissance = new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "tonyhuynh0412@gmail.com",
-                            EmailConfirmed = true,
-                            IsBanned = false,
-                            LockoutEnabled = false,
-                            Nom = "Huynh",
-                            NormalizedEmail = "TONYHUYNH0412@GMAIL.COM",
-                            NormalizedUserName = "TONYHUYNH0412@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
-                            PhoneNumberConfirmed = false,
-                            Prenom = "Tony",
-                            SecurityStamp = "d058be5f-4909-4454-a590-4b7cec40a5eb",
-                            TwoFactorEnabled = false,
-                            UserName = "tonyhuynh0412@gmail.com",
-                            DateAdhesion = new DateTime(2023, 12, 4, 10, 54, 10, 876, DateTimeKind.Local).AddTicks(3443),
-                            NoMembre = "1e51277b-d1f5-40a7-82c9-169eecf871ca"
-                        },
-                        new
-                        {
-                            Id = "8f8ee25b-1f6e-4673-ba69-35470d80b471",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9373be73-31d0-4cec-ad9b-4390accc7c19",
-                            DateNaissance = new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "julien.landry1800@gmail.com",
-                            EmailConfirmed = true,
-                            IsBanned = false,
-                            LockoutEnabled = false,
-                            Nom = "Landry",
-                            NormalizedEmail = "JULIEN.LANDRY1800@GMAIL.COM",
-                            NormalizedUserName = "JULIEN.LANDRY1800@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
-                            PhoneNumberConfirmed = false,
-                            Prenom = "Julien",
-                            SecurityStamp = "97d937e1-fb43-4638-be05-495f21e051c6",
-                            TwoFactorEnabled = false,
-                            UserName = "julien.landry1800@gmail.com",
-                            DateAdhesion = new DateTime(2023, 12, 4, 10, 54, 10, 876, DateTimeKind.Local).AddTicks(3497),
-                            NoMembre = "786e73cb-df33-4104-b9bd-8c00148935e6"
-                        },
-                        new
-                        {
-                            Id = "824dab2a-fa73-4f0a-873a-d9d4e8890537",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "7d782401-8be6-4f98-b89c-630e29cb5ea4",
-                            DateNaissance = new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "jlgouaho@gmail.com",
-                            EmailConfirmed = true,
-                            IsBanned = false,
-                            LockoutEnabled = false,
-                            Nom = "JEAN-LUC GOUAHO",
-                            NormalizedEmail = "JLGOUAHO@GMAIL.COM",
-                            NormalizedUserName = "JLGOUAHO@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==",
-                            PhoneNumberConfirmed = false,
-                            Prenom = "Deto",
-                            SecurityStamp = "7dfec992-ae24-4118-bf9b-946a0b6a4b8f",
-                            TwoFactorEnabled = false,
-                            UserName = "jlgouaho@gmail.com",
-                            DateAdhesion = new DateTime(2023, 12, 4, 10, 54, 10, 876, DateTimeKind.Local).AddTicks(3524),
-                            NoMembre = "68604ae5-de64-4583-954d-50590863102c"
                         });
                 });
 
