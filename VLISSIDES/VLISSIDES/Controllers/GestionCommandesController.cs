@@ -275,7 +275,7 @@ public class GestionCommandesController : Controller
     //===================================================================
 
     private async Task CourrielConfirmationAccepterAnnulation(Membre customer, string commandeId,
-        List<LivreCommandeVM> livreCommande, string logoUrl)
+        List<ViewModels.GestionCommandes.LivreCommandeVM> livreCommande, string logoUrl)
     {
         var subject = "Retour de livres";
 
@@ -294,7 +294,7 @@ public class GestionCommandesController : Controller
     }
 
     private async Task CourrielConfirmationRefuserAnnulation(Membre customer, string commandeId,
-        List<LivreCommandeVM> livreCommande, string logoUrl)
+        List<ViewModels.GestionCommandes.LivreCommandeVM> livreCommande, string logoUrl)
     {
         var subject = "Retour de livres";
 
@@ -312,7 +312,7 @@ public class GestionCommandesController : Controller
         //}
     }
 
-    private async Task CourrielConfirmationAccepterRetour(Membre customer, LivreCommandeVM livreCommande,
+    private async Task CourrielConfirmationAccepterRetour(Membre customer, ViewModels.GestionCommandes.LivreCommandeVM livreCommande,
         string logoUrl)
     {
         var subject = "Retour de livres";
@@ -331,7 +331,7 @@ public class GestionCommandesController : Controller
         //}
     }
 
-    private async Task CourrielConfirmationRefuserRetour(Membre customer, LivreCommandeVM livreCommande,
+    private async Task CourrielConfirmationRefuserRetour(Membre customer, ViewModels.GestionCommandes.LivreCommandeVM livreCommande,
         string logoUrl)
     {
         var subject = "Retour de livres";
@@ -355,7 +355,7 @@ public class GestionCommandesController : Controller
     //===================================================================
 
     private string ConstruireCourrielAccepterAnnulation(Membre customer, string commandeId,
-        List<LivreCommandeVM> livreCommande, string logoUrl)
+        List<ViewModels.GestionCommandes.LivreCommandeVM> livreCommande, string logoUrl)
     {
         var body = new StringBuilder();
 
@@ -411,7 +411,7 @@ public class GestionCommandesController : Controller
     }
 
     private string ConstruireCourrielRefuserAnnulation(Membre customer, string commandeId,
-        List<LivreCommandeVM> livreCommande, string logoUrl)
+        List<ViewModels.GestionCommandes.LivreCommandeVM> livreCommande, string logoUrl)
     {
         var body = new StringBuilder();
 
@@ -462,7 +462,7 @@ public class GestionCommandesController : Controller
         return body.ToString();
     }
 
-    private string ConstruireCourrielAccepterRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+    private string ConstruireCourrielAccepterRetour(Membre customer, ViewModels.GestionCommandes.LivreCommandeVM livreCommande, string logoUrl)
     {
         var myURL = _httpContextAccessor.HttpContext.Request.Host.Value; //_httpContextAccessor.Request.Host.Value;
         var BASE_URL_RAZOR = Url.Content("~");
@@ -519,7 +519,7 @@ public class GestionCommandesController : Controller
         return body.ToString();
     }
 
-    private string ConstruireCourrielRefuserRetour(Membre customer, LivreCommandeVM livreCommande, string logoUrl)
+    private string ConstruireCourrielRefuserRetour(Membre customer, ViewModels.GestionCommandes.LivreCommandeVM livreCommande, string logoUrl)
     {
         var myURL = _httpContextAccessor.HttpContext.Request.Host.Value; //_httpContextAccessor.Request.Host.Value;
         var BASE_URL_RAZOR = Url.Content("~");

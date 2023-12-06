@@ -27,7 +27,7 @@
                         </button>
                         <!--Fin : Modifier nom d'une maison d'édition-->
                         <!--Bouton supprimer ici-->
-                        <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("MontrerConfirmationSuppression", "GestionAuteurs", new { id = auteur.Id })')">
+                        <button type="button" class="btn btn-danger p-2" onclick="ShowModal('@Url.Action("MontrerSupprimerConfirmation", "GestionAuteurs", new { id = auteur.Id })')">
                             <span class="fa-solid fa-trash fa-2x"></span>
                         </button>
                     </div>

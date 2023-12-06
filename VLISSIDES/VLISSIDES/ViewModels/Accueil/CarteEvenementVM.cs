@@ -5,7 +5,7 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Accueil;
 
-public class EventCardVM
+public class CarteEvenementVM
 {
     [DisplayName("Identifiant")] public string Id { get; set; }
 
@@ -32,7 +32,7 @@ public class EventCardVM
     [DisplayName("Nombre de place réservées")] public int NbPlacesReservees { get; set; }
 
 
-    public EventCardVM(Evenement evenement)
+    public CarteEvenementVM(Evenement evenement)
     {
         evenement = evenement ?? new();
         Id = evenement.Id;

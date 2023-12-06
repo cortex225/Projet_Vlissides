@@ -63,22 +63,7 @@ namespace VLISSIDES.Controllers
                 List<EvenementsVM> mesEvenements = new List<EvenementsVM>();
                 foreach (var reservation in reservations)
                 {
-                    mesEvenements.Add(new EvenementsVM()
-                    {
-                        Id = reservation.Evenement.Id,
-                        Nom = reservation.Evenement.Nom,
-                        Description = reservation.Evenement.Description,
-                        DateDebut = reservation.Evenement.DateDebut,
-                        DateFin = reservation.Evenement.DateFin,
-                        Image = reservation.Evenement.Image,
-                        Lieu = reservation.Evenement.Lieu,
-                        NbPlaces = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlaces.ToString() + "/" + reservation.Evenement.NbPlaces.ToString() : (reservation.Evenement.NbPlaces -
-                            reservation.Evenement.Reservations.Select(rq => rq.Quantite).Sum()).ToString() + "/" + reservation.Evenement.NbPlaces.ToString(),
-                        NbPlacesMembre = reservation.Evenement.Reservations == null ? reservation.Evenement.NbPlacesMembre.ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString() : (reservation.Evenement.NbPlacesMembre - reservation.Evenement.Reservations.Select(rq => rq.Quantite).Sum()).ToString() + "/" + reservation.Evenement.NbPlacesMembre.ToString(),
-                        Prix = reservation.Evenement.Prix,
-                        EstEnDemandeAnnuler = (bool)reservation.EnDemandeAnnuler!,
-                        Reservation = _context.Reservations.FirstOrDefault(r => r.EvenementId == reservation.EvenementId && r.MembreId == userId)
-                    });
+                    mesEvenements.Add(new EvenementsVM(reservation));
                 }
                 vm.MesEvenements = mesEvenements;
 
@@ -89,7 +74,7 @@ namespace VLISSIDES.Controllers
 
                 vm.Evenements = _context.Evenements.Include(e => e.Reservations).ThenInclude(r => r.Membre).ToList()
                     .Where(e => e.Reservations.Where(r => r.MembreId == userId) != null)
-                    .Select(e => new EvenementsVM
+                    .Select(e => new EvenementsVM(e)
                     {
                         Id = e.Id,
                         Nom = e.Nom,
@@ -107,7 +92,7 @@ namespace VLISSIDES.Controllers
             }
             else
             {
-                vm.Evenements = _context.Evenements.Include(e => e.Reservations).Select(e => new EvenementsVM
+                vm.Evenements = _context.Evenements.Include(e => e.Reservations).Select(e => new EvenementsVM(e)
                 {
                     Id = e.Id,
                     Nom = e.Nom,

@@ -14,8 +14,6 @@
 <div class="container-fluid">
     @if (User.Identity.IsAuthenticated)
     {
-        @if (Model.MesEvenements != null)
-        {
             @if (Model.MesEvenements.Count != 0)
             {
                 <h1>Mes événements</h1>
@@ -31,7 +29,6 @@
 
                 </div>
             }
-        }
     }
 
     <h1>Les événements</h1>

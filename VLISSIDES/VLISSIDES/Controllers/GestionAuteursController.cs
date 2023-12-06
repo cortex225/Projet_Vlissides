@@ -136,7 +136,7 @@ public class GestionAuteursController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> MontrerConfirmationSuppression(string id)
+    public async Task<IActionResult> MontrerSupprimerConfirmation(string id)
     {
         var auteur = await _context.Auteurs.FindAsync(id);
         if (auteur == null) return NotFound("L'auteur à l'identifiant " + id + " n'a pas été trouvé.");

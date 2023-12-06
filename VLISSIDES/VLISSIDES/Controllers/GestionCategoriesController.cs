@@ -175,7 +175,7 @@ public class GestionCategoriesController : Controller
         return View();
     }
 
-    public async Task<IActionResult> MontrerConfirmationSuppression(string id)
+    public async Task<IActionResult> MontrerSupprimerConfirmation(string id)
     {
         var categorie = await _context.Categories.FindAsync(id);
         if (categorie == null) return NotFound("La catégorie à l'identifiant " + id + " n'a pas été trouvé.");

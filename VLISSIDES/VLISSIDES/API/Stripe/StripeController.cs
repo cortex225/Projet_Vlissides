@@ -404,7 +404,7 @@ public class StripeController : Controller
         body.Append(
             $"<img src='{logoUrl}' alt='Logo' style='max-width: 200px; display: block; margin: 0 auto 20px;'>");
         body.Append(
-            "<h1 style='color: #146ec3; text-align: center; font-size: 28px; margin-bottom: 10px;'>Confirmation de Commande</h1>");
+            "<h1 style='color: #146ec3; text-align: center; font-size: 28px; margin-bottom: 10px;'>Confirmation de CommandeId</h1>");
         body.Append(
             $"<h2 style='color: #333; text-align: center; margin-top: 0;'>Cher(e) {customer.UserName},</h2>");
         body.Append(

@@ -5,7 +5,7 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Accueil;
 
-public class LivreCardVM
+public class CarteLivreVM
 {
 
     [DisplayName("Page couverture")] public string Couverture { get; set; }
@@ -20,7 +20,7 @@ public class LivreCardVM
 
     [DisplayName("Catégories associés")] public List<string> Categories { get; set; }
 
-    public LivreCardVM(Livre livre)
+    public CarteLivreVM(Livre livre)
     {
         livre ??= new();
         livre.Evaluations ??= new List<Evaluation>();
@@ -28,7 +28,7 @@ public class LivreCardVM
         livre.LivreAuteurs ??= new List<LivreAuteur>();
         Couverture = livre.Couverture;
         Titre = livre.Titre;
-        Prix = livre.LivreTypeLivres.First().Prix;
+        Prix = (livre.LivreTypeLivres.FirstOrDefault() ?? new()).Prix;
         Auteurs = livre.LivreAuteurs.Select(a => a.Auteur.NomAuteur).ToList();
         Note = (int)livre.Note;
         Categories = livre.Categories.Select(lc => lc.Categorie.Nom).ToList();

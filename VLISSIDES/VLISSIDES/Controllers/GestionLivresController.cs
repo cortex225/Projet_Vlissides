@@ -689,7 +689,7 @@ public class GestionLivresController : Controller
 
     //Pour montrer la partial view de confirmation de suppression
     [HttpGet]
-    public async Task<IActionResult> MontreSupprimeConfirmation(string id)
+    public async Task<IActionResult> MontrerSupprimerConfirmation(string id)
     {
         if (id == null) return NotFound();
 

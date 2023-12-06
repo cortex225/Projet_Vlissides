@@ -4,7 +4,7 @@ using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Accueil;
 
-public class PromotionCardVM
+public class CartePromotionVM
 {
     [DisplayName("Description")] public string Description { get; set; }
     [DisplayName("Rabais")] public decimal Rabais { get; set; }
@@ -14,7 +14,7 @@ public class PromotionCardVM
     [DisplayName("Date de fin")] public DateTime DateFin { get; set; }
     [DisplayName("Image promotion")] public string Image { get; set; }
 
-    public PromotionCardVM(Promotion promotion)
+    public CartePromotionVM(Promotion promotion)
     {
         Description = promotion.Description;
         Rabais = (decimal)(promotion.PourcentageRabais ?? 0);

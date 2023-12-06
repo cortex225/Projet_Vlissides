@@ -2,7 +2,7 @@
 
 namespace VLISSIDES.ViewModels.Accueil;
 
-public class ServiceCardVM
+public class CarteServiceVM
 {
     [DisplayName("Image")] public string Image { get; set; }
 
@@ -10,7 +10,7 @@ public class ServiceCardVM
 
     [DisplayName("Description")] public string Description { get; set; }
     [DisplayName("Icons")] public string Icones { get; set; }
-    public ServiceCardVM(string image = "", string titre = "", string description = "", string icones = "")
+    public CarteServiceVM(string image = "", string titre = "", string description = "", string icones = "")
     {
         Image = image;
         Titre = titre;

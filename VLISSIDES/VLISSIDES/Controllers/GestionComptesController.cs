@@ -29,7 +29,7 @@ namespace VLISSIDES.Controllers
         }
         public IActionResult Index() => View(_context.Membres.Select(m => new GestionComptesMembreVM(m)).ToList());
         #region Lister les comptes
-        public IActionResult MontrerNembres(string? motCle)
+        public IActionResult MontrerMembres(string? motCle)
         {
             var Membres = _context.Membres.Select(m => new GestionComptesMembreVM(m)).ToList();
             if (motCle != null && motCle != "")
@@ -269,7 +269,7 @@ namespace VLISSIDES.Controllers
             return PartialView("PartialViews/Modals/Comptes/_ModifierCompteEmployePartial", vm);
         }
         #region Confirmation de supprimer
-        public async Task<IActionResult> ShowDeleteConfirmationMembre(string id)
+        public async Task<IActionResult> MontrerSupprimerConfirmationMembre(string id)
         {
             var user = await _context.Membres.FindAsync(id);
             if (user == null) return NotFound("Le membre à l'identifiant " + id + " n'a pas été trouvé.");
@@ -284,14 +284,14 @@ namespace VLISSIDES.Controllers
 
             return PartialView("PartialViews/Modals/Comptes/_SupprimerMembrePartial", vm);
         }
-        public async Task<IActionResult> ShowDeleteConfirmationEmploye(string id)
+        public async Task<IActionResult> MontrerSupprimerConfirmationEmploye(string id)
         {
             var user = await _context.Employes.FindAsync(id);
             if (user == null) return NotFound("L'employe à l'identifiant " + id + " n'a pas été trouvé.");
 
-            return PartialView("PartialViews/Modals/Comptes/_DeleteEmployePartial", new GestionComptesDeleteVM(user));
+            return PartialView("PartialViews/Modals/Comptes/_SupprimerEmployePartial", new GestionComptesDeleteVM(user));
         }
-        public async Task<IActionResult> ShowDeleteConfirmationAdmin(string id)
+        public async Task<IActionResult> MontrerSupprimerConfirmationAdmin(string id)
         {
 
             var user = await _context.Users.FindAsync(id);

@@ -14,7 +14,7 @@
     <div class="row align-items-center my-auto">
         <div class="d-flex justify-content-center w-100 my-2">
 
-            <div class=" stickerIndisponible  badge " style="top: 10px; right: 10px;">Réservé</div>
+            <div class="stickerIndisponible badge" style="top: 10px; right: 10px;">Réservé</div>
         </div>
         <div class="col-md-3 text-center text-md-left">
             @{
@@ -34,12 +34,7 @@
                 {
                     <button class="reserve-btn btn btn-danger " onclick="AnnulerReservation('@Model.Id')" disabled>En attente d'être annulé</button>
                 }
-
-
-
-
             }
-
         </div>
         <div class="col-md-3 text-center text-md-left event-date-time">
             <div class="mb-2 d-flex align-items-center justify-content-center justify-content-md-start rounded-2 p-2 dateEvent">
@@ -52,10 +47,7 @@
                 <i class="fas fa-chair mr-2 mx-2"></i>
                 <p>
                     Nombre de places réservée(s):
-                    @{
-                        System.Diagnostics.Debug.Assert(Model.Reservation != null, "Model.Reservation != null");
-                    }
-                    @Model.Reservation.Quantite
+                    @Model.NbPlacesReservees
                     <br/>
                     Places restantes : @Model.NbPlaces
                 </p>
