@@ -2,18 +2,18 @@
 @{
     var BASE_URL_RAZOR = Url.Content("~");
 }
-<div class="item">
+<div class="item promo-card">
     <div class="event-card shadow-sm bg-white">
         <div class="row align-items-center">
             <!-- Image de l'événement -->
-            <div class="col-md-3">
+            <div class="col-md-3 text-center text-md-left div-event-img">
                 @{
                     var couverture = string.Concat(BASE_URL_RAZOR, Model.Image);
                 }
                 <img src="@Html.Raw(couverture)" alt="Image de l'événement" class="img-fluid rounded">
             </div>
             <!-- Description et bouton -->
-            <div class="col-md-5">
+            <div class="col-md-5 text-center text-md-left div-event-nom">
                 <h2 class="font-weight-bold mb-2">@Model.Description</h2>
                 <p class="text-muted mb-3">Profitez de cette offre exceptionnelle !</p>
                 <a asp-action="Index" asp-controller="Recherche">
@@ -21,7 +21,7 @@
                 </a>
             </div>
             <!-- Date et rabais -->
-            <div class="col-md-4">
+            <div class="col-md-4 text-center text-md-left event-date-time">
                 <div class="date-box mb-3 p-3 rounded">
                     <i class="fas fa-calendar-alt mr-2"></i>
                     Du: <span class="font-weight-bold">@Model.DateDebut.ToString("f")</span>
