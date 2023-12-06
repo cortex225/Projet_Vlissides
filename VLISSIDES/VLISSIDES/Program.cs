@@ -50,6 +50,9 @@ builder.Services.AddControllers()
 //Service qui permet d'envoyer un mail d'anniversaire
 builder.Services.AddHostedService<BirthdayService>();
 
+//Service qui permet d'envoyer un mail de notification de stock
+builder.Services.AddHostedService<NotificationStockService>();
+
 
 var app = builder.Build();
 

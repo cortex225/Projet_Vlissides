@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Email d'anniversaire</title>
-
-    <!--   Le template pour les email doit avoir absolument le css dans le head de cette façon-->
-
+    <title>Livre Disponible</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -40,21 +37,21 @@
 
         .email-content h1 {
             color: #333333;
+            margin-bottom: 10px;
         }
 
         .email-content p {
             color: #666666;
             line-height: 1.5;
+            font-size: 16px;
         }
 
-        .promo-code {
-            margin: 20px 0;
-            padding: 10px;
-            background-color: #D0E3FFFF;
-            color: #146ec3;
+        .book-title {
+            color: #386bc0;
             font-weight: bold;
-            border-radius: 5px;
-            display: inline-block;
+            font-size: 18px;
+            margin-top: 10px;
+            margin-bottom: 15px;
         }
 
         .footer {
@@ -65,24 +62,23 @@
         }
     </style>
 </head>
-
 <body>
 <div class="email-container">
     <div class="header">
-        <h2>Joyeux Anniversaire, {{UserName}}! 🥳</h2>
+        <h2>Bonne Nouvelle, {{UserName}} ! 📚</h2>
     </div>
     <img alt='Logo Fourmie Aillée' src='http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png'
          style='width:250px;height:auto; display: block; margin: 10px auto;'>
     <div class="email-content">
-        <h1>🎉 C'est le temps de célébrer! 🎉</h1>
-        <p>Nous espérons que votre journée est remplie de joie et de rires. Pour rendre cette journée encore plus
-            spéciale, nous vous offrons un code promo exclusif pour votre prochain achat.</p>
-        <div class="promo-code">BIRTHDAY</div>
-        <p>Utilisez ce code lors de votre prochaine commande et profitez d'une réduction spéciale. Merci de faire partie
+        <h1>Le livre que vous attendiez est de retour en stock!</h1>
+        <p>Nous sommes heureux de vous informer que le livre</p>
+        <p class="book-title">"{{TitreLivre}}"</p>
+        <p>est maintenant disponible. Ne manquez pas votre chance de l'obtenir!</p>
+        <p>Vous pouvez le commander dès maintenant en visitant notre site web. Merci de faire partie
             de notre communauté!</p>
     </div>
     <div class="footer">
-        <p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+        <p>Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter. </p>
         <p>La Fourmie Aillée - Tous droits réservés</p>
     </div>
 </div>

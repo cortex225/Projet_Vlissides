@@ -128,7 +128,7 @@
                             En rupture de stock
                         </p>
                         //boutton pour envoyer un courriel lorsque le livre est de retour en stock
-                        <a class="btn btn-primary ">
+                        <a class="btn btn-primary " id="demanderNotification" data-livre-id="@Model.Id">
                             <i class="fa-solid fa-paper-plane"></i>
                             Recevoir un courriel lorsque le livre sera disponible ?
                         </a>
@@ -379,5 +379,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Erreur lors de la requête FETCH:", error);
             });
         }
+
+</script>
+
+<script>
+document.getElementById('demanderNotification').addEventListener('click', function() {
+    var livreId = this.getAttribute('data-livre-id');
+    // Appel AJAX pour enregistrer la demande de notification
+    fetch(BASE_URL +'/Panier/EnregistrerDemandeNotification?livreId=' + livreId, {
+        method: 'POST',
+        body: JSON.stringify({ livreId: livreId }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+         return response.json();
+                }).then(data => {
+                    // Utilise les données JSON pour afficher l'alerte avec SweetAlert2
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Demande enregistrée',
+                            text: data.message,
+                            icon: 'success',
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Erreur',
+                            text: data.message,
+                            icon: 'error',
+                        });
+                    }
+                }).catch(error => {
+                    Swal.fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue lors de la tentative d\'enregistrement de votre demande.',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                    });
+                });
+
+});
 
 </script>
