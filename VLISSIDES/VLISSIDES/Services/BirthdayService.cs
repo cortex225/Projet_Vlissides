@@ -63,7 +63,7 @@ public class BirthdayService : BackgroundService // Service qui peut tourner en 
     {
         try
         {
-            // Chargez votre modèle HTML depuis un fichier ou une chaîne de caractères
+            // Charge le modèle HTML depuis un fichier dans Data/TemplateEmail
             var emailTemplatePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "TemplateEmail",
                 "BirthdayEmail.html");
             var emailTemplate = File.ReadAllText(emailTemplatePath);
@@ -84,7 +84,6 @@ public class BirthdayService : BackgroundService // Service qui peut tourner en 
         catch (Exception ex)
         {
             _logger.LogError(ex, "Une erreur est survenue lors de la génération du contenu de l'email.");
-            // Gérez d'autres types d'exceptions ici
             return "Contenu d'email par défaut";
         }
     }
