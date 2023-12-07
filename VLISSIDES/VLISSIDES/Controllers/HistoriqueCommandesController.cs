@@ -50,7 +50,7 @@ public class HistoriqueCommandesController : Controller
         _webhookSecretApi = _configuration["WebhookSecretApi"];
     }
 
-    public IActionResult Index(string? motCles, string? criteres)
+    public IActionResult Index(string? motCles, string? criteres, int page = 1)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -61,7 +61,9 @@ public class HistoriqueCommandesController : Controller
             .Where(c => c.MembreId == userId)
             .OrderBy(c => c.DateCommande);
 
-        var nbCommandesTotal = _context.Commandes.Count(c => c.MembreId == userId);
+        var itemsPerPage = 10;
+
+        var totalItems = _context.Commandes.Count(c => c.MembreId == userId);
 
         var livreCommandes = _context.LivreCommandes;
 
@@ -74,6 +76,9 @@ public class HistoriqueCommandesController : Controller
             EnDemandeRetourner = lc.EnDemandeRetourner
         }).ToList();
 
+        ViewBag.CurrentPage = page;
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+
         var listeCommandeVM = commandes.Where(c => c.MembreId == userId).OrderBy(c => c.DateCommande).ToList();
 
         var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, _context.StatutCommandes, "");
@@ -81,9 +86,10 @@ public class HistoriqueCommandesController : Controller
         return View(affichageCommandes);
     }
 
-    public IActionResult AfficherCommandes(string? motCles, string? criteres)
+    public async Task<IActionResult> AfficherCommandes(string? motCles, string? criteres,int page = 1)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var itemsPerPage = 10;
 
         var listCriteresValue = new List<string>();
         if (motCles != null) listCriteresValue = motCles.Split('|').ToList();
@@ -96,6 +102,7 @@ public class HistoriqueCommandesController : Controller
             .Include(c => c.StatutCommande)
             .Include(c => c.Membre)
             .Include(c => c.LivreCommandes).ThenInclude(c => c.Livre);
+        var totalItems = await commandes.CountAsync();
         var livreCommandes = _context.LivreCommandes;
 
         var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
@@ -126,6 +133,13 @@ public class HistoriqueCommandesController : Controller
                 listeCommandeVM = listeCommandeVM.Where(c => c.StatutCommandeId == listCriteresValue[1]).ToList();
 
         var affichageCommandes = new AffichageCommandeVM(listeCommandeVM, _context.StatutCommandes, "");
+
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
         return PartialView("PartialViews/HistoriqueCommandes/_ListeHistoriqueCommandesPartial", affichageCommandes);
     }
