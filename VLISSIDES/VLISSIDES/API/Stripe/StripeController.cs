@@ -1,9 +1,9 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
+using System.Text;
 using VLISSIDES.Data;
 using VLISSIDES.Interfaces;
 using VLISSIDES.Models;
@@ -131,11 +131,11 @@ public class StripeController : Controller
         var panierItems = await _context.LivrePanier
             .Where(lp => lp.UserId == customer.Id)
             .Include(lp => lp.Livre).ThenInclude(livre => livre.LivreTypeLivres)
-            .Include(lp=>lp.Promotion)
+            .Include(lp => lp.Promotion)
             .ToListAsync();
 
 
-            var nouvelleCommande = new CommandesVM
+        var nouvelleCommande = new CommandesVM
         {
             Id = _context.Commandes.Count().ToString(),
             DateCommande = DateTime.Now,
@@ -236,7 +236,7 @@ public class StripeController : Controller
             : null;
 
         // Mettre à jour la dernière utilisation pour la promotion d'anniversaire
-        if( promotion.CodePromo == "BIRTHDAY")
+        if (promotion.CodePromo == "BIRTHDAY")
         {
             customer.DerniereUtilisationPromoAnniversaire = DateTime.Now;
             _context.Membres.Update(customer);
@@ -278,10 +278,10 @@ public class StripeController : Controller
         var evenement = _context.Evenements.FirstOrDefault(e => e.Id == session.Metadata["evenementId"]);
 
         // Créer la réservation
-        var nbReservations = _context.Reservations.Count().ToString();
+
         var reservation = new Reservation
         {
-            Id = nbReservations,
+            Id = Guid.NewGuid().ToString(),
             DateReservation = DateTime.Now,
             Membre = customer,
             Evenement = evenement,
@@ -453,7 +453,7 @@ public class StripeController : Controller
 
         body.Append("</tbody>");
         body.Append("</table>");
-        if(promotion != null)
+        if (promotion != null)
             body.Append(
                 $"<p style='color: #555; font-size: 16px;'><strong>Code promotionnel appliqué :</strong> {promotion.Nom} de {promotion.PourcentageRabais}%</p>");
         body.Append($"<p style='color: #555; font-size: 15px;'>Sous-total : {sousTotal:C}</p>");
