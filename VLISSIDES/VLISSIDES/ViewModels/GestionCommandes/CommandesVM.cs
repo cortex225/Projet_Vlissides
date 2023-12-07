@@ -27,6 +27,7 @@ public class CommandesVM
     [DisplayName("Promotion")] public string? PromotionId { get; set; }
 
     public Promotion? Promotion { get; set; }
+    public int NbCommande { get; set; }
 
     public CommandesVM()
     {
@@ -41,6 +42,8 @@ public class CommandesVM
         EnDemandeAnnulation = false;
         PromotionId = "";
         Promotion = new();
+        NbCommande = 0;
+
 
     }
     public CommandesVM(Commande commande)
@@ -57,5 +60,6 @@ public class CommandesVM
         EnDemandeAnnulation = commande.EnDemandeAnnulation;
         PromotionId = commande.PromotionId;
         Promotion = commande.Promotion;
+        NbCommande = 0;
     }
 }

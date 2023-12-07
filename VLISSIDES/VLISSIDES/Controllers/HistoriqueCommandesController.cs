@@ -57,7 +57,12 @@ public class HistoriqueCommandesController : Controller
         var commandes = _context.Commandes
             .Include(c => c.StatutCommande)
             .Include(c => c.Membre)
-            .Include(c => c.LivreCommandes).ThenInclude(c => c.Livre);
+            .Include(c => c.LivreCommandes).ThenInclude(c => c.Livre)
+            .Where(c => c.MembreId == userId)
+            .OrderBy(c => c.DateCommande);
+
+        var nbCommandesTotal = _context.Commandes.Count(c => c.MembreId == userId);
+
         var livreCommandes = _context.LivreCommandes;
 
         var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
