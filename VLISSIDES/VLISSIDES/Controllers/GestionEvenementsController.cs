@@ -26,17 +26,50 @@ namespace VLISSIDES.Controllers
             _sendGridEmail = sendGridEmail;
             _httpContextAccessor = httpContextAccessor;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int page=1)
         {
+            var itemsPerPage = 10;
+            var totalItems = await _context.Evenements.CountAsync();
             //Supprimer automatiquement les evenements trop vieux
             _context.Evenements.RemoveRange(_context.Evenements.Include(e => e.Reservations).Where(e => e.DateFin
             .AddDays(7) < DateTime.Now));
             _context.SaveChanges();
             //La liste à afficher
-            return View(_context.Evenements.Select(e => new GestionEvenementsIndexVM(e)).ToList());
+            var vm = _context.Evenements.Select(e => new GestionEvenementsIndexVM(e)).Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage).ToList();
+
+
+            //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+            //Math.Ceiling permet d'arrondir au nombre supérieur
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.CurrentPage = page;
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+            return View(vm);
         }
-        public IActionResult AfficherEvenements() => PartialView("PartialViews/GestionEvenements/_ListeEvenementsPartial",
-                _context.Evenements.Select(e => new GestionEvenementsIndexVM(e)).ToList());
+
+        public IActionResult AfficherEvenements(int page = 1)
+        {
+            var itemsPerPage = 10;
+
+            // Suppression automatique des événements trop vieux
+            _context.Evenements.RemoveRange(_context.Evenements.Include(e => e.Reservations)
+                .Where(e => e.DateFin.AddDays(7) < DateTime.Now));
+            _context.SaveChanges();
+
+            var totalItems = _context.Evenements.Count();
+
+            var evenements = _context.Evenements.Select(e => new GestionEvenementsIndexVM(e))
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+
+            return PartialView("PartialViews/GestionEvenements/_ListeEvenementsPartial", evenements);
+        }
+
         public IActionResult AfficherReservations() => PartialView("PartialViews/GestionEvenements/_ListeReservationsPartial"
             , _context.Reservations.Include(r => r.Evenement).Include(r => r.Membre)
             .Select(r => new GestionEvenementsReservationVM(r)).ToList());

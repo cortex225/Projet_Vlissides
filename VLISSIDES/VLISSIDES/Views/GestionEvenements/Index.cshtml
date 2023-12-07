@@ -35,6 +35,10 @@
 
     <partial name="PartialViews/GestionEvenements/_ListeEvenementsPartial" model="@Model"/>
 
+     @* Ajout de la pagination *@
+                <partial name="PartialViews/Utilities/_PaginationIndexPartial"/>
+
+
 </div>
 <script>
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
