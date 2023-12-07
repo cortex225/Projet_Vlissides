@@ -14,4 +14,11 @@ public class ListLivreUtilisateurIndexVM
         this.Livres = livres.ToList();
         this.livreSelectionneId = livreSelectionneId;
     }
+
+    public ListLivreUtilisateurIndexVM()
+    {
+        this.Livres = new List<LivreUtilisateurIndexVM>();
+        this.livreSelectionneId = "";
+    }
+
 }

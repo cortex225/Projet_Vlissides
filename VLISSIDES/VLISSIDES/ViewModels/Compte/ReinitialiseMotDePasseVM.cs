@@ -18,6 +18,13 @@ public class ReinitialiseMotDePasseVM
     [Compare("Password", ErrorMessage = "The password and confirmation password do not match")]
     [Display(Name = "Confirmation mot de passe")] public string ConfirmPassword { get; set; }
 
+    public ReinitialiseMotDePasseVM()
+    {
+        Email = "";
+        Password = "";
+        ConfirmPassword = "";
+    }
+
     public ReinitialiseMotDePasseVM(string email, string password, string confirmPassword)
     {
         Email = email;

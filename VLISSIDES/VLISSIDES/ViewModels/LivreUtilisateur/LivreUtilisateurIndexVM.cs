@@ -15,8 +15,23 @@ namespace VLISSIDES.ViewModels.LivreUtilisateur
         [Display(Name = "Mon evaluation")] public double? MonEvaluation { get; set; }
         [Display(Name = "Date commande")] public DateTime DateCommande { get; set; }
 
+        public LivreUtilisateurIndexVM()
+        {
+            Id = "";
+            Titre = "";
+            Couverture = "";
+            NumeriqueURL = "";
+            Auteurs = new();
+            Categories = new();
+            MaisonEdition = "";
+            MonEvaluation = null;
+            DateCommande = DateTime.Now;
+
+        }
+
         public LivreUtilisateurIndexVM(Livre livre, Evaluation evaluation, Commande commande)
         {
+            livre??= new();
             Id = livre.Id;
             Titre = livre.Titre;
             Couverture = livre.Couverture;
@@ -26,6 +41,9 @@ namespace VLISSIDES.ViewModels.LivreUtilisateur
             MaisonEdition = (livre.MaisonEdition ?? new()).Nom;
             MonEvaluation = evaluation.Note;
             DateCommande = commande.DateCommande;
+
         }
+
+
     }
 }

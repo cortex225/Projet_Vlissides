@@ -11,6 +11,11 @@ public class ExternalLoginVM
 
     [DisplayName("Nom")][Required] public string Name { get; set; }
 
+    public ExternalLoginVM()
+    {
+        Email = "";
+        Name = "";
+    }
     public ExternalLoginVM(string email, string name)
     {
         Email = email;
