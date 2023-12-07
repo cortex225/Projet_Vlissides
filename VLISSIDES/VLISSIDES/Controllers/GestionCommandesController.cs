@@ -44,6 +44,7 @@ public class GestionCommandesController : Controller
             _context.StatutCommandes));
     public IActionResult AfficherCommandes(string? motCles, string? criteres)
     {
+        var currentUserId = _userManager.GetUserId(HttpContext.User);
         var listCriteresValue = new List<string>();
         if (motCles != null) listCriteresValue = motCles.Split('|').ToList();
 
@@ -85,7 +86,8 @@ public class GestionCommandesController : Controller
         }
 
         var affichageCommandes = new AffichageCommandeVM(commandes, _context.StatutCommandes);
-
+        affichageCommandes.ListCommandes.FirstOrDefault().NbCommande =
+            _context.Commandes.Where(c => c.MembreId == currentUserId).Count() + 1;
         return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
     }
 

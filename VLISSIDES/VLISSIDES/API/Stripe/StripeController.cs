@@ -157,10 +157,9 @@ public class StripeController : Controller
 
         // Créer la commande
 
-        var nbCommandes = _context.Commandes.Count() + 1;
         var commande = new Commande
         {
-            Id = nbCommandes.ToString(),
+            Id = Guid.NewGuid().ToString(),
             DateCommande = nouvelleCommande.DateCommande,
             PrixTotal = nouvelleCommande.PrixTotal,
             MembreId = customer.Id,
@@ -168,6 +167,7 @@ public class StripeController : Controller
             StatutCommandeId = nouvelleCommande.StatutId,
             PaymentIntentId = session.PaymentIntentId, //Récupérer le paiement intent id de la session
             EnDemandeAnnulation = false,
+            NbCommande = _context.Commandes.Where(c => c.MembreId == customer.Id).Count() + 1,
 
         };
         // Gestion de PromotionId

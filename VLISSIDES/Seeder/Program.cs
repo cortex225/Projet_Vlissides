@@ -958,6 +958,7 @@ public class DatabaseSeeder
                 CommandeId="1",
                 Quantite=1,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
 
             },
             new LivreCommande()
@@ -966,6 +967,7 @@ public class DatabaseSeeder
                 CommandeId="1",
                 Quantite=2,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
 
             },
             new LivreCommande()
@@ -974,6 +976,7 @@ public class DatabaseSeeder
                 CommandeId="1",
                 Quantite=1,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
 
             }
         };
@@ -986,7 +989,8 @@ public class DatabaseSeeder
             DateCommande = new DateTime(2023, 10, 18),
             LivreCommandes = MGosselinCommandes1,
             StatutCommandeId = "4",
-            PrixTotal = 80
+            PrixTotal = 80,
+            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
         });
 
         //Commande 2
@@ -998,6 +1002,7 @@ public class DatabaseSeeder
                 CommandeId="2",
                 Quantite=2,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
 
             },
             new LivreCommande()
@@ -1006,6 +1011,7 @@ public class DatabaseSeeder
                 CommandeId="2",
                 Quantite=1,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Numérique")
             }
         };
         _context.Commandes.Add(new Commande()
@@ -1017,7 +1023,8 @@ public class DatabaseSeeder
             DateCommande = new DateTime(2023, 10, 25),
             LivreCommandes = MGosselinCommandes2,
             StatutCommandeId = "4",
-            PrixTotal = 60
+            PrixTotal = 60,
+            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
         });
         //Commande 3
         var MGosselinCommandes3 = new List<LivreCommande>
@@ -1028,6 +1035,7 @@ public class DatabaseSeeder
                 CommandeId="3",
                 Quantite=1,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
 
             },
             new LivreCommande()
@@ -1036,6 +1044,7 @@ public class DatabaseSeeder
                 CommandeId="3",
                 Quantite=1,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
             }
         };
         _context.Commandes.Add(new Commande()
@@ -1047,7 +1056,8 @@ public class DatabaseSeeder
             DateCommande = new DateTime(2023, 11, 18),
             LivreCommandes = MGosselinCommandes3,
             StatutCommandeId = "4",
-            PrixTotal = 40
+            PrixTotal = 40,
+            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
         });
 
         //Stephane Fallu
@@ -1061,7 +1071,8 @@ public class DatabaseSeeder
                 LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le rouge et le noir").Id,
                 CommandeId="4",
                 Quantite=1,
-                PrixAchat=20
+                PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
             },
             new LivreCommande()
             {
@@ -1069,6 +1080,7 @@ public class DatabaseSeeder
                 CommandeId="4",
                 Quantite=2,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Numérique")
 
             },
 
@@ -1082,7 +1094,8 @@ public class DatabaseSeeder
             DateCommande = new DateTime(2023, 10, 30),
             LivreCommandes = SFalluCommandes1,
             StatutCommandeId = "4",
-            PrixTotal = 60
+            PrixTotal = 60,
+            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
         });
         _context.SaveChanges();
 
@@ -1094,7 +1107,8 @@ public class DatabaseSeeder
                 LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Le vieil homme et la mer").Id,
                 CommandeId="5",
                 Quantite=1,
-                PrixAchat=20
+                PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
             },
             new LivreCommande()
             {
@@ -1102,6 +1116,7 @@ public class DatabaseSeeder
                 CommandeId="5",
                 Quantite=1,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Numérique")
 
             },
 
@@ -1115,7 +1130,8 @@ public class DatabaseSeeder
             DateCommande = new DateTime(2023, 10, 31),
             LivreCommandes = SFalluCommandes2,
             StatutCommandeId = "4",
-            PrixTotal = 40
+            PrixTotal = 40,
+            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
         });
         _context.SaveChanges();
 
@@ -1128,7 +1144,8 @@ public class DatabaseSeeder
                 LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "La Ferme des Animaux").Id,
                 CommandeId="6",
                 Quantite=1,
-                PrixAchat=20
+                PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
             },
             new LivreCommande()
             {
@@ -1136,6 +1153,7 @@ public class DatabaseSeeder
                 CommandeId="6",
                 Quantite=2,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
             },
             new LivreCommande()
             {
@@ -1143,6 +1161,7 @@ public class DatabaseSeeder
                 CommandeId="6",
                 Quantite=1,
                 PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Numérique")
 
             }
 
@@ -1156,7 +1175,8 @@ public class DatabaseSeeder
             DateCommande = new DateTime(2023, 12, 2),
             LivreCommandes = SFalluCommandes3,
             StatutCommandeId = "4",
-            PrixTotal = 40
+            PrixTotal = 40,
+            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
         });
         _context.SaveChanges();
 
@@ -1172,7 +1192,8 @@ public class DatabaseSeeder
                 LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "La nuit des temps").Id,
                 CommandeId="7",
                 Quantite=1,
-                PrixAchat=20
+                PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Numérique")
             },
 
         };
@@ -1186,6 +1207,7 @@ public class DatabaseSeeder
             LivreCommandes = SDemersCommandes1,
             StatutCommandeId = "4",
             PrixTotal = 20,
+            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
         });
         _context.SaveChanges();
 
@@ -1197,21 +1219,24 @@ public class DatabaseSeeder
                 LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Contes de Perrault").Id,
                 CommandeId="8",
                 Quantite=2,
-                PrixAchat=20
+                PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
             },
             new LivreCommande()
             {
                 LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Les Contes d'Andersen").Id,
                 CommandeId="8",
                 Quantite=1,
-                PrixAchat=20
+                PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
             },
             new LivreCommande()
             {
                 LivreId = _context.Livres.FirstOrDefault(l => l.Titre == "Contes des Mille et Une Nuits").Id,
                 CommandeId="8",
                 Quantite=2,
-                PrixAchat=20
+                PrixAchat=20,
+                TypeLivre = _context.TypeLivres.FirstOrDefault(tl => tl.Nom == "Papier")
             },
 
         };
@@ -1225,6 +1250,7 @@ public class DatabaseSeeder
             LivreCommandes = SDemersCommandes2,
             StatutCommandeId = "4",
             PrixTotal = 100,
+            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
         });
         _context.SaveChanges();
         //Commandes 3

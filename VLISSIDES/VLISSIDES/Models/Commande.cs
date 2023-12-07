@@ -34,4 +34,6 @@ public class Commande
 
     public string? PromotionId { get; set; } = default!;
     public Promotion? Promotion { get; set; } = default!;
+
+    public int? NbCommande { get; set; } = default!;
 }
