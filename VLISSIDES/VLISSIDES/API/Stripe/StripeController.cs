@@ -119,6 +119,7 @@ public class StripeController : Controller
 
     private async Task TraiterAchatLivre(Session session)
     {
+
         var customer =
             await _context.Membres.FirstOrDefaultAsync(c => c.StripeCustomerId == session.CustomerId);
 
@@ -156,10 +157,10 @@ public class StripeController : Controller
 
         // Créer la commande
 
-        var nbCommandes = _context.Commandes.Count().ToString();
+        var nbCommandes = _context.Commandes.Count() + 1;
         var commande = new Commande
         {
-            Id = nbCommandes,
+            Id = nbCommandes.ToString(),
             DateCommande = nouvelleCommande.DateCommande,
             PrixTotal = nouvelleCommande.PrixTotal,
             MembreId = customer.Id,
@@ -167,12 +168,29 @@ public class StripeController : Controller
             StatutCommandeId = nouvelleCommande.StatutId,
             PaymentIntentId = session.PaymentIntentId, //Récupérer le paiement intent id de la session
             EnDemandeAnnulation = false,
-            PromotionId = nouvelleCommande.PromotionId
 
         };
+        // Gestion de PromotionId
+        string promotionId;
+        if (session.Metadata.TryGetValue("promotionId", out promotionId) && !string.IsNullOrEmpty(promotionId))
+        {
+            // Vérifie si promotionId existe dans la table Promotions
+            var promotionExists = _context.Promotions.Any(p => p.Id == promotionId);
+            if (promotionExists)
+            {
+                commande.PromotionId = promotionId;
+            }
+            else
+            {
+                commande.PromotionId = null;
+            }
+        }
+        else
+        {
+            commande.PromotionId = null;
+        }
 
         _context.Commandes.Add(commande);
-        await _context.SaveChangesAsync();
 
         foreach (var item in nouvelleCommande.LivreCommandes)
         {
@@ -218,11 +236,13 @@ public class StripeController : Controller
             : null;
 
         // Mettre à jour la dernière utilisation pour la promotion d'anniversaire
-        if( promotion!.CodePromo == "BIRTHDAY")
+        if( promotion.CodePromo == "BIRTHDAY")
         {
             customer.DerniereUtilisationPromoAnniversaire = DateTime.Now;
             _context.Membres.Update(customer);
         }
+
+
         await _context.SaveChangesAsync();
     }
 
