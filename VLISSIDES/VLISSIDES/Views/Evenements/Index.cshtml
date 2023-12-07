@@ -18,23 +18,27 @@
         {
             @if (Model.MesEvenements.Count != 0)
             {
-                <h1>Mes événements</h1>
+                <h1>Mes Réservations</h1>
                 <div class="row">
                     <div class="d-flex flex-wrap justify-content-around">
                         @foreach (var item in Model.MesEvenements)
                         {
                             <div style="width:40%; ">
                                 <partial name="PartialViews/Evenements/_EvenementReservedCardPartial" model="@item"/>
+
                             </div>
                         }
-                    </div>
 
+                    </div>
+ @* Ajout de la pagination *@
+                <partial name="PartialViews/Utilities/_PaginationIndexPartial"/>
                 </div>
+
             }
         }
     }
 
-    <h1>Les événements</h1>
+    <h1>Tous Les Événements</h1>
     <div class="row">
         <div class="d-flex flex-wrap justify-content-around">
             @foreach (var item in Model.Evenements)
@@ -46,10 +50,14 @@
                 {
                     <div style="width:40%; ">
                         <partial name="PartialViews/Evenements/_EvenementCardPartial" model="item"/>
+
                     </div>
                 }
             }
+
         </div>
+          @* Ajout de la pagination *@
+                                                                <partial name="PartialViews/Utilities/_PaginationIndexPartial"/>
 
     </div>
 </div>

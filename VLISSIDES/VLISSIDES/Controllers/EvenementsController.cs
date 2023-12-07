@@ -50,8 +50,11 @@ namespace VLISSIDES.Controllers
             _config = config;
             _sendGridEmail = sendGridEmail;
         }
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
+            var itemsPerPage = 4;
+            var totalItems = _context.Evenements.Count();
+
             EvenementsIndexVM vm = new EvenementsIndexVM();
 
             if (User.Identity.IsAuthenticated)
@@ -102,7 +105,8 @@ namespace VLISSIDES.Controllers
                         NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Select(rq=> rq.Quantite).Sum()).ToString() + "/" + e.NbPlacesMembre.ToString(),
                         Prix = e.Prix,
                         EstEnDemandeAnnuler = false
-                    }).OrderBy(e => e.DateDebut).ToList();
+                    }).OrderBy(e => e.DateDebut).Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                    .Take(itemsPerPage).ToList();
 
             }
             else
@@ -119,9 +123,17 @@ namespace VLISSIDES.Controllers
                     NbPlaces = e.Reservations == null ? e.NbPlaces.ToString() + "/" + e.NbPlaces.ToString() : (e.NbPlaces - e.Reservations.Count).ToString() + "/" + e.NbPlaces.ToString(),
                     NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Count()).ToString() + "/" + e.NbPlacesMembre.ToString(),
                     Prix = e.Prix,
-                }).OrderBy(e => e.DateDebut).ToList();
+                }).OrderBy(e => e.DateDebut).Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                    .Take(itemsPerPage).ToList();
                 vm.MesEvenements = new List<EvenementsVM>();
             }
+
+            //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+            //Math.Ceiling permet d'arrondir au nombre supérieur
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.CurrentPage = page;
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
             return View(vm);
         }

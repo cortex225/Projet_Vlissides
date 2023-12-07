@@ -50,6 +50,9 @@
             <div class="d-flex align-items-center justify-content-center justify-content-md-start places-restantes">
                 <i class="fas fa-chair mr-2 mx-2"></i>Places restantes (membres): @Model.NbPlacesMembre
             </div>
+            <div class="mb-2 d-flex align-items-center justify-content-center justify-content-md-start">
+                            Prix Unitaire: @Model.Prix $
+                        </div>
         </div>
     </div>
     @if (Model.DateFin <= DateTime.UtcNow)
