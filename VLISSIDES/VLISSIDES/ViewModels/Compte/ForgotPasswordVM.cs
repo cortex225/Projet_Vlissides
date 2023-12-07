@@ -11,6 +11,12 @@ public class ForgotPasswordVM
     [EmailAddress]
     [Display(Name = "Email")] public string Email { get; set; }
 
+    public ForgotPasswordVM()
+    {
+        UserName = "";
+        Email = "";
+    }
+
     public ForgotPasswordVM(string? userName, string email)
     {
         UserName = userName;

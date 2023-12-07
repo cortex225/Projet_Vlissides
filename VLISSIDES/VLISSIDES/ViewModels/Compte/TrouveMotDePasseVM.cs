@@ -18,6 +18,13 @@ public class TrouveMotDePasseVM
     [Compare("Password", ErrorMessage = "Le mot de passe et le mot de passe de confirmation ne correspondent pas.")]
     [Display(Name = "Confirmer le mot de passe")] public string ConfirmPassword { get; set; }
 
+    public TrouveMotDePasseVM()
+    {
+        Id = "";
+        Password = "";
+        ConfirmPassword = "";
+    }
+
     public TrouveMotDePasseVM(string id="", string password="", string confirmPassword="")
     {
         Id = id;
