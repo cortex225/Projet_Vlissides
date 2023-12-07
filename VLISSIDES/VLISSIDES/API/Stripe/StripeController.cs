@@ -228,6 +228,7 @@ public class StripeController : Controller
                 // Déduisez la quantité pour les livres papier.
                 livre.NbExemplaires -= item.Quantite;
                 _context.Livres.Update(livre);
+                await _context.SaveChangesAsync();
             }
         }
 
