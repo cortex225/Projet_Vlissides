@@ -36,14 +36,31 @@ public class GestionCommandesController : Controller
         _sendGridEmail = sendGridEmail;
     }
 
-    public IActionResult Index(string? motCles, string? criteres) => View(new AffichageCommandeVM(_context.Commandes
+    public IActionResult Index(int page = 1)
+    {
+        var itemsPerPage = 10;
+        var totalItems = _context.Commandes.Count();
+
+        var commandes = _context.Commandes
             .Include(c => c.StatutCommande)
             .Include(c => c.Membre)
             .Include(c => c.LivreCommandes).ThenInclude(c => c.Livre)
-        .OrderBy(c => c.DateCommande).ToList(),
-            _context.StatutCommandes));
-    public IActionResult AfficherCommandes(string? motCles, string? criteres)
+            .OrderBy(c => c.DateCommande)
+            .Skip((page - 1) * itemsPerPage)
+            .Take(itemsPerPage)
+            .ToList();
+
+        ViewBag.CurrentPage = page;
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+
+        return View(new AffichageCommandeVM(commandes, _context.StatutCommandes));
+    }
+
+    public async Task<IActionResult> AfficherCommandes(string? motCles, string? criteres, int page = 1)
     {
+        var itemsPerPage = 10;
+        var totalItems = await _context.Commandes.CountAsync();
+
         var currentUserId = _userManager.GetUserId(HttpContext.User);
         var listCriteresValue = new List<string>();
         if (motCles != null) listCriteresValue = motCles.Split('|').ToList();
@@ -84,6 +101,13 @@ public class GestionCommandesController : Controller
                 commandes = commandes.Where(c => c.LivreCommandes.Any(lc => lc.EnDemandeRetourner))
                     .ToList();
         }
+
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
         var affichageCommandes = new AffichageCommandeVM(commandes, _context.StatutCommandes);
         affichageCommandes.ListCommandes.FirstOrDefault().NbCommande =
