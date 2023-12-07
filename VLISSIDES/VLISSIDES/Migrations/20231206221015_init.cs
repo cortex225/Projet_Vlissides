@@ -692,33 +692,33 @@ namespace VLISSIDES.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0", "a5a51af8-8a9d-4e56-ba9b-9785481f7bc4", "Employe", "EMPLOYE" },
-                    { "1", "5214457a-12fe-4fa2-a341-3ba5ad36c651", "Membre", "MEMBRE" },
-                    { "2", "0754827d-73d8-4f92-a5c2-999a8c41fd47", "Admin", "ADMIN" }
+                    { "0", "110cb6d3-0b4a-4ff6-b8b6-e6dedd983598", "Employe", "EMPLOYE" },
+                    { "1", "3021d7ce-ad34-400f-8d36-259707b75658", "Membre", "MEMBRE" },
+                    { "2", "7e363143-d17f-4ee7-b56e-b8c44c7a430a", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "DerniereUtilisationPromoAnniversaire", "Discriminator", "Email", "EmailConfirmed", "IsBanned", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "0", 0, null, "8435c566-ab22-4aa9-b8b4-5e85fabe9ae4", null, null, null, "ApplicationUser", "Admin@LaFourmiAilee.com", true, false, false, null, "ADMIN", "ADMIN@LAFOURMIAILEE.COM", "ADMIN", "AQAAAAEAACcQAAAAEF43OL2o51Yi6zRBnpl0RXloMapVIPngv3SLbD4Xt5WF7mUXEcSIGyMjEDaMUPC/JA==", null, false, "Admin", "c94d61f2-302c-43e0-97cb-cc54fe5d4302", false, "Admin" });
+                values: new object[] { "0", 0, null, "d1d41154-228b-45cf-aa6f-e1cff6731c57", null, null, null, "ApplicationUser", "Admin@LaFourmiAilee.com", true, false, false, null, "ADMIN", "ADMIN@LAFOURMIAILEE.COM", "ADMIN", "AQAAAAEAACcQAAAAEArmaxuP2j3GApIrP3Wd6eEoEu4qUPeHIzwT5yu3YYvYhNWf/QV7GzbbJ2x5YmkURw==", null, false, "Admin", "e3bcb8bd-2d2c-49ff-be19-21162db81d5b", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "ConcurrencyStamp", "CoverImageUrl", "DateNaissance", "DerniereUtilisationPromoAnniversaire", "Discriminator", "Email", "EmailConfirmed", "IsBanned", "LockoutEnabled", "LockoutEnd", "NoEmploye", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "", "5eecdf0d-640d-4f94-b4a9-2c109fde31bf", null, null, null, "Employe", "employe@employe.com", true, false, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "52ae3d4c-3ce5-4033-bc4b-48e749b6f8d5", false, "employe@employe.com" });
+                values: new object[] { "1", 0, "", "08658480-40d2-4f1a-86ad-8b88580d801a", null, null, null, "Employe", "employe@employe.com", true, false, false, null, "007", "EMPLOYE", "EMPLOYE@EMPLOYE.COM", "EMPLOYE@EMPLOYE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Employe", "ffd56fe5-e7c4-4859-af11-53c6c6e9e004", false, "employe@employe.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AdressePrincipaleId", "CommandeId", "ConcurrencyStamp", "CoverImageUrl", "DateAdhesion", "DateNaissance", "DerniereUtilisationPromoAnniversaire", "Discriminator", "Email", "EmailConfirmed", "IsBanned", "LockoutEnabled", "LockoutEnd", "NoMembre", "Nom", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Prenom", "ReservationId", "SecurityStamp", "StripeCustomerId", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "0d343967-cb36-4514-a5d8-d64b248f3eb9", 0, null, null, "e6d37166-df75-4cfd-93bd-64bc194f3c2d", null, new DateTime(2023, 12, 6, 16, 40, 51, 514, DateTimeKind.Local).AddTicks(3995), new DateTime(2002, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "SDemers@gmail.com", true, false, false, null, "67b12e0e-468a-40c3-aedd-35154c510b97", "Demers", "SDEMERS@GMAIL.COM", "SDEMERS@GMAIL.COM", "AQAAAAEAACcQAAAAEFEpbbZ9PAEtOSFhF9QxUt0RwHYPZV9H1Im54l9xvjpEHc5sdrTyMQoTnhPM+3QfbQ==", null, false, "Sylvie", null, "3cb0ba8e-1bb4-4159-b106-7c34fafb5c86", "9", false, "SDemers@gmail.com" },
-                    { "2", 0, "", null, "4322384b-6996-4e6b-9383-fd42fe798a27", null, new DateTime(2023, 12, 6, 16, 40, 51, 497, DateTimeKind.Local).AddTicks(2413), null, null, "Membre", "membre@membre.com", true, false, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "4926566b-d912-4fcd-85d7-fca08e3faf8e", null, false, "membre@membre.com" },
-                    { "73f2b3b0-f352-49d3-9e96-92e48e0f2841", 0, null, null, "342168d2-2d5e-4c03-b90a-f6f4c6c87dc9", null, new DateTime(2023, 12, 6, 16, 40, 51, 521, DateTimeKind.Local).AddTicks(3098), new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "julien.landry1800@gmail.com", true, false, false, null, "a9a9740f-c061-47eb-9b99-0ffd25fd11d1", "Landry", "JULIEN.LANDRY1800@GMAIL.COM", "JULIEN.LANDRY1800@GMAIL.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Julien", null, "fd28ee8b-4328-41b9-b55c-3aec0508211d", "11", false, "julien.landry1800@gmail.com" },
-                    { "79130d7a-bfd4-4597-870c-acb98eabcee8", 0, null, null, "44967a35-7803-4dbc-95aa-a82b99e6f71c", null, new DateTime(2023, 12, 6, 16, 40, 51, 521, DateTimeKind.Local).AddTicks(4916), new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "jlgouaho@gmail.com", true, false, false, null, "62006175-c9dd-4f84-8e11-0d624ac5655d", "JEAN-LUC GOUAHO", "JLGOUAHO@GMAIL.COM", "JLGOUAHO@GMAIL.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Deto", null, "1f3b3332-1ada-4bf6-9da8-156ff6183f80", "12", false, "jlgouaho@gmail.com" },
-                    { "85761bd9-65e9-4568-9290-ceab2d36498d", 0, null, null, "85f22082-b25a-44e4-b0be-eab28852e678", null, new DateTime(2023, 12, 6, 16, 40, 51, 520, DateTimeKind.Local).AddTicks(9510), new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "tonyhuynh0412@gmail.com", true, false, false, null, "d07230f0-cd95-40e4-9942-6339dc0c0ec8", "Huynh", "TONYHUYNH0412@GMAIL.COM", "TONYHUYNH0412@GMAIL.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Tony", null, "cf649511-c90c-47aa-a000-0467a168c8db", "10", false, "tonyhuynh0412@gmail.com" },
-                    { "ae645e99-7c97-42c4-a2db-0cee813b8c39", 0, null, null, "5e6b4e14-5c79-4224-92c5-19da9fca9441", null, new DateTime(2023, 12, 6, 16, 40, 51, 508, DateTimeKind.Local).AddTicks(130), new DateTime(1993, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "SFallu@gmail.com", true, false, false, null, "bc64fbbd-3696-4515-b1ec-7fde44cff778", "Fallu", "SFALLU@GMAIL.COM", "SFALLU@GMAIL.COM", "AQAAAAEAACcQAAAAEB++GAtnX8MB2kP+Fb8vawUXYbE6fOijAeJWXravAgF1RT3cG+qKBEVJ7Y0pN3iH/A==", null, false, "Stephane", null, "653a88ff-7402-4f11-be43-b36a9f59d0c3", "8", false, "SFallu@gmail.com" },
-                    { "c7d81843-cbe3-4709-abd3-d619f8b4d61c", 0, null, null, "68503647-6230-42e0-849b-83e38546993c", null, new DateTime(2023, 12, 6, 16, 40, 51, 497, DateTimeKind.Local).AddTicks(2486), new DateTime(2001, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "MGosselin@gmail.com", true, false, false, null, "1649ec0c-b9d3-4c6d-9fef-67c0c75fb3a7", "Gosselin", "MGOSSELIN@GMAIL.COM", "MGOSSELIN@GMAIL.COM", "AQAAAAEAACcQAAAAEG2FxypOmlwt8wBJ15Lix0ildkx06PGGh8lshSRZV4mL5/gSYSsvDQjjmhhae5AQtA==", null, false, "Marcel", null, "54af64b0-5fb3-4e79-aa15-dd7274e3c064", "7", false, "MGosselin@gmail.com" }
+                    { "1cc3577d-0bf6-40f1-b616-c899aaba10b4", 0, null, null, "db7b3e9c-1e5c-48d5-9a2d-835e6bff5591", null, new DateTime(2023, 12, 6, 17, 10, 13, 909, DateTimeKind.Local).AddTicks(9598), new DateTime(2001, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "MGosselin@gmail.com", true, false, false, null, "812d8ca1-16f7-424f-b2dd-f291b4d3cacf", "Gosselin", "MGOSSELIN@GMAIL.COM", "MGOSSELIN@GMAIL.COM", "AQAAAAEAACcQAAAAEB21x2Sh38TgcRSlUPs3RXI+cc7d8m6g+tDNDHgVzklfn2QsONshFVqJAWizWZHOXA==", null, false, "Marcel", null, "279680b1-2880-49d6-b2a5-afd3c8918b3f", "cus_P8knZ1kGW0sz3H", false, "MGosselin@gmail.com" },
+                    { "2", 0, "", null, "952d981a-9e7f-40d6-a839-13f9fc633d45", null, new DateTime(2023, 12, 6, 17, 10, 13, 909, DateTimeKind.Local).AddTicks(9524), null, null, "Membre", "membre@membre.com", true, false, false, null, "123456", "MEMBRE", "MEMBRE@MEMBRE.COM", "MEMBRE@MEMBRE.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Membre", null, "e9c61617-e753-4003-9839-2583c919b43e", null, false, "membre@membre.com" },
+                    { "630a12a4-2f1b-48f0-9962-92cb14b52864", 0, null, null, "11dd8c99-f85c-46fc-87e4-347994a00cab", null, new DateTime(2023, 12, 6, 17, 10, 15, 20, DateTimeKind.Local).AddTicks(4767), new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "julien.landry1800@gmail.com", true, false, false, null, "aabc24df-25c4-4eed-9ec0-3b00d08e4ef5", "Landry", "JULIEN.LANDRY1800@GMAIL.COM", "JULIEN.LANDRY1800@GMAIL.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Julien", null, "ffd09dc2-d3c1-4400-9147-33cc5b4f14e4", "cus_P8knvna8W2zmbt", false, "julien.landry1800@gmail.com" },
+                    { "864256e7-58e6-4e0d-b930-59cb013daed4", 0, null, null, "932edc7c-2fb1-40b5-9b05-03397e62037a", null, new DateTime(2023, 12, 6, 17, 10, 14, 744, DateTimeKind.Local).AddTicks(1451), new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "tonyhuynh0412@gmail.com", true, false, false, null, "88c8ebe3-4950-47ac-86ba-078f4665dbe7", "Huynh", "TONYHUYNH0412@GMAIL.COM", "TONYHUYNH0412@GMAIL.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Tony", null, "9c98a089-17b0-45d7-8d06-369c376c425c", "cus_P8knhUwfzckmBX", false, "tonyhuynh0412@gmail.com" },
+                    { "8fb2569c-a542-4a03-9933-8431f135d50f", 0, null, null, "842876f8-eed7-4c2f-a26e-85260a18e8d6", null, new DateTime(2023, 12, 6, 17, 10, 15, 301, DateTimeKind.Local).AddTicks(4577), new DateTime(2004, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "jlgouaho@gmail.com", true, false, false, null, "e60d8c30-c55d-4f18-866c-82aa6e2a5bb9", "JEAN-LUC GOUAHO", "JLGOUAHO@GMAIL.COM", "JLGOUAHO@GMAIL.COM", "AQAAAAEAACcQAAAAEP5A0+Sh49GqZJZev/DKqD7yieTvqVejrmGV0mV6PL5KNos4tLJnJL1tHceX7HezGA==", null, false, "Deto", null, "b20f7db2-832a-42a4-b106-e581637121e0", "cus_P8knXLFm8XLzyv", false, "jlgouaho@gmail.com" },
+                    { "c46a0013-3c64-4e20-b850-11500033ca48", 0, null, null, "b7abd779-bd2b-4f9c-b5ad-59e8354eb577", null, new DateTime(2023, 12, 6, 17, 10, 14, 469, DateTimeKind.Local).AddTicks(3062), new DateTime(2002, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "SDemers@gmail.com", true, false, false, null, "840a0751-eb47-422b-9de2-e7a09835947b", "Demers", "SDEMERS@GMAIL.COM", "SDEMERS@GMAIL.COM", "AQAAAAEAACcQAAAAEJDaJIqws1VmbIOvRfVYqthTRY6ZJF/4rM6Pls/z++v/0jLlTtqWlWDEypZZRKGc7w==", null, false, "Sylvie", null, "b35c3def-6569-49a6-bd2e-c88ba67e62be", "cus_P8kn4syNS9uDRE", false, "SDemers@gmail.com" },
+                    { "e74f0492-8c65-4ff5-8b9f-0672c3184388", 0, null, null, "e72e1414-2aa5-4c81-8b59-48b43b68c9d0", null, new DateTime(2023, 12, 6, 17, 10, 14, 177, DateTimeKind.Local).AddTicks(624), new DateTime(1993, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Membre", "SFallu@gmail.com", true, false, false, null, "dac0f285-cd07-4f21-a716-231ba49aabf6", "Fallu", "SFALLU@GMAIL.COM", "SFALLU@GMAIL.COM", "AQAAAAEAACcQAAAAEE3A6mxzhnQthl+1YkF3q5nIE4afFRFlKJUyQQtyYuEbEUCDbc7eQzVpgMKPAuIfnA==", null, false, "Stephane", null, "24b412cf-1751-4f9b-9542-fb3438af71e8", "cus_P8knyK9oBalz9v", false, "SFallu@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -775,7 +775,7 @@ namespace VLISSIDES.Migrations
             migrationBuilder.InsertData(
                 table: "Promotions",
                 columns: new[] { "Id", "AuteurId", "CategorieId", "CodePromo", "CommandeId", "DateDebut", "DateFin", "Description", "Image", "LivrePanierId", "LivresAcheter", "LivresGratuits", "MaisonEditionId", "Nom", "PourcentageRabais", "TypePromotion" },
-                values: new object[] { "0", null, null, "BIRTHDAY", null, new DateTime(2023, 12, 6, 16, 40, 51, 523, DateTimeKind.Local).AddTicks(8484), new DateTime(2024, 12, 6, 16, 40, 51, 523, DateTimeKind.Local).AddTicks(8500), "Ce code promo est uniquement valide durant votre mois d'anniversaire.", "/img/images_Promo/birthday.jpg", null, null, null, null, "Promotion Anniversaire", 10, "pourcentage" });
+                values: new object[] { "0", null, null, "BIRTHDAY", null, new DateTime(2023, 12, 6, 17, 10, 15, 565, DateTimeKind.Local).AddTicks(1036), new DateTime(2024, 12, 6, 17, 10, 15, 565, DateTimeKind.Local).AddTicks(1138), "Ce code promo est uniquement valide durant votre mois d'anniversaire.", "/img/images_Promo/birthday.jpg", null, null, null, null, "Promotion Anniversaire", 10, "pourcentage" });
 
             migrationBuilder.InsertData(
                 table: "StatutCommande",
@@ -804,14 +804,14 @@ namespace VLISSIDES.Migrations
                 values: new object[,]
                 {
                     { "2", "0" },
-                    { "1", "0d343967-cb36-4514-a5d8-d64b248f3eb9" },
                     { "0", "1" },
+                    { "1", "1cc3577d-0bf6-40f1-b616-c899aaba10b4" },
                     { "1", "2" },
-                    { "1", "73f2b3b0-f352-49d3-9e96-92e48e0f2841" },
-                    { "1", "79130d7a-bfd4-4597-870c-acb98eabcee8" },
-                    { "1", "85761bd9-65e9-4568-9290-ceab2d36498d" },
-                    { "1", "ae645e99-7c97-42c4-a2db-0cee813b8c39" },
-                    { "1", "c7d81843-cbe3-4709-abd3-d619f8b4d61c" }
+                    { "1", "630a12a4-2f1b-48f0-9962-92cb14b52864" },
+                    { "1", "864256e7-58e6-4e0d-b930-59cb013daed4" },
+                    { "1", "8fb2569c-a542-4a03-9933-8431f135d50f" },
+                    { "1", "c46a0013-3c64-4e20-b850-11500033ca48" },
+                    { "1", "e74f0492-8c65-4ff5-8b9f-0672c3184388" }
                 });
 
             migrationBuilder.InsertData(
