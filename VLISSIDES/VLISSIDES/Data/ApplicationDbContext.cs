@@ -476,7 +476,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Name = name
         };
         var service = new CustomerService();
-        var customer = service.CreateAsync(options);
+        var customer = service.Create(options);
         return customer.Id.ToString();
 
     }
