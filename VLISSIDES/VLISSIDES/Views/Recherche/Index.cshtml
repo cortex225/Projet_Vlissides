@@ -7,7 +7,7 @@
     var BASE_URL_RAZOR = Url.Content("~");
 }
 <link rel="stylesheet" href="~/css/Rechercher/Recherche.css" asp-append-version="true">
-<div class="d-block">
+<div class="d-block m-3">
     @if (!Model.MotRecherche.Equals(""))
     {
         <div>
@@ -16,13 +16,6 @@
     }
     <div class="container-fluid">
         @* Les recherches *@
-        @* Research bar *@
-        <div class="row text-center" id="rechercheDIV">
-            <a id="rechercherBTN" class="container-fluid btn btn-primary" asp-controller="Recherche" asp-action="Index">
-                Rechercher
-            </a>
-            <input id="rechercheGeneral" type="text" class="form-control recherche-input" placeholder="Recherche générale" onkeyup="RechercheRapide()">
-        </div>
         <button class="btn btn-primary m-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="filtre">
             Filtres
         </button>
@@ -99,7 +92,7 @@
                         }
                     </datalist>
                 </div>
-                <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary">
+                <button id="rechercherBTNFiltre" type="button" class="container-fluid btn btn-primary" onclick="RechercheGenerale(event)">
                     Rechercher
                 </button>
             </div>
@@ -124,28 +117,18 @@
     </div>
 
 </div>
+
 <script>
     const BASE_URL = @Json.Serialize(BASE_URL_RAZOR);
 </script>
 <script type="text/javascript">
     //Script pour la recherche
-    var btnSearch = document.getElementById("rechercherBTN").addEventListener("click", RechercheGenerale);
-    var btnFiltreSearch = document.getElementById("rechercherBTNFiltre").addEventListener("click", RechercheGenerale);
 
     async function RechercheGenerale(ev) {
         ev.preventDefault();
 
         var partieMotCles = "motCles=";
         var partieCriteres = "criteres=";
-
-        //Recherche générale
-        var searchGeneral = document.getElementById("rechercheGeneral");
-        var searchTerm = searchGeneral.value.trim(); // Récupérer la valeur de la barre de recherche
-
-        if (searchTerm != "") {
-            artieMotCles = partieMotCles.concat(`${searchTerm}|`);
-            partieCriteres = partieCriteres.concat("general|");
-        }
 
         //Titre
         var titreSpecification = document.getElementById("specificationTitre");

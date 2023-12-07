@@ -5,7 +5,6 @@ namespace VLISSIDES.ViewModels.Recherche;
 
 public class DetailsLivreVM
 {
-
     [Display(Name = "Identifié")] public string Id { get; set; }
     [Display(Name = "Titre")] public string Titre { get; set; }
     [Display(Name = "Auteurs")] public List<string> Auteurs { get; set; }
@@ -25,6 +24,8 @@ public class DetailsLivreVM
 
     [Display(Name = "Langue")] public string Langue { get; set; }
     [Display(Name = "Quantite")] public int Quantite { get; set; }
+    public bool? NotificationDemandee { get; set; }
+
     public DetailsLivreVM(Livre livre)
     {
         Id = livre.Id;

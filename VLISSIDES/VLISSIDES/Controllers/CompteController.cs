@@ -258,7 +258,7 @@ public class CompteController : Controller
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
-        return RedirectToAction("Login", "Compte");
+        return RedirectToAction("Index", "Accueil");
     }
 
     [Authorize(Roles = RoleName.ADMIN + "," + RoleName.MEMBRE)]

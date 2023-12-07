@@ -15,15 +15,18 @@ public class PanierController : Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly ILogger<PanierController> _logger;
 
     public PanierController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
-        IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+        IConfiguration config, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor,
+        ILogger<PanierController> logger)
     {
         _context = context;
         _webHostEnvironment = webHostEnvironment;
         _config = config;
         _userManager = userManager;
         _httpContextAccessor = httpContextAccessor;
+        _logger = logger;
     }
 
     public async Task<IActionResult> Index()
@@ -89,6 +92,7 @@ public class PanierController : Controller
                     panier.TroisiemeChoixDon = true;
                     break;
             }
+
         panier.CustomerStripeId = _context.Membres.Where(m => m.Id == currentUserId).FirstOrDefault()?.StripeCustomerId;
 
         await NbArticles();
@@ -288,6 +292,47 @@ public class PanierController : Controller
         return RedirectToAction("Recherche/Details?id=" + vm.livreAjouteId);
     }
 
+
+    [HttpPost]
+    public ActionResult EnregistrerDemandeNotification(string livreId)
+    {
+        var membreId = _userManager.GetUserId(HttpContext.User);
+
+        //Vérifie si le membreId et le livreId sont null ou vide
+        if (string.IsNullOrEmpty(membreId) || string.IsNullOrEmpty(livreId))
+        {
+            return Json(new { success = false, message = "Identifiant de membre ou de livre manquant" });
+        }
+
+        // Vérifie si la demande existe déjà
+        var demandeExiste = _context.DemandesNotifications.Any(dn => dn.LivreId == livreId && dn.MembreId == membreId);
+        if (demandeExiste)
+        {
+            return Json(new { success = false, message = "Une demande pour ce livre a déjà été enregistrée." });
+        }
+
+        // Crée une nouvelle demande de notification
+        var demande = new DemandeNotification
+            { LivreId = livreId, MembreId = membreId, Id = Guid.NewGuid().ToString() };
+
+        _context.DemandesNotifications.Add(demande);
+
+        try
+        {
+            _context.SaveChanges();
+            return Json(new { success = true, message = "Votre demande a été enregistrée avec succès." });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Erreur lors de l'enregistrement de la demande de notification: {ex.Message}");
+            return Json(new
+            {
+                success = false, message = "Une erreur interne est survenue lors de l'enregistrement de votre demande."
+            });
+        }
+    }
+
+
     //Pour montrer la partial view de confirmation de suppression
     [HttpGet]
     public async Task<IActionResult> ShowDeleteConfirmation(string id)
@@ -350,18 +395,21 @@ public class PanierController : Controller
                 }).ToList()
         };
 
+
         // Vérifie si une promotion a déjà été appliquée
         if (panierVM.PromotionAppliquee)
             return Json(new { success = false, message = "Une promotion a déjà été appliquée à ce panier." });
 
         double prixTotal = 0;
 
+        // Traitement de la promotion 2pour1
         if (promotion.TypePromotion == "2pour1")
         {
             AppliquerPromotionDeuxPourUn(panierVM, promotion);
             prixTotal = panierVM.ListeArticles.Sum(a => a.PrixApresPromotion * (a.Quantite ?? 1));
         }
-        else if (promotion.TypePromotion == "pourcentage")
+        // Traitement de la promotion BIRTHDAY avec la logique de pourcentage
+        else if (promotion.CodePromo == "BIRTHDAY" || promotion.TypePromotion == "pourcentage")
         {
             foreach (var article in panierVM.ListeArticles)
             {
@@ -384,15 +432,14 @@ public class PanierController : Controller
             if (articleBD != null)
             {
                 articleBD.PrixApresPromotion = (decimal)articleVM.PrixApresPromotion;
+                articleBD.PromotionId = promotion.Id;
                 _context.Update(articleBD);
             }
         }
 
         // Si la promotion est appliquée avec succès, marquez-la comme appliquée
         panierVM.PromotionAppliquee = true;
-        // Mettre à jour la dernière utilisation
-        utilisateur.DerniereUtilisationPromoAnniversaire = DateTime.Now;
-        _context.Update(utilisateur);
+
         await _context.SaveChangesAsync();
 
         return Json(new
@@ -448,14 +495,14 @@ public class PanierController : Controller
     private void AppliquerPromotionDeuxPourUn(PanierVM panierVM, Promotion promo)
     {
         if (!promo.LivresAcheter.HasValue || !promo.LivresGratuits.HasValue) return;
-        // Récupérer tous les articles éligibles pour la promotion
+        // Récupére tous les articles éligibles pour la promotion
         var articlesEligibles = panierVM.ListeArticles
             .Where(a => EstEligiblePourPromotion(a, promo))
             .SelectMany(a => Enumerable.Repeat(a, a.Quantite ?? 1))
             .OrderBy(a => a.PrixOriginal)
             .ToList();
 
-        // Initialisez PrixApresPromotion pour tous les articles éligibles
+        // Initialise PrixApresPromotion pour tous les articles éligibles
         foreach (var article in articlesEligibles) article.PrixApresPromotion = article.PrixOriginal;
 
         var nombreTotalArticles = articlesEligibles.Count;
@@ -463,7 +510,7 @@ public class PanierController : Controller
         var nombreDeGroupes = nombreTotalArticles / tailleGroupe;
         var nombreArticlesGratuits = nombreDeGroupes * promo.LivresGratuits.Value;
 
-        // Appliquer la promotion aux articles gratuits
+        // Applique la promotion aux articles gratuits
         for (var i = 0; i < nombreArticlesGratuits; i++) articlesEligibles[i].PrixApresPromotion = 0;
     }
 
@@ -516,7 +563,7 @@ public class PanierController : Controller
     }
 
     [HttpGet]
-    public async Task<int> NbArticles()
+    public async Task<int> NbArticles()//Retourne le nombre d'articles dans le panier à chaque fois qu'elle est appelée
     {
         var currentUserId = _userManager.GetUserId(HttpContext.User);
         var nbArticles = await _context.LivrePanier

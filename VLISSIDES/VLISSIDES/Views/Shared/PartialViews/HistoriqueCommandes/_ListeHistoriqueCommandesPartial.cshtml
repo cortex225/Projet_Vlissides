@@ -12,7 +12,7 @@
         <div id="Commande_@commande.Id" class="card my-2 p-2 element-hoverable">
             <div class="row d-flex p-2">
                 <div class="col d-flex justify-content-center">
-                    <h4 class="card-title my-auto">#@commande.Id</h4>
+                    <h4 class="card-title my-auto">@commande.DateCommande</h4>
                 </div>
                 <div class="mediaQuerryHideOnMediumSmall col-sm-2 d-flex justify-content-center">
                     <p class="my-auto">@commande.PrixTotal.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))</p>
@@ -62,17 +62,17 @@
                     <div>
                         @foreach (var item in commande.LivreCommandes)
                         {
-                            <div class="row py-1">
-                                <div class="col-sm-3 px-4">
+                            <div class="row p-2">
+                                <div class="col">
                                     @item.Quantite x @item.Livre.Titre
                                 </div>
-                                <div class="col-sm-1 d-flex justify-content-center">
+                                <div class="col-sm-2 d-flex justify-content-center">
                                     @{
                                         var prix = item.PrixAchat;
                                     }
                                     @prix.ToString("c", CultureInfo.GetCultureInfo("fr-CA"))
                                 </div>
-                                <div class="col-sm-2 d-inline-flex">
+                                <div class="col-2 d-inline-flex">
                                     @if (commande.StatutId == "4")
                                     {
                                         @if (item.Quantite >= 1)
@@ -95,7 +95,16 @@
                                         }
                                     }
                                 </div>
-                            </div>
+                                <div class="col-2">
+                                    @* Espace vide *@
+                                </div>
+                                <div class="col-2">
+                                    @* Espace vide *@
+                                </div>
+                                <div class="col">
+                                    @* Espace vide *@
+                                </div>
+                            </div>                           
                         }
                     </div>
                 </div>

@@ -20,4 +20,7 @@ public class LivrePanier
     public decimal? PrixOriginal { get; set; } = default!;
 
     public decimal? PrixApresPromotion { get; set; } = default!;
+
+    public string? PromotionId { get; set; }
+    public Promotion? Promotion { get; set; } = default!;
 }

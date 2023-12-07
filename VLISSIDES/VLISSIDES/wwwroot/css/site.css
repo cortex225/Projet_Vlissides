@@ -31,3 +31,9 @@ header {
 /*    justify-content: center!important;*/
 /*    width: 50vw!important;*/
 /*}*/
+
+.swal2-confirm {
+    background-color: #3085d6!important;
+    border: none!important;
+    border-radius: 5px!important;
+}

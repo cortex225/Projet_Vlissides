@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using VLISSIDES.Models;
 
 namespace VLISSIDES.ViewModels.Evenements;
 
@@ -29,4 +30,6 @@ public class EvenementsVM
 
     [DisplayName("Prix")] public decimal? Prix { get; set; } = default!;
     public bool EstEnDemandeAnnuler { get; set; } = default!;
+
+    public Reservation? Reservation { get; set; } = default!;
 }

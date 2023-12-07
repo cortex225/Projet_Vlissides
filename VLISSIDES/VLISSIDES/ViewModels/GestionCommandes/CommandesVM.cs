@@ -24,6 +24,11 @@ public class CommandesVM
 
     [DisplayName("Demande d'annulation")] public bool EnDemandeAnnulation { get; set; }
 
+    [DisplayName("Promotion")] public string? PromotionId { get; set; }
+
+    public Promotion? Promotion { get; set; }
+    public int NbCommande { get; set; }
+
     public CommandesVM()
     {
         Id = "";
@@ -35,17 +40,26 @@ public class CommandesVM
         StatutId = "";
         StatutNom = "";
         EnDemandeAnnulation = false;
+        PromotionId = "";
+        Promotion = new();
+        NbCommande = 0;
+
+
     }
     public CommandesVM(Commande commande)
     {
+        commande ??= new();
         Id = commande.Id;
         DateCommande = commande.DateCommande;
         PrixTotal = commande.PrixTotal;
-        MembreUserName = commande.Membre.UserName;
+        MembreUserName = (commande.Membre ?? new()).UserName;
         AdresseId = commande.AdresseId;
-        LivreCommandes = commande.LivreCommandes.ToList().Select(lc=>new LivreCommandeVM(lc)).ToList();
+        LivreCommandes = (commande.LivreCommandes ?? new List<LivreCommande>()).ToList().Select(lc => new LivreCommandeVM(lc)).ToList();
         StatutId = commande.StatutCommandeId;
-        StatutNom = commande.StatutCommande.Nom;
+        StatutNom = (commande.StatutCommande ?? new()).Nom;
         EnDemandeAnnulation = commande.EnDemandeAnnulation;
+        PromotionId = commande.PromotionId;
+        Promotion = commande.Promotion;
+        NbCommande = 0;
     }
 }

@@ -58,9 +58,6 @@
                             <a asp-action="Info" asp-controller="Accueil">À propos de nous</a>
                         </li>
                         <li>
-                            <a href="/Accueil#serviceCollapse">Services</a>
-                        </li>
-                        <li>
                             <a asp-action="Index" asp-controller="Recherche">Catalogue des livres</a>
                         </li>
                         <li>
@@ -75,10 +72,7 @@
                             Service Client
                         </h5>
                         <li>
-                            <a href="#">Contactez-nous</a>
-                        </li>
-                        <li>
-                            <a href="#">Retourner un livre</a>
+                            <a asp-action="Index" asp-controller="HistoriqueCommandes">Retourner un livre</a>
                         </li>
 
 
@@ -113,18 +107,23 @@
         <div class="row pt-4">
             <div class="col-lg-6">
                 <p class="mb-2 text-center text-lg-start">
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="#">Vlisside</a>
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by VLISSIDES
                 </p>
             </div>
 
             <div class="col-lg-6 text-center text-lg-end">
                 <ul class="list-unstyled d-inline-flex ms-auto">
+                    
                     <li class="me-4">
-                        <a href="#">Terms &amp; Conditions</a>
+                        <a href="~/img/manuel_utilisateur/manuel_utilisateur_membre.pdf" target="_blank">Manuel utilisateur pour membre</a>
                     </li>
-                    <li>
-                        <a href="#">Privacy Policy</a>
-                    </li>
+                    @if (User.IsInRole(RoleName.ADMIN))
+                    {
+                        <li>
+                            <a href="~/img/manuel_utilisateur/manuel_utilisateur_employe.pdf" target="_blank">Manuel utilisateur pour admin</a>
+                        </li>
+                    }
+                   
                 </ul>
             </div>
 

@@ -321,7 +321,19 @@ public class GestionLivresController : Controller
             {
                 vm.CoverImageUrl = "/img/CouvertureLivre/livredefault.png";
             }
-
+            if (vm.NumeriqueFile != null)
+            {
+                var wwwRootPath = _webHostEnvironment.WebRootPath;
+                var fileName = Path.GetFileNameWithoutExtension(vm.NumeriqueFile.FileName);
+                var extension = Path.GetExtension(vm.NumeriqueFile.FileName);
+                fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+                vm.NumeriqueUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await vm.NumeriqueFile.CopyToAsync(fileStream);
+                }
+            }
             var id = Guid.NewGuid().ToString();
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
@@ -458,7 +470,7 @@ public class GestionLivresController : Controller
         }
         else
         {
-            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1")))
+            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1" && x.LivreId == vm.Id)))
             {
                 vm.Papier = true;
                 vm.PrixPapier = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "1").Prix;
@@ -468,7 +480,7 @@ public class GestionLivresController : Controller
                 vm.Papier = false;
             }
 
-            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2")))
+            if (livre.LivreTypeLivres.Contains(_context.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2" && x.LivreId == vm.Id)))
             {
                 vm.Numerique = true;
                 vm.PrixNumerique = livre.LivreTypeLivres.FirstOrDefault(x => x.TypeLivreId == "2").Prix;
@@ -530,7 +542,19 @@ public class GestionLivresController : Controller
                     await vm.CoverPhoto.CopyToAsync(fileStream);
                 }
             }
-
+            if (vm.NumeriqueFile != null)
+            {
+                var wwwRootPath = _webHostEnvironment.WebRootPath;
+                var fileName = Path.GetFileNameWithoutExtension(vm.NumeriqueFile.FileName);
+                var extension = Path.GetExtension(vm.NumeriqueFile.FileName);
+                fileName += DateTime.Now.ToString("yyyymmssfff") + extension;
+                vm.NumeriqueUrl = _config.GetValue<string>("ImageUrl") + fileName;
+                var path = Path.Combine(wwwRootPath + _config.GetValue<string>("ImageUrl"), fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await vm.NumeriqueFile.CopyToAsync(fileStream);
+                }
+            }
             //Types de livres
             var listeType = new List<LivreTypeLivre>();
             if (vm.Papier)

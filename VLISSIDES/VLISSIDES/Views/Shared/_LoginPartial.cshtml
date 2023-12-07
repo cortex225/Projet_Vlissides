@@ -18,13 +18,13 @@
         Un lien pour s'inscrire
 *@
 
-<ul class="navbar-nav align-items-center">
+<ul class="navbar-nav login-partial">
     @if (SignInManager.IsSignedIn(User))
     {
         <!-- Utilisateur Connecté : Affichage du compte utilisateur et option de déconnexion -->
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="index">
-                <i class="fas fa-user"></i> Salut @UserManager.GetUserAsync(User).Result.UserName.Split("@")[0]👋
+            <a class="nav-link nav-top-text" asp-area="" asp-controller="Profile" asp-action="index" data-toggle="tooltip" data-placement="left" title="Profil">
+                <i class="fas fa-user"></i> <span class="login-text">Salut @UserManager.GetUserAsync(User).Result.UserName.Split("@")[0]👋</span>
             </a>
         </li>
         <!--
@@ -33,17 +33,20 @@
         @if (!(User.IsInRole(RoleName.ADMIN) || User.IsInRole(RoleName.EMPLOYE)))
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index">
-                    Consulter le panier
+                <a class="nav-link text-dark" asp-area="" asp-controller="Panier" asp-action="Index" data-toggle="tooltip"  data-placement="left" title="Consulter le panier">
+                    <span class="nav-top-text">
+                        Consulter le panier
+                    </span>
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span class="badge badge-panier  " id="nbArticles"></span>
                 </a>
             </li>
         }
+
         <li class="nav-item">
-            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="btn  btn-link nav-link">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter
+            <form asp-area="" asp-controller="Compte" asp-action="Logout" method="post">
+                <button type="submit" class="btn stylish-button" data-toggle="tooltip" data-placement="left" title="Se Déconnecter">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="login-text">Se Déconnecter</span>
                 </button>
             </form>
         </li>
@@ -53,13 +56,13 @@
     {
         <!-- Utilisateur Non Connecté : Options de connexion et d'inscription -->
         <li class="nav-item">
-            <a class="nav-link" asp-area="" asp-controller="Compte" asp-action="Login">
-                <i class="fas fa-sign-in-alt"></i> Se connecter
+            <a class="nav-link nav-top-text" asp-area="" asp-controller="Compte" asp-action="Login" data-toggle="tooltip" data-placement="left" title="Se connecter">
+                <i class="fas fa-sign-in-alt"></i> <span class="login-text">Se connecter</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register">
-                <i class="fas fa-user-plus"></i> S'inscrire
+            <a class="nav-link nav-top-text" id="btnRegister" asp-area="" asp-Controller="Compte" asp-action="Register" data-toggle="tooltip" data-placement="left" title="S'inscrire">
+                <i class="fas fa-user-plus"></i> <span class="login-text">S'inscrire</span>
             </a>
         </li>
     }

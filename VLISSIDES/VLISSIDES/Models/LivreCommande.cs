@@ -17,4 +17,8 @@ public class LivreCommande
     public bool EnDemandeRetourner { get; set; } = default!;
 
     public int? QuantiteARetourner { get; set; } = default!;
+
+    public string? TypeId { get; set; } = default!;
+
+    public TypeLivre? TypeLivre { get; set; } = default!;
 }

@@ -15,7 +15,7 @@ namespace VLISSIDES.Controllers;
 [Authorize(Roles = RoleName.MEMBRE)]
 [ApiController]
 [Route("[controller]/[action]")]
-public class HistoriqueCommandes : Controller
+public class HistoriqueCommandesController : Controller
 {
     private readonly IConfiguration _config;
     private readonly IConfiguration _configuration;
@@ -29,7 +29,7 @@ public class HistoriqueCommandes : Controller
     private readonly string _webhookSecretApi;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public HistoriqueCommandes(ApplicationDbContext context,
+    public HistoriqueCommandesController(ApplicationDbContext context,
         IWebHostEnvironment webHostEnvironment,
         IConfiguration config,
         UserManager<ApplicationUser> userManager,
@@ -56,7 +56,13 @@ public class HistoriqueCommandes : Controller
 
         var commandes = _context.Commandes
             .Include(c => c.StatutCommande)
-            .Include(c => c.Membre);
+            .Include(c => c.Membre)
+            .Include(c => c.LivreCommandes).ThenInclude(c => c.Livre)
+            .Where(c => c.MembreId == userId)
+            .OrderBy(c => c.DateCommande);
+
+        var nbCommandesTotal = _context.Commandes.Count(c => c.MembreId == userId);
+
         var livreCommandes = _context.LivreCommandes;
 
         var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM
@@ -88,7 +94,8 @@ public class HistoriqueCommandes : Controller
         //var currentUserId = _userManager.GetUserId(HttpContext.User);
         var commandes = _context.Commandes
             .Include(c => c.StatutCommande)
-            .Include(c => c.Membre);
+            .Include(c => c.Membre)
+            .Include(c => c.LivreCommandes).ThenInclude(c => c.Livre);
         var livreCommandes = _context.LivreCommandes;
 
         var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM

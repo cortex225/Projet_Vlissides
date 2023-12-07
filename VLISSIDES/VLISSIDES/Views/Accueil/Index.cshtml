@@ -51,7 +51,6 @@ Un bouton pour cacher/montrer les services de l'entreprise
 
     -->
     <div id="serviceCollapse" class="collapse">
-
         <h2 class="container-fluid titreSections mb-1">Nos Services offerts: </h2>
         <p class="m-2">Des services adaptés à chaque passionné de lecture."</p>
         @if (Model.Services.Count > 0)
@@ -139,47 +138,48 @@ Un bouton pour cacher/montrer les services de l'entreprise
             <h2 class="titreSections">Offres spéciales juste pour vous!</h2>
             <p>Découvrez nos offres du moment et enrichissez votre collection.</p>
             <div id="carouselPromotions" class="carousel slide">
-                <a class="voirPlus" asp-controller="Promotion" asp-action="Index">Voir plus -></a>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="cards-wrapper d-flex justify-content-around">
-                            <div class="cacher-0">
-                                <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]"/>
-                            </div>
-                            @if (Model.Promotions.Count > 1)
-                            {
-                                <div class="cacher-1">
-                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]"/>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    @for (var indexEvenement = 1; indexEvenement < (float)Model.Evenements.Count / 2; indexEvenement++)
-                    {
-                        <div class="carousel-item">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
                             <div class="cards-wrapper d-flex justify-content-around">
-                                @for (var indexLivre2 = 0; indexLivre2 < 2; indexLivre2++)
+                                <div class="cacher-0 promo-card-parent">
+                                    <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[0]"/>
+                                </div>
+                                @if (Model.Promotions.Count > 1)
                                 {
-                                    @if (Model.Promotions.Count > indexEvenement * 2 + indexLivre2)
-                                    {
-                                        <div class="cacher-@indexLivre2">
-                                            <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexEvenement * 2 + indexLivre2]"/>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
+                                    <div class="cacher-1 promo-card-parent">
+                                        <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[1]"/>
+                                    </div>
                                 }
                             </div>
                         </div>
-                    }
+                        @for (var indexEvenement = 2; indexEvenement < (float)Model.Promotions.Count; indexEvenement += 2)
+                        {
+                            <div class="carousel-item">
+                                <div class="cards-wrapper d-flex justify-content-around">
+                                    @for (var indexLivre2 = 0; indexLivre2 < 2; indexLivre2++)
+                                    {
+                                        @if (Model.Promotions.Count > indexEvenement + indexLivre2)
+                                        {
+                                            <div class="cacher-@indexLivre2">
+                                                <partial name="PartialViews/Accueil/_CartePromotion" model="Model.Promotions[indexEvenement + indexLivre2]"/>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotion" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotions" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Précédent</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotion" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotions" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Suivant</span>
                 </button>
