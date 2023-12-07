@@ -56,7 +56,7 @@ public class GestionCommandesController : Controller
         return View(new AffichageCommandeVM(commandes, _context.StatutCommandes));
     }
 
-    public async Task<IActionResult> AfficherCommandes(string? motCles, string? criteres, int page = 1)
+    public async Task<IActionResult> AfficherCommandes(string? motCles, string? criteres, int? page = 1)
     {
         var itemsPerPage = 10;
         var totalItems = await _context.Commandes.CountAsync();
@@ -74,7 +74,8 @@ public class GestionCommandesController : Controller
             .Include(c => c.Membre).ToList();
         var livreCommandes = _context.LivreCommandes;
 
-        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc)).ToList();
+        var livreCommandeVM = livreCommandes.Select(lc => new LivreCommandeVM(lc))
+            .ToList();
 
 
         if (listCriteres.Any(c => c == "rechercherCommande"))

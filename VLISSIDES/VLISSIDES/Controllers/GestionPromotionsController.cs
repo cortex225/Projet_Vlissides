@@ -24,9 +24,10 @@ public class GestionPromotionsController : Controller
         _webHostEnvironment = webHostEnvironment;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index(int page=1)
     {
-
+        var itemsPerPage = 10;
+        var totalItems = await _context.Promotions.CountAsync();
             var vm = _context.Promotions
                 .Include(p=>p.Commandes)
                 .Include(p=>p.LivrePaniers)
@@ -40,7 +41,18 @@ public class GestionPromotionsController : Controller
                 Image = p.Image,
                 Rabais = (decimal)(p.PourcentageRabais??0),
                 TypePromotion = p.TypePromotion,
-            }).ToList();
+            })
+                .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+                .Take(itemsPerPage)
+                .ToList();
+
+            //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+            //Math.Ceiling permet d'arrondir au nombre supérieur
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.CurrentPage = page;
+            // ReSharper disable once HeapView.BoxingAllocation
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+
             return View(vm);
 
     }
