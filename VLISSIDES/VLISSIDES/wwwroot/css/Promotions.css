@@ -1,29 +1,28 @@
-﻿
-#modalBodyPromo {
-    display: flex;
+﻿#modalBodyPromo {
+  display: flex;
 }
 
 .rowAjoutPromotion {
-    margin: 10px;
+  margin: 10px;
 }
 
 #row1 {
-    width: 50%;
+  width: 50%;
 }
 
 #row2 {
-    width: 45%;
+  width: 45%;
 }
 
 #formDescription {
-    margin-bottom: 24px;
+  margin-bottom: 24px;
 }
 
 #form2pour1 {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 #form2pour1 > * {
-    margin: 12px;
+  margin: 12px;
 }

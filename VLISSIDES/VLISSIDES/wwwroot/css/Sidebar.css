@@ -1,64 +1,64 @@
 /* Styles pour la barre latérale */
 .offcanvas {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f8f4f1;
+  font-family: "Roboto", sans-serif;
+  background-color: #f8f4f1;
 }
 
 .offcanvas-body {
-    overflow-y: hidden !important;
+  overflow-y: hidden !important;
 }
 
 .offcanvas-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .nav-link-dash {
-    font-size: 1.0rem !important;
-    transition: all 0.3s !important;
-    color: #333 !important;
+  font-size: 1rem !important;
+  transition: all 0.3s !important;
+  color: #333 !important;
 }
 
 .nav-link-dash:hover {
-    color: #007BFF !important; /* Couleur de survol */
-    background-color: #ffff !important; /* Fond de survol plus clair */
-    border-radius: 10px !important; /* Bord arrondi pour le fond de survol */
-    padding-left: 25px !important; /* Effet de décalage plus prononcé au survol */
-    transform: scaleX(1.05) !important; /* Effet de "scale" sur la droite */
+  color: #007bff !important; /* Couleur de survol */
+  background-color: #ffff !important; /* Fond de survol plus clair */
+  border-radius: 10px !important; /* Bord arrondi pour le fond de survol */
+  padding-left: 25px !important; /* Effet de décalage plus prononcé au survol */
+  transform: scaleX(1.05) !important; /* Effet de "scale" sur la droite */
 }
 
 .nav-link-dash.active {
-    color: #007BFF !important;
-    font-weight: 600 !important; /* Police plus épaisse pour le lien actif */
-    background-color: #e0e0e0 !important; /* Fond pour le lien actif */
-    border-radius: 10px !important; /* Bord arrondi pour le fond actif */
-    padding-left: 25px !important; /* Effet de décalage pour le lien actif */
+  color: #007bff !important;
+  font-weight: 600 !important; /* Police plus épaisse pour le lien actif */
+  background-color: #e0e0e0 !important; /* Fond pour le lien actif */
+  border-radius: 10px !important; /* Bord arrondi pour le fond actif */
+  padding-left: 25px !important; /* Effet de décalage pour le lien actif */
 }
 
 .btn-outline-primary {
-    border-width: 2px; /* Bordure plus épaisse pour le bouton */
+  border-width: 2px; /* Bordure plus épaisse pour le bouton */
 }
 
 .card-menu-dash {
-    border-radius: 10px !important; /* Bord arrondi pour les "cards" */
-    transition: all 0.3s !important; /* Transition douce pour les effets de survol */
+  border-radius: 10px !important; /* Bord arrondi pour les "cards" */
+  transition: all 0.3s !important; /* Transition douce pour les effets de survol */
 }
 
 .card-menu-dash:hover {
-    transform: translateY(-5px) !important; /* Effet de "soulèvement" au survol */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important; /* Ombre portée au survol */
+  transform: translateY(-5px) !important; /* Effet de "soulèvement" au survol */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important; /* Ombre portée au survol */
 }
 
 .dashboard-title {
-    font-size: 1.5rem !important;
-    font-weight: bold !important;
-    letter-spacing: 1px !important;
-    text-transform: uppercase !important;
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
 }
 
 hr {
-    display: block;
-    text-align: center;
-    font-size: 60px;
-    line-height: 1;
-    color: #333 !important;
+  display: block;
+  text-align: center;
+  font-size: 60px;
+  line-height: 1;
+  color: #333 !important;
 }

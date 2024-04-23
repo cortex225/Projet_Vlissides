@@ -1,86 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Livre Disponible</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
 
-        .email-container {
-            max-width: 600px;
-            margin: auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+      .email-container {
+        max-width: 600px;
+        margin: auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-        .header {
-            background-color: #386bc0;
-            color: #ffffff;
-            padding: 20px;
-            text-align: center;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }
+      .header {
+        background-color: #386bc0;
+        color: #ffffff;
+        padding: 20px;
+        text-align: center;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
 
-        .email-content {
-            padding: 20px;
-            text-align: center;
-        }
+      .email-content {
+        padding: 20px;
+        text-align: center;
+      }
 
-        .email-content h1 {
-            color: #333333;
-            margin-bottom: 10px;
-        }
+      .email-content h1 {
+        color: #333333;
+        margin-bottom: 10px;
+      }
 
-        .email-content p {
-            color: #666666;
-            line-height: 1.5;
-            font-size: 16px;
-        }
+      .email-content p {
+        color: #666666;
+        line-height: 1.5;
+        font-size: 16px;
+      }
 
-        .book-title {
-            color: #386bc0;
-            font-weight: bold;
-            font-size: 18px;
-            margin-top: 10px;
-            margin-bottom: 15px;
-        }
+      .book-title {
+        color: #386bc0;
+        font-weight: bold;
+        font-size: 18px;
+        margin-top: 10px;
+        margin-bottom: 15px;
+      }
 
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #999999;
-            font-size: 12px;
-        }
+      .footer {
+        text-align: center;
+        padding: 20px;
+        color: #999999;
+        font-size: 12px;
+      }
     </style>
-</head>
-<body>
-<div class="email-container">
-    <div class="header">
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="header">
         <h2>Bonne Nouvelle, {{UserName}} ! 📚</h2>
-    </div>
-    <img alt='Logo Fourmie Aillée' src='http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png'
-         style='width:250px;height:auto; display: block; margin: 10px auto;'>
-    <div class="email-content">
+      </div>
+      <img
+        alt="Logo Fourmie Aillée"
+        src="http://ivoxcommunication.com/v2/wp-content/uploads/2023/09/Logo_sans_fond.png"
+        style="width: 250px; height: auto; display: block; margin: 10px auto"
+      />
+      <div class="email-content">
         <h1>Le livre que vous attendiez est de retour en stock!</h1>
         <p>Nous sommes heureux de vous informer que le livre</p>
         <p class="book-title">"{{TitreLivre}}"</p>
-        <p>est maintenant disponible. Ne manquez pas votre chance de l'obtenir!</p>
-        <p>Vous pouvez le commander dès maintenant en visitant notre site web. Merci de faire partie
-            de notre communauté!</p>
-    </div>
-    <div class="footer">
-        <p>Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter. </p>
+        <p>
+          est maintenant disponible. Ne manquez pas votre chance de l'obtenir!
+        </p>
+        <p>
+          Vous pouvez le commander dès maintenant en visitant notre site web.
+          Merci de faire partie de notre communauté!
+        </p>
+      </div>
+      <div class="footer">
+        <p>
+          Si vous avez des questions ou besoin d'assistance, n'hésitez pas à
+          nous contacter.
+        </p>
         <p>La Fourmie Aillée - Tous droits réservés</p>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 </html>

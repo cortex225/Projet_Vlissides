@@ -55,7 +55,7 @@ public class GestionEvenementsAjouterVM
         Lieu = evenement.Lieu;
         NbPlaces = evenement.NbPlaces;
         NbPlacesMembre = evenement.NbPlacesMembre;
-        Prix = evenement.Prix??0;
+        Prix = evenement.Prix ?? 0;
         CoverPhoto = null;
     }
 }

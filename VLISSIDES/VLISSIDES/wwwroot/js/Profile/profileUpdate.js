@@ -1,4 +1,4 @@
-// Script pour garder l'image rechercher dans le label 
+// Script pour garder l'image rechercher dans le label
 
 //     $(".custom-file-input").on("change", function () {
 //         var fileName = $(this).val().split("\\").pop();
@@ -21,14 +21,13 @@
 // });
 
 $(document).ready(function () {
-    $(".profile-btn").click(function () {
-        $("#UpdatePassword").hide();
-        $("#UpdateProfile").fadeIn();
-    });
+  $('.profile-btn').click(function () {
+    $('#UpdatePassword').hide()
+    $('#UpdateProfile').fadeIn()
+  })
 
-    $(".password-btn").click(function () {
-        $("#UpdateProfile").hide();
-        $("#UpdatePassword").fadeIn();
-    });
-});
-
+  $('.password-btn').click(function () {
+    $('#UpdateProfile').hide()
+    $('#UpdatePassword').fadeIn()
+  })
+})

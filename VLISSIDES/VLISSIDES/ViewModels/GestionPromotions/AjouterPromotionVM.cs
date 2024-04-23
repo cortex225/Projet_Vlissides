@@ -15,7 +15,7 @@ public class AjouterPromotionVM
     [Required(ErrorMessage = "La description est obligatoire")]
     [Display(Name = "Description")] public string Description { get; set; }
 
-    
+
     [Display(Name = "Début de la promotion")]
     public DateTime DateDebut { get; set; }
 

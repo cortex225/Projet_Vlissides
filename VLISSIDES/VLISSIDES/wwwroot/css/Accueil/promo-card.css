@@ -1,31 +1,32 @@
-
 .img-fluid {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .reserve-btn {
-    font-size: 0.9em;
+  font-size: 0.9em;
 }
 
-.date-box, .discount-box {
-    background-color: #f7f7f7;
-    border-radius: 5px;
+.date-box,
+.discount-box {
+  background-color: #f7f7f7;
+  border-radius: 5px;
 }
 
-.date-box i, .discount-box i {
-    color: #007bff;
+.date-box i,
+.discount-box i {
+  color: #007bff;
 }
 
 h3 {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 
 .promo-card-parent {
-    width: 50%;
+  width: 50%;
 }
 
 .promo-card {
-    height: 100%;
-    margin: 8px;
+  height: 100%;
+  margin: 8px;
 }

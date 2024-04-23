@@ -24,14 +24,14 @@ public class GestionPromotionsController : Controller
         _webHostEnvironment = webHostEnvironment;
     }
 
-    public async Task<IActionResult> Index(int page=1)
+    public async Task<IActionResult> Index(int page = 1)
     {
         var itemsPerPage = 10;
         var totalItems = await _context.Promotions.CountAsync();
-            var vm = _context.Promotions
-                .Include(p=>p.Commandes)
-                .Include(p=>p.LivrePaniers)
-                .Select(p => new GestionPromotionsIndexVM
+        var vm = _context.Promotions
+            .Include(p => p.Commandes)
+            .Include(p => p.LivrePaniers)
+            .Select(p => new GestionPromotionsIndexVM
             {
                 Id = p.Id,
                 Nom = p.Nom,
@@ -39,21 +39,21 @@ public class GestionPromotionsController : Controller
                 DateDebut = p.DateDebut,
                 DateFin = p.DateFin,
                 Image = p.Image,
-                Rabais = (decimal)(p.PourcentageRabais??0),
+                Rabais = (decimal)(p.PourcentageRabais ?? 0),
                 TypePromotion = p.TypePromotion,
             })
-                .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
-                .Take(itemsPerPage)
-                .ToList();
+            .Skip((page - 1) * itemsPerPage) // Dépend de la page en cours
+            .Take(itemsPerPage)
+            .ToList();
 
-            //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
-            //Math.Ceiling permet d'arrondir au nombre supérieur
-            // ReSharper disable once HeapView.BoxingAllocation
-            ViewBag.CurrentPage = page;
-            // ReSharper disable once HeapView.BoxingAllocation
-            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
+        //ViewBag qui permet de savoir sur quelle page on est et le nombre de pages total
+        //Math.Ceiling permet d'arrondir au nombre supérieur
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.CurrentPage = page;
+        // ReSharper disable once HeapView.BoxingAllocation
+        ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)itemsPerPage);
 
-            return View(vm);
+        return View(vm);
 
     }
 

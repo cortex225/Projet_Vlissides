@@ -313,7 +313,7 @@ public class PanierController : Controller
 
         // Crée une nouvelle demande de notification
         var demande = new DemandeNotification
-            { LivreId = livreId, MembreId = membreId, Id = Guid.NewGuid().ToString() };
+        { LivreId = livreId, MembreId = membreId, Id = Guid.NewGuid().ToString() };
 
         _context.DemandesNotifications.Add(demande);
 
@@ -327,7 +327,8 @@ public class PanierController : Controller
             _logger.LogError($"Erreur lors de l'enregistrement de la demande de notification: {ex.Message}");
             return Json(new
             {
-                success = false, message = "Une erreur interne est survenue lors de l'enregistrement de votre demande."
+                success = false,
+                message = "Une erreur interne est survenue lors de l'enregistrement de votre demande."
             });
         }
     }
@@ -377,7 +378,7 @@ public class PanierController : Controller
             utilisateur.DerniereUtilisationPromoAnniversaire.Value.Year == DateTime.Now.Year &&
             promotion.CodePromo == "BIRTHDAY")
             return Json(new
-                { success = false, message = "Vous avez déjà utilisé ce code promo cette année." });
+            { success = false, message = "Vous avez déjà utilisé ce code promo cette année." });
 
 
         var panierVM = new PanierVM
@@ -443,7 +444,7 @@ public class PanierController : Controller
         await _context.SaveChangesAsync();
 
         return Json(new
-            { success = true, nouveauTotal = prixTotal, isValid = true, message = "Code promo appliqué avec succès." });
+        { success = true, nouveauTotal = prixTotal, isValid = true, message = "Code promo appliqué avec succès." });
     }
 
     //Annuler la promotion
