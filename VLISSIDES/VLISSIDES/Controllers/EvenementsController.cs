@@ -208,10 +208,10 @@ namespace VLISSIDES.Controllers
             body.Append("</tbody>");
             body.Append("</table>");
             body.Append($"<p><strong>Total : {reservation.Evenement.Prix.ToString()}</strong></p>");
-            body.Append($"<p><strong>Remboursement Stripe : </strong></p>");
+            body.Append("<p><strong>Remboursement Stripe : </strong></p>");
             body.Append(
                 "<a href=" + "https://dashboard.stripe.com/test/payments?status[0]=refunded&status[1]=refund_pending&status[2]=partially_refunded" + ">Aller sur stripe pour confirmer le remboursement</a>");
-            body.Append($"<p><strong>Gestion des commandes : </strong></p>");
+            body.Append("<p><strong>Gestion des commandes : </strong></p>");
             body.Append("<a href=" + "https://sqlinfocg.cegepgranby.qc.ca/2147186" + ">Aller à la page de gestion de réservations</a>");
             body.Append("</div>");
             return body.ToString();

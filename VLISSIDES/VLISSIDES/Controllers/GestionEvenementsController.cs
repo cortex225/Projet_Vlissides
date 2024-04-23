@@ -281,7 +281,7 @@ namespace VLISSIDES.Controllers
             body.Append($"<img src='{logoUrl}' alt='Logo' style='max-width: 200px; display: block; margin: 0 auto 20px;'>");
             body.Append($"<h2 style='color: #333; text-align: center; margin-top: 0;'>Cher(e) {username},</h2>");
             body.Append($"<h2 style='color: #444;'>Votre demande d'annulation de la commande {reservation.Id} a été accepté!</h2>");
-            body.Append($"<h2 style='color: #444;'>Vous allez être rembourser pour la commande.</h2>");
+            body.Append("<h2 style='color: #444;'>Vous allez être rembourser pour la commande.</h2>");
             body.Append("<p style='color: #555; font-size: 16px; text-align: center;'>Voici le récapitulatif :</p>");
             body.Append("<hr style='border: 0; height: 1px; background-image: linear-gradient(to right, #146ec3, #146ec3, #fff); margin: 20px 0;'>");
             body.Append("<table style='width: 100%; margin-top: 30px; border-collapse: collapse;'>");
@@ -334,7 +334,7 @@ namespace VLISSIDES.Controllers
             body.Append($"<img src='{logoUrl}' alt='Logo' style='max-width: 200px; display: block; margin: 0 auto 20px;'>");
             body.Append($"<h2 style='color: #333; text-align: center; margin-top: 0;'>Cher(e) {username},</h2>");
             body.Append($"<h2 style='color: #444;'>Votre demande d'annulation de la commande {reservation.Id} a été refusé.</h2>");
-            body.Append($"<h2 style='color: #444;'>Désolé du malentendu...</h2>");
+            body.Append("<h2 style='color: #444;'>Désolé du malentendu...</h2>");
             body.Append("<p style='color: #555; font-size: 16px; text-align: center;'>Voici le récapitulatif :</p>");
             body.Append("<hr style='border: 0; height: 1px; background-image: linear-gradient(to right, #146ec3, #146ec3, #fff); margin: 20px 0;'>");
             body.Append("<table style='width: 100%; margin-top: 30px; border-collapse: collapse;'>");
