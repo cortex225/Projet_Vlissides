@@ -112,7 +112,7 @@ public class GestionCommandesController : Controller
 
         var affichageCommandes = new AffichageCommandeVM(commandes, _context.StatutCommandes);
         affichageCommandes.ListCommandes.FirstOrDefault().NbCommande =
-            _context.Commandes.Where(c => c.MembreId == currentUserId).Count() + 1;
+            _context.Commandes.Count(c => c.MembreId == currentUserId) + 1;
         return PartialView("PartialViews/GestionCommandes/_ListeCommandesPartial", affichageCommandes);
     }
 

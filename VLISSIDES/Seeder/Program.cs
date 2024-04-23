@@ -990,7 +990,7 @@ public class DatabaseSeeder
             LivreCommandes = MGosselinCommandes1,
             StatutCommandeId = "4",
             PrixTotal = 80,
-            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
+            NbCommande = _context.Commandes.Count(c => c.MembreId == membre.Id) + 1
         });
 
         //Commande 2
@@ -1024,7 +1024,7 @@ public class DatabaseSeeder
             LivreCommandes = MGosselinCommandes2,
             StatutCommandeId = "4",
             PrixTotal = 60,
-            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
+            NbCommande = _context.Commandes.Count(c => c.MembreId == membre.Id) + 1
         });
         //Commande 3
         var MGosselinCommandes3 = new List<LivreCommande>
@@ -1057,7 +1057,7 @@ public class DatabaseSeeder
             LivreCommandes = MGosselinCommandes3,
             StatutCommandeId = "4",
             PrixTotal = 40,
-            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
+            NbCommande = _context.Commandes.Count(c => c.MembreId == membre.Id) + 1
         });
 
         //Stephane Fallu
@@ -1095,7 +1095,7 @@ public class DatabaseSeeder
             LivreCommandes = SFalluCommandes1,
             StatutCommandeId = "4",
             PrixTotal = 60,
-            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
+            NbCommande = _context.Commandes.Count(c => c.MembreId == membre.Id) + 1
         });
         _context.SaveChanges();
 
@@ -1131,7 +1131,7 @@ public class DatabaseSeeder
             LivreCommandes = SFalluCommandes2,
             StatutCommandeId = "4",
             PrixTotal = 40,
-            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
+            NbCommande = _context.Commandes.Count(c => c.MembreId == membre.Id) + 1
         });
         _context.SaveChanges();
 
@@ -1176,7 +1176,7 @@ public class DatabaseSeeder
             LivreCommandes = SFalluCommandes3,
             StatutCommandeId = "4",
             PrixTotal = 40,
-            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
+            NbCommande = _context.Commandes.Count(c => c.MembreId == membre.Id) + 1
         });
         _context.SaveChanges();
 
@@ -1207,7 +1207,7 @@ public class DatabaseSeeder
             LivreCommandes = SDemersCommandes1,
             StatutCommandeId = "4",
             PrixTotal = 20,
-            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
+            NbCommande = _context.Commandes.Count(c => c.MembreId == membre.Id) + 1
         });
         _context.SaveChanges();
 
@@ -1250,7 +1250,7 @@ public class DatabaseSeeder
             LivreCommandes = SDemersCommandes2,
             StatutCommandeId = "4",
             PrixTotal = 100,
-            NbCommande = _context.Commandes.Where(c => c.MembreId == membre.Id).Count() + 1
+            NbCommande = _context.Commandes.Count(c => c.MembreId == membre.Id) + 1
         });
         _context.SaveChanges();
         //Commandes 3

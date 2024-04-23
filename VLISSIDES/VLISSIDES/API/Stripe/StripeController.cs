@@ -167,7 +167,7 @@ public class StripeController : Controller
             StatutCommandeId = nouvelleCommande.StatutId,
             PaymentIntentId = session.PaymentIntentId, //Récupérer le paiement intent id de la session
             EnDemandeAnnulation = false,
-            NbCommande = _context.Commandes.Where(c => c.MembreId == customer.Id).Count() + 1,
+            NbCommande = _context.Commandes.Count(c => c.MembreId == customer.Id) + 1,
 
         };
         // Gestion de PromotionId
