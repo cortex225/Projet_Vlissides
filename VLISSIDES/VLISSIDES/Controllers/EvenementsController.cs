@@ -102,7 +102,7 @@ namespace VLISSIDES.Controllers
                         Image = e.Image,
                         Lieu = e.Lieu,
                         NbPlaces = e.Reservations == null ? e.NbPlaces.ToString() + "/" + e.NbPlaces.ToString() : (e.NbPlaces - e.Reservations.Count).ToString() + "/" + e.NbPlaces.ToString(),
-                        NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Select(rq=> rq.Quantite).Sum()).ToString() + "/" + e.NbPlacesMembre.ToString(),
+                        NbPlacesMembre = e.Reservations == null ? e.NbPlacesMembre.ToString() + "/" + e.NbPlacesMembre.ToString() : (e.NbPlacesMembre - e.Reservations.Select(rq => rq.Quantite).Sum()).ToString() + "/" + e.NbPlacesMembre.ToString(),
                         Prix = e.Prix,
                         EstEnDemandeAnnuler = false
                     }).OrderBy(e => e.DateDebut).Skip((page - 1) * itemsPerPage) // Dépend de la page en cours

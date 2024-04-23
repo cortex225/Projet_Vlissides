@@ -9,7 +9,7 @@ public class ExternalLoginVM
     [EmailAddress]
     [DisplayName("Adresse email")] public string Email { get; set; }
 
-    [DisplayName("Nom")][Required] public string Name { get; set; }
+    [DisplayName("Nom")] [Required] public string Name { get; set; }
 
     public ExternalLoginVM()
     {

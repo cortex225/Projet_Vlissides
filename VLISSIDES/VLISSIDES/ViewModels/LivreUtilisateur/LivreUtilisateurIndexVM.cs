@@ -31,7 +31,7 @@ namespace VLISSIDES.ViewModels.LivreUtilisateur
 
         public LivreUtilisateurIndexVM(Livre livre, Evaluation evaluation, Commande commande)
         {
-            livre??= new();
+            livre ??= new();
             Id = livre.Id;
             Titre = livre.Titre;
             Couverture = livre.Couverture;

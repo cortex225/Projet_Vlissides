@@ -86,7 +86,7 @@ public class HistoriqueCommandesController : Controller
         return View(affichageCommandes);
     }
 
-    public async Task<IActionResult> AfficherCommandes(string? motCles, string? criteres,int page = 1)
+    public async Task<IActionResult> AfficherCommandes(string? motCles, string? criteres, int page = 1)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var itemsPerPage = 10;

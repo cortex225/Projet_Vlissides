@@ -1,6 +1,6 @@
 ﻿html {
-    font-size: 14px;
-    font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
 }
 
 /*
@@ -11,20 +11,19 @@
 }
 */
 
-
 body {
-    margin-bottom: 60px;
-    background-color: #f8f4f1 !important;
-    overflow-x: hidden!important;
-    width: 100% !important;
+  margin-bottom: 60px;
+  background-color: #f8f4f1 !important;
+  overflow-x: hidden !important;
+  width: 100% !important;
 }
 
 li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 header {
-    background-color: #f8f4f1 !important;
+  background-color: #f8f4f1 !important;
 }
 
 /*.modal-inventaire {*/
@@ -33,7 +32,7 @@ header {
 /*}*/
 
 .swal2-confirm {
-    background-color: #3085d6!important;
-    border: none!important;
-    border-radius: 5px!important;
+  background-color: #3085d6 !important;
+  border: none !important;
+  border-radius: 5px !important;
 }

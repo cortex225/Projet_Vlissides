@@ -1,65 +1,65 @@
 /* Styles de base pour la pagination */
 .pagination {
-    padding: 20px;
-    text-align: center;
+  padding: 20px;
+  text-align: center;
 }
 
 .page-item {
-    margin: 0 5px;
-    transition: all 0.3s ease-in-out;
+  margin: 0 5px;
+  transition: all 0.3s ease-in-out;
 }
 
 .page-link {
-    color: #495057;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre */
-    transition: all 0.3s ease-in-out;
+  color: #495057;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre */
+  transition: all 0.3s ease-in-out;
 }
 
 /* Styles pour les éléments actifs et survolés */
 .page-item.active .page-link,
 .page-item:hover .page-link {
-    color: #ffffff;
-    background-color: #3b71ca;
-    border-color: #3b71ca;
-    transform: scale(1.1); /* Animation de zoom */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
+  color: #ffffff;
+  background-color: #3b71ca;
+  border-color: #3b71ca;
+  transform: scale(1.1); /* Animation de zoom */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
 }
 
 /* Styles pour les éléments désactivés */
 .page-item.disabled .page-link {
-    color: #adb5bd;
-    pointer-events: none;
-    background-color: #ffffff;
-    border-color: #dee2e6;
-    box-shadow: none; /* Pas d'ombre pour les éléments désactivés */
+  color: #adb5bd;
+  pointer-events: none;
+  background-color: #ffffff;
+  border-color: #dee2e6;
+  box-shadow: none; /* Pas d'ombre pour les éléments désactivés */
 }
 
 /* Styles pour les points de suspension */
 .page-item.disabled .page-link {
-    border: none;
-    background-color: transparent;
+  border: none;
+  background-color: transparent;
 }
 
 /* Styles pour les infobulles */
 [data-toggle="tooltip"] {
-    position: relative;
+  position: relative;
 }
 
 [data-toggle="tooltip"]:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: -45px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #000;
-    color: #fff;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 14px;
-    white-space: nowrap;
+  content: attr(title);
+  position: absolute;
+  bottom: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 14px;
+  white-space: nowrap;
 }

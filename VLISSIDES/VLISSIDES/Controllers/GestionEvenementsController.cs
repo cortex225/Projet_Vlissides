@@ -26,7 +26,7 @@ namespace VLISSIDES.Controllers
             _sendGridEmail = sendGridEmail;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<IActionResult> Index(int page=1)
+        public async Task<IActionResult> Index(int page = 1)
         {
             var itemsPerPage = 10;
             var totalItems = await _context.Evenements.CountAsync();

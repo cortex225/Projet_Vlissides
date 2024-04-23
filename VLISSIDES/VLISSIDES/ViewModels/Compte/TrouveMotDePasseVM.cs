@@ -25,7 +25,7 @@ public class TrouveMotDePasseVM
         ConfirmPassword = "";
     }
 
-    public TrouveMotDePasseVM(string id="", string password="", string confirmPassword="")
+    public TrouveMotDePasseVM(string id = "", string password = "", string confirmPassword = "")
     {
         Id = id;
         Password = password;

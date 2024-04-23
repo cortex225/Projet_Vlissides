@@ -1,40 +1,39 @@
 ﻿#detailsDivPrincipal {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 #detailsDivPrincipal * {
-    margin: 2px;
+  margin: 2px;
 }
 
 #checkboxTypeLivre {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 #DetailsInfo {
-    width: 40%;
+  width: 40%;
 }
 
 .btnPanier {
-    width: 100%;
-    display: flex;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 #DetailsDIV {
-    max-width: 30%;
-    min-width: 30%;
+  max-width: 30%;
+  min-width: 30%;
 }
 
 #DetailsIMG {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 #commande * {
-    width: min-content;
+  width: min-content;
 }
 
-
 #commande {
-    background-color: aqua;
+  background-color: aqua;
 }
