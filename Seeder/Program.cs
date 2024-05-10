@@ -195,7 +195,7 @@ public class DatabaseSeeder
                 {
                     // Créer une nouvelle maison d'édition et l'ajouter à la base de données
                     var nouvelleMaisonEdition = new MaisonEdition
-                        { Id = Guid.NewGuid() + "new", Nom = nomMaisonEdition };
+                    { Id = Guid.NewGuid() + "new", Nom = nomMaisonEdition };
                     _context.MaisonEditions.Add(nouvelleMaisonEdition);
 
                     // Utiliser l'ID de la nouvelle maison d'édition
@@ -273,7 +273,7 @@ public class DatabaseSeeder
                 if (existingCategory == null) // Si la catégorie n'existe pas, créez une nouvelle catégorie
                 {
                     existingCategory = new Categorie
-                        { Id = Guid.NewGuid() + "new", Nom = categoryName, Description = "" };
+                    { Id = Guid.NewGuid() + "new", Nom = categoryName, Description = "" };
                     _context.Categories
                         .Add(existingCategory); // Ici j'ajoute la nouvelle catégorie à la base de données
                 }
@@ -394,9 +394,9 @@ public class DatabaseSeeder
             var livres = _context.Livres.ToList();
 
             var NouvelleAssociation = from book in livres
-                from category in categories
-                where !_context.LivreCategories.Any(lc => lc.LivreId == book.Id && lc.CategorieId == category.Id)
-                select new LivreCategorie { LivreId = book.Id, CategorieId = category.Id };
+                                      from category in categories
+                                      where !_context.LivreCategories.Any(lc => lc.LivreId == book.Id && lc.CategorieId == category.Id)
+                                      select new LivreCategorie { LivreId = book.Id, CategorieId = category.Id };
 
             _context.LivreCategories.AddRange(NouvelleAssociation); _context.SaveChanges();
         }
