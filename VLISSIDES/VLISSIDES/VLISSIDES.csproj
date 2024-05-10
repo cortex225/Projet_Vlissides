@@ -83,4 +83,8 @@
         <Folder Include="wwwroot\img\manuel_utilisateur\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="Seeder\Seeder.csproj" />
+    </ItemGroup>
+
 </Project>
