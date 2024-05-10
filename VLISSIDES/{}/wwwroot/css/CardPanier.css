@@ -1,0 +1,43 @@
+﻿.product-card {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.product-image-wrapper {
+  position: relative;
+}
+
+.product-card .product-title {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.product-author {
+  font-style: italic;
+  text-decoration: underline;
+  font-size: 0.85rem;
+}
+
+.product-price {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.product-stock-status {
+  font-size: 0.8rem;
+  color: #1d8414;
+}
+
+.product-quantity-wrapper .quantity-input {
+  max-width: 60px;
+  text-align: center;
+}
+
+.save-quantity {
+  padding: 0.5rem;
+}
+
+.remove-product {
+  font-size: 1.5rem; /* 24px */
+}
