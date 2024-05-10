@@ -1,0 +1,30 @@
+﻿.prix-barre {
+  text-decoration: line-through !important;
+  color: grey !important;
+}
+
+.prix-promo {
+  color: red !important;
+}
+
+.promo-code-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f6f8fa;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #d1d4da;
+  margin-top: 10px;
+}
+
+.promo-code-text {
+  font-size: 14px;
+  color: #333;
+}
+
+.annuler-promo-icon {
+  cursor: pointer;
+  color: #666;
+  font-size: 16px;
+}

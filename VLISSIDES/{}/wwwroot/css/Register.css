@@ -1,0 +1,15 @@
+.bg-image {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../img/bg_Register.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+}
+
+.card {
+  border-radius: 1rem;
+}

@@ -1,0 +1,29 @@
+@media only screen and (max-width: 1200px) {
+  #filtreBTN {
+    display: block !important;
+  }
+}
+
+#filtreBTN {
+  display: none;
+}
+
+.divBouton {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+}
+
+.listeCategorie,
+.listeAuteur {
+  overflow-y: auto;
+  height: 85px;
+}
+
+#filtre2 {
+  border-style: solid;
+  border-width: 5px !important;
+  border-color: #3b71ca;
+  box-shadow: 10px 10px 5px lightgrey;
+  background-color: #e2ebf7;
+}
